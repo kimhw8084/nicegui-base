@@ -1,0 +1,179 @@
+{
+  "baseline_commit": "62a06ce9fb976cfd93b746af807512ceda92c07e",
+  "delivery": "cumulative_iteration_1_and_2_repository_update",
+  "files": [
+    {
+      "bytes": 1440,
+      "path": "WORKBENCH_ITERATION1_EVIDENCE.json",
+      "sha256": "919e5c8ec2439941c924c0d6b860fbf6f4be5cdda0bca722d5b82eaeccd5b0e2"
+    },
+    {
+      "bytes": 4021,
+      "path": "WORKBENCH_ITERATION1_MANIFEST.json",
+      "sha256": "173beaedc336669acd7927b65568c1563193b369ca470951ee1a398a409f0bc1"
+    },
+    {
+      "bytes": 12082,
+      "path": "WORKBENCH_ITERATION1_REPORT.md",
+      "sha256": "73b2babb14f8e9c4430ab4793c03c1391949dc58b7dfaba26ccfac98d89d7d9b"
+    },
+    {
+      "bytes": 1190,
+      "path": "WORKBENCH_ITERATION2_EVIDENCE.json",
+      "sha256": "28a08da26888b78a71d743545384478094b59c8c975fcbd7bc9042120890073d"
+    },
+    {
+      "bytes": 4287,
+      "path": "WORKBENCH_ITERATION2_REPORT.md",
+      "sha256": "e2fc495a623c279f30ee0ce522c2eafd21f670cd044bf985f2c21607ac2673e5"
+    },
+    {
+      "bytes": 17189,
+      "path": "apply_iteration1.py",
+      "sha256": "e127228bec6fd30d0dcb4389f2d869d04ea019f38075fb8f3437fc870340e654"
+    },
+    {
+      "bytes": 18728,
+      "path": "apply_iteration2.py",
+      "sha256": "6647c378204e8132473c8ea35c5682b2f61a6eb26358d3878c2671dd483ffa8e"
+    },
+    {
+      "bytes": 6481,
+      "path": "materialize_full_repository.py",
+      "sha256": "56b98a487ff5dcdb28cecb531ff5f78517359a779e41d325804e2cf1e8413ba6"
+    },
+    {
+      "bytes": 834,
+      "path": "run_lab_linux.sh",
+      "sha256": "b3f4ddf478e6cb2b172569c634e18d2471852c66ff297c9b13339b881904f71a"
+    },
+    {
+      "bytes": 846,
+      "path": "run_lab_mac.sh",
+      "sha256": "e3a10dcd84681f5957d32bba2c016ad55f3f20cb9b73cbd7a78b76623956216a"
+    },
+    {
+      "bytes": 3292,
+      "path": "setup_linux.sh",
+      "sha256": "7320339d91c2a59424af01d7576de0e8499542a3d2db4f803bea5665b307c79b"
+    },
+    {
+      "bytes": 3839,
+      "path": "setup_mac.sh",
+      "sha256": "dd9575247761d82c5ac758e1a8232b1d536b15ca6fed3dd25f2fe85b4f96159c"
+    },
+    {
+      "bytes": 612,
+      "path": "source/nicegui_base/certification/live_lab_cli.py",
+      "sha256": "e33d290da80e5abeb2253e7d544f963b30a67bf844b283bdae7f3122163bcf36"
+    },
+    {
+      "bytes": 666,
+      "path": "source/nicegui_base/certification/mac_lab_cli.py",
+      "sha256": "83a472ceaa51a3d4307c3c728dc41bac0de6a32d664333ae9a13ddae2edf0763"
+    },
+    {
+      "bytes": 731,
+      "path": "source/nicegui_base/workbench/__init__.py",
+      "sha256": "76cf912b042e30d7757d13c90e9974f243668929ff35c10f3bcc2600456effb8"
+    },
+    {
+      "bytes": 124,
+      "path": "source/nicegui_base/workbench/analytics.py",
+      "sha256": "c50cffb78e7a7f0ce39d18a1035508b4747bb0b0a8e22697acd59f4ba2244e75"
+    },
+    {
+      "bytes": 75184,
+      "path": "source/nicegui_base/workbench/app.py",
+      "sha256": "69647f973bf2a3b901dbaf3c265d3a0b689f0f2cc9cd621e719b70de8839fa0a"
+    },
+    {
+      "bytes": 14236,
+      "path": "source/nicegui_base/workbench/builder.py",
+      "sha256": "22cf47d081e6298fdce042d2f050e2c2cacea5678a4cf120b6083f09e0895e5d"
+    },
+    {
+      "bytes": 29844,
+      "path": "source/nicegui_base/workbench/capability_studio.py",
+      "sha256": "efd857d498734bd7c808cb5124a5f22781b773ce1490a4ecfc48122befd04713"
+    },
+    {
+      "bytes": 8712,
+      "path": "source/nicegui_base/workbench/catalog.py",
+      "sha256": "397d558969e7528206bc775ae3a467a95a65728f331a2fdee287695dd6199129"
+    },
+    {
+      "bytes": 26952,
+      "path": "source/nicegui_base/workbench/codegen.py",
+      "sha256": "1ce98a82ca3ae80bea9ed7cc2c46fe49a580e2f81a070bc553af3739731071dc"
+    },
+    {
+      "bytes": 26681,
+      "path": "source/nicegui_base/workbench/data_dock.py",
+      "sha256": "86bc73d118a04931d121918641f09e38c315f04b175f24a6dee8aec27cc69c01"
+    },
+    {
+      "bytes": 51,
+      "path": "source/nicegui_base/workbench/home.py",
+      "sha256": "33f34409268cf5e9845463c140e17eacf944fd57f1a12f6a5d4fdb0c4b3f7b10"
+    },
+    {
+      "bytes": 1835,
+      "path": "source/nicegui_base/workbench/models.py",
+      "sha256": "68534dc78cbca2c0a73daf348cdc2cfe839842a24c775de3e6208b0279c5a0c6"
+    },
+    {
+      "bytes": 57,
+      "path": "source/nicegui_base/workbench/quality.py",
+      "sha256": "30354635da9d252c66bb156a69dea4dafcb1d24b12897df4e38e751464e41d05"
+    },
+    {
+      "bytes": 2203,
+      "path": "source/nicegui_base/workbench/readiness.py",
+      "sha256": "59fefbbee392bd421e2e004bffeea5f0341a25ab70b72267d57e1081f5a796cd"
+    },
+    {
+      "bytes": 8626,
+      "path": "source/nicegui_base/workbench/recipe_mapping.py",
+      "sha256": "cb5425caf5bf912c0a64e6ddf510a4d1624de5a1421531a225f4203852be4e93"
+    },
+    {
+      "bytes": 114,
+      "path": "source/nicegui_base/workbench/recipes.py",
+      "sha256": "f514d6deb6501cf60057b1bacee1bdf55a52a1c9e1708a76434c9e0600797576"
+    },
+    {
+      "bytes": 19543,
+      "path": "source/nicegui_base/workbench/registry_adapters.py",
+      "sha256": "8f718e586401af8989cf286f9f3b83a40530e1db98f52415880bf38c1eab41d5"
+    },
+    {
+      "bytes": 3269,
+      "path": "source/nicegui_base/workbench/search.py",
+      "sha256": "e60597428e385e2b9e41c4bbef8f239a30d30282cb49988ac1e286a1b59906e7"
+    },
+    {
+      "bytes": 5022,
+      "path": "source/nicegui_base/workbench/state_matrix.py",
+      "sha256": "d67acf17f035faeb6c20e34b3e5c9e9cfae646ea1ebb8ff843a0fa46ecd1b7c9"
+    },
+    {
+      "bytes": 10892,
+      "path": "source/nicegui_base/workbench/workbench_css.py",
+      "sha256": "b2a2fb46362fa605078418750000445479d9d6e458d0c434a94df1faba22f66d"
+    },
+    {
+      "bytes": 62988,
+      "path": "source/tests/test_workbench_iteration1.py",
+      "sha256": "740dcb368570ac8a0c351272c51c77500822f8bfad1f698bd1821c24678d899f"
+    },
+    {
+      "bytes": 17273,
+      "path": "source/tests/test_workbench_iteration2.py",
+      "sha256": "ae92d0b5beceb6a50630d4040e7dc58e3585a10f61da3a6087001518a995c8dd"
+    }
+  ],
+  "framework_version": "3.0.0a8",
+  "iteration": 2,
+  "schema_version": 1
+}

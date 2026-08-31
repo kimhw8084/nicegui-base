@@ -1,16 +1,22 @@
 from __future__ import annotations
 
 import argparse
-from .mac_lab import LAB_PORT, run_mac_lab
+
+from nicegui_base.workbench.app import WORKBENCH_TITLE, run_workbench
+
+LAB_PORT = 8080
 
 
 def main() -> int:
-    p=argparse.ArgumentParser(description='Run the NiceGUI Base Mac live reference/certification application')
-    p.add_argument('--host',default='127.0.0.1')
-    p.add_argument('--port',type=int,default=LAB_PORT)
-    p.add_argument('--show',action='store_true',help='Ask NiceGUI to open the browser automatically')
-    a=p.parse_args()
-    run_mac_lab(host=a.host,port=a.port,show=a.show)
+    p = argparse.ArgumentParser(description=f'Run the {WORKBENCH_TITLE}')
+    p.add_argument('--host', default='127.0.0.1')
+    p.add_argument('--port', type=int, default=LAB_PORT)
+    p.add_argument('--root-path', default='')
+    p.add_argument('--show', action='store_true', help='Ask NiceGUI to open the browser automatically')
+    a = p.parse_args()
+    run_workbench(host=a.host, port=a.port, show=a.show, root_path=a.root_path)
     return 0
 
-if __name__=='__main__': raise SystemExit(main())
+
+if __name__ == '__main__':
+    raise SystemExit(main())

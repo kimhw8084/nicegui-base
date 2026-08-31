@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "iteration": 1,
+  "baseline_commit": "62a06ce9fb976cfd93b746af807512ceda92c07e",
+  "files": [
+    {
+      "path": "setup_mac.sh",
+      "bytes": 3521,
+      "sha256": "ad340dbb2c417cca05d940b564634afaf13be41907b576515649f35434e3e78c"
+    },
+    {
+      "path": "setup_linux.sh",
+      "bytes": 2987,
+      "sha256": "043e75a3080c9cd1d709265f289308edff745c02fe6bc94949905480cd1aa1cb"
+    },
+    {
+      "path": "run_lab_mac.sh",
+      "bytes": 846,
+      "sha256": "e3a10dcd84681f5957d32bba2c016ad55f3f20cb9b73cbd7a78b76623956216a"
+    },
+    {
+      "path": "run_lab_linux.sh",
+      "bytes": 834,
+      "sha256": "b3f4ddf478e6cb2b172569c634e18d2471852c66ff297c9b13339b881904f71a"
+    },
+    {
+      "path": "WORKBENCH_ITERATION1_REPORT.md",
+      "bytes": 4386,
+      "sha256": "b8c3a066c8d5bcb686988d95a5531f4e733a5451f62d7d56daa99dbdbee64ec9"
+    },
+    {
+      "path": "WORKBENCH_ITERATION1_EVIDENCE.json",
+      "bytes": 1440,
+      "sha256": "919e5c8ec2439941c924c0d6b860fbf6f4be5cdda0bca722d5b82eaeccd5b0e2"
+    },
+    {
+      "path": "apply_iteration1.py",
+      "bytes": 10939,
+      "sha256": "957bc1258859ba896aeb91ee107660e1b8ac91f7a273784bb105bf8621208512"
+    },
+    {
+      "path": "materialize_full_repository.py",
+      "bytes": 4133,
+      "sha256": "7e5464c320360876835029461c5f7778645d9f0d2548b56c62af48e9702e2655"
+    },
+    {
+      "path": "source/nicegui_base/certification/mac_lab_cli.py",
+      "bytes": 666,
+      "sha256": "83a472ceaa51a3d4307c3c728dc41bac0de6a32d664333ae9a13ddae2edf0763"
+    },
+    {
+      "path": "source/nicegui_base/certification/live_lab_cli.py",
+      "bytes": 612,
+      "sha256": "e33d290da80e5abeb2253e7d544f963b30a67bf844b283bdae7f3122163bcf36"
+    },
+    {
+      "path": "source/tests/test_workbench_iteration1.py",
+      "bytes": 4828,
+      "sha256": "aee1ce1c916b008588f6a598f9460a714266ce59bcbbbb7ba3ad1193f29c7936"
+    },
+    {
+      "path": "source/nicegui_base/workbench/__init__.py",
+      "bytes": 572,
+      "sha256": "aaa83ebe665e6b267eb5b2e5f5333f23c669bd1890ef29cd303ee04caf5abc2c"
+    },
+    {
+      "path": "source/nicegui_base/workbench/analytics.py",
+      "bytes": 124,
+      "sha256": "c50cffb78e7a7f0ce39d18a1035508b4747bb0b0a8e22697acd59f4ba2244e75"
+    },
+    {
+      "path": "source/nicegui_base/workbench/app.py",
+      "bytes": 27959,
+      "sha256": "be0407b1736dbe49b60d8547564939533324ff1fe6529a0879ef31b14fac9f22"
+    },
+    {
+      "path": "source/nicegui_base/workbench/catalog.py",
+      "bytes": 1421,
+      "sha256": "1fdef8d2b86cf04a7e324b2144c095c4d23247515167e4b592801e2205bf1c2d"
+    },
+    {
+      "path": "source/nicegui_base/workbench/home.py",
+      "bytes": 51,
+      "sha256": "33f34409268cf5e9845463c140e17eacf944fd57f1a12f6a5d4fdb0c4b3f7b10"
+    },
+    {
+      "path": "source/nicegui_base/workbench/models.py",
+      "bytes": 1285,
+      "sha256": "e001b8ee1c147270f26c07b6bee6cc21a98c646575cbd88e405ef67874d60378"
+    },
+    {
+      "path": "source/nicegui_base/workbench/quality.py",
+      "bytes": 57,
+      "sha256": "30354635da9d252c66bb156a69dea4dafcb1d24b12897df4e38e751464e41d05"
+    },
+    {
+      "path": "source/nicegui_base/workbench/readiness.py",
+      "bytes": 1598,
+      "sha256": "083c79b5da71a8ab33e99658c62cc19ec0bdd195027200c0480c8796af6ebfe9"
+    },
+    {
+      "path": "source/nicegui_base/workbench/recipes.py",
+      "bytes": 114,
+      "sha256": "f514d6deb6501cf60057b1bacee1bdf55a52a1c9e1708a76434c9e0600797576"
+    },
+    {
+      "path": "source/nicegui_base/workbench/registry_adapters.py",
+      "bytes": 8672,
+      "sha256": "2a885eddb60829a8ffe31f9eed05e9dc8cfc14d8d0daa727b58846911cd27101"
+    },
+    {
+      "path": "source/nicegui_base/workbench/search.py",
+      "bytes": 2346,
+      "sha256": "8f71989045acca84959e1fbc5bfbd312442ee468a76e7d3c3283e035f66ba621"
+    },
+    {
+      "path": "source/nicegui_base/workbench/workbench_css.py",
+      "bytes": 3468,
+      "sha256": "81e7af6f6f3887d29b4b100e6e2f983a93dfa588d07d5db4e7a4873898ff01b5"
+    }
+  ]
+}

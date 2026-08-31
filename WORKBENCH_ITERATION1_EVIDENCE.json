@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "iteration": 1,
+  "title": "Make It Visible",
+  "baseline_commit": "62a06ce9fb976cfd93b746af807512ceda92c07e",
+  "framework_version": "3.0.0a8",
+  "required_nicegui": "3.15.0",
+  "targets": {
+    "analytics": 58,
+    "recipes": 8
+  },
+  "local_checks": {
+    "python_compile": "PASS",
+    "shell_syntax_mac_linux": "PASS",
+    "environment_independent_pytest": "PASS_4_TESTS_6_INTEGRATION_TESTS_DESELECTED",
+    "registry_adapter_canonical_shape_smoke": "PASS_58_ANALYTICS_8_RECIPES",
+    "framework_catalog_adapter_smoke": "PASS",
+    "offline_wheel_rebuild_and_three_mirror_hash_check": "PASS",
+    "source_manifest_regeneration_fixture": "PASS",
+    "package_manifest_regeneration_fixture": "PASS",
+    "full_zip_writer_fixture": "PASS",
+    "nicegui_runtime": "PENDING_NOT_INSTALLED_IN_SANDBOX",
+    "full_repository_regression": "PENDING_FULL_BASELINE_NOT_MATERIALIZED_IN_SANDBOX",
+    "browser_visual_review": "PENDING_USER_TARGET_RUNTIME"
+  },
+  "packaging": {
+    "overlay_is_full_repository": false,
+    "offline_apply_helper": "apply_iteration1.py",
+    "full_repository_materializer": "materialize_full_repository.py",
+    "materializer_baseline": "62a06ce9fb976cfd93b746af807512ceda92c07e",
+    "materializer_output": "nicegui-base_v3.0.0a8_WORKBENCH_ITERATION1.zip"
+  },
+  "claim_boundary": "No NiceGUI runtime/browser/company/human PASS is inferred from source-level or fixture packaging checks."
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "product": "NiceGUI Base",
+  "distribution": "nicegui-base",
+  "python_package": "nicegui_base",
+  "framework_version": "3.0.0a8",
+  "nicegui_dependency": "nicegui==3.15.0",
+  "baseline_commit": "62a06ce9fb976cfd93b746af807512ceda92c07e",
+  "iteration": 2,
+  "delivery": "cumulative_iteration_1_and_2_repository_update",
+  "source_tests": {
+    "status": "PASS",
+    "passed": 79,
+    "skipped": 9,
+    "failed": 0,
+    "command": "PYTHONPATH=. python -m pytest -q tests/test_workbench_iteration1.py tests/test_workbench_iteration2.py"
+  },
+  "coverage_contract": {
+    "semiconductor_analytics": 58,
+    "semiconductor_recipes": 8,
+    "generic_patterns": 10,
+    "capability_studio_tabs": ["preview", "data", "configure", "states", "interactions", "code"],
+    "data_dock_formats": ["tsv", "csv", "json"],
+    "builder": "deterministic_explainable",
+    "recipe_mapping_authority": "resolve_recipe_source"
+  },
+  "pending": [
+    "complete_repository_regression_after_apply",
+    "installed_nicegui_3_15_runtime",
+    "server_websocket_browser_execution",
+    "human_visual_review",
+    "company_provider_target_evidence"
+  ],
+  "stable_3_0_0": "NOT_CLAIMED"
+}
