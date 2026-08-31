@@ -1,0 +1,13 @@
+{
+  "framework_version": "3.0.0a8",
+  "wave": 61,
+  "generated_at": "2026-08-29T16:27:35Z",
+  "wave60_baseline_export_count": 1043,
+  "wave61_export_count": 1043,
+  "removed": [],
+  "added": [],
+  "removed_count": 0,
+  "added_count": 0,
+  "status": "PASS",
+  "policy": "Wave 61 is additive; no Wave 60 public root API removal is permitted."
+}

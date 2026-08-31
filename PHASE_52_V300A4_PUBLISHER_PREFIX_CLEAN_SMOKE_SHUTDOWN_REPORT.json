@@ -1,0 +1,27 @@
+{
+  "phase": 52,
+  "framework_version": "3.0.0a4",
+  "title": "Publisher subpath and clean runtime-smoke shutdown hardening",
+  "status": "SOURCE_COMPLETE_TARGET_RUNTIME_REVERIFY_REQUIRED",
+  "findings": {
+    "visualizer_route_in_company_ui": false,
+    "approved_live_route_count": 22,
+    "publisher_subpath_bug": "The package-root app.py did not forward the framework root_path contract, so a company reverse proxy that mounts the app under a path such as /visualizer could reach the server as GET /visualizer and receive 404.",
+    "smoke_shutdown_bug": "runtime_smoke intentionally sent SIGINT to its own child server, which can surface asyncio.CancelledError followed by KeyboardInterrupt on Python 3.13 even though the user did not cancel the smoke run."
+  },
+  "changes": [
+    "app.py resolves COMPANY_UI_ROOT_PATH plus common ROOT_PATH, SCRIPT_NAME, APPLICATION_ROOT and MOUNT_PATH publisher variables.",
+    "The exact existing live-lab runtime receives root_path; no project-specific route alias was added.",
+    "live_lab_cli exposes --root-path for deterministic manual verification.",
+    "runtime_smoke stops its server with graceful terminate/SIGTERM and escalates only to kill; it never synthesizes SIGINT.",
+    "The 22-route golden-template authority is frozen by regression coverage."
+  ],
+  "regression_evidence": {
+    "pytest": "698/698 PASS via TEST_BATCH_EXECUTION.json",
+    "governance": "0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected environment warning / 0 FAIL",
+    "visual_coverage": "183/183",
+    "browser_uiux_baseline": "46/46 PASS unchanged; no renderer or CSS change"
+  },
+  "target_action": "On the company target, rerun ./setup.sh. If the publisher externally mounts this app below a subpath and does not export one automatically, set COMPANY_UI_ROOT_PATH to that exact mount prefix (for example /visualizer)."
+}

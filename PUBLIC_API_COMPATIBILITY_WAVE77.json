@@ -1,0 +1,24 @@
+{
+  "added_exports": [],
+  "additions": 0,
+  "baseline_contract_sha256": "290cca374a1908c016225e2224a74252fd6f38eaffa79a5c63c17a29fe546c30",
+  "baseline_framework_version": "3.0.0a8",
+  "baseline_public_root_api_entries": 1525,
+  "baseline_wave": 76,
+  "changed_exports": [],
+  "changed_frozen_signatures": 0,
+  "compatibility_rule": "NiceGUI Base identity refactor preserves all 1,525 Wave 77 root export names and frozen callable signatures; implementation module namespaces migrate from company_ui.* to nicegui_base.* without root API additions/removals.",
+  "current_contract_sha256": "0693fd41e7e8f628b2ff65431094a420bf085d53a56b7fb62d8c48fa4433a1a6",
+  "current_framework_version": "3.0.0a8",
+  "current_public_root_api_entries": 1525,
+  "current_wave": 77,
+  "namespace_migration": {
+    "from": "company_ui",
+    "frozen_callable_signatures_changed": 0,
+    "root_export_names_changed": 0,
+    "to": "nicegui_base"
+  },
+  "removals": 0,
+  "removed_exports": [],
+  "status": "PASS"
+}

@@ -1,0 +1,66 @@
+{
+  "phase": 57,
+  "framework_version": "3.0.0a8",
+  "title": "Canonical switch endpoint correction",
+  "status": "PASS",
+  "supersedes": "PHASE_56_V300A8_EDGE_SEATED_SWITCH_ENDPOINTS_REPORT.json",
+  "problem": "The phase-56 edge-flush experiment used 24px horizontal travel with zero horizontal containment, which visibly pushed the thumb against the pill boundary and left the source with duplicated/contradictory switch CSS. Disabled switches could also look optically centered instead of seated at the OFF endpoint.",
+  "resolution": {
+    "track_px": [
+      51,
+      31
+    ],
+    "thumb_px": [
+      27,
+      27
+    ],
+    "horizontal_inset_px": 2,
+    "vertical_inset_px": 2,
+    "travel_px": 20,
+    "dom_anatomy": "real .cui-switch-track + .cui-switch-thumb elements",
+    "css_authority": "single canonical block in company_ui/design/hardening_css.py",
+    "disabled_geometry": "identical to enabled geometry; appearance only changes",
+    "raw_quasar_toggle_css": "removed",
+    "raw_nicegui_switch_validator": "prohibited in application code",
+    "setup_reinstall": "root and platform setup scripts force-reinstall the bundled wheel so same-version hotfixes cannot be skipped"
+  },
+  "verification": {
+    "pytest": "713/713 PASS",
+    "governance": "0 findings",
+    "compileall": "PASS",
+    "static_browser_geometry": {
+      "device_scale_factors": [
+        1,
+        2
+      ],
+      "off_gaps_px": [
+        2,
+        22,
+        2,
+        2
+      ],
+      "on_gaps_px": [
+        22,
+        2,
+        2,
+        2
+      ],
+      "disabled_off_gaps_px": [
+        2,
+        22,
+        2,
+        2
+      ],
+      "disabled_on_gaps_px": [
+        22,
+        2,
+        2,
+        2
+      ]
+    },
+    "visual_evidence": "evidence/browser_uiux/a8_switch_endpoint_fix.png",
+    "wheel_record": "verified after rebuild"
+  },
+  "scope": "Golden Company UI switch implementation and its validation/setup paths only. No DataTable, chart, navigation, workspace, runtime, or application-specific behavior changed.",
+  "generated_at": "2026-08-29T02:36:55Z"
+}

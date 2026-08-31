@@ -1,0 +1,39 @@
+{
+  "automated_tests": 1587,
+  "compatibility": {
+    "COMPANY_UI_environment": "FALLBACK_ONLY",
+    "company-ui_console_scripts": "DEPRECATED_ALIASES",
+    "company_ui_root_import": "DEPRECATED_ALIAS",
+    "cui_css_dom_tokens": "RETAINED_INTERNAL_COMPATIBILITY_NAMESPACE",
+    "deep_company_ui_imports": "NOT_GUARANTEED"
+  },
+  "framework_version": "3.0.0a8",
+  "fresh_processes": "10/10 PASS",
+  "generated_at": "2026-08-30T23:37:14Z",
+  "governance": "0 errors / 0 warnings",
+  "isolated_install_import": "PASS",
+  "primary_identity": {
+    "cli_prefix": "nicegui-base",
+    "display_name": "NiceGUI Base",
+    "distribution": "nicegui-base",
+    "environment_prefix": "NICEGUI_BASE_",
+    "generated_metadata_dir": ".nicegui_base",
+    "python_package": "nicegui_base"
+  },
+  "public_root_api_entries": 1525,
+  "public_root_api_expected": 1525,
+  "refactor": "NiceGUI Base identity",
+  "schema_version": 1,
+  "shipped_examples": "41 / 0 errors / 0 warnings",
+  "stable_release_claim": "NOT PERFORMED",
+  "status": "PASS",
+  "test_files": 138,
+  "wave": 77,
+  "wheel_record": {
+    "hashes_verified": 497,
+    "mismatches": 0,
+    "rows": 498
+  },
+  "wheel_sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
+  "wheel_source_representation": "PASS"
+}

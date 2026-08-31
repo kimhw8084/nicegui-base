@@ -1,0 +1,35 @@
+{
+  "current_phase": 77,
+  "current_wave": 77,
+  "design_constitution": "v1.6/v2 rendering and design contracts preserved; v3 application platform + Waves 58\u201376 canonical data/analysis/semiconductor/certification/promotion/operations/longitudinal/review authorities. Wave 77 is consolidation-only: it audits authority ownership, release metadata, generated-project guidance, wheel/source/package representation and stable-qualification handoff boundaries without creating a parallel evidence authority or manufacturing company target PASS. The final Wave 77 identity refactor renames the distributable/template to NiceGUI Base while retaining only bounded deprecated compatibility aliases and stable internal cui-* selectors.",
+  "framework_display_name": "NiceGUI Base",
+  "framework_name": "nicegui-base",
+  "framework_version": "3.0.0a8",
+  "identity_refactor": {
+    "cui_dom_css_namespace": "RETAINED_FOR_BACKWARD_COMPATIBILITY",
+    "from": "company-ui / company_ui / Company UI",
+    "legacy_cli": "DEPRECATED_COMPATIBILITY_ALIASES",
+    "legacy_environment_prefix": "FALLBACK_ONLY",
+    "legacy_root_import": "DEPRECATED_COMPATIBILITY_ALIAS",
+    "status": "COMPLETE_PENDING_FINAL_PACKAGE_VERIFICATION",
+    "to": "nicegui-base / nicegui_base / NiceGUI Base"
+  },
+  "legacy_identity": {
+    "cli": "company-ui",
+    "distribution": "company-ui",
+    "python_package": "company_ui",
+    "status": "DEPRECATED_COMPATIBILITY_ALIAS"
+  },
+  "nicegui_version": "3.15.0",
+  "primary_cli": "nicegui-base",
+  "promotion_target": "3.0.0",
+  "python_max_exclusive": "3.14",
+  "python_min": "3.11",
+  "python_package": "nicegui_base",
+  "release_kind": "v3-alpha-wave77-final-release-candidate-consolidation-nicegui-base-identity-refactor",
+  "release_line": "3.0",
+  "release_status": "ALPHA",
+  "requires_target_runtime_certification": true,
+  "requires_visual_baseline_approval": true,
+  "runtime_contract": "NiceGUI 3.15.0 exact pin"
+}

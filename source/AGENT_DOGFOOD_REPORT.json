@@ -1,0 +1,64 @@
+{
+  "framework_version": "3.0.0a8",
+  "passed": true,
+  "status": "PASS",
+  "templates": [
+    "dashboard",
+    "data-explorer",
+    "crud",
+    "analysis-workspace",
+    "responsive-operations",
+    "async-workflow"
+  ],
+  "results": [
+    {
+      "template": "dashboard",
+      "generated_version": "3.0.0a8",
+      "create_pass": true,
+      "agent_check_pass": true,
+      "gate_pass": true,
+      "dependency_pin": "company-ui==3.0.0a8"
+    },
+    {
+      "template": "data-explorer",
+      "generated_version": "3.0.0a8",
+      "create_pass": true,
+      "agent_check_pass": true,
+      "gate_pass": true,
+      "dependency_pin": "company-ui==3.0.0a8"
+    },
+    {
+      "template": "crud",
+      "generated_version": "3.0.0a8",
+      "create_pass": true,
+      "agent_check_pass": true,
+      "gate_pass": true,
+      "dependency_pin": "company-ui==3.0.0a8"
+    },
+    {
+      "template": "analysis-workspace",
+      "generated_version": "3.0.0a8",
+      "create_pass": true,
+      "agent_check_pass": true,
+      "gate_pass": true,
+      "dependency_pin": "company-ui==3.0.0a8"
+    },
+    {
+      "template": "responsive-operations",
+      "generated_version": "3.0.0a8",
+      "create_pass": true,
+      "agent_check_pass": true,
+      "gate_pass": true,
+      "dependency_pin": "company-ui==3.0.0a8"
+    },
+    {
+      "template": "async-workflow",
+      "generated_version": "3.0.0a8",
+      "create_pass": true,
+      "agent_check_pass": true,
+      "gate_pass": true,
+      "dependency_pin": "company-ui==3.0.0a8"
+    }
+  ],
+  "note": "All six starter templates remain validator-clean and importable under 3.0.0a8; the parameterized application-factory regression suite verifies current-version generation, agent preflight, dependency pinning, and source gate behavior."
+}

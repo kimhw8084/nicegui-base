@@ -1,0 +1,9 @@
+{
+  "findings": [],
+  "passed": true,
+  "root": ".",
+  "summary": {
+    "errors": 0,
+    "warnings": 0
+  }
+}

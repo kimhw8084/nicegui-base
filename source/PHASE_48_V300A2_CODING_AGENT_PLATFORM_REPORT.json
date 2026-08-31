@@ -1,0 +1,30 @@
+{
+  "capabilities": {
+    "agent_check": "fail-closed scaffold-version + strict validator preflight",
+    "agent_context": "deterministic task-specific context routing",
+    "agent_init": "versioned guides + machine catalogs + 4 golden examples",
+    "golden_examples": [
+      "dashboard",
+      "data_explorer",
+      "crud",
+      "analysis_workspace"
+    ],
+    "new_validator_rules": [
+      "AI015 raw async task",
+      "AI016 raw renderer props",
+      "AI017 renderer-internal import"
+    ]
+  },
+  "framework_version": "3.0.0a2",
+  "phase": 48,
+  "regression_contract": {
+    "automated_tests": 680,
+    "existing_browser_uiux_gate": "43/43 PASS inherited; renderer/CSS untouched",
+    "governance": "0 errors / 0 warnings",
+    "visual_component_coverage": "183/183",
+    "visual_renderer_changes": 0
+  },
+  "status": "SOURCE_COMPLETE",
+  "target_runtime_boundary": "NiceGUI 3.15 live routes/browser/human baseline remain target-environment gates.",
+  "title": "Coding-Agent Platform"
+}

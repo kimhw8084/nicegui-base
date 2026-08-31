@@ -1,0 +1,27 @@
+{
+  "framework_version": "1.7.2",
+  "phase": "setup-gate-hotfix",
+  "status": "PASS",
+  "problem": [
+    "setup called the strict live-certification doctor while claiming browser-certification packages were optional",
+    "setup treated port 8080 as a blocker even though runtime-smoke already selects an ephemeral free port"
+  ],
+  "corrections": [
+    "company-ui doctor --runtime-only marks missing Playwright/Pillow as SKIP and non-required",
+    "company-ui doctor --ignore-port makes a busy requested port non-fatal for setup only",
+    "setup_mac.sh and setup_linux.sh use --runtime-only --ignore-port",
+    "run_lab scripts use --runtime-only but still require port 8080 because they bind it",
+    "full certification remains strict for Playwright 1.62.0, Pillow 12.3.0, browser discovery, and port availability"
+  ],
+  "tests": 564,
+  "wheel": {
+    "name": "company_ui-1.7.2-py3-none-any.whl",
+    "sha256": "58468f955d81253e83e942cdb882c0fe85fd25ff5e3d5be6de0b176a09af20d7",
+    "size_bytes": 520912
+  },
+  "clean_install_certification": {
+    "pass": 12,
+    "warning": 1,
+    "fail": 0
+  }
+}

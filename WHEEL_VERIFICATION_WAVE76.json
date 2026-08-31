@@ -1,0 +1,21 @@
+{
+  "claim_boundary": "Wheel/source/package integrity only; no company target runtime/browser/human/reviewer/monitoring/incident/rollback/deployment/publication evidence is inferred.",
+  "file": "wheel/company_ui-3.0.0a8-py3-none-any.whl",
+  "framework_version": "3.0.0a8",
+  "isolated_no_deps_install_import": "PASS",
+  "isolated_root_api_entries": 1525,
+  "longitudinal_assurance_review_adapter_count": 1,
+  "longitudinal_evidence_exception_policy_count": 1,
+  "metadata_name": "company-ui",
+  "metadata_version": "3.0.0a8",
+  "record_hashes_verified": 491,
+  "record_mismatches": 0,
+  "record_rows": 492,
+  "requires_dist": [
+    "nicegui==3.15.0"
+  ],
+  "sha256": "0596eca3e58c3d6588fe8791012a33cbcd38e89fca41310f9dc03ae3bc9acdb1",
+  "size_bytes": 965246,
+  "status": "PASS",
+  "wave": 76
+}

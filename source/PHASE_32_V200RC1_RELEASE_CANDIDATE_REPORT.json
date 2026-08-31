@@ -1,0 +1,40 @@
+{
+  "base_authority": "v1.7.3 contract/evidence hardening",
+  "design_constitution": "v1.6 preserved",
+  "framework": "company-ui",
+  "framework_version": "2.0.0rc1",
+  "implemented": [
+    "single release authority",
+    "radius/layer governance",
+    "signature-aware public API freeze",
+    "command system upgrade",
+    "canonical responsive matrix",
+    "dialog/drawer accessible naming",
+    "control behavior fixes",
+    "phantom browser route removal",
+    "Korean/mixed-content torture fixture",
+    "macOS/Linux deployment certification hardening"
+  ],
+  "pending_final_2_0_0": [
+    "installed NiceGUI runtime contract",
+    "real 22-route server smoke",
+    "supported-browser certification matrix",
+    "console/geometry/interaction target evidence",
+    "human visual baseline approval",
+    "required target-platform evidence"
+  ],
+  "phase": 32,
+  "source_validation": {
+    "compileall": "PASS",
+    "governance": {
+      "errors": 0,
+      "status": "PASS",
+      "warnings": 0
+    },
+    "pytest": {
+      "status": "PASS",
+      "tests": 583
+    }
+  },
+  "status": "SOURCE_VALIDATED_RELEASE_CANDIDATE"
+}

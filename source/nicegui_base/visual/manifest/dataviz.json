@@ -1,0 +1,62 @@
+{
+  "version": "0.8.0",
+  "markers": [
+    {
+      "key": "circle",
+      "path": "dataviz/markers/circle.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "square",
+      "path": "dataviz/markers/square.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "triangle",
+      "path": "dataviz/markers/triangle.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "diamond",
+      "path": "dataviz/markers/diamond.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "cross",
+      "path": "dataviz/markers/cross.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "plus",
+      "path": "dataviz/markers/plus.svg",
+      "source": "nicegui-base-project-authored"
+    }
+  ],
+  "patterns": [
+    {
+      "key": "diagonal",
+      "path": "dataviz/patterns/diagonal.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "crosshatch",
+      "path": "dataviz/patterns/crosshatch.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "dots",
+      "path": "dataviz/patterns/dots.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "horizontal",
+      "path": "dataviz/patterns/horizontal.svg",
+      "source": "nicegui-base-project-authored"
+    },
+    {
+      "key": "vertical",
+      "path": "dataviz/patterns/vertical.svg",
+      "source": "nicegui-base-project-authored"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "automated_tests": 531,
+  "combined_css_bytes": 222964,
+  "compileall": "pass",
+  "image_viewer": {
+    "deterministic_local_evidence": true,
+    "drag_pan": true,
+    "fit_reset": true,
+    "observable_scale_translation_state": true,
+    "synthetic_wafer_clip_path": true,
+    "visible_zoom_readout": true,
+    "wheel_zoom": true
+  },
+  "nicegui_source_contract": {
+    "direct_factory_calls": 828,
+    "factories_used": 52,
+    "issues": 0
+  },
+  "offline_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  },
+  "phase": 26,
+  "phase_name": "Content / Workflow / RCA",
+  "program": "Company UI v1.7 design revamp",
+  "public_root_api_entries": 747,
+  "rca": {
+    "browser_bounds_check": true,
+    "container_query_reflow": true,
+    "new_public_primitive": "InvestigationContextBar",
+    "strict_property_containment": true
+  },
+  "runtime_boundary": "NiceGUI/browser runtime is unavailable in the build sandbox. Target runtime-contract, route smoke and browser certification remain required.",
+  "status": "review_candidate",
+  "validators": {
+    "certification_app": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "component_gallery": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "visual_coverage": {
+    "composite_visual_components": 26,
+    "covered_visual_components": 183,
+    "direct_visual_components": 157,
+    "required_visual_components": 183,
+    "uncovered": []
+  },
+  "workflow": {
+    "browser_optical_center_measurement": true,
+    "dedicated_marker_rail": true
+  }
+}

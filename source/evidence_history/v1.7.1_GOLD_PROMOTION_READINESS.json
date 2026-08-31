@@ -1,0 +1,25 @@
+{
+  "company_gold_additional_required": [
+    "company SSO/auth adapter",
+    "reverse proxy/root path/CSP/WebSocket evidence",
+    "shared persistence/session affinity for multi-instance",
+    "representative load/failover/internal-service evidence"
+  ],
+  "completed_here": [
+    "544/544 source tests",
+    "0/0 validators",
+    "183/183 visual coverage",
+    "wheel clean install",
+    "AI seed install",
+    "SBOM/provenance",
+    "source API contract"
+  ],
+  "framework_version": "1.7.1",
+  "release_stage": "v1_7_production_certification_candidate",
+  "required_in_company_environment": [
+    "installed NiceGUI runtime contract",
+    "real 22-route route smoke",
+    "supported-browser matrix",
+    "human visual baseline approval"
+  ]
+}

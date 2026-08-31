@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "display_name": "NiceGUI Base",
+    "distribution": "nicegui-base",
+    "legacy_root_alias": "company_ui",
+    "python_package": "nicegui_base"
+  },
+  "isolated_no_deps_import": "PASS",
+  "metadata_name": "nicegui-base",
+  "metadata_version": "3.0.0a8",
+  "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+  "phase": 77,
+  "production_requires_dist": [
+    "nicegui==3.15.0"
+  ],
+  "record_hashes_verified": 497,
+  "record_mismatches": 0,
+  "record_rows": 498,
+  "requires_dist": [
+    "nicegui==3.15.0",
+    "playwright==1.62.0; extra == \"live-cert\"",
+    "Pillow==12.3.0; extra == \"live-cert\"",
+    "playwright==1.62.0; extra == \"mac-cert\"",
+    "Pillow==12.3.0; extra == \"mac-cert\"",
+    "pytest<9,>=8; extra == \"test\"",
+    "pytest-asyncio<1,>=0.25; extra == \"test\""
+  ],
+  "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
+  "size_bytes": 984338,
+  "source_representation": {
+    "compared_files": 492,
+    "mismatches": [],
+    "missing_from_source": [],
+    "missing_from_wheel": [],
+    "root": ".",
+    "status": "PASS",
+    "wheel": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl"
+  },
+  "status": "PASS",
+  "wave": 77
+}

@@ -1,0 +1,61 @@
+{
+  "automated_tests": 514,
+  "changes": [
+    "Company-owned native search field replaces stock Quasar table search anatomy.",
+    "Columns, Density, Export and Refresh share one compact toolbar action grammar.",
+    "Quick filter caches text and updates displayed/total record count without remounting.",
+    "All row/density/search/refresh update paths use the live AG Grid API; DataTable no longer calls element.update().",
+    "Row buffer reduced to 3; row animation and column-move animation are disabled; scroll position is preserved on data replacement.",
+    "Density is canonicalized to 44/38/34px rows with matching 46/40/36px headers.",
+    "Column manager uses Company-owned checkbox anatomy and stays synchronized with saved views.",
+    "Saved views are Company menu surfaces and can apply density, visibility, pinning, sorts and supported filters.",
+    "Numeric/percent/duration cells have deterministic formatters; trend cells use lightweight SVG mini-lines.",
+    "Inspect/Export row actions render as icon+label action pills; row double-click remains a primary detail path.",
+    "Low-priority responsive column classes now apply to both cells and headers.",
+    "Browser certification proves filter/density state, inspector actions, overlay ownership and no grid-root remount."
+  ],
+  "combined_css_bytes": 210080,
+  "compileall": "pass",
+  "density_contract": {
+    "comfortable": 44,
+    "compact": 38,
+    "dense": 34
+  },
+  "interaction_budgets_ms": {
+    "density_change": 700,
+    "quick_filter": 900
+  },
+  "nicegui_source_contract": {
+    "direct_factory_calls": 800,
+    "factories_used": 52,
+    "issues": 0
+  },
+  "offline_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  },
+  "phase": 24,
+  "phase_name": "DataTable Platform Revamp",
+  "program": "Company UI v1.7 design revamp",
+  "runtime_boundary": "NiceGUI/browser runtime is unavailable in the build sandbox. Target runtime-contract, route smoke and browser certification remain required.",
+  "status": "review_candidate",
+  "validators": {
+    "certification_app": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "component_gallery": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "visual_coverage": {
+    "composite_visual_components": 26,
+    "covered_visual_components": 180,
+    "direct_visual_components": 154,
+    "required_visual_components": 180,
+    "uncovered": []
+  }
+}

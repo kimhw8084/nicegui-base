@@ -1,0 +1,19 @@
+{
+  "isolated_no_deps_import": {
+    "returncode": 0,
+    "status": "PASS",
+    "stderr": "",
+    "stdout": "3.0.0a8 nicegui=3.15.0 root_api=1299 qualification_adapters=1 release_audit_policies=1"
+  },
+  "isolated_no_deps_install_returncode": 0,
+  "metadata_version": "3.0.0a8",
+  "record_hashes_verified": 470,
+  "record_mismatches": [],
+  "record_rows": 471,
+  "requires_dist_nicegui": "nicegui==3.15.0",
+  "sha256": "667bf63d8d5c59a2e9268b51c3458f5fe122173402b7a099fbaa8b6f5763f8a4",
+  "size_bytes": 855292,
+  "status": "PASS",
+  "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+  "zip_files": 471
+}

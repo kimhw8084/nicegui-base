@@ -1,0 +1,20 @@
+{
+  "phase": 36,
+  "framework_version": "2.0.0rc3",
+  "status": "SOURCE_COMPLETE_TARGET_CERTIFICATION_PENDING",
+  "hotfix": "DataTable scroll responsiveness",
+  "root_cause": [
+    "AG Grid debounceVerticalScrollbar was enabled, intentionally delaying viewport updates until scrolling settled",
+    "rowBuffer was reduced to 3, increasing visible row redraw during fast wheel/trackpad movement",
+    "AG Grid row hover background transitions added avoidable paint work while rows moved under a stationary pointer"
+  ],
+  "fixes": [
+    "debounceVerticalScrollbar=false",
+    "rowBuffer=10",
+    "removed animated background transition from AG Grid row surfaces while preserving hover state",
+    "added browser certification budget requiring later virtual rows to render within 350ms after a large viewport scroll"
+  ],
+  "design_contract_changed": false,
+  "runtime_contract_changed": false,
+  "promotion_target": "2.0.0"
+}

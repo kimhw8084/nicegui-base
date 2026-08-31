@@ -1,0 +1,4 @@
+-r requirements.txt
+# Browser/rendered-product certification only; not required to run NiceGUI Base.
+playwright==1.62.0
+Pillow==12.3.0

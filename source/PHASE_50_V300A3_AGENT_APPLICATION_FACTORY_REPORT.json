@@ -1,0 +1,56 @@
+{
+  "automated_tests": 693,
+  "capabilities": {
+    "context_router_recommends_starter": true,
+    "create_command": "company-ui create <path> --name <name> --template <template>",
+    "overwrite_safety": "non-empty directories fail unless explicitly --overwrite",
+    "release_gate": "company-ui gate . --release",
+    "release_gate_live_scope": [
+      "exact NiceGUI runtime",
+      "real app server",
+      "desktop Chromium",
+      "mobile Chromium",
+      "accessible button names",
+      "horizontal overflow",
+      "DOM budget",
+      "load budget",
+      "compact sidebar utilities/centering",
+      "reduced-motion token",
+      "console/page errors"
+    ],
+    "source_gate": "company-ui gate .",
+    "templates": [
+      "dashboard",
+      "data-explorer",
+      "crud",
+      "analysis-workspace",
+      "responsive-operations",
+      "async-workflow"
+    ]
+  },
+  "dogfood": {
+    "evidence": "AGENT_DOGFOOD_REPORT.json",
+    "requirements": [
+      "create",
+      "agent-check 0/0",
+      "source gate PASS",
+      "context starter match"
+    ],
+    "status": "6/6 PASS",
+    "templates": [
+      "dashboard",
+      "data-explorer",
+      "crud",
+      "analysis-workspace",
+      "responsive-operations",
+      "async-workflow"
+    ]
+  },
+  "framework_version": "3.0.0a3",
+  "governance": "0 errors / 0 warnings",
+  "phase": 50,
+  "status": "SOURCE_COMPLETE",
+  "target_runtime_boundary": "Release gate is intentionally fail-closed when NiceGUI/Playwright/browser target prerequisites are missing.",
+  "title": "Agent-Native Application Factory and Acceptance Gates",
+  "visual_component_coverage": "183/183"
+}

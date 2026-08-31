@@ -1,0 +1,104 @@
+{
+  "phase": 61,
+  "framework_version": "3.0.0a8",
+  "title": "Semiconductor Semantic Platform + Engineering Analytics Library",
+  "generated_at": "2026-08-29T16:29:39Z",
+  "status": "SOURCE_VALIDATED_TARGET_RUNTIME_PENDING",
+  "scope": {
+    "61A": "canonical semiconductor semantic/entity model",
+    "61B": "shared semiconductor AnalysisContext + governed dependent manufacturing filters",
+    "61C": "SPC + process capability",
+    "61D": "wafer/spatial platform",
+    "61E": "FDC/equipment analytics",
+    "61F": "RCA/commonality analytics",
+    "61G": "yield/reliability/DOE",
+    "61H": "unified analytical/visualization contract",
+    "61I": "catalog/agent/docs/golden examples"
+  },
+  "inventory": {
+    "entity_kinds": 37,
+    "surface_total": 58,
+    "surface_counts": {
+      "spc": 9,
+      "capability": 6,
+      "wafer": 13,
+      "fdc": 12,
+      "rca": 11,
+      "yield": 3,
+      "reliability": 1,
+      "doe": 3
+    },
+    "integrated_golden_examples": 3,
+    "mandatory_new_dependencies": []
+  },
+  "verification": {
+    "pytest": "PASS",
+    "collected_tests": 825,
+    "test_files": 121,
+    "isolated_batches": "8/8 PASS",
+    "wave61_behavioral_tests": "40/40 PASS",
+    "governance": {
+      "errors": 0,
+      "warnings": 0,
+      "status": "PASS"
+    },
+    "shipped_examples_validator": {
+      "errors": 0,
+      "warnings": 0,
+      "scanned_files": 25,
+      "status": "PASS"
+    },
+    "compileall": "PASS",
+    "static_certification": {
+      "pass": 12,
+      "warning": 1,
+      "fail": 0,
+      "warning_reason": "NiceGUI 3.15.0 is not installed in this source-validation environment"
+    },
+    "visual_component_coverage": "183/183",
+    "public_root_api_entries": 1043,
+    "wave60_public_root_api_entries": 1043,
+    "wave60_api_removals": 0
+  },
+  "wheel": {
+    "framework_version": "3.0.0a8",
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "sha256": "622e148300cd86291ca3cffe09634c44d67285c9146eece1e8f6c8742a9cd533",
+    "size_bytes": 709089,
+    "zip_files": 441,
+    "record_rows": 441,
+    "record_hashes_verified": 440,
+    "record_mismatches": [],
+    "metadata_version": "3.0.0a8",
+    "requires_dist_nicegui": "nicegui==3.15.0",
+    "isolated_no_deps_import": {
+      "status": "PASS",
+      "returncode": 0,
+      "stdout": "3.0.0a8 1043",
+      "stderr": ""
+    },
+    "status": "PASS"
+  },
+  "claim_boundary": {
+    "target_nicegui_runtime": "PENDING",
+    "real_server_websocket_smoke": "PENDING",
+    "supported_corporate_browser_matrix": "PENDING",
+    "company_data_source_adapter_validation": "PENDING",
+    "human_visual_baseline": "PENDING",
+    "historical_browser_gate": "STALE/HISTORICAL_ONLY \u2014 not a Wave 61 PASS"
+  },
+  "next_phase": {
+    "wave": 62,
+    "title": "Semiconductor Application Recipe Factory",
+    "recipes": [
+      "SPCMonitor",
+      "ExcursionDefenseLine",
+      "FdcToolHealth",
+      "LotWaferExplorer",
+      "YieldLoss",
+      "PMEffectAnalysis",
+      "ChamberMatching",
+      "RcaCockpit"
+    ]
+  }
+}

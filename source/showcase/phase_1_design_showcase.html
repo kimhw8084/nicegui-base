@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-density="compact">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NiceGUI Base Phase 1 — Design Kernel Acceptance</title>
+<style>
+:root {
+  --cui-space-0: 0px;
+  --cui-space-1: 4px;
+  --cui-space-2: 8px;
+  --cui-space-3: 12px;
+  --cui-space-4: 16px;
+  --cui-space-5: 20px;
+  --cui-space-6: 24px;
+  --cui-space-8: 32px;
+  --cui-space-10: 40px;
+  --cui-space-12: 48px;
+  --cui-space-16: 64px;
+  --cui-radius-xs: 4px;
+  --cui-radius-sm: 7px;
+  --cui-radius-md: 10px;
+  --cui-radius-lg: 12px;
+  --cui-radius-xl: 16px;
+  --cui-radius-pill: 999px;
+  --cui-motion-instant: 80ms;
+  --cui-motion-fast: 120ms;
+  --cui-motion-standard: 160ms;
+  --cui-motion-overlay: 200ms;
+  --cui-motion-emphasis: 220ms;
+  --cui-ease-standard: cubic-bezier(.2,.8,.2,1);
+  --cui-ease-enter: cubic-bezier(.16,1,.3,1);
+  --cui-ease-exit: cubic-bezier(.4,0,1,1);
+  --cui-type-display-size: 28px;
+  --cui-type-display-line: 34px;
+  --cui-type-display-weight: 650;
+  --cui-type-display-tracking: -0.035em;
+  --cui-type-page_title-size: 24px;
+  --cui-type-page_title-line: 30px;
+  --cui-type-page_title-weight: 650;
+  --cui-type-page_title-tracking: -0.028em;
+  --cui-type-heading-size: 18px;
+  --cui-type-heading-line: 24px;
+  --cui-type-heading-weight: 620;
+  --cui-type-heading-tracking: -0.018em;
+  --cui-type-subheading-size: 15px;
+  --cui-type-subheading-line: 20px;
+  --cui-type-subheading-weight: 600;
+  --cui-type-subheading-tracking: -0.012em;
+  --cui-type-body-size: 13px;
+  --cui-type-body-line: 19px;
+  --cui-type-body-weight: 400;
+  --cui-type-body-tracking: -0.006em;
+  --cui-type-body_strong-size: 13px;
+  --cui-type-body_strong-line: 19px;
+  --cui-type-body_strong-weight: 550;
+  --cui-type-body_strong-tracking: -0.006em;
+  --cui-type-label-size: 12px;
+  --cui-type-label-line: 16px;
+  --cui-type-label-weight: 550;
+  --cui-type-label-tracking: 0em;
+  --cui-type-caption-size: 11px;
+  --cui-type-caption-line: 15px;
+  --cui-type-caption-weight: 450;
+  --cui-type-caption-tracking: 0em;
+  --cui-type-data-size: 12px;
+  --cui-type-data-line: 18px;
+  --cui-type-data-weight: 450;
+  --cui-type-data-tracking: 0em;
+  --cui-type-code-size: 12px;
+  --cui-type-code-line: 18px;
+  --cui-type-code-weight: 450;
+  --cui-type-code-tracking: 0em;
+  --nicegui-default-padding: var(--cui-space-4);
+  --nicegui-default-gap: var(--cui-space-3);
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+}
+
+html[data-theme='light'] {
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  color-scheme: light;
+}
+
+html[data-theme='dark'] {
+  --cui-page: #111113;
+  --cui-surface: #19191C;
+  --cui-surface-secondary: #202024;
+  --cui-surface-elevated: #242428;
+  --cui-surface-hover: #27272C;
+  --cui-surface-selected: #17253B;
+  --cui-text-primary: #F5F5F7;
+  --cui-text-secondary: #C7C7CC;
+  --cui-text-tertiary: #98989D;
+  --cui-text-inverse: #111113;
+  --cui-border-subtle: #29292E;
+  --cui-border-default: #38383E;
+  --cui-border-strong: #505057;
+  --cui-accent: #6AA5FF;
+  --cui-accent-hover: #82B4FF;
+  --cui-accent-soft: #17253B;
+  --cui-focus-ring: #6AA5FF;
+  --cui-success: #55D982;
+  --cui-success-soft: #15291B;
+  --cui-warning: #F2BA55;
+  --cui-warning-soft: #302715;
+  --cui-danger: #FF7B73;
+  --cui-danger-soft: #321918;
+  --cui-info: #80AAFF;
+  --cui-info-soft: #16233A;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.22),0 8px 22px rgba(0,0,0,.18);
+  --cui-shadow-2: 0 16px 44px rgba(0,0,0,.38);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme='system'] {
+  --cui-page: #111113;
+  --cui-surface: #19191C;
+  --cui-surface-secondary: #202024;
+  --cui-surface-elevated: #242428;
+  --cui-surface-hover: #27272C;
+  --cui-surface-selected: #17253B;
+  --cui-text-primary: #F5F5F7;
+  --cui-text-secondary: #C7C7CC;
+  --cui-text-tertiary: #98989D;
+  --cui-text-inverse: #111113;
+  --cui-border-subtle: #29292E;
+  --cui-border-default: #38383E;
+  --cui-border-strong: #505057;
+  --cui-accent: #6AA5FF;
+  --cui-accent-hover: #82B4FF;
+  --cui-accent-soft: #17253B;
+  --cui-focus-ring: #6AA5FF;
+  --cui-success: #55D982;
+  --cui-success-soft: #15291B;
+  --cui-warning: #F2BA55;
+  --cui-warning-soft: #302715;
+  --cui-danger: #FF7B73;
+  --cui-danger-soft: #321918;
+  --cui-info: #80AAFF;
+  --cui-info-soft: #16233A;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.22),0 8px 22px rgba(0,0,0,.18);
+  --cui-shadow-2: 0 16px 44px rgba(0,0,0,.38);
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html[data-theme='system'] {
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+    color-scheme: light;
+  }
+}
+
+[data-density='comfortable'] {
+  --cui-control-height: 40px;
+  --cui-table-row-height: 40px;
+  --cui-density-gap-scale: 1.0;
+}
+[data-density='compact'] {
+  --cui-control-height: 34px;
+  --cui-table-row-height: 34px;
+  --cui-density-gap-scale: 0.88;
+}
+[data-density='dense'] {
+  --cui-control-height: 30px;
+  --cui-table-row-height: 30px;
+  --cui-density-gap-scale: 0.76;
+}
+
+html, body {
+  background: var(--cui-page);
+  color: var(--cui-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.cui-tabular { font-variant-numeric: tabular-nums; }
+.cui-focusable:focus-visible { outline: 3px solid color-mix(in srgb, var(--cui-focus-ring) 58%, transparent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cui-page);color:var(--cui-text-primary);font-size:var(--cui-type-body-size);line-height:var(--cui-type-body-line)}
+button,input,select{font:inherit}
+button{color:inherit}
+.app{min-height:100vh}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;background:color-mix(in srgb,var(--cui-surface) 84%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--cui-border-subtle)}
+.brand{display:flex;align-items:center;gap:10px}
+.brandmark{width:30px;height:30px;border-radius:9px;background:var(--cui-accent);box-shadow:var(--cui-shadow-1)}
+.brandtext b{display:block;font-size:13px}.brandtext span{font-size:11px;color:var(--cui-text-tertiary)}
+.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.tbtn{height:32px;border:1px solid var(--cui-border-default);background:var(--cui-surface);border-radius:var(--cui-radius-sm);padding:0 10px;cursor:pointer;transition:background var(--cui-motion-fast) var(--cui-ease-standard),border-color var(--cui-motion-fast) var(--cui-ease-standard)}
+.tbtn:hover{background:var(--cui-surface-hover)}.tbtn.active{border-color:var(--cui-accent);color:var(--cui-accent);background:var(--cui-accent-soft)}
+.wrap{max-width:1380px;margin:0 auto;padding:34px 26px 80px}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:16px;margin-bottom:18px}
+.surface{background:var(--cui-surface);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-xl);box-shadow:var(--cui-shadow-1)}
+.hero-main{padding:30px}.eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:650;color:var(--cui-accent)}
+.hero h1{font-size:var(--cui-type-display-size);line-height:var(--cui-type-display-line);font-weight:var(--cui-type-display-weight);letter-spacing:var(--cui-type-display-tracking);margin:10px 0 10px}
+.hero p{color:var(--cui-text-secondary);font-size:14px;max-width:760px;margin:0}
+.hero-side{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{padding:14px;border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);background:var(--cui-surface-secondary)}
+.stat b{font-size:20px;display:block;font-variant-numeric:tabular-nums}.stat span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--cui-text-tertiary)}
+.section{margin:28px 0;scroll-margin-top:70px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 2px 10px}
+.section-head h2{font-size:var(--cui-type-heading-size);line-height:var(--cui-type-heading-line);font-weight:var(--cui-type-heading-weight);letter-spacing:var(--cui-type-heading-tracking);margin:0}
+.section-head p{font-size:11px;color:var(--cui-text-tertiary);margin:0;text-align:right}
+.card{padding:18px;background:var(--cui-surface);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-lg)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.swatch{border-radius:var(--cui-radius-md);overflow:hidden;border:1px solid var(--cui-border-subtle);background:var(--cui-surface)}
+.color{height:72px}.swatch label{display:block;padding:9px 10px;font-size:11px;color:var(--cui-text-secondary)}
+.type-row{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--cui-border-subtle)}.type-row:last-child{border:0}.type-name{font-size:11px;color:var(--cui-text-tertiary)}
+.type-display{font-size:var(--cui-type-display-size);line-height:var(--cui-type-display-line);font-weight:var(--cui-type-display-weight);letter-spacing:var(--cui-type-display-tracking)}
+.type-title{font-size:var(--cui-type-page_title-size);line-height:var(--cui-type-page_title-line);font-weight:var(--cui-type-page_title-weight);letter-spacing:var(--cui-type-page_title-tracking)}
+.type-heading{font-size:var(--cui-type-heading-size);line-height:var(--cui-type-heading-line);font-weight:var(--cui-type-heading-weight)}
+.type-body{font-size:var(--cui-type-body-size);line-height:var(--cui-type-body-line)}
+.type-label{font-size:var(--cui-type-label-size);line-height:var(--cui-type-label-line);font-weight:var(--cui-type-label-weight)}
+.space-row{display:flex;align-items:center;gap:12px;margin:9px 0}.space-name{width:52px;color:var(--cui-text-tertiary);font-size:11px}.space-bar{height:12px;background:var(--cui-accent);border-radius:3px;opacity:.8}
+.radius-demo{height:64px;background:var(--cui-surface-secondary);border:1px solid var(--cui-border-default);display:grid;place-items:center;font-size:11px;color:var(--cui-text-secondary)}
+.states{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.btn{height:var(--cui-control-height);padding:0 13px;border-radius:var(--cui-radius-sm);border:1px solid var(--cui-border-default);background:var(--cui-surface);cursor:pointer;transition:all var(--cui-motion-fast) var(--cui-ease-standard)}
+.btn:hover{background:var(--cui-surface-hover)}.btn.primary{background:var(--cui-accent);border-color:var(--cui-accent);color:#fff}.btn.primary:hover{background:var(--cui-accent-hover)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.danger{color:var(--cui-danger);background:var(--cui-danger-soft);border-color:color-mix(in srgb,var(--cui-danger) 25%,var(--cui-border-default))}
+.focus-demo{outline:3px solid color-mix(in srgb,var(--cui-focus-ring) 58%,transparent);outline-offset:2px}
+.input{height:var(--cui-control-height);min-width:190px;border-radius:var(--cui-radius-sm);border:1px solid var(--cui-border-default);background:var(--cui-surface);color:var(--cui-text-primary);padding:0 10px;outline:none;transition:border-color var(--cui-motion-fast),box-shadow var(--cui-motion-fast)}.input:focus{border-color:var(--cui-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--cui-focus-ring) 23%,transparent)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:var(--cui-radius-pill);font-size:11px;font-weight:550;border:1px solid transparent}.badge.success{color:var(--cui-success);background:var(--cui-success-soft)}.badge.warning{color:var(--cui-warning);background:var(--cui-warning-soft)}.badge.danger{color:var(--cui-danger);background:var(--cui-danger-soft)}.badge.info{color:var(--cui-info);background:var(--cui-info-soft)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.motion-demo{display:flex;gap:10px;align-items:center}.motion-box{width:46px;height:46px;border-radius:var(--cui-radius-md);background:var(--cui-accent);transition:transform var(--cui-motion-overlay) var(--cui-ease-enter)}.motion-demo:hover .motion-box{transform:translateX(72px)}
+.mock{display:grid;grid-template-columns:190px 1fr;min-height:590px;overflow:hidden;background:var(--cui-page);border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-xl)}
+.mock-side{padding:14px;background:var(--cui-surface);border-right:1px solid var(--cui-border-subtle)}.mock-logo{height:34px;margin-bottom:18px;display:flex;align-items:center;gap:9px;font-weight:620}.mock-logo span{width:22px;height:22px;border-radius:7px;background:var(--cui-accent)}
+.navitem{padding:8px 9px;border-radius:var(--cui-radius-sm);font-size:11px;color:var(--cui-text-secondary);margin:3px 0}.navitem.sel{background:var(--cui-accent-soft);color:var(--cui-accent);font-weight:600}
+.mock-main{min-width:0}.mock-top{height:48px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:var(--cui-surface);border-bottom:1px solid var(--cui-border-subtle)}.mock-top span{font-size:11px;color:var(--cui-text-tertiary)}
+.mock-content{padding:20px}.mock-title{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:14px}.mock-title h3{font-size:20px;margin:0 0 3px}.mock-title p{font-size:11px;color:var(--cui-text-tertiary);margin:0}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.filter{height:32px;padding:0 9px;border-radius:var(--cui-radius-sm);display:flex;align-items:center;border:1px solid var(--cui-border-default);background:var(--cui-surface);font-size:11px;color:var(--cui-text-secondary)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:10px}.metric{padding:12px;background:var(--cui-surface);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md)}.metric label{font-size:10px;color:var(--cui-text-tertiary)}.metric b{display:block;font-size:20px;margin:3px 0;font-variant-numeric:tabular-nums}.delta{font-size:10px;color:var(--cui-danger)}
+.analytics{display:grid;grid-template-columns:1.35fr .65fr;gap:10px;margin-bottom:10px}.panel{background:var(--cui-surface);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);padding:12px}.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.panel-head b{font-size:12px}.panel-head span{font-size:10px;color:var(--cui-text-tertiary)}
+.chart{height:150px;position:relative;border-left:1px solid var(--cui-border-subtle);border-bottom:1px solid var(--cui-border-subtle);overflow:hidden}.chart:before,.chart:after{content:"";position:absolute;left:0;right:0;border-top:1px solid var(--cui-border-subtle)}.chart:before{top:33%}.chart:after{top:66%}.line{position:absolute;left:4%;right:3%;top:18%;height:95px;border-bottom:2px solid var(--cui-accent);transform:skewY(-7deg);opacity:.9}.line2{position:absolute;left:8%;right:8%;top:43%;height:48px;border-bottom:2px dashed var(--cui-warning);transform:skewY(5deg);opacity:.75}
+.bars{display:flex;align-items:flex-end;gap:8px;height:150px;border-bottom:1px solid var(--cui-border-subtle);padding:0 6px}.bar{flex:1;background:var(--cui-accent);border-radius:4px 4px 0 0;opacity:.78}
+.table{overflow:hidden;border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);background:var(--cui-surface)}.tr{display:grid;grid-template-columns:1.1fr .8fr .8fr .7fr .8fr;min-height:var(--cui-table-row-height);align-items:center;border-bottom:1px solid var(--cui-border-subtle);padding:0 10px;font-size:10.5px}.tr:last-child{border:0}.tr.head{color:var(--cui-text-tertiary);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;background:var(--cui-surface-secondary)}
+.note{font-size:11px;color:var(--cui-text-tertiary);margin-top:10px}
+@media(max-width:980px){.hero,.grid2{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}.mock{grid-template-columns:1fr}.mock-side{display:none}.metrics{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.wrap{padding:22px 12px 60px}.grid3,.grid4{grid-template-columns:1fr}.analytics{grid-template-columns:1fr}.hero-side{grid-template-columns:1fr 1fr}.top{padding:10px 12px}.brandtext span{display:none}.type-row{grid-template-columns:1fr}.tr{grid-template-columns:1fr .8fr .8fr}.tr>*:nth-child(4),.tr>*:nth-child(5){display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="brandmark"></div><div class="brandtext"><b>NiceGUI Base · Phase 1</b><span>Design Kernel Acceptance Gallery</span></div></div>
+  <div class="toolbar">
+    <button class="tbtn active" data-theme-btn="light">Light</button>
+    <button class="tbtn" data-theme-btn="dark">Dark</button>
+    <button class="tbtn" data-theme-btn="system">System</button>
+    <button class="tbtn" data-density-btn="comfortable">Comfortable</button>
+    <button class="tbtn active" data-density-btn="compact">Compact</button>
+    <button class="tbtn" data-density-btn="dense">Dense</button>
+  </div>
+</header>
+<main class="wrap">
+<section class="hero">
+  <div class="surface hero-main">
+    <div class="eyebrow">Visual Acceptance · Phase 1</div>
+    <h1>One design kernel for every future application.</h1>
+    <p>This gallery is generated from the same semantic tokens that the NiceGUI adapter injects. Approving this page approves the visual foundation: color hierarchy, typography, spacing, radius, elevation, motion, focus, density, and light/dark behavior.</p>
+  </div>
+  <div class="surface hero-side">
+    <div class="stat"><b>4 / 8px</b><span>Spacing rhythm</span></div>
+    <div class="stat"><b>34px</b><span>Compact control</span></div>
+    <div class="stat"><b>160ms</b><span>Standard motion</span></div>
+    <div class="stat"><b>AA+</b><span>Text contrast target</span></div>
+  </div>
+</section>
+
+<section class="section"><div class="section-head"><h2>Semantic color hierarchy</h2><p>Color has ownership. Application code consumes meaning, not hexadecimal values.</p></div>
+<div class="grid4">
+  <div class="swatch"><div class="color" style="background:var(--cui-page)"></div><label>Page surface</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-surface)"></div><label>Primary surface</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-surface-secondary)"></div><label>Secondary surface</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-surface-elevated)"></div><label>Elevated surface</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-accent)"></div><label>Accent</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-success)"></div><label>Success</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-warning)"></div><label>Warning</label></div>
+  <div class="swatch"><div class="color" style="background:var(--cui-danger)"></div><label>Danger</label></div>
+</div></section>
+
+<section class="section"><div class="section-head"><h2>Typography hierarchy</h2><p>Restrained weight and a small fixed role system keep engineering screens readable.</p></div>
+<div class="card">
+  <div class="type-row"><div class="type-name">Display · 28/34</div><div class="type-display">Equipment health overview</div></div>
+  <div class="type-row"><div class="type-name">Page title · 24/30</div><div class="type-title">Process Excursion Analysis</div></div>
+  <div class="type-row"><div class="type-name">Heading · 18/24</div><div class="type-heading">Affected population</div></div>
+  <div class="type-row"><div class="type-name">Body · 13/19</div><div class="type-body">Current excursion population is compared against route-matched controls using the same visual hierarchy in every application.</div></div>
+  <div class="type-row"><div class="type-name">Label · 12/16</div><div class="type-label">CHAMBER STATUS</div></div>
+  <div class="type-row"><div class="type-name">Numeric</div><div class="type-body cui-tabular">98.342 &nbsp;&nbsp; 7.182 &nbsp;&nbsp; 11.382 &nbsp;&nbsp; 0.624</div></div>
+</div></section>
+
+<section class="section"><div class="section-head"><h2>Spacing, radius, elevation</h2><p>Future components consume these values; applications cannot invent new visual rhythm.</p></div>
+<div class="grid2">
+<div class="card">
+  <div class="space-row"><div class="space-name">4px</div><div class="space-bar" style="width:16px"></div></div>
+  <div class="space-row"><div class="space-name">8px</div><div class="space-bar" style="width:32px"></div></div>
+  <div class="space-row"><div class="space-name">12px</div><div class="space-bar" style="width:48px"></div></div>
+  <div class="space-row"><div class="space-name">16px</div><div class="space-bar" style="width:64px"></div></div>
+  <div class="space-row"><div class="space-name">24px</div><div class="space-bar" style="width:96px"></div></div>
+  <div class="space-row"><div class="space-name">32px</div><div class="space-bar" style="width:128px"></div></div>
+</div>
+<div class="grid3">
+  <div class="radius-demo" style="border-radius:var(--cui-radius-sm)">Control 7px</div>
+  <div class="radius-demo" style="border-radius:var(--cui-radius-md)">Panel 10px</div>
+  <div class="radius-demo" style="border-radius:var(--cui-radius-lg);box-shadow:var(--cui-shadow-1)">Elevated 12px</div>
+</div></div></section>
+
+<section class="section"><div class="section-head"><h2>Control-state visual grammar</h2><p>Illustrative Phase 1 states; actual components are implemented in later phases from these exact rules.</p></div>
+<div class="card">
+  <div class="states">
+    <button class="btn primary">Run analysis</button>
+    <button class="btn">Secondary</button>
+    <button class="btn danger">Delete</button>
+    <button class="btn" disabled>Disabled</button>
+    <button class="btn focus-demo">Keyboard focus</button>
+    <input class="input" value="ETCH-021" aria-label="Tool example">
+    <span class="badge success"><i class="dot"></i>Normal</span>
+    <span class="badge warning"><i class="dot"></i>Watch</span>
+    <span class="badge danger"><i class="dot"></i>Critical</span>
+    <span class="badge info"><i class="dot"></i>Info</span>
+  </div>
+</div></section>
+
+<section class="section"><div class="section-head"><h2>Motion language</h2><p>Short, purposeful transitions; hover the panel below. Reduced-motion OS preference overrides it automatically.</p></div>
+<div class="card motion-demo"><div class="motion-box"></div><span style="font-size:11px;color:var(--cui-text-secondary)">Overlay motion · 200ms · restrained translation</span></div></section>
+
+<section class="section"><div class="section-head"><h2>Real-world visual proof</h2><p>This is an illustrative application composition using only Phase 1 visual tokens—not Phase 2 layout/component code.</p></div>
+<div class="mock">
+  <aside class="mock-side"><div class="mock-logo"><span></span>Equipment Health</div><div class="navitem sel">Overview</div><div class="navitem">Excursions</div><div class="navitem">SPC Monitor</div><div class="navitem">Affected Lots</div><div class="navitem">Analysis</div><div class="navitem">Settings</div></aside>
+  <div class="mock-main">
+    <div class="mock-top"><span>FAB Engineering / Equipment Health</span><span>Updated 38 sec ago · PROD</span></div>
+    <div class="mock-content">
+      <div class="mock-title"><div><h3>Equipment Health</h3><p>Monitor excursion risk and affected material across process areas.</p></div><button class="btn primary">Refresh data</button></div>
+      <div class="filters"><div class="filter">Area · ETCH</div><div class="filter">Tool · All</div><div class="filter">Chamber · All</div><div class="filter">Last 7 days</div></div>
+      <div class="metrics"><div class="metric"><label>AFFECTED LOTS</label><b>1,284</b><span class="delta">+12.8% vs prior week</span></div><div class="metric"><label>CRITICAL TOOLS</label><b>7</b><span class="delta">+2 today</span></div><div class="metric"><label>EXCURSIONS</label><b>42</b><span style="font-size:10px;color:var(--cui-text-tertiary)">7-day total</span></div><div class="metric"><label>DATA FRESHNESS</label><b>38s</b><span style="font-size:10px;color:var(--cui-success)">Current</span></div></div>
+      <div class="analytics"><div class="panel"><div class="panel-head"><b>Excursion trend</b><span>7 days</span></div><div class="chart"><div class="line"></div><div class="line2"></div></div></div><div class="panel"><div class="panel-head"><b>Top contributors</b><span>By tool</span></div><div class="bars"><div class="bar" style="height:72%"></div><div class="bar" style="height:54%"></div><div class="bar" style="height:42%"></div><div class="bar" style="height:31%"></div><div class="bar" style="height:22%"></div></div></div></div>
+      <div class="table"><div class="tr head"><span>Tool</span><span>Chamber</span><span>Status</span><span>Lots</span><span>Last event</span></div><div class="tr"><span>ETCH-021</span><span>B</span><span><i class="dot" style="display:inline-block;color:var(--cui-danger);background:var(--cui-danger);margin-right:5px"></i>Critical</span><span>184</span><span>07:21</span></div><div class="tr"><span>ETCH-014</span><span>D</span><span><i class="dot" style="display:inline-block;color:var(--cui-warning);background:var(--cui-warning);margin-right:5px"></i>Watch</span><span>96</span><span>06:52</span></div><div class="tr"><span>ETCH-033</span><span>A</span><span><i class="dot" style="display:inline-block;color:var(--cui-success);background:var(--cui-success);margin-right:5px"></i>Normal</span><span>41</span><span>05:18</span></div></div>
+      <div class="note">Design intent: subdued chrome, high data legibility, low-noise surfaces, semantic color, tabular numerals, compact enterprise density.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="section"><div class="section-head"><h2>Phase 1 acceptance scope</h2><p>What is implemented now versus intentionally deferred.</p></div>
+<div class="grid2"><div class="card"><b>Implemented</b><ul style="color:var(--cui-text-secondary);font-size:12px;line-height:1.8"><li>Light/dark/system semantic palettes</li><li>Spacing, radii, control heights, typography</li><li>Motion/easing and reduced-motion policy</li><li>Comfortable/compact/dense modes</li><li>Responsive breakpoint tokens</li><li>WCAG contrast tests</li><li>CSS variable compiler</li><li>NiceGUI 3.15 adapter contract</li></ul></div><div class="card"><b>Next phase only after approval</b><ul style="color:var(--cui-text-secondary);font-size:12px;line-height:1.8"><li>AppShell and navigation</li><li>Page and semantic layout primitives</li><li>Drawers / split panes / responsive shell</li><li>Canonical page patterns</li><li>Actual component implementations</li></ul></div></div></section>
+</main></div>
+<script>
+const root=document.documentElement;
+const themeBtns=[...document.querySelectorAll('[data-theme-btn]')];
+const densityBtns=[...document.querySelectorAll('[data-density-btn]')];
+function setTheme(v){root.dataset.theme=v;localStorage.setItem('cui-showcase-theme',v);themeBtns.forEach(b=>b.classList.toggle('active',b.dataset.themeBtn===v));}
+function setDensity(v){root.dataset.density=v;localStorage.setItem('cui-showcase-density',v);densityBtns.forEach(b=>b.classList.toggle('active',b.dataset.densityBtn===v));}
+themeBtns.forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.themeBtn)));
+densityBtns.forEach(b=>b.addEventListener('click',()=>setDensity(b.dataset.densityBtn)));
+setTheme(localStorage.getItem('cui-showcase-theme')||'light');setDensity(localStorage.getItem('cui-showcase-density')||'compact');
+</script>
+</body></html>

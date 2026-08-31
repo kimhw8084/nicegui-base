@@ -1,0 +1,135 @@
+{
+  "checks": [
+    {
+      "category": "api",
+      "detail": "319 registered semantic entries",
+      "key": "registries",
+      "label": "Framework registries",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "layout",
+      "detail": "10/10 patterns present",
+      "key": "patterns",
+      "label": "Canonical page patterns",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "visual",
+      "detail": "241,039 bytes; braces balanced",
+      "key": "css",
+      "label": "Combined framework CSS",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "visual",
+      "detail": "No HTTP/CDN references in generated framework CSS",
+      "key": "remote-css",
+      "label": "No remote CSS resources",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "visual",
+      "detail": "Quasar/AG Grid normalization selectors present and all Company CSS tokens resolve",
+      "key": "visual-normalization",
+      "label": "Zero stock visual normalization",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "visual",
+      "detail": "Framework + live-lab CSS is balanced and every Company custom property resolves",
+      "key": "lab-visual-css",
+      "label": "Live lab CSS integrity",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "visual",
+      "detail": "No ui.notify/ui.menu_item/ui.icon or unthemed tooltip paths found in framework integrations",
+      "key": "stock-visual-paths",
+      "label": "No stock NiceGUI visual paths",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "runtime",
+      "detail": "No known-invalid drawer/EChart/fullscreen adapter patterns detected",
+      "key": "nicegui-source-contract",
+      "label": "NiceGUI 3.15 adapter source contract",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "visual",
+      "detail": "143 icons, 12 illustrations; 0 validation issues",
+      "key": "assets",
+      "label": "Visual assets",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "ai",
+      "detail": "Machine-readable catalog loads successfully (7 top-level sections)",
+      "key": "catalog",
+      "label": "AI framework catalog",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "ai",
+      "detail": "0 errors / 0 warnings",
+      "key": "validate-certification_app",
+      "label": "Static validation: certification_app.py",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "ai",
+      "detail": "0 errors / 0 warnings",
+      "key": "validate-component_gallery",
+      "label": "Static validation: component_gallery.py",
+      "required": true,
+      "status": "pass"
+    },
+    {
+      "category": "runtime",
+      "detail": "NiceGUI unavailable here; live browser certification remains pending",
+      "key": "nicegui",
+      "label": "NiceGUI runtime",
+      "required": false,
+      "status": "warning"
+    }
+  ],
+  "framework_version": "1.7.1",
+  "metadata": {
+    "python": "3.13.5",
+    "registries": {
+      "components": 34,
+      "content": 21,
+      "convenience": 15,
+      "engineering": 15,
+      "icons": 143,
+      "illustrations": 12,
+      "interactions": 14,
+      "jobs": 2,
+      "patterns": 10,
+      "performance": 10,
+      "runtime": 6,
+      "security": 7,
+      "tables": 6,
+      "visualizations": 24
+    }
+  },
+  "passed": true,
+  "summary": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  }
+}

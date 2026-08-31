@@ -1,0 +1,73 @@
+{
+  "phase": 58,
+  "framework_version": "3.0.0a8",
+  "title": "Wave 58 \u2014 Correctness, Lifecycle, and Trust Hardening",
+  "generated_at": "2026-08-29T03:48:57Z",
+  "status": "SOURCE_VALIDATED_TARGET_RUNTIME_PENDING",
+  "supersedes_current_source_claims_through_phase": 57,
+  "scope": {
+    "data_engine": [
+      "atomic DataSession transaction rollback including nested scopes",
+      "closed-session fail-fast guards",
+      "dataset dimension/metric/row-key schema validation",
+      "collection filter operand validation",
+      "finite numeric metric enforcement"
+    ],
+    "application_factory": [
+      "generated analysis-workspace runtime contract repaired",
+      "all six starter templates execute build_page() in application gate"
+    ],
+    "data_table": [
+      "compound AND/OR filter AST and AG Grid translation",
+      "async row replacement no longer drops coroutine",
+      "formula-injection-safe live CSV export"
+    ],
+    "security_lifecycle": [
+      "permission-aware navigation visibility",
+      "UploadPolicy enforced by FileUpload before callbacks",
+      "RetryPolicy cancellation propagation",
+      "LazyResource refresh disposal and failure preservation",
+      "validator TypeError propagation",
+      "dirty-state and paste listener cleanup"
+    ],
+    "visualization": [
+      "finite-or-missing wafer/spatial values",
+      "executable ChartAnnotation",
+      "record series x_key/y_key mapping",
+      "explicit cross-filter REMOVE mutation"
+    ],
+    "semantics": [
+      "real Accordion behavior",
+      "distinct SessionState/TabState lifecycle semantics",
+      "AsyncLoader reload semantics"
+    ],
+    "release_trust": [
+      "current browser evidence marked stale after source changes",
+      "source evidence records target runtime/browser/human gates as pending",
+      "pytest collection and execution isolated from unrelated ambient plugins"
+    ]
+  },
+  "verification": {
+    "automated_tests": "734/734 PASS",
+    "test_files": 118,
+    "wave58_regression_tests": 21,
+    "governance": "0 errors / 0 warnings",
+    "shipped_examples_validator": "0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected environment WARNING / 0 FAIL",
+    "visual_component_coverage": "183/183",
+    "generated_starters_build_page": "6/6 PASS",
+    "compileall": "PASS",
+    "browser_current_source": "PENDING",
+    "installed_nicegui_runtime": "PENDING",
+    "human_visual_baseline": "PENDING"
+  },
+  "claim_boundary": "Wave 58 source/static/behavioral gates pass. No live target NiceGUI/browser/human certification is inferred in this build sandbox.",
+  "wheel": {
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "sha256": "79d21dfc5f1d5bc9f72dd537bb219d9a742b91b0a180868be2a83ad7f49e40b1",
+    "size_bytes": 624848,
+    "record_hashes_verified": 405,
+    "record_mismatches": 0,
+    "isolated_no_deps_import": "PASS"
+  }
+}

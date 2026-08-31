@@ -1,0 +1,71 @@
+{
+  "phase": 46,
+  "name": "V3.0.0a3 Application Platform Source Completion",
+  "framework_version": "3.0.0a3",
+  "release_status": "ALPHA",
+  "promotion_target": "3.0.0",
+  "authoritative_parent": "2.0.0rc5",
+  "parent_full_package_sha256": "80799abd4b0569d9e1cf0c7d2658651ac67dee5e9a91162d741537b847fb87f0",
+  "objective": "Advance Company UI from a governed component framework to an additive application platform without regressing inherited v2 UI/UX, runtime or certification contracts.",
+  "zero_regression_policy": {
+    "existing_v2_renderer_replaced": false,
+    "existing_v2_route_migration_required": false,
+    "v3_workspace_runtime_opt_in": true,
+    "visual_constitution_preserved": true,
+    "full_inherited_test_estate_required_green": true
+  },
+  "implemented": [
+    "additive ApplicationRuntime and WorkspaceRuntime ownership kernel over the frozen v2 renderer/design laws",
+    "typed namespaced state with atomic transactions, defensive reads, revision history and exact rollback",
+    "transaction-level undo/redo with absent-vs-None fidelity and stale-redo invalidation",
+    "unified Dataset/DataSession engine shared by rows, grouped visual series and KPI metrics",
+    "semantic filtering/search/sort/paging/grouping with exact row identity and lazy equality/membership indexes",
+    "adaptive governed workspace grid with deterministic collision handling, responsive derivation, compaction and snapshot restore",
+    "application/workspace JSON snapshot persistence for runtime state, panel geometry and shared data-session filters",
+    "semantic visualization planning that reuses the certified chart renderer stack and shared cross-filter sessions",
+    "governed extension registry for components, data sources, commands, visualizations and workspace panels",
+    "runtime diagnostics for lifecycle/task, command-performance, panel and extension ownership",
+    "all RC5 lifecycle, async, DataTable persistence/editing, overlay, chart and pathological-data hardening retained",
+    "v2 UI rendering remains opt-in migration only; existing route/component visual anatomy is not globally replaced"
+  ],
+  "evidence": {
+    "pytest": {
+      "passed": 670,
+      "failed": 0
+    },
+    "governance": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0
+    },
+    "source_certification": {
+      "pass": 12,
+      "warning": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "visual_integrations": {
+      "mapped": 183,
+      "total": 183
+    },
+    "live_routes": 22,
+    "public_root_api_entries": 809,
+    "wheel": {
+      "name": "company_ui-3.0.0a3-py3-none-any.whl",
+      "sha256": "967390cf07c6bcc27278e650071a90d8000a55efe25c834b2b638f32823d6fa9",
+      "size_bytes": 591126,
+      "zip_files": 392,
+      "record_hashes_verified": 391,
+      "record_mismatches": 0,
+      "isolated_no_deps_import": "PASS"
+    }
+  },
+  "target_only_gates": {
+    "nicegui_3_15_0_installed_runtime": "PENDING",
+    "22_route_live_server_smoke": "PENDING",
+    "chrome_edge_browser_matrix": "PENDING",
+    "human_visual_baseline_approval": "PENDING",
+    "company_target_platform_evidence": "PENDING"
+  },
+  "claim_boundary": "Source-complete alpha. No claim of live target/runtime/browser/human visual certification is made from this sandbox."
+}

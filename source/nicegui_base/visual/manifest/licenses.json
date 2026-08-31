@@ -1,0 +1,18 @@
+{
+  "version": "0.8.0",
+  "assets": [
+    {
+      "source": "nicegui-base-project-authored",
+      "license": "Project-authored; internal package asset",
+      "scope": "all runtime SVG assets in Phase 7"
+    }
+  ],
+  "references": [
+    {
+      "name": "Lucide",
+      "purpose": "visual-language/licensing reference only; no Lucide runtime files are included in this Phase 7 package",
+      "license": "ISC",
+      "version_observed": "1.34.0"
+    }
+  ]
+}

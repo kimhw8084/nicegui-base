@@ -1,0 +1,54 @@
+{
+  "baseline": "Wave 66 authoritative source",
+  "certification_boundary": "Installed NiceGUI 3.15.0, real server/WebSocket, approved company provider qualification, representative fab-scale company data, supported corporate browser/publisher path and human visual baseline remain PENDING. No target PASS was inferred.",
+  "continuation": "Wave 68 proposed \u2014 Enterprise Target Execution Intake & Stable Promotion Operationalization. Preserve Wave 59\u201367 authorities; consume real company target/runtime/browser/provider/human artifacts when available, automate evidence intake adapters and release-channel handoff/rollback evidence without inventing missing certification.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T03:00:06Z",
+  "implementation": {
+    "actionable_candidate_gap_diagnostics": true,
+    "candidate_zip_manifest_sha256": true,
+    "deterministic_candidate_zip_packaging": true,
+    "deterministic_evidence_set_identity": true,
+    "deterministic_stable_candidate_identity": true,
+    "enterprise_target_evidence_assimilation": true,
+    "generated_recipe_candidate_helpers": true,
+    "mandatory_dependency_additions": 0,
+    "only_current_hash_verified_artifact_bytes_packaged": true,
+    "promotion_candidate_cli": true,
+    "promotion_candidate_ui_panel": true,
+    "promotion_rehearse_cli": true,
+    "promotion_rollback_incident_evidence_capture_rehearsals": true,
+    "rehearsals_never_mutate_target_gate_status": true,
+    "safe_archive_entry_sanitization": true,
+    "stable_release_channel_policy_count": 1,
+    "wave66_qualification_and_promotion_authority_reused": true
+  },
+  "phase": 67,
+  "status": "SOURCE_COMPLETE_ENTERPRISE_TARGET_EVIDENCE_PENDING",
+  "title": "Semiconductor Stable Promotion Candidate & Enterprise Target Evidence Assimilation",
+  "validation": {
+    "automated_tests": "1055/1055 collected tests across 127 files; 8/8 final clean fresh-process batches PASS",
+    "governance": "0 errors / 0 warnings",
+    "public_api": {
+      "additions": 27,
+      "changed_frozen_signatures": 0,
+      "removals": 0,
+      "wave66": 1204,
+      "wave67": 1231
+    },
+    "shipped_examples": "31 files / 0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable environment warning / 0 FAIL",
+    "visual_integration_coverage": "183/183",
+    "wave67_behavioral_regressions": 40,
+    "wheel": {
+      "record_hashes_verified": 464,
+      "record_mismatches": [],
+      "record_rows": 465,
+      "sha256": "cb57cfcced94e35dcbba68e6a131df09e9540e56dd519f7be8ce8c854fee6fcc",
+      "size_bytes": 823085,
+      "status": "PASS",
+      "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+      "zip_files": 465
+    }
+  }
+}

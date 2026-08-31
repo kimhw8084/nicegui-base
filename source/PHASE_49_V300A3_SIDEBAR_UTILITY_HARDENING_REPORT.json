@@ -1,0 +1,42 @@
+{
+  "automated_tests": 693,
+  "browser_native_evidence": {
+    "cases": [
+      "desktop light expanded",
+      "desktop dark compact",
+      "tablet light",
+      "mobile dark reduced-motion"
+    ],
+    "checks": "46/46 PASS",
+    "compact_sidebar_settled_width_px": 64,
+    "documentation_center_delta_px": 0,
+    "support_center_delta_px": 0,
+    "utility_actions": [
+      "Support",
+      "Documentation"
+    ]
+  },
+  "changes": {
+    "browser_checker_scope_extended": ".cui-sidebar-footer__action included in ICON_NOT_CENTERED checks",
+    "compact_icon_centering": "absolute 50%/50% transform contract",
+    "on_feedback_constructor_compatibility_preserved": true,
+    "persistent_sidebar_actions": [
+      "Support",
+      "Documentation"
+    ],
+    "submit_feedback_removed": true
+  },
+  "focused_chromium_evidence": {
+    "checks": "3/3 PASS",
+    "documentation_center_delta_px": 0,
+    "support_center_delta_px": 0
+  },
+  "framework_version": "3.0.0a3",
+  "governance": "0 errors / 0 warnings",
+  "phase": 49,
+  "regression_policy": "No shell/public constructor break; expanded navigation and existing renderer contracts preserved.",
+  "status": "SOURCE_AND_BROWSER_COMPLETE",
+  "target_runtime_boundary": "Exact NiceGUI live server/browser matrix/human baseline remains target-only.",
+  "title": "Collapsed Sidebar Utility Hardening",
+  "visual_component_coverage": "183/183"
+}

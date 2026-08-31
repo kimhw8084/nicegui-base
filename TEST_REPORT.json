@@ -1,0 +1,26 @@
+{
+  "automated_tests": 1587,
+  "browser_execution": "PENDING",
+  "browser_native_uiux_constitution": "PENDING",
+  "compileall": "PASS",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T23:35:11Z",
+  "governance": {
+    "errors": 0,
+    "status": "PASS",
+    "warnings": 0
+  },
+  "human_visual_baseline": "PENDING",
+  "live_routes": 21,
+  "nicegui_version": "3.15.0",
+  "pytest": "PASS",
+  "static_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  },
+  "status": "PASS",
+  "target_runtime_execution": "PENDING (requires installed NiceGUI 3.15.0 target environment)",
+  "visual_component_coverage": "183/183"
+}

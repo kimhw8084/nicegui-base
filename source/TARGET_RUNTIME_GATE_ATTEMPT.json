@@ -1,0 +1,25 @@
+{
+  "browser_native_uiux": "PENDING FOR CURRENT WAVE 68 SOURCE",
+  "current_wave": 68,
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T03:24:38Z",
+  "governance": "0 errors / 0 warnings",
+  "historical_browser_evidence": "BROWSER_UIUX_GATE.json remains historical/stale for current Wave 68 source.",
+  "nicegui_required": "3.15.0",
+  "pending_gates": [
+    "approved company provider production qualification pack",
+    "representative fab-scale governed benchmark evidence",
+    "installed NiceGUI 3.15.0 target-runtime contract",
+    "real 21-route server/WebSocket execution",
+    "supported corporate browser/publisher-path execution",
+    "human visual baseline where required",
+    "stable 3.0.0 promotion"
+  ],
+  "promotion_orchestrator_rule": "Wave 68 intake may assimilate traceable external target execution evidence into existing gates. Stable promotion remains governed by the canonical Wave 66 promotion decision and Wave 67 candidate/rehearsal policy; verified operational records do not mutate target or candidate status.",
+  "reason": "This build sandbox does not contain NiceGUI 3.15.0, an approved company provider, representative company dataset, supported target server/browser/publisher environment, or human visual-baseline approval. No target PASS or company deployment is inferred.",
+  "shipped_examples_validator": "0 errors / 0 warnings across 32 files",
+  "source_regressions": "1109/1109 PASS",
+  "source_test_files": 128,
+  "status": "PENDING_TARGET_ENVIRONMENT",
+  "wave68_behavioral_tests": "54/54 PASS"
+}

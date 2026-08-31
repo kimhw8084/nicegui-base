@@ -1,0 +1,53 @@
+{
+  "phase": 47,
+  "name": "V3.0.0a3 Browser UI/UX Constitution Gate",
+  "framework_version": "3.0.0a3",
+  "generated_at": "2026-08-27T15:44:05Z",
+  "objective": "Execute the strongest available rendered UI/UX gate in the build sandbox without weakening the mandatory installed NiceGUI target-runtime certification boundary.",
+  "browser_native_gate": {
+    "status": "PASS",
+    "cases": 4,
+    "checks": "43/43",
+    "browser": "system Chromium",
+    "viewports": [
+      "1440x1000 light expanded",
+      "1440x1000 dark compact",
+      "820x1000 tablet",
+      "390x844 dark reduced-motion"
+    ]
+  },
+  "improvements_driven_by_gate": [
+    "final 44px phone touch targets for Company buttons/icon buttons and governed field/choice controls",
+    "reduced-motion duration-token collapse to 1ms so later high-specificity rules cannot re-enable ordinary motion",
+    "final phone environment-badge suppression so late visual corrections cannot overcrowd the mobile application header"
+  ],
+  "verified_contracts": [
+    "no horizontal page overflow across all four browser cases",
+    "page and table containment",
+    "light/dark token resolution",
+    "desktop sidebar visibility",
+    "compact sidebar/footer geometry",
+    "tablet/mobile sidebar suppression",
+    "phone touch targets",
+    "phone header environment metadata suppression",
+    "keyboard focus visibility",
+    "right-side drawer geometry",
+    "Escape focus restoration",
+    "reduced-motion behavior",
+    "render-time budget"
+  ],
+  "zero_regression_boundary": "The browser gate uses the actual generated Company UI framework/lab CSS and governed DOM class contracts. It supplements but does not replace the installed NiceGUI 3.15.0 server/WebSocket/browser matrix.",
+  "target_runtime_gate": "BLOCKED BY SANDBOX NETWORK ISOLATION; explicit attempt recorded in TARGET_RUNTIME_GATE_ATTEMPT.json",
+  "final_wheel": {
+    "name": "company_ui-3.0.0a3-py3-none-any.whl",
+    "sha256": "f20c525d4771b9bd1d7855332a1a4232eb0e8503dd8d578b711bd67f82da9513",
+    "size_bytes": 592129,
+    "zip_files": 392,
+    "record_hashes_verified": 391,
+    "record_mismatches": 0,
+    "isolated_no_deps_import": "PASS"
+  },
+  "source_regression": "672/672 PASS",
+  "governance": "0 errors / 0 warnings",
+  "visual_coverage": "183/183"
+}

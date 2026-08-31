@@ -1,0 +1,22 @@
+{
+  "automated_tests": 568,
+  "base_authority": "Company UI 1.7.2 production certification hotfix",
+  "changes": [
+    "Root FRAMEWORK_CATALOG.json and COMPATIBILITY.json synchronized with packaged authorities.",
+    "Generic certification evidence can no longer present inherited v1.7.1 PASS as current target certification.",
+    "EngineeringEntity and command/mobile/confirmation radii use the established control/surface/overlay token families.",
+    "Browser certification expanded from structural checks toward intent-level geometry/contrast/hierarchy checks for the 14 screenshot defects."
+  ],
+  "compileall": "PASS",
+  "contract_policy": "No established product/runtime contract redefined. This release repairs evidence ambiguity and brings screenshot hotfix CSS back under the v1.6 radius constitution.",
+  "framework_version": "1.7.3",
+  "phase": "31",
+  "phase_name": "Contract, Evidence, and Screenshot-Certification Hardening",
+  "target_runtime_status": "PENDING",
+  "validators": "0 errors / 0 warnings on certification_app and component_gallery",
+  "wheel": {
+    "name": "company_ui-1.7.3-py3-none-any.whl",
+    "sha256": "7f58f1bcc6fb2a6bba7f4a8c621b90f26c0149b688f88ab4fc5e3aaee6743224",
+    "size_bytes": 548284
+  }
+}

@@ -1,0 +1,716 @@
+<!doctype html><html lang="en" data-theme="light" data-density="compact"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Phase 4 — Interaction System</title><style>:root {
+  --cui-space-0: 0px;
+  --cui-space-1: 4px;
+  --cui-space-2: 8px;
+  --cui-space-3: 12px;
+  --cui-space-4: 16px;
+  --cui-space-5: 20px;
+  --cui-space-6: 24px;
+  --cui-space-8: 32px;
+  --cui-space-10: 40px;
+  --cui-space-12: 48px;
+  --cui-space-16: 64px;
+  --cui-radius-xs: 4px;
+  --cui-radius-sm: 7px;
+  --cui-radius-md: 10px;
+  --cui-radius-lg: 12px;
+  --cui-radius-xl: 16px;
+  --cui-radius-pill: 999px;
+  --cui-motion-instant: 80ms;
+  --cui-motion-fast: 120ms;
+  --cui-motion-standard: 160ms;
+  --cui-motion-overlay: 200ms;
+  --cui-motion-emphasis: 220ms;
+  --cui-ease-standard: cubic-bezier(.2,.8,.2,1);
+  --cui-ease-enter: cubic-bezier(.16,1,.3,1);
+  --cui-ease-exit: cubic-bezier(.4,0,1,1);
+  --cui-type-display-size: 28px;
+  --cui-type-display-line: 34px;
+  --cui-type-display-weight: 650;
+  --cui-type-display-tracking: -0.035em;
+  --cui-type-page_title-size: 24px;
+  --cui-type-page_title-line: 30px;
+  --cui-type-page_title-weight: 650;
+  --cui-type-page_title-tracking: -0.028em;
+  --cui-type-heading-size: 18px;
+  --cui-type-heading-line: 24px;
+  --cui-type-heading-weight: 620;
+  --cui-type-heading-tracking: -0.018em;
+  --cui-type-subheading-size: 15px;
+  --cui-type-subheading-line: 20px;
+  --cui-type-subheading-weight: 600;
+  --cui-type-subheading-tracking: -0.012em;
+  --cui-type-body-size: 13px;
+  --cui-type-body-line: 19px;
+  --cui-type-body-weight: 400;
+  --cui-type-body-tracking: -0.006em;
+  --cui-type-body_strong-size: 13px;
+  --cui-type-body_strong-line: 19px;
+  --cui-type-body_strong-weight: 550;
+  --cui-type-body_strong-tracking: -0.006em;
+  --cui-type-label-size: 12px;
+  --cui-type-label-line: 16px;
+  --cui-type-label-weight: 550;
+  --cui-type-label-tracking: 0em;
+  --cui-type-caption-size: 11px;
+  --cui-type-caption-line: 15px;
+  --cui-type-caption-weight: 450;
+  --cui-type-caption-tracking: 0em;
+  --cui-type-data-size: 12px;
+  --cui-type-data-line: 18px;
+  --cui-type-data-weight: 450;
+  --cui-type-data-tracking: 0em;
+  --cui-type-code-size: 12px;
+  --cui-type-code-line: 18px;
+  --cui-type-code-weight: 450;
+  --cui-type-code-tracking: 0em;
+  --nicegui-default-padding: var(--cui-space-4);
+  --nicegui-default-gap: var(--cui-space-3);
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  --cui-overlay-scrim: rgba(0,0,0,.28);
+}
+
+html[data-theme='light'] {
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  --cui-overlay-scrim: rgba(0,0,0,.28);
+  color-scheme: light;
+}
+
+html[data-theme='dark'] {
+  --cui-page: #111113;
+  --cui-surface: #19191C;
+  --cui-surface-secondary: #202024;
+  --cui-surface-elevated: #242428;
+  --cui-surface-hover: #27272C;
+  --cui-surface-selected: #17253B;
+  --cui-text-primary: #F5F5F7;
+  --cui-text-secondary: #C7C7CC;
+  --cui-text-tertiary: #98989D;
+  --cui-text-inverse: #111113;
+  --cui-border-subtle: #29292E;
+  --cui-border-default: #38383E;
+  --cui-border-strong: #505057;
+  --cui-accent: #6AA5FF;
+  --cui-accent-hover: #82B4FF;
+  --cui-accent-soft: #17253B;
+  --cui-focus-ring: #6AA5FF;
+  --cui-success: #55D982;
+  --cui-success-soft: #15291B;
+  --cui-warning: #F2BA55;
+  --cui-warning-soft: #302715;
+  --cui-danger: #FF7B73;
+  --cui-danger-soft: #321918;
+  --cui-info: #80AAFF;
+  --cui-info-soft: #16233A;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.22),0 8px 22px rgba(0,0,0,.18);
+  --cui-shadow-2: 0 16px 44px rgba(0,0,0,.38);
+  --cui-overlay-scrim: rgba(0,0,0,.46);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme='system'] {
+  --cui-page: #111113;
+  --cui-surface: #19191C;
+  --cui-surface-secondary: #202024;
+  --cui-surface-elevated: #242428;
+  --cui-surface-hover: #27272C;
+  --cui-surface-selected: #17253B;
+  --cui-text-primary: #F5F5F7;
+  --cui-text-secondary: #C7C7CC;
+  --cui-text-tertiary: #98989D;
+  --cui-text-inverse: #111113;
+  --cui-border-subtle: #29292E;
+  --cui-border-default: #38383E;
+  --cui-border-strong: #505057;
+  --cui-accent: #6AA5FF;
+  --cui-accent-hover: #82B4FF;
+  --cui-accent-soft: #17253B;
+  --cui-focus-ring: #6AA5FF;
+  --cui-success: #55D982;
+  --cui-success-soft: #15291B;
+  --cui-warning: #F2BA55;
+  --cui-warning-soft: #302715;
+  --cui-danger: #FF7B73;
+  --cui-danger-soft: #321918;
+  --cui-info: #80AAFF;
+  --cui-info-soft: #16233A;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.22),0 8px 22px rgba(0,0,0,.18);
+  --cui-shadow-2: 0 16px 44px rgba(0,0,0,.38);
+  --cui-overlay-scrim: rgba(0,0,0,.46);
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html[data-theme='system'] {
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  --cui-overlay-scrim: rgba(0,0,0,.28);
+    color-scheme: light;
+  }
+}
+
+[data-density='comfortable'] {
+  --cui-control-height: 40px;
+  --cui-table-row-height: 40px;
+  --cui-density-gap-scale: 1.0;
+}
+[data-density='compact'] {
+  --cui-control-height: 34px;
+  --cui-table-row-height: 34px;
+  --cui-density-gap-scale: 0.88;
+}
+[data-density='dense'] {
+  --cui-control-height: 30px;
+  --cui-table-row-height: 30px;
+  --cui-density-gap-scale: 0.76;
+}
+
+html, body {
+  background: var(--cui-page);
+  color: var(--cui-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.cui-tabular { font-variant-numeric: tabular-nums; }
+.cui-focusable:focus-visible { outline: 3px solid color-mix(in srgb, var(--cui-focus-ring) 58%, transparent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:root {
+  --cui-shell-header-height: 56px;
+  --cui-shell-sidebar-width: 248px;
+  --cui-shell-sidebar-compact-width: 72px;
+  --cui-page-reading-width: 760px;
+  --cui-page-standard-width: 1120px;
+  --cui-page-wide-width: 1440px;
+  --cui-drawer-small: 320px;
+  --cui-drawer-medium: 420px;
+  --cui-drawer-large: 560px;
+  --cui-drawer-xlarge: 720px;
+}
+
+.nicegui-content.cui-nicegui-content { padding: 0 !important; gap: 0 !important; }
+.cui-app-header {
+  min-height: var(--cui-shell-header-height); background: color-mix(in srgb, var(--cui-surface) 92%, transparent);
+  color: var(--cui-text-primary); border-bottom: 1px solid var(--cui-border-subtle);
+  box-shadow: none; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.cui-app-sidebar {
+  background: var(--cui-surface); color: var(--cui-text-primary);
+  border-right: 1px solid var(--cui-border-subtle); box-shadow: none;
+}
+.cui-app-main { width: 100%; min-width: 0; gap: 0; align-items: stretch; }
+.cui-shell-title { font-size: var(--cui-type-subheading-size); line-height: var(--cui-type-subheading-line); font-weight: var(--cui-type-subheading-weight); letter-spacing: var(--cui-type-subheading-tracking); }
+.cui-shell-menu { color: var(--cui-text-secondary); }
+.cui-environment-badge { background: var(--cui-surface-secondary); color: var(--cui-text-secondary); border: 1px solid var(--cui-border-default); }
+.cui-nav-section-label { padding: var(--cui-space-4) var(--cui-space-3) var(--cui-space-2); color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.cui-nav-item { min-height: 36px; margin: 2px var(--cui-space-2); border-radius: var(--cui-radius-sm); color: var(--cui-text-secondary); transition: background var(--cui-motion-fast) var(--cui-ease-standard), color var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-nav-item:hover { background: var(--cui-surface-hover); color: var(--cui-text-primary); }
+.cui-nav-item--active { background: var(--cui-accent-soft); color: var(--cui-accent); font-weight: 600; }
+.cui-nav-expansion { margin: 2px var(--cui-space-2); border-radius: var(--cui-radius-sm); color: var(--cui-text-secondary); }
+.cui-page-title { font-size: var(--cui-type-page_title-size); line-height: var(--cui-type-page_title-line); font-weight: var(--cui-type-page_title-weight); letter-spacing: var(--cui-type-page_title-tracking); color: var(--cui-text-primary); }
+.cui-page-description { max-width: 760px; font-size: var(--cui-type-body-size); line-height: var(--cui-type-body-line); color: var(--cui-text-secondary); }
+.cui-breadcrumbs { gap: var(--cui-space-1); color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+.cui-breadcrumb { color: inherit; text-decoration: none; }
+.cui-breadcrumb-separator { color: var(--cui-border-strong); }
+
+.cui-page { width: 100%; min-width: 0; padding: var(--cui-space-6); gap: var(--cui-space-6); }
+.cui-page--reading { max-width: var(--cui-page-reading-width); margin-inline: auto; }
+.cui-page--standard { max-width: var(--cui-page-standard-width); margin-inline: auto; }
+.cui-page--wide { max-width: var(--cui-page-wide-width); margin-inline: auto; }
+.cui-page--full { max-width: none; }
+.cui-page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--cui-space-4); width: 100%; }
+.cui-page-header__copy { min-width: 0; display: flex; flex-direction: column; gap: var(--cui-space-1); }
+.cui-page-header__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--cui-space-2); }
+.cui-section { width: 100%; min-width: 0; display: flex; flex-direction: column; gap: var(--cui-space-3); }
+.cui-stack { display: flex; min-width: 0; }
+.cui-stack--vertical { flex-direction: column; }
+.cui-stack--horizontal { flex-direction: row; }
+.cui-stack--responsive { flex-direction: row; }
+.cui-gap--none { gap: 0; } .cui-gap--xs { gap: var(--cui-space-2); } .cui-gap--sm { gap: var(--cui-space-3); }
+.cui-gap--md { gap: var(--cui-space-4); } .cui-gap--lg { gap: var(--cui-space-6); } .cui-gap--xl { gap: var(--cui-space-8); }
+.cui-align--start { align-items: flex-start; } .cui-align--center { align-items: center; } .cui-align--end { align-items: flex-end; } .cui-align--stretch { align-items: stretch; }
+.cui-grid { display: grid; width: 100%; min-width: 0; gap: var(--cui-space-4); }
+.cui-grid--metrics { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.cui-grid--halves { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.cui-grid--thirds { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.cui-grid--fourths { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.cui-grid--sidebar_content { grid-template-columns: minmax(220px, 280px) minmax(0,1fr); }
+.cui-grid--content_inspector { grid-template-columns: minmax(0,1fr) minmax(280px, 380px); }
+.cui-grid--main_aside { grid-template-columns: minmax(0,2fr) minmax(280px,1fr); }
+.cui-grid--auto { grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
+.cui-scrollable { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.cui-sticky { position: sticky; top: calc(var(--cui-shell-header-height) + var(--cui-space-3)); z-index: 3; }
+.cui-workspace { width: 100%; min-width: 0; min-height: calc(100dvh - var(--cui-shell-header-height)); padding: var(--cui-space-3); }
+.cui-tabs-region { min-width: 0; width: 100%; }
+.cui-splitter { min-width: 0; min-height: 0; width: 100%; }
+.cui-resizable-panel { min-width: 0; min-height: 0; width: 100%; height: 100%; overflow: auto; }
+.cui-drawer--small { width: var(--cui-drawer-small); }
+.cui-drawer--medium { width: var(--cui-drawer-medium); }
+.cui-drawer--large { width: var(--cui-drawer-large); }
+.cui-drawer--xlarge { width: var(--cui-drawer-xlarge); }
+.cui-pattern-slot { width: 100%; min-width: 0; }
+.cui-page-navigation { width: 100%; }
+.cui-segmented-control { border-radius: var(--cui-radius-sm); }
+.cui-user-menu-trigger { color: var(--cui-text-secondary); }
+
+@media (max-width: 1199px) {
+  .cui-grid--metrics, .cui-grid--fourths { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .cui-grid--thirds { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 899px) {
+  .cui-page { padding: var(--cui-space-4); gap: var(--cui-space-5); }
+  .cui-page-header { flex-direction: column; }
+  .cui-page-header__actions { justify-content: flex-start; }
+  .cui-stack--responsive { flex-direction: column; }
+  .cui-grid--sidebar_content, .cui-grid--content_inspector, .cui-grid--main_aside { grid-template-columns: 1fr; }
+}
+@media (max-width: 599px) {
+  .cui-page { padding: var(--cui-space-3); gap: var(--cui-space-4); }
+  .cui-grid--metrics, .cui-grid--halves, .cui-grid--thirds, .cui-grid--fourths { grid-template-columns: 1fr; }
+  .cui-workspace { padding: var(--cui-space-2); }
+}
+
+:root {
+  --cui-control-small: 30px;
+  --cui-control-medium: 34px;
+  --cui-control-large: 40px;
+  --cui-control-padding-x: 12px;
+  --cui-field-medium-width: 260px;
+  --cui-field-wide-width: 420px;
+  --cui-icon-button-size: 34px;
+}
+
+/* Shared control geometry */
+.cui-control--small { min-height: var(--cui-control-small); }
+.cui-control--medium { min-height: var(--cui-control-medium); }
+.cui-control--large { min-height: var(--cui-control-large); }
+
+/* Buttons */
+.cui-button,
+.cui-icon-button {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--cui-radius-sm);
+  font-size: var(--cui-type-label-size);
+  line-height: var(--cui-type-label-line);
+  font-weight: 600;
+  letter-spacing: var(--cui-type-label-tracking);
+  transition:
+    background-color var(--cui-motion-fast) var(--cui-ease-standard),
+    border-color var(--cui-motion-fast) var(--cui-ease-standard),
+    color var(--cui-motion-fast) var(--cui-ease-standard),
+    box-shadow var(--cui-motion-fast) var(--cui-ease-standard),
+    transform var(--cui-motion-instant) var(--cui-ease-standard);
+  cursor: pointer;
+  user-select: none;
+}
+.cui-button { padding-inline: var(--cui-control-padding-x); gap: var(--cui-space-2); }
+.cui-button--primary { background: var(--cui-accent); color: var(--cui-text-inverse); border-color: var(--cui-accent); }
+.cui-button--primary:hover { background: var(--cui-accent-hover); border-color: var(--cui-accent-hover); }
+.cui-button--secondary { background: var(--cui-surface); color: var(--cui-text-primary); border-color: var(--cui-border-default); }
+.cui-button--secondary:hover { background: var(--cui-surface-hover); border-color: var(--cui-border-strong); }
+.cui-button--tertiary { background: var(--cui-surface-secondary); color: var(--cui-text-primary); border-color: transparent; }
+.cui-button--tertiary:hover { background: var(--cui-surface-hover); }
+.cui-button--ghost { background: transparent; color: var(--cui-text-secondary); border-color: transparent; }
+.cui-button--ghost:hover { background: var(--cui-surface-hover); color: var(--cui-text-primary); }
+.cui-button--danger { background: var(--cui-danger); color: var(--cui-text-inverse); border-color: var(--cui-danger); }
+.cui-button--danger:hover { filter: brightness(.94); }
+.cui-button:active:not(:disabled), .cui-icon-button:active:not(:disabled) { transform: translateY(.5px); }
+.cui-button:focus-visible, .cui-icon-button:focus-visible,
+.cui-field-control:focus-within, .cui-choice:focus-within {
+  outline: 3px solid color-mix(in srgb, var(--cui-focus-ring) 46%, transparent);
+  outline-offset: 2px;
+}
+.cui-button:disabled, .cui-icon-button:disabled, .cui-button.is-disabled, .cui-icon-button.is-disabled {
+  cursor: not-allowed; opacity: .48; box-shadow: none; transform: none;
+}
+.cui-button.is-loading { position: relative; pointer-events: none; }
+.cui-button.is-loading::before {
+  content: ''; width: 12px; height: 12px; border-radius: 50%; border: 1.7px solid currentColor;
+  border-right-color: transparent; animation: cui-spin .7s linear infinite;
+}
+.cui-button.is-full-width { width: 100%; justify-content: center; }
+@keyframes cui-spin { to { transform: rotate(360deg); } }
+
+.cui-icon-button {
+  width: var(--cui-icon-button-size); min-width: var(--cui-icon-button-size); height: var(--cui-icon-button-size);
+  padding: 0; display: inline-grid; place-items: center; background: transparent; color: var(--cui-text-secondary);
+}
+.cui-icon-button--primary { background: var(--cui-accent); color: var(--cui-text-inverse); }
+.cui-icon-button--secondary { background: var(--cui-surface); border-color: var(--cui-border-default); color: var(--cui-text-primary); }
+.cui-icon-button--tertiary { background: var(--cui-surface-secondary); color: var(--cui-text-primary); }
+.cui-icon-button--danger { color: var(--cui-danger); }
+.cui-icon-button:hover { background: var(--cui-surface-hover); color: var(--cui-text-primary); }
+.cui-icon-button.is-selected { background: var(--cui-accent-soft); color: var(--cui-accent); }
+
+/* Surfaces */
+.cui-surface { color: var(--cui-text-primary); min-width: 0; }
+.cui-surface--panel { background: var(--cui-surface); border: 1px solid var(--cui-border-subtle); border-radius: var(--cui-radius-md); }
+.cui-surface--card { background: var(--cui-surface); border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-lg); box-shadow: var(--cui-shadow-1); }
+.cui-surface--well { background: var(--cui-surface-secondary); border: 1px solid var(--cui-border-subtle); border-radius: var(--cui-radius-md); }
+.cui-surface--outlined { background: transparent; border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-md); }
+.cui-surface--interactive { background: var(--cui-surface); border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-md); transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard), box-shadow var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-surface.is-interactive { cursor: pointer; }
+.cui-surface.is-interactive:hover { background: var(--cui-surface-hover); border-color: var(--cui-border-strong); }
+.cui-surface.is-selected { border-color: color-mix(in srgb, var(--cui-accent) 48%, var(--cui-border-default)); background: var(--cui-surface-selected); }
+
+/* Badges */
+.cui-badge {
+  display: inline-flex; align-items: center; gap: var(--cui-space-1); min-height: 22px; padding: 2px 8px;
+  border-radius: var(--cui-radius-pill); border: 1px solid currentColor;
+  font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); font-weight: 600;
+}
+.cui-badge--neutral { color: var(--cui-text-secondary); background: var(--cui-surface-secondary); border-color: var(--cui-border-default); }
+.cui-badge--info { color: var(--cui-info); background: var(--cui-info-soft); }
+.cui-badge--success { color: var(--cui-success); background: var(--cui-success-soft); }
+.cui-badge--warning { color: var(--cui-warning); background: var(--cui-warning-soft); }
+.cui-badge--danger { color: var(--cui-danger); background: var(--cui-danger-soft); }
+.cui-badge--subtle { border-color: color-mix(in srgb, currentColor 22%, transparent); }
+
+/* Field anatomy */
+.cui-field { display: flex; flex-direction: column; gap: var(--cui-space-1); min-width: 0; }
+.cui-field-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--cui-space-2); }
+.cui-field-label { color: var(--cui-text-primary); font-size: var(--cui-type-label-size); line-height: var(--cui-type-label-line); font-weight: var(--cui-type-label-weight); }
+.cui-field-required { color: var(--cui-danger); margin-left: 2px; }
+.cui-field-description { color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+.cui-field-error { display: flex; align-items: flex-start; gap: var(--cui-space-1); color: var(--cui-danger); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+.cui-field-width--auto { width: auto; }
+.cui-field-width--medium { width: min(100%, var(--cui-field-medium-width)); }
+.cui-field-width--wide { width: min(100%, var(--cui-field-wide-width)); }
+.cui-field-width--full { width: 100%; }
+.cui-field-control {
+  display: flex; align-items: center; width: 100%; min-width: 0; gap: var(--cui-space-2);
+  padding-inline: var(--cui-space-3); border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-sm);
+  background: var(--cui-surface); color: var(--cui-text-primary);
+  transition: border-color var(--cui-motion-fast) var(--cui-ease-standard), background var(--cui-motion-fast) var(--cui-ease-standard), box-shadow var(--cui-motion-fast) var(--cui-ease-standard);
+}
+.cui-field-control:hover:not(.cui-field-control--readonly) { border-color: var(--cui-border-strong); }
+.cui-field-control--error { border-color: color-mix(in srgb, var(--cui-danger) 70%, var(--cui-border-default)); }
+.cui-field-control--readonly { background: var(--cui-surface-secondary); color: var(--cui-text-secondary); }
+.cui-field-control.is-disabled, .cui-field-control[aria-disabled='true'] { opacity: .55; cursor: not-allowed; background: var(--cui-surface-secondary); }
+.cui-field-control input, .cui-field-control textarea, .cui-field-control select {
+  width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: inherit; font: inherit;
+}
+.cui-field-control input::placeholder, .cui-field-control textarea::placeholder { color: var(--cui-text-tertiary); opacity: .9; }
+.cui-field-control textarea { min-height: 88px; resize: vertical; padding-block: var(--cui-space-2); }
+.cui-field-leading, .cui-field-trailing { flex: 0 0 auto; color: var(--cui-text-tertiary); }
+.cui-field-unit { color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); white-space: nowrap; }
+
+/* Normalize Quasar-backed NiceGUI fields without relying on app-local styling. */
+.cui-field-control.q-field { padding-inline: 0; }
+.cui-field-control.q-field .q-field__control { min-height: inherit; height: inherit; color: var(--cui-text-primary); padding: 0 var(--cui-space-3); border-radius: inherit; }
+.cui-field-control.q-field .q-field__control::before,
+.cui-field-control.q-field .q-field__control::after { display: none; }
+.cui-field-control.q-field .q-field__native,
+.cui-field-control.q-field .q-field__input { color: var(--cui-text-primary); padding: 0; min-height: auto; }
+.cui-field-control.q-field .q-field__label { color: var(--cui-text-secondary); }
+.cui-field-control.q-field.q-field--focused { border-color: var(--cui-accent); }
+
+/* Choice controls */
+.cui-choice { display: inline-flex; align-items: flex-start; gap: var(--cui-space-2); color: var(--cui-text-primary); cursor: pointer; min-height: 24px; }
+.cui-choice.is-disabled { opacity: .5; cursor: not-allowed; }
+.cui-choice__control {
+  flex: 0 0 auto; width: 18px; height: 18px; border: 1px solid var(--cui-border-strong); background: var(--cui-surface);
+  border-radius: 5px; display: grid; place-items: center; transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard);
+}
+.cui-choice--radio .cui-choice__control { border-radius: 50%; }
+.cui-choice.is-checked .cui-choice__control { background: var(--cui-accent); border-color: var(--cui-accent); color: var(--cui-text-inverse); }
+.cui-choice__label { font-size: var(--cui-type-body-size); line-height: var(--cui-type-body-line); }
+.cui-choice__description { color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+
+/* Switch */
+.cui-switch-track { width: 34px; height: 20px; padding: 2px; border-radius: var(--cui-radius-pill); background: var(--cui-border-strong); transition: background var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-switch-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--cui-surface-elevated); box-shadow: var(--cui-shadow-1); transition: transform var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-choice.is-checked .cui-switch-track { background: var(--cui-accent); }
+.cui-choice.is-checked .cui-switch-thumb { transform: translateX(14px); }
+
+/* Slider */
+.cui-slider { accent-color: var(--cui-accent); width: 100%; }
+.cui-slider-meta { display: flex; justify-content: space-between; color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); }
+
+/* Upload */
+.cui-upload {
+  border: 1px dashed var(--cui-border-strong); background: var(--cui-surface-secondary); border-radius: var(--cui-radius-md);
+  min-height: 112px; padding: var(--cui-space-4); display: grid; place-items: center; text-align: center;
+  transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard);
+}
+.cui-upload:hover { border-color: var(--cui-accent); background: var(--cui-accent-soft); }
+.cui-upload.is-disabled { opacity: .5; pointer-events: none; }
+.cui-upload__title { font-size: var(--cui-type-body-size); font-weight: 600; color: var(--cui-text-primary); }
+.cui-upload__help { font-size: var(--cui-type-caption-size); color: var(--cui-text-tertiary); }
+
+/* Density changes retain touch target while adjusting visual density where possible. */
+[data-density='comfortable'] { --cui-control-medium: 40px; --cui-control-small: 34px; --cui-icon-button-size: 38px; }
+[data-density='compact'] { --cui-control-medium: 34px; --cui-control-small: 30px; --cui-icon-button-size: 34px; }
+[data-density='dense'] { --cui-control-medium: 30px; --cui-control-small: 28px; --cui-icon-button-size: 30px; }
+
+
+/* Button groups and split actions */
+.cui-button-group { display: inline-flex; align-items: stretch; }
+.cui-button-group > .cui-button { border-radius: 0; margin-left: -1px; }
+.cui-button-group > .cui-button:first-child { border-radius: var(--cui-radius-sm) 0 0 var(--cui-radius-sm); margin-left: 0; }
+.cui-button-group > .cui-button:last-child { border-radius: 0 var(--cui-radius-sm) var(--cui-radius-sm) 0; }
+.cui-split-button { display: inline-flex; }
+.cui-split-button .cui-button:first-child { border-radius: var(--cui-radius-sm) 0 0 var(--cui-radius-sm); }
+.cui-split-button .cui-icon-button:last-child { border-radius: 0 var(--cui-radius-sm) var(--cui-radius-sm) 0; margin-left: -1px; }
+
+/* Additional surfaces */
+.cui-divider { width: 100%; height: 1px; background: var(--cui-border-subtle); border: 0; margin: var(--cui-space-2) 0; }
+.cui-collapsible { border: 1px solid var(--cui-border-subtle); border-radius: var(--cui-radius-md); background: var(--cui-surface); overflow: hidden; }
+.cui-collapsible__header { min-height: 40px; padding: var(--cui-space-2) var(--cui-space-3); display: flex; align-items: center; justify-content: space-between; gap: var(--cui-space-3); font-size: var(--cui-type-body-size); font-weight: 600; cursor: pointer; }
+.cui-collapsible__header:hover { background: var(--cui-surface-hover); }
+.cui-collapsible__body { padding: var(--cui-space-3); border-top: 1px solid var(--cui-border-subtle); }
+
+/* Metadata */
+.cui-chip { display: inline-flex; align-items: center; gap: var(--cui-space-1); min-height: 26px; padding: 3px 9px; border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-pill); background: var(--cui-surface); color: var(--cui-text-secondary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-chip:hover { background: var(--cui-surface-hover); }
+.cui-chip.is-selected { background: var(--cui-accent-soft); border-color: color-mix(in srgb, var(--cui-accent) 36%, var(--cui-border-default)); color: var(--cui-accent); }
+.cui-count-badge { min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--cui-radius-pill); display: inline-grid; place-items: center; background: var(--cui-accent); color: var(--cui-text-inverse); font-size: var(--cui-type-caption-size); font-weight: 650; font-variant-numeric: tabular-nums; }
+.cui-semantic-indicator { display: inline-flex; align-items: center; gap: var(--cui-space-1); font-size: var(--cui-type-caption-size); color: var(--cui-text-secondary); }
+.cui-semantic-indicator::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.cui-semantic-indicator--success { color: var(--cui-success); }
+.cui-semantic-indicator--info { color: var(--cui-info); }
+.cui-semantic-indicator--warning { color: var(--cui-warning); }
+.cui-semantic-indicator--danger { color: var(--cui-danger); }
+.cui-semantic-indicator--neutral { color: var(--cui-text-tertiary); }
+
+@media (pointer: coarse) {
+  .cui-button, .cui-icon-button, .cui-field-control, .cui-choice { min-height: 44px; }
+  .cui-icon-button { width: 44px; min-width: 44px; height: 44px; }
+}
+
+@media (max-width: 599px) {
+  .cui-field-width--auto, .cui-field-width--medium, .cui-field-width--wide { width: 100%; }
+  .cui-button.mobile-full-width { width: 100%; justify-content: center; }
+}
+
+
+.cui-form-field{display:flex;flex-direction:column;gap:var(--cui-space-1)}.cui-form-field.is-full{grid-column:1/-1}.cui-form-field.has-error .cui-field-control{border-color:var(--cui-danger)}
+.cui-form{display:flex;flex-direction:column;gap:var(--cui-space-5)}
+.cui-form-section__copy{display:flex;flex-direction:column;gap:2px}.cui-validation-summary__item{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}.cui-form-actions__spacer{flex:1}
+.cui-form-section{display:flex;flex-direction:column;gap:var(--cui-space-4)}
+.cui-form-section__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--cui-space-4);padding-bottom:var(--cui-space-3);border-bottom:1px solid var(--cui-border-subtle)}
+.cui-form-section__title{font-size:var(--cui-type-subheading-size);line-height:var(--cui-type-subheading-line);font-weight:600;color:var(--cui-text-primary)}
+.cui-form-section__description{font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);color:var(--cui-text-tertiary);max-width:66ch}
+.cui-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--cui-space-4)}
+.cui-form-grid--single{grid-template-columns:1fr}.cui-form-grid>.is-full{grid-column:1/-1}
+.cui-form-actions{display:flex;gap:var(--cui-space-2);align-items:center;padding-top:var(--cui-space-4);border-top:1px solid var(--cui-border-subtle)}
+.cui-form-actions--start{justify-content:flex-start}.cui-form-actions--center{justify-content:center}.cui-form-actions--end{justify-content:flex-end}.cui-form-actions--between{justify-content:space-between}
+.cui-form-actions.is-sticky{position:sticky;bottom:0;z-index:8;background:color-mix(in srgb,var(--cui-surface) 94%,transparent);backdrop-filter:blur(14px);padding:var(--cui-space-3) 0}
+.cui-validation-summary{display:flex;gap:var(--cui-space-3);padding:var(--cui-space-3) var(--cui-space-4);border:1px solid color-mix(in srgb,var(--cui-danger) 34%,var(--cui-border-default));border-radius:var(--cui-radius-md);background:var(--cui-danger-soft);color:var(--cui-text-primary)}
+.cui-validation-summary__icon{color:var(--cui-danger);font-weight:700}.cui-validation-summary__title{font-size:var(--cui-type-label-size);font-weight:650}.cui-validation-summary ul{margin:var(--cui-space-1) 0 0;padding-left:18px;color:var(--cui-text-secondary);font-size:var(--cui-type-caption-size)}
+.cui-dirty-indicator{display:inline-flex;align-items:center;gap:var(--cui-space-1);font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}
+.cui-dirty-indicator::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--cui-warning)}
+@media(max-width:700px){.cui-form-grid{grid-template-columns:1fr}.cui-form-actions{position:sticky;bottom:0;background:var(--cui-surface);padding:var(--cui-space-3) 0 calc(var(--cui-space-3) + env(safe-area-inset-bottom))}.cui-form-actions .cui-button{min-height:44px}}
+
+
+.cui-filter-bar{display:flex;flex-direction:column;gap:var(--cui-space-2);padding:var(--cui-space-3);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);background:var(--cui-surface)}
+.cui-filter-bar__controls{display:flex;align-items:flex-end;gap:var(--cui-space-2);flex-wrap:wrap}.cui-filter-bar__controls>.cui-field{min-width:160px;flex:1 1 170px}.cui-filter-bar__controls>.is-search{flex:2 1 260px}
+.cui-filter-bar__actions{display:flex;align-items:center;gap:var(--cui-space-1);margin-left:auto}
+.cui-filter-bar__active{display:flex;gap:var(--cui-space-1);align-items:center;flex-wrap:wrap;padding-top:var(--cui-space-2);border-top:1px solid var(--cui-border-subtle)}
+.cui-filter-chip{display:inline-flex;align-items:center;gap:var(--cui-space-1);padding:4px 8px;border:1px solid var(--cui-border-default);border-radius:999px;background:var(--cui-surface-secondary);font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}
+.cui-filter-chip__label{color:var(--cui-text-secondary);font-size:var(--cui-type-caption-size)}.cui-filter-chip__value{color:var(--cui-text-primary);font-weight:600}.cui-filter-chip strong{color:var(--cui-text-primary);font-weight:600}.cui-filter-chip button{border:0;background:transparent;color:var(--cui-text-tertiary);cursor:pointer;padding:0;line-height:1}.cui-filter-chip button:hover{color:var(--cui-text-primary)}
+.cui-filter-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--cui-accent);color:var(--cui-text-inverse);font-size:10px;font-weight:700}
+.cui-preset-strip{display:flex;align-items:center;gap:var(--cui-space-1);overflow:auto;scrollbar-width:none}.cui-preset-strip::-webkit-scrollbar{display:none}
+.cui-preset{white-space:nowrap;border:1px solid var(--cui-border-default);background:var(--cui-surface);color:var(--cui-text-secondary);border-radius:999px;padding:5px 9px;font-size:var(--cui-type-caption-size);cursor:pointer}.cui-preset:hover,.cui-preset.is-active{background:var(--cui-accent-soft);border-color:color-mix(in srgb,var(--cui-accent) 28%,var(--cui-border-default));color:var(--cui-accent)}
+@media(max-width:700px){.cui-filter-bar{padding:var(--cui-space-2)}.cui-filter-bar__controls>.cui-field{display:none}.cui-filter-bar__controls>.is-search{display:flex;min-width:0}.cui-filter-bar__actions{margin-left:0}.cui-filter-bar__mobile-trigger{display:inline-flex!important}.cui-filter-bar__active{overflow:auto;flex-wrap:nowrap}}
+@media(min-width:701px){.cui-filter-bar__mobile-trigger{display:none!important}}
+
+
+.cui-alert,.cui-banner{--_tone:var(--cui-info);--_soft:var(--cui-info-soft);display:flex;align-items:flex-start;gap:var(--cui-space-3);padding:var(--cui-space-3) var(--cui-space-4);border:1px solid color-mix(in srgb,var(--_tone) 24%,var(--cui-border-default));border-radius:var(--cui-radius-md);background:var(--_soft);color:var(--cui-text-primary)}
+.cui-alert--success,.cui-banner--success{--_tone:var(--cui-success);--_soft:var(--cui-success-soft)}.cui-alert--warning,.cui-banner--warning{--_tone:var(--cui-warning);--_soft:var(--cui-warning-soft)}.cui-alert--danger,.cui-banner--danger{--_tone:var(--cui-danger);--_soft:var(--cui-danger-soft)}.cui-alert--neutral,.cui-banner--neutral{--_tone:var(--cui-text-tertiary);--_soft:var(--cui-surface-secondary)}
+.cui-alert__copy{flex:1;min-width:0}.cui-alert__icon{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:var(--_tone);background:color-mix(in srgb,var(--_tone) 12%,transparent);font-size:11px;font-weight:750;flex:0 0 auto}.cui-alert__title{font-size:var(--cui-type-label-size);font-weight:650}.cui-alert__message{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary);margin-top:2px}.cui-alert__actions{margin-left:auto;display:flex;align-items:center;gap:var(--cui-space-1)}
+.cui-banner{border-radius:0;border-left:0;border-right:0;padding-block:var(--cui-space-2)}
+.cui-toast-stack{position:fixed;top:16px;right:16px;z-index:1600;display:flex;flex-direction:column;gap:8px;width:min(380px,calc(100vw - 32px));pointer-events:none}.cui-toast{--_tone:var(--cui-info);display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-md);background:color-mix(in srgb,var(--cui-surface) 96%,transparent);box-shadow:var(--cui-shadow-2);backdrop-filter:blur(16px);pointer-events:auto;animation:cui-toast-in var(--cui-motion-overlay) var(--cui-ease-enter)}
+.cui-toast--success{--_tone:var(--cui-success)}.cui-toast--warning{--_tone:var(--cui-warning)}.cui-toast--danger{--_tone:var(--cui-danger)}.cui-toast__dot{width:8px;height:8px;border-radius:50%;background:var(--_tone);margin-top:5px}.cui-toast__message{font-size:var(--cui-type-label-size);color:var(--cui-text-primary);flex:1}.cui-toast__action{font-size:var(--cui-type-caption-size);font-weight:650;color:var(--cui-accent)}
+@keyframes cui-toast-in{from{opacity:0;transform:translateY(-6px) scale(.985)}to{opacity:1;transform:none}}
+.cui-progress{height:5px;border-radius:999px;background:var(--cui-surface-secondary);overflow:hidden}.cui-progress__bar{height:100%;border-radius:inherit;background:var(--cui-accent);transition:width var(--cui-motion-standard) var(--cui-ease-standard)}.cui-progress.is-indeterminate .cui-progress__bar{width:38%;animation:cui-progress-run 1.15s ease-in-out infinite}@keyframes cui-progress-run{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+.cui-spinner{width:18px;height:18px;border:2px solid color-mix(in srgb,var(--cui-text-secondary) 25%,transparent);border-top-color:var(--cui-accent);border-radius:50%;animation:cui-spin .72s linear infinite}
+.cui-skeleton{display:flex;flex-direction:column;gap:var(--cui-space-2)}.cui-skeleton__row{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--cui-surface-secondary) 25%,var(--cui-surface-hover) 40%,var(--cui-surface-secondary) 60%);background-size:260% 100%;animation:cui-shimmer 1.25s ease infinite}.cui-skeleton__row:nth-child(2){width:82%}.cui-skeleton__row:nth-child(3){width:64%}@keyframes cui-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.cui-state-view{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--cui-space-6);border:1px dashed var(--cui-border-default);border-radius:var(--cui-radius-lg);background:var(--cui-surface-secondary)}.cui-state-view--compact{min-height:140px;padding:var(--cui-space-4)}.cui-state-view__mark{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--cui-surface);border:1px solid var(--cui-border-default);box-shadow:var(--cui-shadow-1);color:var(--cui-text-secondary);font-size:20px;margin-bottom:var(--cui-space-3)}.cui-state-view__title{font-size:var(--cui-type-subheading-size);font-weight:650}.cui-state-view__message{max-width:56ch;margin-top:4px;font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}.cui-state-view__error-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;color:var(--cui-text-tertiary);margin-top:var(--cui-space-2)}.cui-state-view__actions{display:flex;gap:var(--cui-space-2);margin-top:var(--cui-space-4)}
+@media(prefers-reduced-motion:reduce){.cui-toast,.cui-progress__bar,.cui-skeleton__row{animation:none!important}}
+
+
+.cui-overlay-backdrop{position:fixed;inset:0;z-index:1100;background:var(--cui-overlay-scrim);backdrop-filter:blur(2px);animation:cui-fade-in var(--cui-motion-overlay) var(--cui-ease-enter)}
+.cui-drawer{position:fixed;top:0;bottom:0;z-index:1200;display:flex;flex-direction:column;background:var(--cui-surface);box-shadow:var(--cui-shadow-2);border-color:var(--cui-border-default);border-style:solid;animation:cui-drawer-in var(--cui-motion-overlay) var(--cui-ease-enter)}
+.cui-drawer--right{right:0;border-width:0 0 0 1px}.cui-drawer--left{left:0;border-width:0 1px 0 0}.cui-drawer--small{width:min(360px,94vw)}.cui-drawer--medium{width:min(480px,94vw)}.cui-drawer--large{width:min(680px,96vw)}.cui-drawer--x-large{width:min(880px,98vw)}.cui-drawer--full{width:100vw}.cui-drawer__header{display:flex;align-items:flex-start;gap:var(--cui-space-3);padding:var(--cui-space-4);border-bottom:1px solid var(--cui-border-subtle)}.cui-drawer__title{font-size:var(--cui-type-heading-size);font-weight:650}.cui-drawer__subtitle{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary);margin-top:2px}.cui-drawer__actions{margin-left:auto;display:flex;gap:var(--cui-space-1)}.cui-drawer__body{flex:1;min-height:0;overflow:auto;padding:var(--cui-space-4)}.cui-drawer__footer{padding:var(--cui-space-3) var(--cui-space-4);border-top:1px solid var(--cui-border-subtle);background:var(--cui-surface)}
+@keyframes cui-drawer-in{from{opacity:.65;transform:translateX(16px)}to{opacity:1;transform:none}}.cui-drawer--left{animation-name:cui-drawer-in-left}@keyframes cui-drawer-in-left{from{opacity:.65;transform:translateX(-16px)}to{opacity:1;transform:none}}@keyframes cui-fade-in{from{opacity:0}to{opacity:1}}
+.cui-dialog{width:min(480px,calc(100vw - 32px));max-height:min(780px,calc(100vh - 32px));overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-lg);background:var(--cui-surface);box-shadow:var(--cui-shadow-2);animation:cui-dialog-in var(--cui-motion-overlay) var(--cui-ease-enter)}.cui-dialog--medium{width:min(620px,calc(100vw - 32px))}.cui-dialog--large{width:min(820px,calc(100vw - 32px))}.cui-dialog--x-large{width:min(1080px,calc(100vw - 32px))}.cui-dialog--full{width:calc(100vw - 24px);height:calc(100vh - 24px);max-height:none}.cui-dialog__head{padding:var(--cui-space-4) var(--cui-space-4) var(--cui-space-3)}.cui-dialog__title{font-size:var(--cui-type-heading-size);font-weight:650}.cui-dialog__description{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary);margin-top:4px}.cui-dialog__body{padding:0 var(--cui-space-4) var(--cui-space-4);overflow:auto}.cui-dialog__footer{display:flex;justify-content:flex-end;gap:var(--cui-space-2);padding:var(--cui-space-3) var(--cui-space-4);border-top:1px solid var(--cui-border-subtle);background:var(--cui-surface-secondary)}.cui-dialog--danger .cui-dialog__title{color:var(--cui-danger)}@keyframes cui-dialog-in{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.cui-popover,.cui-menu{min-width:190px;max-width:360px;padding:6px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-md);background:color-mix(in srgb,var(--cui-surface) 97%,transparent);box-shadow:var(--cui-shadow-2);backdrop-filter:blur(16px)}.cui-menu-item{display:flex;align-items:center;gap:var(--cui-space-2);width:100%;min-height:32px;padding:6px 8px;border:0;border-radius:7px;background:transparent;color:var(--cui-text-primary);text-align:left;font-size:var(--cui-type-label-size);cursor:pointer}.cui-menu-item:hover,.cui-menu-item:focus-visible{background:var(--cui-surface-hover);outline:none}.cui-menu-item.is-danger{color:var(--cui-danger)}.cui-menu-item:disabled{opacity:.45;cursor:not-allowed}.cui-menu-item__shortcut{margin-left:auto;color:var(--cui-text-tertiary);font-size:10px}.cui-menu-separator{height:1px;background:var(--cui-border-subtle);margin:5px 4px}
+.cui-tooltip{max-width:320px;padding:6px 8px;border-radius:7px;background:var(--cui-text-primary);color:var(--cui-surface);font-size:11px;line-height:1.35;box-shadow:var(--cui-shadow-1)}
+@media(max-width:700px){.cui-drawer{width:100vw!important}.cui-drawer__header{padding-top:calc(var(--cui-space-4) + env(safe-area-inset-top))}.cui-dialog:not(.cui-dialog--small){width:100vw;height:100vh;max-height:none;border-radius:0;border:0}.cui-dialog__head{padding-top:calc(var(--cui-space-4) + env(safe-area-inset-top))}}
+@media(prefers-reduced-motion:reduce){.cui-overlay-backdrop,.cui-drawer,.cui-dialog{animation:none!important}}
+\n
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0}button,input,select,textarea{font:inherit}
+body{background:var(--cui-page)}
+.review-bar{position:sticky;top:0;z-index:2000;height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;border-bottom:1px solid var(--cui-border-subtle);background:color-mix(in srgb,var(--cui-surface) 92%,transparent);backdrop-filter:blur(16px)}
+.review-title{font-size:12px;font-weight:650}.review-note{font-size:10px;color:var(--cui-text-tertiary)}.review-controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.segment{display:inline-flex;padding:2px;border:1px solid var(--cui-border-default);background:var(--cui-surface-secondary);border-radius:var(--cui-radius-sm)}.segment button{border:0;background:transparent;color:var(--cui-text-secondary);border-radius:6px;padding:5px 8px;font-size:10px;cursor:pointer}.segment button.active{background:var(--cui-surface);color:var(--cui-text-primary);box-shadow:var(--cui-shadow-1)}
+.stage{padding:18px;display:flex;justify-content:center}.app-frame{width:min(1440px,100%);min-height:850px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-lg);overflow:hidden;background:var(--cui-page);box-shadow:var(--cui-shadow-2);transition:width var(--cui-motion-emphasis) var(--cui-ease-standard)}.app-frame[data-viewport=tablet]{width:820px}.app-frame[data-viewport=phone]{width:390px;min-height:820px}
+.app{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:850px}.side{background:var(--cui-surface);border-right:1px solid var(--cui-border-subtle);padding:12px}.brand{display:flex;align-items:center;gap:9px;padding:8px 8px 18px}.mark{width:33px;height:33px;border-radius:10px;display:grid;place-items:center;background:var(--cui-accent);color:var(--cui-text-inverse);font-size:11px;font-weight:750}.brand b{font-size:12px}.brand span{display:block;font-size:10px;color:var(--cui-text-tertiary)}.nav-label{padding:12px 9px 5px;font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--cui-text-tertiary)}.nav-item{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:8px;color:var(--cui-text-secondary);font-size:11px;margin:2px 0}.nav-item.active{background:var(--cui-accent-soft);color:var(--cui-accent);font-weight:650}.nav-glyph{width:17px;text-align:center;color:currentColor}
+.main{min-width:0}.top{height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:color-mix(in srgb,var(--cui-surface) 92%,transparent);border-bottom:1px solid var(--cui-border-subtle);backdrop-filter:blur(14px)}.top-left{font-size:11px;color:var(--cui-text-secondary)}.top-actions{display:flex;gap:7px;align-items:center}.content{padding:20px;display:flex;flex-direction:column;gap:16px}.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}.page-title{font-size:var(--cui-type-page_title-size);line-height:var(--cui-type-page_title-line);font-weight:var(--cui-type-page_title-weight);letter-spacing:var(--cui-type-page_title-tracking)}.page-sub{font-size:12px;color:var(--cui-text-secondary);max-width:720px;margin-top:3px}.page-actions{display:flex;gap:7px}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.metric{padding:13px}.metric .k{font-size:10px;color:var(--cui-text-tertiary)}.metric .v{font-size:22px;font-weight:680;line-height:28px;font-variant-numeric:tabular-nums}.metric .f{font-size:10px;color:var(--cui-text-secondary);margin-top:4px}
+.work-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:12px}.panel-pad{padding:14px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.section-title{font-size:13px;font-weight:650}.section-note{font-size:10px;color:var(--cui-text-tertiary)}
+.record-list{display:flex;flex-direction:column}.record{display:grid;grid-template-columns:1.2fr .85fr .65fr auto;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--cui-border-subtle);cursor:pointer}.record:last-child{border-bottom:0}.record:hover{background:var(--cui-surface-hover)}.record b{font-size:11px}.record span{font-size:10px;color:var(--cui-text-secondary)}.record .mono{font-variant-numeric:tabular-nums}.mini-badge{display:inline-flex;padding:3px 7px;border-radius:999px;background:var(--cui-warning-soft);color:var(--cui-warning);font-size:9px;font-weight:650}.mini-badge.critical{background:var(--cui-danger-soft);color:var(--cui-danger)}.mini-badge.good{background:var(--cui-success-soft);color:var(--cui-success)}
+.timeline{display:flex;flex-direction:column;gap:0}.event{display:grid;grid-template-columns:18px 1fr;gap:9px}.event-line{display:flex;flex-direction:column;align-items:center}.event-dot{width:8px;height:8px;border-radius:50%;background:var(--cui-accent);margin-top:5px}.event-stem{width:1px;flex:1;background:var(--cui-border-default);min-height:32px}.event:last-child .event-stem{display:none}.event-copy{padding-bottom:12px}.event-copy b{font-size:10.5px}.event-copy div{font-size:10px;color:var(--cui-text-secondary);margin-top:1px}
+.field-demo{display:flex;flex-direction:column;gap:5px}.field-demo label{font-size:11px;font-weight:550}.field-demo input,.field-demo select,.field-demo textarea{width:100%;border:0;outline:0;background:transparent;color:var(--cui-text-primary)}.field-demo textarea{resize:vertical}.form-demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}.helper{font-size:10px;color:var(--cui-text-tertiary)}.error-copy{font-size:10px;color:var(--cui-danger)}
+.state-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.state-gallery .cui-state-view{min-height:180px;padding:18px}.state-gallery .cui-state-view__mark{width:38px;height:38px;font-size:15px}.state-gallery .cui-state-view__title{font-size:13px}
+.overlay-demo{position:fixed;inset:0;z-index:2500;display:none;align-items:center;justify-content:center}.overlay-demo.open{display:flex}.overlay-demo .cui-overlay-backdrop{position:absolute}.overlay-demo>.cui-dialog{position:relative;z-index:1}.drawer-demo{position:fixed;inset:0;z-index:2450;display:none}.drawer-demo.open{display:block}.drawer-demo .cui-overlay-backdrop{position:absolute}.drawer-demo .cui-drawer{z-index:1}.drawer-form{display:flex;flex-direction:column;gap:14px}.drawer-actions{display:flex;justify-content:flex-end;gap:8px}
+.pop-wrap{position:relative}.demo-menu{position:absolute;right:0;top:38px;z-index:30;display:none}.demo-menu.open{display:block}.toast-live{position:fixed;top:70px;right:18px;z-index:2700;display:none}.toast-live.open{display:flex}
+.async-panel{display:flex;flex-direction:column;gap:12px}.loading-card{padding:14px;border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);background:var(--cui-surface-secondary)}
+.review-section{width:min(1440px,calc(100% - 36px));margin:0 auto 18px;background:var(--cui-surface);border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-lg);padding:18px}.review-section h2{font-size:18px;margin:0 0 4px}.review-section>p{font-size:11px;color:var(--cui-text-secondary);margin:0 0 14px}.law-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.law{padding:12px;border:1px solid var(--cui-border-subtle);border-radius:10px;background:var(--cui-surface-secondary)}.law b{font-size:11px}.law p{font-size:10px;color:var(--cui-text-secondary);margin:4px 0 0}
+.app-frame[data-viewport=tablet] .app{grid-template-columns:66px minmax(0,1fr)}.app-frame[data-viewport=tablet] .brand-copy,.app-frame[data-viewport=tablet] .nav-item span,.app-frame[data-viewport=tablet] .nav-label{display:none}.app-frame[data-viewport=tablet] .brand{justify-content:center}.app-frame[data-viewport=tablet] .nav-item{justify-content:center}.app-frame[data-viewport=tablet] .summary{grid-template-columns:repeat(2,1fr)}.app-frame[data-viewport=tablet] .work-grid{grid-template-columns:1fr}
+.app-frame[data-viewport=phone] .app{display:block;min-height:820px}.app-frame[data-viewport=phone] .side{display:none}.app-frame[data-viewport=phone] .top{padding:0 12px}.app-frame[data-viewport=phone] .top-left{font-size:10px}.app-frame[data-viewport=phone] .content{padding:12px;gap:12px}.app-frame[data-viewport=phone] .page-head{display:block}.app-frame[data-viewport=phone] .page-actions{margin-top:10px}.app-frame[data-viewport=phone] .summary{grid-template-columns:repeat(2,1fr)}.app-frame[data-viewport=phone] .work-grid{grid-template-columns:1fr}.app-frame[data-viewport=phone] .record{grid-template-columns:1fr auto}.app-frame[data-viewport=phone] .record .hide-phone{display:none}.app-frame[data-viewport=phone] .cui-filter-bar__controls>.cui-field{display:none}.app-frame[data-viewport=phone] .cui-filter-bar__controls>.is-search{display:flex}.app-frame[data-viewport=phone] .cui-filter-bar__mobile-trigger{display:inline-flex!important}.app-frame[data-viewport=phone] .form-demo-grid{grid-template-columns:1fr}.app-frame[data-viewport=phone] .full{grid-column:auto}
+@media(max-width:760px){.review-note{display:none}.stage{padding:8px}.app-frame{border-radius:10px}.law-grid,.state-gallery{grid-template-columns:1fr 1fr}.review-section{width:calc(100% - 16px);padding:13px}.review-bar{padding:0 8px}.review-title{display:none}}
+</style></head><body>
+<header class="review-bar"><div><div class="review-title">NiceGUI Base · Phase 4 Interaction System</div><div class="review-note">Forms · filters · drawers · dialogs · feedback · async states</div></div><div class="review-controls">
+<div class="segment"><button data-vp="desktop" class="active">Desktop</button><button data-vp="tablet">Tablet</button><button data-vp="phone">Phone</button></div>
+<div class="segment"><button data-density="comfortable">Comfort</button><button data-density="compact" class="active">Compact</button><button data-density="dense">Dense</button></div>
+<div class="segment"><button data-theme="light" class="active">Light</button><button data-theme="dark">Dark</button><button data-theme="system">System</button></div>
+</div></header>
+
+<div class="stage"><div class="app-frame" id="appFrame" data-viewport="desktop"><div class="app">
+<aside class="side"><div class="brand"><div class="mark">EI</div><div class="brand-copy"><b>Equipment Intelligence</b><span>Manufacturing Analytics</span></div></div><div class="nav-label">Workspace</div><div class="nav-item active"><i class="nav-glyph">⌂</i><span>Overview</span></div><div class="nav-item"><i class="nav-glyph">⌕</i><span>Explore</span></div><div class="nav-item"><i class="nav-glyph">⚑</i><span>Excursions</span></div><div class="nav-item"><i class="nav-glyph">↻</i><span>Monitoring</span></div><div class="nav-label">Manage</div><div class="nav-item"><i class="nav-glyph">⚙</i><span>Settings</span></div></aside>
+<main class="main"><div class="top"><div class="top-left">Overview / Equipment Health</div><div class="top-actions"><span class="cui-badge cui-badge--success cui-badge--subtle">● Live</span><button class="cui-icon-button cui-icon-button--ghost cui-control--medium" title="Notifications">○</button><div class="pop-wrap"><button class="cui-icon-button cui-icon-button--ghost cui-control--medium" id="moreBtn" title="More actions">•••</button><div class="cui-menu demo-menu" id="actionMenu"><button class="cui-menu-item">Export view <span class="cui-menu-item__shortcut">⌘E</span></button><button class="cui-menu-item">Copy link</button><div class="cui-menu-separator"></div><button class="cui-menu-item is-danger" onclick="openModal('dangerModal')">Delete saved view</button></div></div></div></div>
+<div class="content">
+<div class="page-head"><div><div class="page-title">Equipment Health</div><div class="page-sub">Investigate current excursions while preserving context. Phase 4 demonstrates the approved interaction vocabulary before the dedicated DataTable and chart phases.</div></div><div class="page-actions"><button class="cui-button cui-button--secondary cui-control--medium" onclick="showToast('View exported successfully')">Export</button><button class="cui-button cui-button--primary cui-control--medium" onclick="openDrawer('editDrawer')">Create investigation</button></div></div>
+
+<div class="cui-banner cui-banner--warning"><div class="cui-alert__icon">!</div><div><div class="cui-alert__title">Data freshness degraded</div><div class="cui-alert__message">Metrology feed is 8 minutes behind. Existing results remain available while refresh retries.</div></div><div class="cui-alert__actions"><button class="cui-button cui-button--ghost cui-control--small" onclick="simulateRefresh()">Retry</button></div></div>
+
+<section class="cui-filter-bar"><div class="cui-preset-strip"><button class="cui-preset is-active">My tools</button><button class="cui-preset">Critical only</button><button class="cui-preset">Last 24 hours</button><button class="cui-preset">Post-PM</button></div><div class="cui-filter-bar__controls">
+<div class="cui-field is-search"><div class="cui-field-label">Search</div><div class="cui-field-control cui-control--medium cui-field-width--full">⌕&nbsp;<input aria-label="Search" placeholder="Tool, lot, chamber, recipe" style="border:0;outline:0;background:transparent;color:inherit;width:100%"></div></div>
+<div class="cui-field"><div class="cui-field-label">Area</div><div class="cui-field-control cui-control--medium"><select aria-label="Area" style="border:0;background:transparent;color:inherit;width:100%"><option>ETCH</option></select></div></div>
+<div class="cui-field"><div class="cui-field-label">Status</div><div class="cui-field-control cui-control--medium"><select aria-label="Status" style="border:0;background:transparent;color:inherit;width:100%"><option>Critical + Watch</option></select></div></div>
+<div class="cui-filter-bar__actions"><button class="cui-button cui-button--secondary cui-control--medium cui-filter-bar__mobile-trigger" onclick="openDrawer('filterDrawer')">Filters <span class="cui-filter-count">3</span></button><button class="cui-button cui-button--secondary cui-control--medium" onclick="openDrawer('filterDrawer')">Advanced</button><button class="cui-button cui-button--ghost cui-control--medium">Clear</button></div></div>
+<div class="cui-filter-bar__active"><span class="cui-filter-chip"><strong>Area:</strong> ETCH <button>×</button></span><span class="cui-filter-chip"><strong>Status:</strong> Critical + Watch <button>×</button></span><span class="cui-filter-chip"><strong>Period:</strong> 24h <button>×</button></span></div></section>
+
+<div class="summary"><div class="cui-surface cui-surface--panel metric"><div class="k">Critical tools</div><div class="v">7</div><div class="f">2 new since last refresh</div></div><div class="cui-surface cui-surface--panel metric"><div class="k">Affected lots</div><div class="v">184</div><div class="f">Across 11 products</div></div><div class="cui-surface cui-surface--panel metric"><div class="k">Open investigations</div><div class="v">12</div><div class="f">4 assigned to you</div></div><div class="cui-surface cui-surface--panel metric"><div class="k">Feed status</div><div class="v">92%</div><div class="f">Partial · metrology delayed</div></div></div>
+
+<div class="work-grid"><section class="cui-surface cui-surface--panel panel-pad"><div class="section-head"><div><div class="section-title">Priority equipment</div><div class="section-note">Click a record to open the standardized detail drawer</div></div><button class="cui-button cui-button--ghost cui-control--small">View all</button></div><div class="record-list"><div class="record" onclick="openDrawer('detailDrawer')"><div><b>ETCH-021 · Chamber B</b><br><span>Poly etch · RCP-913</span></div><span class="hide-phone">14 affected lots</span><span class="mono hide-phone">+3.8σ</span><span class="mini-badge critical">Critical</span></div><div class="record" onclick="openDrawer('detailDrawer')"><div><b>ETCH-044 · Chamber A</b><br><span>Oxide etch · RCP-201</span></div><span class="hide-phone">8 affected lots</span><span class="mono hide-phone">+2.7σ</span><span class="mini-badge">Watch</span></div><div class="record"><div><b>CVD-108 · Chamber C</b><br><span>Deposition · RCP-330</span></div><span class="hide-phone">3 affected lots</span><span class="mono hide-phone">stable</span><span class="mini-badge good">Normal</span></div></div></section>
+<section class="cui-surface cui-surface--panel panel-pad"><div class="section-head"><div><div class="section-title">Recent activity</div><div class="section-note">Secondary context stays lightweight</div></div></div><div class="timeline"><div class="event"><div class="event-line"><span class="event-dot"></span><span class="event-stem"></span></div><div class="event-copy"><b>Investigation assigned</b><div>ETCH-021 · 6 min ago</div></div></div><div class="event"><div class="event-line"><span class="event-dot"></span><span class="event-stem"></span></div><div class="event-copy"><b>Filter view saved</b><div>Critical post-PM tools · 18 min ago</div></div></div><div class="event"><div class="event-line"><span class="event-dot"></span></div><div class="event-copy"><b>Metrology feed delayed</b><div>Partial data state · 24 min ago</div></div></div></div></section></div>
+
+<section class="cui-surface cui-surface--panel panel-pad async-panel"><div class="section-head"><div><div class="section-title">Async content behavior</div><div class="section-note">Existing content remains visible while a refresh is in flight</div></div><button class="cui-button cui-button--secondary cui-control--small" onclick="simulateRefresh()">Refresh</button></div><div class="loading-card" id="asyncContent"><div style="font-size:11px;font-weight:650">Latest equipment snapshot</div><div style="font-size:10px;color:var(--cui-text-secondary);margin-top:3px">Loaded 08:06 · 4,218 equipment records · partial metrology coverage</div></div><div id="asyncProgress" style="display:none"><div class="cui-progress is-indeterminate"><div class="cui-progress__bar"></div></div><div style="font-size:10px;color:var(--cui-text-secondary);margin-top:6px">Refreshing without blanking the existing content…</div></div></section>
+</div></main></div></div></div>
+
+<section class="review-section"><h2>Interaction-state gallery</h2><p>These states are first-class components so applications never invent one-off empty/error/permission messaging.</p><div class="state-gallery">
+<div class="cui-state-view"><div class="cui-state-view__mark">—</div><div class="cui-state-view__title">No data yet</div><div class="cui-state-view__message">Connect a source or adjust the analysis period.</div><div class="cui-state-view__actions"><button class="cui-button cui-button--primary cui-control--small">Configure</button></div></div>
+<div class="cui-state-view cui-state-view--no-results"><div class="cui-state-view__mark">⌕</div><div class="cui-state-view__title">No matching results</div><div class="cui-state-view__message">The current filters exclude all records.</div><div class="cui-state-view__actions"><button class="cui-button cui-button--secondary cui-control--small">Clear filters</button></div></div>
+<div class="cui-state-view cui-state-view--error"><div class="cui-state-view__mark">!</div><div class="cui-state-view__title">Unable to load data</div><div class="cui-state-view__message">The previous snapshot is preserved when possible.</div><div class="cui-state-view__error-id">Error ID: EPHI-7F42A9</div><div class="cui-state-view__actions"><button class="cui-button cui-button--secondary cui-control--small">Retry</button></div></div>
+<div class="cui-state-view cui-state-view--permission"><div class="cui-state-view__mark">×</div><div class="cui-state-view__title">Access restricted</div><div class="cui-state-view__message">Your current role does not include this operation.</div></div>
+<div class="cui-state-view cui-state-view--not-found"><div class="cui-state-view__mark">?</div><div class="cui-state-view__title">Page not found</div><div class="cui-state-view__message">The link may be outdated or the resource was removed.</div><div class="cui-state-view__actions"><button class="cui-button cui-button--secondary cui-control--small">Go back</button></div></div>
+<div class="cui-state-view cui-state-view--offline"><div class="cui-state-view__mark">↯</div><div class="cui-state-view__title">Connection unavailable</div><div class="cui-state-view__message">Your existing workspace remains visible where possible.</div><div class="cui-state-view__actions"><button class="cui-button cui-button--secondary cui-control--small">Retry</button></div></div>
+</div></section>
+
+<section class="review-section"><h2>Phase 4 UX laws</h2><p>The framework chooses interaction surfaces by purpose rather than appearance.</p><div class="law-grid"><div class="law"><b>Drawer = contextual work</b><p>Inspect or edit while preserving the underlying analytical context.</p></div><div class="law"><b>Dialog = focused decision</b><p>Use for confirmations and short, blocking tasks—not entire applications.</p></div><div class="law"><b>Popover/menu = lightweight action</b><p>Small contextual choices; always dismissible and keyboard reachable.</p></div><div class="law"><b>Feedback stays contextual</b><p>Skeleton for content loading, spinner for short action, progress when measurable, state view for durable conditions.</p></div></div></section>
+
+<div class="drawer-demo" id="detailDrawer"><div class="cui-overlay-backdrop" onclick="closeDrawer('detailDrawer')"></div><aside class="cui-drawer cui-drawer--right cui-drawer--medium"><header class="cui-drawer__header"><div><div class="cui-drawer__title">ETCH-021 · Chamber B</div><div class="cui-drawer__subtitle">Contextual equipment detail</div></div><div class="cui-drawer__actions"><button class="cui-icon-button cui-icon-button--ghost cui-control--medium" onclick="closeDrawer('detailDrawer')">×</button></div></header><div class="cui-drawer__body"><div class="cui-alert cui-alert--danger"><div class="cui-alert__icon">!</div><div><div class="cui-alert__title">Critical excursion</div><div class="cui-alert__message">CD measurement drift exceeds the configured investigation threshold.</div></div></div><div style="height:14px"></div><div class="form-demo-grid"><div><div class="helper">Area</div><b style="font-size:12px">ETCH</b></div><div><div class="helper">Recipe</div><b style="font-size:12px">RCP-913</b></div><div><div class="helper">Affected lots</div><b style="font-size:12px">14</b></div><div><div class="helper">Magnitude</div><b style="font-size:12px">+3.8σ</b></div></div><div style="height:16px"></div><div class="section-title">Recent signals</div><div class="timeline" style="margin-top:10px"><div class="event"><div class="event-line"><span class="event-dot"></span><span class="event-stem"></span></div><div class="event-copy"><b>Metrology OOS</b><div>08:02 · CD +4.1%</div></div></div><div class="event"><div class="event-line"><span class="event-dot"></span></div><div class="event-copy"><b>SPC warning</b><div>07:48 · within control, upward trend</div></div></div></div></div><footer class="cui-drawer__footer"><div class="drawer-actions"><button class="cui-button cui-button--secondary cui-control--medium" onclick="closeDrawer('detailDrawer');openDrawer('editDrawer')">Edit investigation</button><button class="cui-button cui-button--primary cui-control--medium">Open full analysis</button></div></footer></aside></div>
+
+<div class="drawer-demo" id="filterDrawer"><div class="cui-overlay-backdrop" onclick="closeDrawer('filterDrawer')"></div><aside class="cui-drawer cui-drawer--right cui-drawer--medium"><header class="cui-drawer__header"><div><div class="cui-drawer__title">Advanced filters</div><div class="cui-drawer__subtitle">Complex filters leave the primary page uncluttered</div></div><div class="cui-drawer__actions"><button class="cui-icon-button cui-icon-button--ghost cui-control--medium" onclick="closeDrawer('filterDrawer')">×</button></div></header><div class="cui-drawer__body"><div class="drawer-form"><div class="field-demo"><label>Chambers</label><div class="cui-field-control cui-control--medium"><input value="A, B, C"></div><div class="helper">Multiple values supported</div></div><div class="field-demo"><label>Recipe</label><div class="cui-field-control cui-control--medium"><input placeholder="Search recipes"></div></div><div class="field-demo"><label>Excursion magnitude</label><div class="cui-field-control cui-control--medium"><input value="2.0σ – 6.0σ"></div></div><div class="field-demo"><label>Data quality</label><div class="cui-field-control cui-control--medium"><select><option>Complete + Partial</option></select></div></div></div></div><footer class="cui-drawer__footer"><div class="drawer-actions"><button class="cui-button cui-button--secondary cui-control--medium">Reset</button><button class="cui-button cui-button--primary cui-control--medium" onclick="closeDrawer('filterDrawer');showToast('3 filters applied')">Apply filters</button></div></footer></aside></div>
+
+<div class="drawer-demo" id="editDrawer"><div class="cui-overlay-backdrop" onclick="closeDrawer('editDrawer')"></div><aside class="cui-drawer cui-drawer--right cui-drawer--large"><header class="cui-drawer__header"><div><div class="cui-drawer__title">Create investigation</div><div class="cui-drawer__subtitle">Form drawer preserves the current equipment context</div></div><div class="cui-drawer__actions"><span class="cui-dirty-indicator">Unsaved</span><button class="cui-icon-button cui-icon-button--ghost cui-control--medium" onclick="openModal('dirtyModal')">×</button></div></header><div class="cui-drawer__body"><form class="cui-form" onsubmit="return validateForm(event)"><section class="cui-form-section"><div class="cui-form-section__head"><div><div class="cui-form-section__title">Investigation details</div><div class="cui-form-section__description">Required fields use the same validation anatomy as every other form.</div></div></div><div class="cui-validation-summary" id="validationSummary" style="display:none"><div class="cui-validation-summary__icon">!</div><div><div class="cui-validation-summary__title">Please review the highlighted fields</div><ul><li>Title is required.</li></ul></div></div><div class="form-demo-grid"><div class="field-demo full"><label>Title <span style="color:var(--cui-danger)">*</span></label><div class="cui-field-control cui-control--medium" id="titleControl"><input id="investigationTitle" placeholder="e.g. ETCH-021 CD excursion"></div><div class="error-copy" id="titleError" style="display:none">Required</div></div><div class="field-demo"><label>Owner</label><div class="cui-field-control cui-control--medium"><select><option>Process Engineering</option></select></div></div><div class="field-demo"><label>Priority</label><div class="cui-field-control cui-control--medium"><select><option>High</option></select></div></div><div class="field-demo full"><label>Notes</label><div class="cui-field-control" style="min-height:90px"><textarea rows="4" placeholder="Investigation context"></textarea></div></div></div></section></form></div><footer class="cui-drawer__footer"><div class="cui-form-actions cui-form-actions--end" style="border:0;padding:0"><button class="cui-button cui-button--secondary cui-control--medium" onclick="openModal('dirtyModal')">Cancel</button><button class="cui-button cui-button--primary cui-control--medium" onclick="validateForm(event)">Create investigation</button></div></footer></aside></div>
+
+<div class="overlay-demo" id="dangerModal"><div class="cui-overlay-backdrop" onclick="closeModal('dangerModal')"></div><section class="cui-dialog cui-dialog--small cui-dialog--danger"><div class="cui-dialog__head"><div class="cui-dialog__title">Delete saved view?</div><div class="cui-dialog__description">This removes “Critical post-PM tools” from your saved views. The underlying data is not affected.</div></div><div class="cui-dialog__body"><div class="cui-alert cui-alert--warning"><div class="cui-alert__icon">!</div><div><div class="cui-alert__title">This action cannot be undone</div><div class="cui-alert__message">Use destructive confirmation only where reversal is unavailable.</div></div></div></div><footer class="cui-dialog__footer"><button class="cui-button cui-button--secondary cui-control--medium" onclick="closeModal('dangerModal')">Cancel</button><button class="cui-button cui-button--danger cui-control--medium" onclick="closeModal('dangerModal');showToast('Saved view deleted','danger')">Delete view</button></footer></section></div>
+<div class="overlay-demo" id="dirtyModal"><div class="cui-overlay-backdrop" onclick="closeModal('dirtyModal')"></div><section class="cui-dialog cui-dialog--small"><div class="cui-dialog__head"><div class="cui-dialog__title">Discard unsaved changes?</div><div class="cui-dialog__description">Your current investigation draft has not been saved.</div></div><footer class="cui-dialog__footer"><button class="cui-button cui-button--secondary cui-control--medium" onclick="closeModal('dirtyModal')">Keep editing</button><button class="cui-button cui-button--danger cui-control--medium" onclick="closeModal('dirtyModal');closeDrawer('editDrawer')">Discard changes</button></footer></section></div>
+<div class="cui-toast toast-live" id="liveToast"><div class="cui-toast__dot"></div><div class="cui-toast__message" id="toastText">Saved</div><button class="cui-toast__action" onclick="hideToast()" style="border:0;background:transparent;cursor:pointer">Dismiss</button></div>
+
+<script>
+const root=document.documentElement, frame=document.getElementById('appFrame');
+document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-theme]').forEach(x=>x.classList.remove('active'));b.classList.add('active');root.dataset.theme=b.dataset.theme}))
+document.querySelectorAll('[data-density]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-density]').forEach(x=>x.classList.remove('active'));b.classList.add('active');root.dataset.density=b.dataset.density}))
+document.querySelectorAll('[data-vp]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-vp]').forEach(x=>x.classList.remove('active'));b.classList.add('active');frame.dataset.viewport=b.dataset.vp}))
+document.getElementById('moreBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('actionMenu').classList.toggle('open')});document.addEventListener('click',()=>document.getElementById('actionMenu').classList.remove('open'));
+function openDrawer(id){document.getElementById(id).classList.add('open')}function closeDrawer(id){document.getElementById(id).classList.remove('open')}function openModal(id){document.getElementById(id).classList.add('open')}function closeModal(id){document.getElementById(id).classList.remove('open')}
+let toastTimer;function showToast(text,intent='success'){const t=document.getElementById('liveToast');document.getElementById('toastText').textContent=text;t.className='cui-toast toast-live open cui-toast--'+intent;clearTimeout(toastTimer);toastTimer=setTimeout(hideToast,3200)}function hideToast(){document.getElementById('liveToast').classList.remove('open')}
+function validateForm(e){if(e)e.preventDefault();const input=document.getElementById('investigationTitle'),bad=!input.value.trim();document.getElementById('validationSummary').style.display=bad?'flex':'none';document.getElementById('titleError').style.display=bad?'block':'none';document.getElementById('titleControl').classList.toggle('cui-field-control--error',bad);if(!bad){closeDrawer('editDrawer');showToast('Investigation created')}return false}
+function simulateRefresh(){const p=document.getElementById('asyncProgress');p.style.display='block';setTimeout(()=>{p.style.display='none';showToast('Equipment snapshot refreshed')},1500)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.drawer-demo.open,.overlay-demo.open').forEach(x=>x.classList.remove('open'));document.getElementById('actionMenu').classList.remove('open')}})
+</script></body></html>

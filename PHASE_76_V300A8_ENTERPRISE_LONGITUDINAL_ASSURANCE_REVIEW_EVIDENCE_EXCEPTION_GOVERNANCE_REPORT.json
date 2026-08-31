@@ -1,0 +1,57 @@
+{
+  "baseline": "Wave 75 authoritative source",
+  "certification_boundary": "No authoritative real company reviewer authority, exception/waiver approval, longitudinal review, target-runtime, browser, human, deployment, publication, monitoring, incident-response, or rollback-execution artifacts were supplied. Wave 76 verifies review/exception-governance machinery with behavioral fixtures only. REVIEWED/GOVERNED/PENDING/BLOCKED are documentary review states and never mean the generic framework monitored production, handled an incident, executed rollback, deployed, published, approved a company release, or converted missing evidence into PASS. Unavailable target/company/reviewer gates remain PENDING.",
+  "continuation": "Wave 77 proposed \u2014 Final Release-Candidate Consolidation, Authority Audit & Stable Qualification Handoff. Consolidate Waves 59\u201376, remove residual release-process drift/duplication, audit all authority boundaries and packaging paths, and prepare the smallest truthful stable-qualification handoff without inventing company target evidence.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T15:40:01Z",
+  "implementation": {
+    "accepted_exception_creates_synthetic_pass": false,
+    "artifact_backed_external_reviewer_authority": true,
+    "blocked_contradictory_evidence_waivable_by_default": false,
+    "bounded_evidence_exception_policy_count": 1,
+    "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "company_incident_response": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "company_rollback_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "continuous_production_monitoring": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "deterministic_governance_package": true,
+    "deterministic_review_and_governance_persistence": true,
+    "generated_review_and_governance_helpers": true,
+    "longitudinal_assurance_review_adapter_count": 1,
+    "longitudinal_review_and_exception_governance_cli": true,
+    "mandatory_dependency_additions": 0,
+    "nested_wave74_period_reverification": true,
+    "pending_review_and_governance_handoffs_packageable": true,
+    "review_and_governance_ui_panels": true,
+    "reviewer_authority_expiry_revocation_and_hash_binding": true,
+    "underlying_wave75_evidence_status_mutated": false,
+    "wave75_longitudinal_archive_independent_reverification": true
+  },
+  "phase": 76,
+  "status": "SOURCE_COMPLETE_EXTERNAL_REVIEW_EVIDENCE_PENDING",
+  "title": "Enterprise Longitudinal Assurance Review & Evidence Exception Governance",
+  "validation": {
+    "automated_tests": "1545/1545 collected tests across 136 files; 8/8 final post-certification independent fresh-process batches PASS",
+    "governance": "0 errors / 0 warnings",
+    "public_api": {
+      "additions": 31,
+      "changed_frozen_signatures": 0,
+      "removals": 0,
+      "wave75": 1494,
+      "wave76": 1525
+    },
+    "shipped_examples": "40 files / 0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable environment warning / 0 FAIL",
+    "visual_integration_coverage": "183/183",
+    "wave76_behavioral_regressions": 56,
+    "wheel": {
+      "isolated_no_deps_install_import": "PASS",
+      "record_hashes_verified": 491,
+      "record_mismatches": 0,
+      "record_rows": 492,
+      "requires_dist_nicegui": "nicegui==3.15.0",
+      "sha256": "0596eca3e58c3d6588fe8791012a33cbcd38e89fca41310f9dc03ae3bc9acdb1",
+      "size_bytes": 965246,
+      "status": "PASS"
+    }
+  }
+}

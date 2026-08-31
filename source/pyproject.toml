@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nicegui-base"
+version = "3.0.0a8"
+description = "Company-standard NiceGUI base template and application framework for rapid production-quality internal web app development"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "nicegui==3.15.0",
+]
+
+[project.scripts]
+nicegui-base = "nicegui_base.cli:main"
+nicegui-base-govern = "nicegui_base.governance.cli:main"
+nicegui-base-release-sync = "nicegui_base.governance.release_sync:main"
+nicegui-base-source-certify = "nicegui_base.governance.source_evidence:main"
+nicegui-base-final-audit = "nicegui_base.governance.final_candidate:audit_main"
+nicegui-base-stable-handoff = "nicegui_base.governance.final_candidate:handoff_main"
+nicegui-base-validate = "nicegui_base.validate:main"
+nicegui-base-ai-init = "nicegui_base.ai_cli:init_main"
+nicegui-base-agent-context = "nicegui_base.ai_cli:context_main"
+nicegui-base-agent-check = "nicegui_base.ai_cli:check_main"
+nicegui-base-create = "nicegui_base.ai_cli:create_main"
+nicegui-base-gate = "nicegui_base.ai_cli:gate_main"
+nicegui-base-certify = "nicegui_base.certification.cli:main"
+nicegui-base-cert-app = "nicegui_base.certification.apps:run_certification_app"
+nicegui-base-gallery = "nicegui_base.certification.apps:run_component_gallery"
+nicegui-base-sbom = "nicegui_base.supply_chain:main"
+nicegui-base-gold-certify = "nicegui_base.certification.gold_cli:main"
+nicegui-base-live-lab = "nicegui_base.certification.live_lab_cli:main"
+nicegui-base-live-preflight = "nicegui_base.certification.live_preflight:main"
+nicegui-base-live-certify = "nicegui_base.certification.live_certify:main"
+nicegui-base-live-approve-baseline = "nicegui_base.certification.live_baseline:main"
+nicegui-base-runtime-contract = "nicegui_base.certification.nicegui_runtime_contract:main"
+nicegui-base-runtime-smoke = "nicegui_base.certification.runtime_smoke:main"
+nicegui-base-mac-lab = "nicegui_base.certification.mac_lab_cli:main"
+nicegui-base-mac-preflight = "nicegui_base.certification.mac_preflight:main"
+nicegui-base-mac-certify = "nicegui_base.certification.mac_certify:main"
+nicegui-base-mac-approve-baseline = "nicegui_base.certification.mac_baseline:main"
+
+# Deprecated command aliases retained for migration from the former Company UI identity.
+company-ui = "nicegui_base.cli:main"
+company-ui-govern = "nicegui_base.governance.cli:main"
+company-ui-release-sync = "nicegui_base.governance.release_sync:main"
+company-ui-source-certify = "nicegui_base.governance.source_evidence:main"
+company-ui-final-audit = "nicegui_base.governance.final_candidate:audit_main"
+company-ui-stable-handoff = "nicegui_base.governance.final_candidate:handoff_main"
+company-ui-validate = "nicegui_base.validate:main"
+company-ui-ai-init = "nicegui_base.ai_cli:init_main"
+company-ui-agent-context = "nicegui_base.ai_cli:context_main"
+company-ui-agent-check = "nicegui_base.ai_cli:check_main"
+company-ui-create = "nicegui_base.ai_cli:create_main"
+company-ui-gate = "nicegui_base.ai_cli:gate_main"
+company-ui-certify = "nicegui_base.certification.cli:main"
+company-ui-cert-app = "nicegui_base.certification.apps:run_certification_app"
+company-ui-gallery = "nicegui_base.certification.apps:run_component_gallery"
+company-ui-sbom = "nicegui_base.supply_chain:main"
+company-ui-gold-certify = "nicegui_base.certification.gold_cli:main"
+company-ui-live-lab = "nicegui_base.certification.live_lab_cli:main"
+company-ui-live-preflight = "nicegui_base.certification.live_preflight:main"
+company-ui-live-certify = "nicegui_base.certification.live_certify:main"
+company-ui-live-approve-baseline = "nicegui_base.certification.live_baseline:main"
+company-ui-runtime-contract = "nicegui_base.certification.nicegui_runtime_contract:main"
+company-ui-runtime-smoke = "nicegui_base.certification.runtime_smoke:main"
+company-ui-mac-lab = "nicegui_base.certification.mac_lab_cli:main"
+company-ui-mac-preflight = "nicegui_base.certification.mac_preflight:main"
+company-ui-mac-certify = "nicegui_base.certification.mac_certify:main"
+company-ui-mac-approve-baseline = "nicegui_base.certification.mac_baseline:main"
+
+[project.optional-dependencies]
+live-cert = [
+  "playwright==1.62.0",
+  "Pillow==12.3.0",
+]
+mac-cert = [
+  "playwright==1.62.0",
+  "Pillow==12.3.0",
+]
+test = [
+  "pytest>=8,<9",
+  "pytest-asyncio>=0.25,<1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+
+[tool.setuptools.packages.find]
+include = ["nicegui_base*", "company_ui"]
+
+[tool.setuptools.package-data]
+"nicegui_base.visual" = ["icons/**/*.svg", "illustrations/**/*.svg", "dataviz/**/*.svg", "manifest/*.json"]
+"nicegui_base.runtime" = ["compatibility.json"]
+"nicegui_base.ai" = ["construction_manifest.json", "framework_catalog.json", "guides/*.md", "templates/golden/*.py", "templates/golden/*.md"]
+
+"nicegui_base.certification" = ["certification_manifest.json"]
+"nicegui_base" = ["release_authority.json", "identity_migration.json"]

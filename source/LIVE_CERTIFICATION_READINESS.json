@@ -1,0 +1,20 @@
+{
+  "automated_tests": 1587,
+  "browser_native_uiux_constitution": "PENDING",
+  "clean_install_offline_certification": "NOT EXECUTED FOR 3.0.0A8",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T23:35:11Z",
+  "governance": "PASS",
+  "live_routes": 21,
+  "nicegui_version": "3.15.0",
+  "release_status": "ALPHA",
+  "setup_gate": "SOURCE_CONTRACT_PASS_TARGET_EXECUTION_PENDING",
+  "source_certification": "PASS",
+  "status": "3.0.0A8_SOURCE_VALIDATED_TARGET_RUNTIME_PENDING",
+  "target_required": [
+    "./setup.sh -> SETUP COMPLETE (dispatches to macOS/Linux platform setup)",
+    "./run_lab.sh for manual review",
+    "install certification deps then certify for browser/runtime evidence"
+  ],
+  "visual_coverage": "183/183"
+}

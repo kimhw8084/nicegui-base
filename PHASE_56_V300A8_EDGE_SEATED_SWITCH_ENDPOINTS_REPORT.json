@@ -1,0 +1,31 @@
+{
+  "phase": 56,
+  "framework_version": "3.0.0a8",
+  "title": "Edge-seated native switch endpoints",
+  "status": "PASS",
+  "problem": "The a7 switch retained a 2px horizontal inset, causing the thumb to appear visually floated instead of seated at the left/right rounded endpoints shown in the approved reference.",
+  "resolution": {
+    "track_px": [
+      51,
+      31
+    ],
+    "thumb_px": [
+      27,
+      27
+    ],
+    "horizontal_inset_px": 0,
+    "vertical_inset_px": 2,
+    "travel_px": 24,
+    "thumb_fully_contained": true,
+    "track_overflow": "hidden",
+    "thumb_border": "none"
+  },
+  "scope": "Switch endpoint geometry only; no DataTable, chart, layout engine, runtime, navigation or data semantics changed.",
+  "evidence": {
+    "automated_tests": "708/708 PASS",
+    "governance": "0 errors / 0 warnings",
+    "browser_uiux": "52/52 PASS",
+    "visual_coverage": "183/183",
+    "focused_render": "a8_switch_visual.png"
+  }
+}

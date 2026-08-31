@@ -1,0 +1,56 @@
+{
+  "analytical_interaction": {
+    "direct_2d_wheel_zoom": true,
+    "drag_pan": true,
+    "explicit_axis_range_surface": true,
+    "heatmap_company_scale_band": true,
+    "plotly_scroll_zoom_default": true,
+    "single_series_legend_suppression": true
+  },
+  "automated_tests": 524,
+  "combined_css_bytes": 213906,
+  "compileall": "pass",
+  "nicegui_source_contract": {
+    "direct_factory_calls": 817,
+    "factories_used": 52,
+    "issues": 0
+  },
+  "offline_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  },
+  "phase": 25,
+  "phase_name": "Analytical Visualization & Semiconductor-native UX",
+  "program": "Company UI v1.7 design revamp",
+  "runtime_boundary": "NiceGUI/browser runtime is unavailable in the build sandbox. Target runtime-contract, route smoke and browser certification remain required.",
+  "semiconductor_native": {
+    "double_click_reset": true,
+    "new_renderers": [
+      "ChamberFingerprintMatrix",
+      "CommonalityMatrix"
+    ],
+    "spatial_exact_rounded_clip_path": true,
+    "spatial_pan_clamped": true,
+    "wafer_exact_clip_path": true
+  },
+  "status": "review_candidate",
+  "validators": {
+    "certification_app": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "component_gallery": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "visual_coverage": {
+    "composite_visual_components": 26,
+    "covered_visual_components": 182,
+    "direct_visual_components": 156,
+    "required_visual_components": 182,
+    "uncovered": []
+  }
+}

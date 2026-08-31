@@ -1,0 +1,37 @@
+{
+  "automated_tests": 601,
+  "canonical_routes": 22,
+  "completed": [
+    "governed typography/motion scales including ECharts",
+    "single shell/layout/density token authority",
+    "protected-token downstream redeclaration governance",
+    "release-sync embedded/v-prefixed RC handling",
+    "stable 2.0.0 promotion-target preservation",
+    "runtime version hardcode elimination",
+    "pre-test packaged certification-manifest synchronization"
+  ],
+  "framework_version": "2.0.0rc2",
+  "governance": {
+    "errors": 0,
+    "status": "PASS",
+    "warnings": 0
+  },
+  "phase": 35,
+  "promotion_target": "2.0.0",
+  "source_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1,
+    "warning_reason": "NiceGUI unavailable in build sandbox; live target/browser certification pending"
+  },
+  "status": "SOURCE_COMPLETE_TARGET_CERTIFICATION_PENDING",
+  "target_only_blockers": [
+    "installed NiceGUI 3.15.0 runtime contract",
+    "real 22-route server smoke",
+    "Chrome/Edge browser matrix and console/geometry/interaction evidence",
+    "human visual baseline approval",
+    "required company-platform evidence"
+  ],
+  "visual_component_coverage": "183/183"
+}

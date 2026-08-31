@@ -1,0 +1,94 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "creationInfo": {
+    "created": "2026-08-30T18:12:02Z",
+    "creators": [
+      "Tool: nicegui-base-sbom",
+      "Organization: Internal"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://company.invalid/sbom/nicegui-base/3.0.0a8",
+  "name": "nicegui-base-3.0.0a8",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-nicegui-base",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "nicegui-base",
+      "supplier": "Organization: Internal",
+      "versionInfo": "3.0.0a8"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-nicegui",
+      "comment": "Production runtime dependency. The deployment requirements file is authoritative and resolves through the company-approved Python index.",
+      "downloadLocation": "https://pypi.org/project/nicegui/",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/nicegui@3.15.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "nicegui",
+      "versionInfo": "3.15.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-cert-playwright",
+      "comment": "Optional browser/rendered-product certification dependency; not required for production runtime.",
+      "downloadLocation": "https://pypi.org/project/playwright/",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/playwright@1.62.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "playwright",
+      "versionInfo": "1.62.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-cert-pillow",
+      "comment": "Optional browser/rendered-product certification dependency; not required for production runtime.",
+      "downloadLocation": "https://pypi.org/project/Pillow/",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/pillow@12.3.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "Pillow",
+      "versionInfo": "12.3.0"
+    }
+  ],
+  "relationships": [
+    {
+      "relatedSpdxElement": "SPDXRef-Package-nicegui",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-nicegui-base"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-nicegui-base",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-Package-cert-playwright"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-nicegui-base",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-Package-cert-pillow"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

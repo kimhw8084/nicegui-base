@@ -1,0 +1,80 @@
+{
+  "baseline": "Wave 61 authoritative source",
+  "certification_boundary": "Exact installed NiceGUI 3.15.0, real server/WebSocket/browser/company DataSource adapters and human visual baseline remain PENDING. Historical browser evidence is not current Wave 62 certification.",
+  "continuation": "Wave 63 proposed: Semiconductor Recipe Production Runtime & Smart Data Onboarding\u2014production-grade schema onboarding/binding UX, recipe customization/variants, generated app data adapter hooks, runtime interaction validation, and app-specific polish without creating parallel authorities.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-29T16:52:46Z",
+  "implementation": {
+    "agent_context_recipe_recommendation": true,
+    "composition_authorities": [
+      "Wave59 DataSource/DataSchema",
+      "Wave60 AnalysisContext/SelectionBus/AnalysisCoordinator/WorkspaceController",
+      "Wave61 SemiconductorAnalysisContext/ManufacturingFilterController/SemiconductorAnalyticalSurface"
+    ],
+    "generated_project_factory_recipe_option": true,
+    "golden_example": "examples/phase62_application_recipe_factory.py",
+    "intelligent_binding": [
+      "explicit field overrides",
+      "canonical aliases",
+      "DataSchema semantic roles"
+    ],
+    "machine_readable_catalog_registry": "registries.semiconductor_recipes",
+    "mandatory_dependency_additions": 0,
+    "non_strict_panel_degradation_without_fabricated_data": true,
+    "recipe_discovery_cli": true,
+    "recipe_guide": "docs/SEMICONDUCTOR_APPLICATION_RECIPES.md",
+    "recipe_registry": 8,
+    "recipes": [
+      "SPCMonitor",
+      "ExcursionDefenseLine",
+      "FdcToolHealth",
+      "LotWaferExplorer",
+      "YieldLoss",
+      "PMEffectAnalysis",
+      "ChamberMatching",
+      "RcaCockpit"
+    ],
+    "responsive_collision_free_workspace_layout": true,
+    "shared_crossfilter_and_selection": true,
+    "strict_compatibility_failure": true
+  },
+  "phase": 62,
+  "status": "SOURCE_COMPLETE_TARGET_RUNTIME_PENDING",
+  "test_orchestration_note": "The chained batch wrapper hit the execution/tool ceiling during batch 5 after batches 1-4 passed. Batches 5-8 were rerun independently in fresh pytest processes and passed; TEST_BATCH_EXECUTION.json records the replacement evidence.",
+  "title": "Semiconductor Application Recipe Factory",
+  "verification": {
+    "additive_root_exports": 15,
+    "governance": "0 errors / 0 warnings",
+    "isolated_batches": "8/8 PASS",
+    "public_root_api_entries": 1058,
+    "pytest": "887/887 collected tests PASS",
+    "semiconductor_recipe_registry": 8,
+    "semiconductor_surface_registry": 58,
+    "shipped_examples": "0 errors / 0 warnings across 26 files",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable warning / 0 FAIL",
+    "test_files": 122,
+    "visual_component_coverage": "183/183",
+    "wave61_api_removals": 0,
+    "wave61_root_api_entries": 1043,
+    "wave62_behavioral_tests": "62/62 PASS"
+  },
+  "wheel": {
+    "framework_version": "3.0.0a8",
+    "isolated_no_deps_import": {
+      "returncode": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "3.0.0a8 1058 recipes=8 recommendation=pm-effect-analysis"
+    },
+    "metadata_version": "3.0.0a8",
+    "record_hashes_verified": 442,
+    "record_mismatches": [],
+    "record_rows": 443,
+    "requires_dist_nicegui": "nicegui==3.15.0",
+    "sha256": "f4c1c10f300363e0dbad2e9445e32390467be6aae1c142c6d775f6c695654129",
+    "size_bytes": 728229,
+    "status": "PASS",
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "zip_files": 443
+  }
+}

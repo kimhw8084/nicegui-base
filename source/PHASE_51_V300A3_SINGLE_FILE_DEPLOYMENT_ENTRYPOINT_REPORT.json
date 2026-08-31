@@ -1,0 +1,23 @@
+{
+  "framework_version": "3.0.0a3",
+  "phase": 51,
+  "status": "PASS",
+  "change_type": "additive deployment-entrypoint hardening; no renderer/UI behavior change",
+  "entrypoint": "app.py",
+  "standard_launch": "python app.py",
+  "default_host": "0.0.0.0",
+  "default_port": 8080,
+  "environment_host_precedence": ["COMPANY_UI_HOST", "HOST"],
+  "environment_port_precedence": ["COMPANY_UI_PORT", "PORT"],
+  "show_browser": false,
+  "bundled_source_precedence": true,
+  "same_live_lab_runtime": true,
+  "automated_tests": 694,
+  "full_regression": "694/694 PASS in three deterministic disjoint process-isolated batches",
+  "governance": "0 errors / 0 warnings",
+  "static_certification": "12 PASS / 1 expected environment warning / 0 FAIL",
+  "visual_component_coverage": "183/183",
+  "browser_uiux_constitution": "46/46 PASS (inherited; no renderer/CSS change in Phase 51)",
+  "performance_contract": "no runtime rendering path changes; entrypoint adds only one-time import/path resolution before existing run_live_lab startup",
+  "target_live_nicegui_browser_human_gates": "PENDING"
+}

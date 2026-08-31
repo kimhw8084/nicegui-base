@@ -1,0 +1,766 @@
+<!doctype html><html lang="en" data-theme="light" data-density="compact"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="darkreader-lock"><title>NiceGUI Base — Phase 12 Comprehensive Review</title><style>:root {
+  --cui-space-0: 0px;
+  --cui-space-1: 4px;
+  --cui-space-2: 8px;
+  --cui-space-3: 12px;
+  --cui-space-4: 16px;
+  --cui-space-5: 20px;
+  --cui-space-6: 24px;
+  --cui-space-8: 32px;
+  --cui-space-10: 40px;
+  --cui-space-12: 48px;
+  --cui-space-16: 64px;
+  --cui-radius-xs: 4px;
+  --cui-radius-sm: 7px;
+  --cui-radius-md: 10px;
+  --cui-radius-lg: 12px;
+  --cui-radius-xl: 16px;
+  --cui-radius-pill: 999px;
+  --cui-motion-instant: 80ms;
+  --cui-motion-fast: 120ms;
+  --cui-motion-standard: 160ms;
+  --cui-motion-overlay: 200ms;
+  --cui-motion-emphasis: 220ms;
+  --cui-ease-standard: cubic-bezier(.2,.8,.2,1);
+  --cui-ease-enter: cubic-bezier(.16,1,.3,1);
+  --cui-ease-exit: cubic-bezier(.4,0,1,1);
+  --cui-type-display-size: 28px;
+  --cui-type-display-line: 34px;
+  --cui-type-display-weight: 650;
+  --cui-type-display-tracking: -0.035em;
+  --cui-type-page_title-size: 24px;
+  --cui-type-page_title-line: 30px;
+  --cui-type-page_title-weight: 650;
+  --cui-type-page_title-tracking: -0.028em;
+  --cui-type-heading-size: 18px;
+  --cui-type-heading-line: 24px;
+  --cui-type-heading-weight: 620;
+  --cui-type-heading-tracking: -0.018em;
+  --cui-type-subheading-size: 15px;
+  --cui-type-subheading-line: 20px;
+  --cui-type-subheading-weight: 600;
+  --cui-type-subheading-tracking: -0.012em;
+  --cui-type-body-size: 13px;
+  --cui-type-body-line: 19px;
+  --cui-type-body-weight: 400;
+  --cui-type-body-tracking: -0.006em;
+  --cui-type-body_strong-size: 13px;
+  --cui-type-body_strong-line: 19px;
+  --cui-type-body_strong-weight: 550;
+  --cui-type-body_strong-tracking: -0.006em;
+  --cui-type-label-size: 12px;
+  --cui-type-label-line: 16px;
+  --cui-type-label-weight: 550;
+  --cui-type-label-tracking: 0em;
+  --cui-type-caption-size: 11px;
+  --cui-type-caption-line: 15px;
+  --cui-type-caption-weight: 450;
+  --cui-type-caption-tracking: 0em;
+  --cui-type-data-size: 12px;
+  --cui-type-data-line: 18px;
+  --cui-type-data-weight: 450;
+  --cui-type-data-tracking: 0em;
+  --cui-type-code-size: 12px;
+  --cui-type-code-line: 18px;
+  --cui-type-code-weight: 450;
+  --cui-type-code-tracking: 0em;
+  --nicegui-default-padding: var(--cui-space-4);
+  --nicegui-default-gap: var(--cui-space-3);
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  --cui-overlay-scrim: rgba(0,0,0,.28);
+}
+
+html[data-theme='light'] {
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  --cui-overlay-scrim: rgba(0,0,0,.28);
+  color-scheme: light;
+}
+
+html[data-theme='dark'] {
+  --cui-page: #111113;
+  --cui-surface: #19191C;
+  --cui-surface-secondary: #202024;
+  --cui-surface-elevated: #242428;
+  --cui-surface-hover: #27272C;
+  --cui-surface-selected: #17253B;
+  --cui-text-primary: #F5F5F7;
+  --cui-text-secondary: #C7C7CC;
+  --cui-text-tertiary: #98989D;
+  --cui-text-inverse: #111113;
+  --cui-border-subtle: #29292E;
+  --cui-border-default: #38383E;
+  --cui-border-strong: #505057;
+  --cui-accent: #6AA5FF;
+  --cui-accent-hover: #82B4FF;
+  --cui-accent-soft: #17253B;
+  --cui-focus-ring: #6AA5FF;
+  --cui-success: #55D982;
+  --cui-success-soft: #15291B;
+  --cui-warning: #F2BA55;
+  --cui-warning-soft: #302715;
+  --cui-danger: #FF7B73;
+  --cui-danger-soft: #321918;
+  --cui-info: #80AAFF;
+  --cui-info-soft: #16233A;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.22),0 8px 22px rgba(0,0,0,.18);
+  --cui-shadow-2: 0 16px 44px rgba(0,0,0,.38);
+  --cui-overlay-scrim: rgba(0,0,0,.46);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme='system'] {
+  --cui-page: #111113;
+  --cui-surface: #19191C;
+  --cui-surface-secondary: #202024;
+  --cui-surface-elevated: #242428;
+  --cui-surface-hover: #27272C;
+  --cui-surface-selected: #17253B;
+  --cui-text-primary: #F5F5F7;
+  --cui-text-secondary: #C7C7CC;
+  --cui-text-tertiary: #98989D;
+  --cui-text-inverse: #111113;
+  --cui-border-subtle: #29292E;
+  --cui-border-default: #38383E;
+  --cui-border-strong: #505057;
+  --cui-accent: #6AA5FF;
+  --cui-accent-hover: #82B4FF;
+  --cui-accent-soft: #17253B;
+  --cui-focus-ring: #6AA5FF;
+  --cui-success: #55D982;
+  --cui-success-soft: #15291B;
+  --cui-warning: #F2BA55;
+  --cui-warning-soft: #302715;
+  --cui-danger: #FF7B73;
+  --cui-danger-soft: #321918;
+  --cui-info: #80AAFF;
+  --cui-info-soft: #16233A;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.22),0 8px 22px rgba(0,0,0,.18);
+  --cui-shadow-2: 0 16px 44px rgba(0,0,0,.38);
+  --cui-overlay-scrim: rgba(0,0,0,.46);
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html[data-theme='system'] {
+  --cui-page: #F5F5F7;
+  --cui-surface: #FFFFFF;
+  --cui-surface-secondary: #FAFAFB;
+  --cui-surface-elevated: #FFFFFF;
+  --cui-surface-hover: #F2F3F5;
+  --cui-surface-selected: #EAF2FF;
+  --cui-text-primary: #1D1D1F;
+  --cui-text-secondary: #515154;
+  --cui-text-tertiary: #6E6E73;
+  --cui-text-inverse: #FFFFFF;
+  --cui-border-subtle: #E8E8EC;
+  --cui-border-default: #D8D8DC;
+  --cui-border-strong: #B8B8BE;
+  --cui-accent: #0A66FF;
+  --cui-accent-hover: #0059E6;
+  --cui-accent-soft: #EAF2FF;
+  --cui-focus-ring: #8CB8FF;
+  --cui-success: #167A3F;
+  --cui-success-soft: #E9F7EE;
+  --cui-warning: #8A5B00;
+  --cui-warning-soft: #FFF4D6;
+  --cui-danger: #B42318;
+  --cui-danger-soft: #FDEDEA;
+  --cui-info: #245BB5;
+  --cui-info-soft: #EDF3FF;
+  --cui-shadow-1: 0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.045);
+  --cui-shadow-2: 0 12px 36px rgba(0,0,0,.11);
+  --cui-overlay-scrim: rgba(0,0,0,.28);
+    color-scheme: light;
+  }
+}
+
+[data-density='comfortable'] {
+  --cui-control-height: 40px;
+  --cui-table-row-height: 40px;
+  --cui-density-gap-scale: 1.0;
+}
+[data-density='compact'] {
+  --cui-control-height: 34px;
+  --cui-table-row-height: 34px;
+  --cui-density-gap-scale: 0.88;
+}
+[data-density='dense'] {
+  --cui-control-height: 30px;
+  --cui-table-row-height: 30px;
+  --cui-density-gap-scale: 0.76;
+}
+
+html, body {
+  background: var(--cui-page);
+  color: var(--cui-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.cui-tabular { font-variant-numeric: tabular-nums; }
+.cui-focusable:focus-visible { outline: 3px solid color-mix(in srgb, var(--cui-focus-ring) 58%, transparent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:root {
+  --cui-shell-header-height: 56px;
+  --cui-shell-sidebar-width: 248px;
+  --cui-shell-sidebar-compact-width: 72px;
+  --cui-page-reading-width: 760px;
+  --cui-page-standard-width: 1120px;
+  --cui-page-wide-width: 1440px;
+  --cui-drawer-small: 320px;
+  --cui-drawer-medium: 420px;
+  --cui-drawer-large: 560px;
+  --cui-drawer-xlarge: 720px;
+}
+
+.nicegui-content.cui-nicegui-content { padding: 0 !important; gap: 0 !important; }
+.cui-app-header {
+  min-height: var(--cui-shell-header-height); background: color-mix(in srgb, var(--cui-surface) 92%, transparent);
+  color: var(--cui-text-primary); border-bottom: 1px solid var(--cui-border-subtle);
+  box-shadow: none; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.cui-app-sidebar {
+  background: var(--cui-surface); color: var(--cui-text-primary);
+  border-right: 1px solid var(--cui-border-subtle); box-shadow: none;
+}
+.cui-app-main { width: 100%; min-width: 0; gap: 0; align-items: stretch; }
+.cui-shell-title { font-size: var(--cui-type-subheading-size); line-height: var(--cui-type-subheading-line); font-weight: var(--cui-type-subheading-weight); letter-spacing: var(--cui-type-subheading-tracking); }
+.cui-shell-menu { color: var(--cui-text-secondary); }
+.cui-environment-badge { background: var(--cui-surface-secondary); color: var(--cui-text-secondary); border: 1px solid var(--cui-border-default); }
+.cui-nav-section-label { padding: var(--cui-space-4) var(--cui-space-3) var(--cui-space-2); color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.cui-nav-item { min-height: 36px; margin: 2px var(--cui-space-2); border-radius: var(--cui-radius-sm); color: var(--cui-text-secondary); transition: background var(--cui-motion-fast) var(--cui-ease-standard), color var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-nav-item:hover { background: var(--cui-surface-hover); color: var(--cui-text-primary); }
+.cui-nav-item--active { background: var(--cui-accent-soft); color: var(--cui-accent); font-weight: 600; }
+.cui-nav-expansion { margin: 2px var(--cui-space-2); border-radius: var(--cui-radius-sm); color: var(--cui-text-secondary); }
+.cui-page-title { font-size: var(--cui-type-page_title-size); line-height: var(--cui-type-page_title-line); font-weight: var(--cui-type-page_title-weight); letter-spacing: var(--cui-type-page_title-tracking); color: var(--cui-text-primary); }
+.cui-page-description { max-width: 760px; font-size: var(--cui-type-body-size); line-height: var(--cui-type-body-line); color: var(--cui-text-secondary); }
+.cui-breadcrumbs { gap: var(--cui-space-1); color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+.cui-breadcrumb { color: inherit; text-decoration: none; }
+.cui-breadcrumb-separator { color: var(--cui-border-strong); }
+
+.cui-page { width: 100%; min-width: 0; padding: var(--cui-space-6); gap: var(--cui-space-6); }
+.cui-page--reading { max-width: var(--cui-page-reading-width); margin-inline: auto; }
+.cui-page--standard { max-width: var(--cui-page-standard-width); margin-inline: auto; }
+.cui-page--wide { max-width: var(--cui-page-wide-width); margin-inline: auto; }
+.cui-page--full { max-width: none; }
+.cui-page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--cui-space-4); width: 100%; }
+.cui-page-header__copy { min-width: 0; display: flex; flex-direction: column; gap: var(--cui-space-1); }
+.cui-page-header__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--cui-space-2); }
+.cui-section { width: 100%; min-width: 0; display: flex; flex-direction: column; gap: var(--cui-space-3); }
+.cui-stack { display: flex; min-width: 0; }
+.cui-stack--vertical { flex-direction: column; }
+.cui-stack--horizontal { flex-direction: row; }
+.cui-stack--responsive { flex-direction: row; }
+.cui-gap--none { gap: 0; } .cui-gap--xs { gap: var(--cui-space-2); } .cui-gap--sm { gap: var(--cui-space-3); }
+.cui-gap--md { gap: var(--cui-space-4); } .cui-gap--lg { gap: var(--cui-space-6); } .cui-gap--xl { gap: var(--cui-space-8); }
+.cui-align--start { align-items: flex-start; } .cui-align--center { align-items: center; } .cui-align--end { align-items: flex-end; } .cui-align--stretch { align-items: stretch; }
+.cui-grid { display: grid; width: 100%; min-width: 0; gap: var(--cui-space-4); }
+.cui-grid--metrics { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.cui-grid--halves { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.cui-grid--thirds { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.cui-grid--fourths { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.cui-grid--sidebar_content { grid-template-columns: minmax(220px, 280px) minmax(0,1fr); }
+.cui-grid--content_inspector { grid-template-columns: minmax(0,1fr) minmax(280px, 380px); }
+.cui-grid--main_aside { grid-template-columns: minmax(0,2fr) minmax(280px,1fr); }
+.cui-grid--auto { grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
+.cui-scrollable { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.cui-sticky { position: sticky; top: calc(var(--cui-shell-header-height) + var(--cui-space-3)); z-index: 3; }
+.cui-workspace { width: 100%; min-width: 0; min-height: calc(100dvh - var(--cui-shell-header-height)); padding: var(--cui-space-3); }
+.cui-tabs-region { min-width: 0; width: 100%; }
+.cui-splitter { min-width: 0; min-height: 0; width: 100%; }
+.cui-resizable-panel { min-width: 0; min-height: 0; width: 100%; height: 100%; overflow: auto; }
+.cui-drawer--small { width: var(--cui-drawer-small); }
+.cui-drawer--medium { width: var(--cui-drawer-medium); }
+.cui-drawer--large { width: var(--cui-drawer-large); }
+.cui-drawer--xlarge { width: var(--cui-drawer-xlarge); }
+.cui-pattern-slot { width: 100%; min-width: 0; }
+.cui-page-navigation { width: 100%; }
+.cui-segmented-control { border-radius: var(--cui-radius-sm); }
+.cui-user-menu-trigger { color: var(--cui-text-secondary); }
+
+@media (max-width: 1199px) {
+  .cui-grid--metrics, .cui-grid--fourths { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .cui-grid--thirds { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 899px) {
+  .cui-page { padding: var(--cui-space-4); gap: var(--cui-space-5); }
+  .cui-page-header { flex-direction: column; }
+  .cui-page-header__actions { justify-content: flex-start; }
+  .cui-stack--responsive { flex-direction: column; }
+  .cui-grid--sidebar_content, .cui-grid--content_inspector, .cui-grid--main_aside { grid-template-columns: 1fr; }
+}
+@media (max-width: 599px) {
+  .cui-page { padding: var(--cui-space-3); gap: var(--cui-space-4); }
+  .cui-grid--metrics, .cui-grid--halves, .cui-grid--thirds, .cui-grid--fourths { grid-template-columns: 1fr; }
+  .cui-workspace { padding: var(--cui-space-2); }
+}
+
+:root {
+  --cui-control-small: 30px;
+  --cui-control-medium: 34px;
+  --cui-control-large: 40px;
+  --cui-control-padding-x: 12px;
+  --cui-field-medium-width: 260px;
+  --cui-field-wide-width: 420px;
+  --cui-icon-button-size: 34px;
+}
+
+/* Shared control geometry */
+.cui-control--small { min-height: var(--cui-control-small); }
+.cui-control--medium { min-height: var(--cui-control-medium); }
+.cui-control--large { min-height: var(--cui-control-large); }
+
+/* Buttons */
+.cui-button,
+.cui-icon-button {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--cui-radius-sm);
+  font-size: var(--cui-type-label-size);
+  line-height: var(--cui-type-label-line);
+  font-weight: 600;
+  letter-spacing: var(--cui-type-label-tracking);
+  transition:
+    background-color var(--cui-motion-fast) var(--cui-ease-standard),
+    border-color var(--cui-motion-fast) var(--cui-ease-standard),
+    color var(--cui-motion-fast) var(--cui-ease-standard),
+    box-shadow var(--cui-motion-fast) var(--cui-ease-standard),
+    transform var(--cui-motion-instant) var(--cui-ease-standard);
+  cursor: pointer;
+  user-select: none;
+}
+.cui-button { padding-inline: var(--cui-control-padding-x); gap: var(--cui-space-2); }
+.cui-button--primary { background: var(--cui-accent); color: var(--cui-text-inverse); border-color: var(--cui-accent); }
+.cui-button--primary:hover { background: var(--cui-accent-hover); border-color: var(--cui-accent-hover); }
+.cui-button--secondary { background: var(--cui-surface); color: var(--cui-text-primary); border-color: var(--cui-border-default); }
+.cui-button--secondary:hover { background: var(--cui-surface-hover); border-color: var(--cui-border-strong); }
+.cui-button--tertiary { background: var(--cui-surface-secondary); color: var(--cui-text-primary); border-color: transparent; }
+.cui-button--tertiary:hover { background: var(--cui-surface-hover); }
+.cui-button--ghost { background: transparent; color: var(--cui-text-secondary); border-color: transparent; }
+.cui-button--ghost:hover { background: var(--cui-surface-hover); color: var(--cui-text-primary); }
+.cui-button--danger { background: var(--cui-danger); color: var(--cui-text-inverse); border-color: var(--cui-danger); }
+.cui-button--danger:hover { filter: brightness(.94); }
+.cui-button:active:not(:disabled), .cui-icon-button:active:not(:disabled) { transform: translateY(.5px); }
+.cui-button:focus-visible, .cui-icon-button:focus-visible,
+.cui-field-control:focus-within, .cui-choice:focus-within {
+  outline: 3px solid color-mix(in srgb, var(--cui-focus-ring) 46%, transparent);
+  outline-offset: 2px;
+}
+.cui-button:disabled, .cui-icon-button:disabled, .cui-button.is-disabled, .cui-icon-button.is-disabled {
+  cursor: not-allowed; opacity: .48; box-shadow: none; transform: none;
+}
+.cui-button.is-loading { position: relative; pointer-events: none; }
+.cui-button.is-loading::before {
+  content: ''; width: 12px; height: 12px; border-radius: 50%; border: 1.7px solid currentColor;
+  border-right-color: transparent; animation: cui-spin .7s linear infinite;
+}
+.cui-button.is-full-width { width: 100%; justify-content: center; }
+@keyframes cui-spin { to { transform: rotate(360deg); } }
+
+.cui-icon-button {
+  width: var(--cui-icon-button-size); min-width: var(--cui-icon-button-size); height: var(--cui-icon-button-size);
+  padding: 0; display: inline-grid; place-items: center; background: transparent; color: var(--cui-text-secondary);
+}
+.cui-icon-button--primary { background: var(--cui-accent); color: var(--cui-text-inverse); }
+.cui-icon-button--secondary { background: var(--cui-surface); border-color: var(--cui-border-default); color: var(--cui-text-primary); }
+.cui-icon-button--tertiary { background: var(--cui-surface-secondary); color: var(--cui-text-primary); }
+.cui-icon-button--danger { color: var(--cui-danger); }
+.cui-icon-button:hover { background: var(--cui-surface-hover); color: var(--cui-text-primary); }
+.cui-icon-button.is-selected { background: var(--cui-accent-soft); color: var(--cui-accent); }
+
+/* Surfaces */
+.cui-surface { color: var(--cui-text-primary); min-width: 0; }
+.cui-surface--panel { background: var(--cui-surface); border: 1px solid var(--cui-border-subtle); border-radius: var(--cui-radius-md); }
+.cui-surface--card { background: var(--cui-surface); border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-lg); box-shadow: var(--cui-shadow-1); }
+.cui-surface--well { background: var(--cui-surface-secondary); border: 1px solid var(--cui-border-subtle); border-radius: var(--cui-radius-md); }
+.cui-surface--outlined { background: transparent; border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-md); }
+.cui-surface--interactive { background: var(--cui-surface); border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-md); transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard), box-shadow var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-surface.is-interactive { cursor: pointer; }
+.cui-surface.is-interactive:hover { background: var(--cui-surface-hover); border-color: var(--cui-border-strong); }
+.cui-surface.is-selected { border-color: color-mix(in srgb, var(--cui-accent) 48%, var(--cui-border-default)); background: var(--cui-surface-selected); }
+
+/* Badges */
+.cui-badge {
+  display: inline-flex; align-items: center; gap: var(--cui-space-1); min-height: 22px; padding: 2px 8px;
+  border-radius: var(--cui-radius-pill); border: 1px solid currentColor;
+  font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); font-weight: 600;
+}
+.cui-badge--neutral { color: var(--cui-text-secondary); background: var(--cui-surface-secondary); border-color: var(--cui-border-default); }
+.cui-badge--info { color: var(--cui-info); background: var(--cui-info-soft); }
+.cui-badge--success { color: var(--cui-success); background: var(--cui-success-soft); }
+.cui-badge--warning { color: var(--cui-warning); background: var(--cui-warning-soft); }
+.cui-badge--danger { color: var(--cui-danger); background: var(--cui-danger-soft); }
+.cui-badge--subtle { border-color: color-mix(in srgb, currentColor 22%, transparent); }
+
+/* Field anatomy */
+.cui-field { display: flex; flex-direction: column; gap: var(--cui-space-1); min-width: 0; }
+.cui-field-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--cui-space-2); }
+.cui-field-label { color: var(--cui-text-primary); font-size: var(--cui-type-label-size); line-height: var(--cui-type-label-line); font-weight: var(--cui-type-label-weight); }
+.cui-field-required { color: var(--cui-danger); margin-left: 2px; }
+.cui-field-description { color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+.cui-field-error { display: flex; align-items: flex-start; gap: var(--cui-space-1); color: var(--cui-danger); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+.cui-field-width--auto { width: auto; }
+.cui-field-width--medium { width: min(100%, var(--cui-field-medium-width)); }
+.cui-field-width--wide { width: min(100%, var(--cui-field-wide-width)); }
+.cui-field-width--full { width: 100%; }
+.cui-field-control {
+  display: flex; align-items: center; width: 100%; min-width: 0; gap: var(--cui-space-2);
+  padding-inline: var(--cui-space-3); border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-sm);
+  background: var(--cui-surface); color: var(--cui-text-primary);
+  transition: border-color var(--cui-motion-fast) var(--cui-ease-standard), background var(--cui-motion-fast) var(--cui-ease-standard), box-shadow var(--cui-motion-fast) var(--cui-ease-standard);
+}
+.cui-field-control:hover:not(.cui-field-control--readonly) { border-color: var(--cui-border-strong); }
+.cui-field-control--error { border-color: color-mix(in srgb, var(--cui-danger) 70%, var(--cui-border-default)); }
+.cui-field-control--readonly { background: var(--cui-surface-secondary); color: var(--cui-text-secondary); }
+.cui-field-control.is-disabled, .cui-field-control[aria-disabled='true'] { opacity: .55; cursor: not-allowed; background: var(--cui-surface-secondary); }
+.cui-field-control input, .cui-field-control textarea, .cui-field-control select {
+  width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: inherit; font: inherit;
+}
+.cui-field-control input::placeholder, .cui-field-control textarea::placeholder { color: var(--cui-text-tertiary); opacity: .9; }
+.cui-field-control textarea { min-height: 88px; resize: vertical; padding-block: var(--cui-space-2); }
+.cui-field-leading, .cui-field-trailing { flex: 0 0 auto; color: var(--cui-text-tertiary); }
+.cui-field-unit { color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); white-space: nowrap; }
+
+/* Normalize Quasar-backed NiceGUI fields without relying on app-local styling. */
+.cui-field-control.q-field { padding-inline: 0; }
+.cui-field-control.q-field .q-field__control { min-height: inherit; height: inherit; color: var(--cui-text-primary); padding: 0 var(--cui-space-3); border-radius: inherit; }
+.cui-field-control.q-field .q-field__control::before,
+.cui-field-control.q-field .q-field__control::after { display: none; }
+.cui-field-control.q-field .q-field__native,
+.cui-field-control.q-field .q-field__input { color: var(--cui-text-primary); padding: 0; min-height: auto; }
+.cui-field-control.q-field .q-field__label { color: var(--cui-text-secondary); }
+.cui-field-control.q-field.q-field--focused { border-color: var(--cui-accent); }
+
+/* Choice controls */
+.cui-choice { display: inline-flex; align-items: flex-start; gap: var(--cui-space-2); color: var(--cui-text-primary); cursor: pointer; min-height: 24px; }
+.cui-choice.is-disabled { opacity: .5; cursor: not-allowed; }
+.cui-choice__control {
+  flex: 0 0 auto; width: 18px; height: 18px; border: 1px solid var(--cui-border-strong); background: var(--cui-surface);
+  border-radius: 5px; display: grid; place-items: center; transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard);
+}
+.cui-choice--radio .cui-choice__control { border-radius: 50%; }
+.cui-choice.is-checked .cui-choice__control { background: var(--cui-accent); border-color: var(--cui-accent); color: var(--cui-text-inverse); }
+.cui-choice__label { font-size: var(--cui-type-body-size); line-height: var(--cui-type-body-line); }
+.cui-choice__description { color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); }
+
+/* Switch */
+.cui-switch-track { width: 34px; height: 20px; padding: 2px; border-radius: var(--cui-radius-pill); background: var(--cui-border-strong); transition: background var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-switch-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--cui-surface-elevated); box-shadow: var(--cui-shadow-1); transition: transform var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-choice.is-checked .cui-switch-track { background: var(--cui-accent); }
+.cui-choice.is-checked .cui-switch-thumb { transform: translateX(14px); }
+
+/* Slider */
+.cui-slider { accent-color: var(--cui-accent); width: 100%; }
+.cui-slider-meta { display: flex; justify-content: space-between; color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); }
+
+/* Upload */
+.cui-upload {
+  border: 1px dashed var(--cui-border-strong); background: var(--cui-surface-secondary); border-radius: var(--cui-radius-md);
+  min-height: 112px; padding: var(--cui-space-4); display: grid; place-items: center; text-align: center;
+  transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard);
+}
+.cui-upload:hover { border-color: var(--cui-accent); background: var(--cui-accent-soft); }
+.cui-upload.is-disabled { opacity: .5; pointer-events: none; }
+.cui-upload__title { font-size: var(--cui-type-body-size); font-weight: 600; color: var(--cui-text-primary); }
+.cui-upload__help { font-size: var(--cui-type-caption-size); color: var(--cui-text-tertiary); }
+
+/* Density changes retain touch target while adjusting visual density where possible. */
+[data-density='comfortable'] { --cui-control-medium: 40px; --cui-control-small: 34px; --cui-icon-button-size: 38px; }
+[data-density='compact'] { --cui-control-medium: 34px; --cui-control-small: 30px; --cui-icon-button-size: 34px; }
+[data-density='dense'] { --cui-control-medium: 30px; --cui-control-small: 28px; --cui-icon-button-size: 30px; }
+
+
+/* Button groups and split actions */
+.cui-button-group { display: inline-flex; align-items: stretch; }
+.cui-button-group > .cui-button { border-radius: 0; margin-left: -1px; }
+.cui-button-group > .cui-button:first-child { border-radius: var(--cui-radius-sm) 0 0 var(--cui-radius-sm); margin-left: 0; }
+.cui-button-group > .cui-button:last-child { border-radius: 0 var(--cui-radius-sm) var(--cui-radius-sm) 0; }
+.cui-split-button { display: inline-flex; }
+.cui-split-button .cui-button:first-child { border-radius: var(--cui-radius-sm) 0 0 var(--cui-radius-sm); }
+.cui-split-button .cui-icon-button:last-child { border-radius: 0 var(--cui-radius-sm) var(--cui-radius-sm) 0; margin-left: -1px; }
+
+/* Additional surfaces */
+.cui-divider { width: 100%; height: 1px; background: var(--cui-border-subtle); border: 0; margin: var(--cui-space-2) 0; }
+.cui-collapsible { border: 1px solid var(--cui-border-subtle); border-radius: var(--cui-radius-md); background: var(--cui-surface); overflow: hidden; }
+.cui-collapsible__header { min-height: 40px; padding: var(--cui-space-2) var(--cui-space-3); display: flex; align-items: center; justify-content: space-between; gap: var(--cui-space-3); font-size: var(--cui-type-body-size); font-weight: 600; cursor: pointer; }
+.cui-collapsible__header:hover { background: var(--cui-surface-hover); }
+.cui-collapsible__body { padding: var(--cui-space-3); border-top: 1px solid var(--cui-border-subtle); }
+
+/* Metadata */
+.cui-chip { display: inline-flex; align-items: center; gap: var(--cui-space-1); min-height: 26px; padding: 3px 9px; border: 1px solid var(--cui-border-default); border-radius: var(--cui-radius-pill); background: var(--cui-surface); color: var(--cui-text-secondary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); transition: background var(--cui-motion-fast) var(--cui-ease-standard), border-color var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-chip:hover { background: var(--cui-surface-hover); }
+.cui-chip.is-selected { background: var(--cui-accent-soft); border-color: color-mix(in srgb, var(--cui-accent) 36%, var(--cui-border-default)); color: var(--cui-accent); }
+.cui-count-badge { min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--cui-radius-pill); display: inline-grid; place-items: center; background: var(--cui-accent); color: var(--cui-text-inverse); font-size: var(--cui-type-caption-size); font-weight: 650; font-variant-numeric: tabular-nums; }
+.cui-semantic-indicator { display: inline-flex; align-items: center; gap: var(--cui-space-1); font-size: var(--cui-type-caption-size); color: var(--cui-text-secondary); }
+.cui-semantic-indicator::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.cui-semantic-indicator--success { color: var(--cui-success); }
+.cui-semantic-indicator--info { color: var(--cui-info); }
+.cui-semantic-indicator--warning { color: var(--cui-warning); }
+.cui-semantic-indicator--danger { color: var(--cui-danger); }
+.cui-semantic-indicator--neutral { color: var(--cui-text-tertiary); }
+
+@media (pointer: coarse) {
+  .cui-button, .cui-icon-button, .cui-field-control, .cui-choice { min-height: 44px; }
+  .cui-icon-button { width: 44px; min-width: 44px; height: 44px; }
+}
+
+@media (max-width: 599px) {
+  .cui-field-width--auto, .cui-field-width--medium, .cui-field-width--wide { width: 100%; }
+  .cui-button.mobile-full-width { width: 100%; justify-content: center; }
+}
+
+
+.cui-form-field{display:flex;flex-direction:column;gap:var(--cui-space-1)}.cui-form-field.is-full{grid-column:1/-1}.cui-form-field.has-error .cui-field-control{border-color:var(--cui-danger)}
+.cui-form{display:flex;flex-direction:column;gap:var(--cui-space-5)}
+.cui-form-section__copy{display:flex;flex-direction:column;gap:2px}.cui-validation-summary__item{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}.cui-form-actions__spacer{flex:1}
+.cui-form-section{display:flex;flex-direction:column;gap:var(--cui-space-4)}
+.cui-form-section__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--cui-space-4);padding-bottom:var(--cui-space-3);border-bottom:1px solid var(--cui-border-subtle)}
+.cui-form-section__title{font-size:var(--cui-type-subheading-size);line-height:var(--cui-type-subheading-line);font-weight:600;color:var(--cui-text-primary)}
+.cui-form-section__description{font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);color:var(--cui-text-tertiary);max-width:66ch}
+.cui-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--cui-space-4)}
+.cui-form-grid--single{grid-template-columns:1fr}.cui-form-grid>.is-full{grid-column:1/-1}
+.cui-form-actions{display:flex;gap:var(--cui-space-2);align-items:center;padding-top:var(--cui-space-4);border-top:1px solid var(--cui-border-subtle)}
+.cui-form-actions--start{justify-content:flex-start}.cui-form-actions--center{justify-content:center}.cui-form-actions--end{justify-content:flex-end}.cui-form-actions--between{justify-content:space-between}
+.cui-form-actions.is-sticky{position:sticky;bottom:0;z-index:8;background:color-mix(in srgb,var(--cui-surface) 94%,transparent);backdrop-filter:blur(14px);padding:var(--cui-space-3) 0}
+.cui-validation-summary{display:flex;gap:var(--cui-space-3);padding:var(--cui-space-3) var(--cui-space-4);border:1px solid color-mix(in srgb,var(--cui-danger) 34%,var(--cui-border-default));border-radius:var(--cui-radius-md);background:var(--cui-danger-soft);color:var(--cui-text-primary)}
+.cui-validation-summary__icon{color:var(--cui-danger);font-weight:700}.cui-validation-summary__title{font-size:var(--cui-type-label-size);font-weight:650}.cui-validation-summary ul{margin:var(--cui-space-1) 0 0;padding-left:18px;color:var(--cui-text-secondary);font-size:var(--cui-type-caption-size)}
+.cui-dirty-indicator{display:inline-flex;align-items:center;gap:var(--cui-space-1);font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}
+.cui-dirty-indicator::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--cui-warning)}
+@media(max-width:700px){.cui-form-grid{grid-template-columns:1fr}.cui-form-actions{position:sticky;bottom:0;background:var(--cui-surface);padding:var(--cui-space-3) 0 calc(var(--cui-space-3) + env(safe-area-inset-bottom))}.cui-form-actions .cui-button{min-height:44px}}
+
+
+.cui-filter-bar{display:flex;flex-direction:column;gap:var(--cui-space-2);padding:var(--cui-space-3);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);background:var(--cui-surface)}
+.cui-filter-bar__controls{display:flex;align-items:flex-end;gap:var(--cui-space-2);flex-wrap:wrap}.cui-filter-bar__controls>.cui-field{min-width:160px;flex:1 1 170px}.cui-filter-bar__controls>.is-search{flex:2 1 260px}
+.cui-filter-bar__actions{display:flex;align-items:center;gap:var(--cui-space-1);margin-left:auto}
+.cui-filter-bar__active{display:flex;gap:var(--cui-space-1);align-items:center;flex-wrap:wrap;padding-top:var(--cui-space-2);border-top:1px solid var(--cui-border-subtle)}
+.cui-filter-chip{display:inline-flex;align-items:center;gap:var(--cui-space-1);padding:4px 8px;border:1px solid var(--cui-border-default);border-radius:999px;background:var(--cui-surface-secondary);font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}
+.cui-filter-chip__label{color:var(--cui-text-secondary);font-size:var(--cui-type-caption-size)}.cui-filter-chip__value{color:var(--cui-text-primary);font-weight:600}.cui-filter-chip strong{color:var(--cui-text-primary);font-weight:600}.cui-filter-chip button{border:0;background:transparent;color:var(--cui-text-tertiary);cursor:pointer;padding:0;line-height:1}.cui-filter-chip button:hover{color:var(--cui-text-primary)}
+.cui-filter-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--cui-accent);color:var(--cui-text-inverse);font-size:10px;font-weight:700}
+.cui-preset-strip{display:flex;align-items:center;gap:var(--cui-space-1);overflow:auto;scrollbar-width:none}.cui-preset-strip::-webkit-scrollbar{display:none}
+.cui-preset{white-space:nowrap;border:1px solid var(--cui-border-default);background:var(--cui-surface);color:var(--cui-text-secondary);border-radius:999px;padding:5px 9px;font-size:var(--cui-type-caption-size);cursor:pointer}.cui-preset:hover,.cui-preset.is-active{background:var(--cui-accent-soft);border-color:color-mix(in srgb,var(--cui-accent) 28%,var(--cui-border-default));color:var(--cui-accent)}
+@media(max-width:700px){.cui-filter-bar{padding:var(--cui-space-2)}.cui-filter-bar__controls>.cui-field{display:none}.cui-filter-bar__controls>.is-search{display:flex;min-width:0}.cui-filter-bar__actions{margin-left:0}.cui-filter-bar__mobile-trigger{display:inline-flex!important}.cui-filter-bar__active{overflow:auto;flex-wrap:nowrap}}
+@media(min-width:701px){.cui-filter-bar__mobile-trigger{display:none!important}}
+
+
+.cui-alert,.cui-banner{--_tone:var(--cui-info);--_soft:var(--cui-info-soft);display:flex;align-items:flex-start;gap:var(--cui-space-3);padding:var(--cui-space-3) var(--cui-space-4);border:1px solid color-mix(in srgb,var(--_tone) 24%,var(--cui-border-default));border-radius:var(--cui-radius-md);background:var(--_soft);color:var(--cui-text-primary)}
+.cui-alert--success,.cui-banner--success{--_tone:var(--cui-success);--_soft:var(--cui-success-soft)}.cui-alert--warning,.cui-banner--warning{--_tone:var(--cui-warning);--_soft:var(--cui-warning-soft)}.cui-alert--danger,.cui-banner--danger{--_tone:var(--cui-danger);--_soft:var(--cui-danger-soft)}.cui-alert--neutral,.cui-banner--neutral{--_tone:var(--cui-text-tertiary);--_soft:var(--cui-surface-secondary)}
+.cui-alert__copy{flex:1;min-width:0}.cui-alert__icon{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:var(--_tone);background:color-mix(in srgb,var(--_tone) 12%,transparent);font-size:11px;font-weight:750;flex:0 0 auto}.cui-alert__title{font-size:var(--cui-type-label-size);font-weight:650}.cui-alert__message{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary);margin-top:2px}.cui-alert__actions{margin-left:auto;display:flex;align-items:center;gap:var(--cui-space-1)}
+.cui-banner{border-radius:0;border-left:0;border-right:0;padding-block:var(--cui-space-2)}
+.cui-toast-stack{position:fixed;top:16px;right:16px;z-index:1600;display:flex;flex-direction:column;gap:8px;width:min(380px,calc(100vw - 32px));pointer-events:none}.cui-toast{--_tone:var(--cui-info);display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-md);background:color-mix(in srgb,var(--cui-surface) 96%,transparent);box-shadow:var(--cui-shadow-2);backdrop-filter:blur(16px);pointer-events:auto;animation:cui-toast-in var(--cui-motion-overlay) var(--cui-ease-enter)}
+.cui-toast--success{--_tone:var(--cui-success)}.cui-toast--warning{--_tone:var(--cui-warning)}.cui-toast--danger{--_tone:var(--cui-danger)}.cui-toast__dot{width:8px;height:8px;border-radius:50%;background:var(--_tone);margin-top:5px}.cui-toast__message{font-size:var(--cui-type-label-size);color:var(--cui-text-primary);flex:1}.cui-toast__action{font-size:var(--cui-type-caption-size);font-weight:650;color:var(--cui-accent)}
+@keyframes cui-toast-in{from{opacity:0;transform:translateY(-6px) scale(.985)}to{opacity:1;transform:none}}
+.cui-progress{height:5px;border-radius:999px;background:var(--cui-surface-secondary);overflow:hidden}.cui-progress__bar{height:100%;border-radius:inherit;background:var(--cui-accent);transition:width var(--cui-motion-standard) var(--cui-ease-standard)}.cui-progress.is-indeterminate .cui-progress__bar{width:38%;animation:cui-progress-run 1.15s ease-in-out infinite}@keyframes cui-progress-run{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+.cui-spinner{width:18px;height:18px;border:2px solid color-mix(in srgb,var(--cui-text-secondary) 25%,transparent);border-top-color:var(--cui-accent);border-radius:50%;animation:cui-spin .72s linear infinite}
+.cui-skeleton{display:flex;flex-direction:column;gap:var(--cui-space-2)}.cui-skeleton__row{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--cui-surface-secondary) 25%,var(--cui-surface-hover) 40%,var(--cui-surface-secondary) 60%);background-size:260% 100%;animation:cui-shimmer 1.25s ease infinite}.cui-skeleton__row:nth-child(2){width:82%}.cui-skeleton__row:nth-child(3){width:64%}@keyframes cui-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.cui-state-view{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--cui-space-6);border:1px dashed var(--cui-border-default);border-radius:var(--cui-radius-lg);background:var(--cui-surface-secondary)}.cui-state-view--compact{min-height:140px;padding:var(--cui-space-4)}.cui-state-view__mark{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--cui-surface);border:1px solid var(--cui-border-default);box-shadow:var(--cui-shadow-1);color:var(--cui-text-secondary);font-size:20px;margin-bottom:var(--cui-space-3)}.cui-state-view__title{font-size:var(--cui-type-subheading-size);font-weight:650}.cui-state-view__message{max-width:56ch;margin-top:4px;font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary)}.cui-state-view__error-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;color:var(--cui-text-tertiary);margin-top:var(--cui-space-2)}.cui-state-view__actions{display:flex;gap:var(--cui-space-2);margin-top:var(--cui-space-4)}
+@media(prefers-reduced-motion:reduce){.cui-toast,.cui-progress__bar,.cui-skeleton__row{animation:none!important}}
+
+
+.cui-overlay-backdrop{position:fixed;inset:0;z-index:1100;background:var(--cui-overlay-scrim);backdrop-filter:blur(2px);animation:cui-fade-in var(--cui-motion-overlay) var(--cui-ease-enter)}
+.cui-drawer{position:fixed;top:0;bottom:0;z-index:1200;display:flex;flex-direction:column;background:var(--cui-surface);box-shadow:var(--cui-shadow-2);border-color:var(--cui-border-default);border-style:solid;animation:cui-drawer-in var(--cui-motion-overlay) var(--cui-ease-enter)}
+.cui-drawer--right{right:0;border-width:0 0 0 1px}.cui-drawer--left{left:0;border-width:0 1px 0 0}.cui-drawer--small{width:min(360px,94vw)}.cui-drawer--medium{width:min(480px,94vw)}.cui-drawer--large{width:min(680px,96vw)}.cui-drawer--x-large{width:min(880px,98vw)}.cui-drawer--full{width:100vw}.cui-drawer__header{display:flex;align-items:flex-start;gap:var(--cui-space-3);padding:var(--cui-space-4);border-bottom:1px solid var(--cui-border-subtle)}.cui-drawer__title{font-size:var(--cui-type-heading-size);font-weight:650}.cui-drawer__subtitle{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary);margin-top:2px}.cui-drawer__actions{margin-left:auto;display:flex;gap:var(--cui-space-1)}.cui-drawer__body{flex:1;min-height:0;overflow:auto;padding:var(--cui-space-4)}.cui-drawer__footer{padding:var(--cui-space-3) var(--cui-space-4);border-top:1px solid var(--cui-border-subtle);background:var(--cui-surface)}
+@keyframes cui-drawer-in{from{opacity:.65;transform:translateX(16px)}to{opacity:1;transform:none}}.cui-drawer--left{animation-name:cui-drawer-in-left}@keyframes cui-drawer-in-left{from{opacity:.65;transform:translateX(-16px)}to{opacity:1;transform:none}}@keyframes cui-fade-in{from{opacity:0}to{opacity:1}}
+.cui-dialog{width:min(480px,calc(100vw - 32px));max-height:min(780px,calc(100vh - 32px));overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-lg);background:var(--cui-surface);box-shadow:var(--cui-shadow-2);animation:cui-dialog-in var(--cui-motion-overlay) var(--cui-ease-enter)}.cui-dialog--medium{width:min(620px,calc(100vw - 32px))}.cui-dialog--large{width:min(820px,calc(100vw - 32px))}.cui-dialog--x-large{width:min(1080px,calc(100vw - 32px))}.cui-dialog--full{width:calc(100vw - 24px);height:calc(100vh - 24px);max-height:none}.cui-dialog__head{padding:var(--cui-space-4) var(--cui-space-4) var(--cui-space-3)}.cui-dialog__title{font-size:var(--cui-type-heading-size);font-weight:650}.cui-dialog__description{font-size:var(--cui-type-caption-size);color:var(--cui-text-secondary);margin-top:4px}.cui-dialog__body{padding:0 var(--cui-space-4) var(--cui-space-4);overflow:auto}.cui-dialog__footer{display:flex;justify-content:flex-end;gap:var(--cui-space-2);padding:var(--cui-space-3) var(--cui-space-4);border-top:1px solid var(--cui-border-subtle);background:var(--cui-surface-secondary)}.cui-dialog--danger .cui-dialog__title{color:var(--cui-danger)}@keyframes cui-dialog-in{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.cui-popover,.cui-menu{min-width:190px;max-width:360px;padding:6px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-md);background:color-mix(in srgb,var(--cui-surface) 97%,transparent);box-shadow:var(--cui-shadow-2);backdrop-filter:blur(16px)}.cui-menu-item{display:flex;align-items:center;gap:var(--cui-space-2);width:100%;min-height:32px;padding:6px 8px;border:0;border-radius:7px;background:transparent;color:var(--cui-text-primary);text-align:left;font-size:var(--cui-type-label-size);cursor:pointer}.cui-menu-item:hover,.cui-menu-item:focus-visible{background:var(--cui-surface-hover);outline:none}.cui-menu-item.is-danger{color:var(--cui-danger)}.cui-menu-item:disabled{opacity:.45;cursor:not-allowed}.cui-menu-item__shortcut{margin-left:auto;color:var(--cui-text-tertiary);font-size:10px}.cui-menu-separator{height:1px;background:var(--cui-border-subtle);margin:5px 4px}
+.cui-tooltip{max-width:320px;padding:6px 8px;border-radius:7px;background:var(--cui-text-primary);color:var(--cui-surface);font-size:11px;line-height:1.35;box-shadow:var(--cui-shadow-1)}
+@media(max-width:700px){.cui-drawer{width:100vw!important}.cui-drawer__header{padding-top:calc(var(--cui-space-4) + env(safe-area-inset-top))}.cui-dialog:not(.cui-dialog--small){width:100vw;height:100vh;max-height:none;border-radius:0;border:0}.cui-dialog__head{padding-top:calc(var(--cui-space-4) + env(safe-area-inset-top))}}
+@media(prefers-reduced-motion:reduce){.cui-overlay-backdrop,.cui-drawer,.cui-dialog{animation:none!important}}
+
+
+:root {
+  --cui-table-row-comfortable: 42px;
+  --cui-table-row-compact: 34px;
+  --cui-table-row-dense: 29px;
+  --cui-table-header: 36px;
+  --cui-table-cell-x: 12px;
+}
+.cui-table-shell { border:1px solid var(--cui-border-subtle); border-radius:var(--cui-radius-md); background:var(--cui-surface); overflow:hidden; min-width:0; }
+.cui-table-headline { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--cui-space-4); padding:var(--cui-space-4); border-bottom:1px solid var(--cui-border-subtle); }
+.cui-table-title { font-size:var(--cui-type-heading-size); font-weight:600; color:var(--cui-text-primary); }
+.cui-table-description { color:var(--cui-text-secondary); font-size:var(--cui-type-caption-size); margin-top:2px; }
+.cui-table-toolbar { min-height:46px; padding:6px 8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--cui-border-subtle); background:var(--cui-surface); }
+.cui-table-toolbar__search { min-width:220px; flex:0 1 320px; }
+.cui-table-toolbar__spacer { flex:1 1 auto; }
+.cui-table-selection-bar { display:flex; align-items:center; gap:8px; padding:7px 10px; min-height:42px; background:var(--cui-accent-soft); border-bottom:1px solid color-mix(in srgb,var(--cui-accent) 22%,var(--cui-border-subtle)); color:var(--cui-text-primary); }
+.cui-table-viewport { width:100%; overflow:auto; position:relative; }
+.cui-data-table { width:100%; border-collapse:separate; border-spacing:0; table-layout:auto; color:var(--cui-text-primary); font-size:var(--cui-type-data-size); font-variant-numeric:tabular-nums; }
+.cui-data-table th { position:relative; height:var(--cui-table-header); padding:0 var(--cui-table-cell-x); background:var(--cui-surface-secondary); color:var(--cui-text-secondary); font-size:var(--cui-type-label-size); font-weight:600; text-align:left; white-space:nowrap; border-bottom:1px solid var(--cui-border-default); }
+.cui-data-table td { padding:0 var(--cui-table-cell-x); border-bottom:1px solid var(--cui-border-subtle); white-space:nowrap; vertical-align:middle; }
+.cui-data-table--comfortable td { height:var(--cui-table-row-comfortable); }
+.cui-data-table--compact td { height:var(--cui-table-row-compact); }
+.cui-data-table--dense td { height:var(--cui-table-row-dense); }
+.cui-data-table tr:last-child td { border-bottom:0; }
+.cui-data-table tbody tr { transition:background-color var(--cui-motion-fast) var(--cui-ease-standard); }
+.cui-data-table tbody tr:hover { background:var(--cui-surface-hover); }
+.cui-data-table tbody tr.is-selected { background:var(--cui-accent-soft); }
+.cui-data-table tbody tr:focus-within { outline:2px solid var(--cui-focus-ring); outline-offset:-2px; }
+.cui-data-table .is-numeric { text-align:right; }
+.cui-data-table .is-center { text-align:center; }
+.cui-data-table .is-muted { color:var(--cui-text-tertiary); }
+.cui-data-table .is-pinned-left { position:sticky; left:0; z-index:2; background:inherit; box-shadow:1px 0 var(--cui-border-subtle); }
+.cui-data-table .is-pinned-right { position:sticky; right:0; z-index:2; background:inherit; box-shadow:-1px 0 var(--cui-border-subtle); }
+.cui-table-sort { display:inline-flex; gap:4px; align-items:center; }
+.cui-table-sort__icon { opacity:.45; }
+.cui-table-sort.is-active .cui-table-sort__icon { opacity:1; color:var(--cui-accent); }
+.cui-table-status { display:inline-flex; align-items:center; gap:6px; padding:3px 7px; border-radius:999px; font-size:11px; font-weight:600; background:var(--cui-surface-secondary); }
+.cui-table-status::before { content:''; width:6px; height:6px; border-radius:50%; background:currentColor; }
+.cui-table-status--success { color:var(--cui-success); background:var(--cui-success-soft); }
+.cui-table-status--warning { color:var(--cui-warning); background:var(--cui-warning-soft); }
+.cui-table-status--danger { color:var(--cui-danger); background:var(--cui-danger-soft); }
+.cui-table-status--info { color:var(--cui-info); background:var(--cui-info-soft); }
+.cui-table-cell--warning { background:var(--cui-warning-soft); color:var(--cui-text-primary); }
+.cui-table-cell--danger { background:var(--cui-danger-soft); color:var(--cui-text-primary); }
+.cui-table-cell--success { background:var(--cui-success-soft); color:var(--cui-text-primary); }
+.cui-table-expanded { background:var(--cui-surface-secondary); }
+.cui-table-expanded > td { padding:var(--cui-space-4); white-space:normal; }
+.cui-table-footer { min-height:44px; display:flex; align-items:center; gap:10px; padding:6px 10px; border-top:1px solid var(--cui-border-subtle); color:var(--cui-text-secondary); font-size:var(--cui-type-caption-size); }
+.cui-table-footer__spacer { flex:1; }
+.cui-table-empty { min-height:220px; display:grid; place-items:center; text-align:center; color:var(--cui-text-secondary); padding:var(--cui-space-6); }
+.cui-table-empty strong { display:block; color:var(--cui-text-primary); margin-bottom:4px; }
+.cui-table-loading { min-height:220px; padding:12px; display:grid; gap:7px; }
+.cui-table-loading__row { height:28px; border-radius:6px; background:linear-gradient(90deg,var(--cui-surface-secondary),var(--cui-surface-hover),var(--cui-surface-secondary)); background-size:200% 100%; animation:cui-table-shimmer 1.3s infinite linear; }
+@keyframes cui-table-shimmer { to { background-position:-200% 0; } }
+.cui-table-editable { border:1px solid transparent; border-radius:6px; padding:3px 5px; margin:-4px -6px; }
+.cui-table-editable:hover { border-color:var(--cui-border-default); background:var(--cui-surface); }
+.cui-table-editable.is-error { border-color:var(--cui-danger); background:var(--cui-danger-soft); }
+.cui-table-sparkline { width:84px; height:22px; display:inline-block; vertical-align:middle; }
+.cui-table-mobile-card { display:none; }
+@media (max-width:720px) {
+  .cui-table-toolbar__search { flex:1 1 100%; min-width:0; }
+  .cui-table-toolbar { gap:4px; }
+  .cui-data-table .cui-priority-low { display:none; }
+  .cui-table-headline { padding:12px; }
+  .cui-table-viewport { max-width:100%; }
+  .cui-table-footer { flex-wrap:wrap; }
+}
+@media (prefers-reduced-motion: reduce) { .cui-table-loading__row { animation:none; } }
+
+.cui-chart-panel {
+  position: relative; min-width: 0; overflow: hidden;
+  background: var(--cui-surface); border: 1px solid var(--cui-border-subtle);
+  border-radius: var(--cui-radius-lg); color: var(--cui-text-primary);
+}
+.cui-chart-panel__header { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--cui-space-3); padding:var(--cui-space-4) var(--cui-space-4) var(--cui-space-2); }
+.cui-chart-panel__title { font-size:var(--cui-type-subheading-size); line-height:var(--cui-type-subheading-line); font-weight:var(--cui-type-subheading-weight); }
+.cui-chart-panel__description { margin-top:2px; color:var(--cui-text-tertiary); font-size:var(--cui-type-caption-size); line-height:var(--cui-type-caption-line); }
+.cui-chart-panel__body { min-width:0; padding:0 var(--cui-space-2) var(--cui-space-3); }
+.cui-chart-panel--compact .cui-chart-canvas { height:220px; }
+.cui-chart-panel--standard .cui-chart-canvas { height:320px; }
+.cui-chart-panel--large .cui-chart-canvas { height:440px; }
+.cui-chart-panel--workspace .cui-chart-canvas { height:min(68vh,720px); min-height:420px; }
+.cui-chart-toolbar { display:flex; align-items:center; gap:var(--cui-space-1); color:var(--cui-text-secondary); }
+.cui-chart-state { min-height:220px; display:grid; place-items:center; padding:var(--cui-space-6); color:var(--cui-text-secondary); text-align:center; }
+.cui-chart-legend { display:flex; flex-wrap:wrap; gap:var(--cui-space-3); color:var(--cui-text-secondary); font-size:var(--cui-type-caption-size); }
+.cui-chart-legend__item { display:inline-flex; gap:var(--cui-space-1); align-items:center; }
+.cui-chart-legend__marker { width:8px; height:8px; border-radius:999px; }
+.cui-chart-selected { box-shadow: inset 0 0 0 2px var(--cui-accent); }
+.cui-wafer-frame { aspect-ratio:1; border-radius:50%; border:1px solid var(--cui-border-default); background:var(--cui-surface-secondary); overflow:hidden; }
+.cui-chart-panel:focus-within { border-color:color-mix(in srgb,var(--cui-accent) 45%,var(--cui-border-default)); }
+@media (max-width: 600px) {
+  .cui-chart-panel__header { padding:var(--cui-space-3); }
+  .cui-chart-panel__body { padding:0 var(--cui-space-1) var(--cui-space-2); }
+  .cui-chart-panel--standard .cui-chart-canvas, .cui-chart-panel--large .cui-chart-canvas { height:280px; }
+  .cui-chart-panel--workspace .cui-chart-canvas { height:58vh; min-height:320px; }
+}
+
+
+.cui-icon{display:inline-block;vertical-align:-.18em;flex:0 0 auto;color:currentColor}
+.cui-icon-button .cui-icon{pointer-events:none}
+.cui-illustration{display:block;max-width:100%;height:auto;color:var(--cui-text-tertiary);margin-inline:auto}
+.cui-state-view .cui-illustration{width:min(192px,45vw);opacity:.92}
+@media (prefers-reduced-motion:reduce){.cui-icon,.cui-illustration{animation:none!important;transition:none!important}}
+
+.cui-eng-entity{display:grid;gap:var(--cui-space-3);padding:var(--cui-space-4);border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-md);background:var(--cui-surface)}
+.cui-eng-entity__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--cui-space-3)}
+.cui-eng-entity__identity{display:flex;align-items:center;gap:var(--cui-space-3);min-width:0}.cui-eng-entity__icon{color:var(--cui-text-secondary);display:inline-flex}
+.cui-property-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--cui-space-3)}
+.cui-eng-entity__title{font-size:var(--cui-type-subheading-size);line-height:var(--cui-type-subheading-line);color:var(--cui-text-primary);font-weight:600}.cui-eng-entity__secondary{font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);color:var(--cui-text-tertiary)}
+.cui-eng-status{display:inline-flex;align-items:center;gap:var(--cui-space-1);padding:3px 8px;border-radius:999px;border:1px solid var(--cui-border-default);font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);font-weight:600;white-space:nowrap}
+.cui-eng-status--normal{color:var(--cui-success);background:var(--cui-success-soft)}
+.cui-eng-status--watch,.cui-eng-status--warning,.cui-eng-status--hold{color:var(--cui-warning);background:var(--cui-warning-soft)}
+.cui-eng-status--critical{color:var(--cui-danger);background:var(--cui-danger-soft)}
+.cui-eng-status--unknown,.cui-eng-status--offline,.cui-eng-status--maintenance{color:var(--cui-text-secondary);background:var(--cui-surface-secondary)}
+.cui-spec{display:inline-flex;align-items:center;gap:var(--cui-space-2);font-size:var(--cui-type-label-size);line-height:var(--cui-type-label-line);font-variant-numeric:tabular-nums}.cui-spec__mark{width:7px;height:7px;border-radius:50%;background:currentColor}
+.cui-spec--in_spec{color:var(--cui-success)}.cui-spec--watch_low,.cui-spec--watch_high{color:var(--cui-warning)}.cui-spec--oos_low,.cui-spec--oos_high{color:var(--cui-danger)}.cui-spec--missing{color:var(--cui-text-tertiary)}
+.cui-baseline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--cui-space-3);padding:var(--cui-space-3);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-sm);background:var(--cui-surface-secondary)}
+.cui-baseline__label{font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);color:var(--cui-text-tertiary)}.cui-baseline__value{font-size:var(--cui-type-body-size);line-height:var(--cui-type-body-line);font-weight:600;font-variant-numeric:tabular-nums;color:var(--cui-text-primary)}
+.cui-evidence{display:grid;gap:var(--cui-space-2);padding:var(--cui-space-3);border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-md);background:var(--cui-surface);border-left-width:3px}
+.cui-evidence--supports{border-left-color:var(--cui-success)}.cui-evidence--contradicts{border-left-color:var(--cui-danger)}.cui-evidence--neutral{border-left-color:var(--cui-border-strong)}
+.cui-evidence__meta{display:flex;flex-wrap:wrap;gap:var(--cui-space-2);font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);color:var(--cui-text-tertiary)}.cui-evidence__title{font-size:var(--cui-type-body-size);line-height:var(--cui-type-body-line);font-weight:600;color:var(--cui-text-primary)}.cui-evidence__summary{font-size:var(--cui-type-body-size);line-height:var(--cui-type-body-line);color:var(--cui-text-secondary)}
+.cui-confidence{display:grid;gap:var(--cui-space-1);min-width:120px}.cui-confidence__track{height:5px;border-radius:999px;background:var(--cui-surface-secondary);overflow:hidden}.cui-confidence__fill{height:100%;border-radius:inherit;background:var(--cui-accent)}.cui-confidence__label{font-size:var(--cui-type-caption-size);line-height:var(--cui-type-caption-line);font-weight:600;color:var(--cui-text-secondary)}
+.cui-rca-balance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--cui-space-2)}.cui-rca-balance>div{padding:var(--cui-space-2);border-radius:var(--cui-radius-sm);background:var(--cui-surface-secondary);font-variant-numeric:tabular-nums}
+@media(max-width:767px){.cui-baseline,.cui-rca-balance{grid-template-columns:1fr}.cui-eng-entity__head{align-items:stretch;flex-direction:column}}
+
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cui-page);color:var(--cui-text-primary);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}body{font-size:var(--cui-type-body-size);line-height:var(--cui-type-body-line)}button,input,select{font:inherit}.review-top{height:58px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:16px;padding:0 22px;background:color-mix(in srgb,var(--cui-surface) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--cui-border-subtle)}.review-title{font-weight:650;font-size:14px}.review-spacer{flex:1}.review-control{display:inline-flex;align-items:center;gap:5px;padding:3px;background:var(--cui-surface-secondary);border:1px solid var(--cui-border-subtle);border-radius:9px}.review-control button{border:0;background:transparent;color:var(--cui-text-secondary);padding:5px 8px;border-radius:6px;cursor:pointer;font-size:11px}.review-control button.is-active{background:var(--cui-surface);color:var(--cui-text-primary);box-shadow:var(--cui-shadow-1)}.review-wrap{display:grid;grid-template-columns:210px minmax(0,1fr);min-height:calc(100vh - 58px)}.review-nav{position:sticky;top:58px;height:calc(100vh - 58px);overflow:auto;padding:18px 12px;border-right:1px solid var(--cui-border-subtle);background:var(--cui-surface)}.review-nav h3{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--cui-text-tertiary);padding:0 8px;margin:12px 0 6px}.review-nav button{width:100%;display:flex;align-items:center;gap:8px;padding:8px;border:0;border-radius:8px;background:transparent;color:var(--cui-text-secondary);cursor:pointer;text-align:left;font-size:12px}.review-nav button:hover{background:var(--cui-surface-hover);color:var(--cui-text-primary)}.review-nav button.is-active{background:var(--cui-accent-soft);color:var(--cui-accent);font-weight:600}.review-nav svg{width:16px;height:16px}.review-main{padding:28px;min-width:0}.review-intro{max-width:1180px;margin:0 auto 22px}.review-intro h1{font-size:28px;line-height:34px;letter-spacing:-.035em;margin:0 0 7px}.review-intro p{margin:0;color:var(--cui-text-secondary);max-width:880px}.cert-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.cert-pill{padding:6px 9px;border:1px solid var(--cui-border-subtle);border-radius:999px;background:var(--cui-surface);font-size:11px}.cert-pill.good{color:var(--cui-success);background:var(--cui-success-soft)}.cert-pill.warn{color:var(--cui-warning);background:var(--cui-warning-soft)}.viewport-wrap{margin:auto;transition:max-width var(--cui-motion-overlay) var(--cui-ease-standard)}.viewport-wrap.desktop{max-width:1440px}.viewport-wrap.tablet{max-width:900px}.viewport-wrap.phone{max-width:430px}.appframe{height:760px;border:1px solid var(--cui-border-default);border-radius:16px;background:var(--cui-page);box-shadow:var(--cui-shadow-2);overflow:hidden;display:grid;grid-template-columns:218px 1fr;grid-template-rows:52px 1fr;transition:all var(--cui-motion-overlay) var(--cui-ease-standard)}.app-header{grid-column:1/3;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--cui-border-subtle);background:var(--cui-surface)}.app-brand{display:flex;align-items:center;gap:9px;font-weight:650}.brandmark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--cui-accent);color:white}.app-header .crumb{font-size:11px;color:var(--cui-text-tertiary)}.app-header .grow{flex:1}.app-sidebar{grid-row:2;overflow:auto;background:var(--cui-surface);border-right:1px solid var(--cui-border-subtle);padding:12px 9px}.app-sidebar .nav-section{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--cui-text-tertiary);padding:10px 8px 5px}.app-sidebar .nav-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;color:var(--cui-text-secondary);font-size:11px;margin:1px 0}.app-sidebar .nav-item.active{background:var(--cui-accent-soft);color:var(--cui-accent);font-weight:600}.app-sidebar svg{width:15px;height:15px}.app-content{grid-column:2;grid-row:2;overflow:auto;padding:22px}.page-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:18px}.page-head h2{font-size:22px;line-height:28px;letter-spacing:-.025em;margin:0 0 3px}.page-head p{margin:0;color:var(--cui-text-secondary);font-size:12px}.page-head .grow{flex:1}.filters{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--cui-border-subtle);background:var(--cui-surface);border-radius:var(--cui-radius-md);margin-bottom:14px}.fake-input{height:32px;min-width:120px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 9px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-sm);background:var(--cui-surface);color:var(--cui-text-secondary);font-size:11px}.filters .grow{flex:1}.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{padding:14px;border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);background:var(--cui-surface)}.metric-label{font-size:10px;color:var(--cui-text-tertiary);text-transform:uppercase;letter-spacing:.05em}.metric-value{font-size:24px;line-height:30px;font-weight:650;letter-spacing:-.03em;margin:5px 0 2px;font-variant-numeric:tabular-nums}.metric-note{font-size:10px;color:var(--cui-text-secondary)}.metric-note.good{color:var(--cui-success)}.metric-note.bad{color:var(--cui-danger)}.analysis-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:12px;margin-bottom:12px}.review-panel{background:var(--cui-surface);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);min-width:0}.panel-head{display:flex;align-items:center;padding:13px 14px 8px}.panel-head h3{font-size:13px;margin:0}.panel-head p{font-size:10px;color:var(--cui-text-tertiary);margin:2px 0 0}.panel-head .grow{flex:1}.chart-area{height:210px;padding:4px 14px 14px}.chart-svg{width:100%;height:100%}.gridline{stroke:var(--cui-border-subtle);stroke-width:1}.line-main{fill:none;stroke:var(--cui-accent);stroke-width:2}.line-warn{stroke:var(--cui-warning);stroke-width:1;stroke-dasharray:4 4}.area-fill{fill:color-mix(in srgb,var(--cui-accent) 10%,transparent)}.bar{fill:var(--cui-accent)}.bar.alt{fill:color-mix(in srgb,var(--cui-accent) 45%,var(--cui-surface))}.table-shell{background:var(--cui-surface);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-md);overflow:hidden}.table-toolbar{display:flex;align-items:center;gap:7px;padding:9px 10px;border-bottom:1px solid var(--cui-border-subtle)}.table-toolbar .grow{flex:1}.review-table{width:100%;border-collapse:collapse;font-size:11px}.review-table th{text-align:left;padding:8px 10px;color:var(--cui-text-tertiary);font-size:9px;text-transform:uppercase;letter-spacing:.05em;background:var(--cui-surface-secondary);border-bottom:1px solid var(--cui-border-subtle)}.review-table td{padding:9px 10px;border-bottom:1px solid var(--cui-border-subtle)}.review-table tr:last-child td{border-bottom:0}.review-table tr:hover td{background:var(--cui-surface-hover)}.num{text-align:right;font-variant-numeric:tabular-nums}.screen{display:none}.screen.active{display:block}.mobile-only{display:none}.drawer{position:absolute;top:52px;right:0;bottom:0;width:340px;background:var(--cui-surface-elevated);border-left:1px solid var(--cui-border-default);box-shadow:var(--cui-shadow-2);transform:translateX(102%);transition:transform var(--cui-motion-overlay) var(--cui-ease-enter);z-index:30;display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-head{display:flex;align-items:center;gap:8px;padding:15px;border-bottom:1px solid var(--cui-border-subtle)}.drawer-head .grow{flex:1}.drawer-body{padding:15px;overflow:auto}.kv{display:grid;grid-template-columns:100px 1fr;gap:7px 10px;font-size:11px}.kv .k{color:var(--cui-text-tertiary)}.dialog-scrim{position:absolute;inset:52px 0 0 0;background:var(--cui-overlay-scrim);z-index:40;display:none;place-items:center}.dialog-scrim.open{display:grid}.review-dialog{width:min(420px,calc(100% - 32px));background:var(--cui-surface-elevated);border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-lg);box-shadow:var(--cui-shadow-2);padding:18px}.review-dialog h3{margin:0 0 5px;font-size:16px}.review-dialog p{color:var(--cui-text-secondary);font-size:12px}.dialog-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:18px}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{padding:15px;border:1px solid var(--cui-border-subtle);background:var(--cui-surface);border-radius:var(--cui-radius-md)}.gallery-card h3{font-size:12px;margin:0 0 11px}.row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.field-demo{display:grid;gap:5px;margin:8px 0}.field-demo label{font-size:10px;font-weight:600}.field-box{height:34px;border:1px solid var(--cui-border-default);border-radius:var(--cui-radius-sm);display:flex;align-items:center;padding:0 9px;color:var(--cui-text-secondary);background:var(--cui-surface)}.state-card{padding:12px;border:1px dashed var(--cui-border-default);border-radius:var(--cui-radius-md);text-align:center;color:var(--cui-text-secondary);font-size:11px}.wafer{width:150px;height:150px;border-radius:50%;border:2px solid var(--cui-border-default);margin:12px auto;position:relative;background:radial-gradient(circle at 30% 30%,var(--cui-surface),var(--cui-surface-secondary))}.die{position:absolute;width:10px;height:10px;border-radius:2px;background:var(--cui-success)}.die.bad{background:var(--cui-danger)}.evidence{padding:10px;border-left:3px solid var(--cui-accent);background:var(--cui-surface-secondary);border-radius:0 8px 8px 0;margin:7px 0}.evidence.contra{border-left-color:var(--cui-danger)}.evidence .title{font-size:11px;font-weight:600}.evidence .desc{font-size:10px;color:var(--cui-text-secondary)}.settings-grid{display:grid;grid-template-columns:180px 1fr;gap:12px}.settings-menu{padding:9px}.settings-menu div{padding:7px 8px;border-radius:7px;font-size:11px;color:var(--cui-text-secondary)}.settings-menu .active{background:var(--cui-accent-soft);color:var(--cui-accent)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.switch{width:36px;height:20px;border-radius:999px;background:var(--cui-accent);position:relative}.switch:after{content:"";position:absolute;width:16px;height:16px;right:2px;top:2px;background:white;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2)}.toast{position:absolute;right:18px;bottom:18px;background:var(--cui-surface-elevated);border:1px solid var(--cui-border-default);box-shadow:var(--cui-shadow-2);border-radius:10px;padding:10px 12px;display:none;align-items:center;gap:8px;z-index:50}.toast.show{display:flex}.review-note{margin:18px auto 0;max-width:1440px;padding:12px 14px;background:var(--cui-warning-soft);color:var(--cui-warning);border:1px solid color-mix(in srgb,var(--cui-warning) 25%,transparent);border-radius:10px;font-size:11px}.viewport-wrap.tablet .appframe{grid-template-columns:62px 1fr}.viewport-wrap.tablet .app-sidebar .nav-item span,.viewport-wrap.tablet .app-sidebar .nav-section{display:none}.viewport-wrap.tablet .app-sidebar .nav-item{justify-content:center}.viewport-wrap.tablet .metric-grid{grid-template-columns:repeat(2,1fr)}.viewport-wrap.tablet .analysis-grid{grid-template-columns:1fr}.viewport-wrap.phone .appframe{grid-template-columns:1fr;grid-template-rows:52px 1fr;height:720px}.viewport-wrap.phone .app-header{grid-column:1}.viewport-wrap.phone .app-sidebar{display:none}.viewport-wrap.phone .app-content{grid-column:1;padding:14px}.viewport-wrap.phone .mobile-only{display:inline-flex}.viewport-wrap.phone .app-header .crumb{display:none}.viewport-wrap.phone .metric-grid{grid-template-columns:1fr 1fr}.viewport-wrap.phone .analysis-grid{grid-template-columns:1fr}.viewport-wrap.phone .filters .fake-input{display:none}.viewport-wrap.phone .filters .filter-mobile{display:flex}.viewport-wrap.phone .drawer{width:100%}.viewport-wrap.phone .gallery-grid{grid-template-columns:1fr}.viewport-wrap.phone .settings-grid{grid-template-columns:1fr}.viewport-wrap.phone .settings-menu{display:none}.viewport-wrap.phone .form-grid{grid-template-columns:1fr}.viewport-wrap.phone .review-table th:nth-child(4),.viewport-wrap.phone .review-table td:nth-child(4),.viewport-wrap.phone .review-table th:nth-child(5),.viewport-wrap.phone .review-table td:nth-child(5){display:none}@media(max-width:850px){.review-wrap{grid-template-columns:1fr}.review-nav{display:none}.review-main{padding:18px}.review-top{padding:0 12px}.review-title{font-size:12px}.review-intro h1{font-size:23px}.review-control.viewport-switch{display:none}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition-duration:0.001ms!important;animation-duration:0.001ms!important}}
+</style></head><body><header class="review-top"><div class="review-title">NiceGUI Base · Phase 12 Comprehensive Review</div><div class="review-spacer"></div><div class="review-control"><button data-theme="light" class="is-active">Light</button><button data-theme="dark">Dark</button></div><div class="review-control"><button data-density="comfortable">Comfort</button><button data-density="compact" class="is-active">Compact</button><button data-density="dense">Dense</button></div><div class="review-control viewport-switch"><button data-viewport="desktop" class="is-active">Desktop</button><button data-viewport="tablet">Tablet</button><button data-viewport="phone">Phone</button></div></header><div class="review-wrap"><nav class="review-nav"><h3>Application patterns</h3><button data-screen="dashboard" class="is-active"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M3.5 10.5 12 3l8.5 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9.5 21v-6h5v6"/></svg><span>Overview</span></button><button data-screen="explorer" class=""><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span>Data Explorer</span></button><button data-screen="monitoring" class=""><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M12 3 22 20H2z"/><path d="M12 9v5M12 17h.01"/></svg><span>Monitoring</span></button><button data-screen="master" class=""><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M15 9v11"/></svg><span>Master / Detail</span></button><button data-screen="rca" class=""><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="5" r="2"/><circle cx="6" cy="13" r="2"/><circle cx="18" cy="13" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="20" r="2"/><path d="M12 7v2M12 9H6v2M12 9h6v2M6 15v3M18 15v3"/></svg><span>Engineering RCA</span></button><button data-screen="settings" class=""><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg><span>Forms / Settings</span></button><button data-screen="gallery" class=""><span>Component Gallery</span></button><button data-screen="assets" class=""><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="9"/><path d="M10 21h4"/><path d="M6 8h12M5 12h14M6 16h12M8 5v14M12 3v18M16 5v14" opacity=".7"/></svg><span>Visual Assets</span></button><h3>Certification</h3><div style="padding:8px;font-size:10px;color:var(--cui-text-secondary)">v0.90.0 Release Candidate<br>357 automated tests<br>8 offline certification gates passed</div></nav><main class="review-main"><div class="review-intro"><h1>Full-platform visual acceptance</h1><p>This single review consolidates the approved design kernel, application layouts, components, interactions, tables, analytics, engineering patterns and visual assets. It is generated with the same combined framework CSS used by the NiceGUI adapter.</p><div class="cert-strip"><span class="cert-pill good">8 certification checks pass</span><span class="cert-pill warn">1 runtime certification pending</span><span class="cert-pill good">278 semantic registry entries</span><span class="cert-pill good">59 KB framework CSS</span><span class="cert-pill good">No CDN resources</span></div></div><div id="viewport" class="viewport-wrap desktop"><div class="appframe" style="position:relative"><div class="app-header"><button class="cui-icon-button cui-icon-button--ghost mobile-only"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="app-brand"><span class="brandmark">N</span> Equipment Health</div><div class="crumb">Manufacturing / Equipment</div><div class="grow"></div><span class="cui-badge cui-badge--neutral">PROD</span><button class="cui-icon-button cui-icon-button--ghost"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M20 7v5h-5"/><path d="M19 12a7 7 0 1 0-2 5"/></svg></button><button class="cui-icon-button cui-icon-button--ghost"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button></div><aside class="app-sidebar"><div class="nav-section">Operations</div><div class="nav-item active"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M7 10h4v4H7zM14 10h3M14 14h3M8 3v3M16 3v3"/></svg><span>Equipment Health</span></div><div class="nav-item"><span>Yield Monitor</span></div><div class="nav-item"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="5" r="2"/><circle cx="6" cy="13" r="2"/><circle cx="18" cy="13" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="20" r="2"/><path d="M12 7v2M12 9H6v2M12 9h6v2M6 15v3M18 15v3"/></svg><span>Investigations</span></div><div class="nav-section">Workspace</div><div class="nav-item"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M15 9v11"/></svg><span>Saved Views</span></div><div class="nav-item"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg><span>Settings</span></div></aside><div class="app-content"><section id="screen-dashboard" class="screen active"><div class="page-head"><div><h2>Equipment Health</h2><p>Current operational risk, excursions and affected material.</p></div><div class="grow"></div><div class="row"><button class="cui-button cui-button--primary cui-control--medium">Run analysis</button><button class="cui-button cui-button--secondary cui-control--medium">Export</button></div></div><div class="filters"><div class="fake-input">Area <b>ETCH</b></div><div class="fake-input">Tool <b>All</b></div><div class="fake-input">Chamber <b>All</b></div><div class="fake-input">Period <b>7 days</b></div><div class="fake-input filter-mobile" style="display:none"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg> Filters · 3</div><div class="grow"></div><span style="font-size:10px;color:var(--cui-text-tertiary)">Updated 18 sec ago</span></div><div class="metric-grid"><div class="metric"><div class="metric-label">Affected lots</div><div class="metric-value">1,284</div><div class="metric-note bad">↑ 12.8% vs prior week</div></div><div class="metric"><div class="metric-label">Excursions</div><div class="metric-value">48</div><div class="metric-note">7-day window</div></div><div class="metric"><div class="metric-label">Critical tools</div><div class="metric-value">3</div><div class="metric-note bad">2 need review</div></div><div class="metric"><div class="metric-label">Median yield</div><div class="metric-value">98.1%</div><div class="metric-note good">+0.2 pp</div></div></div><div class="analysis-grid"><div class="review-panel"><div class="panel-head"><div><h3>Excursions over time</h3><p>Daily excursion events · USL shown</p></div><div class="grow"></div><span class="cui-badge cui-badge--success">Live</span></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 600 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="30" x2="600" y2="30"/><line class="gridline" x1="0" y1="75" x2="600" y2="75"/><line class="gridline" x1="0" y1="120" x2="600" y2="120"/><line class="gridline" x1="0" y1="165" x2="600" y2="165"/><path class="area-fill" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54 L600,180 L0,180 Z"/><path class="line-main" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54"/><line class="line-warn" x1="0" y1="52" x2="600" y2="52"/></svg></div></div><div class="review-panel"><div class="panel-head"><div><h3>Top contributors</h3><p>Pareto contribution</p></div></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 400 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="165" x2="400" y2="165"/><rect class="bar" x="30" y="35" width="44" height="130" rx="3"/><rect class="bar alt" x="96" y="70" width="44" height="95" rx="3"/><rect class="bar alt" x="162" y="95" width="44" height="70" rx="3"/><rect class="bar alt" x="228" y="120" width="44" height="45" rx="3"/><rect class="bar alt" x="294" y="138" width="44" height="27" rx="3"/><path class="line-main" d="M52,120 L118,82 L184,58 L250,42 L316,32"/></svg></div></div></div><div class="table-shell"><div class="table-toolbar"><div class="fake-input"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg> Search equipment…</div><div class="grow"></div><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M14 5h6v6M20 5l-9 9"/><path d="M18 14v5H4V5h7"/></svg></button></div><table class="review-table"><thead><tr><th>Tool</th><th>Status</th><th class="num">Excursions</th><th class="num">Yield</th><th>Updated</th></tr></thead><tbody><tr><td><b>ETCH-021</b></td><td><span class="cui-badge cui-badge--danger">Critical</span></td><td class="num">8</td><td class="num">96.4%</td><td>18 sec</td></tr><tr><td><b>ETCH-014</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">4</td><td class="num">98.1%</td><td>22 sec</td></tr><tr><td><b>CVD-103</b></td><td><span class="cui-badge cui-badge--success">Normal</span></td><td class="num">1</td><td class="num">99.0%</td><td>34 sec</td></tr><tr><td><b>CMP-008</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">3</td><td class="num">97.8%</td><td>41 sec</td></tr></tbody></table></div></section><section id="screen-explorer" class="screen "><div class="page-head"><div><h2>Excursion Explorer</h2><p>Filter, compare and drill into the affected population.</p></div><div class="grow"></div><div class="row"><button class="cui-button cui-button--primary cui-control--medium">Run analysis</button><button class="cui-button cui-button--secondary cui-control--medium">Export</button></div></div><div class="filters"><div class="fake-input">Area <b>ETCH</b></div><div class="fake-input">Tool <b>All</b></div><div class="fake-input">Chamber <b>All</b></div><div class="fake-input">Period <b>7 days</b></div><div class="fake-input filter-mobile" style="display:none"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg> Filters · 3</div><div class="grow"></div><span style="font-size:10px;color:var(--cui-text-tertiary)">Updated 18 sec ago</span></div><div class="analysis-grid"><div class="review-panel"><div class="panel-head"><div><h3>Process parameter trend</h3><p>CD Bias · nm · affected population</p></div><div class="grow"></div><span class="cui-badge cui-badge--warning">Near upper limit</span></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 600 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="30" x2="600" y2="30"/><line class="gridline" x1="0" y1="75" x2="600" y2="75"/><line class="gridline" x1="0" y1="120" x2="600" y2="120"/><line class="gridline" x1="0" y1="165" x2="600" y2="165"/><path class="area-fill" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54 L600,180 L0,180 Z"/><path class="line-main" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54"/><line class="line-warn" x1="0" y1="52" x2="600" y2="52"/></svg></div></div><div class="review-panel"><div class="panel-head"><div><h3>Distribution</h3><p>Affected vs control</p></div></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 400 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="165" x2="400" y2="165"/><rect class="bar" x="30" y="35" width="44" height="130" rx="3"/><rect class="bar alt" x="96" y="70" width="44" height="95" rx="3"/><rect class="bar alt" x="162" y="95" width="44" height="70" rx="3"/><rect class="bar alt" x="228" y="120" width="44" height="45" rx="3"/><rect class="bar alt" x="294" y="138" width="44" height="27" rx="3"/><path class="line-main" d="M52,120 L118,82 L184,58 L250,42 L316,32"/></svg></div></div></div><div class="table-shell"><div class="table-toolbar"><div class="fake-input"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg> Search equipment…</div><div class="grow"></div><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M14 5h6v6M20 5l-9 9"/><path d="M18 14v5H4V5h7"/></svg></button></div><table class="review-table"><thead><tr><th>Tool</th><th>Status</th><th class="num">Excursions</th><th class="num">Yield</th><th>Updated</th></tr></thead><tbody><tr><td><b>ETCH-021</b></td><td><span class="cui-badge cui-badge--danger">Critical</span></td><td class="num">8</td><td class="num">96.4%</td><td>18 sec</td></tr><tr><td><b>ETCH-014</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">4</td><td class="num">98.1%</td><td>22 sec</td></tr><tr><td><b>CVD-103</b></td><td><span class="cui-badge cui-badge--success">Normal</span></td><td class="num">1</td><td class="num">99.0%</td><td>34 sec</td></tr><tr><td><b>CMP-008</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">3</td><td class="num">97.8%</td><td>41 sec</td></tr></tbody></table></div></section><section id="screen-monitoring" class="screen "><div class="page-head"><div><h2>Live Monitoring</h2><p>Auto-refreshing operational health with stale-data protection.</p></div><div class="grow"></div><div class="row"><button class="cui-button cui-button--secondary cui-control--medium">Pause refresh</button></div></div><div class="cui-alert cui-alert--warning" style="margin-bottom:12px;padding:10px 12px;border-radius:9px;background:var(--cui-warning-soft);color:var(--cui-warning)">3 critical tools require review; last successful refresh 18 seconds ago.</div><div class="metric-grid"><div class="metric"><div class="metric-label">Affected lots</div><div class="metric-value">1,284</div><div class="metric-note bad">↑ 12.8% vs prior week</div></div><div class="metric"><div class="metric-label">Excursions</div><div class="metric-value">48</div><div class="metric-note">7-day window</div></div><div class="metric"><div class="metric-label">Critical tools</div><div class="metric-value">3</div><div class="metric-note bad">2 need review</div></div><div class="metric"><div class="metric-label">Median yield</div><div class="metric-value">98.1%</div><div class="metric-note good">+0.2 pp</div></div></div><div class="review-panel"><div class="panel-head"><div><h3>Tool health timeline</h3><p>Live process excursion count</p></div><div class="grow"></div><span class="cui-badge cui-badge--info">Auto refresh · 60s</span></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 600 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="30" x2="600" y2="30"/><line class="gridline" x1="0" y1="75" x2="600" y2="75"/><line class="gridline" x1="0" y1="120" x2="600" y2="120"/><line class="gridline" x1="0" y1="165" x2="600" y2="165"/><path class="area-fill" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54 L600,180 L0,180 Z"/><path class="line-main" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54"/><line class="line-warn" x1="0" y1="52" x2="600" y2="52"/></svg></div></div><div style="height:12px"></div><div class="table-shell"><div class="table-toolbar"><div class="fake-input"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg> Search equipment…</div><div class="grow"></div><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M14 5h6v6M20 5l-9 9"/><path d="M18 14v5H4V5h7"/></svg></button></div><table class="review-table"><thead><tr><th>Tool</th><th>Status</th><th class="num">Excursions</th><th class="num">Yield</th><th>Updated</th></tr></thead><tbody><tr><td><b>ETCH-021</b></td><td><span class="cui-badge cui-badge--danger">Critical</span></td><td class="num">8</td><td class="num">96.4%</td><td>18 sec</td></tr><tr><td><b>ETCH-014</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">4</td><td class="num">98.1%</td><td>22 sec</td></tr><tr><td><b>CVD-103</b></td><td><span class="cui-badge cui-badge--success">Normal</span></td><td class="num">1</td><td class="num">99.0%</td><td>34 sec</td></tr><tr><td><b>CMP-008</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">3</td><td class="num">97.8%</td><td>41 sec</td></tr></tbody></table></div></section><section id="screen-master" class="screen "><div class="page-head"><div><h2>Equipment Directory</h2><p>Master/detail exploration preserves context while inspecting one entity.</p></div><div class="grow"></div><div class="row"><button class="cui-button cui-button--primary cui-control--medium" onclick="openDrawer()">Open detail drawer</button></div></div><div class="analysis-grid" style="grid-template-columns:.8fr 1.2fr"><div><div class="table-shell"><div class="table-toolbar"><div class="fake-input"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg> Search equipment…</div><div class="grow"></div><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M14 5h6v6M20 5l-9 9"/><path d="M18 14v5H4V5h7"/></svg></button></div><table class="review-table"><thead><tr><th>Tool</th><th>Status</th><th class="num">Excursions</th><th class="num">Yield</th><th>Updated</th></tr></thead><tbody><tr><td><b>ETCH-021</b></td><td><span class="cui-badge cui-badge--danger">Critical</span></td><td class="num">8</td><td class="num">96.4%</td><td>18 sec</td></tr><tr><td><b>ETCH-014</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">4</td><td class="num">98.1%</td><td>22 sec</td></tr><tr><td><b>CVD-103</b></td><td><span class="cui-badge cui-badge--success">Normal</span></td><td class="num">1</td><td class="num">99.0%</td><td>34 sec</td></tr><tr><td><b>CMP-008</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">3</td><td class="num">97.8%</td><td>41 sec</td></tr></tbody></table></div></div><div class="review-panel" style="padding:15px"><div class="row"><div class="brandmark"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M7 10h4v4H7zM14 10h3M14 14h3M8 3v3M16 3v3"/></svg></div><div><b>ETCH-021</b><div style="font-size:10px;color:var(--cui-text-secondary)">ETCH · Chamber B</div></div><div style="flex:1"></div><span class="cui-badge cui-badge--danger">Critical</span></div><div style="height:14px"></div><div class="kv"><div class="k">Recipe</div><div>OX-420-A</div><div class="k">Last PM</div><div>Aug 22 · 07:14</div><div class="k">Affected lots</div><div>324</div><div class="k">Current alarm</div><div>CD bias drift</div></div><div style="height:12px"></div><div class="panel-head" style="padding-left:0"><h3>Recent trend</h3></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 600 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="30" x2="600" y2="30"/><line class="gridline" x1="0" y1="75" x2="600" y2="75"/><line class="gridline" x1="0" y1="120" x2="600" y2="120"/><line class="gridline" x1="0" y1="165" x2="600" y2="165"/><path class="area-fill" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54 L600,180 L0,180 Z"/><path class="line-main" d="M0,144 L70,130 L140,136 L210,98 L280,112 L350,64 L420,80 L490,42 L560,67 L600,54"/><line class="line-warn" x1="0" y1="52" x2="600" y2="52"/></svg></div></div></div></section><section id="screen-rca" class="screen "><div class="page-head"><div><h2>RCA Investigation</h2><p>Evidence-first root cause workspace: commonality is not automatically causality.</p></div><div class="grow"></div><div class="row"><button class="cui-button cui-button--primary cui-control--medium">Rank hypotheses</button></div></div><div class="metric-grid"><div class="metric"><div class="metric-label">Affected lots</div><div class="metric-value">1,284</div><div class="metric-note bad">↑ 12.8% vs prior week</div></div><div class="metric"><div class="metric-label">Excursions</div><div class="metric-value">48</div><div class="metric-note">7-day window</div></div><div class="metric"><div class="metric-label">Critical tools</div><div class="metric-value">3</div><div class="metric-note bad">2 need review</div></div><div class="metric"><div class="metric-label">Median yield</div><div class="metric-value">98.1%</div><div class="metric-note good">+0.2 pp</div></div></div><div class="analysis-grid" style="grid-template-columns:.75fr 1.25fr"><div class="review-panel" style="padding:14px"><h3 style="font-size:13px;margin:0 0 10px">Candidate hypotheses</h3><div class="evidence"><div class="title">Chamber B deposition drift <span class="cui-badge cui-badge--warning">High</span></div><div class="desc">Strong metrology + SPC support · one routing contradiction</div></div><div class="evidence"><div class="title">Recipe OX-420-A interaction <span class="cui-badge cui-badge--info">Moderate</span></div><div class="desc">Affected/control enrichment 2.6×</div></div><div class="evidence contra"><div class="title">PM-induced chamber condition <span class="cui-badge cui-badge--neutral">Low</span></div><div class="desc">Timing weakly supports; physical evidence contradicts</div></div></div><div class="review-panel" style="padding:14px"><div class="row"><h3 style="font-size:13px;margin:0">Evidence balance</h3><div style="flex:1"></div><span class="cui-badge cui-badge--info">Candidate · not probability</span></div><div class="evidence"><div class="title">Metrology signature supports</div><div class="desc">Affected lots show +2.8σ CD bias after Chamber B exposure.</div></div><div class="evidence"><div class="title">SPC excursion supports</div><div class="desc">Control-chart breach begins 42 minutes before first affected lot.</div></div><div class="evidence contra"><div class="title">Routing contradiction remains visible</div><div class="desc">17% of controls share Chamber B without the excursion signature.</div></div><div style="height:10px"></div><div class="row"><span class="cui-badge cui-badge--success">Supports 7</span><span class="cui-badge cui-badge--danger">Contradicts 2</span><span class="cui-badge cui-badge--neutral">Neutral 1</span></div></div></div><div class="analysis-grid"><div class="review-panel"><div class="panel-head"><div><h3>Commonality enrichment</h3><p>Affected vs control exposure</p></div></div><div class="chart-area"><svg class="chart-svg" viewBox="0 0 400 180" preserveAspectRatio="none"><line class="gridline" x1="0" y1="165" x2="400" y2="165"/><rect class="bar" x="30" y="35" width="44" height="130" rx="3"/><rect class="bar alt" x="96" y="70" width="44" height="95" rx="3"/><rect class="bar alt" x="162" y="95" width="44" height="70" rx="3"/><rect class="bar alt" x="228" y="120" width="44" height="45" rx="3"/><rect class="bar alt" x="294" y="138" width="44" height="27" rx="3"/><path class="line-main" d="M52,120 L118,82 L184,58 L250,42 L316,32"/></svg></div></div><div class="review-panel"><div class="panel-head"><div><h3>Wafer spatial signature</h3><p>Representative affected wafer</p></div></div><div class="wafer"><span class="die " style="left:25px;top:25px"></span><span class="die " style="left:45px;top:25px"></span><span class="die " style="left:65px;top:25px"></span><span class="die bad" style="left:85px;top:25px"></span><span class="die " style="left:105px;top:25px"></span><span class="die " style="left:25px;top:45px"></span><span class="die " style="left:45px;top:45px"></span><span class="die bad" style="left:65px;top:45px"></span><span class="die bad" style="left:85px;top:45px"></span><span class="die " style="left:105px;top:45px"></span><span class="die " style="left:25px;top:65px"></span><span class="die " style="left:45px;top:65px"></span><span class="die bad" style="left:65px;top:65px"></span><span class="die bad" style="left:85px;top:65px"></span><span class="die " style="left:105px;top:65px"></span><span class="die " style="left:25px;top:85px"></span><span class="die " style="left:45px;top:85px"></span><span class="die " style="left:65px;top:85px"></span><span class="die " style="left:85px;top:85px"></span><span class="die " style="left:105px;top:85px"></span></div></div></div></section><section id="screen-settings" class="screen "><div class="page-head"><div><h2>Application Settings</h2><p>Typed forms, validation, preferences and permission-aware actions.</p></div><div class="grow"></div><div class="row"><button class="cui-button cui-button--primary cui-control--medium" onclick="showToast()">Save changes</button></div></div><div class="settings-grid"><div class="review-panel settings-menu"><div class="active">General</div><div>Notifications</div><div>Data refresh</div><div>Permissions</div><div>Advanced</div></div><div class="review-panel" style="padding:16px"><h3 style="font-size:14px;margin:0 0 4px">General</h3><p style="font-size:11px;color:var(--cui-text-secondary);margin:0 0 15px">Workspace defaults are persisted per user.</p><div class="form-grid"><div class="field-demo"><label>Application name</label><div class="field-box">Equipment Health</div></div><div class="field-demo"><label>Default area</label><div class="field-box">ETCH ▾</div></div><div class="field-demo"><label>Auto refresh interval</label><div class="field-box">60 seconds</div></div><div class="field-demo"><label>Density</label><div class="field-box">Compact ▾</div></div></div><div style="height:10px"></div><div class="row" style="justify-content:space-between;padding:9px 0;border-top:1px solid var(--cui-border-subtle)"><div><b style="font-size:11px">Auto refresh</b><div style="font-size:10px;color:var(--cui-text-tertiary)">Refresh when the tab is active.</div></div><div class="switch"></div></div><div class="row" style="justify-content:space-between;padding:9px 0;border-top:1px solid var(--cui-border-subtle)"><div><b style="font-size:11px">Persist table layout</b><div style="font-size:10px;color:var(--cui-text-tertiary)">Column width, pinning, sort and density.</div></div><div class="switch"></div></div></div></div></section><section id="screen-gallery" class="screen "><div class="page-head"><div><h2>Component Gallery</h2><p>Canonical visual states generated from the approved design system.</p></div><div class="grow"></div><div class="row"></div></div><div class="gallery-grid"><div class="gallery-card"><h3>Actions</h3><div class="row"><button class="cui-button cui-button--primary cui-control--medium">Primary</button><button class="cui-button cui-button--secondary cui-control--medium">Secondary</button><button class="cui-button cui-button--tertiary cui-control--medium">Tertiary</button><button class="cui-button cui-button--danger cui-control--medium">Danger</button></div><div class="row" style="margin-top:9px"><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"></button></div></div><div class="gallery-card"><h3>Status & metadata</h3><div class="row"><span class="cui-badge cui-badge--success">Normal</span><span class="cui-badge cui-badge--warning">Watch</span><span class="cui-badge cui-badge--danger">Critical</span><span class="cui-badge cui-badge--neutral">Unknown</span><span class="cui-badge cui-badge--info">Info</span></div></div><div class="gallery-card"><h3>Inputs</h3><div class="field-demo"><label>Tool ID</label><div class="field-box">ETCH-021</div></div><div class="field-demo"><label>Area</label><div class="field-box">ETCH ▾</div></div></div><div class="gallery-card"><h3>Surfaces</h3><div class="cui-surface cui-surface--panel" style="padding:10px;margin-bottom:7px">Panel</div><div class="cui-surface cui-surface--well" style="padding:10px">Well / secondary surface</div></div><div class="gallery-card"><h3>Feedback</h3><div style="padding:8px;border-radius:8px;background:var(--cui-success-soft);color:var(--cui-success);margin-bottom:7px">✓ Saved successfully</div><div style="padding:8px;border-radius:8px;background:var(--cui-warning-soft);color:var(--cui-warning)">△ Data is 4 minutes stale</div></div><div class="gallery-card"><h3>Empty / error states</h3><div class="state-card">No matching records<br><button class="cui-button cui-button--secondary cui-control--small" style="margin-top:8px">Clear filters</button></div></div></div><div style="height:12px"></div><div class="table-shell"><div class="table-toolbar"><div class="fake-input"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg> Search equipment…</div><div class="grow"></div><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></button><button class="cui-icon-button cui-icon-button--secondary"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M14 5h6v6M20 5l-9 9"/><path d="M18 14v5H4V5h7"/></svg></button></div><table class="review-table"><thead><tr><th>Tool</th><th>Status</th><th class="num">Excursions</th><th class="num">Yield</th><th>Updated</th></tr></thead><tbody><tr><td><b>ETCH-021</b></td><td><span class="cui-badge cui-badge--danger">Critical</span></td><td class="num">8</td><td class="num">96.4%</td><td>18 sec</td></tr><tr><td><b>ETCH-014</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">4</td><td class="num">98.1%</td><td>22 sec</td></tr><tr><td><b>CVD-103</b></td><td><span class="cui-badge cui-badge--success">Normal</span></td><td class="num">1</td><td class="num">99.0%</td><td>34 sec</td></tr><tr><td><b>CMP-008</b></td><td><span class="cui-badge cui-badge--warning">Watch</span></td><td class="num">3</td><td class="num">97.8%</td><td>41 sec</td></tr></tbody></table></div></section><section id="screen-assets" class="screen "><div class="page-head"><div><h2>Visual Resource System</h2><p>Self-contained semantic icon vocabulary and engineering visual primitives.</p></div><div class="grow"></div><div class="row"></div></div><div class="gallery-grid"><div class="gallery-card"><h3>Canonical actions</h3><div class="row" style="font-size:22px"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M20 7v5h-5"/><path d="M19 12a7 7 0 1 0-2 5"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M14 5h6v6M20 5l-9 9"/><path d="M18 14v5H4V5h7"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></div></div><div class="gallery-card"><h3>Engineering vocabulary</h3><div class="row" style="font-size:22px"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M7 10h4v4H7zM14 10h3M14 14h3M8 3v3M16 3v3"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="9"/><path d="M10 21h4"/><path d="M6 8h12M5 12h14M6 16h12M8 5v14M12 3v18M16 5v14" opacity=".7"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="5" r="2"/><circle cx="6" cy="13" r="2"/><circle cx="18" cy="13" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="20" r="2"/><path d="M12 7v2M12 9H6v2M12 9h6v2M6 15v3M18 15v3"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="M12 3 22 20H2z"/><path d="M12 9v5M12 17h.01"/></svg><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></div><div style="font-size:10px;color:var(--cui-text-tertiary);margin-top:8px">143 semantic icons · project-local SVG</div></div><div class="gallery-card"><h3>Asset governance</h3><div style="font-size:11px;color:var(--cui-text-secondary)">Manifested · alias-aware · currentColor · no remote runtime resources · SVG security validation.</div></div></div><div class="review-panel" style="margin-top:12px;padding:16px"><h3 style="font-size:13px;margin-top:0">Semantic resources travel with the wheel</h3><div class="cert-strip"><span class="cert-pill good">143 icons</span><span class="cert-pill good">12 illustrations</span><span class="cert-pill good">6 chart markers</span><span class="cert-pill good">5 accessibility patterns</span><span class="cert-pill good">0 asset issues</span></div></div></section></div><aside id="drawer" class="drawer"><div class="drawer-head"><div><b>ETCH-021</b><div style="font-size:10px;color:var(--cui-text-secondary)">Equipment details</div></div><div class="grow"></div><button class="cui-icon-button cui-icon-button--ghost" onclick="closeDrawer()"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div class="drawer-body"><div class="row"><span class="cui-badge cui-badge--danger">Critical</span><span class="cui-badge cui-badge--success">Fresh · 18 sec</span></div><div style="height:16px"></div><div class="kv"><div class="k">Area</div><div>ETCH</div><div class="k">Chamber</div><div>B</div><div class="k">Recipe</div><div>OX-420-A</div><div class="k">Affected lots</div><div>324</div><div class="k">Last PM</div><div>Aug 22 · 07:14</div></div><div style="height:16px"></div><button class="cui-button cui-button--primary cui-control--medium" onclick="openDialog()">Start investigation</button></div></aside><div id="dialog" class="dialog-scrim"><div class="review-dialog"><h3>Start investigation?</h3><p>Create a new investigation for ETCH-021 using the currently filtered evidence context.</p><div class="dialog-actions"><button class="cui-button cui-button--secondary cui-control--medium" onclick="closeDialog()">Cancel</button><button class="cui-button cui-button--primary cui-control--medium" onclick="closeDialog();showToast()">Create investigation</button></div></div></div><div id="toast" class="toast"><svg class="cui-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" ><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg><div><b style="font-size:11px">Saved successfully</b><div style="font-size:9px;color:var(--cui-text-secondary)">Workspace preferences updated.</div></div></div></div></div><div class="review-note"><b>Runtime certification boundary:</b> this HTML is the authoritative integrated visual target. Exact NiceGUI/Quasar/AG Grid/ECharts browser equivalence still requires a machine with NiceGUI 3.15.0 installed; this sandbox does not contain NiceGUI.</div></main></div><script>
+const root=document.documentElement;
+document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-theme]').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');root.dataset.theme=b.dataset.theme;}));
+document.querySelectorAll('[data-density]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-density]').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');root.dataset.density=b.dataset.density;}));
+document.querySelectorAll('[data-viewport]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-viewport]').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');const v=document.getElementById('viewport');v.className='viewport-wrap '+b.dataset.viewport;}));
+document.querySelectorAll('[data-screen]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-screen]').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('screen-'+b.dataset.screen).classList.add('active');}));
+function openDrawer(){document.getElementById('drawer').classList.add('open')}function closeDrawer(){document.getElementById('drawer').classList.remove('open')}function openDialog(){document.getElementById('dialog').classList.add('open')}function closeDialog(){document.getElementById('dialog').classList.remove('open')}function showToast(){const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+</script></body></html>

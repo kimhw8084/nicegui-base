@@ -1,0 +1,41 @@
+{
+  "added": [
+    "AdaptedSemiconductorSource",
+    "BindingCandidate",
+    "BindingDecision",
+    "BindingMethod",
+    "PanelLayoutOverride",
+    "RecipeCustomization",
+    "RecipeOnboardingReport",
+    "RecipeRuntimePolicy",
+    "RecipeVariantDefinition",
+    "ResolvedRecipeConfiguration",
+    "RuntimeProbeResult",
+    "RuntimeReadiness",
+    "SEMICONDUCTOR_RECIPE_VARIANT_REGISTRY",
+    "SemiconductorRecipeRuntime",
+    "SemiconductorSourceAdapter",
+    "SmartBindingPolicy",
+    "binding_candidates",
+    "create_semiconductor_recipe_runtime",
+    "get_semiconductor_recipe_variant",
+    "onboard_recipe_source",
+    "open_semiconductor_source",
+    "recipe_variant_catalog_entries",
+    "recommended_field_overrides",
+    "resolve_recipe_configuration",
+    "smart_binding_decisions",
+    "variants_for_recipe"
+  ],
+  "baseline": "Wave 62",
+  "baseline_root_api_entries": 1058,
+  "changed_contracts": [
+    "AgentContextPack",
+    "resolve_recipe_source"
+  ],
+  "compatibility_note": "No Wave 62 root exports were removed. AgentContextPack adds one optional trailing recipe-variant field. resolve_recipe_source adds two keyword-only controls with defaults preserving Wave 62 behavior. All Wave 63 exports are additive.",
+  "compatible": true,
+  "current_root_api_entries": 1084,
+  "framework_version": "3.0.0a8",
+  "removed": []
+}

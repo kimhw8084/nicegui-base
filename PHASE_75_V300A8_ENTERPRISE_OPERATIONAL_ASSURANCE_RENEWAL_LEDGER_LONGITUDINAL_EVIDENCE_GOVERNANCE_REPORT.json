@@ -1,0 +1,58 @@
+{
+  "baseline": "Wave 74 authoritative source",
+  "certification_boundary": "No authoritative real company longitudinal renewal history, target-runtime, browser, human, deployment, publication, monitoring, incident-response, or rollback-execution artifacts were supplied. Wave 75 verifies longitudinal ledger/governance machinery with behavioral fixtures only. ASSURED/EXPIRING/PENDING/BLOCKED are documentary evidence states and never mean the generic framework monitored production, handled an incident, executed rollback, deployed, published, or approved a company release. Unavailable target/company gates remain PENDING.",
+  "continuation": "Wave 76 proposed \u2014 Enterprise Longitudinal Assurance Review & Evidence Exception Governance. Add bounded review/exception/waiver governance over immutable Wave 75 longitudinal dossiers without weakening prior fail-closed evidence truth or introducing monitoring/operational execution authority.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T14:56:05Z",
+  "implementation": {
+    "blocked_longitudinal_dossiers_not_packageable": true,
+    "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "company_incident_response": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "company_rollback_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "continuous_production_monitoring": "NOT PERFORMED BY GENERIC FRAMEWORK",
+    "corrupt_unsafe_changed_identity_mismatched_or_contradictory_history_blocks": true,
+    "default_policy_is_framework_governance_not_company_sla": true,
+    "deterministic_multi_renewal_ledger": true,
+    "deterministic_self_contained_longitudinal_assurance_package": true,
+    "gap_overlap_staleness_and_identity_drift_diagnostics": true,
+    "generated_longitudinal_assurance_helpers": true,
+    "historical_wave74_truth_immutable": true,
+    "ledger_and_longitudinal_cli": true,
+    "ledger_and_longitudinal_ui_panels": true,
+    "ledger_policy_count": 1,
+    "mandatory_dependency_additions": 0,
+    "missing_or_stale_external_periods_stay_pending": true,
+    "pending_longitudinal_dossiers_packageable_for_external_handoff": true,
+    "wave59_74_authorities_reused": true,
+    "wave74_continuity_archive_independent_reverification": true,
+    "wave74_outer_archive_sha256_binding": true
+  },
+  "phase": 75,
+  "status": "SOURCE_COMPLETE_EXTERNAL_LONGITUDINAL_EVIDENCE_PENDING",
+  "title": "Enterprise Operational Assurance Renewal Ledger & Longitudinal Evidence Governance",
+  "validation": {
+    "automated_tests": "1489/1489 collected tests across 135 files; 8/8 final post-certification independent fresh-process batches PASS",
+    "governance": "0 errors / 0 warnings",
+    "public_api": {
+      "additions": 25,
+      "changed_frozen_signatures": 0,
+      "removals": 0,
+      "wave74": 1469,
+      "wave75": 1494
+    },
+    "shipped_examples": "39 files / 0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable environment warning / 0 FAIL",
+    "visual_integration_coverage": "183/183",
+    "wave75_behavioral_regressions": 48,
+    "wheel": {
+      "isolated_no_deps_install_import": "PASS",
+      "record_hashes_verified": 488,
+      "record_mismatches": 0,
+      "record_rows": 489,
+      "requires_dist_nicegui": "nicegui==3.15.0",
+      "sha256": "f0e55b7083a184a8b4d11557d64a8d3983c5d7743eb6d7dfd4890f941cf1432d",
+      "size_bytes": 948709,
+      "status": "PASS"
+    }
+  }
+}

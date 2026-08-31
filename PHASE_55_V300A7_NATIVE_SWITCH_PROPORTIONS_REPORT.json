@@ -1,0 +1,33 @@
+{
+  "phase": 55,
+  "framework_version": "3.0.0a7",
+  "title": "Native-quality contained switch proportions",
+  "status": "PASS",
+  "problem": "The prior 44x24 switch used a small thumb and then compensated with a visible rim/overflow treatment; it still did not read like a high-quality native pill switch.",
+  "resolution": {
+    "track_px": [
+      51,
+      31
+    ],
+    "thumb_px": [
+      27,
+      27
+    ],
+    "inset_px": 2,
+    "travel_px": 20,
+    "thumb_fully_contained": true,
+    "track_overflow": "hidden",
+    "thumb_border": "none",
+    "shadow": "subtle depth only",
+    "focus_ring": "track",
+    "disabled_geometry_identical": true
+  },
+  "evidence": {
+    "automated_tests": "706/706 PASS",
+    "governance": "0 errors / 0 warnings",
+    "browser_uiux": "51/51 PASS",
+    "visual_coverage": "183/183",
+    "focused_render": "a7_switch_visual.png"
+  },
+  "scope": "Switch visual proportions only; no DataTable, chart, layout engine, runtime, navigation or data semantics changed."
+}

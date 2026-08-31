@@ -1,0 +1,101 @@
+{
+  "version": "0.8.0",
+  "illustrations": [
+    {
+      "key": "no-data",
+      "category": "state",
+      "path": "illustrations/states/no-data.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "no-results",
+      "category": "state",
+      "path": "illustrations/states/no-results.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "no-selection",
+      "category": "state",
+      "path": "illustrations/states/no-selection.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "no-history",
+      "category": "state",
+      "path": "illustrations/states/no-history.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "permission-denied",
+      "category": "state",
+      "path": "illustrations/states/permission-denied.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "offline",
+      "category": "state",
+      "path": "illustrations/states/offline.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "configuration-required",
+      "category": "state",
+      "path": "illustrations/states/configuration-required.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "upload",
+      "category": "state",
+      "path": "illustrations/states/upload.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "success",
+      "category": "state",
+      "path": "illustrations/states/success.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "processing",
+      "category": "state",
+      "path": "illustrations/states/processing.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "unavailable",
+      "category": "state",
+      "path": "illustrations/states/unavailable.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    },
+    {
+      "key": "error",
+      "category": "state",
+      "path": "illustrations/states/error.svg",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "theme": "currentColor"
+    }
+  ]
+}

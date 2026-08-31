@@ -1,0 +1,64 @@
+{
+  "baseline": "Wave 77 source-complete candidate before NiceGUI Base identity refactor",
+  "certification_boundary": "Wave 77 consolidates and audits the existing Waves 59\u201376 authority stack. It creates no new evidence authority and cannot manufacture installed target-runtime, browser, provider/data, human, reviewer, deployment, publication, monitoring, incident, or rollback evidence. Source completion is not stable 3.0.0 publication.",
+  "continuation": "No additional source-only feature wave is planned. Proceed to real local/company target qualification on Wave 77; reopen development only for defects or approved major changes found by target testing.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T23:37:14Z",
+  "identity_refactor": {
+    "from": "company-ui/company_ui/Company UI",
+    "legacy_compatibility": "bounded deprecated aliases only",
+    "public_root_api_names_preserved": 1525,
+    "status": "PASS",
+    "to": "nicegui-base/nicegui_base/NiceGUI Base"
+  },
+  "implementation": {
+    "authority_chain_audited": true,
+    "deterministic_archive_builder_preserves_executable_modes": true,
+    "deterministic_source_checksum_tooling": true,
+    "dynamic_certification_phase": true,
+    "generated_app_framework_release_commands_leaked": false,
+    "generated_guide_inventory_audited": true,
+    "historical_gold_evidence_rewritten_as_current": false,
+    "mandatory_dependency_additions": 0,
+    "new_evidence_authority": false,
+    "new_root_public_apis": 0,
+    "portable_current_evidence_paths": true,
+    "release_identity_single_source": true,
+    "stable_3_0_0_publication_performed": false,
+    "stable_qualification_handoff_diagnostic_only": true,
+    "wheel_record_and_source_representation_verification": true
+  },
+  "phase": 77,
+  "status": "SOURCE_COMPLETE_TARGET_QUALIFICATION_PENDING",
+  "title": "Final Release-Candidate Consolidation, NiceGUI Base Identity Refactor, Authority Audit & Stable Qualification Handoff",
+  "validation": {
+    "automated_tests": "1587/1587 tests PASS across 138 files; definitive NiceGUI Base identity-refactor 10-process fresh-process estate PASS",
+    "fresh_process_batches": "10/10 PASS (deterministic sorted 138-file coverage)",
+    "governance": "0 errors / 0 warnings",
+    "nicegui_base_identity_regressions": "6/6 PASS",
+    "public_api": {
+      "additions": 0,
+      "changed_frozen_signatures": 0,
+      "removals": 0,
+      "wave76": 1525,
+      "wave77": 1525
+    },
+    "shipped_examples": "41 files / 0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable environment warning / 0 FAIL",
+    "visual_integration_coverage": "183/183",
+    "wave77_behavioral_regressions": 36,
+    "wheel": {
+      "isolated_no_deps_install_import": "PASS",
+      "metadata_name": "nicegui-base",
+      "metadata_version": "3.0.0a8",
+      "production_requirement": "nicegui==3.15.0",
+      "record_hashes_verified": 497,
+      "record_mismatches": 0,
+      "record_rows": 498,
+      "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
+      "size_bytes": 984338,
+      "source_representation": "PASS",
+      "status": "PASS"
+    }
+  }
+}

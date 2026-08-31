@@ -1,0 +1,29 @@
+{
+  "added": [
+    "RecipeCompatibilityError",
+    "RecipeFieldRequirement",
+    "RecipeFilterDefinition",
+    "RecipeInteractionDefinition",
+    "RecipePanelDefinition",
+    "RecipePanelKind",
+    "RecipeSourceCompatibility",
+    "SEMICONDUCTOR_RECIPE_REGISTRY",
+    "SemiconductorApplicationAssembly",
+    "SemiconductorRecipeDefinition",
+    "assemble_semiconductor_application",
+    "get_semiconductor_recipe",
+    "recipe_catalog_entries",
+    "recommend_semiconductor_recipe",
+    "resolve_recipe_source"
+  ],
+  "baseline": "Wave 61",
+  "baseline_root_api_entries": 1043,
+  "changed_contracts": [
+    "AgentContextPack"
+  ],
+  "compatibility_note": "No Wave 61 root exports were removed. Changed callable/dataclass contracts are additive optional Wave 62 recipe/factory fields or parameters and preserve existing call sites.",
+  "compatible": true,
+  "current_root_api_entries": 1058,
+  "framework_version": "3.0.0a8",
+  "removed": []
+}

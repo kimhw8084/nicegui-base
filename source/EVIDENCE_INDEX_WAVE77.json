@@ -1,0 +1,276 @@
+{
+  "current": [
+    {
+      "classification": "CURRENT_SOURCE_GENERATED",
+      "path": "CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "CURRENT_SOURCE_GENERATED",
+      "path": "TEST_REPORT.json"
+    },
+    {
+      "classification": "CURRENT_SOURCE_GENERATED",
+      "path": "GOVERNANCE_REPORT.json"
+    },
+    {
+      "classification": "CURRENT_SOURCE_GENERATED",
+      "path": "SHIPPED_EXAMPLES_VALIDATION.json"
+    },
+    {
+      "classification": "CURRENT_SOURCE_GENERATED",
+      "path": "LIVE_COMPONENT_COVERAGE.json"
+    },
+    {
+      "classification": "CURRENT_SOURCE_GENERATED",
+      "path": "PUBLIC_API_CONTRACT.json"
+    },
+    {
+      "classification": "CURRENT_RELEASE_AUTHORITY",
+      "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json"
+    },
+    {
+      "classification": "CURRENT_RELEASE_AUTHORITY",
+      "path": "PUBLIC_API_COMPATIBILITY_WAVE77.json"
+    },
+    {
+      "classification": "CURRENT_RELEASE_AUTHORITY",
+      "path": "PYTEST_BATCH_REPORT_WAVE77.json"
+    },
+    {
+      "classification": "CURRENT_RELEASE_AUTHORITY",
+      "path": "WHEEL_VERIFICATION_WAVE77.json"
+    }
+  ],
+  "historical": [
+    {
+      "classification": "HISTORICAL_ONLY",
+      "path": "GOLD_PROMOTION_READINESS.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_21_V17_PHASE1_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_22_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_22_V17_PHASE2_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_23_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_23_V17_PHASE3_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_24_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_24_V17_PHASE4_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_25_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_25_V17_PHASE5_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_26_V17_PHASE6_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_27_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_27_V17_PHASE7_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_28_V17_FINAL_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_29_CERTIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_29_V171_VISUAL_INTERACTION_HOTFIX_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_30_V172_SETUP_GATE_HOTFIX_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_31_V173_CONTRACT_EVIDENCE_HARDENING_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_32_V200RC1_RELEASE_CANDIDATE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_35_V200RC2_SOURCE_COMPLETION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_36_V200RC3_DATATABLE_SCROLL_PERFORMANCE_HOTFIX_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_37_V200RC4_DATATABLE_PAGE_PERFORMANCE_HARDENING_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_38_V200RC5_P0_LIFECYCLE_STATE_ASYNC_HARDENING_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_46_V300A1_APPLICATION_PLATFORM_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_47_V300A1_BROWSER_UIUX_GATE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_48_V300A2_CODING_AGENT_PLATFORM_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_49_V300A3_SIDEBAR_UTILITY_HARDENING_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_50_V300A3_AGENT_APPLICATION_FACTORY_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_51_V300A3_SINGLE_FILE_DEPLOYMENT_ENTRYPOINT_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_52_V300A4_PUBLISHER_PREFIX_CLEAN_SMOKE_SHUTDOWN_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_53_V300A5_PRODUCT_QUALITY_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_54_V300A6_SWITCH_PERCEPTUAL_INTEGRITY_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_55_V300A7_NATIVE_SWITCH_PROPORTIONS_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_56_V300A8_EDGE_SEATED_SWITCH_ENDPOINTS_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_57_V300A8_SWITCH_ENDPOINT_CORRECTION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_58_V300A8_CORRECTNESS_LIFECYCLE_TRUST_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_59_V300A8_PRODUCTION_DATA_PLATFORM_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_60_V300A8_UNIFIED_ANALYSIS_PLATFORM_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_61_V300A8_SEMICONDUCTOR_SEMANTIC_ANALYTICS_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_62_V300A8_SEMICONDUCTOR_APPLICATION_RECIPE_FACTORY_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_63_V300A8_SEMICONDUCTOR_RECIPE_PRODUCTION_RUNTIME_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_64_V300A8_SEMICONDUCTOR_PRODUCTION_ADAPTER_RUNTIME_HARDENING_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_65_V300A8_SEMICONDUCTOR_PROVIDER_SDK_ONBOARDING_RC_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_66_V300A8_SEMICONDUCTOR_TARGET_CERTIFICATION_OPERATIONAL_READINESS_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_67_V300A8_SEMICONDUCTOR_STABLE_PROMOTION_CANDIDATE_ENTERPRISE_EVIDENCE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_68_V300A8_ENTERPRISE_TARGET_EXECUTION_INTAKE_STABLE_PROMOTION_OPERATIONALIZATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_69_V300A8_ENTERPRISE_PROMOTION_EXECUTION_ADAPTER_QUALIFICATION_RELEASE_AUDIT_CLOSURE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_70_V300A8_ENTERPRISE_STABLE_RELEASE_EVIDENCE_ACCEPTANCE_PROMOTION_CLOSURE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_71_V300A8_ENTERPRISE_RELEASE_PUBLICATION_EVIDENCE_POST_PROMOTION_VERIFICATION_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_72_V300A8_ENTERPRISE_POST_RELEASE_STABILITY_ROLLBACK_READINESS_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_73_V300A8_ENTERPRISE_SUSTAINED_OPERATIONS_INCIDENT_ROLLBACK_AUDIT_CLOSURE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_74_V300A8_ENTERPRISE_SUSTAINED_OPERATIONS_EVIDENCE_RENEWAL_OPERATIONAL_ASSURANCE_CONTINUITY_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_75_V300A8_ENTERPRISE_OPERATIONAL_ASSURANCE_RENEWAL_LEDGER_LONGITUDINAL_EVIDENCE_GOVERNANCE_REPORT.json"
+    },
+    {
+      "classification": "HISTORICAL_PHASE_EVIDENCE",
+      "path": "PHASE_76_V300A8_ENTERPRISE_LONGITUDINAL_ASSURANCE_REVIEW_EVIDENCE_EXCEPTION_GOVERNANCE_REPORT.json"
+    }
+  ],
+  "pending_external": [
+    {
+      "classification": "PENDING_OR_STALE_EXTERNAL_ENVIRONMENT",
+      "path": "BROWSER_UIUX_GATE.json"
+    },
+    {
+      "classification": "PENDING_OR_STALE_EXTERNAL_ENVIRONMENT",
+      "path": "CLEAN_INSTALL_CERTIFICATION.json"
+    },
+    {
+      "classification": "PENDING_OR_STALE_EXTERNAL_ENVIRONMENT",
+      "path": "TARGET_RUNTIME_GATE_ATTEMPT.json"
+    }
+  ]
+}

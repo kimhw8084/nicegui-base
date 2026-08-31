@@ -1,0 +1,27 @@
+{
+  "claim_boundary": "Wheel/source/package integrity and identity migration only; no company target runtime/browser/human/reviewer/monitoring/incident/rollback/deployment/publication evidence is inferred.",
+  "file": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+  "framework": "nicegui-base",
+  "framework_display_name": "NiceGUI Base",
+  "framework_version": "3.0.0a8",
+  "isolated_no_deps_install_import": "PASS",
+  "isolated_root_api_entries": 1525,
+  "legacy_cli_alias": "company-ui",
+  "legacy_company_ui_root_import": "PASS_WITH_DEPRECATION_WARNING",
+  "metadata_name": "nicegui-base",
+  "metadata_version": "3.0.0a8",
+  "new_cli_entrypoint": "nicegui-base",
+  "phase": 77,
+  "record_hashes_verified": 497,
+  "record_mismatches": 0,
+  "record_rows": 498,
+  "requires_dist": [
+    "nicegui==3.15.0"
+  ],
+  "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
+  "size_bytes": 984338,
+  "source_representation_compared_files": 492,
+  "source_representation_status": "PASS",
+  "status": "PASS",
+  "wave": 77
+}

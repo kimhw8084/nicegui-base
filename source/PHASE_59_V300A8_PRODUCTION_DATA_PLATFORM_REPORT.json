@@ -1,0 +1,83 @@
+{
+  "phase": 59,
+  "framework_version": "3.0.0a8",
+  "title": "Wave 59 \u2014 Provider-Neutral Production Data Platform",
+  "generated_at": "2026-08-29T12:42:43Z",
+  "status": "SOURCE_VALIDATED_TARGET_RUNTIME_PENDING",
+  "supersedes_current_source_claims_through_phase": 58,
+  "scope": {
+    "data_source_contract": [
+      "async provider-neutral DataSource API",
+      "semantic DataSchema/SemanticField metadata",
+      "explicit provider capabilities",
+      "source health/provenance/query statistics",
+      "registry-owned lifecycle"
+    ],
+    "query_platform": [
+      "typed AND/OR/NOT filter AST",
+      "comparison/IN/between/text/null expressions",
+      "typed sort/projection/pagination",
+      "typed aggregate/grouping contract",
+      "field validation before execution"
+    ],
+    "providers": [
+      "InMemoryDataSource",
+      "dependency-free CSVDataSource",
+      "DBAPIDataSource",
+      "SQLiteDataSource with schema introspection"
+    ],
+    "sql_pushdown": [
+      "parameterized SQL values",
+      "schema-validated identifiers",
+      "filter/search/sort/projection/pagination pushdown",
+      "aggregation/distinct pushdown",
+      "literal %/_ LIKE parity"
+    ],
+    "compatibility": [
+      "Dataset.as_data_source bridge",
+      "DataEngine dataset + source ownership",
+      "ApplicationRuntime.data_sources",
+      "WorkspaceRuntime.data_source",
+      "existing API retained; QuerySortDirection avoids DataTable SortDirection collision"
+    ],
+    "developer_experience": [
+      "DATA_SOURCE_GUIDE",
+      "DATA_SOURCE_PROVIDERS catalog",
+      "golden_data_source.py",
+      "framework catalog data-source discovery"
+    ],
+    "scale": [
+      "1,000,000-row SQLite regression with 25-row page and backend aggregation"
+    ]
+  },
+  "verification": {
+    "automated_tests": "755/755 PASS",
+    "test_files": 119,
+    "wave59_regression_tests": 21,
+    "governance": "0 errors / 0 warnings",
+    "shipped_examples_validator": "0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected environment WARNING / 0 FAIL",
+    "visual_component_coverage": "183/183",
+    "million_row_sqlite_pushdown": "PASS",
+    "memory_sqlite_query_parity": "PASS",
+    "compileall": "PASS",
+    "isolated_wheel_import": "PASS",
+    "browser_current_source": "PENDING",
+    "installed_nicegui_runtime": "PENDING",
+    "human_visual_baseline": "PENDING"
+  },
+  "claim_boundary": "Wave 59 source/static/behavioral/provider gates pass. DB-API execution uses timeout/cancellable-await boundaries but does not falsely advertise backend query cancellation. No live target NiceGUI/browser/company-source certification is inferred in this build sandbox.",
+  "wheel": {
+    "framework_version": "3.0.0a8",
+    "status": "PASS",
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "metadata_version": "3.0.0a8",
+    "requires_dist_nicegui": "nicegui==3.15.0",
+    "zip_files": 417,
+    "record_hashes_verified": 416,
+    "record_mismatches": 0,
+    "isolated_no_deps_import": "PASS",
+    "sha256": "242863bfbe245b05528327cd4bd9ae98cafc102b251fda398334c93dc7883364",
+    "size_bytes": 645114
+  }
+}

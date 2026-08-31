@@ -1,0 +1,14 @@
+{
+  "artifact": {
+    "name": "nicegui_base-3.0.0a8-py3-none-any.whl",
+    "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
+    "size_bytes": 984338
+  },
+  "framework": "nicegui-base",
+  "framework_display_name": "NiceGUI Base",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-30T23:37:14Z",
+  "nicegui_version": "3.15.0",
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+  "python": "3.13.5"
+}

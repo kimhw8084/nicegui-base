@@ -1,0 +1,7 @@
+# NiceGUI Base 3.0.0a8 — Wave 60 Source Completion
+
+`3.0.0a8` Wave 60 is source-validated with **785/785** automated tests across **120 test files**, governance at **0 errors / 0 warnings**, shipped-example validation at **0 errors / 0 warnings**, static verification at **12 pass / 1 expected NiceGUI-unavailable environment warning / 0 fail**, and **183/183** public visual integrations mapped.
+
+Wave 60 adds the unified analysis and interaction platform above the Wave 59 provider-neutral data layer: transactional `AnalysisContext`, typed `SelectionBus` and drill history, selection-driven cross-filter coordination, latest-request-wins async bindings, a canonical analytical-panel state contract, provider-backed DataSource tables with compound filter preservation, schema-derived table columns, interactive workspace move/resize/collapse/hide/lock/dock/split/duplicate/reset/undo/redo, and durable JSON persistence for analysis/selection/workspace state including date/datetime/Decimal values. Wave 59 provider portability and Wave 58 correctness/lifecycle hardening remain the compatibility floor below it.
+
+The current browser/native UI/UX matrix is **PENDING for the Wave 60 source**. Phase 57 remains historical proof of the corrected switch geometry, but historical browser evidence is not used to claim current-source certification. Installed NiceGUI 3.15.0 runtime, real 21-route server/WebSocket smoke, supported company-browser execution, real company data-source adapters, and human-baseline approval remain target-environment gates.

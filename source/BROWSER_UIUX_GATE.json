@@ -1,0 +1,336 @@
+{
+  "cases": 4,
+  "checks": [
+    {
+      "case": "desktop_light_expanded",
+      "detail": "scrollWidth=1440 clientWidth=1440",
+      "key": "no-horizontal-page-overflow",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "page=1184.0px viewport=1440px",
+      "key": "page-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "tableWrap=1144.0px page=1184.0px",
+      "key": "table-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "bg=rgb(247, 247, 249) text=rgb(29, 29, 31)",
+      "key": "theme-resolves",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "display=flex width=256.0px",
+      "key": "desktop-sidebar-visible",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "{\"tag\": \"BUTTON\", \"id\": \"drawerOpen\", \"outline\": \"rgb(29, 29, 31) none 0px\", \"shadow\": \"oklab(0 0 0 / 0) 0px 0px 0px 0px\"}",
+      "key": "keyboard-focus-visible",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "left=940.0 right=1440.0 width=500.0",
+      "key": "drawer-side-slide-geometry",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "focus returned to inspector opener",
+      "key": "drawer-escape-focus-restore",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "set_content+load=312.4ms",
+      "key": "render-budget",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "track=51.0x31.0 thumb=27.0x27.0",
+      "key": "switch-standard-dimensions",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "left inset=0.0px transform=matrix(1, 0, 0, 1, 0, 0)",
+      "key": "switch-off-edge-seated",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "vertical inset=2.0px",
+      "key": "switch-vertical-containment",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "overflow=hidden border=0px none rgb(29, 29, 31) shadow=rgba(0, 0, 0, 0.14) 0px 1px 2px 0px, rgba(0, 0, 0, 0.1) 0px 2px 5px 0px",
+      "key": "switch-thumb-contained-native",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "track=51 thumb=27 travel=24",
+      "key": "switch-edge-seated-proportion-math",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_light_expanded",
+      "detail": "translateX=24.00px; right inset=0px by 51-27-24",
+      "key": "switch-on-edge-seated",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "scrollWidth=1440 clientWidth=1440",
+      "key": "no-horizontal-page-overflow",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "page=1376.0px viewport=1440px",
+      "key": "page-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "tableWrap=1336.0px page=1376.0px",
+      "key": "table-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "bg=rgb(32, 32, 36) text=rgb(245, 245, 247)",
+      "key": "theme-resolves",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "display=flex width=64.0px",
+      "key": "desktop-sidebar-visible",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "display=none",
+      "key": "compact-footer-label-hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "width=64.0px",
+      "key": "compact-sidebar-narrower",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "{\"tag\": \"BUTTON\", \"id\": \"drawerOpen\", \"outline\": \"rgb(245, 245, 247) none 0px\", \"shadow\": \"oklab(0 0 0 / 0) 0px 0px 0px 0px\"}",
+      "key": "keyboard-focus-visible",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "left=940.0 right=1440.0 width=500.0",
+      "key": "drawer-side-slide-geometry",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "focus returned to inspector opener",
+      "key": "drawer-escape-focus-restore",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "set_content+load=426.9ms",
+      "key": "render-budget",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "labels=['Support', 'Documentation']",
+      "key": "compact-utility-actions",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "dx=0.00px dy=0.00px",
+      "key": "compact-support-icon-centered",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop_dark_compact",
+      "detail": "dx=0.00px dy=0.00px",
+      "key": "compact-documentation-icon-centered",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "scrollWidth=820 clientWidth=820",
+      "key": "no-horizontal-page-overflow",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "page=820.0px viewport=820px",
+      "key": "page-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "tableWrap=788.0px page=820.0px",
+      "key": "table-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "bg=rgb(247, 247, 249) text=rgb(29, 29, 31)",
+      "key": "theme-resolves",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "display=none",
+      "key": "mobile-sidebar-hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "mainLeft=0.0",
+      "key": "mobile-main-origin",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "{\"tag\": \"BUTTON\", \"id\": \"drawerOpen\", \"outline\": \"rgb(29, 29, 31) none 0px\", \"shadow\": \"oklab(0 0 0 / 0) 0px 0px 0px 0px\"}",
+      "key": "keyboard-focus-visible",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "left=320.0 right=820.0 width=500.0",
+      "key": "drawer-side-slide-geometry",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "focus returned to inspector opener",
+      "key": "drawer-escape-focus-restore",
+      "status": "PASS"
+    },
+    {
+      "case": "tablet_light",
+      "detail": "set_content+load=155.7ms",
+      "key": "render-budget",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "scrollWidth=390 clientWidth=390",
+      "key": "no-horizontal-page-overflow",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "page=390.0px viewport=390px",
+      "key": "page-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "tableWrap=358.0px page=390.0px",
+      "key": "table-contained",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "bg=rgb(32, 32, 36) text=rgb(245, 245, 247)",
+      "key": "theme-resolves",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "display=none",
+      "key": "mobile-sidebar-hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "mainLeft=0.0",
+      "key": "mobile-main-origin",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "display=none",
+      "key": "mobile-environment-badge-hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "primary height=44.0px",
+      "key": "mobile-touch-target",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "{\"tag\": \"BUTTON\", \"id\": \"drawerOpen\", \"outline\": \"rgb(245, 245, 247) none 0px\", \"shadow\": \"oklab(0 0 0 / 0) 0px 0px 0px 0px\"}",
+      "key": "keyboard-focus-visible",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "left=0.0 right=390.0 width=390.0",
+      "key": "drawer-side-slide-geometry",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "focus returned to inspector opener",
+      "key": "drawer-escape-focus-restore",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "transitionDuration=0.001s, 0.001s, 0.001s, 0.001s",
+      "key": "reduced-motion",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile_dark_reduced",
+      "detail": "set_content+load=154.7ms",
+      "key": "render-budget",
+      "status": "PASS"
+    }
+  ],
+  "checks_total": 52,
+  "chromium": "/usr/bin/chromium",
+  "current_switch_contract": "Phase 57: 51x31 track, 27x27 thumb, 2px containment, 20px travel; the historical switch checks below include superseded phase-56 endpoint measurements.",
+  "failed": 0,
+  "framework_version": "3.0.0a8",
+  "gate": "browser-native-uiux-constitution",
+  "passed": 52,
+  "previous_status": "PASS",
+  "scope": "actual Company UI CSS + deterministic representative DOM; settled transition geometry; system Chromium",
+  "screenshots": [
+    "desktop_light_expanded.png",
+    "desktop_dark_compact.png",
+    "tablet_light.png",
+    "mobile_dark_reduced.png"
+  ],
+  "stale_for_current_source": true,
+  "stale_reason": "Wave 59 changed data/runtime/source authority after this historical browser matrix was recorded. Re-run the target NiceGUI browser gate before promotion.",
+  "status": "STALE",
+  "current_wave": "59"
+}

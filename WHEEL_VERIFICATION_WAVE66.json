@@ -1,0 +1,28 @@
+{
+  "isolated_no_deps_import": {
+    "returncode": 0,
+    "status": "PASS",
+    "stderr": "",
+    "stdout": "3.0.0a8 root_api=1204 recipes=8 variants=8 runbooks=8 promotion_policies=1 freshness_policies=1"
+  },
+  "isolated_no_deps_install_returncode": 0,
+  "metadata_version": "3.0.0a8",
+  "record_hashes_verified": 461,
+  "record_mismatches": [],
+  "record_rows": 462,
+  "requires_dist": [
+    "nicegui==3.15.0",
+    "playwright==1.62.0; extra == \"live-cert\"",
+    "Pillow==12.3.0; extra == \"live-cert\"",
+    "playwright==1.62.0; extra == \"mac-cert\"",
+    "Pillow==12.3.0; extra == \"mac-cert\"",
+    "pytest<9,>=8; extra == \"test\"",
+    "pytest-asyncio<1,>=0.25; extra == \"test\""
+  ],
+  "requires_dist_nicegui": "nicegui==3.15.0",
+  "sha256": "4ada51bb44a661c0d3dbac99ebd11b6607691da9ace5e6cb9db0188360ebf53b",
+  "size_bytes": 809493,
+  "status": "PASS",
+  "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+  "zip_files": 462
+}

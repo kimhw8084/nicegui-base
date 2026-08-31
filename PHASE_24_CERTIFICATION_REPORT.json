@@ -1,0 +1,116 @@
+{
+  "version": "1.6.1",
+  "passed": true,
+  "summary": {
+    "pass": 12,
+    "warning": 1,
+    "fail": 0,
+    "skip": 0
+  },
+  "checks": [
+    {
+      "key": "registries",
+      "label": "Framework registries",
+      "status": "pass",
+      "detail": "316 registered semantic entries",
+      "category": "api",
+      "required": true
+    },
+    {
+      "key": "patterns",
+      "label": "Canonical page patterns",
+      "status": "pass",
+      "detail": "10/10 patterns present",
+      "category": "layout",
+      "required": true
+    },
+    {
+      "key": "css",
+      "label": "Combined framework CSS",
+      "status": "pass",
+      "detail": "210,080 bytes; braces balanced",
+      "category": "visual",
+      "required": true
+    },
+    {
+      "key": "remote-css",
+      "label": "No remote CSS resources",
+      "status": "pass",
+      "detail": "No HTTP/CDN references in generated framework CSS",
+      "category": "visual",
+      "required": true
+    },
+    {
+      "key": "visual-normalization",
+      "label": "Zero stock visual normalization",
+      "status": "pass",
+      "detail": "Quasar/AG Grid normalization selectors present and all Company CSS tokens resolve",
+      "category": "visual",
+      "required": true
+    },
+    {
+      "key": "lab-visual-css",
+      "label": "Live lab CSS integrity",
+      "status": "pass",
+      "detail": "Framework + live-lab CSS is balanced and every Company custom property resolves",
+      "category": "visual",
+      "required": true
+    },
+    {
+      "key": "stock-visual-paths",
+      "label": "No stock NiceGUI visual paths",
+      "status": "pass",
+      "detail": "No ui.notify/ui.menu_item/ui.icon or unthemed tooltip paths found in framework integrations",
+      "category": "visual",
+      "required": true
+    },
+    {
+      "key": "nicegui-source-contract",
+      "label": "NiceGUI 3.15 adapter source contract",
+      "status": "pass",
+      "detail": "No known-invalid drawer/EChart/fullscreen adapter patterns detected",
+      "category": "runtime",
+      "required": true
+    },
+    {
+      "key": "assets",
+      "label": "Visual assets",
+      "status": "pass",
+      "detail": "143 icons, 12 illustrations; 0 validation issues",
+      "category": "visual",
+      "required": true
+    },
+    {
+      "key": "catalog",
+      "label": "AI framework catalog",
+      "status": "pass",
+      "detail": "Machine-readable catalog loads successfully (7 top-level sections)",
+      "category": "ai",
+      "required": true
+    },
+    {
+      "key": "validate-certification_app",
+      "label": "Static validation: certification_app.py",
+      "status": "pass",
+      "detail": "0 errors / 0 warnings",
+      "category": "ai",
+      "required": true
+    },
+    {
+      "key": "validate-component_gallery",
+      "label": "Static validation: component_gallery.py",
+      "status": "pass",
+      "detail": "0 errors / 0 warnings",
+      "category": "ai",
+      "required": true
+    },
+    {
+      "key": "nicegui",
+      "label": "NiceGUI runtime",
+      "status": "warning",
+      "detail": "NiceGUI unavailable here; live browser certification remains pending",
+      "category": "runtime",
+      "required": false
+    }
+  ]
+}

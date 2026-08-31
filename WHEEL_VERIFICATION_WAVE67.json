@@ -1,0 +1,10 @@
+{
+  "record_hashes_verified": 464,
+  "record_mismatches": [],
+  "record_rows": 465,
+  "sha256": "cb57cfcced94e35dcbba68e6a131df09e9540e56dd519f7be8ce8c854fee6fcc",
+  "size_bytes": 823085,
+  "status": "PASS",
+  "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+  "zip_files": 465
+}

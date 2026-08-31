@@ -1,0 +1,23 @@
+{
+  "phase": 37,
+  "framework_version": "2.0.0rc4",
+  "title": "DataTable page performance hardening",
+  "reported_symptom": "Entire DataTable lab page feels heavy/laggy during normal page scrolling; not primarily a grid-scroll complaint.",
+  "corrected_root_cause": [
+    "four concurrent AG Grid instances mounted on initial /data render",
+    "server simulation initiated its intentional 180ms request during page entry",
+    "sticky blurred lab control surface composited above complex grid layers"
+  ],
+  "implemented": [
+    "initial /data AG Grid count reduced from four to one",
+    "editable/server/master-detail grids mount exactly once on explicit request",
+    "deferred grids inherit current persisted lab density",
+    "DataTable-route lab control bar uses opaque elevated surface with no backdrop blur",
+    "DataTable shell uses CSS contain:layout",
+    "browser gate measures initial grid count, page-scroll frame latency and deferred-grid completeness",
+    "RC3 no-debounce/10-row-buffer settings retained as safe virtualization defaults"
+  ],
+  "source_tests": 608,
+  "governance": "0 errors / 0 warnings",
+  "target_runtime_browser_status": "PENDING"
+}

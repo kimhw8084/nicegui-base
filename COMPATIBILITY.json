@@ -1,0 +1,34 @@
+{
+  "certification_phase": "phase_28_v17_final_release_freeze",
+  "external_cdn_required": false,
+  "framework_name": "nicegui-base",
+  "framework_version": "3.0.0a8",
+  "max_nicegui_workers_per_process": 1,
+  "nicegui_version": "3.15.0",
+  "notes": [
+    "NiceGUI user/browser storage requires a storage_secret.",
+    "Production session cookies should be HTTPS-only.",
+    "Multiple application instances require shared persistence for cross-instance user/general/tab state.",
+    "Multiple NiceGUI instances require load-balancer session affinity for page/WebSocket continuity.",
+    "Production Gold requires the live browser stock-visual-leak audit to pass with zero required leaks.",
+    "Linux is the primary work-environment live-certification target; browser discovery is platform-aware.",
+    "Live certification requires the 22-route browser/geometry matrix plus explicit human approval of a hash-locked screenshot baseline.",
+    "The v1.6 rendered-product constitution limits visible rectangle geometry to 10px controls, 14px surfaces, 18px overlays, plus true pills.",
+    "The desktop main canvas must consume exactly the viewport width remaining beside the sidebar, with symmetric Company page gutters.",
+    "Manual lab setup/launch does not require Chrome/Chromium; supported automated browser discovery gates live certification only.",
+    "Live certification includes measured geometry plus behavior smoke for shell collapse, density, editable fields, overlays, table inspection, command navigation and chart zoom.",
+    "Linux setup runs the installed NiceGUI runtime contract before lab launch.",
+    "Linux setup starts the real installed NiceGUI server and smoke-tests all 22 routes before reporting success."
+  ],
+  "primary_browsers": [
+    "Microsoft Edge",
+    "Google Chrome"
+  ],
+  "python_max_exclusive": "3.14",
+  "python_min": "3.11",
+  "redis_recommended_for_multi_instance": true,
+  "release_stage": "v1_7_production_certification_candidate",
+  "reverse_proxy_supported": true,
+  "root_path_supported": true,
+  "session_affinity_required_multi_instance": true
+}

@@ -1,0 +1,51 @@
+{
+  "checks_total": 3,
+  "chromium": "/usr/bin/chromium",
+  "failed_checks": 0,
+  "framework_version": "3.0.0a3",
+  "gate": "COMPACT_SIDEBAR_UTILITY_ALIGNMENT",
+  "measurements": {
+    "Documentation": {
+      "button": {
+        "height": 36,
+        "left": 10.5,
+        "top": 382,
+        "width": 36
+      },
+      "dx_px": 0,
+      "dy_px": 0,
+      "icon": {
+        "height": 18,
+        "left": 19.5,
+        "top": 391,
+        "width": 18
+      },
+      "max_delta_px": 0
+    },
+    "Support": {
+      "button": {
+        "height": 36,
+        "left": 10.5,
+        "top": 343,
+        "width": 36
+      },
+      "dx_px": 0,
+      "dy_px": 0,
+      "icon": {
+        "height": 18,
+        "left": 19.5,
+        "top": 352,
+        "width": 18
+      },
+      "max_delta_px": 0
+    }
+  },
+  "passed": true,
+  "passed_checks": 3,
+  "scope": "Actual final Company UI combined CSS plus registry-backed Support and Documentation SVGs rendered in system Chromium. Supplemental focused regression gate.",
+  "submit_feedback_rendered": false,
+  "utility_actions": [
+    "Support",
+    "Documentation"
+  ]
+}

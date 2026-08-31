@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+  "sha256": "411b228eeaeedf69b4eb5672798c5b72015f9c439c6b0e0c97c135a90648757a",
+  "size_bytes": 871584,
+  "zip_files": 474,
+  "record_rows": 474,
+  "record_hashes_verified": 473,
+  "record_mismatches": [],
+  "metadata_version": "3.0.0a8",
+  "requires_dist_nicegui": "nicegui==3.15.0",
+  "isolated_no_deps_install_returncode": 0,
+  "isolated_no_deps_import": {
+    "status": "PASS",
+    "returncode": 0,
+    "stdout": "3.0.0a8 nicegui=3.15.0 root_api=1330 acceptance_adapters=1 closure_policies=1",
+    "stderr": ""
+  }
+}

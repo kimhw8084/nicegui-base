@@ -1,0 +1,18 @@
+{
+  "calls_checked": 0,
+  "claim_boundary": "Build sandbox does not contain NiceGUI; setup.sh verifies the installed target runtime and runtime-smoke chooses an ephemeral free port.",
+  "factories_checked": 0,
+  "framework_version": "3.0.0a8",
+  "installed_nicegui_version": null,
+  "ok": false,
+  "required_nicegui_version": "3.15.0",
+  "runtime_issues": [
+    {
+      "code": "NICEGUI_MISSING",
+      "detail": "NiceGUI 3.15.0 is not installed",
+      "line": null,
+      "path": null
+    }
+  ],
+  "source_issues": []
+}

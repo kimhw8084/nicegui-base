@@ -1,0 +1,39 @@
+{
+  "completed_here": [
+    "825/825 collected source tests across 121 test files",
+    "40 dedicated Wave 61 semiconductor behavioral regressions",
+    "governance 0 errors / 0 warnings",
+    "shipped examples validator 0 errors / 0 warnings across 25 example files",
+    "static verification 12 PASS / 1 expected NiceGUI-unavailable warning / 0 FAIL",
+    "183/183 existing visual component coverage",
+    "1043-entry public root API contract with 0 Wave 60 removals",
+    "wheel RECORD 440/440 verified, 0 mismatches",
+    "isolated wheel import PASS"
+  ],
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-29T16:29:39Z",
+  "next_approved_wave": "Wave 62 \u2014 semiconductor application recipe factory",
+  "nicegui_version": "3.15.0",
+  "pending_target_environment": [
+    "exact installed NiceGUI 3.15.0 runtime contract",
+    "real 21-route server/WebSocket smoke",
+    "supported corporate browser matrix",
+    "real company data-source adapter validation",
+    "human visual baseline where required",
+    "stable 3.0.0 promotion"
+  ],
+  "release_status": "ALPHA",
+  "status": "BLOCKED_PENDING_TARGET_CERTIFICATION",
+  "wave61_capabilities": [
+    "37 typed semiconductor entity kinds with explicit genealogy",
+    "shared semiconductor context persisted through AnalysisContext",
+    "DataSource-backed dependent manufacturing filters",
+    "SPC + Western Electric/Nelson + capability/distributions",
+    "wafer/spatial analytics",
+    "FDC/PCA/T\u00b2/SPE analytics",
+    "RCA/commonality/genealogy/fault/Sankey analytics",
+    "yield/reliability/DOE analytics",
+    "58 machine-readable semiconductor surfaces",
+    "three integrated golden semiconductor workflows"
+  ]
+}

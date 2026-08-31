@@ -1,0 +1,54 @@
+{
+  "automated_tests": 538,
+  "combined_css_bytes": 224789,
+  "compileall": "pass",
+  "composition": {
+    "certification_toolbar_removed_from_reference_routes": true,
+    "grid_columns": 12,
+    "pattern_surface_public": true,
+    "patterns": 10,
+    "tablet_and_phone_collapse": true
+  },
+  "nicegui_source_contract": {
+    "direct_factory_calls": 833,
+    "factories_used": 52,
+    "issues": 0
+  },
+  "offline_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  },
+  "phase": 27,
+  "phase_name": "Canonical Reference Applications",
+  "program": "Company UI v1.7 design revamp",
+  "public_root_api_entries": 748,
+  "real_reference_behaviors": {
+    "analysis_commonality_matrix": true,
+    "analysis_investigation_context": true,
+    "comparison_wafer_evidence": true,
+    "crud_form_drawer": true,
+    "search_inspector": true,
+    "wizard_review_dialog": true
+  },
+  "runtime_boundary": "NiceGUI/browser runtime is unavailable in the build sandbox. Target runtime-contract, route smoke and browser certification remain required.",
+  "status": "review_candidate",
+  "validators": {
+    "certification_app": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "component_gallery": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "visual_coverage": {
+    "composite_visual_components": 28,
+    "covered_visual_components": 183,
+    "direct_visual_components": 155,
+    "required_visual_components": 183,
+    "uncovered": []
+  }
+}

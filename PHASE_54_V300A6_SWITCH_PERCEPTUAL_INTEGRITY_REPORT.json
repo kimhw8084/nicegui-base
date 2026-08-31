@@ -1,0 +1,18 @@
+{
+  "automated_tests": "703/703 PASS",
+  "browser_uiux": "50/50 PASS",
+  "framework_version": "3.0.0a6",
+  "governance": "0 errors / 0 warnings",
+  "phase": 54,
+  "problem": "A white switch thumb at the active end could visually merge into a white page because its separation shadow was clipped by the track.",
+  "resolution": {
+    "geometry_unchanged": "44x24 track / 20x20 thumb / 20px travel / 2px end stops",
+    "thumb_neutral_rim": "1px semantic neutral rim",
+    "thumb_shadow_clipped": false,
+    "track_overflow": "visible"
+  },
+  "status": "PASS",
+  "target_runtime": "PENDING",
+  "title": "Switch perceptual integrity hardening",
+  "visual_coverage": "183/183"
+}

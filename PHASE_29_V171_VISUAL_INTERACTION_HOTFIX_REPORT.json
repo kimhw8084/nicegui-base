@@ -1,0 +1,1587 @@
+{
+  "automated_tests": 559,
+  "browser_regression_contract": {
+    "desktop_all_22_routes": true,
+    "edge_smoke": true,
+    "exhaustive_scenarios": 12,
+    "human_baseline_required": true,
+    "phone_all_22_routes": true,
+    "screenshot_regression_gates": true,
+    "standard_scenarios": 6,
+    "tablet_all_10_reference_apps": true
+  },
+  "clean_install_certification": {
+    "fail": 0,
+    "pass": 10,
+    "skip": 0,
+    "warning": 1
+  },
+  "combined_css_bytes": 241050,
+  "compileall": "pass",
+  "dependency_contract": {
+    "certification_only": [
+      "playwright==1.62.0",
+      "Pillow==12.3.0"
+    ],
+    "certification_requirements": "requirements-certification.txt",
+    "company_index_only": true,
+    "production": [
+      "nicegui==3.15.0"
+    ],
+    "production_requirements": "requirements.txt",
+    "public_pypi_fallback": false
+  },
+  "embedded_ai_guides": 30,
+  "framework_version": "1.7.1",
+  "nicegui_contract": {
+    "approved_factories": 58,
+    "direct_calls": 840,
+    "source_contract_issues": 0,
+    "used_factories": 50
+  },
+  "nicegui_version": "3.15.0",
+  "offline_certification": {
+    "fail": 0,
+    "pass": 12,
+    "skip": 0,
+    "warning": 1
+  },
+  "phase": 29,
+  "phase_name": "v1.7.1 Screenshot-backed Visual & Interaction Hotfix",
+  "program": "Company UI v1.7 design revamp",
+  "public_root_api_entries": 748,
+  "reference_apps": 10,
+  "routes": 22,
+  "runtime_boundary": "Build/source/clean-install proof is complete here. Target company NiceGUI runtime, supported-browser matrix, and human visual baseline remain required before rendered-product approval.",
+  "screenshot_backed_corrections": [
+    "semantic environment badge contrast and differentiation",
+    "compact navigation footer containment",
+    "awaited mobile/sidebar navigation controls",
+    "Company-owned switch/range/progress anatomy",
+    "edge-anchored detail/inspection/form side sheets",
+    "external progress value labels and shared indeterminate animation",
+    "distinct categorical donut colors",
+    "stacked-bar outer-silhouette radii",
+    "single workflow connector rail",
+    "actionable native command palette",
+    "EngineeringEntity bounded metadata geometry",
+    "stronger profile/greeting contrast",
+    "functional mobile navigation trigger",
+    "stronger application-title hierarchy",
+    "macOS installer promoted from legacy v1.5 to the current company-index-only v1.7.1 runtime contract"
+  ],
+  "status": "hotfix_release_candidate",
+  "validators": {
+    "certification_app": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "component_gallery": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "visual_coverage": {
+    "by_kind": {
+      "composite": 28,
+      "direct": 155,
+      "uncovered": 0
+    },
+    "by_route": {
+      "/": 8,
+      "/certification": 1,
+      "/charts": 33,
+      "/content": 16,
+      "/controls": 38,
+      "/data": 15,
+      "/engineering": 13,
+      "/forms": 36,
+      "/foundation": 3,
+      "/patterns/comparison": 2,
+      "/patterns/dashboard": 2,
+      "/patterns/explorer": 1,
+      "/performance": 2,
+      "/shell": 4,
+      "/states": 9
+    },
+    "composite_visual_components": 28,
+    "covered_visual_components": 183,
+    "direct_visual_components": 155,
+    "ledger": [
+      {
+        "component": "Accordion",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "ActionButton",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "ActionMenu",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ActivityDrawer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ActivityFeed",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "AdvancedFilterDrawer",
+        "coverage_kind": "composite",
+        "evidence": "Live Advanced filters button passes AdvancedFilterDrawer into the drawer factory.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": "open_filter_drawer"
+      },
+      {
+        "component": "Alert",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/shell",
+        "via": null
+      },
+      {
+        "component": "AppHeader",
+        "coverage_kind": "composite",
+        "evidence": "The canonical AppShell owns the exact Company header anatomy; AppHeader is the standalone compatibility facade for that anatomy.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/shell",
+        "via": "AppShell"
+      },
+      {
+        "component": "AppInfoDialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "AppShell",
+        "coverage_kind": "composite",
+        "evidence": "All ten canonical reference applications construct the production AppShell through the shared _reference_shell helper.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/patterns/dashboard",
+        "via": "_reference_shell"
+      },
+      {
+        "component": "AppSidebar",
+        "coverage_kind": "composite",
+        "evidence": "The canonical AppShell owns the desktop navigation rail; AppSidebar is the standalone compatibility facade for the same rail contract.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/shell",
+        "via": "AppShell"
+      },
+      {
+        "component": "AreaChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "AsyncContent",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "Autocomplete",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "BackNavigation",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "BackgroundTaskIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/performance",
+        "via": null
+      },
+      {
+        "component": "Banner",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/certification",
+        "via": null
+      },
+      {
+        "component": "BarChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "BaselineComparison",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "BeforeAfter",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/patterns/comparison",
+        "via": null
+      },
+      {
+        "component": "BoxPlot",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Button",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "ButtonGroup",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Card",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/foundation",
+        "via": null
+      },
+      {
+        "component": "ChamberFingerprintMatrix",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "ChartBrush",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.brush for every rendered chart.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartCrossFilter",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "ChartDataView",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs accessible panel.data_view used by the live toolbar.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartExport",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.export used by the live toolbar.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartFullscreen",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.fullscreen used by the live toolbar.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartLegend",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.legend for every rendered chart.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartPanel",
+        "coverage_kind": "composite",
+        "evidence": "Every typed ECharts wrapper subclasses and renders ChartPanel.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "typed charts"
+      },
+      {
+        "component": "ChartSelection",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.selection for every rendered chart.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartToolbar",
+        "coverage_kind": "composite",
+        "evidence": "Every ChartPanel renders the Company toolbar into toolbar_host.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartTooltip",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.tooltip for every rendered chart.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "ChartZoom",
+        "coverage_kind": "composite",
+        "evidence": "ChartPanel constructs panel.zoom for every rendered chart.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": "ChartPanel"
+      },
+      {
+        "component": "Checkbox",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "CheckboxGroup",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Chip",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "CodeViewer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "CollapsiblePanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Combobox",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "CommandPalette",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "CommonalityMatrix",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "CommonalityTable",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "ComparePanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "ComparisonMetric",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "ConditionalCellFormatter",
+        "coverage_kind": "composite",
+        "evidence": "TABLE_COLUMNS include conditional rules compiled by _column_def.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "DataTable"
+      },
+      {
+        "component": "ConfidenceIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "ConfirmDialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ContextMenu",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ControlChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "CountBadge",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "DangerConfirmDialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "DataQualityBadge",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "DataTable",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": null
+      },
+      {
+        "component": "DatePicker",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "DateRangePicker",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "DateTimePicker",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "DeltaIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "DescriptionList",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "DetailDrawer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "Dialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "DifferenceTable",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/patterns/comparison",
+        "via": null
+      },
+      {
+        "component": "DirtyStateGuard",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "DistributionPanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Divider",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "DonutChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "DropdownMenu",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "EditableTable",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": null
+      },
+      {
+        "component": "EmptyState",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "EngineeringEntityCard",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "EngineeringProcessTrend",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "EngineeringStatusBadge",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "EngineeringTimeline",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "EntityHeader",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "EnvironmentBadge",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/foundation",
+        "via": null
+      },
+      {
+        "component": "ErrorState",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "EvidenceCard",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "ExpandableRow",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": null
+      },
+      {
+        "component": "FileUpload",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "FilterBar",
+        "coverage_kind": "composite",
+        "evidence": "Canonical dashboard/explorer/monitoring routes render their filter control cluster through the shared pattern filter composition.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/patterns/explorer",
+        "via": "_pattern_filter_controls"
+      },
+      {
+        "component": "FilterChip",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FilterDrawer",
+        "coverage_kind": "composite",
+        "evidence": "Live Filter drawer button passes FilterDrawer into the drawer factory.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": "open_filter_drawer"
+      },
+      {
+        "component": "FilterPresetSelector",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "Form",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FormActions",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FormDialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FormDrawer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FormField",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FormSection",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "FreshnessIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "FullScreenDialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "Gauge",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Heatmap",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Histogram",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "IconButton",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "ImageViewer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "InspectorDrawer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "InteractiveCard",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "InvestigationContextBar",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "JsonViewer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "KeyValueList",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "LineChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "LogViewer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "MarkdownViewer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "MasterDetailTable",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": null
+      },
+      {
+        "component": "MetricCard",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "MetricStrip",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "MobileNavigationDrawer",
+        "coverage_kind": "composite",
+        "evidence": "AppShell instantiates the Company-owned temporary mobile navigation overlay used below the responsive breakpoint.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/shell",
+        "via": "AppShell"
+      },
+      {
+        "component": "MultiSelect",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "NoResultsState",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "NotFoundState",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "NotificationCenter",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "NumberInput",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "OfflineState",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "OutOfSpecIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "PageHeader",
+        "coverage_kind": "composite",
+        "evidence": "Every canonical PatternPage constructs PageHeader before rendering its semantic slots.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/patterns/dashboard",
+        "via": "PatternPage"
+      },
+      {
+        "component": "PageNavigation",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Panel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "ParetoChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "PasswordInput",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "PermissionDeniedState",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "PlotlyPanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Popover",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "PopulationComparisonPanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "PreviewDialog",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ProcessTrendPanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "ProgressBar",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ProgressMetric",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/performance",
+        "via": null
+      },
+      {
+        "component": "ProgressSteps",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "PropertyGrid",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "RadialProfilePlot",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "RadioGroup",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "RangeSlider",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "RcaEvidencePanel",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "ResponsiveDrawer",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "SavedFilterView",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ScatterChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "SearchInput",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "SearchResults",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "SegmentedControl",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Select",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "ServerDataTable",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": null
+      },
+      {
+        "component": "SeverityIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Skeleton",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "Slider",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "SparklineCell",
+        "coverage_kind": "composite",
+        "evidence": "TABLE_COLUMNS include a SPARKLINE column rendered through SparklineCell.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "DataTable"
+      },
+      {
+        "component": "SpatialMap",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "SpecLimitIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_engineering",
+        "route": "/engineering",
+        "via": null
+      },
+      {
+        "component": "Spinner",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "SplitButton",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "StackedBarChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "StateIllustration",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visual_assets",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "StateView",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/states",
+        "via": null
+      },
+      {
+        "component": "StatusBadge",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "StatusCell",
+        "coverage_kind": "composite",
+        "evidence": "TABLE_COLUMNS include a STATUS column rendered through StatusCell.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "DataTable"
+      },
+      {
+        "component": "Stepper",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "SvgIcon",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visual_assets",
+        "route": "/",
+        "via": null
+      },
+      {
+        "component": "Switch",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "TableColumnManager",
+        "coverage_kind": "composite",
+        "evidence": "TableToolbar renders the column manager.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "TableToolbar"
+      },
+      {
+        "component": "TableContextMenu",
+        "coverage_kind": "composite",
+        "evidence": "The full enterprise table declares row actions, causing a live context menu.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "DataTable"
+      },
+      {
+        "component": "TableDensitySelector",
+        "coverage_kind": "composite",
+        "evidence": "TableToolbar renders the density selector.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "TableToolbar"
+      },
+      {
+        "component": "TablePresetSelector",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": null
+      },
+      {
+        "component": "TableRowActions",
+        "coverage_kind": "composite",
+        "evidence": "TableContextMenu inherits the row-action behavior and is exercised with live row actions.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "TableContextMenu"
+      },
+      {
+        "component": "TableSelectionBar",
+        "coverage_kind": "composite",
+        "evidence": "The full enterprise table declares bulk actions, causing a live selection bar.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "DataTable"
+      },
+      {
+        "component": "TableToolbar",
+        "coverage_kind": "composite",
+        "evidence": "The full enterprise DataTable renders its toolbar.",
+        "module": "company_ui.integrations.nicegui_data_table",
+        "route": "/data",
+        "via": "DataTable"
+      },
+      {
+        "component": "Tabs",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "Tag",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "TextArea",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "TextInput",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "TimePicker",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "TimelineChart",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Toast",
+        "coverage_kind": "composite",
+        "evidence": "Multiple live buttons route feedback through the Company Toast surface.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": "_toast"
+      },
+      {
+        "component": "Tooltip",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "TreeView",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "TrendIndicator",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_content",
+        "route": "/content",
+        "via": null
+      },
+      {
+        "component": "UserMenu",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_layout",
+        "route": "/controls",
+        "via": null
+      },
+      {
+        "component": "ValidationMessage",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "ValidationSummary",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_interactions",
+        "route": "/forms",
+        "via": null
+      },
+      {
+        "component": "WaferComparisonMap",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "WaferMap",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_visualization",
+        "route": "/charts",
+        "via": null
+      },
+      {
+        "component": "Well",
+        "coverage_kind": "direct",
+        "evidence": "AST-observed constructor/function call in live route builder.",
+        "module": "company_ui.integrations.nicegui_components",
+        "route": "/foundation",
+        "via": null
+      }
+    ],
+    "required_visual_components": 183,
+    "uncovered": []
+  },
+  "wheel": {
+    "embedded_ai_guides": 30,
+    "entries": 365,
+    "path": "wheel/company_ui-1.7.1-py3-none-any.whl",
+    "sha256": "bbf61206290f6a6afc25a13338be9eea71003f2bdb03d66ea35bec8718cec887",
+    "size_bytes": 519813,
+    "svg_assets": 166
+  }
+}

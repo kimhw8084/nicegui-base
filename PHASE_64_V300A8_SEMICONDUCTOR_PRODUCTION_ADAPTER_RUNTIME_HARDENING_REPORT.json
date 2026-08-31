@@ -1,0 +1,86 @@
+{
+  "baseline": "Wave 63 authoritative source",
+  "certification_boundary": "Installed NiceGUI 3.15.0, real server/WebSocket, supported corporate browser, approved company provider adapters, representative fab-scale company data and human visual baseline remain PENDING. No current target/browser PASS is inferred.",
+  "continuation": "Wave 65 proposed: Semiconductor Provider SDK, Onboarding Wizard & Release-Candidate Operationalization. Preserve Wave59-64 authorities; add adapter SDK/conformance CLI fixtures, production onboarding workflow composition, recipe-specific operational guardrails/diagnostics, benchmark profile artifacts and target-environment evidence capture hooks without assuming company database/auth/proxy/deployment vendors.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-29T17:53:46Z",
+  "implementation": {
+    "bounded_runtime_performance_probe": true,
+    "capability_claims_verified_by_observed_query_stats": true,
+    "composition_authorities": [
+      "Wave59 DataSource/DataSchema/QueryStats",
+      "Wave60 AnalysisContext/SelectionBus/workspace/persistence",
+      "Wave61 semiconductor semantic/filter/analytical surfaces",
+      "Wave62 SemiconductorRecipeDefinition/application recipe factory",
+      "Wave63 onboarding/variant/runtime orchestration"
+    ],
+    "fail_closed_pushdown_claims": true,
+    "generated_project_setup_and_conformance_hooks": true,
+    "golden_example": "examples/phase64_production_adapter_runtime.py",
+    "large_synthetic_sqlite_rows": 25000,
+    "mandatory_dependency_additions": 0,
+    "provider_neutral_bounded_adapter_conformance": true,
+    "runtime_presets_reuse_wave60_snapshot_persistence": true,
+    "shared_runtime_experience_all_eight_recipes": true,
+    "standard_runtime_experience_states": [
+      "ready",
+      "degraded",
+      "blocked",
+      "loading",
+      "empty",
+      "stale",
+      "partial"
+    ],
+    "target_runtime_certification_pending_is_first_class": true,
+    "ui_ready_onboarding_setup_contract": true
+  },
+  "phase": 64,
+  "status": "SOURCE_COMPLETE_TARGET_RUNTIME_PENDING",
+  "test_orchestration_note": "Final regression used eight independent fresh pytest processes. One combined-shell attempt reached the tool execution ceiling while batch 6 was running after batch 5 passed; that interrupted attempt is excluded, and the exact unchanged batch 6 was rerun cleanly and passed. Only successful final batch evidence is recorded.",
+  "title": "Semiconductor Production Adapter Conformance & Runtime Experience Hardening",
+  "verification": {
+    "additive_root_exports": 33,
+    "governance": "0 errors / 0 warnings",
+    "isolated_batches": "8/8 PASS",
+    "public_root_api_entries": 1117,
+    "pytest": "948/948 collected tests PASS",
+    "semiconductor_recipe_registry": 8,
+    "semiconductor_recipe_variant_registry": 8,
+    "semiconductor_surface_registry": 58,
+    "shipped_examples": "0 errors / 0 warnings across 28 files",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable warning / 0 FAIL",
+    "test_files": 124,
+    "visual_component_coverage": "183/183",
+    "wave63_api_removals": 0,
+    "wave63_root_api_entries": 1084,
+    "wave64_behavioral_tests": "23/23 PASS"
+  },
+  "wheel": {
+    "isolated_no_deps_import": {
+      "returncode": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "3.0.0a8 1117 recipes=8 variants=8"
+    },
+    "isolated_no_deps_install_returncode": 0,
+    "metadata_version": "3.0.0a8",
+    "record_hashes_verified": 450,
+    "record_mismatches": [],
+    "record_rows": 451,
+    "requires_dist": [
+      "nicegui==3.15.0",
+      "playwright==1.62.0; extra == \"live-cert\"",
+      "Pillow==12.3.0; extra == \"live-cert\"",
+      "playwright==1.62.0; extra == \"mac-cert\"",
+      "Pillow==12.3.0; extra == \"mac-cert\"",
+      "pytest<9,>=8; extra == \"test\"",
+      "pytest-asyncio<1,>=0.25; extra == \"test\""
+    ],
+    "requires_dist_nicegui": "nicegui==3.15.0",
+    "sha256": "c878a0c293be84f01b03d92bdceeef683086786f0342d4b72d5861e1be4ac1e0",
+    "size_bytes": 763744,
+    "status": "PASS",
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "zip_files": 451
+  }
+}

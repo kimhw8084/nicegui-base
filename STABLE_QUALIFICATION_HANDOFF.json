@@ -1,0 +1,26 @@
+{
+  "audit_public_api_entries": 1525,
+  "audit_public_api_sha256": "0693fd41e7e8f628b2ff65431094a420bf085d53a56b7fb62d8c48fa4433a1a6",
+  "audit_wheel_sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
+  "claim_boundary": "Wave 77 consolidates and audits the source-complete release candidate only. It cannot turn missing company/runtime/browser/human/reviewer/deployment/publication/operations evidence into PASS and does not publish stable 3.0.0.",
+  "diagnostic_only": true,
+  "framework": "nicegui-base",
+  "framework_version": "3.0.0a8",
+  "next_action": "Run setup.sh and certify.sh in the approved target environment, then feed only real captured artifacts into the existing Waves 64\u201376 qualification authorities.",
+  "nicegui_version": "3.15.0",
+  "pending_external_qualification": [
+    "installed NiceGUI 3.15.0 target-runtime contract",
+    "real 21-route server/WebSocket execution",
+    "approved company provider/data qualification and fab-scale benchmark",
+    "supported corporate browser/publisher execution",
+    "human visual baseline where required",
+    "approved reviewer/authority/reference evidence where applicable",
+    "real deployment/publication/monitoring/incident/rollback evidence where applicable"
+  ],
+  "promotion_target": "3.0.0",
+  "schema_version": 1,
+  "source_release_candidate_status": "SOURCE_COMPLETE",
+  "stable_publication_status": "NOT_PERFORMED",
+  "stable_qualification_status": "PENDING",
+  "wave": 77
+}

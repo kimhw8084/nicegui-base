@@ -1,0 +1,75 @@
+{
+  "baseline": "Wave 62 authoritative source",
+  "certification_boundary": "Exact installed NiceGUI 3.15.0, real server/WebSocket/browser/company DataSource adapters and human visual baseline remain PENDING. Historical browser evidence is not current Wave 63 certification.",
+  "continuation": "Wave 64 proposed: Semiconductor Production Adapter Conformance & Runtime Experience Hardening\u2014provider conformance kits, onboarding/setup UX surfaces, representative fab-scale pushdown/performance profiles, recipe-runtime interaction polish, and target-environment certification harnesses without assuming database/auth/proxy vendors.",
+  "framework_version": "3.0.0a8",
+  "generated_at": "2026-08-29T17:23:19Z",
+  "implementation": {
+    "agent_catalog_variant_guidance": true,
+    "ambiguous_binding_fails_closed": true,
+    "composition_authorities": [
+      "Wave59 DataSource/DataSchema",
+      "Wave60 AnalysisContext/SelectionBus/AnalysisCoordinator/WorkspaceController",
+      "Wave61 SemiconductorAnalysisContext/ManufacturingFilterController/SemiconductorAnalyticalSurface",
+      "Wave62 SemiconductorRecipeDefinition/application recipe factory"
+    ],
+    "create_cli_variant_option": true,
+    "explicit_override_precedence": true,
+    "generated_project_files": [
+      "services/data_adapter.py",
+      "recipe_config.py",
+      "pages/home.py"
+    ],
+    "generated_shared_state_consistency": "prepare_runtime() and rendered page reuse the same AnalysisContext/SelectionBus",
+    "golden_example": "examples/phase63_recipe_runtime_onboarding.py",
+    "governed_recipe_variants": 8,
+    "mandatory_dependency_additions": 0,
+    "production_runtime": "SemiconductorRecipeRuntime with bounded refresh, context-aware records, shared selections/filtering, stale/error/empty/readiness states and source ownership",
+    "provider_neutral_adapter_hook": "SemiconductorSourceAdapter -> AdaptedSemiconductorSource -> Wave59 DataSource",
+    "pytest9_collection_hardening": "source evidence collects in clean batches and supports per-file quiet collection counts",
+    "ranked_explainable_binding": true,
+    "recipe_customization_without_recipe_forking": true,
+    "smart_data_onboarding": true
+  },
+  "phase": 63,
+  "status": "SOURCE_COMPLETE_TARGET_RUNTIME_PENDING",
+  "test_orchestration_note": "Final regression used eight independent fresh pytest processes. One batch-4 shell attempt was terminated by the tool-call execution ceiling near completion and was excluded; the exact unchanged batch was rerun cleanly and passed. Only successful replacement evidence is recorded in TEST_BATCH_EXECUTION.json.",
+  "title": "Semiconductor Recipe Production Runtime & Smart Data Onboarding",
+  "verification": {
+    "additive_root_exports": 26,
+    "governance": "0 errors / 0 warnings",
+    "isolated_batches": "8/8 PASS",
+    "public_root_api_entries": 1084,
+    "pytest": "925/925 collected tests PASS",
+    "semiconductor_recipe_registry": 8,
+    "semiconductor_recipe_variant_registry": 8,
+    "semiconductor_surface_registry": 58,
+    "shipped_examples": "0 errors / 0 warnings across 27 files",
+    "static_certification": "12 PASS / 1 expected NiceGUI-unavailable warning / 0 FAIL",
+    "test_files": 123,
+    "visual_component_coverage": "183/183",
+    "wave62_api_removals": 0,
+    "wave62_root_api_entries": 1058,
+    "wave63_behavioral_tests": "38/38 PASS"
+  },
+  "wheel": {
+    "framework_version": "3.0.0a8",
+    "isolated_no_deps_import": {
+      "returncode": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "3.0.0a8 1084 recipes=8 variants=8"
+    },
+    "isolated_no_deps_install_returncode": 0,
+    "metadata_version": "3.0.0a8",
+    "record_hashes_verified": 446,
+    "record_mismatches": [],
+    "record_rows": 447,
+    "requires_dist_nicegui": "nicegui==3.15.0",
+    "sha256": "abda3c9d78d42e7f6298aa93c62887fda167fdbb151349f15b4d670cd3464049",
+    "size_bytes": 745708,
+    "status": "PASS",
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "zip_files": 447
+  }
+}

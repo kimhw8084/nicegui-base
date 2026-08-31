@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+  "sha256": "4f2725c96cc5441a56848eb1c04a7b421b65fa7fea66c2de8a67fb1ef99ec176",
+  "size_bytes": 887279,
+  "zip_files": 477,
+  "record_rows": 477,
+  "record_hashes_verified": 476,
+  "record_mismatches": [],
+  "metadata_version": "3.0.0a8",
+  "requires_dist": [
+    "nicegui==3.15.0",
+    "playwright==1.62.0; extra == \"live-cert\"",
+    "Pillow==12.3.0; extra == \"live-cert\"",
+    "playwright==1.62.0; extra == \"mac-cert\"",
+    "Pillow==12.3.0; extra == \"mac-cert\"",
+    "pytest<9,>=8; extra == \"test\"",
+    "pytest-asyncio<1,>=0.25; extra == \"test\""
+  ],
+  "isolated_no_deps_install_returncode": 0,
+  "isolated_no_deps_import": {
+    "status": "PASS",
+    "returncode": 0,
+    "stdout": "3.0.0a8 nicegui=3.15.0 root_api=1362 publication_adapters=1 post_policies=1",
+    "stderr": ""
+  },
+  "requires_dist_nicegui": "nicegui==3.15.0"
+}

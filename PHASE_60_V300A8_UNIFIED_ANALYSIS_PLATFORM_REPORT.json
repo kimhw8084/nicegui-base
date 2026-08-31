@@ -1,0 +1,80 @@
+{
+  "phase": 60,
+  "framework_version": "3.0.0a8",
+  "title": "Wave 60 \u2014 Unified Analysis and Interaction Platform",
+  "generated_at": "2026-08-29T15:22:07Z",
+  "status": "SOURCE_VALIDATED_TARGET_RUNTIME_PENDING",
+  "supersedes_current_source_claims_through_phase": 59,
+  "scope": {
+    "shared_analysis_state": [
+      "transactional AnalysisContext with atomic watcher revisions and rollback",
+      "shared filters/search/time range/affected/control/baseline/entity/source/freshness metadata",
+      "query composition onto Wave 59 DataSource queries"
+    ],
+    "selection_and_crossfilter": [
+      "typed SelectionBus for row/entity/time/wafer/die/spatial/chart/series/population selections",
+      "replace/add/remove/clear mutation modes",
+      "drill/back history",
+      "AnalysisCoordinator selection-derived crossfilters without losing base filters"
+    ],
+    "async_analysis": [
+      "latest-request-wins AnalysisBinding",
+      "stale request cancellation",
+      "canonical AnalyticalPanel state contract for ready/loading/empty/partial/stale/error"
+    ],
+    "table_unification": [
+      "TableQuery to provider-neutral Wave 59 Query translation",
+      "compound AND/OR filter preservation",
+      "DataSource-backed server paging",
+      "semantic schema to governed table-column generation"
+    ],
+    "workspace_interaction": [
+      "WorkspaceController over WorkspaceLayoutEngine",
+      "move/resize/collapse/hide/lock/dock/split/duplicate/reset/undo/redo",
+      "Company-owned NiceGUIWorkspace interactive renderer"
+    ],
+    "persistence": [
+      "WorkspaceRuntime owns analysis context, selections and workspace interactions",
+      "complete snapshot restore",
+      "JSON roundtrip for filter AST, date, datetime and Decimal analytical values",
+      "backward compatibility with Wave 59 snapshots that omit Wave 60 fields"
+    ],
+    "developer_experience": [
+      "ANALYSIS_REGISTRY",
+      "framework catalog discovery",
+      "AI construction guidance",
+      "UNIFIED_ANALYSIS_GUIDE",
+      "phase60_unified_analysis example"
+    ]
+  },
+  "verification": {
+    "automated_tests": "785/785 PASS",
+    "test_files": 120,
+    "wave60_regression_tests": 30,
+    "governance": "0 errors / 0 warnings",
+    "shipped_examples_validator": "0 errors / 0 warnings",
+    "static_certification": "12 PASS / 1 expected environment WARNING / 0 FAIL",
+    "visual_component_coverage": "183/183",
+    "compileall": "PASS",
+    "isolated_wheel_import": "PASS",
+    "public_root_api_entries": 902,
+    "browser_current_source": "PENDING",
+    "installed_nicegui_runtime": "PENDING",
+    "human_visual_baseline": "PENDING"
+  },
+  "claim_boundary": "Wave 60 source/static/behavioral/persistence gates pass. Installed NiceGUI 3.15.0 runtime, real 21-route server/WebSocket smoke, supported corporate-browser execution, company data-source adapters and human visual baseline remain target-environment gates and are not inferred here.",
+  "wheel": {
+    "framework_version": "3.0.0a8",
+    "status": "PASS",
+    "wheel": "company_ui-3.0.0a8-py3-none-any.whl",
+    "metadata_version": "3.0.0a8",
+    "requires_dist_nicegui": "nicegui==3.15.0",
+    "zip_files": 429,
+    "record_hashes_verified": 428,
+    "record_mismatches": 0,
+    "isolated_no_deps_import": "PASS",
+    "isolated_import_detail": "3.0.0a8 902",
+    "sha256": "bdfa5b3f4a3c5c91c90778cf523f4bf805f29438acd4f82ba2245d9cb0598956",
+    "size_bytes": 666802
+  }
+}
