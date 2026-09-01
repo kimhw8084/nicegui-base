@@ -202,6 +202,13 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 for index, stage in enumerate(STAGE_ORDER)
             )
             ProgressSteps(steps)
+            if model.stage is not BuilderStage.GOAL:
+                with ui.element('div').classes('cui-workbench-toolbar'):
+                    Button('Edit goal', on_click=lambda: (model.go(BuilderStage.GOAL), render()))
+                    if current_index >= STAGE_ORDER.index(BuilderStage.RECOMMENDATION):
+                        Button('Edit data', on_click=lambda: (model.go(BuilderStage.DATA), render()))
+                    if current_index >= STAGE_ORDER.index(BuilderStage.COMPOSE):
+                        Button('Change recommendation', on_click=lambda: (model.go(BuilderStage.RECOMMENDATION), render()))
             if model.stage is BuilderStage.GOAL:
                 goal = TextInput('What are you trying to build?', value=model.goal, placeholder='e.g. monitor chamber drift and investigate abnormal wafers')
                 kind = Select('Problem type', {
@@ -224,7 +231,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 for item in recommendations:
                     with ui.element('article').classes('cui-workbench-card'):
                         ui.label(item.entry.title).classes('cui-workbench-card__title')
-                        ui.label(f'{item.entry.kind.value} · score {item.score}').classes('cui-workbench-note')
+                        ui.label(f"{item.entry.kind.value} · {'Ready' if item.selectable else 'Needs data mapping'}").classes('cui-workbench-note')
                         for reason in item.reasons:
                             ui.label('✓ ' + reason).classes('cui-workbench-note')
                         for blocker in item.blockers:

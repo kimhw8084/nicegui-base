@@ -98,25 +98,25 @@ def build_css(system: DesignSystem | None = None) -> str:
 {_palette_vars('light', s.light)}
 }}
 
-html[data-theme='light'] {{
+html[data-theme='light'], [data-theme='light'] {{
 {_palette_vars('light', s.light)}
   color-scheme: light;
 }}
 
-html[data-theme='dark'] {{
+html[data-theme='dark'], [data-theme='dark'] {{
 {_palette_vars('dark', s.dark)}
   color-scheme: dark;
 }}
 
 @media (prefers-color-scheme: dark) {{
-  html[data-theme='system'] {{
+  html[data-theme='system'], [data-theme='system'] {{
 {_palette_vars('dark', s.dark)}
     color-scheme: dark;
   }}
 }}
 
 @media (prefers-color-scheme: light) {{
-  html[data-theme='system'] {{
+  html[data-theme='system'], [data-theme='system'] {{
 {_palette_vars('light', s.light)}
     color-scheme: light;
   }}

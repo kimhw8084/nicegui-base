@@ -95,8 +95,8 @@ from nicegui_base.version import FRAMEWORK_VERSION
 
 from .mac_lab_css import build_mac_lab_css
 
-LAB_TITLE = 'NiceGUI Base — Linux Reference Lab'
-LAB_APP_TITLE = 'NiceGUI Base Reference System'
+LAB_TITLE = 'NiceGUI Base Reference Lab'
+LAB_APP_TITLE = 'NiceGUI Base Reference Lab'
 LAB_APP_SUBTITLE = 'Enterprise engineering application framework'
 LAB_VERSION = FRAMEWORK_VERSION
 LAB_PORT = 8080
@@ -195,7 +195,10 @@ def _sync_theme(mode: str, dark: Any) -> None:
         dark.disable()
     else:
         dark.auto()
-    ui.run_javascript(f"document.documentElement.dataset.theme={mode!r};")
+    ui.run_javascript(
+        f"document.documentElement.dataset.theme={mode!r};"
+        f"try{{localStorage.setItem('nicegui_base_theme',{mode!r});localStorage.setItem('cui_lab_theme',{mode!r});}}catch(_){{}}"
+    )
     if mode in {'light','dark'}:
         apply_all_chart_themes(mode)
 
@@ -217,7 +220,7 @@ def _control_bar() -> None:
     async def density_changed(e):
         value = str(getattr(e, 'value', 'compact'))
         app.storage.user['cui_lab_density'] = value
-        ui.run_javascript(f"document.documentElement.dataset.density={value!r};")
+        ui.run_javascript(f"document.documentElement.dataset.density={value!r};try{{localStorage.setItem('nicegui_base_density',{value!r});localStorage.setItem('cui_lab_density',{value!r});}}catch(_){{}}")
         await apply_all_table_density(value)
 
     def motion_changed(e):
@@ -225,6 +228,7 @@ def _control_bar() -> None:
         app.storage.user['cui_lab_motion'] = value
         ui.run_javascript(
             f"document.documentElement.dataset.motion={value!r}; document.documentElement.classList.toggle('cui-force-reduced-motion',{str(value == 'reduced').lower()});"
+            f"try{{localStorage.setItem('nicegui_base_motion',{value!r});localStorage.setItem('cui_lab_motion',{value!r});}}catch(_){{}}"
         )
 
     with ui.element('div').classes('cui-lab-controlbar').props('role="toolbar" aria-label="Live design controls"'):
@@ -240,7 +244,7 @@ def _control_bar() -> None:
 
 def _shell(route: str, title: str, description: str | None = None):
     shell = AppShell(
-        LAB_APP_TITLE, LAB_NAVIGATION, active_route=route, environment='LINUX LAB',
+        LAB_APP_TITLE, LAB_NAVIGATION, active_route=route, environment='LOCAL',
         subtitle=LAB_APP_SUBTITLE, greeting='Good morning', user_name='Process Engineer', user_initials='PE',
         on_settings=lambda: _ui().navigate.to('/patterns/settings'), on_about=None,
         owner='NiceGUI Base / Metrology Engineering', on_support=lambda: _toast('Support contact opened'),
@@ -490,7 +494,7 @@ def _controls(_: Any = None) -> None:
             with _sample('Segmented + user menu', span=5):
                 SegmentedControl({'trend':'Trend','table':'Table','split':'Split'},value='trend')
                 UserMenu('PE',on_preferences=lambda:_toast('Preferences'),on_about=lambda:_toast(f'NiceGUI Base {FRAMEWORK_VERSION}'),on_logout=lambda:_toast('Sign-out demo'))
-                about=AppInfoDialog('NiceGUI Base Linux Lab',LAB_VERSION,environment='LINUX LAB')
+                about=AppInfoDialog('NiceGUI Base Linux Lab',LAB_VERSION,environment='LOCAL')
                 Button('About this lab',icon=Icons.INFO,on_click=about.open)
     sec = _section('Page navigation helpers', 'Back/next navigation uses the same semantic button and SVG vocabulary.')
     with sec:
@@ -674,154 +678,343 @@ def _forms(_: Any = None) -> None:
 
 
 def _data(_: Any = None) -> None:
-    ui = _ui(); shell = _shell('/data', 'Enterprise DataTable Lab', 'Use this page as the primary AG Grid visual and interaction review surface.')
+    ui = _ui(); shell = _shell('/data', 'Enterprise DataTable Gallery', 'Five distinct production patterns prove different table jobs instead of repeating one measurement dataset.')
+
+    # 1/5 — high-volume engineering population -------------------------------------------------
     rows = _deterministic_rows(320)
-    sec = _section('Full enterprise table', 'Search, sort, filter, resize, select, column management, density, conditional cells, status cells, sparklines and CSV export must all feel native to NiceGUI Base.')
+    sec = _section('1 · Measurement population', 'High-volume read-only analysis: search, sort, filter, resize, select, conditional values, status, sparklines, bulk actions and row inspection.')
     with sec:
         def inspect_measurement(row: dict[str, Any] | Any) -> None:
-            record=dict(row or {})
-            title=f"{record.get('id','Measurement')} · {record.get('tool','Unknown tool')}"
+            record = dict(row or {})
+            title = f"{record.get('id','Measurement')} · {record.get('tool','Unknown tool')}"
             with InspectorDrawer(title, subtitle='Measurement detail · double-click a row or use Inspect'):
                 EntityHeader(title, subtitle=f"{record.get('lot','—')} · {record.get('wafer','—')} · {record.get('parameter','—')}", icon=Icons.METROLOGY)
-                PropertyGrid(tuple(KeyValueItem(key,key.replace('_',' ').title(),record.get(key)) for key in ('lot','wafer','tool','parameter','value','status','yield','timestamp')))
+                PropertyGrid(tuple(KeyValueItem(key, key.replace('_',' ').title(), record.get(key)) for key in ('lot','wafer','tool','parameter','value','status','yield','timestamp')))
                 with Panel():
                     ui.label('Trend').classes('cui-field-label')
                     ui.label(' · '.join(f'{float(v):.2f}' for v in record.get('trend',())[-8:]) or '—').classes('cui-tabular cui-lab-long-string')
 
         def export_row(row: dict[str, Any] | Any) -> None:
-            record=dict(row or {}); name=str(record.get('id','measurement')).replace('/','-')
-            ui.download.content(json.dumps(record,indent=2,default=str),f'{name}.json')
-            _toast(f'Exported {name}.json',FeedbackIntent.SUCCESS)
+            record = dict(row or {}); name = str(record.get('id','measurement')).replace('/','-')
+            ui.download.content(json.dumps(record, indent=2, default=str), f'{name}.json')
+            _toast(f'Exported {name}.json', FeedbackIntent.SUCCESS)
 
         def export_selected(selected: list[dict[str, Any]] | Any) -> None:
-            selected=list(selected or [])
+            selected = list(selected or [])
             if not selected:
-                _toast('Select at least one row to export',FeedbackIntent.WARNING); return
-            keys=[c.key for c in TABLE_COLUMNS if c.key!='trend']
-            buffer=io.StringIO(); writer=csv.DictWriter(buffer,fieldnames=keys,extrasaction='ignore'); writer.writeheader(); writer.writerows(selected)
-            ui.download.content(buffer.getvalue(),'selected-measurements.csv')
-            _toast(f'Exported {len(selected)} selected rows',FeedbackIntent.SUCCESS)
+                _toast('Select at least one row to export', FeedbackIntent.WARNING); return
+            keys = [c.key for c in TABLE_COLUMNS if c.key != 'trend']
+            buffer = io.StringIO(); writer = csv.DictWriter(buffer, fieldnames=keys, extrasaction='ignore'); writer.writeheader(); writer.writerows(selected)
+            ui.download.content(buffer.getvalue(), 'selected-measurements.csv')
+            _toast(f'Exported {len(selected)} selected rows', FeedbackIntent.SUCCESS)
 
         def row_double_click(event) -> None:
-            inspect_measurement((getattr(event,'args',{}) or {}).get('data') or {})
+            inspect_measurement((getattr(event, 'args', {}) or {}).get('data') or {})
 
-        bulk_actions=(
-            BulkAction('export-selected','Export selected',Icons.DOWNLOAD,on_action=export_selected),
-            BulkAction('hold-selected','Place on hold',Icons.WARNING,intent='danger',on_action=lambda selected:_toast(f'Placed {len(selected)} selected rows on synthetic hold',FeedbackIntent.WARNING)),
+        bulk_actions = (
+            BulkAction('export-selected', 'Export selected', Icons.DOWNLOAD, on_action=export_selected),
+            BulkAction('hold-selected', 'Place on hold', Icons.WARNING, intent='danger', on_action=lambda selected: _toast(f'Placed {len(selected)} selected rows on synthetic hold', FeedbackIntent.WARNING)),
         )
-        row_actions=(
-            RowAction('inspect','Inspect',Icons.EYE,on_action=inspect_measurement),
-            RowAction('export-row','Export',Icons.DOWNLOAD,on_action=export_row),
+        row_actions = (
+            RowAction('inspect', 'Inspect', Icons.EYE, on_action=inspect_measurement),
+            RowAction('export-row', 'Export', Icons.DOWNLOAD, on_action=export_row),
         )
-        DataTable(rows, TABLE_COLUMNS, title='Measurement population', description='320 deterministic synthetic records · 50-row active page · double-click any row for inspection', selection=SelectionMode.MULTIPLE, density=_lab_table_density(), bulk_actions=bulk_actions, row_actions=row_actions, on_row_double_click=row_double_click)
-    sec = _section('Editable behavior and rollback', 'Invalid edits should roll back and show a Company toast—not a stock notification.')
+        DataTable(rows, TABLE_COLUMNS, title='Measurement population', description='320 deterministic records · dense analytical browsing · double-click any row for inspection', selection=SelectionMode.MULTIPLE, density=_lab_table_density(), bulk_actions=bulk_actions, row_actions=row_actions, on_row_double_click=row_double_click)
+
+    # 2/5 — editable configuration ---------------------------------------------------------------
+    sec = _section('2 · Recipe / configuration editor', 'Inline engineering configuration with validation, changed values, ownership and rollback. Loaded on demand so the primary page stays light.')
     with sec:
-        def build_editable_table() -> None:
-            editable_cols = tuple(TableColumn(c.key,c.label,c.kind,decimals=c.decimals,min_width=c.min_width,editable=(c.key=='value')) for c in TABLE_COLUMNS[:8])
-            EditableTable(rows[:18], editable_cols, spec=EditableTableSpec(editable_cols, title='Editable limits', density=_lab_table_density()), validate_edit=lambda row,key,value: 'Value must be numeric' if key=='value' and not str(value).replace('.','',1).isdigit() else None)
-        _deferred_lab_surface('Editable table stress test', 'Mount this second AG Grid only when you want to inspect edit and rollback behavior.', build_editable_table, button_label='Load editable table')
-    sec = _section('Server-mode simulation', 'The 180ms synthetic request is preserved, but it no longer runs during the initial DataTable page load.')
+        config_columns = (
+            TableColumn('parameter', 'Parameter', ColumnKind.TEXT, min_width=170, pinned=PinPosition.LEFT),
+            TableColumn('current', 'Current', ColumnKind.FLOAT, decimals=3, min_width=100),
+            TableColumn('proposed', 'Proposed', ColumnKind.FLOAT, decimals=3, min_width=105, editable=True),
+            TableColumn('unit', 'Unit', ColumnKind.TEXT, min_width=74),
+            TableColumn('lower', 'Lower guard', ColumnKind.FLOAT, decimals=3, min_width=105),
+            TableColumn('upper', 'Upper guard', ColumnKind.FLOAT, decimals=3, min_width=105),
+            TableColumn('owner', 'Owner', ColumnKind.TEXT, min_width=130),
+            TableColumn('status', 'Review', ColumnKind.STATUS, min_width=110),
+        )
+        config_rows = [
+            {'parameter':'RF bias','current':312.0,'proposed':318.0,'unit':'W','lower':280.0,'upper':340.0,'owner':'J. Park','status':'Changed'},
+            {'parameter':'Chamber pressure','current':41.5,'proposed':40.8,'unit':'mTorr','lower':38.0,'upper':44.0,'owner':'S. Lee','status':'Changed'},
+            {'parameter':'Gas A flow','current':155.0,'proposed':155.0,'unit':'sccm','lower':145.0,'upper':165.0,'owner':'M. Chen','status':'Approved'},
+            {'parameter':'Gas B flow','current':82.0,'proposed':84.0,'unit':'sccm','lower':76.0,'upper':88.0,'owner':'M. Chen','status':'Review'},
+            {'parameter':'Step time','current':28.0,'proposed':28.0,'unit':'s','lower':25.0,'upper':32.0,'owner':'A. Kim','status':'Approved'},
+            {'parameter':'ESC temperature','current':17.0,'proposed':16.5,'unit':'°C','lower':14.0,'upper':20.0,'owner':'J. Park','status':'Review'},
+        ]
+        def build_config_editor() -> None:
+            def validate_config(row, key, value):
+                if key != 'proposed': return None
+                try: numeric = float(value)
+                except (TypeError, ValueError): return 'Proposed value must be numeric'
+                if numeric < float(row.get('lower', numeric)) or numeric > float(row.get('upper', numeric)):
+                    return 'Proposed value is outside the engineering guard band'
+                return None
+            EditableTable(config_rows, config_columns, spec=EditableTableSpec(config_columns, title='ETCH R18 configuration review', density=_lab_table_density()), validate_edit=validate_config)
+            with ui.element('div').classes('cui-lab-inline'):
+                StatusBadge('3 changed', intent=StatusIntent.WARNING); StatusBadge('2 awaiting review', intent=StatusIntent.INFO)
+                Button('Validate all', icon=Icons.CHECK, on_click=lambda: _toast('Configuration validation completed', FeedbackIntent.SUCCESS))
+                Button('Discard draft', icon=Icons.DELETE, intent=ButtonIntent.GHOST, on_click=lambda: _toast('Synthetic draft discarded', FeedbackIntent.WARNING))
+        _deferred_lab_surface('Load configuration editor', 'Mount a distinct editable-grid workflow with guard-band validation and review state.', build_config_editor, button_label='Load configuration editor')
+
+    # 3/5 — maintenance planning -----------------------------------------------------------------
+    sec = _section('3 · Equipment maintenance planner', 'Planning table: due dates, remaining time, owners, completion, status, presets and row-level operational actions.')
     with sec:
-        async def fetch(query: TableQuery):
-            await asyncio.sleep(.18)
-            q=(query.search or '').lower(); filtered=[r for r in rows if not q or q in ' '.join(str(v).lower() for v in r.values())]
-            start=(query.page-1)*query.page_size; page=filtered[start:start+query.page_size]
-            return TableResult(tuple(page), len(filtered), query.page, query.page_size)
-        def build_server_table() -> None:
-            ServerDataTable(TABLE_COLUMNS, fetch=fetch, title='Server-backed measurements', selection=SelectionMode.SINGLE, density=_lab_table_density())
-        _deferred_lab_surface('Server table stress test', 'Mount on demand to exercise loading and latest-request-wins without burdening normal page scrolling.', build_server_table, button_label='Load server table')
-    sec = _section('Master/detail, presets and expanded content', 'Community-compatible drilldown and the table accessory surfaces are reviewed explicitly.')
+        maintenance_columns = (
+            TableColumn('tool', 'Tool', ColumnKind.TEXT, min_width=110, pinned=PinPosition.LEFT),
+            TableColumn('chamber', 'Chamber', ColumnKind.TEXT, min_width=90),
+            TableColumn('pm_type', 'Maintenance', ColumnKind.TEXT, min_width=170),
+            TableColumn('due', 'Due', ColumnKind.TEXT, min_width=120),
+            TableColumn('days_remaining', 'Days', ColumnKind.INTEGER, min_width=80, rules=(ConditionalRule(FilterOperator.GT, 14, intent='success'),)),
+            TableColumn('owner', 'Owner', ColumnKind.TEXT, min_width=130),
+            TableColumn('completion', 'Prep', ColumnKind.PERCENT, decimals=0, min_width=85),
+            TableColumn('status', 'Status', ColumnKind.STATUS, min_width=105),
+        )
+        maintenance_rows = [
+            {'tool':'ETCH-014','chamber':'CH-2','pm_type':'Quarterly wet clean','due':'2026-09-01','days_remaining':1,'owner':'Night Shift','completion':.92,'status':'Due soon'},
+            {'tool':'ETCH-021','chamber':'CH-3','pm_type':'Pressure subsystem','due':'2026-08-31','days_remaining':0,'owner':'D. Patel','completion':.74,'status':'Due today'},
+            {'tool':'CVD-008','chamber':'CH-1','pm_type':'Kit replacement','due':'2026-09-08','days_remaining':8,'owner':'A. Nguyen','completion':.45,'status':'Planned'},
+            {'tool':'CMP-004','chamber':'PLATEN','pm_type':'Pad / conditioner','due':'2026-09-14','days_remaining':14,'owner':'K. Wong','completion':.30,'status':'Planned'},
+            {'tool':'PVD-011','chamber':'CH-4','pm_type':'Target inspection','due':'2026-09-21','days_remaining':21,'owner':'M. Garcia','completion':.18,'status':'Scheduled'},
+            {'tool':'ETCH-031','chamber':'CH-1','pm_type':'MFC calibration','due':'2026-08-29','days_remaining':-2,'owner':'J. Smith','completion':.60,'status':'Overdue'},
+        ]
+        def build_maintenance() -> None:
+            row_actions = (
+                RowAction('open','Open work order',Icons.EYE,on_action=lambda row:_toast(f"Opened {row.get('tool')} work order")),
+                RowAction('assign','Assign',Icons.EDIT,on_action=lambda row:_toast(f"Assignment flow opened for {row.get('tool')}")),
+            )
+            table = DataTable(maintenance_rows, maintenance_columns, title='Fleet maintenance plan', description='Operational planning rather than measurement analysis', selection=SelectionMode.MULTIPLE, density=_lab_table_density(), row_actions=row_actions)
+            TablePresetSelector((
+                TablePreset('Due / overdue', visible_columns=('tool','chamber','pm_type','due','days_remaining','owner','status'), density=TableDensity.COMPACT),
+                TablePreset('Preparation', visible_columns=('tool','pm_type','owner','completion','status'), density=TableDensity.DENSE),
+            ), table=table)
+        _deferred_lab_surface('Load maintenance planner', 'Mount a planning-oriented table with ownership, deadlines, completion and presets.', build_maintenance, button_label='Load maintenance planner')
+
+    # 4/5 — live incident queue ------------------------------------------------------------------
+    sec = _section('4 · Incident & alarm queue', 'Server-style operational queue: latest-request-wins search, severity, SLA age, acknowledgement state and response ownership.')
     with sec:
-        def build_master_detail_table() -> None:
-            master = MasterDetailTable(rows[:24], TABLE_COLUMNS, title='Master/detail measurements', selection=SelectionMode.SINGLE, density=_lab_table_density(),
-                detail_title=lambda row: f"{row.get('id','Measurement')} detail",
-                detail_renderer=lambda row: PropertyGrid((KeyValueItem('lot','Lot',row.get('lot')),KeyValueItem('tool','Tool',row.get('tool')),KeyValueItem('value','Value',row.get('value')))))
-            TablePresetSelector((TablePreset('Compact core',visible_columns=('id','lot','tool','value','status'),density=TableDensity.COMPACT),TablePreset('Dense all',visible_columns=tuple(c.key for c in TABLE_COLUMNS),density=TableDensity.DENSE)), table=master)
-            with ExpandableRow('Inline expanded-row anatomy', open=True):
-                ui.label('This verifies the normalized expansion surface used by table drilldown helpers.')
-        _deferred_lab_surface('Master/detail stress test', 'Mount on demand to inspect drilldown, presets, and expanded-row anatomy.', build_master_detail_table, button_label='Load master/detail table')
+        incident_columns = (
+            TableColumn('incident', 'Incident', ColumnKind.TEXT, min_width=120, pinned=PinPosition.LEFT),
+            TableColumn('severity', 'Severity', ColumnKind.STATUS, min_width=105),
+            TableColumn('age_min', 'Age min', ColumnKind.INTEGER, min_width=82),
+            TableColumn('tool', 'Tool', ColumnKind.TEXT, min_width=105),
+            TableColumn('alarm', 'Alarm / condition', ColumnKind.TEXT, min_width=230),
+            TableColumn('owner', 'Owner', ColumnKind.TEXT, min_width=125),
+            TableColumn('state', 'State', ColumnKind.STATUS, min_width=105),
+        )
+        incident_rows = tuple(
+            {'incident':f'INC-{260830+i:06d}','severity':('Critical','High','Medium','Low')[i%4],'age_min':4+i*7,
+             'tool':('ETCH-021','CVD-008','CMP-004','PVD-011')[i%4],
+             'alarm':('Pressure deviation','Endpoint timeout','Motor current drift','Vacuum recovery slow')[i%4],
+             'owner':('On-call Etch','CVD Team','CMP Team','PVD Team')[i%4],
+             'state':('Open','Acknowledged','Investigating','Monitoring')[i%4]} for i in range(32)
+        )
+        async def fetch_incidents(query: TableQuery):
+            await asyncio.sleep(.16)
+            q = (query.search or '').casefold()
+            filtered = [row for row in incident_rows if not q or q in ' '.join(str(v).casefold() for v in row.values())]
+            start = (query.page - 1) * query.page_size
+            return TableResult(tuple(filtered[start:start+query.page_size]), len(filtered), query.page, query.page_size)
+        def build_incident_queue() -> None:
+            ServerDataTable(incident_columns, fetch=fetch_incidents, title='Live incident queue', selection=SelectionMode.SINGLE, density=_lab_table_density())
+            with ui.element('div').classes('cui-lab-inline'):
+                StatusBadge('Auto refresh capable', intent=StatusIntent.SUCCESS); StatusBadge('Latest request wins', intent=StatusIntent.INFO)
+                Button('Acknowledge selected', icon=Icons.CHECK, on_click=lambda:_toast('Synthetic incident acknowledged', FeedbackIntent.SUCCESS))
+        _deferred_lab_surface('Load incident queue', 'Mount a server-backed response queue with SLA age, severity and ownership.', build_incident_queue, button_label='Load incident queue')
+
+    # 5/5 — before/after reconciliation -----------------------------------------------------------
+    sec = _section('5 · Change / reconciliation review', 'Before-vs-after review for configuration, release and data reconciliation with changed-only presets and contextual detail.')
+    with sec:
+        reconcile_columns = (
+            TableColumn('item', 'Configuration item', ColumnKind.TEXT, min_width=190, pinned=PinPosition.LEFT),
+            TableColumn('before', 'Before', ColumnKind.TEXT, min_width=145),
+            TableColumn('after', 'After', ColumnKind.TEXT, min_width=145),
+            TableColumn('change', 'Change', ColumnKind.STATUS, min_width=100),
+            TableColumn('risk', 'Risk', ColumnKind.STATUS, min_width=95),
+            TableColumn('approver', 'Approver', ColumnKind.TEXT, min_width=130),
+            TableColumn('status', 'Approval', ColumnKind.STATUS, min_width=110),
+        )
+        reconcile_rows = [
+            {'item':'Upper CD guard','before':'42.500 nm','after':'42.200 nm','change':'Modified','risk':'Medium','approver':'S. Lee','status':'Pending'},
+            {'item':'RF bias target','before':'312 W','after':'318 W','change':'Modified','risk':'High','approver':'J. Park','status':'Review'},
+            {'item':'Pressure target','before':'41.5 mTorr','after':'40.8 mTorr','change':'Modified','risk':'Medium','approver':'D. Patel','status':'Approved'},
+            {'item':'Gas A flow','before':'155 sccm','after':'155 sccm','change':'Unchanged','risk':'Low','approver':'—','status':'No action'},
+            {'item':'Alarm hold time','before':'45 s','after':'30 s','change':'Modified','risk':'High','approver':'A. Kim','status':'Pending'},
+            {'item':'Legacy chamber alias','before':'CHAMBER_03','after':'—','change':'Removed','risk':'Low','approver':'M. Chen','status':'Approved'},
+            {'item':'Pressure stability metric','before':'—','after':'Enabled','change':'Added','risk':'Medium','approver':'M. Chen','status':'Review'},
+        ]
+        def build_reconciliation() -> None:
+            master = MasterDetailTable(reconcile_rows, reconcile_columns, title='Release reconciliation', selection=SelectionMode.SINGLE, density=_lab_table_density(),
+                detail_title=lambda row: f"{row.get('item','Change')} review",
+                detail_renderer=lambda row: PropertyGrid((
+                    KeyValueItem('before','Before',row.get('before')), KeyValueItem('after','After',row.get('after')),
+                    KeyValueItem('risk','Risk',row.get('risk')), KeyValueItem('approver','Approver',row.get('approver')),
+                    KeyValueItem('status','Approval',row.get('status')),
+                )))
+            TablePresetSelector((
+                TablePreset('Changed only', visible_columns=('item','before','after','change','risk','status'), density=TableDensity.COMPACT),
+                TablePreset('Approval view', visible_columns=('item','change','risk','approver','status'), density=TableDensity.DENSE),
+            ), table=master)
+            with ExpandableRow('Review guidance', open=True):
+                ui.label('Use this pattern for recipe/config release review, data reconciliation and migration approval. It is intentionally not a measurement browser.')
+        _deferred_lab_surface('Load reconciliation review', 'Mount a before/after master-detail workflow with risk and approval context.', build_reconciliation, button_label='Load reconciliation review')
     _end_shell(shell)
 
 
 def _charts(_: Any = None) -> None:
-    ui = _ui(); shell = _shell('/charts', 'Visualization Laboratory', 'Every chart uses the same semantic theme and Company toolbar while ECharts remains the rendering engine.')
-    cats=('Mon','Tue','Wed','Thu','Fri','Sat','Sun')
-    sec = _section('Core analytical charts')
+    ui = _ui(); shell = _shell('/charts', 'Visualization Recipe Gallery', 'Compact reusable recipes demonstrate analytical intent, markings, statistics, interactions and specialist visual forms—not just renderer types.')
+    cats = ('Mon','Tue','Wed','Thu','Fri','Sat','Sun')
+
+    def plotly_recipe(title: str, data: list[dict[str, Any]], *, description: str, layout: dict[str, Any] | None = None, span: int = 4) -> None:
+        base_layout = {
+            'margin': {'l': 42, 'r': 16, 't': 24, 'b': 38},
+            'showlegend': True,
+            'paper_bgcolor': 'rgba(0,0,0,0)',
+            'plot_bgcolor': 'rgba(0,0,0,0)',
+            'legend': {'orientation': 'h', 'y': -0.18},
+        }
+        if layout: base_layout.update(layout)
+        with ui.element('div').classes(f'cui-lab-span-{span}'):
+            PlotlyPanel(title, {'data': data, 'layout': base_layout, 'config': {'displayModeBar': False, 'responsive': True}}, description=description)
+
+    sec = _section('Trend & time recipes', 'Premade temporal patterns include limits, target context, multi-series comparison, events, confidence bands and step changes.')
     with sec:
         with _grid():
-            with ui.element('div').classes('cui-lab-span-6'):
-                LineChart('Yield trend', (SeriesSpec('yield','Yield',(97.8,98.2,97.9,98.5,98.1,98.8,98.6),smooth=True),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats), spec_limits=SpecLimits(lower=96,target=98.5))
-            with ui.element('div').classes('cui-lab-span-6'):
-                BarChart('Excursions by day', (SeriesSpec('exc','Excursions',(2,5,3,8,4,6,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats))
-            with ui.element('div').classes('cui-lab-span-6'):
-                AreaChart('Throughput', (SeriesSpec('wph','WPH',(104,111,108,119,117,121,116),smooth=True),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats))
-            with ui.element('div').classes('cui-lab-span-6'):
-                ScatterChart('CD correlation', (SeriesSpec('cd','CD',tuple((x, 39 + x*.22 + math.sin(x)*.4) for x in range(18))),))
-            with ui.element('div').classes('cui-lab-span-6'):
-                DonutChart('Excursion disposition', (SeriesSpec('state','State',(('Resolved',42),('Monitoring',18),('Open',9))),))
-            with ui.element('div').classes('cui-lab-span-6'):
-                Gauge('Fleet health', (SeriesSpec('health','Health',(94.6,)),))
-            with ui.element('div').classes('cui-lab-span-6'):
-                StackedBarChart('Affected vs control', (SeriesSpec('affected','Affected',(18,24,31,11),stack='population'),SeriesSpec('control','Control',(42,38,35,51),stack='population')), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('ETCH-014','ETCH-021','CVD-008','CMP-004')))
-            with ui.element('div').classes('cui-lab-span-6'):
-                Histogram('CD distribution', (SeriesSpec('count','Count',(2,4,9,16,21,17,10,5,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38.0','38.5','39.0','39.5','40.0','40.5','41.0','41.5','42.0')))
-            with ui.element('div').classes('cui-lab-span-6'):
-                Heatmap('Tool × day heatmap', (SeriesSpec('heat','Excursion intensity',tuple((x,y,round(1.5 + abs(math.sin(x*.7+y*.9))*8.5,1)) for x in range(7) for y in range(5))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Mon','Tue','Wed','Thu','Fri','Sat','Sun')), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('ETCH-014','ETCH-021','CVD-008','CMP-004','PVD-011')))
-            with ui.element('div').classes('cui-lab-span-6'):
-                ParetoChart('Excursion contributors',('CH-3','Recipe R18','PM timing','Material','Other'),(34,22,13,8,5),(41.5,68.3,84.1,93.9,100.0))
-    sec = _section('Statistical and specialist chart variants', 'Typed wrappers and specialist panels must share the exact same Company chart shell and toolbar.')
-    with sec:
-        with _grid():
-            with ui.element('div').classes('cui-lab-span-6'):
-                BoxPlot('CD box plot', (SeriesSpec('cd-box','CD',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected')))
-            with ui.element('div').classes('cui-lab-span-6'):
-                ControlChart('Control chart', (SeriesSpec('cd-control','CD',(39.7,39.9,40.1,40.0,40.4,41.0,41.4,41.8)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(f'W{i}' for i in range(1,9))), spec_limits=SpecLimits(lower=37.5,upper=42.5,target=40))
+            with ui.element('div').classes('cui-lab-span-4'):
+                LineChart('Yield trend + target', (SeriesSpec('yield','Yield',(97.8,98.2,97.9,98.5,98.1,98.8,98.6),smooth=True),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats), spec_limits=SpecLimits(lower=96,target=98.5))
+            with ui.element('div').classes('cui-lab-span-4'):
+                AreaChart('Throughput area', (SeriesSpec('wph','WPH',(104,111,108,119,117,121,116),smooth=True),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats))
+            with ui.element('div').classes('cui-lab-span-4'):
+                LineChart('Multi-sensor overlay', (
+                    SeriesSpec('pressure','Pressure',(40.0,40.2,40.1,40.6,41.0,41.3,41.1),smooth=True),
+                    SeriesSpec('rf','RF bias',(39.8,39.9,40.3,40.4,40.7,40.9,41.0),smooth=True),
+                    SeriesSpec('temp','Temperature',(40.1,40.0,40.2,40.3,40.4,40.5,40.7),smooth=True),
+                ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats))
+            plotly_recipe('Step change + PM marker', [
+                {'type':'scatter','mode':'lines+markers','line':{'shape':'hv'},'x':list(range(1,13)),'y':[39.8,39.9,40.0,40.1,40.0,40.2,41.0,41.2,41.3,41.4,41.3,41.5],'name':'CD'},
+            ], description='Use for setpoint or state transitions; vertical PM annotation makes the temporal hypothesis explicit.', layout={'shapes':[{'type':'line','x0':6.5,'x1':6.5,'y0':39.4,'y1':42,'line':{'dash':'dash'}}], 'annotations':[{'x':6.5,'y':41.9,'text':'PM completed','showarrow':False}]}, span=6)
+            plotly_recipe('Confidence-band trend', [
+                {'type':'scatter','mode':'lines','x':list(range(10)),'y':[40.5,40.6,40.55,40.7,40.8,40.9,41.0,41.1,41.15,41.2],'name':'Upper 95%','line':{'width':0}},
+                {'type':'scatter','mode':'lines','x':list(range(10)),'y':[39.4,39.45,39.5,39.55,39.6,39.7,39.75,39.8,39.85,39.9],'name':'Lower 95%','fill':'tonexty','line':{'width':0}},
+                {'type':'scatter','mode':'lines+markers','x':list(range(10)),'y':[40.0,40.05,40.1,40.15,40.2,40.3,40.4,40.45,40.5,40.55],'name':'Mean'},
+            ], description='Mean with uncertainty ribbon for model estimates, matched-control envelopes or forecast confidence.', span=6)
             with ui.element('div').classes('cui-lab-span-6'):
                 TimelineChart('Event timeline', (SeriesSpec('events','Events',((1,1),(2,2),(3,1),(4,3))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('PM','Recipe','SPC','Review')))
             with ui.element('div').classes('cui-lab-span-6'):
+                ProcessTrendPanel('Process trend + spec context', (SeriesSpec('trend','CD',(39.7,39.8,40.0,40.2,40.8,41.3,41.6)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(i) for i in range(7))), spec_limits=SpecLimits(lower=37.5,upper=42.5,target=40))
+
+    sec = _section('Comparison & ranking recipes', 'Choose comparison geometry by question: magnitude, rank, part-to-whole, before/after, contribution or flow.')
+    with sec:
+        with _grid():
+            with ui.element('div').classes('cui-lab-span-4'):
+                BarChart('Excursions by day', (SeriesSpec('exc','Excursions',(2,5,3,8,4,6,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=cats))
+            with ui.element('div').classes('cui-lab-span-4'):
+                StackedBarChart('Affected vs control', (SeriesSpec('affected','Affected',(18,24,31,11),stack='population'),SeriesSpec('control','Control',(42,38,35,51),stack='population')), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('ETCH-014','ETCH-021','CVD-008','CMP-004')))
+            with ui.element('div').classes('cui-lab-span-4'):
+                DonutChart('Excursion disposition', (SeriesSpec('state','State',(('Resolved',42),('Monitoring',18),('Open',9))),))
+            with ui.element('div').classes('cui-lab-span-4'):
+                Gauge('Fleet health', (SeriesSpec('health','Health',(94.6,)),))
+            with ui.element('div').classes('cui-lab-span-8'):
+                ParetoChart('Excursion contributors',('CH-3','Recipe R18','PM timing','Material','Other'),(34,22,13,8,5),(41.5,68.3,84.1,93.9,100.0))
+            plotly_recipe('Grouped tool comparison', [
+                {'type':'bar','x':['ETCH-014','ETCH-021','CVD-008','CMP-004'],'y':[40.1,41.3,39.9,40.2],'name':'Current'},
+                {'type':'bar','x':['ETCH-014','ETCH-021','CVD-008','CMP-004'],'y':[39.9,40.0,39.8,40.1],'name':'Baseline'},
+            ], description='Side-by-side magnitude comparison with a stable baseline.', layout={'barmode':'group'}, span=6)
+            plotly_recipe('100% stacked composition', [
+                {'type':'bar','x':['ETCH','CVD','CMP'],'y':[72,61,82],'name':'Normal'},
+                {'type':'bar','x':['ETCH','CVD','CMP'],'y':[18,25,12],'name':'Watch'},
+                {'type':'bar','x':['ETCH','CVD','CMP'],'y':[10,14,6],'name':'Critical'},
+            ], description='Composition normalized to 100% for comparing state mix across areas.', layout={'barmode':'stack','yaxis':{'range':[0,100],'ticksuffix':'%'}}, span=6)
+            plotly_recipe('Waterfall contribution', [{'type':'waterfall','x':['Baseline','Pressure','RF bias','PM age','Material','Final'],'y':[0.0,.42,.31,.18,-.09,0.82],'measure':['absolute','relative','relative','relative','relative','total'],'textposition':'outside'}], description='Contribution decomposition for RCA, yield loss or budget-style bridges.', span=6)
+            plotly_recipe('Dumbbell before / after', [
+                {'type':'scatter','mode':'lines','x':[39.8,41.2,None,40.1,40.7,None,39.9,40.2],'y':['ETCH-021','ETCH-021',None,'CVD-008','CVD-008',None,'CMP-004','CMP-004'],'showlegend':False},
+                {'type':'scatter','mode':'markers','x':[39.8,40.1,39.9],'y':['ETCH-021','CVD-008','CMP-004'],'name':'Before','marker':{'size':9}},
+                {'type':'scatter','mode':'markers','x':[41.2,40.7,40.2],'y':['ETCH-021','CVD-008','CMP-004'],'name':'After','marker':{'size':9}},
+            ], description='Compact before/after comparison when direction matters more than totals.', span=6)
+            plotly_recipe('Slope chart', [
+                {'type':'scatter','mode':'lines+markers+text','x':['Control','Affected'],'y':[39.8,41.3],'text':['ETCH-021','ETCH-021'],'name':'ETCH-021'},
+                {'type':'scatter','mode':'lines+markers+text','x':['Control','Affected'],'y':[40.0,40.5],'text':['CVD-008','CVD-008'],'name':'CVD-008'},
+            ], description='Direction-of-change comparison for a small number of entities.', span=6)
+            plotly_recipe('Funnel investigation narrowing', [{'type':'funnel','y':['All wafers','Affected lots','Common tools','Common chambers','Candidate cause'],'x':[18420,1260,318,94,22]}], description='Use sparingly for progressive narrowing where each stage is a true subset.', span=6)
+
+    sec = _section('Distribution & statistical recipes', 'Distribution examples include center, spread, tails, probability diagnostics and process-control context.')
+    with sec:
+        with _grid():
+            with ui.element('div').classes('cui-lab-span-4'):
+                Histogram('CD distribution', (SeriesSpec('count','Count',(2,4,9,16,21,17,10,5,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38.0','38.5','39.0','39.5','40.0','40.5','41.0','41.5','42.0')))
+            with ui.element('div').classes('cui-lab-span-4'):
+                BoxPlot('Control vs affected box plot', (SeriesSpec('cd-box','CD',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected')))
+            with ui.element('div').classes('cui-lab-span-4'):
                 DistributionPanel('Distribution panel', (SeriesSpec('dist','Count',(1,4,10,18,13,7,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38','39','39.5','40','40.5','41','42')))
-            with ui.element('div').classes('cui-lab-span-12'):
-                ProcessTrendPanel('Process trend panel', (SeriesSpec('trend','CD',(39.7,39.8,40.0,40.2,40.8,41.3,41.6)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(i) for i in range(7))), spec_limits=SpecLimits(lower=37.5,upper=42.5,target=40))
-    sec = _section('Specialist escape hatch', 'Plotly remains a controlled specialist escape hatch inside the same Company chart surface.')
+            with ui.element('div').classes('cui-lab-span-6'):
+                ControlChart('Control chart + limits', (SeriesSpec('cd-control','CD',(39.7,39.9,40.1,40.0,40.4,41.0,41.4,41.8)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(f'W{i}' for i in range(1,9))), spec_limits=SpecLimits(lower=37.5,upper=42.5,target=40))
+            plotly_recipe('Violin + box + points', [
+                {'type':'violin','y':[39.2,39.5,39.8,40.0,40.1,40.3,40.5,40.7,40.9,41.2],'name':'Control','box':{'visible':True},'meanline':{'visible':True},'points':'all'},
+                {'type':'violin','y':[39.9,40.2,40.5,40.8,41.0,41.1,41.4,41.6,41.8,42.0],'name':'Affected','box':{'visible':True},'meanline':{'visible':True},'points':'all'},
+            ], description='Distribution shape + quartiles + observations in one reusable diagnostic recipe.', span=6)
+            plotly_recipe('ECDF', [
+                {'type':'scatter','mode':'lines','line':{'shape':'hv'},'x':[38.9,39.2,39.5,39.8,40.1,40.4,40.7,41.0,41.3],'y':[.11,.22,.33,.44,.56,.67,.78,.89,1.0],'name':'Control'},
+                {'type':'scatter','mode':'lines','line':{'shape':'hv'},'x':[39.6,39.9,40.2,40.5,40.8,41.1,41.4,41.7,42.0],'y':[.11,.22,.33,.44,.56,.67,.78,.89,1.0],'name':'Affected'},
+            ], description='ECDF exposes shifts and tail separation without histogram bin choices.', layout={'yaxis':{'tickformat':'.0%'}}, span=6)
+            plotly_recipe('Q-Q probability diagnostic', [
+                {'type':'scatter','mode':'markers','x':[-1.65,-1.05,-.67,-.39,-.13,.13,.39,.67,1.05,1.65],'y':[-1.58,-1.01,-.70,-.35,-.10,.15,.43,.72,1.12,1.88],'name':'Observed'},
+                {'type':'scatter','mode':'lines','x':[-1.8,1.8],'y':[-1.8,1.8],'name':'Reference'},
+            ], description='Normality / distribution-fit diagnostic with an explicit reference line.', span=6)
+            plotly_recipe('Ridgeline distributions', [
+                {'type':'violin','x':[39.1,39.4,39.7,40.0,40.2,40.4,40.7],'y':['CH-1']*7,'name':'CH-1','orientation':'h','side':'positive','width':2},
+                {'type':'violin','x':[39.6,39.9,40.2,40.5,40.8,41.0,41.3],'y':['CH-2']*7,'name':'CH-2','orientation':'h','side':'positive','width':2},
+                {'type':'violin','x':[40.0,40.3,40.7,41.0,41.4,41.6,41.9],'y':['CH-3']*7,'name':'CH-3','orientation':'h','side':'positive','width':2},
+            ], description='Compact many-population distribution comparison.', layout={'showlegend':False}, span=6)
+
+    sec = _section('Relationship & multivariate recipes', 'Correlation, regression, bubbles and multivariate diagnostics make paired and high-dimensional relationships reusable.')
     with sec:
-        PlotlyPanel('Plotly specialist panel', {
-            'data':[{'type':'scatter','mode':'lines+markers','x':['A','B','C','D'],'y':[39.8,40.2,41.0,40.7],'name':'CD'}],
-            'layout':{'margin':{'l':36,'r':16,'t':16,'b':32},'showlegend':False,'paper_bgcolor':'rgba(0,0,0,0)','plot_bgcolor':'rgba(0,0,0,0)'},
-            'config':{'displayModeBar':False,'responsive':True},
-        }, description='Specialist escape hatch constrained by Company panel anatomy')
-    ChartCrossFilter()  # public nonvisual chart-linking helper; typed charts cover the visual shell above
-    sec = _section('Engineering spatial visuals')
+        with _grid():
+            with ui.element('div').classes('cui-lab-span-4'):
+                ScatterChart('CD correlation', (SeriesSpec('cd','CD',tuple((x, 39 + x*.22 + math.sin(x)*.4) for x in range(18))),))
+            with ui.element('div').classes('cui-lab-span-8'):
+                Heatmap('Tool × day heatmap', (SeriesSpec('heat','Excursion intensity',tuple((x,y,round(1.5 + abs(math.sin(x*.7+y*.9))*8.5,1)) for x in range(7) for y in range(5))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Mon','Tue','Wed','Thu','Fri','Sat','Sun')), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('ETCH-014','ETCH-021','CVD-008','CMP-004','PVD-011')))
+            plotly_recipe('Bubble relationship', [{'type':'scatter','mode':'markers','x':[38,39,40,41,42,43],'y':[1.02,1.08,1.15,1.23,1.34,1.44],'marker':{'size':[10,16,22,28,36,44]},'text':['10 wafers','16 wafers','22 wafers','28 wafers','36 wafers','44 wafers'],'name':'Population'}], description='Three-variable relationship: x, y and population magnitude.', span=6)
+            plotly_recipe('Correlation matrix', [{'type':'heatmap','z':[[1,.72,.21,-.14],[.72,1,.55,.08],[.21,.55,1,.44],[-.14,.08,.44,1]],'x':['CD','Pressure','RF bias','PM age'],'y':['CD','Pressure','RF bias','PM age'],'zmin':-1,'zmax':1}], description='Compact multivariate screening with a fixed -1..1 scale.', span=6)
+            plotly_recipe('PCA scores', [
+                {'type':'scatter','mode':'markers','x':[-1.2,-.8,-.3,.1,.4,.7,1.0,1.4],'y':[.2,-.1,.3,-.2,.1,.5,.4,.8],'name':'Control'},
+                {'type':'scatter','mode':'markers','x':[1.6,1.9,2.1,2.4],'y':[1.2,1.0,1.5,1.7],'name':'Affected'},
+            ], description='PCA score-space separation for multivariate excursion screening.', layout={'xaxis':{'title':'PC1'},'yaxis':{'title':'PC2'}}, span=6)
+            plotly_recipe('PCA loadings', [{'type':'scatter','mode':'markers+text','x':[.82,.64,-.18,.21],'y':[.15,.51,.74,-.66],'text':['Pressure','RF bias','Temperature','PM age'],'textposition':'top center'}], description='Variable contributions paired with PCA scores.', layout={'xaxis':{'range':[-1,1]},'yaxis':{'range':[-1,1]}}, span=6)
+            plotly_recipe('DOE response surface', [{'type':'surface','x':[300,320,340],'y':[38,41,44],'z':[[40.8,40.4,40.1],[40.4,40.0,39.8],[40.6,40.2,40.0]]}], description='Two-factor response surface for DOE / optimization exploration.', layout={'scene':{'xaxis':{'title':'RF bias'},'yaxis':{'title':'Pressure'},'zaxis':{'title':'CD'}}}, span=6)
+            plotly_recipe('Contour response map', [{'type':'contour','x':[300,320,340,360],'y':[38,40,42,44],'z':[[41.0,40.7,40.5,40.4],[40.7,40.3,40.1,40.0],[40.6,40.2,39.9,39.8],[40.8,40.4,40.1,40.0]],'contours':{'showlabels':True}}], description='2D DOE/process-window view with labeled response contours.', span=6)
+            plotly_recipe('Radar equipment fingerprint', [{'type':'scatterpolar','r':[.91,.62,.73,.84,.78,.91],'theta':['CD Δ','Pressure','RF bias','PM age','OOS rate','CD Δ'],'fill':'toself','name':'ETCH-021 / CH-3'}], description='Normalized equipment fingerprint for a small fixed metric set.', layout={'polar':{'radialaxis':{'visible':True,'range':[0,1]}}}, span=6)
+
+    sec = _section('Hierarchy, flow & composition recipes', 'Use hierarchy/flow charts only when parent-child or path semantics are real; the examples make those semantics explicit.')
     with sec:
-        points=[]
+        with _grid():
+            plotly_recipe('Treemap loss hierarchy', [{'type':'treemap','labels':['Loss','ETCH','CVD','CMP','CH-3','Recipe R18','Pressure','Film','Scratch'],'parents':['','Loss','Loss','Loss','ETCH','ETCH','CH-3','CVD','CMP'],'values':[100,48,30,22,28,20,15,30,22]}], description='Hierarchical contribution when area and nesting are both meaningful.', span=6)
+            plotly_recipe('Sunburst route hierarchy', [{'type':'sunburst','labels':['Fab','ETCH','CVD','CMP','ETCH-021','ETCH-014','CVD-008','CMP-004'],'parents':['','Fab','Fab','Fab','ETCH','ETCH','CVD','CMP'],'values':[100,45,32,23,28,17,32,23]}], description='Radial hierarchy for route/tool share; avoid when precise comparisons dominate.', span=6)
+            plotly_recipe('Sankey material → tool → disposition', [{'type':'sankey','node':{'label':['Material A','Material B','ETCH-021','ETCH-014','Pass','Hold']},'link':{'source':[0,0,1,1,2,2,3,3],'target':[2,3,2,3,4,5,4,5],'value':[42,28,31,19,58,15,39,8]}}], description='Flow between true stages; useful for routing, genealogy and loss-path visualization.', span=6)
+            plotly_recipe('Mosaic-like composition', [{'type':'bar','orientation':'h','y':['ETCH','CVD','CMP'],'x':[78,84,91],'name':'Pass'},{'type':'bar','orientation':'h','y':['ETCH','CVD','CMP'],'x':[22,16,9],'name':'Loss'}], description='Compact part-to-whole comparison across categories.', layout={'barmode':'stack','xaxis':{'range':[0,100],'ticksuffix':'%'}}, span=6)
+
+    sec = _section('Engineering spatial recipes', 'Spatial surfaces share zoom/pan conventions and make wafer/tool signatures reusable without reimplementing geometry.')
+    with sec:
+        points = []
         for x in range(-8,9):
             for y in range(-8,9):
-                if x*x+y*y<=64:
-                    points.append(WaferPoint(x,y,round(40 + math.sin(x/2)*.9 + math.cos(y/3)*.7,3),'watch' if x>5 else 'normal'))
-        spatial=[SpatialPoint(x=i%12,y=i//12,value=round(2.5+math.sin(i/7)*.6,3),label=f'Die {i+1}') for i in range(72)]
+                if x*x+y*y <= 64:
+                    points.append(WaferPoint(x, y, round(40 + math.sin(x/2)*.9 + math.cos(y/3)*.7,3), status='watch' if x > 5 else 'normal'))
+        spatial = [SpatialPoint(x=i%12, y=i//12, value=round(2.5+math.sin(i/7)*.6,3), label=f'Die {i+1}') for i in range(72)]
+        controls = [WaferPoint(p.x, p.y, round(float(p.value)-1.0-(.45 if p.x>5 else 0),3), status='normal') for p in points]
+        radial_control = [39.85,39.88,39.92,39.96,40.01,40.06,40.12,40.18,40.23]
+        radial_affected = [39.91,39.94,40.02,40.14,40.35,40.71,41.12,41.53,41.84]
         with _grid():
-            with ui.element('div').classes('cui-lab-span-6'): WaferMap('Wafer spatial signature', points)
-            with ui.element('div').classes('cui-lab-span-6'): SpatialMap('Die-level residual', spatial)
-        controls=[WaferPoint(p.x,p.y,round(float(p.value)-1.0-(.45 if p.x>5 else 0),3),'normal') for p in points]
-        radial_control=[39.85,39.88,39.92,39.96,40.01,40.06,40.12,40.18,40.23]
-        radial_affected=[39.91,39.94,40.02,40.14,40.35,40.71,41.12,41.53,41.84]
-        with _grid():
-            with ui.element('div').classes('cui-lab-span-8'): WaferComparisonMap('Affected vs control wafer signature',points,controls)
-            with ui.element('div').classes('cui-lab-span-4'): RadialProfilePlot('Radial CD profile',radial_affected,radial_control,unit='nm')
-        with _grid():
+            with ui.element('div').classes('cui-lab-span-4'): WaferMap('Wafer continuous signature', points)
+            with ui.element('div').classes('cui-lab-span-4'): SpatialMap('Die-level residual', spatial)
+            with ui.element('div').classes('cui-lab-span-4'): RadialProfilePlot('Radial CD profile', radial_affected, radial_control, unit='nm')
+            with ui.element('div').classes('cui-lab-span-8'): WaferComparisonMap('Affected vs control wafer', points, controls)
+            with ui.element('div').classes('cui-lab-span-4'):
+                ChamberFingerprintMatrix('Chamber fingerprint', ('ETCH-014 / CH-2','ETCH-021 / CH-3','ETCH-024 / CH-1','ETCH-031 / CH-4'), ('CD Δ','Pressure','RF bias','PM age','OOS rate'), ((-.18,.06,-.10,.12,.04),(.91,.62,.73,.84,.78),(.11,-.08,.04,.22,.09),(.24,.16,.12,.31,.18)))
             with ui.element('div').classes('cui-lab-span-6'):
-                ChamberFingerprintMatrix(
-                    'Chamber fingerprint',
-                    ('ETCH-014 / CH-2','ETCH-021 / CH-3','ETCH-024 / CH-1','ETCH-031 / CH-4'),
-                    ('CD Δ','Pressure','RF bias','PM age','OOS rate'),
-                    ((-.18,.06,-.10,.12,.04),(.91,.62,.73,.84,.78),(.11,-.08,.04,.22,.09),(.24,.16,.12,.31,.18)),
-                )
-            with ui.element('div').classes('cui-lab-span-6'):
-                CommonalityMatrix(
-                    'RCA commonality matrix',
-                    ('CH-3','Recipe R18','PM < 3 d','Material M4','Route A17'),
-                    ('Affected','Matched control','Baseline'),
-                    ((.94,.18,.12),(.88,.31,.22),(.76,.15,.19),(.61,.55,.48),(.42,.39,.41)),
-                )
+                CommonalityMatrix('RCA commonality matrix', ('CH-3','Recipe R18','PM < 3 d','Material M4','Route A17'), ('Affected','Matched control','Baseline'), ((.94,.18,.12),(.88,.31,.22),(.76,.15,.19),(.61,.55,.48),(.42,.39,.41)))
+            plotly_recipe('Defect-cluster scatter', [{'type':'scatter','mode':'markers','x':[-5,-4,-3,2,3,4,5,5,6],'y':[4,5,4,-2,-1,-2,-1,0,0],'marker':{'size':[9,11,10,8,9,10,13,12,14]},'text':['cluster A']*3+['cluster B']*6}], description='Clustered defect positions with point magnitude; pair with wafer geometry for production use.', span=6)
+
+    ChartCrossFilter()  # public nonvisual chart-linking helper; gallery visuals above are independently reusable
     _end_shell(shell)
 
 
@@ -1097,7 +1290,7 @@ def _reference_about() -> None:
 
 def _reference_shell(route: str) -> AppShell:
     shell=AppShell(
-        'Company Engineering Workspace', LAB_NAVIGATION, active_route=route, environment='REF APP',
+        'Company Engineering Workspace', LAB_NAVIGATION, active_route=route, environment=None,
         subtitle='Reference applications · synthetic engineering data', greeting='Good morning',
         user_name='Process Engineer', user_initials='PE',
         on_settings=lambda:_ui().navigate.to('/patterns/settings'), on_about=_reference_about,

@@ -78,7 +78,7 @@ def _display_control_bar() -> None:
             dark.disable()
         else:
             dark.auto()
-        ui.run_javascript(f"document.documentElement.dataset.theme={value!r};")
+        ui.run_javascript(f"document.documentElement.dataset.theme={value!r};try{{localStorage.setItem(\'nicegui_base_theme\',{value!r});localStorage.setItem(\'cui_lab_theme\',{value!r});}}catch(_){{}}")
         if value in {'light', 'dark'}:
             apply_all_chart_themes(value)
 
@@ -101,7 +101,7 @@ def _display_control_bar() -> None:
         if value not in {'comfortable', 'compact', 'dense'}:
             return
         app.storage.user['cui_lab_density'] = value
-        ui.run_javascript(f"document.documentElement.dataset.density={value!r};")
+        ui.run_javascript(f"document.documentElement.dataset.density={value!r};try{{localStorage.setItem(\'nicegui_base_density\',{value!r});localStorage.setItem(\'cui_lab_density\',{value!r});}}catch(_){{}}")
         await apply_all_table_density(value)
 
     def motion_changed(e) -> None:
@@ -112,6 +112,7 @@ def _display_control_bar() -> None:
         ui.run_javascript(
             f"document.documentElement.dataset.motion={value!r}; "
             f"document.documentElement.classList.toggle('cui-force-reduced-motion',{str(value == 'reduced').lower()});"
+            f"try{{localStorage.setItem('nicegui_base_motion',{value!r});localStorage.setItem('cui_lab_motion',{value!r});}}catch(_){{}}"
         )
 
     with ui.element('div').classes('cui-workbench-display-controls').props(
@@ -366,7 +367,6 @@ def home_page() -> None:
             _action_card('Browse Catalog', 'Components, patterns and engineering analytics in one searchable inventory.', '/catalog', 'DISCOVER')
             _action_card('Analytics Studio', 'Browse every canonical semiconductor analytical surface by taxonomy.', '/analytics', '58 SURFACES')
             _action_card('Recipes', 'Open all complete semiconductor application recipes and their panel compositions.', '/recipes', '8 RECIPES')
-            _action_card('Reference Lab', 'Open the detailed legacy reference surfaces when you need implementation anatomy.', '/foundation', 'REFERENCE')
         ui.label('Personalized recents, favorites, and resume history remain intentionally deferred to Iteration 3.').classes('cui-workbench-note')
     _end_shell(shell)
 

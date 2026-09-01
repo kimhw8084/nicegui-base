@@ -19,12 +19,13 @@ from nicegui_base.design.tokens import LIGHT
 from nicegui_base.design.constitution_css import build_constitution_css
 from nicegui_base.design.hardening_css import build_hardening_css
 from nicegui_base.analysis.css import build_analysis_css
+from nicegui_base.integrations.debugger_css import build_debugger_css
 
 
 
 @lru_cache(maxsize=1)
 def build_framework_css() -> str:
-    return "\n".join((build_css(), build_layout_css(), build_component_css(), build_interaction_css(), build_data_table_css(), build_visualization_css(), build_visual_asset_css(), build_engineering_css(), build_content_css(), build_visual_normalization_css(), build_constitution_css(), build_hardening_css(), build_analysis_css()))
+    return "\n".join((build_css(), build_layout_css(), build_component_css(), build_interaction_css(), build_data_table_css(), build_visualization_css(), build_visual_asset_css(), build_engineering_css(), build_content_css(), build_visual_normalization_css(), build_constitution_css(), build_hardening_css(), build_analysis_css(), build_debugger_css()))
 
 _INSTALLED=False
 
@@ -33,6 +34,23 @@ def install_framework_css(ui) -> None:
     global _INSTALLED
     if _INSTALLED:
         return
+    # Resolve persisted appearance before the first application paint. This avoids
+    # a light-frame flash when the user has already selected Dark. The server-side
+    # preference remains authoritative after connection; localStorage mirrors only
+    # non-sensitive display preferences so the first frame can be correct.
+    ui.add_head_html(r'''<script>(()=>{
+      const root=document.documentElement;
+      try{
+        const theme=localStorage.getItem('nicegui_base_theme')||localStorage.getItem('cui_lab_theme')||root.dataset.theme||'system';
+        const density=localStorage.getItem('nicegui_base_density')||localStorage.getItem('cui_lab_density')||root.dataset.density||'compact';
+        const motion=localStorage.getItem('nicegui_base_motion')||localStorage.getItem('cui_lab_motion')||root.dataset.motion||'normal';
+        root.dataset.theme=['system','light','dark'].includes(theme)?theme:'system';
+        root.dataset.density=['comfortable','compact','dense'].includes(density)?density:'compact';
+        root.dataset.motion=['normal','reduced'].includes(motion)?motion:'normal';
+        if(root.dataset.theme==='dark') root.style.colorScheme='dark';
+        else if(root.dataset.theme==='light') root.style.colorScheme='light';
+      }catch(_){root.dataset.theme=root.dataset.theme||'system';root.dataset.density=root.dataset.density||'compact';}
+    })();</script>''', shared=True)
     ui.add_css(build_framework_css(), shared=True)
     ui.add_head_html('<meta name="darkreader-lock">', shared=True)
     ui.add_head_html(r'''<script>

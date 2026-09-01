@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from itertools import count
+from importlib import metadata
 from typing import Any, Callable
 import inspect
 
@@ -95,14 +96,9 @@ def _render_navigation(nav: NavigationModel, *, active_route: str | None = None,
 
 
 def _render_support_footer(*, owner: str | None, on_support: Callable[[], None] | None,
-                           on_feedback: Callable[[], None] | None, on_docs: Callable[[], None] | None) -> None:
-    """Render a footer that has two deliberately different geometries.
-
-    Expanded mode carries readable labels. Compact mode is an icon dock: no
-    hidden Quasar button-label DOM is allowed to affect width or line wrapping.
-    """
-    if not any((owner, on_support, on_docs)):
-        return
+                           on_feedback: Callable[[], None] | None, on_docs: Callable[[], None] | None,
+                           environment: str | None = None) -> None:
+    """Render owner/support actions plus runtime identity in every governed sidebar."""
     ui = _ui()
 
     def action(icon: str, label: str, callback: Callable[[], None]) -> None:
@@ -116,6 +112,11 @@ def _render_support_footer(*, owner: str | None, on_support: Callable[[], None] 
             _icon(ui, icon, label=label, size='xs')
             ui.label(label).classes('cui-sidebar-footer__action-label').props('aria-hidden="true"')
 
+    try:
+        nicegui_version = metadata.version('nicegui')
+    except metadata.PackageNotFoundError:
+        nicegui_version = 'not installed'
+
     with ui.element('footer').classes('cui-sidebar-footer'):
         if owner:
             with ui.element('div').classes('cui-sidebar-owner').props('title="Owner / support team"'):
@@ -125,10 +126,14 @@ def _render_support_footer(*, owner: str | None, on_support: Callable[[], None] 
                     ui.label(owner).classes('cui-sidebar-owner__name')
         with ui.element('div').classes('cui-sidebar-footer__actions'):
             if on_support: action('help', 'Support', on_support)
-            # ``on_feedback`` remains accepted by the public shell constructor for
-            # backwards compatibility, but feedback is no longer a persistent
-            # navigation utility. Product feedback belongs in contextual flows.
             if on_docs: action('file', 'Documentation', on_docs)
+        with ui.element('div').classes('cui-sidebar-version').props('title="Runtime version information"'):
+            ui.label('Version').classes('cui-sidebar-version__label cui-sidebar-version__full')
+            ui.label(f'NiceGUI Base {FRAMEWORK_VERSION}').classes('cui-sidebar-version__value cui-sidebar-version__full')
+            ui.label(f'NiceGUI {nicegui_version}').classes('cui-sidebar-version__runtime cui-sidebar-version__full')
+            if environment:
+                ui.label(environment.upper()).classes('cui-sidebar-version__runtime cui-sidebar-version__full')
+            ui.label('v' + FRAMEWORK_VERSION).classes('cui-sidebar-version__compact')
 
 
 @dataclass(slots=True)
@@ -151,6 +156,8 @@ class ShellConfig:
     on_feedback: Callable[[], None] | None = None
     on_docs: Callable[[], None] | None = None
     permission_check: Callable[[str], bool] | None = None
+    debugger: bool = True
+    debugger_health_provider: Callable[[], Any] | None = None
 
 
 class AppShell(AbstractContextManager):
@@ -167,11 +174,12 @@ class AppShell(AbstractContextManager):
                  on_settings: Callable[[], None] | None = None, on_about: Callable[[], None] | None = None,
                  on_logout: Callable[[], None] | None = None, owner: str | None = None,
                  on_support: Callable[[], None] | None = None, on_feedback: Callable[[], None] | None = None,
-                 on_docs: Callable[[], None] | None = None, permission_check: Callable[[str], bool] | None = None):
+                 on_docs: Callable[[], None] | None = None, permission_check: Callable[[str], bool] | None = None,
+                 debugger: bool = True, debugger_health_provider: Callable[[], Any] | None = None):
         self.config = ShellConfig(title, navigation, active_route, sidebar, environment, on_navigate, subtitle,
                                   greeting, user_name, user_initials, on_settings, on_about, on_logout,
-                                  owner, on_support, on_feedback, on_docs, permission_check)
-        self.header = None; self.sidebar = None; self.mobile_drawer = None; self.main = None
+                                  owner, on_support, on_feedback, on_docs, permission_check, debugger, debugger_health_provider)
+        self.header = None; self.sidebar = None; self.mobile_drawer = None; self.main = None; self.debugger = None
 
     async def _navigate(self, route: str) -> None:
         if self.mobile_drawer is not None:
@@ -190,9 +198,12 @@ class AppShell(AbstractContextManager):
         })()""")
 
     async def _toggle_mobile(self):
-        if self.mobile_drawer is not None:
-            return await self.mobile_drawer.toggle()
-        return None
+        # The DOM state is the single mobile-nav authority. Toggling it directly
+        # avoids a timing dependency on the drawer object being assigned after
+        # the header button is constructed.
+        return await _ui().run_javascript(
+            "document.documentElement.dataset.mobileNav=document.documentElement.dataset.mobileNav==='open'?'closed':'open'"
+        )
 
     def __enter__(self):
         ui = _ui(); install_framework_css(ui); ui.query('.nicegui-content').classes('cui-nicegui-content')
@@ -215,6 +226,13 @@ class AppShell(AbstractContextManager):
                 with ui.element('div').classes('cui-shell-title-block'):
                     ui.label(self.config.title).classes('cui-shell-title cui-shell-title--animated')
                     if self.config.subtitle: ui.label(self.config.subtitle).classes('cui-shell-subtitle')
+                if self.config.debugger:
+                    from nicegui_base.integrations.nicegui_debugger import DebuggerConfig, UniversalDebugger
+                    self.debugger = UniversalDebugger(DebuggerConfig(
+                        app_name=self.config.title, app_version=FRAMEWORK_VERSION, environment=self.config.environment or '',
+                        health_provider=self.config.debugger_health_provider,
+                    ))
+                    self.debugger.trigger()
             with ui.element('div').classes('cui-shell-actions'):
                 # Mobile navigation exists only when desktop navigation no longer fits,
                 # and lives with actions rather than beside the application title.
@@ -253,7 +271,7 @@ class AppShell(AbstractContextManager):
                 with ui.element('nav').classes('cui-sidebar-nav').props('aria-label="Primary navigation"'):
                     _render_navigation(self.config.navigation, active_route=self.config.active_route, navigate=self._navigate, permission_check=self.config.permission_check)
                 _render_support_footer(owner=self.config.owner, on_support=self.config.on_support,
-                                       on_feedback=self.config.on_feedback, on_docs=self.config.on_docs)
+                                       on_feedback=self.config.on_feedback, on_docs=self.config.on_docs, environment=self.config.environment)
             self.mobile_drawer = MobileNavigationDrawer(
                 self.config.navigation, active_route=self.config.active_route, on_navigate=self._navigate, value=False,
                 owner=self.config.owner, on_support=self.config.on_support, on_feedback=self.config.on_feedback, on_docs=self.config.on_docs,

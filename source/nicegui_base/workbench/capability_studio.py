@@ -363,7 +363,7 @@ def render_capability_studio(
     session = StudioSession(entry, data_model or DataDockModel(sample_rows_for_entry(entry), sample_name=f'{entry.title} sample'), StudioConfigModel(entry.title))
     _header_metadata(entry)
 
-    preview_host = ui.element('div').classes('cui-studio-preview-frame')
+    preview_host = ui.element('div').classes('cui-studio-preview-frame').props(f'data-theme="{session.config.theme}" data-density="{session.config.density}"')
     preview_host.style(f'max-width:{RESPONSIVE_WIDTHS[session.config.responsive_width]}px')
 
     def default_preview() -> None:
@@ -422,21 +422,18 @@ def render_capability_studio(
                 if value not in {'system','light','dark'}:
                     return
                 session.config.update(theme=value)
-                ui.run_javascript(f"document.documentElement.dataset.theme={value!r};")
-                if value in {'light','dark'}:
-                    from nicegui_base.integrations.nicegui_visualization import apply_all_chart_themes
-                    apply_all_chart_themes(value)
+                preview_host.props(f'data-theme="{value}"')
                 log(f'Preview theme → {value}')
+                render_preview()
 
             async def density_changed(event):
                 value = str(getattr(event, 'value', 'compact'))
                 if value not in {'comfortable','compact','dense'}:
                     return
                 session.config.update(density=value)
-                ui.run_javascript(f"document.documentElement.dataset.density={value!r};")
-                from nicegui_base.integrations.nicegui_data_table import apply_all_table_density
-                await apply_all_table_density(value)
+                preview_host.props(f'data-density="{value}"')
                 log(f'Preview density → {value}')
+                render_preview()
 
             def refresh_preview():
                 log('Preview refreshed')
@@ -444,7 +441,7 @@ def render_capability_studio(
 
             def reset_preview():
                 session.config.reset(title=entry.title)
-                ui.run_javascript("document.documentElement.dataset.theme='system';document.documentElement.dataset.density='compact';")
+                preview_host.props('data-theme="system" data-density="compact"')
                 log('Configuration reset')
                 render_preview()
 
