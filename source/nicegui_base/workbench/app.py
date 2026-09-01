@@ -1214,7 +1214,7 @@ def _register_reference_routes() -> None:
 def register_workbench_pages(*, include_reference: bool = True, root_path: str = '') -> None:
     from nicegui import ui
     from nicegui_base.integrations.nicegui_theme import install_framework_css
-    install_framework_css()
+    install_framework_css(ui)
     install_workbench_css()
     root_prefix = '/' + root_path.strip('/') if root_path.strip('/') else ''
     palette_fallback = f'{root_prefix}/?palette=1'

@@ -6,7 +6,7 @@
   "changed_files": 18,
   "source_manifest_entries": 1013,
   "package_manifest_entries": 1335,
-  "wheel_sha256": "5e318bd81ca62b567692f6fce0c96d64460360de630801e22c6d3d726d7df1bd",
+  "wheel_sha256": "22719b463fc4ed79966297315f5312a08fd94ef5874e76d410b48c736545c751",
   "wheel_mirrors": 3,
   "removed_runtime_artifacts": 262,
   "git_status": [
@@ -312,5 +312,12 @@
     "?? source/nicegui_base/integrations/debugger_css.py",
     "?? source/nicegui_base/integrations/nicegui_debugger.py",
     "?? source/tests/test_workbench_iteration2_1.py"
-  ]
+  ],
+  "hotfixes": [
+    "Iteration 2.1 Hotfix 1 \u2014 framework CSS installer runtime contract"
+  ],
+  "framework_css_installer_contract": "PASS",
+  "framework_css_zero_arg_calls": 0,
+  "hotfix1_app_changed": true,
+  "hotfix1_test_changed": true
 }

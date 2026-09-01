@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import json
 import logging
 from pathlib import Path
@@ -77,3 +78,27 @@ def test_builder_exposes_edit_navigation_without_public_numeric_score():
     assert "Button('Edit data'" in text
     assert "Button('Change recommendation'" in text
     assert "score {item.score}" not in text
+
+
+def test_framework_css_installer_calls_always_supply_ui():
+    """Runtime-call contract: every framework CSS install must receive NiceGUI ui.
+
+    ``py_compile`` cannot catch a missing required call argument, which is why the
+    original Iteration 2.1 package could pass syntax validation yet fail at startup.
+    This scans every framework Python source file so the same defect is release-blocking.
+    """
+    offenders = []
+    package_root = SOURCE / 'nicegui_base'
+    for path in sorted(package_root.rglob('*.py')):
+        if '__pycache__' in path.parts:
+            continue
+        tree = ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            func = node.func
+            name = func.id if isinstance(func, ast.Name) else func.attr if isinstance(func, ast.Attribute) else None
+            if name == 'install_framework_css' and len(node.args) == 0:
+                offenders.append(f'{path.relative_to(SOURCE)}:{node.lineno}')
+    assert offenders == [], 'install_framework_css requires ui; zero-arg calls: ' + ', '.join(offenders)
+
