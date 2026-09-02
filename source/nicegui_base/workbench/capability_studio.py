@@ -10,7 +10,7 @@ from .models import WorkbenchEntry, WorkbenchKind
 from .state_matrix import render_state_matrix
 
 
-STUDIO_TABS = ('preview', 'data', 'configure', 'states', 'interactions', 'code')
+STUDIO_TABS = ('preview', 'data', 'configure', 'states', 'interactions', 'inspect', 'code')
 RESPONSIVE_WIDTHS = {
     'desktop': 1200,
     'compact': 980,
@@ -185,20 +185,71 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                 if hasattr(result, '__await__'):
                     await result
 
-        EditableTable(rows, columns, spec=spec, save_edit=save_edit)
+        table = EditableTable(rows, columns, spec=spec, save_edit=save_edit)
+        selected = {'row': 0, 'column': model.columns[0].name}
+        target_label = ui.label(f"Paste target · row 1 · {selected['column']}").classes('cui-workbench-note')
+        clipboard_status = ui.label('Select any editable cell, then paste from the clipboard or use the fallback box.').classes('cui-workbench-note')
+
+        def select_cell(event) -> None:
+            args = getattr(event, 'args', {}) or {}
+            row_index = args.get('rowIndex')
+            node = args.get('node')
+            if row_index is None and isinstance(node, Mapping):
+                row_index = node.get('rowIndex')
+            data = args.get('data')
+            if row_index is None and isinstance(data, Mapping):
+                row_index = data.get('__wb_row')
+            column = args.get('colId')
+            column_payload = args.get('column')
+            if column is None and isinstance(column_payload, Mapping):
+                column = column_payload.get('colId')
+            try:
+                row_index = int(row_index)
+            except (TypeError, ValueError):
+                return
+            column = str(column or '')
+            if column not in model.snapshot.column_names:
+                return
+            selected['row'] = max(0, row_index)
+            selected['column'] = column
+            target_label.set_text(f"Paste target · row {selected['row'] + 1} · {selected['column']}")
+
+        table.element.on('cellClicked', select_cell)
         with ui.element('div').classes('cui-workbench-toolbar'):
             Button('Add row', on_click=lambda: mutate(model.add_row))
             Button('Delete last row', disabled=not bool(model.rows), on_click=lambda: mutate(lambda: model.delete_row(len(model.rows)-1)))
             Button('Undo', disabled=not model.can_undo, on_click=lambda: mutate(model.undo))
             Button('Redo', disabled=not model.can_redo, on_click=lambda: mutate(model.redo))
-        ui.label('AG Grid keyboard navigation and multi-cell copy remain owned by the canonical table authority. Rectangular Ctrl/Cmd+V paste is available below.').classes('cui-workbench-note')
-        paste = TextArea('Rectangular paste', placeholder='Paste cells copied from Excel here…', rows=3)
-        async def apply_rectangle():
+
+        paste = TextArea('Paste cells', placeholder='Fallback: paste a rectangular selection copied from Excel…', rows=3)
+
+        async def apply_rectangle() -> None:
             text = str(getattr(paste.element, 'value', '') or '')
-            if text.strip():
-                model.rectangular_paste(0, 0, text)
-                await changed()
-        Button('Paste into top-left', on_click=apply_rectangle)
+            if not text.strip():
+                clipboard_status.set_text('Paste cells into the fallback box first.')
+                return
+            model.rectangular_paste(selected['row'], selected['column'], text)
+            clipboard_status.set_text(f"Applied pasted cells at row {selected['row'] + 1} · {selected['column']}")
+            await changed()
+
+        async def paste_clipboard() -> None:
+            try:
+                text = await ui.run_javascript('navigator.clipboard.readText()')
+            except Exception as exc:
+                clipboard_status.set_text(f'Clipboard access unavailable: {type(exc).__name__}. Use the fallback box below.')
+                return
+            text = str(text or '')
+            if not text.strip():
+                clipboard_status.set_text('Clipboard contains no tabular text. Use the fallback box if browser permission is restricted.')
+                return
+            model.rectangular_paste(selected['row'], selected['column'], text)
+            clipboard_status.set_text(f"Pasted clipboard at row {selected['row'] + 1} · {selected['column']}")
+            await changed()
+
+        with ui.element('div').classes('cui-workbench-toolbar'):
+            Button('Paste clipboard at selected cell', on_click=paste_clipboard)
+            Button('Apply fallback paste at selected cell', on_click=apply_rectangle)
+        ui.label('Excel workflow: click the destination cell, copy a rectangular range in Excel, then use Paste clipboard. Rows grow automatically; columns stay governed by the current schema.').classes('cui-workbench-note')
 
     def render_mapping() -> None:
         status_strip()
@@ -524,6 +575,9 @@ def render_capability_studio(
                         ui.label(f'• {fact}').classes('cui-workbench-note')
                 else:
                     ui.label('No additional interaction contract is declared for this capability.').classes('cui-workbench-note')
+        with tabs.panel('inspect'):
+            from .interaction_inspector import render_interaction_inspector
+            render_interaction_inspector(entry, session)
         with tabs.panel('code'):
             code_host = ui.element('div').classes('cui-studio-code')
             def render_code() -> None:

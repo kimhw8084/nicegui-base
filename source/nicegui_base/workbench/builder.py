@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 import re
@@ -390,17 +391,59 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 payload, report = model.generate()
                 ui.label('Generated starter').classes('cui-workbench-section-title')
                 with ui.element('div').classes('cui-workbench-quality-grid'):
-                    for label, value in (('Smoke', 'PASS' if report.ok else 'FAIL'),('Python files',report.python_files),('ZIP files',report.files)):
+                    for label, value in (('Source / ZIP smoke', 'PASS' if report.ok else 'FAIL'),('Python files',report.python_files),('ZIP files',report.files)):
                         with ui.element('article').classes('cui-workbench-quality-card'):
                             ui.label(label).classes('cui-workbench-card__title'); ui.label(str(value)).classes('cui-workbench-chip')
-                if report.findings:
-                    for finding in report.findings:
-                        ui.label('✕ ' + finding).classes('cui-workbench-note')
-                    ui.label('Download is blocked until generated-app smoke passes.').classes('cui-workbench-note')
-                else:
-                    def download_zip():
-                        ui.download.content(payload, f"{model.app_name.lower().replace(' ','-')}.zip")
-                    Button('Download smoke-tested starter ZIP', on_click=download_zip)
+                proof_state = {'report': None}
+                proof_host = ui.element('div').classes('cui-workbench-section')
+                download_host = ui.element('div').classes('cui-workbench-toolbar')
+
+                async def run_live_proof():
+                    from .runtime_proof import run_generated_live_smoke
+                    proof_state['report'] = await asyncio.to_thread(run_generated_live_smoke, payload)
+                    render_live_proof()
+
+                def render_live_proof() -> None:
+                    proof_host.clear(); download_host.clear()
+                    with proof_host:
+                        ui.label('Runtime startup proof').classes('cui-workbench-section-title')
+                        if report.findings:
+                            for finding in report.findings:
+                                ui.label('✕ ' + finding).classes('cui-workbench-note')
+                            ui.label('Live startup is blocked until source/ZIP smoke passes.').classes('cui-workbench-note')
+                            return
+                        live = proof_state['report']
+                        if live is None:
+                            ui.label('Source and generated-code contracts passed. Execute the generated app in a fresh subprocess and request its root route before download.').classes('cui-workbench-note')
+                            Button('Run live startup proof', on_click=run_live_proof)
+                            return
+                        with ui.element('div').classes('cui-workbench-quality-grid'):
+                            for label, value in (
+                                ('Live startup', 'PASS' if live.ok else 'FAIL'),
+                                ('Elapsed', f'{live.elapsed_ms} ms'),
+                                ('Routes', f'{sum(item.ok for item in live.routes)} / {len(live.routes)}'),
+                            ):
+                                with ui.element('article').classes('cui-workbench-quality-card'):
+                                    ui.label(label).classes('cui-workbench-card__title'); ui.label(str(value)).classes('cui-workbench-chip')
+                        for route in live.routes:
+                            ui.label(f"{'✓' if route.ok else '✕'} {route.route} · {route.status if route.status is not None else 'unreachable'} · {route.elapsed_ms} ms" + (f' · {route.detail}' if route.detail else '')).classes('cui-workbench-note')
+                        if live.findings:
+                            for finding in live.findings:
+                                ui.label('✕ ' + finding).classes('cui-workbench-note')
+                            if live.stderr_tail:
+                                ui.label('Server stderr').classes('cui-workbench-section-title')
+                                CodeViewer(live.stderr_tail, language='text')
+                            Button('Run live startup proof again', on_click=run_live_proof)
+                        else:
+                            ui.label('The generated app started in a fresh Python process and rendered its root route successfully.').classes('cui-workbench-note')
+                    live = proof_state['report']
+                    if live is not None and live.ok:
+                        with download_host:
+                            def download_zip():
+                                ui.download.content(payload, f"{model.app_name.lower().replace(' ','-')}.zip")
+                            Button('Download runtime-proven starter ZIP', on_click=download_zip)
+
+                render_live_proof()
                 ui.label('Deterministic project signature: ' + model.deterministic_signature()).classes('cui-workbench-note')
 
     render()
