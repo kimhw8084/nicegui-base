@@ -48,6 +48,7 @@ class BuilderModel:
     data: DataDockModel = field(default_factory=default_data_dock)
     stage: BuilderStage = BuilderStage.GOAL
     pattern_key: str | None = None
+    blueprint_key: str | None = None
     app_name: str = 'My NiceGUI App'
     theme: str = 'system'
     density: str = 'compact'
@@ -64,6 +65,7 @@ class BuilderModel:
             problem_type=str(snapshot.get('problem_type') or 'engineering analysis'),
             data=data,
             pattern_key=str(snapshot['pattern_key']) if snapshot.get('pattern_key') else None,
+            blueprint_key=str(snapshot['blueprint_key']) if snapshot.get('blueprint_key') else None,
             app_name=str(snapshot.get('name') or 'My NiceGUI App'),
             theme=str(snapshot.get('theme') or 'system'),
             density=str(snapshot.get('density') or 'compact'),
@@ -80,6 +82,7 @@ class BuilderModel:
         self.data = restored.data
         self.stage = restored.stage
         self.pattern_key = restored.pattern_key
+        self.blueprint_key = restored.blueprint_key
         self.app_name = restored.app_name
         self.theme = restored.theme
         self.density = restored.density
@@ -93,6 +96,7 @@ class BuilderModel:
             'goal': self.goal,
             'problem_type': self.problem_type,
             'pattern_key': self.pattern_key,
+            'blueprint_key': self.blueprint_key,
             'placements': {slot: list(keys) for slot, keys in self.placements.items()},
             'queued_entry_keys': list(dict.fromkeys(self.queued_entry_keys)),
             'data_rows': list(self.data.serializable_rows())[:200],
@@ -118,6 +122,7 @@ class BuilderModel:
         self.goal = spec.goal
         self.problem_type = spec.problem_type
         self.pattern_key = resolution.pattern_key
+        self.blueprint_key = None
         self.app_name = spec.title.replace('/', '-').replace('\\', '-').strip()
         self.placements = {slot: list(keys) for slot, keys in resolution.placements.items()}
         self.queued_entry_keys = [key for key in self.queued_entry_keys if key not in resolution.selected_keys]
@@ -158,6 +163,24 @@ class BuilderModel:
     def audit(self):
         from .project_audit import audit_project
         return audit_project(self.review(), all_entries(), data_model=self.data)
+
+    def set_blueprint(self, blueprint_key: str | None) -> None:
+        if blueprint_key in {None, '', 'single'}:
+            self.blueprint_key = None
+        else:
+            from .app_blueprints import get_app_blueprint
+            self.blueprint_key = get_app_blueprint(str(blueprint_key)).key
+        self._changed()
+
+    def blueprint_recommendations(self):
+        from .app_blueprints import recommend_app_blueprints
+        return recommend_app_blueprints(self.snapshot())
+
+    def blueprint_plan(self):
+        if not self.blueprint_key:
+            return None
+        from .app_blueprints import resolve_app_blueprint
+        return resolve_app_blueprint(self.snapshot(), all_entries(), data_model=self.data)
 
     def go(self, stage: BuilderStage | str) -> BuilderStage:
         self.stage = BuilderStage(stage)
@@ -278,6 +301,7 @@ class BuilderModel:
             'required_slots': list(self.required_slots()),
             'empty_required_slots': [slot for slot in self.required_slots() if not self.placements.get(slot)],
             'placed_capabilities': sum(len(keys) for keys in self.placements.values()),
+            'blueprint': self.blueprint_plan().to_dict() if self.blueprint_key else None,
             'data': {
                 'rows': self.data.snapshot.quality.rows,
                 'columns': list(self.data.snapshot.column_names),
@@ -294,6 +318,13 @@ class BuilderModel:
         else:
             audit = self.audit()
             issues.extend(item.message for item in audit.blocking)
+        if self.blueprint_key:
+            try:
+                plan = self.blueprint_plan()
+                if plan is None or len(plan.pages) < 2:
+                    issues.append('Selected application blueprint did not resolve to a multi-page plan.')
+            except Exception as exc:
+                issues.append(f'Application blueprint is invalid: {type(exc).__name__}: {exc}')
         return tuple(dict.fromkeys(issues))
 
     def deterministic_signature(self) -> str:
@@ -545,6 +576,29 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     model._changed(); save(); render()
                 Button('Apply project settings', on_click=apply_config)
 
+                from .app_blueprints import APP_BLUEPRINTS
+                ui.label('Application structure').classes('cui-workbench-section-title')
+                ui.label('Keep a single governed page or let NiceGUI Base generate the surrounding navigation and secondary pages. The primary page you are composing remains authoritative.').classes('cui-workbench-note')
+                structure_options = {'single':'Single page'}
+                structure_options.update({item.key: f'{item.title} · {len(item.pages)} pages' for item in APP_BLUEPRINTS})
+                structure = Select('Application blueprint', structure_options, value=model.blueprint_key or 'single', clearable=False)
+                recommendations = model.blueprint_recommendations()
+                if recommendations:
+                    top = recommendations[0]
+                    ui.label('Recommended · ' + top.blueprint.title + ' · ' + top.reasons[0]).classes('cui-workbench-note')
+                def apply_structure():
+                    model.set_blueprint(str(getattr(structure.element,'value','single') or 'single'))
+                    save(); render()
+                Button('Apply application structure', on_click=apply_structure)
+                if model.blueprint_key:
+                    plan = model.blueprint_plan()
+                    with ui.element('div').classes('cui-workbench-quality-grid'):
+                        for page in plan.pages:
+                            with ui.element('article').classes('cui-workbench-quality-card'):
+                                ui.label(page.title).classes('cui-workbench-card__title')
+                                ui.label(page.route + ' · ' + page.pattern_key.replace('_',' ')).classes('cui-workbench-chip')
+                                ui.label('Primary composed page' if page.primary else page.purpose).classes('cui-workbench-note')
+
                 ui.label('Page slots').classes('cui-workbench-section-title')
                 lookup = {entry.key:entry for entry in all_entries()}
                 for slot in model.allowed_slots():
@@ -580,6 +634,13 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
             elif model.stage is BuilderStage.REVIEW:
                 review = model.review()
                 ui.label('Review composed application').classes('cui-workbench-section-title')
+                if model.blueprint_key:
+                    plan = model.blueprint_plan()
+                    with ui.element('section').classes('cui-workbench-section cui-application-blueprint'):
+                        ui.label('Application blueprint · ' + plan.title).classes('cui-workbench-section-title')
+                        ui.label(f'{len(plan.pages)} governed routes will be generated and live-probed before download.').classes('cui-workbench-note')
+                        for page in plan.pages:
+                            ui.label(f"{'●' if page.primary else '○'} {page.route} · {page.title} · {page.pattern_key.replace('_',' ')}").classes('cui-workbench-note')
                 empty = review['empty_required_slots']
                 if empty:
                     ui.label('Required slots without an explicit capability: ' + ', '.join(empty) + '. Safe generated starters will fill them.').classes('cui-workbench-note')

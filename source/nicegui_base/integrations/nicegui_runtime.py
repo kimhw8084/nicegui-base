@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 from nicegui_base.diagnostics import CorrelationIdMiddleware, HealthRegistry, RuntimeDoctor
 from nicegui_base.runtime import RuntimeConfig, runtime_fingerprint
@@ -42,6 +42,7 @@ class NiceGUIRuntimeAdapter:
         self.authorization = authorization or AuthorizationModel()
         self.security_headers = security_headers or self._default_headers()
         self._installed = False
+        self._page_routes: set[str] = set()
 
     def _default_headers(self) -> SecurityHeaders:
         if self.config.environment.value == 'prod':
@@ -115,10 +116,36 @@ class NiceGUIRuntimeAdapter:
             raise HTTPException(status_code=401 if not principal.authenticated else 403, detail='access denied')
         return principal
 
-    def run(self, *, root: Callable[..., Any] | None = None, environ=None) -> None:
+    def install_pages(self, pages: Mapping[str, Callable[..., Any]] | None) -> tuple[str, ...]:
+        if not pages:
+            return ()
+        _, ui = _nicegui()
+        reserved = {self.config.health_path, self.config.readiness_path}
+        if self.config.diagnostics_enabled:
+            reserved.add(self.config.diagnostics_path)
+        registered: list[str] = []
+        for raw_route, handler in pages.items():
+            route = str(raw_route).strip()
+            if route == '/':
+                raise ValueError("secondary page mapping must not redefine the root route")
+            if not route.startswith('/') or '?' in route or '#' in route or '://' in route:
+                raise ValueError(f'invalid application page route: {route!r}')
+            if route in reserved:
+                raise ValueError(f'application page route conflicts with runtime endpoint: {route!r}')
+            if not callable(handler):
+                raise TypeError(f'application page handler for {route!r} must be callable')
+            if route in self._page_routes:
+                continue
+            ui.page(route)(handler)
+            self._page_routes.add(route)
+            registered.append(route)
+        return tuple(registered)
+
+    def run(self, *, root: Callable[..., Any] | None = None, pages: Mapping[str, Callable[..., Any]] | None = None, environ=None) -> None:
         app, ui = _nicegui()
         self.install_middleware(app)
         self.install_operational_endpoints(app)
+        self.install_pages(pages)
         kwargs = self.run_kwargs(environ)
         if root is None:
             ui.run(**kwargs)

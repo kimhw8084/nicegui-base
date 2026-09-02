@@ -98,8 +98,24 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                         findings.append('manifest:missing_pattern_key')
                     if not isinstance(manifest.get('placements', {}), dict):
                         findings.append('manifest:invalid_placements')
+                    if manifest.get('blueprint_key') and '.nicegui_base/app_blueprint.json' not in names:
+                        findings.append('manifest:missing_app_blueprint')
                 except Exception as exc:
                     findings.append(f'manifest:{type(exc).__name__}')
+            if '.nicegui_base/app_blueprint.json' in names:
+                try:
+                    from .app_blueprints import validate_app_blueprint_manifest
+                    blueprint = json.loads(archive.read('.nicegui_base/app_blueprint.json'))
+                    findings.extend(validate_app_blueprint_manifest(blueprint))
+                    for page in blueprint.get('pages', ()) if isinstance(blueprint, dict) else ():
+                        if not isinstance(page, dict):
+                            continue
+                        module = str(page.get('module') or '')
+                        expected_page = f'pages/{module}.py'
+                        if module and expected_page not in names:
+                            findings.append(f'blueprint:missing_page:{expected_page}')
+                except Exception as exc:
+                    findings.append(f'blueprint:{type(exc).__name__}')
             if '.nicegui_base/browser_acceptance.json' in names:
                 try:
                     from .browser_contract import validate_browser_acceptance_contract
@@ -160,6 +176,8 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                     findings.append('app:missing_runtime')
                 if 'def main(' not in app_source:
                     findings.append('app:missing_main')
+                if '.nicegui_base/app_blueprint.json' in names and 'pages=ROUTES' not in app_source:
+                    findings.append('app:missing_blueprint_routes')
     except zipfile.BadZipFile:
         findings.append('bad_zip')
     findings = list(dict.fromkeys(findings))

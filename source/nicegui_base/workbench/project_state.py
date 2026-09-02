@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 STATE_KEY = 'nicegui_base_workbench_project_v2_2'
-STATE_VERSION = 3
+STATE_VERSION = 4
 MAX_RECENTS = 16
 MAX_FAVORITES = 64
 MAX_PERSISTED_ROWS = 200
@@ -30,6 +30,7 @@ def empty_state() -> dict[str, Any]:
             'goal': '',
             'problem_type': 'engineering analysis',
             'pattern_key': None,
+            'blueprint_key': None,
             'placements': {},
             'queued_entry_keys': [],
             'data_rows': [],
@@ -55,6 +56,7 @@ def normalize_state(value: Mapping[str, Any] | None) -> dict[str, Any]:
         'goal': str(project.get('goal') or '')[:1000],
         'problem_type': str(project.get('problem_type') or 'engineering analysis')[:80],
         'pattern_key': str(project['pattern_key']) if project.get('pattern_key') else None,
+        'blueprint_key': str(project['blueprint_key'])[:80] if project.get('blueprint_key') else None,
         'theme': _choice(project.get('theme'), {'system','light','dark'}, 'system'),
         'density': _choice(project.get('density'), {'comfortable','compact','dense'}, 'compact'),
         'revision': _safe_nonnegative_int(project.get('revision'), 0),

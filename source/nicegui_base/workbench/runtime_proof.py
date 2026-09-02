@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import json
 import os
 import socket
 import subprocess
@@ -211,6 +212,23 @@ def _python_env(*, pythonpath: str | Path | None = None, extra_env: Mapping[str,
     return env
 
 
+def _generated_routes(payload: bytes) -> tuple[str, ...]:
+    try:
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            if '.nicegui_base/browser_acceptance.json' not in archive.namelist():
+                return ('/',)
+            value = json.loads(archive.read('.nicegui_base/browser_acceptance.json'))
+            routes = value.get('routes') if isinstance(value, Mapping) else None
+            if not isinstance(routes, list):
+                return ('/',)
+            result = tuple(dict.fromkeys(str(route) for route in routes if str(route).startswith('/') and '?' not in str(route) and '#' not in str(route) and '://' not in str(route)))
+            if '/' not in result or len(result) > 12:
+                return ('/',)
+            return result
+    except (zipfile.BadZipFile, json.JSONDecodeError, UnicodeDecodeError):
+        return ('/',)
+
+
 def run_generated_live_smoke(
     payload: bytes,
     *,
@@ -238,7 +256,7 @@ def run_generated_live_smoke(
             'NICEGUI_BASE_PORT': str(port),
         })
         return _run_http_process(
-            command=(python, 'app.py'), cwd=root, port=port, routes=('/',), env=env,
+            command=(python, 'app.py'), cwd=root, port=port, routes=_generated_routes(payload), env=env,
             timeout_seconds=timeout_seconds,
         )
 
@@ -263,4 +281,4 @@ def run_workbench_live_smoke(
     )
 
 
-__all__ = ['LiveSmokeReport', 'RouteProof', 'run_generated_live_smoke', 'run_workbench_live_smoke']
+__all__ = ['LiveSmokeReport', 'RouteProof', '_generated_routes', 'run_generated_live_smoke', 'run_workbench_live_smoke']

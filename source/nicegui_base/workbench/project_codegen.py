@@ -125,9 +125,10 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
     required = {slot.value for slot in definition.required_slots if slot.value != 'header'}
     allowed = [slot.value for slot in definition.slot_order if slot.value != 'header']
     placements = project.get('placements') if isinstance(project.get('placements'), Mapping) else {}
+    navigation = project.get('navigation') if isinstance(project.get('navigation'), (list, tuple)) else ()
     imports = (
-        'ActionButton, Alert, AnalysisContext, AreaChart, AxisSpec, AxisType, BarChart, BoxPlot, Button, DataTable, LayoutSlot, LineChart, '
-        'MetricCard, MetricStrip, SearchInput, Select, SelectionBus, SemiconductorAnalyticalPanel, SeriesSpec, StackedBarChart, '
+        'ActionButton, Alert, AnalysisContext, AppShell, AreaChart, AxisSpec, AxisType, BarChart, BoxPlot, Button, DataTable, LayoutSlot, LineChart, '
+        'MetricCard, MetricStrip, NavigationModel, NavItem, NavSection, SearchInput, Select, SelectionBus, SemiconductorAnalyticalPanel, SeriesSpec, StackedBarChart, '
         'StatusBadge, TableColumn, TextInput'
     )
     lines = [
@@ -141,32 +142,52 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
         "COLUMNS = (TableColumn('id','Record'), TableColumn('tool','Tool'), TableColumn('value','Value'), TableColumn('status','Status'))",
         "CONTEXT = AnalysisContext(source_key='application')",
         'SELECTIONS = SelectionBus()',
-        '',
-        'def build_page() -> None:',
-        f"    with {page_class}({_safe_title(project.get('name'))!r}, {_safe_title(project.get('goal') or definition.purpose)!r}) as page:",
     ]
+    if navigation:
+        lines.extend(['', 'NAVIGATION = NavigationModel((', "    NavSection('application', None, ("])
+        seen_ids: set[str] = set()
+        for item in navigation:
+            if not isinstance(item, Mapping):
+                continue
+            item_id = str(item.get('id') or '').strip()
+            label = _safe_title(item.get('label'))
+            route = str(item.get('route') or '').strip()
+            if not item_id or item_id in seen_ids or not route.startswith('/'):
+                continue
+            seen_ids.add(item_id)
+            lines.append(f'        NavItem({item_id!r}, {label!r}, route={route!r}),')
+        lines.extend(['    )),', '))', f"ACTIVE_ROUTE = {str(project.get('active_route') or '/')!r}"])
+    lines.extend(['', 'def build_page() -> None:'])
+    page_indent = '    '
+    if navigation:
+        lines.append(f"    with AppShell({_safe_title(project.get('name'))!r}, NAVIGATION, active_route=ACTIVE_ROUTE):")
+        page_indent = '        '
+    title = _safe_title(project.get('page_title') or project.get('name'))
+    purpose = _safe_title(project.get('goal') or definition.purpose)
+    lines.append(f"{page_indent}with {page_class}({title!r}, {purpose!r}) as page:")
+    slot_indent = page_indent + '    '
+    content_indent = slot_indent + '    '
     rendered = 0
     for slot in allowed:
         keys = list(placements.get(slot, ())) if isinstance(placements, Mapping) else []
         entries = [lookup[key] for key in keys if key in lookup and is_composable_entry(lookup[key])]
         if not entries and slot not in required:
             continue
-        lines.append(f'        with page.slot(LayoutSlot.{slot.upper()}):')
+        lines.append(f'{slot_indent}with page.slot(LayoutSlot.{slot.upper()}):')
         if entries:
             for entry in entries:
-                lines.extend(_render_entry_lines(entry, '            '))
+                lines.extend(_render_entry_lines(entry, content_indent))
                 rendered += 1
         elif slot == 'data':
-            lines.append("            DataTable(ROWS, COLUMNS, row_key='id', title='Records')")
+            lines.append(f"{content_indent}DataTable(ROWS, COLUMNS, row_key='id', title='Records')")
         else:
-            lines.append(f"            MetricCard({slot.replace('_',' ').title()!r}, 'Configure in NiceGUI Base Workbench')")
+            lines.append(f"{content_indent}MetricCard({slot.replace('_',' ').title()!r}, 'Configure in NiceGUI Base Workbench')")
     if rendered == 0 and not required:
         lines.extend([
-            '        with page.slot(LayoutSlot.PRIMARY):',
-            "            MetricCard('Starter', 'Configure in NiceGUI Base Workbench')",
+            f'{slot_indent}with page.slot(LayoutSlot.PRIMARY):',
+            f"{content_indent}MetricCard('Starter', 'Configure in NiceGUI Base Workbench')",
         ])
     return '\n'.join(lines) + '\n'
-
 
 def _relative_written_paths(root: Path, written) -> tuple[str, ...]:
     """Return generator-owned paths relative to *root* after canonical path resolution.
@@ -196,12 +217,14 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
     pattern_key = str(project.get('pattern_key') or 'analysis_workspace')
     template = _PATTERN_TEMPLATE.get(pattern_key, 'analysis-workspace')
     app_name = str(project.get('name') or 'My NiceGUI App')
+    blueprint_key = str(project.get('blueprint_key') or '').strip() or None
     manifest = {
         'schema_version': 1,
         'name': app_name,
         'goal': str(project.get('goal') or ''),
         'problem_type': str(project.get('problem_type') or ''),
         'pattern_key': pattern_key,
+        'blueprint_key': blueprint_key,
         'placements': {str(k): list(v) for k, v in dict(project.get('placements') or {}).items()},
         'theme': str(project.get('theme') or 'system'),
         'density': str(project.get('density') or 'compact'),
@@ -209,9 +232,21 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
     with tempfile.TemporaryDirectory(prefix='nicegui-base-workbench-project-') as temp:
         root = Path(temp) / 'app'
         created = create_application(root, name=app_name, template=template)
-        (root / 'pages' / 'home.py').write_text(project_home_code(manifest, lookup), encoding='utf-8')
         meta = root / '.nicegui_base'
         meta.mkdir(parents=True, exist_ok=True)
+        page_sources: dict[str, str] = {}
+        extra_written: tuple[Path, ...] = ()
+        if blueprint_key:
+            from .app_blueprint_codegen import materialize_app_blueprint
+            blueprint_manifest, extra_written, page_sources = materialize_app_blueprint(root, manifest, lookup)
+            manifest['blueprint'] = blueprint_manifest
+            manifest['routes'] = list(blueprint_manifest['routes'])
+            manifest['pages'] = list(blueprint_manifest['pages'])
+        else:
+            home_source = project_home_code(manifest, lookup)
+            (root / 'pages' / 'home.py').write_text(home_source, encoding='utf-8')
+            page_sources['pages/home.py'] = home_source
+            manifest['routes'] = ['/']
         (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         from .browser_contract import build_browser_acceptance_contract
         from .browser_acceptance_runner import generated_browser_runner_source
@@ -221,13 +256,18 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         tools.mkdir(parents=True, exist_ok=True)
         (tools / 'browser_acceptance.py').write_text(generated_browser_runner_source(), encoding='utf-8')
         generator_files = _relative_written_paths(root, created.written)
+        extra_files = _relative_written_paths(root, extra_written) if extra_written else ()
         payload = _zip_directory(root)
-    report = smoke_generated_zip(payload, expected_files=(*generator_files, '.nicegui_base/workbench_project.json', '.nicegui_base/browser_acceptance.json', 'tools/browser_acceptance.py'))
+    expected = [*generator_files, *extra_files, '.nicegui_base/workbench_project.json', '.nicegui_base/browser_acceptance.json', 'tools/browser_acceptance.py']
+    if blueprint_key:
+        expected.append('.nicegui_base/app_blueprint.json')
+    report = smoke_generated_zip(payload, expected_files=tuple(dict.fromkeys(expected)))
     import nicegui_base as public_api
-    signature_findings = validate_public_call_signatures(project_home_code(manifest, lookup), public_api)
+    signature_findings: list[str] = []
+    for source in page_sources.values():
+        signature_findings.extend(validate_public_call_signatures(source, public_api))
     if signature_findings:
         report = GeneratedSmokeReport(False, tuple(dict.fromkeys((*report.findings, *signature_findings))), report.python_files, report.files)
     return payload, report
-
 
 __all__ = ['_relative_written_paths','generate_project_zip', 'is_composable_entry', 'project_home_code']

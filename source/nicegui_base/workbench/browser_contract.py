@@ -38,8 +38,14 @@ def build_browser_acceptance_contract(project: Mapping[str, Any]) -> dict[str, o
     required_slots = [slot.value for slot in definition.required_slots if slot.value != 'header']
     allowed_slots = [slot.value for slot in definition.slot_order if slot.value != 'header']
     placements = project.get('placements') if isinstance(project.get('placements'), Mapping) else {}
+    raw_routes = project.get('routes') if isinstance(project.get('routes'), (list, tuple)) else ('/',)
+    routes = list(dict.fromkeys(str(route) for route in raw_routes if str(route).startswith('/'))) or ['/']
+    if '/' not in routes:
+        routes.insert(0, '/')
     checks = list(BASE_CHECKS)
     manual_checks: list[str] = []
+    if len(routes) > 1:
+        manual_checks.append('cross_page_navigation_consistent')
     if pattern_key in {'monitoring', 'dashboard'}:
         manual_checks.append('priority_status_or_metric_above_primary_analysis')
     if pattern_key in {'data_explorer', 'crud', 'search', 'master_detail'}:
@@ -52,7 +58,7 @@ def build_browser_acceptance_contract(project: Mapping[str, Any]) -> dict[str, o
         'schema_version': 2,
         'status': 'PENDING_BROWSER_EXECUTION',
         'pattern_key': pattern_key,
-        'routes': ['/'],
+        'routes': routes,
         'viewports': [item.to_dict() for item in DEFAULT_VIEWPORTS],
         'required_slots': required_slots,
         'allowed_slots': allowed_slots,
@@ -77,6 +83,10 @@ def validate_browser_acceptance_contract(value: Any) -> tuple[str, ...]:
     routes = value.get('routes')
     if not isinstance(routes, list) or '/' not in routes:
         findings.append('browser_contract:missing_root_route')
+    elif len(routes) != len(set(str(route) for route in routes)) or len(routes) > 12:
+        findings.append('browser_contract:routes')
+    elif any(not str(route).startswith('/') or '?' in str(route) or '#' in str(route) or '://' in str(route) for route in routes):
+        findings.append('browser_contract:routes')
     viewports = value.get('viewports')
     if not isinstance(viewports, list) or len(viewports) < 3:
         findings.append('browser_contract:viewports')

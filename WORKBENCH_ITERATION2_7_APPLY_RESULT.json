@@ -1,0 +1,18 @@
+{
+  "application_blueprints": 6,
+  "baseline_commit": "47afc0446bcf298bb10f1167650be3557bfb5994",
+  "blueprint_static_matrix": "PASS",
+  "changed_files": 10,
+  "framework_version": "3.0.0a8",
+  "multi_page_live_smoke": "PASS",
+  "package_manifest_entries": 1373,
+  "project_state_schema": 4,
+  "registration_smoke": "PASS",
+  "single_page_live_regression": "PASS",
+  "source_manifest_entries": 1036,
+  "status": "PASS",
+  "tests": "SKIPPED_NO_PYTEST",
+  "wheel_mirrors": 3,
+  "wheel_sha256": "f9ec2696870a4fc3dd50684f1b5406de3d92831e816d17552f8c381b099fef77",
+  "workbench_live_smoke": "PASS"
+}
