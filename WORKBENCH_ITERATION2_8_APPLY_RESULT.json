@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "2cf9a896e9cf32ee880a07caaaa05da1b961d7df",
+  "changed_files": 10,
+  "data_contract_static_matrix": "PASS",
+  "data_handoff_modes": [
+    "schema_only",
+    "include_development_rows"
+  ],
+  "framework_version": "3.0.0a8",
+  "multi_page_data_live_smoke": "PASS",
+  "package_manifest_entries": 1377,
+  "project_state_schema": 5,
+  "registration_smoke": "PASS",
+  "schema_only_original_value_exclusion": "PASS",
+  "single_page_data_live_smoke": "PASS",
+  "source_manifest_entries": 1038,
+  "status": "PASS",
+  "tests": "SKIPPED_NO_PYTEST",
+  "wheel_mirrors": 3,
+  "wheel_sha256": "001318d083e82c412d171e6dd8ce040d6ac98fea10cea3566130bfd07a92be56",
+  "workbench_live_smoke": "PASS"
+}

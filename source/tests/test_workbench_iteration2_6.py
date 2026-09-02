@@ -70,9 +70,10 @@ def test_handoff_evidence_is_attached_without_duplicate_paths():
 
 
 def test_state_v2_migrates_to_v3_and_proof_is_bounded():
-    from nicegui_base.workbench.project_state import normalize_state
+    from nicegui_base.workbench.project_state import STATE_VERSION, normalize_state
     state = normalize_state({'version': 2, 'project': {'name': 'Old State'}})
-    assert state['version'] == 3
+    assert STATE_VERSION >= 3
+    assert state['version'] == STATE_VERSION
     assert state['proof_evidence'] == {}
 
 
@@ -88,7 +89,8 @@ def test_project_state_source_invalidates_stale_proof_and_builder_exposes_portab
     root = Path(__file__).resolve().parents[1] / 'nicegui_base' / 'workbench'
     state = (root / 'project_state.py').read_text(encoding='utf-8')
     builder = (root / 'builder.py').read_text(encoding='utf-8')
-    assert 'STATE_VERSION = 3' in state
+    from nicegui_base.workbench.project_state import STATE_VERSION
+    assert STATE_VERSION >= 3
     assert state.count("state['proof_evidence'] = {}") >= 5
     assert 'export_portable_project_bundle' in state
     assert 'import_portable_project_bundle' in state

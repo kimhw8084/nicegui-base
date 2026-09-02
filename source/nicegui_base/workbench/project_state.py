@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 STATE_KEY = 'nicegui_base_workbench_project_v2_2'
-STATE_VERSION = 4
+STATE_VERSION = 5
 MAX_RECENTS = 16
 MAX_FAVORITES = 64
 MAX_PERSISTED_ROWS = 200
@@ -34,6 +34,9 @@ def empty_state() -> dict[str, Any]:
             'placements': {},
             'queued_entry_keys': [],
             'data_rows': [],
+            'data_schema': [],
+            'data_source_name': '',
+            'data_handoff_mode': 'schema_only',
             'theme': 'system',
             'density': 'compact',
             'revision': 0,
@@ -70,6 +73,35 @@ def normalize_state(value: Mapping[str, Any] | None) -> dict[str, Any]:
     base['project']['queued_entry_keys'] = list(dict.fromkeys(str(item) for item in queued if item))[:100]
     rows = project.get('data_rows') if isinstance(project.get('data_rows'), (list, tuple)) else ()
     base['project']['data_rows'] = [dict(row) for row in rows[:MAX_PERSISTED_ROWS] if isinstance(row, Mapping)]
+    schema = project.get('data_schema') if isinstance(project.get('data_schema'), (list, tuple)) else ()
+    allowed_types = {'string','integer','float','boolean','date','datetime','category','json','unknown'}
+    allowed_roles = {'dimension','measurement','identifier','timestamp','entity','attribute'}
+    normalized_schema: list[dict[str, Any]] = []
+    for item in schema[:128]:
+        if not isinstance(item, Mapping):
+            continue
+        name = str(item.get('name') or '').strip()[:160]
+        if not name:
+            continue
+        inferred = str(item.get('inferred_type') or item.get('type') or 'unknown')
+        role = str(item.get('role') or 'attribute')
+        try:
+            confidence = max(0.0, min(1.0, float(item.get('confidence', 1.0))))
+        except (TypeError, ValueError, OverflowError):
+            confidence = 1.0
+        normalized_schema.append({
+            'name': name,
+            'inferred_type': inferred if inferred in allowed_types else 'unknown',
+            'role': role if role in allowed_roles else 'attribute',
+            'nullable': bool(item.get('nullable', True)),
+            'confidence': confidence,
+            'original_name': str(item.get('original_name'))[:160] if item.get('original_name') else None,
+        })
+    base['project']['data_schema'] = normalized_schema
+    base['project']['data_source_name'] = str(project.get('data_source_name') or '')[:160]
+    base['project']['data_handoff_mode'] = _choice(
+        project.get('data_handoff_mode'), {'schema_only','include_development_rows'}, 'schema_only',
+    )
     favorites = value.get('favorites') if isinstance(value.get('favorites'), (list, tuple)) else ()
     recents = value.get('recents') if isinstance(value.get('recents'), (list, tuple)) else ()
     base['favorites'] = list(dict.fromkeys(str(item) for item in favorites if item))[:MAX_FAVORITES]

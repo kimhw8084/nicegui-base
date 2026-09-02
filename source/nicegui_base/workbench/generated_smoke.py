@@ -116,6 +116,26 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                             findings.append(f'blueprint:missing_page:{expected_page}')
                 except Exception as exc:
                     findings.append(f'blueprint:{type(exc).__name__}')
+            if '.nicegui_base/data_contract.json' in names:
+                try:
+                    from .data_handoff import validate_data_contract_manifest
+                    data_contract = json.loads(archive.read('.nicegui_base/data_contract.json'))
+                    findings.extend(validate_data_contract_manifest(data_contract))
+                    for required_data_file in ('services/data_contract.py','services/development_fixture.py','services/app_data.py'):
+                        if required_data_file not in names:
+                            findings.append(f'data_contract:missing:{required_data_file}')
+                    if '.nicegui_base/workbench_project.json' in names:
+                        project_manifest = json.loads(archive.read('.nicegui_base/workbench_project.json'))
+                        project_contract = project_manifest.get('data_contract') if isinstance(project_manifest, dict) else None
+                        if not isinstance(project_contract, dict):
+                            findings.append('data_contract:missing_workbench_contract')
+                        else:
+                            if project_contract.get('contract_signature') != data_contract.get('contract_signature'):
+                                findings.append('data_contract:workbench_signature_drift')
+                            if project_manifest.get('data_handoff_mode') != data_contract.get('mode'):
+                                findings.append('data_contract:workbench_mode_drift')
+                except Exception as exc:
+                    findings.append(f'data_contract:{type(exc).__name__}')
             if '.nicegui_base/browser_acceptance.json' in names:
                 try:
                     from .browser_contract import validate_browser_acceptance_contract
@@ -170,6 +190,11 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                     findings.append('home:missing_build_page')
                 if 'LayoutSlot.' not in home:
                     findings.append('home:missing_layout_slots')
+                if '.nicegui_base/data_contract.json' in names:
+                    if 'from services.app_data import' not in home:
+                        findings.append('home:missing_data_service_binding')
+                    if 'ROWS = (' in home:
+                        findings.append('home:inline_fixed_rows')
             if 'app.py' in names:
                 app_source = archive.read('app.py').decode('utf-8', errors='replace')
                 if 'def runtime(' not in app_source:

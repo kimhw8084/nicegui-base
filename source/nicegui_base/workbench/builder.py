@@ -49,6 +49,7 @@ class BuilderModel:
     stage: BuilderStage = BuilderStage.GOAL
     pattern_key: str | None = None
     blueprint_key: str | None = None
+    data_handoff_mode: str = 'schema_only'
     app_name: str = 'My NiceGUI App'
     theme: str = 'system'
     density: str = 'compact'
@@ -59,13 +60,18 @@ class BuilderModel:
     @classmethod
     def from_snapshot(cls, snapshot: Mapping[str, Any]) -> 'BuilderModel':
         rows = snapshot.get('data_rows') if isinstance(snapshot.get('data_rows'), list) else []
-        data = DataDockModel(rows, sample_name='Resumed project data') if rows else default_data_dock()
+        schema = snapshot.get('data_schema') if isinstance(snapshot.get('data_schema'), (list, tuple)) else ()
+        source_name = str(snapshot.get('data_source_name') or 'Resumed project data')
+        data = DataDockModel(rows, sample_name=source_name) if (rows or schema) else default_data_dock()
+        if schema:
+            data.restore_schema_metadata(schema)
         return cls(
             goal=str(snapshot.get('goal') or ''),
             problem_type=str(snapshot.get('problem_type') or 'engineering analysis'),
             data=data,
             pattern_key=str(snapshot['pattern_key']) if snapshot.get('pattern_key') else None,
             blueprint_key=str(snapshot['blueprint_key']) if snapshot.get('blueprint_key') else None,
+            data_handoff_mode=(str(snapshot.get('data_handoff_mode')) if str(snapshot.get('data_handoff_mode') or '') in {'schema_only','include_development_rows'} else 'schema_only'),
             app_name=str(snapshot.get('name') or 'My NiceGUI App'),
             theme=str(snapshot.get('theme') or 'system'),
             density=str(snapshot.get('density') or 'compact'),
@@ -83,6 +89,7 @@ class BuilderModel:
         self.stage = restored.stage
         self.pattern_key = restored.pattern_key
         self.blueprint_key = restored.blueprint_key
+        self.data_handoff_mode = restored.data_handoff_mode
         self.app_name = restored.app_name
         self.theme = restored.theme
         self.density = restored.density
@@ -100,6 +107,9 @@ class BuilderModel:
             'placements': {slot: list(keys) for slot, keys in self.placements.items()},
             'queued_entry_keys': list(dict.fromkeys(self.queued_entry_keys)),
             'data_rows': list(self.data.serializable_rows())[:200],
+            'data_schema': list(self.data.schema_metadata()),
+            'data_source_name': self.data.snapshot.source_name,
+            'data_handoff_mode': self.data_handoff_mode,
             'theme': self.theme,
             'density': self.density,
             'revision': self.revision,
@@ -170,6 +180,13 @@ class BuilderModel:
         else:
             from .app_blueprints import get_app_blueprint
             self.blueprint_key = get_app_blueprint(str(blueprint_key)).key
+        self._changed()
+
+    def set_data_handoff_mode(self, mode: str) -> None:
+        value = str(mode or 'schema_only')
+        if value not in {'schema_only', 'include_development_rows'}:
+            raise ValueError(f'unsupported data handoff mode: {mode!r}')
+        self.data_handoff_mode = value
         self._changed()
 
     def blueprint_recommendations(self):
@@ -306,6 +323,9 @@ class BuilderModel:
                 'rows': self.data.snapshot.quality.rows,
                 'columns': list(self.data.snapshot.column_names),
                 'roles': {column.name: column.role for column in self.data.columns},
+                'types': {column.name: column.inferred_type for column in self.data.columns},
+                'handoff_mode': self.data_handoff_mode,
+                'source_name': self.data.snapshot.source_name,
             },
         }
 
@@ -318,6 +338,8 @@ class BuilderModel:
         else:
             audit = self.audit()
             issues.extend(item.message for item in audit.blocking)
+        if not self.data.columns:
+            issues.append('Development data must define at least one column before generation.')
         if self.blueprint_key:
             try:
                 plan = self.blueprint_plan()
@@ -528,8 +550,18 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
 
             elif model.stage is BuilderStage.DATA:
                 ui.label('Development data').classes('cui-workbench-section-title')
-                ui.label('Paste/upload/edit once. The schema is carried into composition recommendations; project resume stores at most 200 development rows and never becomes a production data store.').classes('cui-workbench-note')
+                ui.label('Paste/upload/edit once. Confirmed types and semantic roles now become the generated application data contract; project resume stores at most 200 development rows and never becomes a production data store.').classes('cui-workbench-note')
                 render_data_dock(model.data, on_change=lambda _data: save())
+                ui.label('Generated ZIP data policy').classes('cui-workbench-section-title')
+                ui.label('Schema-only is the safe default: generated apps receive your field contract plus deterministic synthetic rows, but none of your pasted values. Include development rows only when the ZIP is intentionally staying in an approved development boundary.').classes('cui-workbench-note')
+                handoff = Select('Data handoff', {
+                    'schema_only':'Schema only + synthetic development rows (recommended)',
+                    'include_development_rows':'Include current development rows (explicit opt-in)',
+                }, value=model.data_handoff_mode, clearable=False)
+                def apply_handoff_policy():
+                    model.set_data_handoff_mode(str(getattr(handoff.element,'value','schema_only') or 'schema_only'))
+                    save(); render()
+                Button('Apply data handoff policy', on_click=apply_handoff_policy)
                 Button('Choose application pattern', on_click=lambda: change(lambda: model.go(BuilderStage.PATTERN)))
 
             elif model.stage is BuilderStage.PATTERN:
@@ -641,6 +673,14 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                         ui.label(f'{len(plan.pages)} governed routes will be generated and live-probed before download.').classes('cui-workbench-note')
                         for page in plan.pages:
                             ui.label(f"{'●' if page.primary else '○'} {page.route} · {page.title} · {page.pattern_key.replace('_',' ')}").classes('cui-workbench-note')
+                with ui.element('section').classes('cui-workbench-section cui-data-handoff'):
+                    ui.label('Data contract & provider handoff').classes('cui-workbench-section-title')
+                    safe = model.data_handoff_mode == 'schema_only'
+                    ui.label(('Schema only · synthetic fixture · original values excluded' if safe else 'Explicit development rows · current Workbench values included')).classes('cui-workbench-chip')
+                    ui.label(f"{len(model.data.columns)} fields · {model.data.snapshot.quality.rows} Workbench rows · provider boundary: services.app_data:build_source").classes('cui-workbench-note')
+                    uncertain = [column.name for column in model.data.columns if column.confidence < 0.7]
+                    if uncertain:
+                        ui.label('Confirm low-confidence semantic roles before production use: ' + ', '.join(uncertain[:8])).classes('cui-workbench-note')
                 empty = review['empty_required_slots']
                 if empty:
                     ui.label('Required slots without an explicit capability: ' + ', '.join(empty) + '. Safe generated starters will fill them.').classes('cui-workbench-note')

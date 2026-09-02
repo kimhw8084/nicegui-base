@@ -107,8 +107,8 @@ def test_generated_live_smoke_discovers_all_declared_routes():
 def test_state_schema_v4_contains_blueprint_key():
     from nicegui_base.workbench.project_state import STATE_VERSION, normalize_state
     state = normalize_state({'version': 3, 'project': {'name': 'Migrated', 'blueprint_key': 'data-management-center'}})
-    assert STATE_VERSION == 4
-    assert state['version'] == 4
+    assert STATE_VERSION >= 4
+    assert state['version'] == STATE_VERSION
     assert state['project']['blueprint_key'] == 'data-management-center'
 
 

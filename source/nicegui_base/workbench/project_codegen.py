@@ -86,17 +86,17 @@ def _render_entry_lines(entry, indent: str) -> list[str]:
     registry = str(entry.metadata.get('registry_name') or '')
     registry_key = str(entry.metadata.get('registry_key') or entry.metadata.get('component_key') or '')
     if registry == 'tables':
-        return [f"{indent}DataTable(ROWS, COLUMNS, row_key='id', title={title!r})"]
+        return [f"{indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, row_key=ROW_KEY, title={title!r})"]
     if registry == 'visualizations':
         chart = registry_key if registry_key in {'LineChart','AreaChart','BarChart','StackedBarChart'} else 'BoxPlot'
         if chart == 'BoxPlot':
             return [
-                f"{indent}BoxPlot({title!r}, (SeriesSpec('distribution','Distribution',((9.4,9.8,10.1,10.5,10.9),(9.7,10.0,10.3,10.6,11.1))),),",
-                f"{indent}        x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=('Baseline','Current')))",
+                f"{indent}BoxPlot({title!r}, (SeriesSpec('distribution','Distribution',(series_values(),)),),",
+                f"{indent}        x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=('Current',)))",
             ]
         return [
-            f"{indent}{chart}({title!r}, (SeriesSpec('value','Value',(10.1,10.4,10.2,10.8,11.0), smooth=True),),",
-            f"{indent}          x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=('R1','R2','R3','R4','R5')))",
+            f"{indent}{chart}({title!r}, (SeriesSpec('value','Value',series_values(), smooth=True),),",
+            f"{indent}          x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=series_labels()))",
         ]
     if registry_key in {'search_input'}:
         return [f"{indent}SearchInput({title!r}, placeholder='Search…')"]
@@ -127,7 +127,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
     placements = project.get('placements') if isinstance(project.get('placements'), Mapping) else {}
     navigation = project.get('navigation') if isinstance(project.get('navigation'), (list, tuple)) else ()
     imports = (
-        'ActionButton, Alert, AnalysisContext, AppShell, AreaChart, AxisSpec, AxisType, BarChart, BoxPlot, Button, DataTable, LayoutSlot, LineChart, '
+        'ActionButton, Alert, AnalysisContext, AppShell, AreaChart, AxisSpec, AxisType, BarChart, BoxPlot, Button, DataSourceTable, LayoutSlot, LineChart, '
         'MetricCard, MetricStrip, NavigationModel, NavItem, NavSection, SearchInput, Select, SelectionBus, SemiconductorAnalyticalPanel, SeriesSpec, StackedBarChart, '
         'StatusBadge, TableColumn, TextInput'
     )
@@ -135,11 +135,8 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
         'from __future__ import annotations',
         f'from nicegui_base import {page_class}, {imports}',
         '',
-        "ROWS = (",
-        "    {'id':'R-001','tool':'ETCH-01','value':10.2,'status':'Normal'},",
-        "    {'id':'R-002','tool':'ETCH-02','value':10.7,'status':'Watch'},",
-        ")",
-        "COLUMNS = (TableColumn('id','Record'), TableColumn('tool','Tool'), TableColumn('value','Value'), TableColumn('status','Status'))",
+        'from services.app_data import DATA_SCHEMA, ROW_KEY, SOURCE, series_labels, series_values',
+        '',
         "CONTEXT = AnalysisContext(source_key='application')",
         'SELECTIONS = SelectionBus()',
     ]
@@ -179,7 +176,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
                 lines.extend(_render_entry_lines(entry, content_indent))
                 rendered += 1
         elif slot == 'data':
-            lines.append(f"{content_indent}DataTable(ROWS, COLUMNS, row_key='id', title='Records')")
+            lines.append(f"{content_indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, row_key=ROW_KEY, title='Records')")
         else:
             lines.append(f"{content_indent}MetricCard({slot.replace('_',' ').title()!r}, 'Configure in NiceGUI Base Workbench')")
     if rendered == 0 and not required:
@@ -234,11 +231,17 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         created = create_application(root, name=app_name, template=template)
         meta = root / '.nicegui_base'
         meta.mkdir(parents=True, exist_ok=True)
-        page_sources: dict[str, str] = {}
-        extra_written: tuple[Path, ...] = ()
+        from .data_handoff import materialize_data_handoff
+        data_contract, data_written, data_sources = materialize_data_handoff(root, project)
+        manifest['data_handoff_mode'] = str(project.get('data_handoff_mode') or 'schema_only')
+        manifest['data_contract'] = data_contract
+        page_sources: dict[str, str] = dict(data_sources)
+        extra_written: list[Path] = list(data_written)
         if blueprint_key:
             from .app_blueprint_codegen import materialize_app_blueprint
-            blueprint_manifest, extra_written, page_sources = materialize_app_blueprint(root, manifest, lookup)
+            blueprint_manifest, blueprint_written, blueprint_sources = materialize_app_blueprint(root, manifest, lookup)
+            extra_written.extend(blueprint_written)
+            page_sources.update(blueprint_sources)
             manifest['blueprint'] = blueprint_manifest
             manifest['routes'] = list(blueprint_manifest['routes'])
             manifest['pages'] = list(blueprint_manifest['pages'])

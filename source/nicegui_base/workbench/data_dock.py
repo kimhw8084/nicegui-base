@@ -524,6 +524,74 @@ class DataDockModel:
         self._snapshot = self._redo.pop()
         return self._snapshot
 
+    def schema_metadata(self) -> tuple[dict[str, Any], ...]:
+        """Return serializable Workbench schema decisions without data values."""
+        return tuple({
+            'name': column.name,
+            'inferred_type': column.inferred_type,
+            'role': column.role,
+            'nullable': column.nullable,
+            'confidence': float(column.confidence),
+            'original_name': column.original_name,
+        } for column in self.columns)
+
+    def restore_schema_metadata(self, value: Sequence[Mapping[str, Any]] | None) -> DataDockSnapshot:
+        """Restore user-confirmed schema semantics without creating edit-history noise."""
+        source = value if isinstance(value, (list, tuple)) else ()
+        by_name = {
+            str(item.get('name')): item
+            for item in source if isinstance(item, Mapping) and str(item.get('name') or '').strip()
+        }
+        allowed_types = {'string','integer','float','boolean','date','datetime','category','json','unknown'}
+        allowed_roles = {'dimension','measurement','identifier','timestamp','entity','attribute'}
+        columns: list[DataDockColumn] = []
+        existing: set[str] = set()
+        for column in self.columns:
+            existing.add(column.name)
+            item = by_name.get(column.name)
+            if item is None:
+                columns.append(column); continue
+            inferred = str(item.get('inferred_type') or column.inferred_type)
+            role = str(item.get('role') or column.role)
+            try:
+                confidence = max(0.0, min(1.0, float(item.get('confidence', column.confidence))))
+            except (TypeError, ValueError, OverflowError):
+                confidence = column.confidence
+            columns.append(replace(
+                column,
+                inferred_type=inferred if inferred in allowed_types else column.inferred_type,
+                role=role if role in allowed_roles else column.role,
+                nullable=bool(item.get('nullable')) if 'nullable' in item else column.nullable,
+                confidence=confidence,
+                original_name=str(item.get('original_name')) if item.get('original_name') else column.original_name,
+            ))
+        # A persisted schema is authoritative even when the user intentionally has zero rows.
+        for item in source:
+            if not isinstance(item, Mapping):
+                continue
+            name = str(item.get('name') or '').strip()
+            if not name or name in existing:
+                continue
+            inferred = str(item.get('inferred_type') or item.get('type') or 'unknown')
+            role = str(item.get('role') or 'attribute')
+            try:
+                confidence = max(0.0, min(1.0, float(item.get('confidence', 1.0))))
+            except (TypeError, ValueError, OverflowError):
+                confidence = 1.0
+            columns.append(DataDockColumn(
+                name,
+                inferred if inferred in allowed_types else 'unknown',
+                role if role in allowed_roles else 'attribute',
+                bool(item.get('nullable', True)),
+                confidence,
+                str(item.get('original_name')) if item.get('original_name') else None,
+            ))
+            existing.add(name)
+        self._snapshot = self._from_rows(
+            self.rows, self.snapshot.source_format, self.snapshot.source_name, columns=tuple(columns),
+        )
+        return self._snapshot
+
     def to_schema(self, *, key: str = 'workbench'):
         from nicegui_base.data_sources.models import DataSchema, FieldRole, FieldType, SemanticField
         type_map = {
