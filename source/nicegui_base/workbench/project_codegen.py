@@ -126,6 +126,10 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
     allowed = [slot.value for slot in definition.slot_order if slot.value != 'header']
     placements = project.get('placements') if isinstance(project.get('placements'), Mapping) else {}
     navigation = project.get('navigation') if isinstance(project.get('navigation'), (list, tuple)) else ()
+    from .interaction_contract import action_specs_for_pattern
+    workflow_actions = action_specs_for_pattern(pattern_key)
+    workflow_slot = next((slot for slot in ('actions','toolbar','filters','controls','primary','data') if slot in allowed), allowed[0] if allowed else None)
+    workflow_route = str(project.get('active_route') or '/')
     imports = (
         'ActionButton, Alert, AnalysisContext, AppShell, AreaChart, AxisSpec, AxisType, BarChart, BoxPlot, Button, DataSourceTable, LayoutSlot, LineChart, '
         'MetricCard, MetricStrip, NavigationModel, NavItem, NavSection, SearchInput, Select, SelectionBus, SemiconductorAnalyticalPanel, SeriesSpec, StackedBarChart, '
@@ -136,6 +140,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
         f'from nicegui_base import {page_class}, {imports}',
         '',
         'from services.app_data import DATA_SCHEMA, ROW_KEY, SOURCE, series_labels, series_values',
+        'from services.app_workflow import create_page_workflow',
         '',
         "CONTEXT = AnalysisContext(source_key='application')",
         'SELECTIONS = SelectionBus()',
@@ -154,7 +159,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
             seen_ids.add(item_id)
             lines.append(f'        NavItem({item_id!r}, {label!r}, route={route!r}),')
         lines.extend(['    )),', '))', f"ACTIVE_ROUTE = {str(project.get('active_route') or '/')!r}"])
-    lines.extend(['', 'def build_page() -> None:'])
+    lines.extend(['', 'def build_page() -> None:', f"    workflow = create_page_workflow(CONTEXT, SELECTIONS, route={workflow_route!r}, pattern_key={pattern_key!r})"])
     page_indent = '    '
     if navigation:
         lines.append(f"    with AppShell({_safe_title(project.get('name'))!r}, NAVIGATION, active_route=ACTIVE_ROUTE):")
@@ -168,9 +173,13 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
     for slot in allowed:
         keys = list(placements.get(slot, ())) if isinstance(placements, Mapping) else []
         entries = [lookup[key] for key in keys if key in lookup and is_composable_entry(lookup[key])]
-        if not entries and slot not in required:
+        if not entries and slot not in required and slot != workflow_slot:
             continue
         lines.append(f'{slot_indent}with page.slot(LayoutSlot.{slot.upper()}):')
+        if slot == workflow_slot:
+            for action in workflow_actions:
+                lines.append(f"{content_indent}Button({action.label!r}, on_click=lambda e=None, action_id={action.key!r}: workflow.execute(action_id, e))")
+                rendered += 1
         if entries:
             for entry in entries:
                 lines.extend(_render_entry_lines(entry, content_indent))
@@ -250,6 +259,11 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
             (root / 'pages' / 'home.py').write_text(home_source, encoding='utf-8')
             page_sources['pages/home.py'] = home_source
             manifest['routes'] = ['/']
+        from .interaction_contract import materialize_interaction_contract
+        interaction_contract, interaction_written, interaction_sources = materialize_interaction_contract(root, manifest)
+        manifest['interaction_contract'] = interaction_contract
+        extra_written.extend(interaction_written)
+        page_sources.update(interaction_sources)
         (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         from .browser_contract import build_browser_acceptance_contract
         from .browser_acceptance_runner import generated_browser_runner_source

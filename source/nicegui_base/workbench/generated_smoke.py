@@ -136,6 +136,40 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                                 findings.append('data_contract:workbench_mode_drift')
                 except Exception as exc:
                     findings.append(f'data_contract:{type(exc).__name__}')
+            if '.nicegui_base/interaction_contract.json' in names:
+                try:
+                    from .interaction_contract import validate_interaction_contract
+                    interaction = json.loads(archive.read('.nicegui_base/interaction_contract.json'))
+                    findings.extend(validate_interaction_contract(interaction))
+                    if 'services/app_workflow.py' not in names:
+                        findings.append('interaction_contract:missing:services/app_workflow.py')
+                    if '.nicegui_base/workbench_project.json' in names:
+                        project_manifest = json.loads(archive.read('.nicegui_base/workbench_project.json'))
+                        project_contract = project_manifest.get('interaction_contract') if isinstance(project_manifest, dict) else None
+                        if not isinstance(project_contract, dict):
+                            findings.append('interaction_contract:missing_workbench_contract')
+                        elif project_contract.get('contract_signature') != interaction.get('contract_signature'):
+                            findings.append('interaction_contract:workbench_signature_drift')
+                    interaction_routes = [str(page.get('route') or '') for page in interaction.get('pages', ()) if isinstance(page, dict)]
+                    if '.nicegui_base/app_blueprint.json' in names:
+                        blueprint = json.loads(archive.read('.nicegui_base/app_blueprint.json'))
+                        if interaction_routes != [str(route) for route in blueprint.get('routes', ())]:
+                            findings.append('interaction_contract:blueprint_route_drift')
+                    elif interaction_routes != ['/']:
+                        findings.append('interaction_contract:single_page_route_drift')
+                    for page in interaction.get('pages', ()) if isinstance(interaction, dict) else ():
+                        if not isinstance(page, dict):
+                            continue
+                        module = str(page.get('module') or '')
+                        source_path = f'pages/{module}.py'
+                        if source_path not in names:
+                            findings.append(f'interaction_contract:missing_page:{source_path}')
+                            continue
+                        page_source = archive.read(source_path).decode('utf-8', errors='replace')
+                        if 'create_page_workflow' not in page_source or 'workflow.execute(' not in page_source:
+                            findings.append(f'interaction_contract:unwired_page:{source_path}')
+                except Exception as exc:
+                    findings.append(f'interaction_contract:{type(exc).__name__}')
             if '.nicegui_base/browser_acceptance.json' in names:
                 try:
                     from .browser_contract import validate_browser_acceptance_contract
@@ -195,6 +229,9 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                         findings.append('home:missing_data_service_binding')
                     if 'ROWS = (' in home:
                         findings.append('home:inline_fixed_rows')
+                if '.nicegui_base/interaction_contract.json' in names:
+                    if 'create_page_workflow' not in home or 'workflow.execute(' not in home:
+                        findings.append('home:missing_interaction_binding')
             if 'app.py' in names:
                 app_source = archive.read('app.py').decode('utf-8', errors='replace')
                 if 'def runtime(' not in app_source:

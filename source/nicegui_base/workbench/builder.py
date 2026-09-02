@@ -681,6 +681,17 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     uncertain = [column.name for column in model.data.columns if column.confidence < 0.7]
                     if uncertain:
                         ui.label('Confirm low-confidence semantic roles before production use: ' + ', '.join(uncertain[:8])).classes('cui-workbench-note')
+                from .interaction_contract import interaction_contract_for_project
+                interaction_source = dict(review)
+                if isinstance(review.get('blueprint'), dict):
+                    interaction_source['pages'] = list(review['blueprint'].get('pages') or ())
+                interaction_preview = interaction_contract_for_project(interaction_source)
+                with ui.element('section').classes('cui-workbench-section cui-interaction-contract'):
+                    ui.label('Generated interaction workflow').classes('cui-workbench-section-title')
+                    ui.label('NiceGUI Base wires safe view-state actions automatically. Provider mutation remains disabled; CRUD-shaped pages use local draft state until an approved write service is connected.').classes('cui-workbench-note')
+                    for page in interaction_preview['pages']:
+                        labels = ', '.join(str(action['label']) for action in page['actions'])
+                        ui.label(f"{page['route']} · {page['pattern_key'].replace('_',' ')} · {labels}").classes('cui-workbench-note')
                 empty = review['empty_required_slots']
                 if empty:
                     ui.label('Required slots without an explicit capability: ' + ', '.join(empty) + '. Safe generated starters will fill them.').classes('cui-workbench-note')
