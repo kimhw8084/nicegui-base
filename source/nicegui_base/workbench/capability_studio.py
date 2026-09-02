@@ -362,6 +362,8 @@ def render_capability_studio(
 
     session = StudioSession(entry, data_model or DataDockModel(sample_rows_for_entry(entry), sample_name=f'{entry.title} sample'), StudioConfigModel(entry.title))
     _header_metadata(entry)
+    from .project_state import render_entry_project_actions
+    render_entry_project_actions(entry)
 
     preview_host = ui.element('div').classes('cui-studio-preview-frame').props(f'data-theme="{session.config.theme}" data-density="{session.config.density}"')
     preview_host.style(f'max-width:{RESPONSIVE_WIDTHS[session.config.responsive_width]}px')

@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "baseline_commit": "e31fee28d22c5395708773224f6566b113c5c076",
+  "framework_version": "3.0.0a8",
+  "changed_files": 10,
+  "tests": "SKIPPED_NO_PYTEST",
+  "registration_smoke": "PASS",
+  "generated_import_smoke": "PASS",
+  "generated_signature_matrix": "PASS",
+  "wheel_sha256": "5d65cc395b5a5774812f70c3b55939de795a65a24fc5225cb363e1a94eb5b6ef",
+  "wheel_mirrors": 3,
+  "source_manifest_entries": 1019,
+  "package_manifest_entries": 1342
+}

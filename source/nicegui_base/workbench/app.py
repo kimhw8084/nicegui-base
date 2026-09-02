@@ -132,6 +132,7 @@ def workbench_navigation():
             NavItem('workbench_home', 'Home', '/', Icons.HOME),
             NavItem('workbench_build', 'Build', '/build', Icons.FORWARD),
             NavItem('workbench_catalog', 'Catalog', '/catalog', Icons.GRID),
+            NavItem('workbench_layouts', 'Layouts', '/layouts', Icons.GRID),
             NavItem('workbench_recipes', 'Recipes', '/recipes', Icons.FILE),
             NavItem('workbench_data', 'Data', '/workbench/data', Icons.TABLE),
             NavItem('workbench_quality', 'Quality', '/quality', Icons.DIAGNOSTICS),
@@ -158,6 +159,7 @@ def _install_command_palette(ui):
         ('workbench:home','Home','/','Workbench','home start launch'),
         ('workbench:build','Build','/build','Workbench','build create app starter'),
         ('workbench:catalog','Catalog','/catalog','Workbench','catalog components patterns standards'),
+        ('workbench:layouts','Layouts & Shells','/layouts','Workbench','layouts shells patterns responsive page composition'),
         ('workbench:analytics','Analytics Studio','/analytics','Workbench','analytics semiconductor spc fdc wafer rca'),
         ('workbench:recipes','Recipes','/recipes','Workbench','recipes semiconductor application starters'),
         ('workbench:data','Data','/workbench/data','Workbench','data table explorer schema'),
@@ -165,12 +167,26 @@ def _install_command_palette(ui):
     )
     for key, label, route, group, words in top_level:
         registry.register(Command(key, label, lambda route=route: ui.navigate.to(route), keywords=tuple(words.split()), group=group))
+    from .project_codegen import is_composable_entry
+    from .project_state import queue_entry, set_project_pattern
     for entry in all_entries():
         registry.register(Command(
             f'entry:{entry.key}', entry.title, lambda route=entry.route: ui.navigate.to(route),
             keywords=_command_keywords(entry),
             group=entry.kind.value.title(), description=entry.description,
         ))
+        if is_composable_entry(entry):
+            registry.register(Command(
+                f'project:add:{entry.key}', f'Add to Project · {entry.title}', lambda key=entry.key: (queue_entry(key), ui.navigate.to('/build')),
+                keywords=('add','project','builder',*_command_keywords(entry)),
+                group='Project', description='Queue this canonical capability and open the current Builder project.',
+            ))
+        elif entry.kind is WorkbenchKind.PATTERN and entry.metadata.get('pattern_key'):
+            registry.register(Command(
+                f'project:pattern:{entry.key}', f'Use Pattern · {entry.title}', lambda key=str(entry.metadata.get('pattern_key')): (set_project_pattern(key), ui.navigate.to('/build')),
+                keywords=('use','pattern','layout','shell','project',*_command_keywords(entry)),
+                group='Project', description='Use this canonical application pattern for the current Builder project.',
+            ))
     palette = CommandPalette(registry, placeholder='Search NiceGUI Base…', limit=24)
     trigger = _standard_button('Search', on_click=palette.open, classes='cui-workbench-command-trigger')
     trigger.props('aria-label="Open global search"')
@@ -367,15 +383,24 @@ def home_page() -> None:
             _action_card('Browse Catalog', 'Components, patterns and engineering analytics in one searchable inventory.', '/catalog', 'DISCOVER')
             _action_card('Analytics Studio', 'Browse every canonical semiconductor analytical surface by taxonomy.', '/analytics', '58 SURFACES')
             _action_card('Recipes', 'Open all complete semiconductor application recipes and their panel compositions.', '/recipes', '8 RECIPES')
-        ui.label('Personalized recents, favorites, and resume history remain intentionally deferred to Iteration 3.').classes('cui-workbench-note')
+    from .project_state import render_home_project_resume
+    render_home_project_resume()
     _end_shell(shell)
 
 
 def build_page() -> None:
     from .builder import render_builder
-    shell = _shell('/build', 'Build', 'Goal → Data → Recommendation → Compose → Review → Generate, using deterministic NiceGUI Base authorities.')
+    shell = _shell('/build', 'Build', 'Goal → Data → App Pattern → Page Composition → Review → Generate, using deterministic NiceGUI Base authorities.')
     render_builder()
     _end_shell(shell)
+
+
+def layout_studio_page() -> None:
+    from .layout_studio import render_layout_studio
+    shell = _shell('/layouts', 'Layouts & Shells', 'Canonical application patterns, real slots, and responsive behavior before individual component choices.')
+    render_layout_studio()
+    _end_shell(shell)
+
 
 def catalog_page() -> None:
     ui, *_ = _imports()
@@ -1193,7 +1218,9 @@ def quality_page() -> None:
         )
         for passed, text in checks:
             ui.label(f"{'✓' if passed else '✕'} {text}").classes('cui-workbench-note')
-    ui.label('These are source/discoverability checks only. Runtime, browser, target-environment, and human visual evidence stay separate and PENDING until actually executed.').classes('cui-workbench-note')
+    from .coverage_matrix import render_developer_readiness
+    render_developer_readiness(entries)
+    ui.label('Runtime, browser, target-environment, and human visual evidence stay separate from source coverage until actually executed.').classes('cui-workbench-note')
     _end_shell(shell)
 
 def _register_reference_routes() -> None:
@@ -1222,6 +1249,7 @@ def register_workbench_pages(*, include_reference: bool = True, root_path: str =
     ui.page('/')(home_page)
     ui.page('/build')(build_page)
     ui.page('/catalog')(catalog_page)
+    ui.page('/layouts')(layout_studio_page)
     ui.page('/studio/{entry_key}')(studio_page)
     ui.page('/catalog/component/{component_key}')(component_detail_page)
     ui.page('/catalog/{registry_name}/{entry_key}')(catalog_detail_page)
