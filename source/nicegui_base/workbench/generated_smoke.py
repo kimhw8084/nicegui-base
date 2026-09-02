@@ -100,6 +100,13 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                         findings.append('manifest:invalid_placements')
                 except Exception as exc:
                     findings.append(f'manifest:{type(exc).__name__}')
+            if '.nicegui_base/browser_acceptance.json' in names:
+                try:
+                    from .browser_contract import validate_browser_acceptance_contract
+                    browser_contract = json.loads(archive.read('.nicegui_base/browser_acceptance.json'))
+                    findings.extend(validate_browser_acceptance_contract(browser_contract))
+                except Exception as exc:
+                    findings.append(f'browser_contract:{type(exc).__name__}')
             if 'requirements.txt' in names:
                 requirements = archive.read('requirements.txt').decode('utf-8', errors='replace')
                 if not any(line.strip().startswith('nicegui-base==') for line in requirements.splitlines()):

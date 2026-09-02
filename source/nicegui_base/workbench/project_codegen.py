@@ -38,17 +38,36 @@ def _entry_kind(entry) -> str:
     return getattr(getattr(entry, 'kind', None), 'value', str(getattr(entry, 'kind', '')))
 
 
+_COMPOSABLE_REFERENCE_KEYS = {
+    'tables': frozenset({'data_table'}),
+    'visualizations': frozenset({'LineChart', 'AreaChart', 'BarChart', 'StackedBarChart', 'BoxPlot'}),
+}
+_COMPOSABLE_RENDER_KEYS = frozenset({
+    'metric_card', 'metric_strip', 'status_badge', 'badge',
+    'alert', 'search_input', 'select', 'text_input', 'button', 'action_button',
+})
+
+
 def is_composable_entry(entry) -> bool:
+    """Return whether Workbench can truthfully emit this catalog entry.
+
+    Framework-catalog rows are intentionally REFERENCE entries. They become project
+    composable only when this generator owns a rendering adapter for the exact
+    canonical registry/key. Catalog visibility and generator support remain separate
+    contracts so choosing a capability can never silently emit an unrelated widget.
+    """
     kind = _entry_kind(entry)
     if kind == 'analytic':
         return True
-    if kind != 'component':
+    metadata = getattr(entry, 'metadata', {}) or {}
+    registry = str(metadata.get('registry_name') or '')
+    registry_key = str(metadata.get('registry_key') or metadata.get('component_key') or '')
+    if kind not in {'component', 'reference'}:
         return False
-    registry = str(entry.metadata.get('registry_name') or '')
-    registry_key = str(entry.metadata.get('registry_key') or entry.metadata.get('component_key') or '')
-    if registry in {'tables', 'visualizations'}:
-        return True
-    return registry_key in {'metric_card', 'metric_strip', 'status_badge', 'alert', 'search_input', 'select', 'text_input', 'button', 'action_button'}
+    allowed = _COMPOSABLE_REFERENCE_KEYS.get(registry)
+    if allowed is not None:
+        return registry_key in allowed
+    return registry_key in _COMPOSABLE_RENDER_KEYS
 
 
 def _safe_title(value: Any) -> str:
@@ -69,8 +88,14 @@ def _render_entry_lines(entry, indent: str) -> list[str]:
     if registry == 'tables':
         return [f"{indent}DataTable(ROWS, COLUMNS, row_key='id', title={title!r})"]
     if registry == 'visualizations':
+        chart = registry_key if registry_key in {'LineChart','AreaChart','BarChart','StackedBarChart'} else 'BoxPlot'
+        if chart == 'BoxPlot':
+            return [
+                f"{indent}BoxPlot({title!r}, (SeriesSpec('distribution','Distribution',((9.4,9.8,10.1,10.5,10.9),(9.7,10.0,10.3,10.6,11.1))),),",
+                f"{indent}        x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=('Baseline','Current')))",
+            ]
         return [
-            f"{indent}LineChart({title!r}, (SeriesSpec('value','Value',(10.1,10.4,10.2,10.8,11.0), smooth=True),),",
+            f"{indent}{chart}({title!r}, (SeriesSpec('value','Value',(10.1,10.4,10.2,10.8,11.0), smooth=True),),",
             f"{indent}          x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=('R1','R2','R3','R4','R5')))",
         ]
     if registry_key in {'search_input'}:
@@ -79,12 +104,16 @@ def _render_entry_lines(entry, indent: str) -> list[str]:
         return [f"{indent}Select({title!r}, {{'all':'All','watch':'Watch','critical':'Critical'}}, value='all')"]
     if registry_key in {'text_input'}:
         return [f"{indent}TextInput({title!r})"]
-    if registry_key in {'button', 'action_button'}:
+    if registry_key == 'button':
         return [f"{indent}Button({title!r})"]
-    if registry_key == 'status_badge':
+    if registry_key == 'action_button':
+        return [f"{indent}ActionButton({title!r})"]
+    if registry_key in {'status_badge', 'badge'}:
         return [f"{indent}StatusBadge({title!r})"]
     if registry_key == 'alert':
         return [f"{indent}Alert({title!r}, message='Generated application alert')"]
+    if registry_key == 'metric_strip':
+        return [f"{indent}with MetricStrip():", f"{indent}    MetricCard({title!r}, 'Ready')"]
     return [f"{indent}MetricCard({title!r}, 'Ready')"]
 
 
@@ -97,8 +126,8 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
     allowed = [slot.value for slot in definition.slot_order if slot.value != 'header']
     placements = project.get('placements') if isinstance(project.get('placements'), Mapping) else {}
     imports = (
-        'Alert, AnalysisContext, AxisSpec, AxisType, Button, DataTable, LayoutSlot, LineChart, '
-        'MetricCard, SearchInput, Select, SelectionBus, SemiconductorAnalyticalPanel, SeriesSpec, '
+        'ActionButton, Alert, AnalysisContext, AreaChart, AxisSpec, AxisType, BarChart, BoxPlot, Button, DataTable, LayoutSlot, LineChart, '
+        'MetricCard, MetricStrip, SearchInput, Select, SelectionBus, SemiconductorAnalyticalPanel, SeriesSpec, StackedBarChart, '
         'StatusBadge, TableColumn, TextInput'
     )
     lines = [
@@ -184,9 +213,12 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         meta = root / '.nicegui_base'
         meta.mkdir(parents=True, exist_ok=True)
         (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+        from .browser_contract import build_browser_acceptance_contract
+        browser_contract = build_browser_acceptance_contract(manifest)
+        (meta / 'browser_acceptance.json').write_text(json.dumps(browser_contract, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         generator_files = _relative_written_paths(root, created.written)
         payload = _zip_directory(root)
-    report = smoke_generated_zip(payload, expected_files=(*generator_files, '.nicegui_base/workbench_project.json'))
+    report = smoke_generated_zip(payload, expected_files=(*generator_files, '.nicegui_base/workbench_project.json', '.nicegui_base/browser_acceptance.json'))
     import nicegui_base as public_api
     signature_findings = validate_public_call_signatures(project_home_code(manifest, lookup), public_api)
     if signature_findings:

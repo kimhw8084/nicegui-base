@@ -96,6 +96,7 @@ def render_developer_readiness(entries: Iterable[WorkbenchEntry]) -> None:
         with ui.element('div').classes('cui-workbench-quality-grid'):
             layers = (
                 ('Source contract', 'AUTOMATED', 'Discoverability, preview/sample, guidance, code, inspector, state, responsive and public-constructor evidence.'),
+                ('Golden starter assembly', 'AUTOMATED', 'Zero-decision starters resolve against canonical pattern/capability registries and project audit blocks invalid or duplicate composition.'),
                 ('Generated ZIP', 'AUTOMATED', 'Builder blocks generation when project shape, AST, imports, public calls or composition manifest fail.'),
                 ('Live startup', 'EXECUTED ON DEMAND', 'Builder launches the generated app in a fresh subprocess and HTTP-probes the rendered root before the runtime-proven download is enabled.'),
                 ('Workbench routes', 'RELEASE GATE', 'Iteration patch validation launches the real Workbench and requests Home, Build, Layouts and Quality.'),

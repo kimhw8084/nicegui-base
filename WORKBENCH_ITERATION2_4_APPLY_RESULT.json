@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "baseline_commit": "c6205faafdd05747e647c74999aea602c5ffbc8f",
+  "framework_version": "3.0.0a8",
+  "changed_files": 9,
+  "golden_starters": 16,
+  "tests": "SKIPPED_NO_PYTEST",
+  "registration_smoke": "PASS",
+  "golden_starter_matrix": "PASS",
+  "project_audit_matrix": "PASS",
+  "generated_signature_matrix": "PASS",
+  "generated_live_smoke": "PASS",
+  "workbench_live_smoke": "PASS",
+  "wheel_sha256": "b8545ae62b91006ce707888957a3d2474553e575decd45996cdb5a7ec2577997",
+  "wheel_mirrors": 3,
+  "source_manifest_entries": 1026,
+  "package_manifest_entries": 1353
+}

@@ -97,6 +97,54 @@ class BuilderModel:
         self.stage = BuilderStage.DATA
         self._changed()
 
+    def apply_golden_starter(self, starter_key: str):
+        from .starter_kits import get_golden_starter, resolve_starter
+        spec = get_golden_starter(starter_key)
+        resolution = resolve_starter(spec, all_entries(), data_model=self.data)
+        self.goal = spec.goal
+        self.problem_type = spec.problem_type
+        self.pattern_key = resolution.pattern_key
+        self.app_name = spec.title.replace('/', '-').replace('\\', '-').strip()
+        self.placements = {slot: list(keys) for slot, keys in resolution.placements.items()}
+        self.queued_entry_keys = [key for key in self.queued_entry_keys if key not in resolution.selected_keys]
+        self.stage = BuilderStage.COMPOSE
+        self._changed()
+        return resolution
+
+    def recommended_composition(self):
+        if not self.pattern_key:
+            raise ValueError('Choose an application pattern before auto-composition.')
+        from .starter_kits import recommend_composition
+        return recommend_composition(self.pattern_key, all_entries(), goal=self.goal, data_model=self.data)
+
+    def auto_compose(self, *, replace: bool = False):
+        resolution = self.recommended_composition()
+        if replace or not self.placements:
+            self.placements = {slot: list(keys) for slot, keys in resolution.placements.items()}
+        else:
+            placed = {key for keys in self.placements.values() for key in keys}
+            for slot, keys in resolution.placements.items():
+                if self.placements.get(slot):
+                    continue
+                fresh = [key for key in keys if key not in placed]
+                if fresh:
+                    self.placements[slot] = list(fresh)
+                    placed.update(fresh)
+        selected = {key for keys in self.placements.values() for key in keys}
+        self.queued_entry_keys = [key for key in self.queued_entry_keys if key not in selected]
+        self.stage = BuilderStage.COMPOSE
+        self._changed()
+        return resolution
+
+    def composition_diff(self):
+        from .starter_kits import composition_diff
+        recommended = self.recommended_composition()
+        return composition_diff(self.placements, recommended.placements), recommended
+
+    def audit(self):
+        from .project_audit import audit_project
+        return audit_project(self.review(), all_entries(), data_model=self.data)
+
     def go(self, stage: BuilderStage | str) -> BuilderStage:
         self.stage = BuilderStage(stage)
         self._changed()
@@ -229,7 +277,10 @@ class BuilderModel:
             issues.append('Application name must start with a letter and contain 2–80 letters, numbers, spaces, dot, underscore, or dash characters.')
         if not self.pattern_key:
             issues.append('Choose an application pattern before generation.')
-        return tuple(issues)
+        else:
+            audit = self.audit()
+            issues.extend(item.message for item in audit.blocking)
+        return tuple(dict.fromkeys(issues))
 
     def deterministic_signature(self) -> str:
         return hashlib.sha256(json.dumps(self.review(), sort_keys=True, default=str).encode('utf-8')).hexdigest()
@@ -284,6 +335,20 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 Button('Clear project', on_click=lambda: (clear_project(), host.clear(), ui.navigate.to('/build')))
 
             if model.stage is BuilderStage.GOAL:
+                from .starter_kits import GOLDEN_STARTERS
+                ui.label('Fastest path · Golden Starters').classes('cui-workbench-section-title')
+                ui.label('Choose a proven application intent and NiceGUI Base will select the canonical pattern, page slots and best reusable capabilities from the current registries. You can still edit every decision afterward.').classes('cui-workbench-note')
+                for category in ('Engineering', 'Generic'):
+                    ui.label(category).classes('cui-workbench-card__meta')
+                    with ui.element('div').classes('cui-workbench-grid cui-golden-starter-grid'):
+                        for starter in (item for item in GOLDEN_STARTERS if item.category == category):
+                            with ui.element('article').classes('cui-workbench-card cui-golden-starter-card'):
+                                ui.label(starter.pattern_key.replace('_', ' ').title()).classes('cui-workbench-card__meta')
+                                ui.label(starter.title).classes('cui-workbench-card__title')
+                                ui.label(starter.description).classes('cui-workbench-card__body')
+                                ui.label(' · '.join(starter.tags)).classes('cui-workbench-note')
+                                Button('Use Golden Starter', on_click=lambda key=starter.key: change(lambda: model.apply_golden_starter(key)))
+                ui.label('Or describe a custom application').classes('cui-workbench-section-title')
                 goal = TextInput('What are you trying to build?', value=model.goal, placeholder='e.g. monitor chamber drift and investigate abnormal wafers')
                 kind = Select('Problem type', {
                     'engineering analysis':'Engineering analysis',
@@ -323,6 +388,14 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 definition = get_pattern(model.pattern_key)
                 ui.label(definition.pattern.value.replace('_',' ').title()).classes('cui-workbench-title')
                 ui.label(definition.purpose).classes('cui-workbench-subtitle')
+                recommended = model.recommended_composition()
+                with ui.element('section').classes('cui-workbench-section cui-auto-compose'):
+                    ui.label('Auto-compose').classes('cui-workbench-section-title')
+                    ui.label('Schema-aware deterministic assembly uses your goal, semantic roles, canonical pattern slots and the existing registries. No opaque AI ranking or duplicate component catalog is introduced.').classes('cui-workbench-note')
+                    ui.label(f'Recommended capabilities: {len(recommended.selected_keys)}' + (f" · unresolved required intents: {len(recommended.unresolved)}" if recommended.unresolved else '')).classes('cui-workbench-note')
+                    with ui.element('div').classes('cui-workbench-toolbar'):
+                        Button('Fill empty slots automatically', on_click=lambda: change(lambda: model.auto_compose(replace=False)))
+                        Button('Replace with recommended composition', on_click=lambda: change(lambda: model.auto_compose(replace=True)))
                 with ui.element('div').classes('cui-workbench-quality-grid'):
                     for label, value in (('Desktop',definition.desktop_behavior),('Tablet',definition.tablet_behavior),('Phone',definition.phone_behavior)):
                         with ui.element('article').classes('cui-workbench-quality-card'):
@@ -375,6 +448,37 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 empty = review['empty_required_slots']
                 if empty:
                     ui.label('Required slots without an explicit capability: ' + ', '.join(empty) + '. Safe generated starters will fill them.').classes('cui-workbench-note')
+                audit = model.audit()
+                with ui.element('section').classes('cui-workbench-section cui-project-audit'):
+                    ui.label('Project audit').classes('cui-workbench-section-title')
+                    with ui.element('div').classes('cui-workbench-quality-grid'):
+                        for label, value in (
+                            ('Assembly status', audit.status),
+                            ('Placed capabilities', audit.placed_capabilities),
+                            ('Explicit required slots', f'{len(audit.explicit_required_slots)} / {len(audit.required_slots)}'),
+                            ('Warnings', len(audit.warnings)),
+                            ('Blocking', len(audit.blocking)),
+                        ):
+                            with ui.element('article').classes('cui-workbench-quality-card'):
+                                ui.label(label).classes('cui-workbench-card__title')
+                                ui.label(str(value)).classes('cui-workbench-chip')
+                    for finding in audit.findings:
+                        mark = '✕' if finding.severity.value == 'blocking' else '⚠' if finding.severity.value == 'warning' else '•'
+                        ui.label(f'{mark} {finding.message}').classes('cui-workbench-note')
+                diff, recommended = model.composition_diff()
+                with ui.element('section').classes('cui-workbench-section cui-composition-diff'):
+                    ui.label('Current vs recommended').classes('cui-workbench-section-title')
+                    if not diff.changed:
+                        ui.label('Current composition already matches the deterministic recommendation for this goal, pattern and schema.').classes('cui-workbench-note')
+                    else:
+                        ui.label(f'{len(diff.added)} add · {len(diff.removed)} remove · {len(diff.moved)} move').classes('cui-workbench-note')
+                        for slot, key in diff.added[:6]:
+                            ui.label(f'+ {slot} · {key}').classes('cui-workbench-note')
+                        for slot, key in diff.removed[:6]:
+                            ui.label(f'− {slot} · {key}').classes('cui-workbench-note')
+                        for key, before, after in diff.moved[:6]:
+                            ui.label(f'↔ {key} · {before} → {after}').classes('cui-workbench-note')
+                        Button('Apply recommended composition', on_click=lambda: change(lambda: model.auto_compose(replace=True)))
                 CodeViewer(json.dumps(review, indent=2, sort_keys=True, default=str), language='json')
                 generation_issues = model.generation_issues()
                 for issue in generation_issues:
