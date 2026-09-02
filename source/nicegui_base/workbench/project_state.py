@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 STATE_KEY = 'nicegui_base_workbench_project_v2_2'
-STATE_VERSION = 1
+STATE_VERSION = 2
 MAX_RECENTS = 16
 MAX_FAVORITES = 64
 MAX_PERSISTED_ROWS = 200
@@ -39,6 +39,8 @@ def empty_state() -> dict[str, Any]:
         },
         'favorites': [],
         'recents': [],
+        'history': [],
+        'presets': {},
     }
 
 
@@ -69,6 +71,9 @@ def normalize_state(value: Mapping[str, Any] | None) -> dict[str, Any]:
     recents = value.get('recents') if isinstance(value.get('recents'), (list, tuple)) else ()
     base['favorites'] = list(dict.fromkeys(str(item) for item in favorites if item))[:MAX_FAVORITES]
     base['recents'] = list(dict.fromkeys(str(item) for item in recents if item))[:MAX_RECENTS]
+    from .project_history import normalize_history, normalize_presets
+    base['history'] = normalize_history(value.get('history'))
+    base['presets'] = normalize_presets(value.get('presets'))
     return base
 
 
@@ -89,19 +94,81 @@ def project_snapshot() -> dict[str, Any]:
 
 
 def save_project_snapshot(snapshot: Mapping[str, Any]) -> dict[str, Any]:
+    from .project_history import diff_projects, project_signature, push_history
     state = _storage_state()
+    current = state['project']
     project = normalize_state({'project': snapshot})['project']
-    project['revision'] = max(int(state['project'].get('revision') or 0), int(project.get('revision') or 0)) + 1
+    if project_signature(current) != project_signature(project):
+        state['history'] = push_history(state.get('history', ()), current, label=diff_projects(current, project).summary())
+    project['revision'] = max(int(current.get('revision') or 0), int(project.get('revision') or 0)) + 1
     state['project'] = project
     _save_storage_state(state)
     return deepcopy(project)
 
 
 def clear_project() -> dict[str, Any]:
+    from .project_history import push_history
     state = _storage_state()
+    state['history'] = push_history(state.get('history', ()), state['project'], label='Before clearing project')
     state['project'] = empty_state()['project']
     _save_storage_state(state)
     return deepcopy(state['project'])
+
+
+def project_history() -> tuple[dict[str, Any], ...]:
+    return tuple(deepcopy(_storage_state().get('history', ())))
+
+
+def restore_project_revision(revision_id: str) -> dict[str, Any]:
+    from .project_history import project_signature, push_history
+    state = _storage_state()
+    target = next((item for item in state.get('history', ()) if str(item.get('id')) == str(revision_id)), None)
+    if target is None or not isinstance(target.get('snapshot'), Mapping):
+        raise KeyError(f'unknown project revision: {revision_id!r}')
+    current = state['project']
+    restored = normalize_state({'project': target['snapshot']})['project']
+    if project_signature(current) != project_signature(restored):
+        state['history'] = push_history(state.get('history', ()), current, label='Before restoring revision')
+    restored['revision'] = max(int(current.get('revision') or 0), int(restored.get('revision') or 0)) + 1
+    state['project'] = restored
+    _save_storage_state(state)
+    return deepcopy(restored)
+
+
+def project_presets() -> dict[str, dict[str, Any]]:
+    return deepcopy(_storage_state().get('presets', {}))
+
+
+def save_project_preset(name: str, snapshot: Mapping[str, Any] | None = None) -> str:
+    from .project_history import MAX_PRESETS, normalize_presets, preset_name
+    clean = preset_name(name)
+    state = _storage_state()
+    presets = dict(state.get('presets', {}))
+    if clean not in presets and len(presets) >= MAX_PRESETS:
+        raise ValueError(f'At most {MAX_PRESETS} project presets may be saved.')
+    source = snapshot if snapshot is not None else state['project']
+    presets[clean] = normalize_state({'project': source})['project']
+    state['presets'] = normalize_presets(presets)
+    _save_storage_state(state)
+    return clean
+
+
+def apply_project_preset(name: str) -> dict[str, Any]:
+    presets = _storage_state().get('presets', {})
+    if name not in presets:
+        raise KeyError(f'unknown project preset: {name!r}')
+    return save_project_snapshot(presets[name])
+
+
+def delete_project_preset(name: str) -> bool:
+    state = _storage_state()
+    presets = dict(state.get('presets', {}))
+    if name not in presets:
+        return False
+    presets.pop(name, None)
+    state['presets'] = presets
+    _save_storage_state(state)
+    return True
 
 
 def set_project_pattern(pattern_key: str) -> None:
@@ -256,6 +323,6 @@ def render_home_project_resume() -> None:
 
 __all__ = [
     'STATE_KEY','STATE_VERSION','clear_project','empty_state','favorites','mark_recent','normalize_state',
-    'project_snapshot','queue_entry','recents','set_project_pattern','remove_queued_entry','render_entry_project_actions',
-    'render_home_project_resume','save_project_snapshot','toggle_favorite',
+    'project_snapshot','project_history','project_presets','queue_entry','recents','set_project_pattern','remove_queued_entry','render_entry_project_actions',
+    'render_home_project_resume','save_project_snapshot','save_project_preset','apply_project_preset','delete_project_preset','restore_project_revision','toggle_favorite',
 ]

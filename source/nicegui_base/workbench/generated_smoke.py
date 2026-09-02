@@ -105,6 +105,13 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                     from .browser_contract import validate_browser_acceptance_contract
                     browser_contract = json.loads(archive.read('.nicegui_base/browser_acceptance.json'))
                     findings.extend(validate_browser_acceptance_contract(browser_contract))
+                    if browser_contract.get('schema_version') == 2:
+                        if 'tools/browser_acceptance.py' not in names:
+                            findings.append('browser_contract:missing_runner')
+                        else:
+                            runner_source = archive.read('tools/browser_acceptance.py').decode('utf-8', errors='replace')
+                            if 'run_browser_acceptance_file' not in runner_source:
+                                findings.append('browser_contract:invalid_runner')
                 except Exception as exc:
                     findings.append(f'browser_contract:{type(exc).__name__}')
             if 'requirements.txt' in names:

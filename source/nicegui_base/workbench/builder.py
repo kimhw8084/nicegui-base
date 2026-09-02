@@ -73,6 +73,20 @@ class BuilderModel:
             stage=BuilderStage.COMPOSE if snapshot.get('pattern_key') else BuilderStage.GOAL,
         )
 
+    def load_snapshot(self, snapshot: Mapping[str, Any]) -> None:
+        restored = type(self).from_snapshot(snapshot)
+        self.goal = restored.goal
+        self.problem_type = restored.problem_type
+        self.data = restored.data
+        self.stage = restored.stage
+        self.pattern_key = restored.pattern_key
+        self.app_name = restored.app_name
+        self.theme = restored.theme
+        self.density = restored.density
+        self.placements = restored.placements
+        self.queued_entry_keys = restored.queued_entry_keys
+        self.revision = restored.revision
+
     def snapshot(self) -> dict[str, Any]:
         return {
             'name': self.app_name,
@@ -299,7 +313,10 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
     from nicegui_base.integrations.nicegui_components import Button, Select, TextInput
     from nicegui_base.integrations.nicegui_content import CodeViewer, ProgressSteps
     from .capability_studio import render_data_dock
-    from .project_state import clear_project, project_snapshot, save_project_snapshot
+    from .project_state import (
+        apply_project_preset, clear_project, delete_project_preset, project_history, project_presets,
+        project_snapshot, restore_project_revision, save_project_preset, save_project_snapshot,
+    )
 
     if model is None:
         snapshot = project_snapshot()
@@ -334,10 +351,83 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     Button('Change pattern', on_click=lambda: change(lambda: model.go(BuilderStage.PATTERN)))
                 Button('Clear project', on_click=lambda: (clear_project(), host.clear(), ui.navigate.to('/build')))
 
+            with ui.element('details').classes('cui-workbench-section cui-project-memory'):
+                with ui.element('summary').props('tabindex="0"'):
+                    ui.label('Project presets & history').classes('cui-workbench-section-title')
+                ui.label('Named presets are reusable project snapshots. History is bounded and automatically records structural changes so you can diff or restore without creating another project model.').classes('cui-workbench-note')
+                preset_field = TextInput('Preset name', placeholder='e.g. Chamber drift investigation')
+                def save_named_preset():
+                    name = str(getattr(preset_field.element, 'value', '') or '')
+                    try:
+                        save_project_preset(name, model.snapshot())
+                    except ValueError as exc:
+                        ui.notify(str(exc), type='warning')
+                        return
+                    render()
+                Button('Save current as preset', on_click=save_named_preset)
+                presets_now = project_presets()
+                if presets_now:
+                    ui.label('Saved presets').classes('cui-workbench-card__meta')
+                    for preset_name in tuple(presets_now)[:8]:
+                        with ui.element('div').classes('cui-workbench-toolbar'):
+                            ui.label(preset_name).classes('cui-workbench-chip')
+                            def apply_named(name=preset_name):
+                                model.load_snapshot(apply_project_preset(name)); render()
+                            def delete_named(name=preset_name):
+                                delete_project_preset(name); render()
+                            Button('Apply', on_click=apply_named)
+                            Button('Delete', on_click=delete_named)
+                history_now = project_history()
+                if history_now:
+                    ui.label('Recent revisions').classes('cui-workbench-card__meta')
+                    current = model.snapshot()
+                    from .project_history import diff_projects
+                    for revision in history_now[:8]:
+                        snapshot = revision.get('snapshot', {})
+                        diff = diff_projects(snapshot, current)
+                        with ui.element('article').classes('cui-workbench-card'):
+                            ui.label(str(revision.get('label') or 'Project checkpoint')).classes('cui-workbench-card__title')
+                            ui.label(diff.summary()).classes('cui-workbench-note')
+                            Button('Restore revision', on_click=lambda rid=revision.get('id'): (model.load_snapshot(restore_project_revision(str(rid))), render()))
+
             if model.stage is BuilderStage.GOAL:
                 from .starter_kits import GOLDEN_STARTERS
                 ui.label('Fastest path · Golden Starters').classes('cui-workbench-section-title')
                 ui.label('Choose a proven application intent and NiceGUI Base will select the canonical pattern, page slots and best reusable capabilities from the current registries. You can still edit every decision afterward.').classes('cui-workbench-note')
+                quick_build_host = ui.element('div').classes('cui-workbench-section')
+                async def quick_build(starter_key: str):
+                    from .release_pipeline import build_runtime_proven_starter
+                    rows = tuple(model.data.serializable_rows())
+                    quick_build_host.clear()
+                    with quick_build_host:
+                        ui.label('Building and proving starter…').classes('cui-workbench-note')
+                    try:
+                        result = await asyncio.to_thread(build_runtime_proven_starter, starter_key, rows=rows)
+                    except Exception as exc:
+                        quick_build_host.clear()
+                        with quick_build_host:
+                            ui.label(f'Build failed: {type(exc).__name__}: {exc}').classes('cui-workbench-note')
+                        return
+                    quick_build_host.clear()
+                    with quick_build_host:
+                        ui.label(str(result.project.get('name') or starter_key)).classes('cui-workbench-section-title')
+                        with ui.element('div').classes('cui-workbench-quality-grid'):
+                            for label, value in (
+                                ('Project audit', result.audit.status),
+                                ('Source / ZIP', 'PASS' if result.source_ok else 'FAIL'),
+                                ('Live startup', 'PASS' if result.live and result.live.ok else 'FAIL'),
+                            ):
+                                with ui.element('article').classes('cui-workbench-quality-card'):
+                                    ui.label(label).classes('cui-workbench-card__title'); ui.label(value).classes('cui-workbench-chip')
+                        if result.ok:
+                            filename = str(result.project.get('name') or starter_key).lower().replace(' ', '-').replace('/', '-') + '.zip'
+                            Button('Download runtime-proven ZIP', on_click=lambda data=result.payload, name=filename: ui.download.content(data, name))
+                        else:
+                            for finding in result.source_findings:
+                                ui.label('✕ ' + finding).classes('cui-workbench-note')
+                            if result.live and result.live.findings:
+                                for finding in result.live.findings:
+                                    ui.label('✕ ' + finding).classes('cui-workbench-note')
                 for category in ('Engineering', 'Generic'):
                     ui.label(category).classes('cui-workbench-card__meta')
                     with ui.element('div').classes('cui-workbench-grid cui-golden-starter-grid'):
@@ -347,7 +437,9 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                                 ui.label(starter.title).classes('cui-workbench-card__title')
                                 ui.label(starter.description).classes('cui-workbench-card__body')
                                 ui.label(' · '.join(starter.tags)).classes('cui-workbench-note')
-                                Button('Use Golden Starter', on_click=lambda key=starter.key: change(lambda: model.apply_golden_starter(key)))
+                                with ui.element('div').classes('cui-workbench-toolbar'):
+                                    Button('Use Golden Starter', on_click=lambda key=starter.key: change(lambda: model.apply_golden_starter(key)))
+                                    Button('Build & prove ZIP', on_click=lambda key=starter.key: quick_build(key))
                 ui.label('Or describe a custom application').classes('cui-workbench-section-title')
                 goal = TextInput('What are you trying to build?', value=model.goal, placeholder='e.g. monitor chamber drift and investigate abnormal wafers')
                 kind = Select('Problem type', {

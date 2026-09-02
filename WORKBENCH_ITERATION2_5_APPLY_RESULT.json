@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "baseline_commit": "95d92461c9b377ac3500adee8f02f236d3c312e2",
+  "framework_version": "3.0.0a8",
+  "changed_files": 10,
+  "golden_starters": 16,
+  "project_state_schema": 2,
+  "tests": "SKIPPED_NO_PYTEST",
+  "registration_smoke": "PASS",
+  "project_memory_matrix": "PASS",
+  "golden_starter_matrix": "PASS",
+  "browser_contract_matrix": "PASS",
+  "release_pipeline_live": "PASS",
+  "workbench_live_smoke": "PASS",
+  "wheel_sha256": "3a11c256be90725652cff7574b70b9b5196f16395a05b850c42c314b04395b25",
+  "wheel_mirrors": 3,
+  "source_manifest_entries": 1030,
+  "package_manifest_entries": 1359
+}

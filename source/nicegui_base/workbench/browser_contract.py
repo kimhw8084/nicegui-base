@@ -39,16 +39,17 @@ def build_browser_acceptance_contract(project: Mapping[str, Any]) -> dict[str, o
     allowed_slots = [slot.value for slot in definition.slot_order if slot.value != 'header']
     placements = project.get('placements') if isinstance(project.get('placements'), Mapping) else {}
     checks = list(BASE_CHECKS)
+    manual_checks: list[str] = []
     if pattern_key in {'monitoring', 'dashboard'}:
-        checks.append('priority_status_or_metric_above_primary_analysis')
+        manual_checks.append('priority_status_or_metric_above_primary_analysis')
     if pattern_key in {'data_explorer', 'crud', 'search', 'master_detail'}:
-        checks.append('data_surface_usable_at_phone_width')
+        manual_checks.append('data_surface_usable_at_phone_width')
     if pattern_key in {'settings', 'wizard'}:
-        checks.append('form_actions_keyboard_reachable')
+        manual_checks.append('form_actions_keyboard_reachable')
     if pattern_key in {'comparison', 'analysis_workspace'}:
-        checks.append('secondary_context_does_not_obscure_primary_workspace')
+        manual_checks.append('secondary_context_does_not_obscure_primary_workspace')
     return {
-        'schema_version': 1,
+        'schema_version': 2,
         'status': 'PENDING_BROWSER_EXECUTION',
         'pattern_key': pattern_key,
         'routes': ['/'],
@@ -56,8 +57,11 @@ def build_browser_acceptance_contract(project: Mapping[str, Any]) -> dict[str, o
         'required_slots': required_slots,
         'allowed_slots': allowed_slots,
         'explicit_slots': sorted(str(slot) for slot, keys in placements.items() if keys),
-        'checks': list(dict.fromkeys(checks)),
-        'evidence_policy': 'Only an executed browser/device run may change this contract from PENDING to PASS/FAIL.',
+        'checks': list(dict.fromkeys((*checks, *manual_checks))),
+        'automated_checks': list(dict.fromkeys(checks)),
+        'manual_checks': list(dict.fromkeys(manual_checks)),
+        'runner': {'path': 'tools/browser_acceptance.py', 'command': 'python tools/browser_acceptance.py http://127.0.0.1:8080'},
+        'evidence_policy': 'Only an executed browser/device run may produce PASS/FAIL evidence; HTTP/runtime smoke is not browser proof.',
     }
 
 
@@ -65,7 +69,8 @@ def validate_browser_acceptance_contract(value: Any) -> tuple[str, ...]:
     findings: list[str] = []
     if not isinstance(value, Mapping):
         return ('browser_contract:not_object',)
-    if value.get('schema_version') != 1:
+    schema_version = value.get('schema_version')
+    if schema_version not in {1, 2}:
         findings.append('browser_contract:schema_version')
     if value.get('status') != 'PENDING_BROWSER_EXECUTION':
         findings.append('browser_contract:invalid_initial_status')
@@ -82,6 +87,16 @@ def validate_browser_acceptance_contract(value: Any) -> tuple[str, ...]:
     checks = value.get('checks')
     if not isinstance(checks, list) or not set(BASE_CHECKS) <= {str(item) for item in checks}:
         findings.append('browser_contract:base_checks')
+    if schema_version == 2:
+        automated = value.get('automated_checks')
+        manual = value.get('manual_checks')
+        runner = value.get('runner')
+        if not isinstance(automated, list) or not set(BASE_CHECKS) <= {str(item) for item in automated}:
+            findings.append('browser_contract:automated_checks')
+        if not isinstance(manual, list):
+            findings.append('browser_contract:manual_checks')
+        if not isinstance(runner, Mapping) or runner.get('path') != 'tools/browser_acceptance.py':
+            findings.append('browser_contract:runner')
     required = value.get('required_slots')
     allowed = value.get('allowed_slots')
     if not isinstance(required, list) or not isinstance(allowed, list) or not set(required) <= set(allowed):

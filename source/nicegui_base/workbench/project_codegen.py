@@ -214,11 +214,15 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         meta.mkdir(parents=True, exist_ok=True)
         (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         from .browser_contract import build_browser_acceptance_contract
+        from .browser_acceptance_runner import generated_browser_runner_source
         browser_contract = build_browser_acceptance_contract(manifest)
         (meta / 'browser_acceptance.json').write_text(json.dumps(browser_contract, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+        tools = root / 'tools'
+        tools.mkdir(parents=True, exist_ok=True)
+        (tools / 'browser_acceptance.py').write_text(generated_browser_runner_source(), encoding='utf-8')
         generator_files = _relative_written_paths(root, created.written)
         payload = _zip_directory(root)
-    report = smoke_generated_zip(payload, expected_files=(*generator_files, '.nicegui_base/workbench_project.json', '.nicegui_base/browser_acceptance.json'))
+    report = smoke_generated_zip(payload, expected_files=(*generator_files, '.nicegui_base/workbench_project.json', '.nicegui_base/browser_acceptance.json', 'tools/browser_acceptance.py'))
     import nicegui_base as public_api
     signature_findings = validate_public_call_signatures(project_home_code(manifest, lookup), public_api)
     if signature_findings:
