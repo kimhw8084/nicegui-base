@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 STATE_KEY = 'nicegui_base_workbench_project_v2_2'
-STATE_VERSION = 2
+STATE_VERSION = 3
 MAX_RECENTS = 16
 MAX_FAVORITES = 64
 MAX_PERSISTED_ROWS = 200
@@ -41,6 +41,7 @@ def empty_state() -> dict[str, Any]:
         'recents': [],
         'history': [],
         'presets': {},
+        'proof_evidence': {},
     }
 
 
@@ -72,8 +73,10 @@ def normalize_state(value: Mapping[str, Any] | None) -> dict[str, Any]:
     base['favorites'] = list(dict.fromkeys(str(item) for item in favorites if item))[:MAX_FAVORITES]
     base['recents'] = list(dict.fromkeys(str(item) for item in recents if item))[:MAX_RECENTS]
     from .project_history import normalize_history, normalize_presets
+    from .portable_project import normalize_proof_evidence
     base['history'] = normalize_history(value.get('history'))
     base['presets'] = normalize_presets(value.get('presets'))
+    base['proof_evidence'] = normalize_proof_evidence(value.get('proof_evidence'))
     return base
 
 
@@ -100,6 +103,7 @@ def save_project_snapshot(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     project = normalize_state({'project': snapshot})['project']
     if project_signature(current) != project_signature(project):
         state['history'] = push_history(state.get('history', ()), current, label=diff_projects(current, project).summary())
+        state['proof_evidence'] = {}
     project['revision'] = max(int(current.get('revision') or 0), int(project.get('revision') or 0)) + 1
     state['project'] = project
     _save_storage_state(state)
@@ -111,6 +115,7 @@ def clear_project() -> dict[str, Any]:
     state = _storage_state()
     state['history'] = push_history(state.get('history', ()), state['project'], label='Before clearing project')
     state['project'] = empty_state()['project']
+    state['proof_evidence'] = {}
     _save_storage_state(state)
     return deepcopy(state['project'])
 
@@ -131,6 +136,7 @@ def restore_project_revision(revision_id: str) -> dict[str, Any]:
         state['history'] = push_history(state.get('history', ()), current, label='Before restoring revision')
     restored['revision'] = max(int(current.get('revision') or 0), int(restored.get('revision') or 0)) + 1
     state['project'] = restored
+    state['proof_evidence'] = {}
     _save_storage_state(state)
     return deepcopy(restored)
 
@@ -171,6 +177,51 @@ def delete_project_preset(name: str) -> bool:
     return True
 
 
+def proof_evidence() -> dict[str, Any]:
+    return deepcopy(_storage_state().get('proof_evidence', {}))
+
+
+def save_proof_evidence(evidence: Mapping[str, Any]) -> dict[str, Any]:
+    from .portable_project import normalize_proof_evidence
+    from .project_history import project_signature
+    state = _storage_state()
+    normalized = normalize_proof_evidence(evidence)
+    expected = str(normalized.get('project_signature') or '')
+    actual = project_signature(state['project'])
+    if expected and expected != actual:
+        raise ValueError('Proof evidence does not match the current project signature.')
+    state['proof_evidence'] = normalized
+    _save_storage_state(state)
+    return deepcopy(normalized)
+
+
+def clear_proof_evidence() -> None:
+    state = _storage_state()
+    state['proof_evidence'] = {}
+    _save_storage_state(state)
+
+
+def export_portable_project_bundle() -> bytes:
+    from nicegui_base.version import FRAMEWORK_VERSION
+    from .portable_project import build_portable_project_bundle
+    state = _storage_state()
+    return build_portable_project_bundle(state, framework_version=FRAMEWORK_VERSION, proof_evidence=state.get('proof_evidence'))
+
+
+def import_portable_project_bundle(payload: bytes):
+    from nicegui_base.version import FRAMEWORK_VERSION
+    from .portable_project import extract_portable_project_bundle
+    from .project_history import project_signature, push_history
+    imported, evidence, inspection = extract_portable_project_bundle(payload, expected_framework_version=FRAMEWORK_VERSION)
+    current = _storage_state()
+    imported['history'] = push_history(imported.get('history', ()), current['project'], label='Before portable project import')
+    imported_project = imported['project']
+    imported_project['revision'] = max(int(current['project'].get('revision') or 0), int(imported_project.get('revision') or 0)) + 1
+    imported['proof_evidence'] = evidence if str(evidence.get('project_signature') or '') in {'', project_signature(imported_project)} else {}
+    _save_storage_state(imported)
+    return deepcopy(imported_project), inspection
+
+
 def set_project_pattern(pattern_key: str) -> None:
     from nicegui_base.patterns.registry import get_pattern
     definition = get_pattern(pattern_key)
@@ -181,6 +232,7 @@ def set_project_pattern(pattern_key: str) -> None:
         slot: values for slot, values in state['project'].get('placements', {}).items() if slot in allowed
     }
     state['project']['revision'] += 1
+    state['proof_evidence'] = {}
     _save_storage_state(state)
 
 
@@ -197,6 +249,7 @@ def queue_entry(entry_key: str) -> bool:
     if changed:
         queued.append(key)
         state['project']['revision'] += 1
+        state['proof_evidence'] = {}
         _save_storage_state(state)
     return changed
 
@@ -209,6 +262,7 @@ def remove_queued_entry(entry_key: str) -> bool:
         return False
     state['project']['queued_entry_keys'] = [item for item in queued if item != key]
     state['project']['revision'] += 1
+    state['proof_evidence'] = {}
     _save_storage_state(state)
     return True
 
@@ -325,4 +379,5 @@ __all__ = [
     'STATE_KEY','STATE_VERSION','clear_project','empty_state','favorites','mark_recent','normalize_state',
     'project_snapshot','project_history','project_presets','queue_entry','recents','set_project_pattern','remove_queued_entry','render_entry_project_actions',
     'render_home_project_resume','save_project_snapshot','save_project_preset','apply_project_preset','delete_project_preset','restore_project_revision','toggle_favorite',
+    'proof_evidence','save_proof_evidence','clear_proof_evidence','export_portable_project_bundle','import_portable_project_bundle',
 ]

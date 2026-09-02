@@ -310,12 +310,13 @@ class BuilderModel:
 def render_builder(model: BuilderModel | None = None) -> BuilderModel:
     from nicegui import ui
     from nicegui_base.content import StepSpec, StepState
-    from nicegui_base.integrations.nicegui_components import Button, Select, TextInput
+    from nicegui_base.integrations.nicegui_components import Button, FileUpload, Select, TextInput
     from nicegui_base.integrations.nicegui_content import CodeViewer, ProgressSteps
     from .capability_studio import render_data_dock
     from .project_state import (
-        apply_project_preset, clear_project, delete_project_preset, project_history, project_presets,
-        project_snapshot, restore_project_revision, save_project_preset, save_project_snapshot,
+        apply_project_preset, clear_project, delete_project_preset, export_portable_project_bundle, import_portable_project_bundle,
+        project_history, project_presets, project_snapshot, proof_evidence, restore_project_revision, save_project_preset,
+        save_project_snapshot, save_proof_evidence,
     )
 
     if model is None:
@@ -330,6 +331,20 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
 
     def change(action) -> None:
         action(); save(); render()
+
+    async def read_uploaded_bytes(event) -> tuple[str, bytes]:
+        file_obj = getattr(event, 'file', None) or event
+        name = str(getattr(file_obj, 'name', None) or getattr(event, 'name', None) or 'project.ngbproj')
+        content = getattr(file_obj, 'content', None) or getattr(event, 'content', None)
+        if isinstance(content, (bytes, bytearray, memoryview)):
+            return name, bytes(content)
+        read = getattr(content, 'read', None)
+        if not callable(read):
+            return name, b''
+        value = read()
+        if hasattr(value, '__await__'):
+            value = await value
+        return name, bytes(value or b'')
 
     def render() -> None:
         host.clear()
@@ -389,6 +404,34 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                             ui.label(str(revision.get('label') or 'Project checkpoint')).classes('cui-workbench-card__title')
                             ui.label(diff.summary()).classes('cui-workbench-note')
                             Button('Restore revision', on_click=lambda rid=revision.get('id'): (model.load_snapshot(restore_project_revision(str(rid))), render()))
+
+            with ui.element('details').classes('cui-workbench-section cui-portable-project'):
+                with ui.element('summary').props('tabindex="0"'):
+                    ui.label('Portable Golden Project').classes('cui-workbench-section-title')
+                ui.label('Move the complete bounded Workbench project between machines as one integrity-checked .ngbproj bundle. Credentials, cookies, authorization headers and production secrets are never allowed into the bundle.').classes('cui-workbench-note')
+                evidence = proof_evidence()
+                if evidence:
+                    ui.label('Latest proof · ' + str(evidence.get('handoff_status') or 'recorded')).classes('cui-workbench-chip')
+                else:
+                    ui.label('No current proof evidence; structural edits invalidate stale proof automatically.').classes('cui-workbench-note')
+                portable_status = ui.label('Export includes current project, bounded history, presets, favorites/recents and matching proof evidence.').classes('cui-workbench-note')
+                def download_portable():
+                    payload = export_portable_project_bundle()
+                    slug = re.sub(r'[^a-z0-9]+', '-', model.app_name.casefold()).strip('-') or 'nicegui-base-project'
+                    ui.download.content(payload, slug + '.ngbproj')
+                async def import_portable(event):
+                    name, payload = await read_uploaded_bytes(event)
+                    try:
+                        project, inspection = import_portable_project_bundle(payload)
+                    except Exception as exc:
+                        portable_status.set_text(f'Import rejected · {type(exc).__name__}: {exc}')
+                        return
+                    model.load_snapshot(project)
+                    portable_status.set_text(f'Imported {name} · integrity PASS · {inspection.file_count} bundle files')
+                    render()
+                with ui.element('div').classes('cui-workbench-toolbar'):
+                    Button('Download .ngbproj', on_click=download_portable)
+                    FileUpload(label='Import .ngbproj', accept=('.ngbproj','.zip'), max_file_size_mb=5, on_upload=import_portable)
 
             if model.stage is BuilderStage.GOAL:
                 from .starter_kits import GOLDEN_STARTERS
@@ -590,13 +633,28 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     for label, value in (('Source / ZIP smoke', 'PASS' if report.ok else 'FAIL'),('Python files',report.python_files),('ZIP files',report.files)):
                         with ui.element('article').classes('cui-workbench-quality-card'):
                             ui.label(label).classes('cui-workbench-card__title'); ui.label(str(value)).classes('cui-workbench-chip')
-                proof_state = {'report': None}
+                proof_state = {'report': None, 'handoff_payload': payload, 'readiness': None}
                 proof_host = ui.element('div').classes('cui-workbench-section')
                 download_host = ui.element('div').classes('cui-workbench-toolbar')
 
                 async def run_live_proof():
                     from .runtime_proof import run_generated_live_smoke
-                    proof_state['report'] = await asyncio.to_thread(run_generated_live_smoke, payload)
+                    from .release_pipeline import finalize_generated_handoff
+                    live = await asyncio.to_thread(run_generated_live_smoke, payload)
+                    proof_state['report'] = live
+                    final_payload, readiness = finalize_generated_handoff(model.snapshot(), payload, report, live)
+                    proof_state['handoff_payload'] = final_payload
+                    proof_state['readiness'] = readiness
+                    save_proof_evidence({
+                        'project_signature': readiness.project_signature,
+                        'handoff_status': readiness.status,
+                        'source_ok': report.ok,
+                        'source_findings': list(report.findings),
+                        'runtime': live.to_dict(),
+                        'framework_version': readiness.environment.framework,
+                        'environment': readiness.environment.to_dict(),
+                        'portable_integrity': readiness.portable_integrity,
+                    })
                     render_live_proof()
 
                 def render_live_proof() -> None:
@@ -632,11 +690,14 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                             Button('Run live startup proof again', on_click=run_live_proof)
                         else:
                             ui.label('The generated app started in a fresh Python process and rendered its root route successfully.').classes('cui-workbench-note')
+                            readiness = proof_state.get('readiness')
+                            if readiness is not None:
+                                ui.label('Handoff readiness · ' + readiness.status).classes('cui-workbench-chip')
                     live = proof_state['report']
                     if live is not None and live.ok:
                         with download_host:
                             def download_zip():
-                                ui.download.content(payload, f"{model.app_name.lower().replace(' ','-')}.zip")
+                                ui.download.content(proof_state.get('handoff_payload') or payload, f"{model.app_name.lower().replace(' ','-')}.zip")
                             Button('Download runtime-proven starter ZIP', on_click=download_zip)
 
                 render_live_proof()
