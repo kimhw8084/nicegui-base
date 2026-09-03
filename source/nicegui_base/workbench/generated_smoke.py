@@ -209,6 +209,52 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                             findings.append(f'interaction_contract:unwired_page:{source_path}')
                 except Exception as exc:
                     findings.append(f'interaction_contract:{type(exc).__name__}')
+            if '.nicegui_base/access_contract.json' in names:
+                try:
+                    from .access_policy import validate_access_contract
+                    access_contract = json.loads(archive.read('.nicegui_base/access_contract.json'))
+                    findings.extend(validate_access_contract(access_contract))
+                    if 'services/app_access.py' not in names:
+                        findings.append('access_contract:missing:services/app_access.py')
+                    if '.nicegui_base/workbench_project.json' in names:
+                        project_manifest = json.loads(archive.read('.nicegui_base/workbench_project.json'))
+                        project_contract = project_manifest.get('access_contract') if isinstance(project_manifest, dict) else None
+                        if not isinstance(project_contract, dict):
+                            findings.append('access_contract:missing_workbench_contract')
+                        elif project_contract.get('contract_signature') != access_contract.get('contract_signature'):
+                            findings.append('access_contract:workbench_signature_drift')
+                    access_routes = [str(page.get('route') or '') for page in access_contract.get('pages', ()) if isinstance(page, dict)]
+                    if '.nicegui_base/interaction_contract.json' in names:
+                        interaction = json.loads(archive.read('.nicegui_base/interaction_contract.json'))
+                        interaction_routes = [str(page.get('route') or '') for page in interaction.get('pages', ()) if isinstance(page, dict)]
+                        if access_routes != interaction_routes:
+                            findings.append('access_contract:interaction_route_drift')
+                        interaction_actions = {
+                            str(page.get('route') or ''): [str(action.get('key') or '') for action in page.get('actions', ()) if isinstance(action, dict)]
+                            for page in interaction.get('pages', ()) if isinstance(page, dict)
+                        }
+                        for page in access_contract.get('pages', ()) if isinstance(access_contract, dict) else ():
+                            if not isinstance(page, dict):
+                                continue
+                            route = str(page.get('route') or '')
+                            access_actions = [str(action.get('key') or '') for action in page.get('actions', ()) if isinstance(action, dict)]
+                            if access_actions != interaction_actions.get(route, []):
+                                findings.append(f'access_contract:interaction_action_drift:{route}')
+                    if 'app.py' in names:
+                        app_source = archive.read('app.py').decode('utf-8', errors='replace')
+                        for marker in ('configure_runtime_access', 'guarded_page', 'RUNTIME = runtime()', 'RUNTIME.run('):
+                            if marker not in app_source:
+                                findings.append(f'access_contract:unwired_app:{marker}')
+                    if '.env.example' in names:
+                        example = archive.read('.env.example').decode('utf-8', errors='replace')
+                        if 'NICEGUI_BASE_ACCESS_MODE=development' not in example:
+                            findings.append('access_contract:missing_access_env')
+                        for line in example.splitlines():
+                            stripped = line.strip()
+                            if stripped.startswith('NICEGUI_BASE_AUTH_ASSERTION_SECRET='):
+                                findings.append('access_contract:secret_env_value_surface')
+                except Exception as exc:
+                    findings.append(f'access_contract:{type(exc).__name__}')
             if '.nicegui_base/browser_acceptance.json' in names:
                 try:
                     from .browser_contract import validate_browser_acceptance_contract

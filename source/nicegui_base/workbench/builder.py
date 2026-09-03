@@ -717,6 +717,14 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     for page in interaction_preview['pages']:
                         labels = ', '.join(str(action['label']) for action in page['actions'])
                         ui.label(f"{page['route']} · {page['pattern_key'].replace('_',' ')} · {labels}").classes('cui-workbench-note')
+                from .access_policy import access_contract_for_project
+                access_source = dict(interaction_source)
+                access_source['interaction_contract'] = interaction_preview
+                access_preview = access_contract_for_project(access_source)
+                with ui.element('section').classes('cui-workbench-section cui-access-contract'):
+                    ui.label('Generated access & action policy').classes('cui-workbench-section-title')
+                    ui.label('Development stays open for local iteration. Production is fail-closed and authenticated at the HTTP boundary using NiceGUI Base security authorities; company roles/permissions remain explicit application configuration rather than generated guesses.').classes('cui-workbench-note')
+                    ui.label(f"{len(access_preview['pages'])} page guard(s) · {sum(len(page['actions']) for page in access_preview['pages'])} non-mutating action policy bindings · trusted-header adapter boundary").classes('cui-workbench-note')
                 empty = review['empty_required_slots']
                 if empty:
                     ui.label('Required slots without an explicit capability: ' + ', '.join(empty) + '. Safe generated starters will fill them.').classes('cui-workbench-note')

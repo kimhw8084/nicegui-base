@@ -1,0 +1,14 @@
+{
+  "baseline_commit": "d8cb3672e38781ac84b295cf06e7f6a875c9e668",
+  "copied_files": 5,
+  "focused_tests": "PASS: ...............................                                          [100%]",
+  "framework_version": "3.0.0a8",
+  "generated_zip_bytes": 122952,
+  "package_manifest_entries": 1389,
+  "source_manifest_entries": 1044,
+  "status": "PASS",
+  "wheel": "nicegui_base-3.0.0a8-py3-none-any.whl",
+  "wheel_bytes": 1152071,
+  "wheel_mirrors": 3,
+  "wheel_sha256": "1f150ded98dbfad314de4a18c8a9caabaeba94b89e3f7d4617883525964c81da"
+}

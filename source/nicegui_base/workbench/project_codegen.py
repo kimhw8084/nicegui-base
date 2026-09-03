@@ -272,6 +272,13 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         manifest['production_provider'] = str(provider_contract['selected_provider'])
         extra_written.extend(provider_written)
         page_sources.update({path: source for path, source in provider_sources.items() if path.endswith('.py')})
+        # Access policy is materialized last because it wraps the final provider-aware
+        # runtime and guards every generated page at the HTTP boundary.
+        from .access_policy import materialize_access_policy
+        access_contract, access_written, access_sources = materialize_access_policy(root, manifest)
+        manifest['access_contract'] = access_contract
+        extra_written.extend(access_written)
+        page_sources.update({path: source for path, source in access_sources.items() if path.endswith('.py')})
         (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         from .browser_contract import build_browser_acceptance_contract
         from .browser_acceptance_runner import generated_browser_runner_source
