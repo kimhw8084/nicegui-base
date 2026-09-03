@@ -385,6 +385,7 @@ class ServerDataTableSpec(DataTableSpec):
     request_timeout_seconds: float | None = 30.0
     retry_attempts: int = 2
     retry_base_delay_seconds: float = 0.15
+    stale_after_seconds: float | None = 120.0
 
     def __post_init__(self) -> None:
         DataTableSpec.__post_init__(self)
@@ -398,6 +399,8 @@ class ServerDataTableSpec(DataTableSpec):
             raise ValueError('retry_attempts must be >= 1')
         if self.retry_base_delay_seconds < 0:
             raise ValueError('retry_base_delay_seconds must be >= 0')
+        if self.stale_after_seconds is not None and self.stale_after_seconds <= 0:
+            raise ValueError('stale_after_seconds must be > 0 or None')
 
 @dataclass(frozen=True, slots=True)
 class EditableTableSpec(DataTableSpec):

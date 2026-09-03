@@ -40,7 +40,7 @@ def test_single_page_generation_wires_governed_workflow_actions():
         assert 'workflow.execute(' in home
         workflow = archive.read('services/app_workflow.py').decode('utf-8')
         assert 'NiceGUIStateServices.tab_state()' in workflow
-        assert 'preferences.save_filter_view' in workflow
+        assert "self._set('saved_view'" in workflow
         assert 'provider data was not changed' in workflow
 
 

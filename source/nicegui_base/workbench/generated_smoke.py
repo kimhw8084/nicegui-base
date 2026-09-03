@@ -136,6 +136,45 @@ def smoke_generated_zip(payload: bytes, *, expected_files=()) -> GeneratedSmokeR
                                 findings.append('data_contract:workbench_mode_drift')
                 except Exception as exc:
                     findings.append(f'data_contract:{type(exc).__name__}')
+            if '.nicegui_base/provider_contract.json' in names:
+                try:
+                    from .production_integration import validate_provider_contract
+                    provider_contract = json.loads(archive.read('.nicegui_base/provider_contract.json'))
+                    findings.extend(validate_provider_contract(provider_contract))
+                    for required_provider_file in ('services/provider_config.py','services/app_data.py','.env.example'):
+                        if required_provider_file not in names:
+                            findings.append(f'provider_contract:missing:{required_provider_file}')
+                    if '.nicegui_base/workbench_project.json' in names:
+                        project_manifest = json.loads(archive.read('.nicegui_base/workbench_project.json'))
+                        project_contract = project_manifest.get('provider_contract') if isinstance(project_manifest, dict) else None
+                        if not isinstance(project_contract, dict):
+                            findings.append('provider_contract:missing_workbench_contract')
+                        elif project_contract.get('contract_signature') != provider_contract.get('contract_signature'):
+                            findings.append('provider_contract:workbench_signature_drift')
+                        if isinstance(project_manifest, dict) and project_manifest.get('production_provider') != provider_contract.get('selected_provider'):
+                            findings.append('provider_contract:workbench_provider_drift')
+                    if 'services/app_data.py' in names:
+                        data_source = archive.read('services/app_data.py').decode('utf-8', errors='replace')
+                        for marker in ('def build_source(', 'def provider_diagnostics(', 'def register_source_health('):
+                            if marker not in data_source:
+                                findings.append(f'provider_contract:unwired_data_service:{marker}')
+                    if 'app.py' in names:
+                        app_source = archive.read('app.py').decode('utf-8', errors='replace')
+                        if 'register_source_health' not in app_source:
+                            findings.append('provider_contract:unwired_runtime_health')
+                    if '.env.example' in names:
+                        example = archive.read('.env.example').decode('utf-8', errors='replace')
+                        sensitive = ('PASSWORD','TOKEN','API_KEY','SECRET','AUTHORIZATION','COOKIE','CONNECTION_STRING','PRIVATE_KEY')
+                        for line in example.splitlines():
+                            stripped = line.strip()
+                            if not stripped or stripped.startswith('#') or '=' not in stripped:
+                                continue
+                            key, _value = stripped.split('=', 1)
+                            upper = key.upper()
+                            if any(term in upper for term in sensitive):
+                                findings.append(f'provider_contract:sensitive_env_example:{key}')
+                except Exception as exc:
+                    findings.append(f'provider_contract:{type(exc).__name__}')
             if '.nicegui_base/interaction_contract.json' in names:
                 try:
                     from .interaction_contract import validate_interaction_contract

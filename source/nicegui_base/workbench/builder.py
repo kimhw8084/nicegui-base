@@ -50,6 +50,7 @@ class BuilderModel:
     pattern_key: str | None = None
     blueprint_key: str | None = None
     data_handoff_mode: str = 'schema_only'
+    production_provider: str = 'none'
     app_name: str = 'My NiceGUI App'
     theme: str = 'system'
     density: str = 'compact'
@@ -72,6 +73,7 @@ class BuilderModel:
             pattern_key=str(snapshot['pattern_key']) if snapshot.get('pattern_key') else None,
             blueprint_key=str(snapshot['blueprint_key']) if snapshot.get('blueprint_key') else None,
             data_handoff_mode=(str(snapshot.get('data_handoff_mode')) if str(snapshot.get('data_handoff_mode') or '') in {'schema_only','include_development_rows'} else 'schema_only'),
+            production_provider=(str(snapshot.get('production_provider')) if str(snapshot.get('production_provider') or '') in {'none','csv','sqlite'} else 'none'),
             app_name=str(snapshot.get('name') or 'My NiceGUI App'),
             theme=str(snapshot.get('theme') or 'system'),
             density=str(snapshot.get('density') or 'compact'),
@@ -90,6 +92,7 @@ class BuilderModel:
         self.pattern_key = restored.pattern_key
         self.blueprint_key = restored.blueprint_key
         self.data_handoff_mode = restored.data_handoff_mode
+        self.production_provider = restored.production_provider
         self.app_name = restored.app_name
         self.theme = restored.theme
         self.density = restored.density
@@ -110,6 +113,7 @@ class BuilderModel:
             'data_schema': list(self.data.schema_metadata()),
             'data_source_name': self.data.snapshot.source_name,
             'data_handoff_mode': self.data_handoff_mode,
+            'production_provider': self.production_provider,
             'theme': self.theme,
             'density': self.density,
             'revision': self.revision,
@@ -187,6 +191,13 @@ class BuilderModel:
         if value not in {'schema_only', 'include_development_rows'}:
             raise ValueError(f'unsupported data handoff mode: {mode!r}')
         self.data_handoff_mode = value
+        self._changed()
+
+    def set_production_provider(self, provider: str) -> None:
+        value = str(provider or 'none')
+        if value not in {'none', 'csv', 'sqlite'}:
+            raise ValueError(f'unsupported production provider: {provider!r}')
+        self.production_provider = value
         self._changed()
 
     def blueprint_recommendations(self):
@@ -325,6 +336,7 @@ class BuilderModel:
                 'roles': {column.name: column.role for column in self.data.columns},
                 'types': {column.name: column.inferred_type for column in self.data.columns},
                 'handoff_mode': self.data_handoff_mode,
+                'production_provider': self.production_provider,
                 'source_name': self.data.snapshot.source_name,
             },
         }
@@ -562,6 +574,17 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     model.set_data_handoff_mode(str(getattr(handoff.element,'value','schema_only') or 'schema_only'))
                     save(); render()
                 Button('Apply data handoff policy', on_click=apply_handoff_policy)
+                ui.label('Production provider').classes('cui-workbench-section-title')
+                ui.label('Choose only the adapter contract here; paths and environment values stay outside the project and generated source. CSV and SQLite are the production adapters NiceGUI Base can construct directly from the base package today.').classes('cui-workbench-note')
+                provider = Select('Production provider', {
+                    'none':'Choose at runtime / development only',
+                    'csv':'CSV file',
+                    'sqlite':'SQLite table',
+                }, value=model.production_provider, clearable=False)
+                def apply_provider():
+                    model.set_production_provider(str(getattr(provider.element,'value','none') or 'none'))
+                    save(); render()
+                Button('Apply production provider', on_click=apply_provider)
                 Button('Choose application pattern', on_click=lambda: change(lambda: model.go(BuilderStage.PATTERN)))
 
             elif model.stage is BuilderStage.PATTERN:
@@ -678,6 +701,8 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     safe = model.data_handoff_mode == 'schema_only'
                     ui.label(('Schema only · synthetic fixture · original values excluded' if safe else 'Explicit development rows · current Workbench values included')).classes('cui-workbench-chip')
                     ui.label(f"{len(model.data.columns)} fields · {model.data.snapshot.quality.rows} Workbench rows · provider boundary: services.app_data:build_source").classes('cui-workbench-note')
+                    provider_label = model.production_provider if model.production_provider != 'none' else 'runtime selection / development memory'
+                    ui.label(f'Production adapter: {provider_label} · configuration values come from environment only · mutation policy: none').classes('cui-workbench-note')
                     uncertain = [column.name for column in model.data.columns if column.confidence < 0.7]
                     if uncertain:
                         ui.label('Confirm low-confidence semantic roles before production use: ' + ', '.join(uncertain[:8])).classes('cui-workbench-note')

@@ -72,7 +72,7 @@ class ProjectDiff:
 def diff_projects(before: Mapping[str, Any] | None, after: Mapping[str, Any] | None) -> ProjectDiff:
     left = _stable_project(before)
     right = _stable_project(after)
-    tracked = ('name', 'goal', 'problem_type', 'pattern_key', 'blueprint_key', 'data_handoff_mode', 'data_source_name', 'data_schema', 'theme', 'density', 'queued_entry_keys')
+    tracked = ('name', 'goal', 'problem_type', 'pattern_key', 'blueprint_key', 'data_handoff_mode', 'production_provider', 'data_source_name', 'data_schema', 'theme', 'density', 'queued_entry_keys')
     fields = tuple(key for key in tracked if left.get(key) != right.get(key))
     left_loc = {str(key): str(slot) for slot, keys in left.get('placements', {}).items() for key in keys}
     right_loc = {str(key): str(slot) for slot, keys in right.get('placements', {}).items() for key in keys}

@@ -86,7 +86,7 @@ def _render_entry_lines(entry, indent: str) -> list[str]:
     registry = str(entry.metadata.get('registry_name') or '')
     registry_key = str(entry.metadata.get('registry_key') or entry.metadata.get('component_key') or '')
     if registry == 'tables':
-        return [f"{indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, row_key=ROW_KEY, title={title!r})"]
+        return [f"{indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, spec=DATA_TABLE_SPEC)"]
     if registry == 'visualizations':
         chart = registry_key if registry_key in {'LineChart','AreaChart','BarChart','StackedBarChart'} else 'BoxPlot'
         if chart == 'BoxPlot':
@@ -139,7 +139,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
         'from __future__ import annotations',
         f'from nicegui_base import {page_class}, {imports}',
         '',
-        'from services.app_data import DATA_SCHEMA, ROW_KEY, SOURCE, series_labels, series_values',
+        'from services.app_data import DATA_SCHEMA, DATA_TABLE_SPEC, ROW_KEY, SOURCE, series_labels, series_values',
         'from services.app_workflow import create_page_workflow',
         '',
         "CONTEXT = AnalysisContext(source_key='application')",
@@ -185,7 +185,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
                 lines.extend(_render_entry_lines(entry, content_indent))
                 rendered += 1
         elif slot == 'data':
-            lines.append(f"{content_indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, row_key=ROW_KEY, title='Records')")
+            lines.append(f"{content_indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, spec=DATA_TABLE_SPEC)")
         else:
             lines.append(f"{content_indent}MetricCard({slot.replace('_',' ').title()!r}, 'Configure in NiceGUI Base Workbench')")
     if rendered == 0 and not required:
@@ -264,6 +264,14 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         manifest['interaction_contract'] = interaction_contract
         extra_written.extend(interaction_written)
         page_sources.update(interaction_sources)
+        # Production integration is materialized after blueprint/runtime assembly so
+        # it extends the canonical generated app.py instead of being overwritten.
+        from .production_integration import materialize_production_integration
+        provider_contract, provider_written, provider_sources = materialize_production_integration(root, project)
+        manifest['provider_contract'] = provider_contract
+        manifest['production_provider'] = str(provider_contract['selected_provider'])
+        extra_written.extend(provider_written)
+        page_sources.update({path: source for path, source in provider_sources.items() if path.endswith('.py')})
         (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         from .browser_contract import build_browser_acceptance_contract
         from .browser_acceptance_runner import generated_browser_runner_source

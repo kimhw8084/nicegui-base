@@ -138,13 +138,14 @@ def test_multi_page_blueprint_uses_one_data_contract_on_every_page() -> None:
         assert 'DataSourceTable' in source or 'series_values' in source
 
 
-def test_project_state_v5_and_builder_data_policy_wiring() -> None:
+def test_project_state_current_and_builder_data_policy_wiring() -> None:
     from pathlib import Path
     root = Path(__file__).resolve().parents[1] / 'nicegui_base' / 'workbench'
     state = (root / 'project_state.py').read_text(encoding='utf-8')
     builder = (root / 'builder.py').read_text(encoding='utf-8')
     codegen = (root / 'project_codegen.py').read_text(encoding='utf-8')
-    assert 'STATE_VERSION = 5' in state
+    from nicegui_base.workbench.project_state import STATE_VERSION
+    assert STATE_VERSION >= 5
     assert "'data_schema': []" in state
     assert "'data_handoff_mode': 'schema_only'" in state
     assert 'set_data_handoff_mode' in builder

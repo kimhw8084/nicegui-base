@@ -354,26 +354,192 @@ def _fixture_source(plan: DataHandoffPlan) -> str:
 
 
 def _app_data_source(plan: DataHandoffPlan) -> str:
-    return '''from __future__ import annotations
+    return r'''from __future__ import annotations
 from typing import Any
-from nicegui_base import DataSource, InMemoryDataSource
+
+from nicegui_base import (
+    CSVDataSource, DataSource, InMemoryDataSource, Query, ServerDataTableSpec,
+    SourceCapabilities, SourceHealth, SourceHealthStatus, SQLiteDataSource,
+)
+from nicegui_base.analysis import columns_from_schema
+from nicegui_base.diagnostics import HealthCheck, HealthResult, HealthState
+from nicegui_base.security import redact_text
 from .data_contract import CATEGORY_FIELD, DATA_SCHEMA, MEASUREMENT_FIELD, ROW_KEY
 from .development_fixture import DEVELOPMENT_ROWS
+from .provider_config import ProviderConfig, ProviderConfigurationError
 
 
-def build_source() -> DataSource:
-    """Single provider boundary for the generated application.
+class _UnavailableDataSource(DataSource):
+    """Safe failure adapter which preserves the canonical DataSource boundary."""
+    def __init__(self, reason: str, *, requested_provider: str = 'unknown', timeout_seconds: float = 30.0):
+        super().__init__('application', timeout_seconds=timeout_seconds)
+        self.reason = redact_text(str(reason))
+        self.requested_provider = str(requested_provider or 'unknown')
 
-    Replace only this function with the approved SQL/CSV/company DataSource provider.
-    Pages stay bound to the canonical DataSource contract instead of provider details.
+    @property
+    def provider(self) -> str:
+        return 'unavailable'
+
+    @property
+    def capabilities(self) -> SourceCapabilities:
+        return SourceCapabilities()
+
+    async def schema(self):
+        self._ensure_open()
+        return DATA_SCHEMA
+
+    def _raise(self):
+        raise ProviderConfigurationError(self.reason)
+
+    async def query(self, query=Query()):
+        self._raise()
+
+    async def aggregate(self, query):
+        self._raise()
+
+    async def distinct(self, field: str, query=Query()):
+        self._raise()
+
+    async def health(self) -> SourceHealth:
+        return SourceHealth.current(
+            SourceHealthStatus.UNAVAILABLE,
+            message=self.reason,
+            metadata={'requested_provider': self.requested_provider},
+        )
+
+
+def _load_provider_config() -> tuple[ProviderConfig, str | None]:
+    try:
+        return ProviderConfig.from_env(), None
+    except ProviderConfigurationError as exc:
+        # Keep startup alive so canonical readiness can explain the failure safely.
+        return ProviderConfig(mode='production', provider='invalid'), redact_text(str(exc))
+
+
+PROVIDER_CONFIG, _PROVIDER_CONFIG_ERROR = _load_provider_config()
+
+
+def build_source(config: ProviderConfig | None = None) -> DataSource:
+    """Single generated provider boundary. Page modules never choose providers.
+
+    Development mode is always the generated in-memory fixture. Production mode
+    supports only provider adapters the base package can instantiate truthfully from
+    non-secret environment configuration: CSV and SQLite. Unsupported/missing
+    production configuration returns an unavailable DataSource so the application
+    can start and report not-ready through the canonical runtime health registry.
     """
-    return InMemoryDataSource('application', DEVELOPMENT_ROWS, schema=DATA_SCHEMA)
+    cfg = PROVIDER_CONFIG if config is None else config
+    if config is None and _PROVIDER_CONFIG_ERROR:
+        return _UnavailableDataSource(_PROVIDER_CONFIG_ERROR, requested_provider=cfg.provider, timeout_seconds=cfg.timeout_seconds)
+    if cfg.mode == 'development':
+        return InMemoryDataSource('application', DEVELOPMENT_ROWS, schema=DATA_SCHEMA, timeout_seconds=cfg.timeout_seconds)
+    issues = cfg.validation_issues()
+    if issues:
+        return _UnavailableDataSource('; '.join(issues), requested_provider=cfg.provider, timeout_seconds=cfg.timeout_seconds)
+    try:
+        if cfg.provider == 'csv':
+            return CSVDataSource('application', cfg.csv_path or '', schema=DATA_SCHEMA, timeout_seconds=cfg.timeout_seconds)
+        if cfg.provider == 'sqlite':
+            return SQLiteDataSource('application', cfg.sqlite_path or '', cfg.sqlite_table or '', schema=DATA_SCHEMA, timeout_seconds=cfg.timeout_seconds)
+    except Exception as exc:
+        return _UnavailableDataSource(
+            f'{type(exc).__name__}: {redact_text(str(exc))}',
+            requested_provider=cfg.provider,
+            timeout_seconds=cfg.timeout_seconds,
+        )
+    return _UnavailableDataSource('unsupported production provider', requested_provider=cfg.provider, timeout_seconds=cfg.timeout_seconds)
 
 
 SOURCE = build_source()
 
+DATA_TABLE_SPEC = ServerDataTableSpec(
+    tuple(columns_from_schema(DATA_SCHEMA)),
+    row_key=ROW_KEY,
+    cache_pages=2,
+    cache_ttl_seconds=PROVIDER_CONFIG.cache_ttl_seconds,
+    request_timeout_seconds=PROVIDER_CONFIG.timeout_seconds,
+    retry_attempts=PROVIDER_CONFIG.retry_attempts,
+    retry_base_delay_seconds=PROVIDER_CONFIG.retry_base_delay_seconds,
+    stale_after_seconds=PROVIDER_CONFIG.stale_after_seconds,
+    empty_message='No records from the active data provider',
+    error_message='Unable to load records from the active data provider',
+)
+
+
+async def provider_diagnostics(source: DataSource | None = None, config: ProviderConfig | None = None) -> dict[str, object]:
+    cfg = PROVIDER_CONFIG if config is None else config
+    active = SOURCE if source is None else source
+    try:
+        health = await active.health()
+        status = health.status.value
+        reason = redact_text(str(health.message or ''))
+        ready = health.status is SourceHealthStatus.HEALTHY
+        freshness_at = health.freshness_at
+    except Exception as exc:
+        status = SourceHealthStatus.UNAVAILABLE.value
+        reason = redact_text(f'{type(exc).__name__}: {exc}')
+        ready = False
+        freshness_at = None
+    result = cfg.public_diagnostics()
+    result.update({
+        'provider': active.provider,
+        'ready': ready,
+        'status': status,
+        'reason': reason,
+        'freshness_at': freshness_at,
+    })
+    return result
+
+
+def _health_state(status: SourceHealthStatus) -> HealthState:
+    if status is SourceHealthStatus.HEALTHY:
+        return HealthState.HEALTHY
+    if status in {SourceHealthStatus.DEGRADED, SourceHealthStatus.UNKNOWN}:
+        return HealthState.DEGRADED
+    return HealthState.UNHEALTHY
+
+
+async def source_health_check(source: DataSource | None = None, config: ProviderConfig | None = None) -> HealthResult:
+    cfg = PROVIDER_CONFIG if config is None else config
+    active = SOURCE if source is None else source
+    try:
+        health = await active.health()
+        detail = redact_text(str(health.message or 'data source health reported'))
+        state = _health_state(health.status)
+        metadata = {
+            'mode': cfg.mode,
+            'provider': active.provider,
+            'requested_provider': cfg.provider if cfg.mode == 'production' else 'memory',
+            'freshness_at': health.freshness_at,
+            'mutation_policy': 'none',
+        }
+        return HealthResult('data-source', state, detail, metadata=metadata)
+    except Exception as exc:
+        return HealthResult(
+            'data-source', HealthState.UNHEALTHY, redact_text(f'{type(exc).__name__}: {exc}'),
+            metadata={'mode': cfg.mode, 'provider': active.provider, 'mutation_policy': 'none'},
+        )
+
+
+def register_source_health(runtime: Any, *, source: DataSource | None = None, config: ProviderConfig | None = None) -> None:
+    if any(check.name == 'data-source' for check in runtime.health.checks):
+        return
+    cfg = PROVIDER_CONFIG if config is None else config
+    active = SOURCE if source is None else source
+    runtime.health.register(
+        HealthCheck(
+            'data-source',
+            lambda: source_health_check(active, cfg),
+            critical=True,
+            timeout_seconds=min(10.0, max(1.0, cfg.timeout_seconds)),
+        )
+    )
+
 
 def series_labels() -> tuple[str, ...]:
+    # Generated charts retain deterministic development preview values. Provider-backed
+    # data surfaces use SOURCE directly through DataSourceTable; do not query async
+    # production providers during module import/page construction.
     field = CATEGORY_FIELD or ROW_KEY
     return tuple(str(row.get(field) if row.get(field) is not None else row.get(ROW_KEY, '')) for row in DEVELOPMENT_ROWS)
 
@@ -390,7 +556,10 @@ def series_values() -> tuple[float, ...]:
     return tuple(float(index + 1) for index, _ in enumerate(DEVELOPMENT_ROWS))
 
 
-__all__ = ['CATEGORY_FIELD','DATA_SCHEMA','DEVELOPMENT_ROWS','MEASUREMENT_FIELD','ROW_KEY','SOURCE','build_source','series_labels','series_values']
+__all__ = [
+    'CATEGORY_FIELD','DATA_SCHEMA','DATA_TABLE_SPEC','DEVELOPMENT_ROWS','MEASUREMENT_FIELD','PROVIDER_CONFIG',
+    'ROW_KEY','SOURCE','build_source','provider_diagnostics','register_source_health','series_labels','series_values','source_health_check',
+]
 '''
 
 

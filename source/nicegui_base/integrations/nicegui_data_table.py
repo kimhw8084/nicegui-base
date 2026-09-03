@@ -4,6 +4,7 @@ import asyncio
 import html
 import inspect
 import json
+import time
 import weakref
 from contextlib import AbstractContextManager
 from dataclasses import replace
@@ -914,6 +915,9 @@ class ServerDataTable(DataTable):
                                          selection=kwargs.pop('selection', SelectionMode.NONE), density=kwargs.pop('density', TableDensity.COMPACT))
         self.fetch=fetch; self.query=query or TableQuery(page_size=spec.page_size)
         self.total=0; self.loading=False
+        self.last_error: BaseException | None = None
+        self._last_success_monotonic: float | None = None
+        self.stale = False
         retry=RetryPolicy(attempts=spec.retry_attempts,base_delay_seconds=spec.retry_base_delay_seconds,
                           max_delay_seconds=max(spec.retry_base_delay_seconds, min(2.0, spec.retry_base_delay_seconds * 4)),jitter=0.0)
         self._requests=LatestRequestController(
@@ -941,8 +945,24 @@ class ServerDataTable(DataTable):
             with nxt: _icon(ui,'arrow-right',label='Next page')
         ui.timer(0.0, self.refresh, once=True)
 
+    @property
+    def is_stale(self) -> bool:
+        if self.stale:
+            return True
+        threshold = self.spec.stale_after_seconds
+        if threshold is None or self._last_success_monotonic is None:
+            return False
+        return (time.monotonic() - self._last_success_monotonic) >= threshold
+
     def _footer_text(self) -> str:
-        return f'{self.total:,} records' if hasattr(self,'total') else '0 records'
+        if self.loading and not self.rows:
+            return 'Loading…'
+        if self.last_error is not None:
+            return f'Stale data · {self.total:,} records' if self.rows else self.spec.error_message
+        if not self.rows and not self.loading:
+            return self.spec.empty_message
+        prefix = 'Stale data · ' if self.is_stale else ''
+        return f'{prefix}{self.total:,} records'
 
     async def _refresh_from_toolbar(self): return await self.refresh(force=True)
 
@@ -985,6 +1005,7 @@ class ServerDataTable(DataTable):
         request_query=self.query
         request_key=_table_query_key(request_query)
         self.loading=True
+        self._sync_footer()
         try:
             result=await self._requests.run(
                 request_key,
@@ -1000,6 +1021,7 @@ class ServerDataTable(DataTable):
                 raise TypeError('fetch(query) must return TableResult or (rows, total)')
             next_rows=list(normalized.rows); self._validate_row_identities(next_rows)
             self.total=normalized.total; self.rows=next_rows; self.displayed_count=len(self.rows)
+            self.last_error=None; self.stale=False; self._last_success_monotonic=time.monotonic()
             self.element.options['rowData']=self.rows
             await self.element.run_grid_method('setGridOption','rowData',self.rows)
             await self._restore_selection()
@@ -1008,8 +1030,14 @@ class ServerDataTable(DataTable):
             self.state.page=normalized.page; self.state.page_size=normalized.page_size
             self._schedule_persist_state()
             return normalized
+        except Exception as exc:
+            self.last_error=exc; self.stale=bool(self.rows)
+            self._sync_footer()
+            raise
         finally:
-            if not self._requests.running: self.loading=False
+            if not self._requests.running:
+                self.loading=False
+                self._sync_footer()
 
     async def aclose(self) -> None:
         await self._requests.aclose()

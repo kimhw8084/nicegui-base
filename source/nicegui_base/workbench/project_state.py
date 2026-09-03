@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 STATE_KEY = 'nicegui_base_workbench_project_v2_2'
-STATE_VERSION = 5
+STATE_VERSION = 6
 MAX_RECENTS = 16
 MAX_FAVORITES = 64
 MAX_PERSISTED_ROWS = 200
@@ -37,6 +37,7 @@ def empty_state() -> dict[str, Any]:
             'data_schema': [],
             'data_source_name': '',
             'data_handoff_mode': 'schema_only',
+            'production_provider': 'none',
             'theme': 'system',
             'density': 'compact',
             'revision': 0,
@@ -101,6 +102,9 @@ def normalize_state(value: Mapping[str, Any] | None) -> dict[str, Any]:
     base['project']['data_source_name'] = str(project.get('data_source_name') or '')[:160]
     base['project']['data_handoff_mode'] = _choice(
         project.get('data_handoff_mode'), {'schema_only','include_development_rows'}, 'schema_only',
+    )
+    base['project']['production_provider'] = _choice(
+        project.get('production_provider'), {'none','csv','sqlite'}, 'none',
     )
     favorites = value.get('favorites') if isinstance(value.get('favorites'), (list, tuple)) else ()
     recents = value.get('recents') if isinstance(value.get('recents'), (list, tuple)) else ()
