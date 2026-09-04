@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from importlib.resources import files
 from pathlib import Path
 from typing import Any
 
@@ -30,10 +31,13 @@ class ReleaseIdentity:
         }
 
 
-def load_release_identity(root: str | Path = '.') -> ReleaseIdentity:
-    root = Path(root).resolve()
-    path = root / 'nicegui_base' / 'release_authority.json'
-    payload = json.loads(path.read_text(encoding='utf-8'))
+def load_release_identity(root: str | Path | None = None) -> ReleaseIdentity:
+    if root is None:
+        authority_text = files('nicegui_base').joinpath('release_authority.json').read_text(encoding='utf-8')
+    else:
+        path = Path(root).resolve() / 'nicegui_base' / 'release_authority.json'
+        authority_text = path.read_text(encoding='utf-8')
+    payload = json.loads(authority_text)
     if not isinstance(payload, dict):
         raise ValueError('nicegui_base/release_authority.json must contain a JSON object')
     current_wave = int(payload.get('current_wave', payload.get('current_phase', 0)))

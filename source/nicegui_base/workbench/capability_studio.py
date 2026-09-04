@@ -131,12 +131,13 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
     """Render the reusable development Data Dock using governed controls/table authority."""
     from nicegui import ui
     from nicegui_base.data_table import EditableTableSpec, SelectionMode, TableColumn
-    from nicegui_base.integrations.nicegui_components import Button, FileUpload, Select, TextArea, TextInput
+    from nicegui_base.integrations.nicegui_components import ActionButton, Button, FileUpload, Select, TextArea, TextInput
     from nicegui_base.integrations.nicegui_data_table import EditableTable
     from nicegui_base.integrations.nicegui_layout import SegmentedControl
 
+    mode = {'value': 'review'}
+    mode_host = ui.element('div').classes('cui-workbench-toolbar cui-data-dock-modebar')
     content_host = ui.element('div').classes('cui-data-dock-content')
-    mode = {'value': 'sample'}
 
     async def changed() -> None:
         if on_change is not None:
@@ -167,7 +168,6 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                     ui.label(f'{issue.severity.value.upper()} · {issue.message}').classes('cui-workbench-note')
 
     def render_edit_grid() -> None:
-        status_strip()
         if not model.columns:
             ui.label('No columns to edit. Paste or upload data first.').classes('cui-workbench-note')
             return
@@ -217,11 +217,9 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
         table.element.on('cellClicked', select_cell)
         with ui.element('div').classes('cui-workbench-toolbar'):
             Button('Add row', on_click=lambda: mutate(model.add_row))
-            Button('Delete last row', disabled=not bool(model.rows), on_click=lambda: mutate(lambda: model.delete_row(len(model.rows)-1)))
+            Button('Delete selected row', disabled=not bool(model.rows), on_click=lambda: mutate(lambda: model.delete_row(min(selected['row'], len(model.rows)-1))))
             Button('Undo', disabled=not model.can_undo, on_click=lambda: mutate(model.undo))
             Button('Redo', disabled=not model.can_redo, on_click=lambda: mutate(model.redo))
-
-        paste = TextArea('Paste cells', placeholder='Fallback: paste a rectangular selection copied from Excel…', rows=3)
 
         async def apply_rectangle() -> None:
             text = str(getattr(paste.element, 'value', '') or '')
@@ -236,24 +234,26 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
             try:
                 text = await ui.run_javascript('navigator.clipboard.readText()')
             except Exception as exc:
-                clipboard_status.set_text(f'Clipboard access unavailable: {type(exc).__name__}. Use the fallback box below.')
+                clipboard_status.set_text(f'Clipboard access unavailable: {type(exc).__name__}. Open the fallback paste box below.')
                 return
             text = str(text or '')
             if not text.strip():
-                clipboard_status.set_text('Clipboard contains no tabular text. Use the fallback box if browser permission is restricted.')
+                clipboard_status.set_text('Clipboard contains no tabular text. Open the fallback paste box if browser permission is restricted.')
                 return
             model.rectangular_paste(selected['row'], selected['column'], text)
             clipboard_status.set_text(f"Pasted clipboard at row {selected['row'] + 1} · {selected['column']}")
             await changed()
 
         with ui.element('div').classes('cui-workbench-toolbar'):
-            Button('Paste clipboard at selected cell', on_click=paste_clipboard)
+            ActionButton('Paste clipboard at selected cell', on_click=paste_clipboard)
+            ui.label('Excel: select a destination cell, copy a rectangular range, then paste. Rows grow automatically; schema columns stay governed.').classes('cui-workbench-note')
+        with ui.element('details').classes('cui-data-dock-fallback'):
+            with ui.element('summary').props('tabindex="0"'):
+                ui.label('Clipboard permission fallback').classes('cui-workbench-note')
+            paste = TextArea('Paste cells', placeholder='Fallback: paste a rectangular selection copied from Excel…', rows=3)
             Button('Apply fallback paste at selected cell', on_click=apply_rectangle)
-        ui.label('Excel workflow: click the destination cell, copy a rectangular range in Excel, then use Paste clipboard. Rows grow automatically; columns stay governed by the current schema.').classes('cui-workbench-note')
 
     def render_mapping() -> None:
-        status_strip()
-        ui.label('Schema & semantic roles').classes('cui-workbench-section-title')
         for column in model.columns:
             with ui.element('article').classes('cui-data-dock-column'):
                 ui.label(column.name).classes('cui-workbench-card__title')
@@ -290,11 +290,13 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                         value = on_change(model)
                         if hasattr(value, '__await__'):
                             await value
+                    mode['value'] = 'review'
+                    render_mode_selector()
                     render_mode()
                 else:
                     for issue in result.issues:
                         ui.label(issue.message).classes('cui-workbench-note')
-        Button('Analyze pasted data', on_click=analyze)
+        ActionButton('Load pasted data', on_click=analyze)
         with result_host:
             ui.label('Format is detected immediately when you analyze the paste.').classes('cui-workbench-note')
 
@@ -312,11 +314,13 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                         value = on_change(model)
                         if hasattr(value, '__await__'):
                             await value
+                    mode['value'] = 'review'
+                    render_mode_selector()
                     render_mode()
                 else:
                     for issue in result.issues:
                         ui.label(issue.message).classes('cui-workbench-note')
-        FileUpload(label='Upload CSV or JSON', accept=('.csv','.json','.tsv'), max_file_size_mb=25, on_upload=uploaded)
+        FileUpload(label='Upload CSV, TSV, or JSON', accept=('.csv','.json','.tsv'), max_file_size_mb=25, on_upload=uploaded)
         with result_host:
             ui.label('Uploads use the canonical NiceGUI Base upload policy before parsing.').classes('cui-workbench-note')
 
@@ -324,23 +328,46 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
         content_host.clear()
         with content_host:
             value = mode['value']
-            if value == 'sample':
-                with ui.element('div').classes('cui-workbench-toolbar'):
-                    Button('Reset to sample', on_click=lambda: mutate(model.reset_sample))
-                render_edit_grid()
-            elif value == 'paste':
+            if value == 'paste':
+                ui.label('Paste from Excel, CSV text, or a JSON array. Format detection and schema inference happen when the data is loaded.').classes('cui-workbench-note')
                 render_paste()
             elif value == 'upload':
+                ui.label('Upload a development dataset; successful imports return directly to the editable review workspace.').classes('cui-workbench-note')
                 render_upload()
             else:
+                snap = model.snapshot
+                status_strip()
+                with ui.element('div').classes('cui-workbench-toolbar cui-data-dock-review-tools'):
+                    ui.label(f"Source · {snap.source_name or 'Untitled'} · {snap.source_format.value.upper()}").classes('cui-workbench-chip')
+                    Button('Reset engineering sample', on_click=lambda: mutate(model.reset_sample))
                 render_edit_grid()
-                render_mapping()
+                uncertain = sum(1 for column in model.columns if column.confidence < 0.7)
+                with ui.element('details').classes('cui-workbench-section cui-data-dock-schema'):
+                    with ui.element('summary').props('tabindex="0"'):
+                        ui.label(f'Schema & semantic roles · {len(model.columns)} fields').classes('cui-workbench-section-title')
+                        if uncertain:
+                            ui.label(f'{uncertain} need review').classes('cui-workbench-chip')
+                    ui.label('Expand only when you need to rename fields, correct inferred types, or confirm semantic roles.').classes('cui-workbench-note')
+                    render_mapping()
 
     def mode_changed(event):
-        mode['value'] = str(getattr(event, 'value', 'sample'))
+        value = str(getattr(event, 'value', 'review') or 'review')
+        if value not in {'review','paste','upload'}:
+            return
+        mode['value'] = value
         render_mode()
 
-    SegmentedControl({'sample':'Sample','paste':'Paste','upload':'Upload','edit-map':'Edit / Map'}, value='sample', on_change=mode_changed)
+    def render_mode_selector() -> None:
+        mode_host.clear()
+        with mode_host:
+            ui.label('Data workflow').classes('cui-workbench-card__meta')
+            SegmentedControl(
+                {'review':'Review & edit','paste':'Paste','upload':'Upload'},
+                value=mode['value'], on_change=mode_changed,
+            )
+            ui.label('Review the current dataset first; load new data only when you need to replace it.').classes('cui-workbench-note')
+
+    render_mode_selector()
     render_mode()
 
 
@@ -387,6 +414,61 @@ def _header_metadata(entry: WorkbenchEntry) -> None:
         _related_entry_links(entry)
 
 
+
+_SECURITY_SPECIMEN_HINTS = ('auth','access','permission','policy','security','role','trusted','csrf','identity')
+_RUNTIME_SPECIMEN_HINTS = ('cache','retry','health','runtime','async','lifecycle','provider','timeout','circuit')
+_PERFORMANCE_SPECIMEN_HINTS = ('performance','debounce','throttle','batch','memo','virtual','lazy')
+_DATA_SPECIMEN_HINTS = ('data_source','datasource','sql','sqlite','csv','query','schema','connector')
+
+
+def studio_specimen_mode(entry: WorkbenchEntry) -> str:
+    """Choose a truthful preview contract instead of forcing every capability into a visual canvas."""
+    registry = str(entry.metadata.get('registry_name') or '').casefold()
+    key = entry.key.casefold()
+    category = str(entry.category or '').casefold()
+    haystack = ' '.join((registry, key, category))
+    if entry.kind is WorkbenchKind.ANALYTIC or registry in {'visualizations','engineering','analysis'}:
+        return 'visualization'
+    if entry.kind is WorkbenchKind.PATTERN or entry.metadata.get('reference_route') or entry.metadata.get('legacy_route'):
+        return 'reference'
+    if entry.kind is WorkbenchKind.RECIPE:
+        return 'recipe'
+    if registry == 'data_sources' or any(hint in haystack for hint in _DATA_SPECIMEN_HINTS):
+        return 'data'
+    if any(hint in haystack for hint in _SECURITY_SPECIMEN_HINTS):
+        return 'security'
+    if any(hint in haystack for hint in _PERFORMANCE_SPECIMEN_HINTS):
+        return 'performance'
+    if any(hint in haystack for hint in _RUNTIME_SPECIMEN_HINTS):
+        return 'runtime'
+    return 'component'
+
+
+def _render_contract_specimen(entry: WorkbenchEntry, mode: str) -> None:
+    from nicegui import ui
+    title = {
+        'data': 'Data contract specimen',
+        'security': 'Security contract specimen',
+        'performance': 'Performance behavior specimen',
+        'runtime': 'Runtime behavior specimen',
+        'recipe': 'Composed recipe specimen',
+        'component': 'Component contract specimen',
+    }.get(mode, 'Capability contract specimen')
+    registry = str(entry.metadata.get('registry_name') or '').replace('_', ' ').strip()
+    with ui.element('section').classes('cui-studio-contract-specimen'):
+        ui.label(title).classes('cui-workbench-section-title')
+        ui.label(entry.description).classes('cui-workbench-note')
+        with ui.element('div').classes('cui-studio-contract-specimen__meta'):
+            if registry:
+                ui.label(registry.title()).classes('cui-workbench-chip')
+            if entry.category:
+                ui.label(entry.category).classes('cui-workbench-chip')
+            ui.label('Data-backed' if is_data_backed(entry) else 'No tabular data required').classes('cui-workbench-chip')
+        authority = entry.source_authority or 'Canonical NiceGUI Base authority'
+        ui.label(f'Authority · {authority}').classes('cui-workbench-note')
+        if mode in {'runtime','security','performance','data'}:
+            ui.label('Inspect Configure, States, Interactions, and Code for the governed behavior contract.').classes('cui-workbench-note')
+
 def _copy_button(label: str, text_supplier: Callable[[], str]):
     from nicegui import ui
     from nicegui_base.integrations.nicegui_components import Button
@@ -416,7 +498,7 @@ def render_capability_studio(
     from .project_state import render_entry_project_actions
     render_entry_project_actions(entry)
 
-    preview_host = ui.element('div').classes('cui-studio-preview-frame').props(f'data-theme="{session.config.theme}" data-density="{session.config.density}"')
+    preview_host = ui.element('div').classes('cui-studio-preview-frame').props(f'data-theme="{session.config.theme}" data-density="{session.config.density}" data-specimen="{studio_specimen_mode(entry)}"')
     preview_host.style(f'max-width:{RESPONSIVE_WIDTHS[session.config.responsive_width]}px')
 
     def default_preview() -> None:
@@ -434,7 +516,7 @@ def render_capability_studio(
             if reference:
                 ui.html(f'<iframe class="cui-studio-iframe" title={json.dumps(entry.title)} src={json.dumps(str(reference))}></iframe>', sanitize=False)
             else:
-                ui.label(entry.description).classes('cui-workbench-preview-empty')
+                _render_contract_specimen(entry, studio_specimen_mode(entry))
 
     def render_preview() -> None:
         preview_host.clear()

@@ -242,19 +242,19 @@ def _stateful_table_spec(spec: DataTableSpec, state: TableState) -> DataTableSpe
 def _rule_expression(rule: ConditionalRule) -> str:
     v = _js_literal(rule.value); v2 = _js_literal(rule.value2)
     op = rule.operator
-    if op is FilterOperator.IS_EMPTY: return "params.value == null || params.value === ''"
-    if op is FilterOperator.IS_NOT_EMPTY: return "params.value != null && params.value !== ''"
-    if op is FilterOperator.EQUALS: return f'params.value === {v}'
-    if op is FilterOperator.NOT_EQUALS: return f'params.value !== {v}'
-    if op is FilterOperator.GT: return f'params.value > {v}'
-    if op is FilterOperator.GTE: return f'params.value >= {v}'
-    if op is FilterOperator.LT: return f'params.value < {v}'
-    if op is FilterOperator.LTE: return f'params.value <= {v}'
-    if op is FilterOperator.BETWEEN: return f'params.value >= {v} && params.value <= {v2}'
-    if op is FilterOperator.CONTAINS: return f"String(params.value ?? '').toLowerCase().includes(String({v}).toLowerCase())"
-    if op is FilterOperator.STARTS_WITH: return f"String(params.value ?? '').toLowerCase().startsWith(String({v}).toLowerCase())"
-    if op is FilterOperator.ENDS_WITH: return f"String(params.value ?? '').toLowerCase().endsWith(String({v}).toLowerCase())"
-    if op is FilterOperator.IN: return f'{v}.includes(params.value)'
+    if op is FilterOperator.IS_EMPTY: return "x == null || x === ''"
+    if op is FilterOperator.IS_NOT_EMPTY: return "x != null && x !== ''"
+    if op is FilterOperator.EQUALS: return f'x === {v}'
+    if op is FilterOperator.NOT_EQUALS: return f'x !== {v}'
+    if op is FilterOperator.GT: return f'x > {v}'
+    if op is FilterOperator.GTE: return f'x >= {v}'
+    if op is FilterOperator.LT: return f'x < {v}'
+    if op is FilterOperator.LTE: return f'x <= {v}'
+    if op is FilterOperator.BETWEEN: return f'x >= {v} && x <= {v2}'
+    if op is FilterOperator.CONTAINS: return f"String(x ?? '').toLowerCase().includes(String({v}).toLowerCase())"
+    if op is FilterOperator.STARTS_WITH: return f"String(x ?? '').toLowerCase().startsWith(String({v}).toLowerCase())"
+    if op is FilterOperator.ENDS_WITH: return f"String(x ?? '').toLowerCase().endsWith(String({v}).toLowerCase())"
+    if op is FilterOperator.IN: return f'{v}.includes(x)'
     return 'false'
 
 
@@ -338,7 +338,7 @@ def _column_def(c: TableColumn) -> dict[str, Any]:
     if c.pinned is not PinPosition.NONE: d['pinned'] = c.pinned.value
     class_rules = ConditionalCellFormatter.class_rules(c.rules) if c.rules else {}
     if c.editable:
-        class_rules['cui-table-cell--pending'] = "Array.isArray(params.data?.__cui_pending_fields) && params.data.__cui_pending_fields.includes(params.colDef.field)"
+        class_rules['cui-table-cell--pending'] = "Array.isArray(data?.__cui_pending_fields) && data.__cui_pending_fields.includes(colDef.field)"
     if class_rules: d['cellClassRules'] = class_rules
     if c.kind is ColumnKind.BOOLEAN:
         # Text-equivalent values do not justify a DOM cell renderer; keep the virtualized cell cheap.

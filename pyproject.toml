@@ -88,7 +88,11 @@ testpaths = ["tests"]
 addopts = "-q"
 pythonpath = ["."]
 
+[tool.setuptools]
+package-dir = {"" = "source"}
+
 [tool.setuptools.packages.find]
+where = ["source"]
 include = ["nicegui_base*", "company_ui"]
 
 [tool.setuptools.package-data]
