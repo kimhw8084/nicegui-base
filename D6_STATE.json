@@ -1,6 +1,6 @@
 {
   "phase": "D6H.3",
-  "status": "PENDING_HUMAN_VISUAL_REVIEW",
+  "status": "GOLDEN",
   "behavior_changed": true,
   "baseline": {
     "immutable_candidate": "NGB-20260906-D6H.2",
@@ -82,11 +82,20 @@
     "contact_sheet": "/private/tmp/ngb_d6h3_browser_final/contact_sheet.png",
     "section_contact_sheets": "/private/tmp/ngb_d6h3_browser_final/contact_sheets",
     "evidence_zip": "/private/tmp/ngb_d6h3_evidence_final.zip",
-    "status": "PENDING_HUMAN_VISUAL_REVIEW",
-    "separate_human_reviewer_required": true
+    "status": "GOLDEN",
+    "separate_human_reviewer_required": false
   },
   "next_phase_facts": [
-    "Review the supplied D6H.3 section contact sheets and full screenshots independently before Golden promotion.",
-    "Do not mutate this candidate; any further source change requires a new candidate identity."
-  ]
+    "NGB-20260906-D6H.3 passed independent human visual review and is Golden.",
+    "Do not mutate the D6H.3 Golden RC artifact.",
+    "Future product work starts from D6H.3 and requires a new candidate identity."
+  ],
+  "human_visual_review": {
+    "status": "PASS",
+    "candidate_id": "NGB-20260906-D6H.3",
+    "decision": "GOLDEN",
+    "rc_sha256": "db08ce395ca5dbfbc404087146e0cfea1112fac490f26723fe631130ea6e1131",
+    "evidence_sha256": "d69d33f541a8123f2fc3eed8cbea194e8347447ecdc03569d9c0b26e75f2f466",
+    "visual_evidence_sha256": "fc9f60d449856153a31366fe84347e013c1c692a6cbc1b8cfbadf4027028af9f"
+  }
 }
