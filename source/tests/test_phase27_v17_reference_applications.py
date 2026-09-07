@@ -90,5 +90,5 @@ def test_phase27_reference_app_browser_contract_covers_all_ten_routes_and_tablet
 
 def test_phase27_visual_coverage_remains_complete():
     summary=coverage_summary()
-    assert summary['covered_visual_components']==summary['required_visual_components']==183
+    assert summary['covered_visual_components']==summary['required_visual_components']==185
     assert summary['uncovered']==[]

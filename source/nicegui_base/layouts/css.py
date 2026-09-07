@@ -38,7 +38,7 @@ def build_layout_css() -> str:
 .cui-nav-section-label {{ padding: var(--cui-space-4) var(--cui-space-3) var(--cui-space-2); color: var(--cui-text-tertiary); font-size: var(--cui-type-caption-size); line-height: var(--cui-type-caption-line); font-weight: var(--cui-font-weight-600); text-transform: uppercase; letter-spacing: .08em; }}
 .cui-nav-item {{ min-height: 36px; margin: 2px var(--cui-space-2); border-radius: var(--cui-radius-sm); color: var(--cui-text-secondary); transition: background var(--cui-motion-fast) var(--cui-ease-standard), color var(--cui-motion-fast) var(--cui-ease-standard); }}
 .cui-nav-item:hover {{ background: var(--cui-surface-hover); color: var(--cui-text-primary); }}
-.cui-nav-item--active {{ background: var(--cui-accent-soft); color: var(--cui-accent); font-weight: var(--cui-font-weight-600); }}
+.cui-nav-item--active {{ background: var(--cui-accent-soft); color: var(--cui-accent-hover); font-weight: var(--cui-font-weight-600); }}
 .cui-nav-expansion {{ margin: 2px var(--cui-space-2); border-radius: var(--cui-radius-sm); color: var(--cui-text-secondary); }}
 .cui-page-title {{ font-size: var(--cui-type-page_title-size); line-height: var(--cui-type-page_title-line); font-weight: var(--cui-type-page_title-weight); letter-spacing: var(--cui-type-page_title-tracking); color: var(--cui-text-primary); }}
 .cui-page-description {{ max-width: 760px; font-size: var(--cui-type-body-size); line-height: var(--cui-type-body-line); color: var(--cui-text-secondary); }}
@@ -84,7 +84,8 @@ def build_layout_css() -> str:
 .cui-pattern-slot {{ width: 100%; min-width: 0; }}
 .cui-page-navigation {{ width: 100%; }}
 .cui-segmented-control {{ border-radius: var(--cui-radius-sm); }}
-.cui-user-menu-trigger {{ color: var(--cui-text-secondary); }}
+/* WAVE35_CONTRAST_AUTHORITY_V19: profile trigger owns a contrast-stable neutral surface. */
+.cui-user-menu-trigger {{ background: var(--cui-surface-secondary); color: var(--cui-text-primary); border: 1px solid var(--cui-border-default); }}
 
 .cui-app-info-dialog {{ min-width:min(420px,calc(100vw - 32px)); }}
 .cui-pattern {{
@@ -121,7 +122,9 @@ def build_layout_css() -> str:
 .cui-pattern--monitoring .cui-pattern-slot--secondary {{ grid-column:9 / -1; }}
 .cui-pattern--monitoring .cui-pattern-slot--details {{ grid-column:1 / -1; }}
 
-.cui-pattern--data_explorer .cui-pattern-slot--filters,.cui-pattern--data_explorer .cui-pattern-slot--metrics,.cui-pattern--data_explorer .cui-pattern-slot--data,.cui-pattern--data_explorer .cui-pattern-slot--details,.cui-pattern--data_explorer .cui-pattern-slot--actions {{ grid-column:1 / -1; }}
+.cui-pattern--data_explorer .cui-pattern-slot--filters,.cui-pattern--data_explorer .cui-pattern-slot--metrics,.cui-pattern--data_explorer .cui-pattern-slot--actions {{ grid-column:1 / -1; }}
+.cui-pattern--data_explorer .cui-pattern-slot--data {{ grid-column:1 / 9; }}
+.cui-pattern--data_explorer .cui-pattern-slot--details {{ grid-column:9 / -1; }}
 .cui-pattern--data_explorer .cui-pattern-slot--primary {{ grid-column:1 / 9; }}
 .cui-pattern--data_explorer .cui-pattern-slot--secondary {{ grid-column:9 / -1; }}
 
@@ -146,7 +149,9 @@ def build_layout_css() -> str:
 
 .cui-pattern--analysis_workspace .cui-pattern-slot--filters,.cui-pattern--analysis_workspace .cui-pattern-slot--data,.cui-pattern--analysis_workspace .cui-pattern-slot--actions {{ grid-column:1 / -1; }}
 .cui-pattern--analysis_workspace .cui-pattern-slot--primary,.cui-pattern--analysis_workspace .cui-pattern-slot--secondary {{ grid-column:1 / 9; }}
-.cui-pattern--analysis_workspace .cui-pattern-slot--details {{ grid-column:9 / -1; grid-row:2 / span 2; }}
+.cui-pattern--analysis_workspace .cui-pattern-slot--primary {{ grid-row:3; }}
+.cui-pattern--analysis_workspace .cui-pattern-slot--data {{ grid-column:1 / 9; grid-row:4; }}
+.cui-pattern--analysis_workspace .cui-pattern-slot--details {{ grid-column:9 / -1; grid-row:3 / span 2; }}
 
 @media (max-width: {laptop - 1}px) {{
   .cui-pattern-slot--metrics:has(> .cui-metric-card) {{ grid-template-columns:repeat(2,minmax(0,1fr)); }}

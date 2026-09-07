@@ -84,6 +84,82 @@ def score_entry(entry: WorkbenchEntry, query: str) -> SearchResult | None:
     return SearchResult(entry, score, tuple(matched))
 
 
-def search_entries(entries: Iterable[WorkbenchEntry], query: str, *, limit: int = 30) -> tuple[SearchResult, ...]:
-    scored = (result for entry in entries if (result := score_entry(entry, query)) is not None)
-    return tuple(sorted(scored, key=lambda item: (-item.score, item.entry.kind.value, item.entry.title.casefold(), item.entry.key))[:limit])
+def _matches_filter(values: tuple[str, ...], requested: str | None) -> bool:
+    if not requested or requested == 'all':
+        return True
+    requested_terms = set(tokens(requested))
+    value_terms = set(tokens(' '.join(values)))
+    return requested_terms <= value_terms
+
+
+def _matches_reference_filters(
+    entry: WorkbenchEntry,
+    *,
+    intent: str | None,
+    data_shape: str | None,
+    domain: str | None,
+    related_to: str | None,
+) -> bool:
+    contract = entry.reference_contract
+    if not _matches_filter((*contract.best_for, *entry.aliases, *entry.tags), intent):
+        return False
+    if not _matches_filter(contract.data_contract, data_shape):
+        return False
+    if not _matches_filter(contract.domain_tags, domain):
+        return False
+    if related_to and related_to != 'all':
+        related = (*contract.alternatives, *contract.complements, *entry.related_keys)
+        requested = normalize(related_to)
+        if requested != normalize(entry.key) and not any(requested == normalize(value) for value in related):
+            return False
+    return True
+
+
+def _filter_score(entry: WorkbenchEntry, requested: str) -> int:
+    """Rank filter-only results by contract evidence, without title exact-match bias."""
+    terms = tokens(requested)
+    contract = entry.reference_contract
+    searchable = normalize(' '.join((*contract.best_for, *contract.domain_tags, *contract.data_contract, *entry.tags, *entry.aliases)))
+    score = 2 * _KIND_BONUS.get(entry.kind, 0)
+    score += sum(18 for term in terms if term in searchable.split())
+    return score
+
+
+def search_entries(
+    entries: Iterable[WorkbenchEntry],
+    query: str,
+    *,
+    limit: int = 30,
+    intent: str | None = None,
+    data_shape: str | None = None,
+    domain: str | None = None,
+    related_to: str | None = None,
+) -> tuple[SearchResult, ...]:
+    """Search one catalog projection with deterministic contract-aware filters.
+
+    An empty query is useful for filter-only Reference Explorer views; it remains
+    empty when no filter is supplied so the legacy search contract is unchanged.
+    """
+    has_filter = any(value and value != 'all' for value in (intent, data_shape, domain, related_to))
+    source = tuple(entry for entry in entries if _matches_reference_filters(
+        entry, intent=intent, data_shape=data_shape, domain=domain, related_to=related_to,
+    ))
+    if not tokens(query) and not has_filter:
+        return ()
+    if not tokens(query):
+        filter_query = ' '.join(value for value in (intent, data_shape, domain) if value and value != 'all')
+        filtered = tuple(
+            SearchResult(entry, _filter_score(entry, filter_query), ())
+            for entry in source
+        )
+        return tuple(
+            result for result in sorted(
+                filtered,
+                key=lambda item: (-item.score, item.entry.kind.value, item.entry.title.casefold(), item.entry.key),
+            )[:max(0, limit)]
+        )
+    scored = (
+        result for entry in source
+        if (result := score_entry(entry, query)) is not None
+    )
+    return tuple(sorted(scored, key=lambda item: (-item.score, item.entry.kind.value, item.entry.title.casefold(), item.entry.key))[:max(0, limit)])

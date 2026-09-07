@@ -97,8 +97,71 @@ def recipe_entries() -> tuple[WorkbenchEntry, ...]:
     return entries_for(WorkbenchKind.RECIPE)
 
 
-def search(query: str, *, limit: int = 30):
-    return search_entries(all_entries(), query, limit=limit)
+def search(
+    query: str = '',
+    *,
+    limit: int = 30,
+    intent: str | None = None,
+    data_shape: str | None = None,
+    domain: str | None = None,
+    related_to: str | None = None,
+):
+    return search_entries(
+        all_entries(), query, limit=limit, intent=intent, data_shape=data_shape,
+        domain=domain, related_to=related_to,
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class CatalogContractAudit:
+    total: int
+    conforming: int
+    issues: tuple[str, ...]
+
+    @property
+    def complete(self) -> bool:
+        return self.total > 0 and self.total == self.conforming and not self.issues
+
+
+def catalog_contract_audit(entries: tuple[WorkbenchEntry, ...] | None = None) -> CatalogContractAudit:
+    """Validate the typed Reference Explorer contract for the complete catalog projection."""
+    source = all_entries() if entries is None else tuple(entries)
+    issues: list[str] = []
+    for entry in source:
+        for issue in entry.reference_contract.validate():
+            issues.append(f'{entry.key}: {issue}')
+    keys = [entry.key for entry in source]
+    issues.extend(f'duplicate key: {key}' for key in sorted({key for key in keys if keys.count(key) > 1}))
+    conforming = sum(1 for entry in source if not entry.reference_contract.validate())
+    return CatalogContractAudit(len(source), conforming, tuple(issues))
+
+
+CATALOG_INTENT_FILTERS = (
+    ('monitoring', 'Monitoring and health'),
+    ('search', 'Search and refine'),
+    ('filter', 'Filtering and cross-filtering'),
+    ('compare', 'Compare populations or entities'),
+    ('investigation', 'Investigation and root cause'),
+    ('distribution', 'Distribution analysis'),
+    ('settings', 'Settings and configuration'),
+    ('workflow', 'Guided workflow'),
+    ('table', 'Tabular records'),
+    ('visualization', 'Charts and visualizations'),
+    ('export', 'Export and generated code'),
+)
+
+
+def catalog_filter_options(entries: tuple[WorkbenchEntry, ...] | None = None) -> dict[str, tuple[str, ...]]:
+    """Return bounded, deterministic values suitable for Reference Explorer controls."""
+    source = all_entries() if entries is None else tuple(entries)
+    domains = sorted({tag for entry in source for tag in entry.reference_contract.domain_tags if tag})
+    related = sorted({key for entry in source for key in (*entry.related_keys, *entry.reference_contract.alternatives) if key in {item.key for item in source}})
+    return {
+        'intents': tuple(key for key, _label in CATALOG_INTENT_FILTERS),
+        'data_shapes': ('rows', 'typed', 'numeric'),
+        'domains': tuple(domains),
+        'related': tuple(related),
+    }
 
 
 def coverage() -> WorkbenchCoverage:

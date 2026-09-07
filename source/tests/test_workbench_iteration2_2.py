@@ -21,7 +21,7 @@ def test_project_state_normalizes_and_deduplicates() -> None:
     assert state['project']['revision'] == 0
     assert state['project']['theme'] == 'system'
     assert state['project']['density'] == 'compact'
-    assert empty_state()['version'] == 1
+    assert empty_state()['version'] == 6
 
 
 def test_builder_uses_canonical_pattern_slots() -> None:
@@ -29,7 +29,7 @@ def test_builder_uses_canonical_pattern_slots() -> None:
     recs = model.pattern_recommendations()
     assert len(recs) == 10
     model.select_pattern('monitoring')
-    assert model.stage is BuilderStage.COMPOSE
+    assert model.stage is BuilderStage.DATA
     assert 'metrics' in model.required_slots()
     assert 'primary' in model.required_slots()
     assert 'data' in model.allowed_slots()
@@ -161,6 +161,7 @@ def test_iteration_2_2_routes_and_studio_actions_are_wired() -> None:
     app_source = (root / 'nicegui_base' / 'workbench' / 'app.py').read_text(encoding='utf-8')
     studio_source = (root / 'nicegui_base' / 'workbench' / 'capability_studio.py').read_text(encoding='utf-8')
     assert "ui.page('/layouts')(layout_studio_page)" in app_source
-    assert "NavItem('workbench_layouts', 'Layouts', '/layouts'" in app_source
-    assert "queue_entry(key)" in app_source
-    assert 'render_entry_project_actions(entry)' in studio_source
+    assert "NavItem('reference_layouts', 'Layouts', '/layouts'" in app_source
+    assert "NavItem('reference_components', 'Components', '/components'" in app_source
+    assert "queue_entry(key)" not in app_source
+    assert 'reference_only: bool = True' in studio_source

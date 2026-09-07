@@ -1,7 +1,11 @@
 from __future__ import annotations
 
 from .system import DesignSystem, build_design_system
-from .tokens import BREAKPOINTS, EASINGS, FONT_SIZES, FONT_WEIGHTS, LAYOUT_METRICS, LINE_HEIGHTS, LINE_HEIGHT_RATIOS, MOTION_DURATIONS_MS, RELATIVE_FONT_SIZES, RESPONSIVE_LAYOUT_METRICS, ThemePalette
+from .tokens import (
+    BREAKPOINTS, EASINGS, FONT_SIZES, FONT_WEIGHTS, LAYOUT_METRICS,
+    LINE_HEIGHTS, LINE_HEIGHT_RATIOS, MOTION_DURATIONS_MS, RELATIVE_FONT_SIZES,
+    RESPONSIVE_LAYOUT_METRICS, ThemePalette,
+)
 
 
 def _palette_vars(prefix: str, p: ThemePalette) -> str:
@@ -64,6 +68,23 @@ def build_css(system: DesignSystem | None = None) -> str:
             f"  --cui-type-{name}-tracking: {spec['tracking']}em;",
         ])
     layout_metrics = "\n".join(f"  --cui-{key.replace('_','-')}: {value}px;" for key, value in LAYOUT_METRICS.items())
+    breakpoints = "\n".join(f"  --cui-breakpoint-{key.replace('_','-')}: {value}px;" for key, value in s.breakpoints.items())
+    semantic_gaps = "\n".join(f"  --cui-gap-{key.replace('_','-')}: {value}px;" for key, value in s.semantic_gaps.items())
+    border_widths = "\n".join(f"  --cui-border-width-{key.replace('_','-')}: {value}px;" for key, value in s.border_widths.items())
+    elevation = "\n".join(
+        f"  --cui-elevation-{name.replace('_','-')}: "
+        + ("none" if value == "none" else f"var(--cui-{value.replace('_','-')})")
+        + ";"
+        for name, value in s.elevation.items()
+    )
+    z_index = "\n".join(
+        f"  --cui-{key.replace('_','-')}{'' if key == 'layer_sticky' else '-z'}: {value};"
+        for key, value in s.z_index.items()
+    )
+    interactive_states = "\n".join(
+        f"  --cui-state-{key.replace('_','-')}: {value}{'px' if key in {'focus_width', 'focus_offset'} else ''};"
+        for key, value in s.interactive_states.items()
+    )
     responsive_layout = []
     for breakpoint_name, values in RESPONSIVE_LAYOUT_METRICS.items():
         max_width = BREAKPOINTS[breakpoint_name] - 1
@@ -90,6 +111,12 @@ def build_css(system: DesignSystem | None = None) -> str:
 {radii}
   --cui-radius-circle: 50%;
 {layout_metrics}
+{breakpoints}
+{semantic_gaps}
+{border_widths}
+{elevation}
+{z_index}
+{interactive_states}
 {motion}
 {governed_type_scale}
 {chr(10).join(type_vars)}
@@ -135,7 +162,7 @@ html, body {{
 }}
 
 .cui-tabular {{ font-variant-numeric: tabular-nums; }}
-.cui-focusable:focus-visible {{ outline: 3px solid color-mix(in srgb, var(--cui-focus-ring) 58%, transparent); outline-offset: 2px; }}
+.cui-focusable:focus-visible {{ outline: var(--cui-state-focus-width) solid color-mix(in srgb, var(--cui-focus-ring) 58%, transparent); outline-offset: var(--cui-state-focus-offset); }}
 
 @media (prefers-reduced-motion: reduce) {{
   *, *::before, *::after {{

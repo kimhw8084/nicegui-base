@@ -113,9 +113,12 @@ def test_v2_modal_surfaces_have_programmatic_names_and_descriptions():
 def test_v2_global_layering_is_token_governed():
     report = run_governance(ROOT)
     assert not [item for item in report.findings if item.rule == 'geometry.layer-token']
+    from nicegui_base.design.css import build_css
+    authority = build_css().replace(' ', '')
     css = (ROOT / 'nicegui_base/design/hardening_css.py').read_text(encoding='utf-8').replace(' ', '')
     for token in ('--cui-layer-sticky:100', '--cui-app-header-z:600', '--cui-modal-z:3100', '--cui-toast-z:4000', '--cui-skip-link-z:4100'):
-        assert css.count(token) == 1
+        assert token in authority
+    assert all(f'z-index:var({token})' in css for token in ('--cui-layer-sticky', '--cui-app-header-z', '--cui-modal-z', '--cui-toast-z'))
 
 
 def test_v2_platform_bundles_preserve_established_macos_linux_gate_separation():

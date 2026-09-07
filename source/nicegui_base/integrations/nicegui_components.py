@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import json
 from contextlib import AbstractContextManager
 from itertools import count
 from typing import Any, Callable, Iterable, Sequence
@@ -38,6 +39,9 @@ def _props_for_disabled(disabled: bool, readonly: bool = False) -> str:
     return ' '.join(parts)
 
 
+# WAVE35_CONTRAST_AUTHORITY_V17: company-owned buttons delegate color to semantic CSS, not Quasar primary.
+# WAVE35_CONTRAST_AUTHORITY_V19: V17 partial-apply compatible; semantic button color authority retained.
+# WAVE35_CONTRAST_AUTHORITY_V18: V17 partial-apply compatible; semantic button color authority retained.
 class Button:
     def __init__(self, label: str, *, intent: ButtonIntent = ButtonIntent.SECONDARY,
                  size: ComponentSize = ComponentSize.MEDIUM, icon: str | None = None,
@@ -46,12 +50,13 @@ class Button:
         self.spec = ButtonSpec(label, intent=intent, size=size, icon=icon, disabled=disabled, full_width=full_width)
         ui = _ui()
         if icon:
-            self.element = ui.button(on_click=on_click).props('no-caps unelevated').classes(self.spec.classes)
+            self.element = ui.button(on_click=on_click, color=None).props('no-caps unelevated').classes(self.spec.classes)
             with self.element:
                 ui.html(render_icon_svg(icon, size='sm'), sanitize=False).classes('cui-svg-icon-host')
                 ui.label(label)
         else:
-            self.element = ui.button(label, on_click=on_click).props('no-caps unelevated').classes(self.spec.classes)
+            self.element = ui.button(label, on_click=on_click, color=None).props('no-caps unelevated').classes(self.spec.classes)
+        self.element.props(f'aria-label={json.dumps(label)}')
         if disabled:
             self.element.disable()
 
@@ -67,13 +72,14 @@ class ActionButton(Button):
                                              success_message=success_message, error_message=error_message)
         self.spec = self.action_spec
         ui = _ui()
-        self.element = ui.button(on_click=on_click).props('no-caps unelevated').classes(self.spec.classes)
+        self.element = ui.button(on_click=on_click, color=None).props('no-caps unelevated').classes(self.spec.classes)
         with self.element:
             if loading:
                 ui.element('span').classes('cui-button__spinner').props('aria-hidden="true"')
             elif icon:
                 ui.html(render_icon_svg(icon, size='sm'), sanitize=False).classes('cui-svg-icon-host')
             ui.label(label).classes('cui-button__label')
+        self.element.props(f'aria-label={json.dumps(label)}')
         if disabled or loading:
             self.element.disable()
 
@@ -84,7 +90,7 @@ class IconButton:
                  selected: bool = False, on_click: Callable[..., Any] | None = None) -> None:
         self.spec = IconButtonSpec(icon, label, intent=intent, size=size, disabled=disabled, selected=selected)
         ui = _ui()
-        self.element = ui.button(on_click=on_click).props(f'flat round aria-label="{label}"').classes(self.spec.classes)
+        self.element = ui.button(on_click=on_click, color=None).props(f'flat round aria-label="{label}"').classes(self.spec.classes)
         with self.element:
             ui.html(render_icon_svg(icon, size='sm', label=label), sanitize=False).classes('cui-svg-icon-host')
         from nicegui_base.integrations.nicegui_interactions import Tooltip
@@ -538,7 +544,7 @@ class FileUpload:
     def __init__(self, *, label: str = 'Upload files', accept: Sequence[str] = (), multiple: bool = False,
                  max_file_size_mb: int = 25, max_files: int = 1, disabled: bool = False,
                  upload_policy: UploadPolicy | None = None,
-                 on_upload: Callable[..., Any] | None = None):
+                 on_upload: Callable[..., Any] | None = None, auto_upload: bool = False):
         self.spec = FileUploadSpec(label=label, accept=accept, multiple=multiple, max_file_size_mb=max_file_size_mb,
                                    max_files=max_files, disabled=disabled)
         self.upload_policy = upload_policy or UploadPolicy(max_bytes=max_file_size_mb * 1024 * 1024)
@@ -546,7 +552,11 @@ class FileUpload:
             raise ValueError('upload_policy.max_bytes cannot exceed max_file_size_mb')
         self._on_upload = on_upload
         self._closed = False
-        ui = _ui(); self.container = ui.element('section').classes('cui-upload-shell').props('tabindex="0"')
+        ui = _ui(); # WAVE35_FILE_UPLOAD_A11Y_V16
+        shell_label = f'{label} upload area'
+        self.container = ui.element('section').classes('cui-upload-shell').props(
+            f'role="group" tabindex="0" aria-label={json.dumps(shell_label)}'
+        )
         with self.container:
             with ui.element('div').classes('cui-upload-shell__copy'):
                 ui.label(label).classes('cui-field-label')
@@ -556,7 +566,10 @@ class FileUpload:
             if accept: props.append(f'accept={",".join(accept)}')
             props.append(f'aria-label="{label}"')
             self.element = ui.upload(on_upload=self._handle_upload, max_file_size=self.upload_policy.max_bytes,
-                                     max_files=max_files).props(' '.join(props)).classes('cui-upload')
+                                     max_files=max_files, auto_upload=auto_upload,
+                                     on_rejected=lambda: self._upload_status.set_text('File rejected: check its type and size.')).props(' '.join(props)).classes('cui-upload')
+            self._upload_status = ui.label('').classes('cui-field-description').props('role="status" aria-live="polite" data-upload-status')
+            self._install_accessibility_bridge(ui, label)
         if disabled:
             self.element.disable(); self.container.props('aria-disabled="true"')
         else:
@@ -594,12 +607,39 @@ class FileUpload:
         return bytes(value or b'')
 
     async def _handle_upload(self, event: Any) -> Any:
-        name, size, media_type, content = self._metadata(event)
-        head = await self._head(content)
-        self.upload_policy.validate_content(name, size, media_type, head)
-        if self._on_upload is None: return None
-        result=self._on_upload(event)
+        if self._closed:
+            return None
+        from .upload_io import upload_parts, read_upload_bytes
+        name, media_type, content = upload_parts(event)
+        try:
+            data = await read_upload_bytes(content, max_bytes=self.upload_policy.max_bytes)
+            self.upload_policy.validate_content(name, len(data), media_type, data[:65536])
+        except ValueError as exc:
+            self._upload_status.set_text(f'Upload rejected: {exc}')
+            return None
+        if self._closed:
+            return None
+        self._upload_status.set_text(f'Received {name} ({len(data):,} bytes).')
+        if self._on_upload is None:
+            return None
+        # Forward the original event, preserving NiceGUI's public file API.
+        result = self._on_upload(event)
         return await result if inspect.isawaitable(result) else result
+
+    def _install_accessibility_bridge(self, ui: Any, label: str) -> None:
+        # Name Quasar's generated browse control without depending on its tag name.
+        raw_id = getattr(self.element, 'id', None)
+        eid = raw_id if isinstance(raw_id, int) else None
+        if eid is None:
+            return
+        browse_label = json.dumps(f'{label} browse files')
+        ui.run_javascript(f'''(() => {{
+          const uploader=getHtmlElement({eid}); if(!uploader) return;
+          const input=uploader.querySelector('input[type="file"]'); if(!input) return;
+          const browse=input.closest('[role="button"]'); if(!browse) return;
+          browse.setAttribute('aria-label', {browse_label});
+          browse.setAttribute('title', {browse_label});
+        }})()''')
 
     def _install_paste_bridge(self, ui: Any) -> None:
         raw_id = getattr(self.element, 'id', None)
@@ -649,7 +689,7 @@ class SplitButton:
             with menu_trigger.element:
                 with ui.menu().classes('cui-menu cui-overlay-surface cui-overlay-surface--popover'):
                     for option_label, callback in options.items():
-                        ui.button(option_label, on_click=callback).props('flat dense no-caps').classes('cui-menu-item')
+                        ui.button(option_label, on_click=callback, color=None).props('flat dense no-caps').classes('cui-menu-item')
 
 
 class Divider:
@@ -694,7 +734,7 @@ class Chip:
                  on_click: Callable[..., Any] | None = None):
         from nicegui_base.components import ChipSpec
         self.spec = ChipSpec(label, selected=selected, removable=removable, icon=icon)
-        ui = _ui(); self.element = ui.button(on_click=on_click).props('flat no-caps dense').classes(self.spec.classes)
+        ui = _ui(); self.element = ui.button(on_click=on_click, color=None).props('flat no-caps dense').classes(self.spec.classes)
         with self.element:
             if icon: ui.html(render_icon_svg(icon, size='xs'), sanitize=False).classes('cui-svg-icon-host')
             ui.label(label)

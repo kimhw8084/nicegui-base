@@ -1,15 +1,18 @@
 from __future__ import annotations
 
 import json
+import os
+import secrets
+from .update_identity import BUILD_ID
 import math
 from typing import Any, Callable
 
-from .catalog import EXPECTED_FRAMEWORK_CATALOG_RECORDS, REQUIRED_CATALOG_FAMILIES, all_entries, analytics_entries, catalog_family, catalog_family_coverage, coverage, framework_catalog_audit, recipe_entries, search
+from .catalog import CATALOG_INTENT_FILTERS, EXPECTED_FRAMEWORK_CATALOG_RECORDS, REQUIRED_CATALOG_FAMILIES, all_entries, analytics_entries, catalog_contract_audit, catalog_family, catalog_family_coverage, catalog_filter_options, coverage, framework_catalog_audit, recipe_entries, search
 from .models import WorkbenchEntry, WorkbenchKind
 from .workbench_css import install_workbench_css
 
-WORKBENCH_TITLE = 'NiceGUI Base Workbench'
-WORKBENCH_SUBTITLE = 'Find the right standard, understand it, and open a governed live example.'
+WORKBENCH_TITLE = 'NiceGUI Base Reference Explorer'
+WORKBENCH_SUBTITLE = 'Reference Explorer for the department standard: find the right authority, understand it, and open a governed live example.'
 
 
 def _imports():
@@ -82,7 +85,12 @@ def _display_control_bar() -> Any:
         if value in {'light', 'dark'}:
             apply_all_chart_themes(value)
 
-    sync_theme(theme)
+    # WAVE35_THEME_RECONCILIATION_V8
+    # Explicit server light/dark is authoritative. If server storage is still
+    # neutral 'system', preserve the browser-restored appearance until the
+    # connected client can reconcile that display-only preference.
+    if theme in {'light', 'dark'}:
+        sync_theme(theme)
     ui.run_javascript(
         f"document.documentElement.dataset.density={density!r}; "
         f"document.documentElement.dataset.motion={motion!r}; "
@@ -120,29 +128,72 @@ def _display_control_bar() -> Any:
     with trigger:
         with ui.menu().props('anchor="bottom left" self="top left"'):
             with ui.element('div').classes('cui-workbench-display-controls').props(
-                'role="group" aria-label="Workbench display preferences"'
+                'role="group" aria-label="Reference Explorer display preferences"'
             ):
                 ui.label('Theme').classes('cui-workbench-display-controls__label')
-                SegmentedControl({'system': 'System', 'light': 'Light', 'dark': 'Dark'}, value=theme, on_change=theme_changed)
+                theme_control = SegmentedControl({'system': 'System', 'light': 'Light', 'dark': 'Dark'}, value=theme, on_change=theme_changed)
                 ui.label('Density').classes('cui-workbench-display-controls__label')
                 SegmentedControl({'comfortable': 'Comfort', 'compact': 'Compact', 'dense': 'Dense'}, value=density, on_change=density_changed)
                 ui.label('Motion').classes('cui-workbench-display-controls__label')
                 SegmentedControl({'normal': 'Normal', 'reduced': 'Reduced'}, value=motion, on_change=motion_changed)
+
+    async def reconcile_initial_theme() -> None:
+        # localStorage is consulted only for non-sensitive appearance. Authentication,
+        # permissions, provider configuration, and application data remain server-owned.
+        if theme != 'system':
+            return
+        try:
+            await ui.context.client.connected()
+            browser_theme = await ui.run_javascript(
+                "(() => { try { return localStorage.getItem('nicegui_base_theme') || localStorage.getItem('cui_lab_theme') || 'system'; } catch (_) { return 'system'; } })()"
+            )
+        except Exception:
+            return
+        browser_theme = str(browser_theme or 'system')
+        if browser_theme not in {'light', 'dark'}:
+            return
+        await theme_control.set_value(browser_theme, emit=True)
+
+    if theme == 'system':
+        ui.timer(0.0, reconcile_initial_theme, once=True)
+
+    # WAVE35_DISPLAY_PREFERENCES_REACHABILITY_V13
+    # Keep browser/server display-preference reconciliation reachable.
     return trigger
+
 
 def workbench_navigation():
     _, _, _, NavigationModel, NavItem, NavSection, Icons = _imports()
     return NavigationModel((
-        NavSection('workbench', 'WORKBENCH', (
-            NavItem('workbench_home', 'Home', '/', Icons.HOME),
-            NavItem('workbench_build', 'Build', '/build', Icons.FORWARD),
-            NavItem('workbench_catalog', 'Catalog', '/catalog', Icons.GRID),
-            NavItem('workbench_layouts', 'Layouts', '/layouts', Icons.GRID),
-            NavItem('workbench_recipes', 'Recipes', '/recipes', Icons.FILE),
-            NavItem('workbench_data', 'Data', '/workbench/data', Icons.TABLE),
-            NavItem('workbench_quality', 'Quality', '/quality', Icons.DIAGNOSTICS),
+        NavSection('reference', 'REFERENCE EXPLORER', (
+            NavItem('reference_start', 'Start Here', '/', Icons.HOME),
+            NavItem('reference_design', 'Design System', '/design', Icons.GRID),
+            NavItem('reference_components', 'Components', '/components', Icons.GRID),
+            NavItem('reference_data', 'Data & Tables', '/workbench/data', Icons.TABLE),
+            NavItem('reference_visualizations', 'Visualizations', '/analytics', Icons.GRID),
+            NavItem('reference_layouts', 'Layouts', '/layouts', Icons.GRID),
+            NavItem('reference_patterns', 'Application Patterns', '/patterns', Icons.GRID),
+            NavItem('reference_recipes', 'Semiconductor Recipes', '/recipes', Icons.FILE),
+            NavItem('reference_apps', 'Full Applications', '/applications', Icons.FILE),
+            NavItem('reference_ai', 'AI Development Guide', '/ai-guide', Icons.FILE),
+            NavItem('reference_diagnostics', 'Diagnostics', '/quality', Icons.DIAGNOSTICS),
         )),
     ))
+
+
+def reference_entries_for_section(section: str) -> tuple[WorkbenchEntry, ...]:
+    """Return only the canonical authority owned by a primary Explorer section."""
+    kind_by_section = {
+        'components': WorkbenchKind.COMPONENT,
+        'patterns': WorkbenchKind.PATTERN,
+        'visualizations': WorkbenchKind.ANALYTIC,
+        'recipes': WorkbenchKind.RECIPE,
+    }
+    try:
+        kind = kind_by_section[str(section).strip().casefold()]
+    except KeyError as exc:
+        raise ValueError(f'unknown Reference Explorer section: {section!r}') from exc
+    return tuple(entry for entry in all_entries() if entry.kind is kind)
 
 
 def _command_keywords(entry: WorkbenchEntry) -> tuple[str, ...]:
@@ -161,37 +212,26 @@ def _install_command_palette(ui):
 
     registry = CommandRegistry(recent_limit=8)
     top_level = (
-        ('workbench:home','Home','/','Workbench','home start launch'),
-        ('workbench:build','Build','/build','Workbench','build create app starter'),
-        ('workbench:catalog','Catalog','/catalog','Workbench','catalog components patterns standards'),
-        ('workbench:layouts','Layouts & Shells','/layouts','Workbench','layouts shells patterns responsive page composition'),
-        ('workbench:analytics','Analytics Studio','/analytics','Workbench','analytics semiconductor spc fdc wafer rca'),
-        ('workbench:recipes','Recipes','/recipes','Workbench','recipes semiconductor application starters'),
-        ('workbench:data','Data','/workbench/data','Workbench','data table explorer schema'),
-        ('workbench:quality','Quality','/quality','Workbench','quality discoverability coverage'),
+        ('reference:start','Start Here','/','Reference Explorer','start here framework standard'),
+        ('reference:design','Design System','/design','Reference Explorer','design tokens theme assets'),
+        ('reference:components','Components','/components','Reference Explorer','components controls content'),
+        ('reference:data','Data & Tables','/workbench/data','Reference Explorer','data tables schema playground'),
+        ('reference:visualizations','Visualizations','/analytics','Reference Explorer','charts analytics semiconductor'),
+        ('reference:layouts','Layouts','/layouts','Reference Explorer','layouts shells responsive geometry'),
+        ('reference:patterns','Application Patterns','/patterns','Reference Explorer','patterns application composition'),
+        ('reference:recipes','Semiconductor Recipes','/recipes','Reference Explorer','recipes semiconductor'),
+        ('reference:apps','Full Applications','/applications','Reference Explorer','full application examples'),
+        ('reference:ai','AI Development Guide','/ai-guide','Reference Explorer','agents scaffolding developer guidance'),
+        ('reference:diagnostics','Diagnostics','/quality','Reference Explorer','diagnostics coverage runtime'),
     )
     for key, label, route, group, words in top_level:
         registry.register(Command(key, label, lambda route=route: ui.navigate.to(route), keywords=tuple(words.split()), group=group))
-    from .project_codegen import is_composable_entry
-    from .project_state import queue_entry, set_project_pattern
     for entry in all_entries():
         registry.register(Command(
             f'entry:{entry.key}', entry.title, lambda route=entry.route: ui.navigate.to(route),
             keywords=_command_keywords(entry),
             group=entry.kind.value.title(), description=entry.description,
         ))
-        if is_composable_entry(entry):
-            registry.register(Command(
-                f'project:add:{entry.key}', f'Add to Project · {entry.title}', lambda key=entry.key: (queue_entry(key), ui.navigate.to('/build')),
-                keywords=('add','project','builder',*_command_keywords(entry)),
-                group='Project', description='Queue this canonical capability and open the current Builder project.',
-            ))
-        elif entry.kind is WorkbenchKind.PATTERN and entry.metadata.get('pattern_key'):
-            registry.register(Command(
-                f'project:pattern:{entry.key}', f'Use Pattern · {entry.title}', lambda key=str(entry.metadata.get('pattern_key')): (set_project_pattern(key), ui.navigate.to('/build')),
-                keywords=('use','pattern','layout','shell','project',*_command_keywords(entry)),
-                group='Project', description='Use this canonical application pattern for the current Builder project.',
-            ))
     palette = CommandPalette(registry, placeholder='Search NiceGUI Base…', limit=24)
     trigger = _standard_button('Search', on_click=palette.open, classes='cui-workbench-command-trigger')
     trigger.props('aria-label="Open global search"')
@@ -215,8 +255,8 @@ def _shell(route: str, title: str, description: str):
     ui, AppShell, PageHeader, *_ = _imports()
     shell = AppShell(
         'NiceGUI Base', workbench_navigation(), active_route=route,
-        environment='WORKBENCH', subtitle='Golden-standard application framework',
-        greeting='Build from the standard', user_name='Engineer', user_initials='EN',
+        environment='REFERENCE', subtitle='Department standard · Reference Explorer',
+        greeting='Explore the standard', user_name='Engineer', user_initials='EN',
         on_settings=lambda: ui.navigate.to('/patterns/settings'), on_about=None,
         owner='NiceGUI Base', on_support=lambda: ui.navigate.to('/catalog'),
         on_feedback=lambda: ui.navigate.to('/quality'), on_docs=lambda: ui.navigate.to('/catalog'),
@@ -228,10 +268,11 @@ def _shell(route: str, title: str, description: str):
     page.__enter__()
     PageHeader(title, description)
     with ui.element('div').classes('cui-workbench-toolbar cui-workbench-global-tools').props(
-        'role="toolbar" aria-label="Workbench global tools"'
+        'role="toolbar" aria-label="Reference Explorer global tools"'
     ):
         _install_command_palette(ui)
         _display_control_bar()
+        ui.label(BUILD_ID).classes('cui-workbench-chip cui-build-id').props('data-build-id=' + BUILD_ID)
     shell._workbench_page = page
     return shell
 
@@ -348,14 +389,14 @@ def _search_box(*, autofocus: bool = False) -> None:
 def home_page() -> None:
     ui, *_ = _imports()
     stats = coverage()
-    shell = _shell('/', 'Workbench', 'Start with the application outcome; search the standard only when you need a specific capability.')
+    shell = _shell('/', 'Start Here', 'Explore the standard first, then use deterministic scaffolding when you are ready to start an application.')
     with ui.element('section').classes('cui-workbench-hero'):
         with ui.element('div'):
             ui.label('NICEGUI BASE · 3.0.0a8').classes('cui-workbench-eyebrow')
             ui.label('What are you building?').classes('cui-workbench-title')
-            ui.label('Describe the outcome in Builder. NiceGUI Base recommends the application structure, then guides data, composition, review, and generation in order.').classes('cui-workbench-subtitle')
+            ui.label('Find the governed pattern, component, data contract, or semiconductor recipe that matches your work. The same reusable APIs are available to developers and AI agents through deterministic scaffolding.').classes('cui-workbench-subtitle')
             with ui.element('div').classes('cui-workbench-toolbar'):
-                _standard_button('Start with your goal', on_click=lambda: ui.navigate.to('/build'), primary=True)
+                _standard_button('Explore the standard', on_click=lambda: ui.navigate.to('/design'), primary=True)
                 ui.label('Need a specific standard instead? Use Search or ⌘K / Ctrl+K.').classes('cui-workbench-note')
         with ui.element('div').classes('cui-workbench-kpis'):
             for value, label in ((stats.analytics, 'analytics'), (stats.recipes, 'recipes'), (stats.patterns, 'app patterns'), (stats.components, 'core components')):
@@ -363,12 +404,7 @@ def home_page() -> None:
                     ui.label(str(value)).classes('text-h5')
                     ui.label(label)
 
-    from .project_state import project_snapshot, render_home_project_resume
-    project = project_snapshot()
-    if project.get('goal') or project.get('pattern_key') or project.get('queued_entry_keys') or project.get('placements'):
-        render_home_project_resume()
-
-    with _section('Common starting points', 'Use these only when the application shape is already obvious; otherwise start with your goal and let Builder recommend it.'):
+    with _section('Common starting points', 'Open a live reference to learn the intended composition, behavior, and usage boundary.'):
         with ui.element('div').classes('cui-workbench-grid'):
             pattern_routes = {str(item.metadata.get('pattern_key')): item.route for item in all_entries() if item.kind is WorkbenchKind.PATTERN}
             for item in (
@@ -379,19 +415,36 @@ def home_page() -> None:
             ):
                 _action_card(*item)
 
-    with _section('Explore the standard', 'Secondary paths for engineers who already know which framework area they need.'):
+    with _section('Explore the standard', 'Browse the authority hierarchy before writing application code.'):
         with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
-            _action_card('Data Workspace', 'Paste, upload, inspect, map, and edit development data.', '/workbench/data', 'DATA')
-            _action_card('Catalog', 'Find the governed component, pattern, analytic, or framework capability.', '/catalog', 'CATALOG')
-            _action_card('Recipes', 'Open complete semiconductor application compositions.', '/recipes', 'RECIPES')
+            _action_card('Design System', 'See the live token, state, theme, and responsive contracts.', '/design', 'AUTHORITY')
+            _action_card('Data & Tables', 'Use example data to demonstrate schema, mapping, table, and query contracts.', '/workbench/data', 'DATA')
+            _action_card('Components', 'Open live examples of the reusable controls and content primitives.', '/components', 'COMPONENTS')
+            _action_card('Visualizations', 'Match engineering intent to a governed analytical visual.', '/analytics', 'ANALYTICS')
+            _action_card('Layouts', 'Inspect the responsive page shells and semantic slots.', '/layouts', 'LAYOUTS')
+            _action_card('Application Patterns', 'Start from a complete information hierarchy.', '/patterns', 'PATTERNS')
+            _action_card('Semiconductor Recipes', 'Explore bounded, domain-specific engineering workflows.', '/recipes', 'RECIPES')
+            _action_card('Full Applications', 'Study complete semiconductor application compositions and their provider boundary.', '/applications', 'APPLICATIONS')
+            _action_card('AI Development Guide', 'Translate a requirement into a pattern, recipe, and scaffold.', '/ai-guide', 'AGENTS')
     _end_shell(shell)
 
 
 def build_page() -> None:
-    from .builder import render_builder
-    shell = _shell('/build', 'Build', 'Goal → Recommendation → Data → Compose → Review → Generate, with one guided decision at a time.')
-    render_builder()
+    shell = _shell('/build', 'Developer Scaffolding', 'This saved-link route now points developers to deterministic pattern and recipe starters.')
+    ui, *_ = _imports()
+    ui.label('Compatibility authoring surface').classes('cui-workbench-chip')
+    ui.label('Manual composition is retired from the normal reference journey. Start from a canonical pattern or recipe with the installed CLI; domain logic stays in your application services.').classes('cui-workbench-note')
+    with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
+        _action_card('Choose a pattern', 'Use a registered page hierarchy and responsive slot contract.', '/patterns', 'CLI · create-pattern')
+        _action_card('Choose a recipe', 'Use a bounded semiconductor workflow and its data contract.', '/recipes', 'CLI · create-recipe')
+        _action_card('Read the agent path', 'Resolve a requirement into an authority before coding.', '/ai-guide', 'AGENT WORKFLOW')
     _end_shell(shell)
+
+
+def _legacy_builder_surface() -> None:
+    """Keep the compatibility implementation importable without exposing it in D6H UX."""
+    from .builder import render_builder
+    render_builder()
 
 
 def layout_studio_page() -> None:
@@ -401,18 +454,25 @@ def layout_studio_page() -> None:
     _end_shell(shell)
 
 
-def catalog_page() -> None:
+def catalog_page(*, active_route: str = '/catalog', initial_kind: str = 'all', page_title: str = 'Design System', page_description: str = 'One discoverable inventory over canonical NiceGUI Base registries, grouped by the job each capability solves.') -> None:
     ui, *_ = _imports()
     entries = all_entries()
-    shell = _shell('/catalog', 'Catalog', 'One discoverable inventory over canonical NiceGUI Base registries, grouped by the job each capability solves.')
+    filter_options = catalog_filter_options(entries)
+    shell = _shell(active_route, page_title, page_description)
     host = None
 
-    def render(kind: str = 'all', family: str = 'all', query: str = '') -> None:
+    def render(kind: str = 'all', family: str = 'all', query: str = '', intent: str = 'all', data_shape: str = 'all', domain: str = 'all', related_to: str = 'all') -> None:
         if host is None:
             return
         host.clear()
-        if query.strip():
-            visible = tuple(result.entry for result in search(query, limit=300))
+        if query.strip() or any(value != 'all' for value in (intent, data_shape, domain, related_to)):
+            visible = tuple(result.entry for result in search(
+                query, limit=300,
+                intent=None if intent == 'all' else intent,
+                data_shape=None if data_shape == 'all' else data_shape,
+                domain=None if domain == 'all' else domain,
+                related_to=None if related_to == 'all' else related_to,
+            ))
         else:
             visible = entries
         if kind != 'all':
@@ -424,22 +484,23 @@ def catalog_page() -> None:
                 ui.label('No catalog entries match these filters.').classes('cui-workbench-note')
                 return
             if not query.strip() and kind == 'all' and family == 'all':
-                ui.label(f'{len(entries)} canonical Workbench entries are searchable. Choose a family or search to inspect individual capabilities.').classes('cui-workbench-note')
-                with ui.element('div').classes('cui-workbench-quality-grid'):
-                    overview_families = tuple(REQUIRED_CATALOG_FAMILIES) + ('other canonical capabilities',)
-                    for family_name in overview_families:
-                        group = tuple(entry for entry in entries if (catalog_family(entry) or 'other canonical capabilities') == family_name)
-                        if not group:
-                            continue
-                        with ui.element('article').classes('cui-workbench-quality-card'):
-                            ui.label(family_name.title()).classes('cui-workbench-card__title')
-                            ui.label(f'{len(group)} canonical entr{"y" if len(group) == 1 else "ies"}').classes('cui-workbench-chip')
-                            examples = ', '.join(entry.title for entry in group[:3])
-                            if examples:
-                                ui.label(f'Examples: {examples}').classes('cui-workbench-note')
-                            if family_name in REQUIRED_CATALOG_FAMILIES:
-                                _standard_button('Browse family', on_click=lambda _e=None, name=family_name: choose_family(name))
-                return
+                if all(value == 'all' for value in (intent, data_shape, domain, related_to)):
+                    ui.label(f'{len(entries)} canonical Reference Explorer entries are searchable. Choose a family or search to inspect individual capabilities.').classes('cui-workbench-note')
+                    with ui.element('div').classes('cui-workbench-quality-grid'):
+                        overview_families = tuple(REQUIRED_CATALOG_FAMILIES) + ('other canonical capabilities',)
+                        for family_name in overview_families:
+                            group = tuple(entry for entry in entries if (catalog_family(entry) or 'other canonical capabilities') == family_name)
+                            if not group:
+                                continue
+                            with ui.element('article').classes('cui-workbench-quality-card'):
+                                ui.label(family_name.title()).classes('cui-workbench-card__title')
+                                ui.label(f'{len(group)} canonical entr{"y" if len(group) == 1 else "ies"}').classes('cui-workbench-chip')
+                                examples = ', '.join(entry.title for entry in group[:3])
+                                if examples:
+                                    ui.label(f'Examples: {examples}').classes('cui-workbench-note')
+                                if family_name in REQUIRED_CATALOG_FAMILIES:
+                                    _standard_button('Browse family', on_click=lambda _e=None, name=family_name: choose_family(name))
+                    return
             ordered_families = tuple(REQUIRED_CATALOG_FAMILIES) + ('other canonical capabilities',)
             for family_name in ordered_families:
                 group = tuple(
@@ -453,33 +514,122 @@ def catalog_page() -> None:
                         for entry in group:
                             _card(entry)
 
-    state = {'kind': 'all', 'family': 'all', 'query': ''}
+    state = {'kind': initial_kind, 'family': 'all', 'query': '', 'intent': 'all', 'data_shape': 'all', 'domain': 'all', 'related_to': 'all'}
     family_control = None
 
     def choose_family(name: str) -> None:
         state['family'] = name
         if family_control is not None and hasattr(family_control, 'set_value'):
             family_control.set_value(name)
-        render(state['kind'], state['family'], state['query'])
+        render(**state)
 
     def query_changed(e) -> None:
         state['query'] = str(e.value or '')
-        render(state['kind'], state['family'], state['query'])
+        render(**state)
     def kind_changed(e) -> None:
         state['kind'] = str(e.value or 'all')
-        render(state['kind'], state['family'], state['query'])
+        render(**state)
     def family_changed(e) -> None:
         state['family'] = str(e.value or 'all')
-        render(state['kind'], state['family'], state['query'])
+        render(**state)
+    def contract_filter_changed(key: str, event) -> None:
+        state[key] = str(getattr(event, 'value', 'all') or 'all')
+        render(**state)
 
     with ui.element('div').classes('cui-workbench-toolbar'):
-        _standard_search('Search catalog', placeholder='Component, pattern, analytic, recipe, standard…', on_change=query_changed)
-        _standard_select('Type', {'all':'All','component':'Components','pattern':'Patterns','analytic':'Analytics','recipe':'Recipes','reference':'Framework'}, value='all', on_change=kind_changed)
-        family_options = {'all': 'All families', **{family: family.title() for family in REQUIRED_CATALOG_FAMILIES}}
-        family_control = _standard_select('Family', family_options, value='all', on_change=family_changed)
+        _standard_search('Search catalog', placeholder='Name, tag, intent, data shape, domain, related capability…', on_change=query_changed)
+        with ui.element('details').classes('cui-catalog-refine'):
+            with ui.element('summary').classes('cui-catalog-refine__summary').props('tabindex="0"'):
+                ui.label('Refine results · type, family, intent, data, domain, relation')
+            with ui.element('div').classes('cui-catalog-refine__controls'):
+                _standard_select('Type', {'all':'All','component':'Components','pattern':'Patterns','analytic':'Analytics','recipe':'Recipes','reference':'Framework'}, value='all', on_change=kind_changed)
+                family_options = {'all': 'All families', **{family: family.title() for family in REQUIRED_CATALOG_FAMILIES}}
+                family_control = _standard_select('Family', family_options, value='all', on_change=family_changed)
+                _standard_select('Intent / problem', {'all': 'All intents', **dict(CATALOG_INTENT_FILTERS)}, value='all', on_change=lambda event: contract_filter_changed('intent', event))
+                _standard_select('Required data', {'all': 'Any data contract', 'rows': 'Rows / named fields', 'typed': 'Typed configuration', 'numeric': 'Finite numeric values'}, value='all', on_change=lambda event: contract_filter_changed('data_shape', event))
+                domain_options = {'all': 'All domains', **{value: value.title() for value in filter_options['domains']}}
+                _standard_select('Domain', domain_options, value='all', on_change=lambda event: contract_filter_changed('domain', event))
+                related_options = {'all': 'Any relation'}
+                lookup = {entry.key: entry.title for entry in entries}
+                related_options.update({key: lookup[key] for key in filter_options['related'] if key in lookup})
+                _standard_select('Related capability', related_options, value='all', on_change=lambda event: contract_filter_changed('related_to', event))
         _standard_button('Analytics Studio', on_click=lambda: ui.navigate.to('/analytics'))
     host = ui.element('div').classes('cui-workbench-catalog-results')
-    render()
+    render(**state)
+    _end_shell(shell)
+
+
+def design_system_page() -> None:
+    from .design_system_reference import render_design_system_reference
+    shell = _shell('/design', 'Design System', 'The deterministic visual contract used by the reference explorer, framework components, and generated applications.')
+    render_design_system_reference()
+    _end_shell(shell)
+
+
+def components_page() -> None:
+    catalog_page(
+        active_route='/components', initial_kind='component', page_title='Components',
+        page_description='Live examples and usage guidance for the reusable NiceGUI Base component and content registries.',
+    )
+
+
+def patterns_page() -> None:
+    catalog_page(
+        active_route='/patterns', initial_kind='pattern', page_title='Application Patterns',
+        page_description='Canonical application patterns with live examples, responsive behavior, and intended composition boundaries.',
+    )
+
+
+def ai_guide_page() -> None:
+    from nicegui import ui
+    from nicegui_base.integrations.nicegui_content import CodeViewer
+    shell = _shell('/ai-guide', 'AI Development Guide', 'A compact, task-first guide for humans and AI agents using the installed NiceGUI Base APIs.')
+    workflow = {
+        'requirement': 'Investigate chamber drift and compare affected/control distributions',
+        'recommendation': {'pattern': 'analysis_workspace', 'recipe': 'excursion-defense-line'},
+        'authorities': ['analytics:fdc_multi_sensor', 'analytics:rca_affected_control', 'component:data_table'],
+        'scaffold': 'nicegui-base create-recipe ./chamber-drift --name "Chamber Drift Review" --recipe excursion-defense-line',
+        'business_logic': 'app/services and app/repositories; keep provider queries and domain calculations out of page callbacks',
+        'extension_rule': 'Prefer registered pattern/component/visualization and token APIs; isolate a documented escape hatch only when no authority fits',
+        'validation': ['nicegui-base agent-check .', 'python -m nicegui_base.validate .', 'nicegui-base runtime-contract', 'nicegui-base runtime-smoke'],
+        'result': 'A separately runnable app with governed filters, linked chart/table state, accessible empty/error states, and domain logic isolated in app-owned services',
+    }
+    with _section('Requirement → runnable reference', 'The same deterministic sequence is readable by a person and discoverable by an agent.'):
+        with ui.element('div').classes('cui-workbench-ai-workflow').props(f'data-agent-workflow={json.dumps(json.dumps(workflow, sort_keys=True))}'):
+            for label, value in (
+                ('1 · Requirement', workflow['requirement']),
+                ('2 · Recommendation', 'Pattern: analysis_workspace · Recipe: excursion-defense-line'),
+                ('3 · Authorities', ' · '.join(workflow['authorities'])),
+                ('4 · Scaffold', workflow['scaffold']),
+                ('5 · Business/domain logic', workflow['business_logic']),
+                ('6 · Extension rule', workflow['extension_rule']),
+                ('7 · Expected result', workflow['result']),
+            ):
+                with ui.element('article').classes('cui-workbench-ai-step'):
+                    ui.label(label).classes('cui-workbench-card__meta')
+                    ui.label(value).classes('cui-workbench-card__body')
+        CodeViewer(
+            'nicegui-base agent-context "Investigate chamber drift and compare affected/control distributions"\n'
+            'nicegui-base recommend-pattern "investigate chamber drift"\n'
+            'nicegui-base recommend-visualization "compare affected control distributions"\n'
+            'nicegui-base create-recipe ./chamber-drift --name "Chamber Drift Review" --recipe excursion-defense-line\n'
+            'cd chamber-drift && nicegui-base agent-check .\n'
+            'python -m nicegui_base.validate . && nicegui-base runtime-contract && nicegui-base runtime-smoke',
+            language='bash',
+        )
+        ui.label('App-owned business logic belongs in services/repositories. The generated page composes the registered pattern, components, data controller, and visualization wrappers.').classes('cui-workbench-note')
+    with _section('Authority shortcuts', 'Select the registered authority before writing page code.'):
+        for title, route, detail in (
+            ('Application patterns', '/patterns', 'Choose page hierarchy and responsive slots first.'),
+            ('Components', '/components', 'Use typed registered controls and content surfaces.'),
+            ('Data & tables', '/workbench/data', 'Keep schema/query semantics in data services.'),
+            ('Visualizations', '/analytics', 'Use the governed chart and semiconductor renderers.'),
+            ('Semiconductor recipes', '/recipes', 'Start with a domain composition when the question is known.'),
+            ('Design System', '/design', 'Use semantic tokens and state helpers before custom styling.'),
+        ):
+            with ui.element('article').classes('cui-workbench-card'):
+                ui.link(title, route).classes('cui-workbench-card__title')
+                ui.label(detail).classes('cui-workbench-card__body')
     _end_shell(shell)
 
 
@@ -489,16 +639,17 @@ def _unknown_detail(active_route: str, title: str, message: str, back_route: str
     shell = _shell(active_route, title, message)
     with ui.element('section').classes('cui-workbench-preview cui-workbench-not-found'):
         ui.label('Nothing was changed or inferred from this URL.').classes('cui-workbench-note')
-        _standard_button('Back to Workbench', on_click=lambda: ui.navigate.to(back_route), primary=True)
+        _standard_button('Back to Reference Explorer', on_click=lambda: ui.navigate.to(back_route), primary=True)
     _end_shell(shell)
 
 
 def _studio_entry_page(entry: WorkbenchEntry, *, active_route: str = '/catalog', preview_renderer=None, data_renderer=None, interaction_renderer=None, data_model=None) -> None:
     from .capability_studio import render_capability_studio
-    shell = _shell(active_route, 'Capability Studio', 'Evaluate the canonical capability with one consistent development workflow.')
+    shell = _shell(active_route, 'Reference Explorer', 'Browse the canonical capability, try its live example, and inspect the reusable usage contract.')
     render_capability_studio(
         entry, preview_renderer=preview_renderer, data_renderer=data_renderer,
         interaction_renderer=interaction_renderer, data_model=data_model, active_route=active_route,
+        reference_only=True,
     )
     _end_shell(shell)
 
@@ -508,7 +659,7 @@ def studio_page(entry_key: str) -> None:
     decoded = unquote(entry_key)
     entry = next((item for item in all_entries() if item.key == decoded), None)
     if entry is None:
-        _unknown_detail('/catalog', 'Capability not found', f'No canonical Workbench capability is registered as {decoded!r}.', '/catalog')
+        _unknown_detail('/catalog', 'Capability not found', f'No canonical Reference Explorer capability is registered as {decoded!r}.', '/catalog')
         return
     _studio_entry_page(entry)
 
@@ -518,7 +669,7 @@ def component_detail_page(component_key: str) -> None:
     if entry is None:
         _unknown_detail('/catalog', 'Component not found', f'No canonical component is registered as {component_key!r}.', '/catalog')
         return
-    _studio_entry_page(entry)
+    _studio_entry_page(entry, active_route='/components')
 
 def catalog_detail_page(registry_name: str, entry_key: str) -> None:
     entry = next((item for item in all_entries() if item.metadata.get('registry_name') == registry_name and item.metadata.get('registry_key') == entry_key), None)
@@ -530,7 +681,7 @@ def catalog_detail_page(registry_name: str, entry_key: str) -> None:
 def analytics_gallery_page() -> None:
     ui, *_ = _imports()
     entries = analytics_entries()
-    shell = _shell('/catalog', 'Analytics Studio', 'All 58 canonical semiconductor analytical surfaces, grouped by the registry taxonomy.')
+    shell = _shell('/analytics', 'Visualizations', 'All 58 canonical semiconductor analytical surfaces, grouped by the registry taxonomy.')
     counts: dict[str, int] = {}
     for entry in entries:
         counts[entry.category] = counts.get(entry.category, 0) + 1
@@ -608,6 +759,36 @@ SURFACE_PREVIEW_FAMILIES = {
     'doe_response_surface': 'doe-response-surface',
 }
 
+SURFACE_PREVIEW_TITLES = {
+    'spc_i_mr': 'SPC I-MR',
+    'spc_xbar_r': 'SPC Xbar-R',
+    'spc_xbar_s': 'SPC Xbar-S',
+    'spc_ewma': 'SPC EWMA',
+    'spc_cusum': 'SPC CUSUM',
+    'capability_histogram': 'Capability Histogram',
+    'qq_probability': 'Q-Q Probability',
+    'ecdf': 'ECDF',
+    'box_distribution': 'Box Distribution',
+    'violin_distribution': 'Violin Distribution',
+    'ridge_distribution': 'Ridge Distribution',
+    'wafer_categorical': 'Wafer Categorical',
+    'wafer_defect': 'Wafer Defect',
+}
+
+SURFACE_SEMANTIC_CAPTIONS = {
+    'spc_i_mr': 'Control chart · Individual + moving range · x: sample order · y: measurement',
+    'spc_ewma': 'Control chart · EWMA smoothed statistic · x: sample order · y: EWMA value',
+    'spc_cusum': 'Control chart · cumulative sum · x: sample order · y: cumulative deviation',
+    'capability_histogram': 'Histogram · x: measurement bins · y: Count',
+    'qq_probability': 'Q-Q probability plot · x: Theoretical quantile · y: Observed value',
+    'ecdf': 'Empirical cumulative distribution · x: Value · y: Cumulative probability',
+    'box_distribution': 'Box distribution · x: population · y: measurement',
+    'violin_distribution': 'Violin distribution · x: population · width: local density',
+    'ridge_distribution': 'Ridge distribution · rows: populations · x: value · height: density',
+    'wafer_categorical': 'Categorical wafer map · legend: Category · die position: x/y',
+    'wafer_defect': 'Defect wafer map · legend: Defect state · die position: x/y',
+}
+
 
 def _wafer_points(*, delta: float = 0.0, categorical: bool = False, defects: bool | str = False):
     from nicegui_base.visualization import WaferPoint
@@ -659,7 +840,7 @@ def _render_tree_preview(title: str, root: str, branches: tuple[tuple[str, tuple
     ui.label(footer).classes('cui-workbench-preview-caption')
 
 
-def _render_surface_preview(surface_key: str, category: str, *, compact: bool = False) -> None:
+def _render_surface_preview(surface_key: str, category: str, *, compact: bool = False, title: str | None = None) -> None:
     """Render a truthful sample for every canonical semiconductor surface.
 
     The Workbench does not create another analytical engine. These are bounded sample
@@ -667,31 +848,115 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     surface identity. The exact surface key chooses the visual grammar so distinct
     analytics no longer collapse into one category-level placeholder.
     """
+    ui, *_ = _imports()
     from nicegui_base.integrations.nicegui_visualization import (
         BarChart, BoxPlot, ChamberFingerprintMatrix, CommonalityMatrix, ControlChart,
-        DistributionPanel, Heatmap, Histogram, LineChart, ParetoChart, RadialProfilePlot,
-        ScatterChart, WaferComparisonMap, WaferMap,
+        DistributionPanel, _EmpiricalCDFChart, _FaultTreeDiagram, Heatmap, Histogram, LineChart, ParetoChart,
+        RadialProfilePlot, _RelationshipGraph, _SankeyDiagram, ScatterChart, _WaferContourPlot,
+        WaferComparisonMap, WaferMap, _WaterfallDiagram,
     )
-    from nicegui_base.visualization import AxisSpec, AxisType, SeriesSpec, SpecLimits, WaferPoint
+    from nicegui_base.visualization import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, LineStyle, SeriesSpec, SpecLimits, WaferPoint
+
+    def mark_semantic(panel, props: str) -> None:
+        target = getattr(panel, 'container', panel)
+        setter = getattr(target, 'props', None)
+        if callable(setter):
+            setter(props)
 
     family = SURFACE_PREVIEW_FAMILIES.get(surface_key)
     if family is None:
         raise KeyError(f'No Workbench preview family registered for {surface_key!r}')
-    title = 'Sample preview' if compact else 'Live governed sample preview'
+    title = title or SURFACE_PREVIEW_TITLES.get(surface_key) or ('Sample preview' if compact else 'Live governed sample preview')
     runs = tuple(f'R{i:02d}' for i in range(1, 13))
+    caption = SURFACE_SEMANTIC_CAPTIONS.get(surface_key)
+    if caption:
+        ui.label(caption).classes('cui-workbench-preview-caption').props(
+            f'data-visual-contract="{surface_key}"'
+        )
 
     # SPC: keep the governed control-chart shell but make the sample statistic match the chart family.
     if surface_key in {'spc_i_mr','spc_xbar_r','spc_xbar_s','spc_ewma','spc_cusum'}:
-        values = {
-            'spc_i_mr': (39.8,40.0,39.9,40.3,40.5,40.9,41.2,41.0,40.7,40.9,41.3,41.5),
-            'spc_xbar_r': (39.9,40.1,40.0,40.2,40.4,40.3,40.6,40.5,40.7,40.9,41.0,41.1),
-            'spc_xbar_s': (40.0,39.9,40.1,40.15,40.22,40.28,40.35,40.41,40.50,40.63,40.71,40.82),
-            'spc_ewma': (39.9,39.94,39.98,40.04,40.11,40.20,40.31,40.42,40.55,40.67,40.79,40.91),
-            'spc_cusum': (0.0,.05,.08,.16,.28,.44,.63,.84,1.08,1.34,1.63,1.95),
-        }[surface_key]
-        limits = SpecLimits(lower=-.4, upper=2.2, target=0.0) if surface_key == 'spc_cusum' else SpecLimits(lower=38.0, upper=42.0, target=40.0)
-        label = {'spc_i_mr':'Individual','spc_xbar_r':'X̄','spc_xbar_s':'X̄','spc_ewma':'EWMA','spc_cusum':'CUSUM'}[surface_key]
-        ControlChart(title, (SeriesSpec(surface_key, label, values),), x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=runs), spec_limits=limits)
+        from .analytic_specimens import canonical_fixture_for_surface
+        canonical_rows = canonical_fixture_for_surface(surface_key)
+        values = tuple(float(row['measurement']) for row in canonical_rows)
+        if surface_key == 'spc_i_mr':
+            from nicegui_base.semiconductor import spc
+            result = spc.i_mr(values)
+            with ui.element('div').classes('cui-analytics-pair').props('data-visual-geometry="i-mr"'):
+                ui.label('Individuals + Moving Range · x: sample order / adjacent samples · y: Measurement / absolute difference').classes('cui-workbench-preview-caption')
+                individual = ControlChart(
+                    'Individuals — SPC I-MR',
+                    (SeriesSpec('individuals', 'Individuals', result.values),),
+                    x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(f'R{i:02d}' for i in range(1, len(result.values) + 1)), label='Sample order'),
+                    y_axis=AxisSpec(label='Measurement', min_value=result.lcl[0] - .25, max_value=result.ucl[0] + .25),
+                    spec_limits=SpecLimits(lower=result.lcl[0], upper=result.ucl[0], target=result.center[0], lower_label='LCL', upper_label='UCL', target_label='Center'),
+                )
+                mark_semantic(individual, 'data-visual-semantic="spc_i_mr-individuals"')
+                moving_range = ControlChart(
+                    'Moving Range — SPC I-MR',
+                    (SeriesSpec('moving_range', 'Moving Range', result.secondary_values),),
+                    x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(f'R{i:02d}→R{i + 1:02d}' for i in range(1, len(result.secondary_values) + 1)), label='Adjacent samples'),
+                    y_axis=AxisSpec(label='Absolute difference', min_value=0.0, max_value=result.secondary_ucl[0] * 1.15),
+                    spec_limits=SpecLimits(lower=result.secondary_lcl[0], upper=result.secondary_ucl[0], target=result.secondary_center[0], lower_label='LCL', upper_label='UCL', target_label='MR center'),
+                )
+                mark_semantic(moving_range, 'data-visual-semantic="spc_i_mr-moving-range"')
+            return
+        if surface_key == 'spc_ewma':
+            from nicegui_base.semiconductor import spc
+            result = spc.ewma(values, lambda_=.25, L=2.7)
+            panel = ControlChart(
+                title,
+                (
+                    SeriesSpec('ewma', 'EWMA', result.values),
+                    SeriesSpec('center', 'Center', result.center, line_style=LineStyle.DASHED, semantic_color='neutral'),
+                    SeriesSpec('ucl', 'UCL', result.ucl, line_style=LineStyle.DASHED, semantic_color='danger'),
+                    SeriesSpec('lcl', 'LCL', result.lcl, line_style=LineStyle.DASHED, semantic_color='danger'),
+                ),
+                x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=runs + tuple(f'R{i:02d}' for i in range(13, len(result.values) + 1)), label='Sample order'),
+                y_axis=AxisSpec(label='EWMA value', min_value=min(result.lcl) - .12, max_value=max(result.ucl) + .12),
+            )
+            mark_semantic(panel, 'data-visual-semantic="spc_ewma" data-chart-semantics="center-ucl-lcl"')
+            return
+        if surface_key == 'spc_cusum':
+            target = 40.0
+            positive: list[float] = []
+            negative: list[float] = []
+            c_plus = c_minus = 0.0
+            for value in values:
+                c_plus = max(0.0, c_plus + value - target - .15)
+                c_minus = min(0.0, c_minus + value - target + .15)
+                positive.append(round(c_plus, 3)); negative.append(round(c_minus, 3))
+            panel = ControlChart(
+                title,
+                (SeriesSpec('cusum_positive', 'C+', tuple(positive)), SeriesSpec('cusum_negative', 'C−', tuple(negative))),
+                x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(f'R{i:02d}' for i in range(1, len(values) + 1)), label='Sample order'),
+                y_axis=AxisSpec(label='Cumulative deviation', min_value=-2.3, max_value=2.3),
+                spec_limits=SpecLimits(lower=-2.0, upper=2.0, target=0.0, lower_label='Negative decision', upper_label='Positive decision', target_label='Center'),
+            )
+            mark_semantic(panel, 'data-visual-semantic="spc_cusum" data-chart-semantics="positive-negative-decision-limits"')
+            return
+        from nicegui_base.semiconductor import spc
+        grouped: dict[str, list[float]] = {}
+        for row in canonical_rows:
+            grouped.setdefault(str(row['subgroup']), []).append(float(row['measurement']))
+        result = spc.xbar_r(grouped.values()) if surface_key == 'spc_xbar_r' else spc.xbar_s(grouped.values())
+        secondary_key = 'range' if surface_key == 'spc_xbar_r' else 'standard-deviation'
+        secondary_label = 'Range' if surface_key == 'spc_xbar_r' else 'Standard deviation'
+        with ui.element('div').classes('cui-analytics-pair').props(f'data-visual-geometry="{surface_key.replace("spc_", "").replace("_", "-")}"'):
+            xbar = ControlChart(
+                f'X̄ — {title}', (SeriesSpec('xbar', 'X̄', result.values),),
+                x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(grouped), label='Rational subgroup'),
+                y_axis=AxisSpec(label='Subgroup mean', min_value=result.lcl[0] - .15, max_value=result.ucl[0] + .15),
+                spec_limits=SpecLimits(lower=result.lcl[0], upper=result.ucl[0], target=result.center[0], lower_label='LCL', upper_label='UCL', target_label='Center'),
+            )
+            mark_semantic(xbar, f'data-visual-semantic="{surface_key}-xbar"')
+            secondary = ControlChart(
+                f'{secondary_label} — {title}', (SeriesSpec(secondary_key, secondary_label, result.secondary_values),),
+                x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(grouped), label='Rational subgroup'),
+                y_axis=AxisSpec(label=secondary_label, min_value=0.0, max_value=result.secondary_ucl[0] * 1.15),
+                spec_limits=SpecLimits(lower=result.secondary_lcl[0], upper=result.secondary_ucl[0], target=result.secondary_center[0], lower_label='LCL', upper_label='UCL', target_label=f'{secondary_label} center'),
+            )
+            mark_semantic(secondary, f'data-visual-semantic="{surface_key}-{secondary_key}"')
         return
     if surface_key in {'spc_p','spc_np','spc_c','spc_u'}:
         values = {
@@ -701,33 +966,70 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
             'spc_u': (.18,.21,.16,.24,.20,.27,.25,.31,.35,.33,.39,.30),
         }[surface_key]
         labels = {'spc_p':'Nonconforming proportion','spc_np':'Nonconforming count','spc_c':'Defect count','spc_u':'Defects / unit'}
-        ControlChart(title, (SeriesSpec(surface_key, labels[surface_key], values),), x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=runs))
+        limits = {
+            'spc_p': (.008, .0265, .045), 'spc_np': (.7, 6.08, 11.5),
+            'spc_c': (0.0, 5.83, 13.1), 'spc_u': (.055, .2675, .48),
+        }[surface_key]
+        panel = ControlChart(
+            title, (SeriesSpec(surface_key, labels[surface_key], values),),
+            x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=runs, label='Sample order'),
+            y_axis=AxisSpec(label=labels[surface_key], min_value=0.0),
+            spec_limits=SpecLimits(lower=limits[0], target=limits[1], upper=limits[2], lower_label='LCL', target_label='Center', upper_label='UCL'),
+        )
+        mark_semantic(panel, f'data-visual-semantic="{surface_key}" data-chart-semantics="center-ucl-lcl"')
         return
 
     # Capability/distribution diagnostics.
     if surface_key == 'capability_histogram':
-        Histogram(title, (SeriesSpec('count','Count',(2,5,9,15,22,19,12,7,3)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38','38.5','39','39.5','40','40.5','41','41.5','42')))
+        categories = ('38.0','38.5','39.0','39.5','40.0','40.5','41.0','41.5','42.0')
+        panel = Histogram(
+            title, (SeriesSpec('count','Count',(1,3,8,15,22,18,10,4,1)),),
+            x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=categories, label='Measurement (nm)'),
+            y_axis=AxisSpec(label='Count'),
+            annotations=(
+                ChartAnnotation('38.5', 'LSL', intent=AnnotationIntent.DANGER),
+                ChartAnnotation('40.0', 'Target', intent=AnnotationIntent.INFO),
+                ChartAnnotation('41.5', 'USL', intent=AnnotationIntent.DANGER),
+            ),
+        )
+        mark_semantic(panel, 'data-visual-semantic="capability_histogram" data-chart-semantics="distribution-with-spec-context" data-spec-lines="LSL Target USL"')
         return
     if surface_key == 'qq_probability':
-        points = tuple((q, q + (.10 * math.sin(q * 1.7))) for q in (-2.0,-1.5,-1.0,-.5,0,.5,1.0,1.5,2.0))
-        ScatterChart(title, (SeriesSpec('qq','Observed vs theoretical',points),))
+        points = tuple((q, observed) for q, observed in zip((-2.0,-1.5,-1.0,-.5,0,.5,1.0,1.5,2.0), (-1.85,-1.38,-.96,-.55,-.08,.42,.91,1.55,2.28), strict=True))
+        expected = tuple((q, q) for q in (-2.0,-1.5,-1.0,-.5,0,.5,1.0,1.5,2.0))
+        panel = ScatterChart(title, (SeriesSpec('observed','Observed quantiles',points), SeriesSpec('expected','Expected line',expected)), x_axis=AxisSpec(label='Theoretical quantile'), y_axis=AxisSpec(label='Observed quantile'))
+        mark_semantic(panel, 'data-visual-semantic="qq_probability" data-chart-semantics="observed-vs-expected"')
         return
     if surface_key == 'ecdf':
-        xs = ('38.4','38.8','39.2','39.6','40.0','40.4','40.8','41.2','41.6')
-        LineChart(title, (SeriesSpec('ecdf','Cumulative probability',(.03,.08,.17,.31,.49,.68,.82,.93,.985)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=xs))
+        observations = (38.4,38.8,39.2,39.6,40.0,40.4,40.8,41.2,41.6,42.0)
+        points = tuple((value, (index + 1) / len(observations)) for index, value in enumerate(observations))
+        panel = _EmpiricalCDFChart(title, points)
+        mark_semantic(panel, 'data-visual-semantic="ecdf" data-chart-semantics="monotone-cdf" data-chart-step="end"')
         return
     if surface_key == 'box_distribution':
-        BoxPlot(title, (SeriesSpec('box','CD',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1),(39.0,39.6,40.1,40.6,41.3))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected','Post-PM')))
+        panel = BoxPlot(title, (SeriesSpec('box','Measurement',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1),(39.0,39.6,40.1,40.6,41.3))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected','Post-PM'), label='Population'), y_axis=AxisSpec(label='Measurement'))
+        mark_semantic(panel, 'data-visual-semantic="box_distribution" data-chart-semantics="quartiles-median-whiskers"')
         return
     if surface_key == 'violin_distribution':
-        DistributionPanel(title, (SeriesSpec('shape','Density',(1,3,7,14,21,24,18,11,5,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38.0','38.4','38.8','39.2','39.6','40.0','40.4','40.8','41.2','41.6')))
+        try:
+            from nicegui_base.integrations.nicegui_visualization import ViolinPlot
+        except ImportError:  # compatibility with the bounded renderer stub in older acceptance tests
+            DistributionPanel(title, (SeriesSpec('shape','Density',(1,3,7,14,21,24,18,11,5,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38.0','38.4','38.8','39.2','39.6','40.0','40.4','40.8','41.2','41.6')))
+        else:
+            ViolinPlot(title, ((1,3,7,14,21,24,18,11,5,2),), labels=('CD distribution',), description='Symmetric density silhouette; width encodes local density.')
         return
     if surface_key == 'ridge_distribution':
-        LineChart(title, (
+        ridge_series = (
             SeriesSpec('ch1','CH-1',(0,1,4,10,15,10,4,1,0),smooth=True),
             SeriesSpec('ch2','CH-2',(0,0,2,7,14,13,7,2,0),smooth=True),
             SeriesSpec('ch3','CH-3',(0,0,1,3,8,14,12,6,2),smooth=True),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38','38.5','39','39.5','40','40.5','41','41.5','42')))
+        )
+        try:
+            from nicegui_base.integrations.nicegui_visualization import RidgePlot
+        except ImportError:  # compatibility with the bounded renderer stub in older acceptance tests
+            LineChart(title, ridge_series, x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38','38.5','39','39.5','40','40.5','41','41.5','42')))
+        else:
+            RidgePlot(title, ridge_series, labels=('38','38.5','39','39.5','40','40.5','41','41.5','42'), description='Offset density curves keep each chamber distribution readable.')
         return
 
     # Wafer/spatial analytics.
@@ -735,13 +1037,13 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         WaferMap(title, _wafer_points())
         return
     if surface_key == 'wafer_categorical':
-        WaferMap(title, _wafer_points(categorical=True))
+        WaferMap(title, _wafer_points(categorical=True), legend_title='Category', legend_labels=('Nominal','Watch','Review','Other'))
         return
     if surface_key == 'wafer_defect':
-        WaferMap(title, _wafer_points(defects='sparse'))
+        WaferMap(title, _wafer_points(defects='sparse'), legend_title='Defect state', legend_labels=('No defect','Defect'))
         return
     if surface_key == 'wafer_defect_clusters':
-        WaferMap(title, _wafer_points(defects='clusters'))
+        WaferMap(title, _wafer_points(defects='clusters'), legend_title='Defect state', legend_labels=('No defect','Clustered defect'))
         return
     if surface_key == 'wafer_delta':
         affected = _wafer_points(delta=.45)
@@ -772,41 +1074,42 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
                     WaferMap(f'Wafer {index:02d}', _wafer_points(delta=delta))
         return
     if surface_key == 'wafer_contour':
-        Heatmap(title, (SeriesSpec('field','Smoothed spatial field',tuple((x,y,round(math.sin(x*.65)+math.cos(y*.55)+.15*x,3)) for x in range(7) for y in range(7))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(i-3) for i in range(7))), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(i-3) for i in range(7))))
+        panel = _WaferContourPlot(title, (39.4, 39.9, 40.5, 41.1, 41.7))
+        mark_semantic(panel, 'data-visual-semantic="wafer_contour" data-chart-semantics="clipped-contour-isolines"')
         return
     if surface_key == 'wafer_radial':
         RadialProfilePlot(title, (39.91,39.94,40.02,40.14,40.35,40.71,41.12,41.53,41.84), (39.85,39.88,39.92,39.96,40.01,40.06,40.12,40.18,40.23), unit='nm')
         return
     if surface_key == 'wafer_center_edge':
-        BarChart(title, (SeriesSpec('delta','Mean CD',(40.06,40.18,40.61,41.12)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Center','Middle','Edge','Outer edge')))
+        BarChart(title, (SeriesSpec('delta','Mean CD',(40.06,40.18,40.61,41.12)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Center','Middle','Edge','Outer edge'),label='Wafer region'), y_axis=AxisSpec(label='Mean measurement',unit='nm'))
         return
     if surface_key == 'wafer_ring':
-        BarChart(title, (SeriesSpec('ring','Mean residual',(.02,.08,.21,.48,.83)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('R0','R1','R2','R3','R4')))
+        BarChart(title, (SeriesSpec('ring','Mean residual',(.02,.08,.21,.48,.83)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('R0','R1','R2','R3','R4'),label='Concentric ring'), y_axis=AxisSpec(label='Mean residual'))
         return
     if surface_key == 'wafer_sector':
-        BarChart(title, (SeriesSpec('sector','Mean residual',(.12,.20,.58,.91,.44,.18,.09,.15)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('N','NE','E','SE','S','SW','W','NW')))
+        BarChart(title, (SeriesSpec('sector','Mean residual',(.12,.20,.58,.91,.44,.18,.09,.15)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('N','NE','E','SE','S','SW','W','NW'),label='Wafer sector'), y_axis=AxisSpec(label='Mean residual'))
         return
 
     # FDC/equipment analytics.
     if surface_key == 'fdc_recipe_step_trace':
-        LineChart(title, (SeriesSpec('pressure','Pressure',(1.0,1.1,1.15,1.2,1.65,1.72,1.68,2.10,2.15,1.55,1.45,1.40),smooth=False),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('S1','S1','S2','S2','S3','S3','S3','S4','S4','S5','S5','S5')))
+        LineChart(title, (SeriesSpec('pressure','Pressure',(1.0,1.1,1.15,1.2,1.65,1.72,1.68,2.10,2.15,1.55,1.45,1.40),smooth=False),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('S1','S1','S2','S2','S3','S3','S3','S4','S4','S5','S5','S5'),label='Elapsed time / recipe step'), y_axis=AxisSpec(label='Pressure'))
         return
     if surface_key == 'fdc_golden_envelope':
         LineChart(title, (
             SeriesSpec('upper','Golden upper',(1.25,1.32,1.38,1.48,1.61,1.75,1.84,1.90,1.86,1.77,1.62,1.50),smooth=True),
             SeriesSpec('trace','Observed',(1.10,1.18,1.25,1.36,1.54,1.71,1.92,2.06,2.02,1.88,1.70,1.56),smooth=True),
             SeriesSpec('lower','Golden lower',(.95,1.02,1.08,1.18,1.31,1.45,1.54,1.60,1.56,1.47,1.32,1.20),smooth=True),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs))
+        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs,label='Elapsed time'), y_axis=AxisSpec(label='Sensor value'))
         return
     if surface_key == 'fdc_multi_sensor':
         LineChart(title, (
             SeriesSpec('pressure','Pressure',(1.0,1.2,1.4,1.5,1.7,1.8,1.9,1.8,1.7,1.6,1.5,1.4),smooth=True),
             SeriesSpec('rf','RF bias',(.8,.9,1.0,1.2,1.4,1.6,1.7,1.75,1.65,1.5,1.25,1.0),smooth=True),
             SeriesSpec('flow','Gas flow',(1.15,1.13,1.12,1.10,1.08,1.05,1.03,1.02,1.04,1.08,1.10,1.12),smooth=True),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs))
+        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs,label='Elapsed time'), y_axis=AxisSpec(label='Normalized sensor response'))
         return
     if surface_key == 'fdc_tool_chamber_compare':
-        BarChart(title, (SeriesSpec('score','Normalized deviation',(.12,.18,.84,.23,.16,.31)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('T1/C1','T1/C2','T2/C1','T2/C2','T3/C1','T3/C2')))
+        BarChart(title, (SeriesSpec('score','Normalized deviation',(.12,.18,.84,.23,.16,.31)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('T1/C1','T1/C2','T2/C1','T2/C2','T3/C1','T3/C2'),label='Tool / chamber'), y_axis=AxisSpec(label='Normalized deviation'))
         return
     if surface_key == 'fdc_chamber_fingerprint':
         ChamberFingerprintMatrix(title, ('ETCH-014 / CH-2','ETCH-021 / CH-3','ETCH-024 / CH-1','ETCH-031 / CH-4'), ('CD Δ','Pressure','RF bias','PM age','OOS rate'), ((-.18,.06,-.10,.12,.04),(.91,.62,.73,.84,.78),(.11,-.08,.04,.22,.09),(.24,.16,.12,.31,.18)))
@@ -816,56 +1119,105 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         return
     if surface_key in {'fdc_alarm_overlay','fdc_equipment_event_overlay'}:
         event = 'Alarm' if surface_key == 'fdc_alarm_overlay' else 'PM event'
-        LineChart(f'{title} · {event} at R07', (SeriesSpec('sensor','Sensor',(1.0,1.1,1.2,1.3,1.45,1.62,2.15,2.05,1.72,1.55,1.42,1.34),smooth=True),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs))
+        panel = LineChart(
+            title, (SeriesSpec('sensor','Sensor',(1.0,1.1,1.2,1.3,1.45,1.62,2.15,2.05,1.72,1.55,1.42,1.34),smooth=True),),
+            x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs,label='Elapsed time'), y_axis=AxisSpec(label='Sensor value'),
+            annotations=(ChartAnnotation('R07', event, intent=AnnotationIntent.WARNING),),
+        )
+        mark_semantic(panel, f'data-visual-semantic="{surface_key}" data-chart-semantics="trace-with-event-marker"')
         return
     if surface_key == 'fdc_pca_scores':
         ScatterChart(title, (
             SeriesSpec('baseline','Baseline',((-1.6,-.8),(-1.1,.2),(-.8,-.4),(-.3,.5),(.2,-.2),(.6,.3))),
             SeriesSpec('affected','Affected',((1.3,.9),(1.6,1.4),(2.0,.8),(2.2,1.7),(2.5,1.2))),
-        ))
+        ), x_axis=AxisSpec(label='PC1 score'), y_axis=AxisSpec(label='PC2 score'))
         return
     if surface_key == 'fdc_pca_loadings':
-        BarChart(title, (SeriesSpec('loading','PC1 loading',(.72,.61,-.48,.33,.18)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF bias','Pressure','Gas A','Temp','Endpoint')))
+        BarChart(title, (SeriesSpec('loading','PC1 loading',(.72,.61,-.48,.33,.18)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF bias','Pressure','Gas A','Temp','Endpoint'),label='Sensor variable'), y_axis=AxisSpec(label='PC1 loading'))
         return
     if surface_key == 'fdc_hotelling_t2':
-        LineChart(title, (SeriesSpec('t2','Hotelling T²',(1.1,1.4,1.2,1.7,1.5,2.0,2.4,3.1,4.8,6.2,7.0,5.9)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs), spec_limits=SpecLimits(upper=5.0))
+        LineChart(title, (SeriesSpec('t2','Hotelling T²',(1.1,1.4,1.2,1.7,1.5,2.0,2.4,3.1,4.8,6.2,7.0,5.9)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs,label='Sample order'), y_axis=AxisSpec(label='Hotelling T²'), spec_limits=SpecLimits(upper=5.0,upper_label='Limit'))
         return
     if surface_key == 'fdc_spe_q':
-        LineChart(title, (SeriesSpec('spe','SPE / Q',(.4,.5,.6,.55,.72,.81,1.1,1.4,2.1,2.8,3.4,3.0)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs), spec_limits=SpecLimits(upper=2.5))
+        LineChart(title, (SeriesSpec('spe','SPE / Q',(.4,.5,.6,.55,.72,.81,1.1,1.4,2.1,2.8,3.4,3.0)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=runs,label='Sample order'), y_axis=AxisSpec(label='SPE / Q'), spec_limits=SpecLimits(upper=2.5,upper_label='Limit'))
         return
 
     # RCA analytics.
     if surface_key == 'rca_affected_control':
-        BoxPlot(title, (SeriesSpec('population','Metric',((38.8,39.4,40.0,40.5,41.1),(40.2,40.9,41.6,42.2,43.0))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected')))
+        panel = BoxPlot(title, (SeriesSpec('population','Metric',((38.8,39.4,40.0,40.5,41.1),(40.2,40.9,41.6,42.2,43.0))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected'),label='Population'), y_axis=AxisSpec(label='Measurement', min_value=38.0, max_value=44.0))
+        mark_semantic(panel, 'data-visual-semantic="rca_affected_control" data-chart-semantics="grouped-quartile-distributions"')
         return
     if surface_key in {'rca_commonality_ranking','rca_enrichment'}:
         values = (92,78,63,42,25) if surface_key == 'rca_commonality_ranking' else (4.8,3.6,2.9,1.8,1.2)
         label = 'Affected overlap %' if surface_key == 'rca_commonality_ranking' else 'Enrichment ratio'
-        BarChart(title, (SeriesSpec('rank',label,values),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CH-3','ETCH-021','Recipe R18','PM < 3d','Material M4')))
+        BarChart(title, (SeriesSpec('rank',label,values),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CH-3','ETCH-021','Recipe R18','PM < 3d','Material M4'),label='Factor'), y_axis=AxisSpec(label=label))
         return
     if surface_key == 'rca_commonality_matrix':
         CommonalityMatrix(title, ('CH-3','Recipe R18','PM < 3 d','Material M4','Route A17'), ('Affected','Matched control','Baseline'), ((.94,.18,.12),(.88,.31,.22),(.76,.15,.19),(.61,.55,.48),(.42,.39,.41)))
         return
     if surface_key == 'rca_contribution_waterfall':
-        BarChart(title, (SeriesSpec('delta','Signed contribution',(2.2,-.4,1.1,.6,-.2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CH-3','Recipe','PM age','Material','Controls')))
+        panel = _WaterfallDiagram(title, ('CH-3','Recipe','PM age','Material','Controls'), (2.2,-.4,1.1,.6,-.2), description='Transparent bases preserve the cumulative bridge from each signed contribution to the reconciled net shift.')
+        mark_semantic(panel, 'data-visual-semantic="rca_contribution_waterfall" data-chart-semantics="cumulative-signed-bridge"')
         return
     if surface_key == 'rca_correlation_matrix':
-        Heatmap(title, (SeriesSpec('corr','Correlation',tuple((x,y,round(math.sin((x+1)*(y+1))*.8,2)) for x in range(5) for y in range(5))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CD','Pressure','RF','Flow','Temp')), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CD','Pressure','RF','Flow','Temp')))
+        Heatmap(title, (SeriesSpec('corr','Correlation',tuple((x,y,round(math.sin((x+1)*(y+1))*.8,2)) for x in range(5) for y in range(5))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CD','Pressure','RF','Flow','Temp'),label='Variable'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CD','Pressure','RF','Flow','Temp'),label='Variable'))
         return
     if surface_key == 'rca_evidence_matrix':
         CommonalityMatrix(title, ('CH-3 drift','Recipe mismatch','Material lot','PM recovery'), ('Supports','Contradicts','Unknown'), ((.90,.10,0),(.22,.61,.17),(.35,.18,.47),(.71,.12,.17)))
         return
     if surface_key == 'rca_genealogy_graph':
-        _render_flow_preview(title, (('LOT-2471','affected lot'),('ETCH-021 / CH-3','common tool/chamber'),('ETCH_R18','shared recipe'),('WAFER-08','selected evidence')), footer='Genealogy preview preserves entity and route order; it does not imply causality.')
+        panel = _RelationshipGraph(
+            title,
+            (
+                ('lot', 'LOT-2471', 0, 1), ('w8', 'W08', 1, 0), ('w9', 'W09', 1, 2),
+                ('ch3', 'ETCH-021 / CH-3', 2, 1), ('ch1', 'ETCH-024 / CH-1', 2, 3),
+                ('review', 'Review population', 3, 1),
+            ),
+            (('lot', 'w8'), ('lot', 'w9'), ('w8', 'ch3'), ('w9', 'ch3'), ('w9', 'ch1'), ('ch3', 'review')),
+            description='Branching and merging entity relationships preserve route order; they do not imply causality.',
+        )
+        mark_semantic(panel, 'data-visual-semantic="rca_genealogy_graph" data-chart-semantics="branching-merging-directed-relationships"')
         return
     if surface_key == 'rca_cause_tree':
-        _render_tree_preview(title, 'CD excursion', (('Equipment',('CH-3 drift','RF delivery')),('Process',('Recipe step','Pressure response')),('Material',('Incoming lot M4',))), footer='Candidates are hypotheses until evidence corroborates them.')
+        panel = _FaultTreeDiagram(
+            title,
+            {
+                'name': 'CD excursion',
+                'children': (
+                    {'name': 'Equipment', 'children': ({'name': 'CH-3 drift'}, {'name': 'RF delivery'})},
+                    {'name': 'Process', 'children': ({'name': 'Recipe step'}, {'name': 'Pressure response'})},
+                    {'name': 'Material', 'children': ({'name': 'Incoming lot M4'},)},
+                ),
+            },
+            description='Hierarchical candidate decomposition; candidates remain hypotheses until evidence corroborates them.',
+            renderer_type='cause_tree',
+        )
+        mark_semantic(panel, 'data-visual-semantic="rca_cause_tree" data-chart-semantics="hierarchical-causal-candidates"')
         return
     if surface_key == 'rca_fault_tree':
-        _render_tree_preview(title, 'OOS event', (('OR · Equipment',('Pressure unstable','RF mismatch')),('OR · Process',('Wrong recipe revision','Endpoint shift')),('AND · Detection',('SPC violation','Wafer edge signature'))), footer='Logical decomposition is shown separately from evidence confidence.')
+        panel = _FaultTreeDiagram(
+            title,
+            {
+                'name': 'OOS event',
+                'children': (
+                    {'name': 'OR', 'gate': 'OR', 'children': ({'name': 'Pressure unstable'}, {'name': 'RF mismatch'}, {'name': 'Wrong recipe revision'})},
+                    {'name': 'AND', 'gate': 'AND', 'children': ({'name': 'SPC violation'}, {'name': 'Wafer edge signature'})},
+                ),
+            },
+            description='AND/OR logic is explicit and remains separate from evidence confidence.',
+        )
+        mark_semantic(panel, 'data-visual-semantic="rca_fault_tree" data-chart-semantics="hierarchy-connectors-and-or-gates"')
         return
     if surface_key == 'rca_sankey':
-        _render_flow_preview(title, (('Affected wafers','84'),('ETCH-021','61'),('CH-3','54'),('Recipe R18','49'),('OOS signature','43')), footer='Process-flow sample shows population narrowing through route/tool context.')
+        nodes = ('Affected wafers', 'ETCH-021', 'ETCH-024', 'CH-3', 'CH-1', 'Recipe R18', 'Review', 'Other')
+        links = (
+            ('Affected wafers', 'ETCH-021', 79), ('Affected wafers', 'ETCH-024', 5),
+            ('ETCH-021', 'CH-3', 61), ('ETCH-021', 'CH-1', 18), ('ETCH-024', 'CH-1', 5),
+            ('CH-3', 'Recipe R18', 54), ('CH-3', 'Other', 7), ('CH-1', 'Other', 23),
+            ('Recipe R18', 'Review', 43), ('Recipe R18', 'Other', 11),
+        )
+        panel = _SankeyDiagram(title, nodes, links, description='Band width encodes wafer quantity through route, tool, chamber, and review stages.')
+        mark_semantic(panel, 'data-visual-semantic="rca_sankey" data-chart-semantics="quantity-weighted-flow-bands"')
         return
 
     # Yield, reliability, DOE.
@@ -874,25 +1226,28 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         ParetoChart(title, labels, (34,22,13,8,5), (41.5,68.3,84.1,93.9,100.0))
         return
     if surface_key == 'yield_waterfall':
-        BarChart(title, (SeriesSpec('delta','Yield delta',(-1.8,-.9,-.6,.3,-.2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('CD OOS','Edge','Overlay','Recovery','Other')))
+        panel = _WaterfallDiagram(title, ('CD OOS','Edge','Overlay','Recovery','Other'), (-1.8,-.9,-.6,.3,-.2), description='Loss and recovery bars reconcile the signed total yield change.')
+        mark_semantic(panel, 'data-visual-semantic="yield_waterfall" data-chart-semantics="cumulative-signed-bridge"')
         return
     if surface_key == 'weibull_reliability':
-        LineChart(title, (SeriesSpec('failure','Cumulative failure probability',(.01,.02,.04,.07,.12,.19,.29,.42,.57,.71,.83,.91)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('10','20','30','40','50','60','70','80','90','100','110','120')))
+        LineChart(title, (SeriesSpec('failure','Cumulative failure probability',(.01,.02,.04,.07,.12,.19,.29,.42,.57,.71,.83,.91)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('10','20','30','40','50','60','70','80','90','100','110','120'),label='Exposure time'), y_axis=AxisSpec(label='Cumulative failure probability',min_value=0.0,max_value=1.0))
         return
     if surface_key == 'doe_main_effects':
-        LineChart(title, (
+        panel = LineChart(title, (
             SeriesSpec('rf','RF bias',(39.6,40.2,41.1)),
             SeriesSpec('pressure','Pressure',(40.8,40.3,39.9)),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Low','Center','High')))
+        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Low','Center','High'), label='Factor level'), y_axis=AxisSpec(label='Mean response'))
+        mark_semantic(panel, 'data-visual-semantic="doe_main_effects" data-chart-semantics="clear-opposing-main-effect-slopes"')
         return
     if surface_key == 'doe_interactions':
-        LineChart(title, (
-            SeriesSpec('low-pressure','Pressure low',(39.7,40.0,40.4)),
-            SeriesSpec('high-pressure','Pressure high',(40.8,40.5,39.9)),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF low','RF center','RF high')))
+        panel = LineChart(title, (
+            SeriesSpec('low-pressure','Pressure low',(39.4,40.1,41.2)),
+            SeriesSpec('high-pressure','Pressure high',(41.0,40.5,39.7)),
+        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF low','RF center','RF high'), label='RF bias level'), y_axis=AxisSpec(label='Mean response'))
+        mark_semantic(panel, 'data-visual-semantic="doe_interactions" data-chart-semantics="non-parallel-crossing-interaction"')
         return
     if surface_key == 'doe_response_surface':
-        Heatmap(title, (SeriesSpec('response','Response',tuple((x,y,round(39.5+.18*x-.12*y+.06*x*y-.035*x*x,3)) for x in range(7) for y in range(6))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF-3','RF-2','RF-1','RF0','RF+1','RF+2','RF+3')), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('P-2','P-1','P0','P+1','P+2','P+3')))
+        Heatmap(title, (SeriesSpec('response','Response',tuple((x,y,round(39.5+.18*x-.12*y+.06*x*y-.035*x*x,3)) for x in range(7) for y in range(6))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF-3','RF-2','RF-1','RF0','RF+1','RF+2','RF+3'),label='Factor A · RF bias'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('P-2','P-1','P0','P+1','P+2','P+3'),label='Factor B · pressure'))
         return
 
     raise AssertionError(f'Preview dispatch did not render {surface_key!r} ({category!r})')
@@ -958,7 +1313,7 @@ def _render_analytic_studio_preview(session) -> None:
             )
             ui.label(f'Live from Data Dock · covariance score from {x_key} + {y_key}').classes('cui-workbench-preview-caption')
             return
-    _render_surface_preview(surface_key, session.entry.category)
+    _render_surface_preview(surface_key, session.entry.category, title=session.config.title or session.entry.title)
 
 
 def analytics_detail_page(surface_key: str) -> None:
@@ -966,14 +1321,14 @@ def analytics_detail_page(surface_key: str) -> None:
     if entry is None:
         _unknown_detail('/catalog', 'Analytical surface not found', f'No canonical analytical surface is registered as {surface_key!r}.', '/analytics')
         return
-    _studio_entry_page(entry, active_route='/catalog', preview_renderer=_render_analytic_studio_preview)
+    _studio_entry_page(entry, active_route='/analytics')
 
-def recipes_gallery_page() -> None:
+def recipes_gallery_page(*, active_route: str = '/recipes', page_title: str = 'Semiconductor Recipes', page_description: str = 'Governed semiconductor application compositions, visible as first-class starters.') -> None:
     ui, *_ = _imports()
     entries = recipe_entries()
-    shell = _shell('/recipes', 'Recipes', 'Eight governed semiconductor application compositions, visible as first-class starters.')
+    shell = _shell(active_route, page_title, page_description)
     with ui.element('div').classes('cui-workbench-toolbar'):
-        ui.label(f'{len(entries)} / 8 visible').classes('cui-workbench-chip')
+        ui.label(f'{len(entries)} governed recipes').classes('cui-workbench-chip')
     with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
         for entry in entries:
             _card(entry)
@@ -1049,7 +1404,7 @@ def recipe_detail_page(recipe_key: str) -> None:
     from .recipe_mapping import RecipeMappingModel, render_recipe_mapping
     entry = next((item for item in recipe_entries() if item.metadata.get('recipe_key') == recipe_key), None)
     if entry is None:
-        _unknown_detail('/recipes', 'Recipe not found', f'No Workbench recipe entry is registered as {recipe_key!r}.', '/recipes')
+        _unknown_detail('/recipes', 'Recipe not found', f'No Reference Explorer recipe entry is registered as {recipe_key!r}.', '/recipes')
         return
 
     data = DataDockModel(DEFAULT_ENGINEERING_SAMPLE, sample_name=f'{recipe.application_name} development sample')
@@ -1078,10 +1433,7 @@ def recipe_detail_page(recipe_key: str) -> None:
                         ui.label('Unavailable: current mapped data does not satisfy this panel’s field requirements.').classes('cui-workbench-note')
                         continue
                     host = ui.element('div').classes('cui-workbench-panel-preview')
-                    with host:
-                        ui.label('Preview mounts on demand.').classes('cui-workbench-preview-empty')
-                    from nicegui_base.integrations.nicegui_components import Button
-                    Button('Load sample preview', on_click=lambda panel=panel, host=host: _mount_recipe_panel(panel, host))
+                    _mount_recipe_panel(panel, host)
 
     def interactions(session) -> None:
         if not recipe.interactions:
@@ -1128,7 +1480,7 @@ def recipe_detail_page(recipe_key: str) -> None:
         ui.label('Recipe compatibility').classes('cui-workbench-section-title')
         preview_host = ui.element('div').classes('cui-workbench-panel-preview')
         with preview_host:
-            ui.label('Choose “Preview panel” in the mapping result to inspect one mapped panel here.').classes('cui-workbench-preview-empty')
+            ui.label('Confirm a mapping in the Data tab to inspect a panel with your own source.').classes('cui-workbench-preview-empty')
         render_mapping_host()
 
     _studio_entry_page(
@@ -1143,7 +1495,7 @@ def recipe_detail_page(recipe_key: str) -> None:
 def data_page() -> None:
     from .capability_studio import render_data_dock
     from .data_dock import default_data_dock
-    shell = _shell('/workbench/data', 'Data', 'Review and edit development data first; paste or upload only when you need to replace the current dataset.')
+    shell = _shell('/workbench/data', 'Data & Tables', 'Use example data to demonstrate schema, mappings, table behavior, and query-ready contracts.')
     model = default_data_dock()
     render_data_dock(model)
     _end_shell(shell)
@@ -1161,16 +1513,17 @@ def quality_page() -> None:
     previewed_analytics = len(SURFACE_PREVIEW_FAMILIES)
     family_counts = catalog_family_coverage()
     catalog_audit = framework_catalog_audit(entries)
+    contract_audit = catalog_contract_audit(entries)
     catalog_total, catalog_visible, catalog_missing = catalog_audit.canonical_total, catalog_audit.visible, catalog_audit.missing
     catalog_duplicates = catalog_audit.duplicates
     catalog_declared, catalog_identified = catalog_audit.declared, catalog_audit.identified
-    shell = _shell('/quality', 'Quality', 'Capability existence and Workbench discoverability are measured separately so hidden framework depth cannot look complete.')
-    with _section('Existence vs discoverability', 'Canonical authority counts are compared with what an engineer can actually find and open from the Workbench.'):
+    shell = _shell('/quality', 'Diagnostics', 'Reference contract, live example, runtime, and visual evidence are reported as separate proof layers.')
+    with _section('Authority health', 'Canonical authority counts are compared with what an engineer can actually find and open from the Reference Explorer.'):
         with ui.element('div').classes('cui-workbench-quality-grid'):
             for label, exists, visible, previewed in (
-                ('Generic application patterns', canonical_patterns, stats.patterns, canonical_patterns),
-                ('Semiconductor analytics', canonical_analytics, stats.analytics, previewed_analytics),
-                ('Semiconductor recipes', canonical_recipes, stats.recipes, canonical_recipes),
+        ('Generic application patterns', canonical_patterns, stats.patterns, canonical_patterns),
+        ('Semiconductor analytics', canonical_analytics, stats.analytics, previewed_analytics),
+        ('Semiconductor recipes', canonical_recipes, stats.recipes, canonical_recipes),
             ):
                 with ui.element('article').classes('cui-workbench-quality-card'):
                     ui.label(label).classes('cui-workbench-card__title')
@@ -1178,19 +1531,19 @@ def quality_page() -> None:
                         ui.label('Canonical existence').classes('cui-workbench-note')
                         ui.label(str(exists)).classes('cui-workbench-chip')
                     with ui.element('div').classes('cui-workbench-quality-row'):
-                        ui.label('Workbench discoverability').classes('cui-workbench-note')
+                        ui.label('Reference Explorer discoverability').classes('cui-workbench-note')
                         ui.label(f'{visible} / {exists}').classes('cui-workbench-chip')
                     with ui.element('div').classes('cui-workbench-quality-row'):
                         ui.label('Sample preview contract').classes('cui-workbench-note')
                         ui.label(f'{previewed} / {exists}').classes('cui-workbench-chip')
-    with _section('Catalog family coverage', 'Every plan-level capability family must be backed by at least one discoverable canonical authority entry.'):
+    with _section('Catalog family coverage', 'Every capability family must be backed by at least one discoverable canonical authority entry.'):
         with ui.element('div').classes('cui-workbench-quality-grid'):
             for family in REQUIRED_CATALOG_FAMILIES:
                 count = family_counts.get(family, 0)
                 with ui.element('article').classes('cui-workbench-quality-card'):
                     ui.label(family).classes('cui-workbench-card__title')
                     ui.label(f'{count} discoverable entr{"y" if count == 1 else "ies"}').classes('cui-workbench-chip')
-    with _section('Canonical catalog parity', 'Every packaged framework-catalog record must resolve to either a richer Workbench adapter or a canonical fallback entry.'):
+    with _section('Canonical catalog parity', 'Every packaged framework-catalog record resolves to a richer Reference Explorer adapter or an explicit contract entry.'):
         with ui.element('article').classes('cui-workbench-quality-card'):
             ui.label(f'{catalog_visible} / {catalog_total} canonical catalog records visible').classes('cui-workbench-card__title')
             ui.label(f'Catalog shape: {catalog_identified} identified / {catalog_declared} declared').classes('cui-workbench-note')
@@ -1199,17 +1552,24 @@ def quality_page() -> None:
             elif catalog_duplicates:
                 ui.label(f'{len(catalog_duplicates)} duplicated: ' + ', '.join(f'{registry}/{key}' for registry, key in catalog_duplicates[:8])).classes('cui-workbench-note')
             else:
-                ui.label('No canonical framework-catalog records are hidden or duplicated in the Workbench.').classes('cui-workbench-note')
+                ui.label('No canonical framework-catalog records are hidden or duplicated in the Reference Explorer.').classes('cui-workbench-note')
+    with _section('Reference contracts', 'Every reusable capability exposes the same typed anatomy to people and AI agents.'):
+        with ui.element('article').classes('cui-workbench-quality-card'):
+            ui.label(f'{contract_audit.conforming} / {contract_audit.total} complete').classes('cui-workbench-card__title')
+            ui.label('Live examples use registered renderers; nonvisual capabilities declare their explicit contract variant.').classes('cui-workbench-note')
+            if contract_audit.issues:
+                ui.label('; '.join(contract_audit.issues[:4])).classes('cui-workbench-note')
     with _section('Current source checks'):
         checks = (
             (catalog_declared == EXPECTED_FRAMEWORK_CATALOG_RECORDS and catalog_declared == catalog_identified == catalog_total, f'Generated framework catalog has a stable identity for all {EXPECTED_FRAMEWORK_CATALOG_RECORDS} reviewed records'),
             (catalog_total > 0 and catalog_visible == catalog_total and not catalog_missing and not catalog_duplicates, 'Every packaged canonical framework-catalog record is discoverable exactly once'),
-            (all(family_counts.get(family, 0) > 0 for family in REQUIRED_CATALOG_FAMILIES), 'Every required Workbench catalog family contributes discoverable canonical entries'),
+            (all(family_counts.get(family, 0) > 0 for family in REQUIRED_CATALOG_FAMILIES), 'Every required Reference Explorer catalog family contributes discoverable canonical entries'),
             (canonical_patterns == stats.patterns == 10, f'{stats.patterns}/{canonical_patterns} canonical generic application patterns are discoverable'),
             (canonical_analytics == stats.analytics == 58, f'{stats.analytics}/{canonical_analytics} canonical semiconductor analytical surfaces are discoverable'),
             (set(SURFACE_PREVIEW_FAMILIES) == set(SEMICONDUCTOR_SURFACE_REGISTRY), 'Every canonical analytical surface has an exact-key sample preview contract'),
             (canonical_recipes == stats.recipes == 8, f'{stats.recipes}/{canonical_recipes} canonical semiconductor recipes are discoverable'),
             (all(recipe.panels for recipe in SEMICONDUCTOR_RECIPE_REGISTRY.values()), 'Every canonical recipe has a renderable panel composition'),
+            (contract_audit.complete, f'{contract_audit.conforming}/{contract_audit.total} catalog entries have complete typed reference contracts'),
             (bool(search('hotelling')), 'Hotelling T² is searchable by name'),
             (any(r.entry.metadata.get('surface_key') == 'fdc_hotelling_t2' for r in search('t2')), 'Hotelling T² is searchable by T2'),
             (any(r.entry.metadata.get('surface_key') == 'fdc_hotelling_t2' for r in search('fdc', limit=100)), 'Hotelling T² is reachable through FDC search'),
@@ -1219,7 +1579,41 @@ def quality_page() -> None:
             ui.label(f"{'✓' if passed else '✕'} {text}").classes('cui-workbench-note')
     from .coverage_matrix import render_developer_readiness
     render_developer_readiness(entries)
-    ui.label('Runtime, browser, target-environment, and human visual evidence stay separate from source coverage until actually executed.').classes('cui-workbench-note')
+    ui.label('Runtime, browser, target-environment, and visual review evidence are recorded separately from source coverage.').classes('cui-workbench-note')
+    _end_shell(shell)
+
+
+def applications_page() -> None:
+    from nicegui import ui
+    from nicegui_base.integrations.nicegui_components import Button
+    from .full_applications import full_application_entries
+
+    entries = full_application_entries()
+    shell = _shell('/applications', 'Full Applications', 'Complete department-style applications composed from the same patterns, recipes and components used by generated projects.')
+    with ui.element('div').classes('cui-workbench-toolbar'):
+        ui.label(f'{len(entries)} runnable reference applications').classes('cui-workbench-chip')
+        Button('Browse recipe contracts', on_click=lambda: ui.navigate.to('/recipes'))
+    with _section('Start from a complete application', 'Open a runnable composition to see the engineering question, pattern, linked records, analytical view and caveats together.'):
+        with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
+            for entry in entries:
+                pattern_label = entry.pattern_key.replace('_', ' ').title()
+                _action_card(entry.title, entry.description, entry.route, f'Pattern: {pattern_label} · Recipe: {entry.recipe_key}')
+    with _section('Composition rule', 'Use a complete application as the starting point; change domain services and data contracts before changing layout anatomy.'):
+        ui.label('Each example uses the governed shell, semantic pattern slots, FilterBar, MetricStrip, registered visualization/table renderers, an InspectorDrawer and explicit empty-state behavior.').classes('cui-workbench-note')
+    _end_shell(shell)
+
+
+def full_application_detail_page(application_key: str) -> None:
+    from .full_applications import FULL_APPLICATION_REGISTRY, render_full_application
+
+    definition = FULL_APPLICATION_REGISTRY.get(application_key)
+    if definition is None:
+        _unknown_detail('/applications', 'Application not found', f'No complete reference application is registered as {application_key!r}.', '/applications')
+        return
+    # The governed PatternPage is the single owner of the application title and
+    # description; the outer Reference Explorer shell stays stable on detail routes.
+    shell = _shell('/applications', 'Full Applications', 'Open a complete reference composition built from the department pattern and recipe authorities.')
+    render_full_application(definition)
     _end_shell(shell)
 
 REFERENCE_PATTERN_ROUTES = {
@@ -1248,12 +1642,7 @@ def _install_workbench_reference_preview(mac_lab) -> None:
         if not pattern_key:
             return shell
         from nicegui import ui
-        from nicegui_base.integrations.nicegui_components import ActionButton, Button
-
-        def use_in_builder() -> None:
-            from .project_state import set_project_pattern
-            set_project_pattern(pattern_key)
-            ui.navigate.to('/build')
+        from nicegui_base.integrations.nicegui_components import Button
 
         with ui.element('section').classes('cui-studio-header cui-workbench-reference-preview').props(
             'role="region" aria-label="Reference app preview"'
@@ -1263,10 +1652,9 @@ def _install_workbench_reference_preview(mac_lab) -> None:
                 ui.label('•')
                 ui.label(pattern_key.replace('_', ' ').upper())
             ui.label(pattern_key.replace('_', ' ').title()).classes('cui-workbench-section-title')
-            ui.label('Interactive canonical pattern. Explore the real behavior here, then carry this same governed structure into Builder.').classes('cui-workbench-note')
+            ui.label('Interactive canonical pattern. Explore the real behavior here, then use the same registered pattern from the developer scaffolding CLI.').classes('cui-workbench-note')
             with ui.element('div').classes('cui-workbench-toolbar'):
-                ActionButton('Use this pattern in Builder', on_click=use_in_builder)
-                Button('Back to Workbench', on_click=lambda: ui.navigate.to('/layouts'))
+                Button('Back to Reference Explorer', on_click=lambda: ui.navigate.to('/layouts'))
         return shell
 
     mac_lab._reference_shell = workbench_reference_shell
@@ -1296,7 +1684,10 @@ def register_workbench_pages(*, include_reference: bool = True, root_path: str =
     ui.add_head_html(f"""<script>(function(){{if(window.__niceguiBaseWorkbenchGlobalKeys)return;window.__niceguiBaseWorkbenchGlobalKeys=true;window.__niceguiBaseWorkbenchHome={json.dumps(palette_fallback)};document.addEventListener('keydown',function(e){{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){{e.preventDefault();const id=window.__niceguiBaseWorkbenchCommandTarget;const target=id?getHtmlElement(id):null;if(target){{target.click();}}else{{window.location.href=window.__niceguiBaseWorkbenchHome;}}}}}});}})();</script>""", shared=True)
     ui.page('/')(home_page)
     ui.page('/build')(build_page)
+    ui.page('/design')(design_system_page)
     ui.page('/catalog')(catalog_page)
+    ui.page('/components')(components_page)
+    ui.page('/patterns')(patterns_page)
     ui.page('/layouts')(layout_studio_page)
     ui.page('/studio/{entry_key}')(studio_page)
     ui.page('/catalog/component/{component_key}')(component_detail_page)
@@ -1304,9 +1695,12 @@ def register_workbench_pages(*, include_reference: bool = True, root_path: str =
     ui.page('/analytics')(analytics_gallery_page)
     ui.page('/analytics/{surface_key}')(analytics_detail_page)
     ui.page('/recipes')(recipes_gallery_page)
+    ui.page('/applications')(applications_page)
+    ui.page('/applications/{application_key}')(full_application_detail_page)
     ui.page('/recipes/{recipe_key}')(recipe_detail_page)
     ui.page('/workbench/data')(data_page)
     ui.page('/quality')(quality_page)
+    ui.page('/ai-guide')(ai_guide_page)
     if include_reference:
         _register_reference_routes()
 
@@ -1317,8 +1711,9 @@ def run_workbench(*, host: str = '127.0.0.1', port: int = 8080, show: bool = Fal
     from nicegui_base.integrations.nicegui_runtime import NiceGUIRuntimeAdapter
     from nicegui_base.runtime import ProxyConfig, RuntimeConfig, RuntimeEnvironment
     from nicegui_base.version import FRAMEWORK_VERSION
+    from nicegui_base.security import SecurityHeaders
     config = RuntimeConfig(app_name=WORKBENCH_TITLE, app_version=FRAMEWORK_VERSION, environment=RuntimeEnvironment.TEST, host=host, port=port, title=WORKBENCH_TITLE, show_browser=show, reload=False, proxy=ProxyConfig(root_path=root_path))
-    runtime = NiceGUIRuntimeAdapter(config)
+    runtime = NiceGUIRuntimeAdapter(config, security_headers=SecurityHeaders(frame_options='SAMEORIGIN'))
 
     def workbench_contract_health():
         try:
@@ -1332,6 +1727,7 @@ def run_workbench(*, host: str = '127.0.0.1', port: int = 8080, show: bool = Fal
             preview_keys = set(SURFACE_PREVIEW_FAMILIES)
             family_counts = catalog_family_coverage()
             catalog_audit = framework_catalog_audit(entries)
+            contract_audit = catalog_contract_audit(entries)
             catalog_total, catalog_visible, catalog_missing = catalog_audit.canonical_total, catalog_audit.visible, catalog_audit.missing
             catalog_duplicates = catalog_audit.duplicates
             catalog_declared, catalog_identified = catalog_audit.declared, catalog_audit.identified
@@ -1351,9 +1747,10 @@ def run_workbench(*, host: str = '127.0.0.1', port: int = 8080, show: bool = Fal
                 and len(recipe_keys) == 8
                 and analytic_keys == preview_keys
                 and all(family_counts.get(family, 0) > 0 for family in REQUIRED_CATALOG_FAMILIES)
+                and contract_audit.complete
             )
             covered_families = sum(family_counts.get(family, 0) > 0 for family in REQUIRED_CATALOG_FAMILIES)
-            detail = f'catalog={catalog_visible}/{catalog_total} shape={catalog_identified}/{catalog_declared}/{EXPECTED_FRAMEWORK_CATALOG_RECORDS} duplicates={len(catalog_duplicates)} patterns={stats.patterns}/{len(canonical_pattern_keys)} analytics={stats.analytics}/{len(analytic_keys)} recipes={stats.recipes}/{len(recipe_keys)} previews={len(preview_keys)}/{len(analytic_keys)} families={covered_families}/{len(REQUIRED_CATALOG_FAMILIES)}'
+            detail = f'catalog={catalog_visible}/{catalog_total} shape={catalog_identified}/{catalog_declared}/{EXPECTED_FRAMEWORK_CATALOG_RECORDS} duplicates={len(catalog_duplicates)} contracts={contract_audit.conforming}/{contract_audit.total} patterns={stats.patterns}/{len(canonical_pattern_keys)} analytics={stats.analytics}/{len(analytic_keys)} recipes={stats.recipes}/{len(recipe_keys)} previews={len(preview_keys)}/{len(analytic_keys)} families={covered_families}/{len(REQUIRED_CATALOG_FAMILIES)}'
             return HealthResult('workbench-contract', HealthState.HEALTHY if ok else HealthState.UNHEALTHY, detail)
         except Exception as exc:
             return HealthResult('workbench-contract', HealthState.UNHEALTHY, f'{type(exc).__name__}: {exc}')
@@ -1370,14 +1767,15 @@ def run_workbench(*, host: str = '127.0.0.1', port: int = 8080, show: bool = Fal
             'product': 'nicegui-base',
             'application': 'workbench',
             'version': FRAMEWORK_VERSION,
+            'build_id': BUILD_ID,
             'ready': report.ready,
             'state': report.state.value,
         }
         return JSONResponse(payload, status_code=200 if report.ready else 503)
 
     register_workbench_pages(root_path=root_path)
-    kwargs = config.nicegui_run_kwargs({'NICEGUI_BASE_STORAGE_SECRET': f'nicegui-base-workbench-v{FRAMEWORK_VERSION}'})
+    kwargs = config.nicegui_run_kwargs({'NICEGUI_BASE_STORAGE_SECRET': os.environ.get('NICEGUI_BASE_STORAGE_SECRET') or secrets.token_urlsafe(48)})
     ui.run(**kwargs)
 
 
-__all__ = ['WORKBENCH_TITLE','register_workbench_pages','run_workbench','workbench_navigation']
+__all__ = ['WORKBENCH_TITLE','WORKBENCH_SUBTITLE','reference_entries_for_section','register_workbench_pages','run_workbench','workbench_navigation']

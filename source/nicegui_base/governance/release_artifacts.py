@@ -138,13 +138,13 @@ def _is_transient(path: Path, root: Path) -> bool:
 
 def iter_release_files(root: str | Path, *, exclude: Iterable[str] = ()) -> tuple[Path, ...]:
     root = Path(root).resolve()
-    excluded = {PurePosixPath(item).as_posix() for item in exclude}
+    excluded = {PurePosixPath(item).as_posix().rstrip('/') for item in exclude}
     files: list[Path] = []
     for path in root.rglob('*'):
         if not path.is_file() or _is_transient(path, root):
             continue
         rel = path.relative_to(root).as_posix()
-        if rel in excluded:
+        if any(rel == item or rel.startswith(item + '/') for item in excluded):
             continue
         files.append(path)
     return tuple(sorted(files, key=lambda item: item.relative_to(root).as_posix()))
@@ -268,11 +268,11 @@ def _safe_archive_name(name: str) -> bool:
     return bool(name) and not posix.is_absolute() and '..' not in posix.parts and '\\' not in name
 
 
-def build_deterministic_zip(staging_root: str | Path, target: str | Path) -> Path:
+def build_deterministic_zip(staging_root: str | Path, target: str | Path, *, exclude: Iterable[str] = ()) -> Path:
     root = Path(staging_root).resolve(); target = Path(target).resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for path in iter_release_files(root):
+        for path in iter_release_files(root, exclude=exclude):
             rel = path.relative_to(root).as_posix()
             info = zipfile.ZipInfo(rel, date_time=(1980, 1, 1, 0, 0, 0))
             mode = stat.S_IMODE(path.stat().st_mode)

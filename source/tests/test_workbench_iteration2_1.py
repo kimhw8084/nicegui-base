@@ -61,7 +61,7 @@ def test_theme_bootstrap_and_scoped_studio_preview_are_present():
     theme = (SOURCE / 'nicegui_base/integrations/nicegui_theme.py').read_text(encoding='utf-8')
     studio = (SOURCE / 'nicegui_base/workbench/capability_studio.py').read_text(encoding='utf-8')
     assert "localStorage.getItem('nicegui_base_theme')" in theme
-    assert "data-theme=\"{value}\"" in studio
+    assert 'data-theme="{session.config.theme}"' in studio
     assert 'document.documentElement.dataset.theme={value!r}' not in studio
 
 
@@ -101,4 +101,3 @@ def test_framework_css_installer_calls_always_supply_ui():
             if name == 'install_framework_css' and len(node.args) == 0:
                 offenders.append(f'{path.relative_to(SOURCE)}:{node.lineno}')
     assert offenders == [], 'install_framework_css requires ui; zero-arg calls: ' + ', '.join(offenders)
-

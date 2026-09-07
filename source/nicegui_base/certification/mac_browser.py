@@ -670,7 +670,7 @@ def _interaction_smoke(page, route: str, *, density: str = 'compact') -> list[st
         elif route=='/data':
             initial_grids=page.locator('.cui-data-table .ag-root-wrapper')
             if initial_grids.count()!=1: issues.append(f'DataTable lab mounted {initial_grids.count()} AG Grid instances initially; expected exactly 1')
-            for label in ('Load editable table','Load server table','Load master/detail table'):
+            for label in ('Load configuration editor','Load maintenance planner','Load incident queue','Load reconciliation review'):
                 if not page.get_by_role('button',name=label).count(): issues.append(f'DataTable deferred certification control missing: {label}')
             page_scroll=page.evaluate("""async () => {
               const startY=window.scrollY; const gaps=[]; let last=performance.now(); let frames=0;
@@ -756,13 +756,13 @@ def _interaction_smoke(page, route: str, *, density: str = 'compact') -> list[st
             else: issues.append('data table rendered no inspectable rows')
             # Secondary grids stay absent during normal page use but remain fully certifiable on demand.
             expected=1
-            for label in ('Load editable table','Load server table','Load master/detail table'):
+            for label in ('Load configuration editor','Load maintenance planner','Load incident queue','Load reconciliation review'):
                 button=page.get_by_role('button',name=label).first
                 if button.count():
                     button.scroll_into_view_if_needed(); button.click(); expected+=1
                     try: page.wait_for_function("n => document.querySelectorAll('.cui-data-table .ag-root-wrapper').length >= n",arg=expected,timeout=1200)
                     except Exception: issues.append(f'DataTable deferred surface failed to mount: {label}')
-            if page.locator('.cui-data-table .ag-root-wrapper').count()<4: issues.append('DataTable deferred certification surfaces are incomplete after explicit load')
+            if page.locator('.cui-data-table .ag-root-wrapper').count()<5: issues.append('DataTable deferred certification surfaces are incomplete after explicit load')
         elif route=='/charts':
             zoom=page.get_by_role('button',name='Zoom in').first
             script="""() => { const root=document.querySelector('.cui-chart-canvas'); if(!root||!window.echarts)return null; const nodes=[root,...root.querySelectorAll('*')]; const dom=nodes.find(n=>n.getAttribute&&n.getAttribute('_echarts_instance_')); const chart=dom?window.echarts.getInstanceByDom(dom):null; const z=chart?.getOption?.().dataZoom||[]; return z.slice(0,2).map(x=>({id:x.id,start:x.start,end:x.end})); }"""

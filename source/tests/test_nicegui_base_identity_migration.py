@@ -73,6 +73,12 @@ def test_current_active_framework_tree_has_no_unapproved_old_brand_refs() -> Non
         Path("nicegui_base/runtime/config.py"),
         Path("nicegui_base/release_authority.json"),
         Path("nicegui_base/identity_migration.json"),
+        # These references are deliberate migration/compatibility guardrails,
+        # not generated-application branding.
+        Path("nicegui_base/design/hardening_css.py"),
+        Path("nicegui_base/workbench/runtime_bundle.py"),
+        Path("nicegui_base/workbench/generated_smoke.py"),
+        Path("nicegui_base/workbench/codegen.py"),
     }
     offenders: list[str] = []
     for root in (Path("nicegui_base"), Path("examples"), Path("showcase"), Path("linux_bundle"), Path("mac_bundle")):

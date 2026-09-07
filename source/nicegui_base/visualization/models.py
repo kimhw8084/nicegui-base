@@ -190,7 +190,7 @@ class ChartPanelSpec:
 
     @property
     def classes(self) -> str:
-        return f'cui-chart-panel cui-chart-panel--{self.size.value}'
+        return f'cui-chart-panel cui-chart-panel--{self.size.value} cui-chart-panel--{self.kind.value}'
 
 
 @dataclass(frozen=True, slots=True)

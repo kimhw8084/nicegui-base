@@ -168,11 +168,14 @@ def test_all_58_preview_dispatch_paths_construct_with_bounded_ui_stubs(monkeypat
         return render
 
     viz = ModuleType('nicegui_base.integrations.nicegui_visualization')
-    for name in ('BarChart','BoxPlot','ChamberFingerprintMatrix','CommonalityMatrix','ControlChart','DistributionPanel','Heatmap','Histogram','LineChart','ParetoChart','RadialProfilePlot','ScatterChart','WaferComparisonMap','WaferMap'):
+    for name in ('BarChart','BoxPlot','ChamberFingerprintMatrix','CommonalityMatrix','ControlChart','DistributionPanel','_EmpiricalCDFChart','_FaultTreeDiagram','Heatmap','Histogram','LineChart','ParetoChart','RadialProfilePlot','_RelationshipGraph','_SankeyDiagram','ScatterChart','_WaferContourPlot','WaferComparisonMap','WaferMap','_WaterfallDiagram'):
         setattr(viz, name, renderer(name))
     models = ModuleType('nicegui_base.visualization')
+    models.AnnotationIntent = SimpleNamespace(DANGER='danger', INFO='info', WARNING='warning')
     models.AxisSpec = Value
-    models.AxisType = SimpleNamespace(CATEGORY='category')
+    models.AxisType = SimpleNamespace(CATEGORY='category', VALUE='value')
+    models.ChartAnnotation = Value
+    models.LineStyle = SimpleNamespace(DASHED='dashed')
     models.SeriesSpec = Value
     models.SpecLimits = Value
     models.WaferPoint = Value
@@ -424,7 +427,7 @@ def test_home_does_not_expose_fake_recent_or_favorite_actions():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
     assert "_action_card('Recent'" not in source
     assert "_action_card('Favorites'" not in source
-    assert 'Personalized recents, favorites, and resume history remain intentionally deferred to Iteration 3.' in source
+    assert 'render_home_project_resume()' not in source
 
 
 def test_workbench_page_builders_construct_with_bounded_ui_stubs(monkeypatch):
@@ -521,6 +524,7 @@ def test_workbench_page_builders_construct_with_bounded_ui_stubs(monkeypatch):
     monkeypatch.setitem(sys.modules, 'nicegui_base.patterns.registry', patterns_mod)
 
     nicegui_mod = ModuleType('nicegui'); nicegui_mod.ui = fake_ui
+    nicegui_mod.app = SimpleNamespace(storage=SimpleNamespace(user={}, browser={}))
     monkeypatch.setitem(sys.modules, 'nicegui', nicegui_mod)
     import nicegui_base.workbench.builder as builder_mod
     import nicegui_base.workbench.capability_studio as studio_mod
@@ -594,7 +598,7 @@ def test_workbench_uses_governed_controls_not_raw_nicegui_controls():
 
 def test_catalog_toolbar_precedes_results_container_in_dom_order():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
-    start = source.index('def catalog_page()')
+    start = source.index('def catalog_page(')
     end = source.index('def _unknown_detail', start)
     catalog_source = source[start:end]
     toolbar = catalog_source.index("with ui.element('div').classes('cui-workbench-toolbar')")
@@ -700,13 +704,13 @@ def test_ai_construction_registry_closes_plan_level_catalog_families(monkeypatch
 def test_quality_page_exposes_plan_level_catalog_family_gate():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
     assert "with _section('Catalog family coverage'" in source
-    assert 'Every required Workbench catalog family contributes discoverable canonical entries' in source
+    assert 'Every required Reference Explorer catalog family contributes discoverable canonical entries' in source
     assert "families={covered_families}/{len(REQUIRED_CATALOG_FAMILIES)}" in source
 
 
 def test_catalog_groups_entries_by_plan_family_and_exposes_family_filter():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
-    start = source.index('def catalog_page()')
+    start = source.index('def catalog_page(')
     end = source.index('def _unknown_detail', start)
     catalog_source = source[start:end]
     assert "_standard_select('Family'" in catalog_source
@@ -743,15 +747,15 @@ def test_all_10_canonical_patterns_are_discoverable_and_open_live_reference_rout
     assert len(canonical) == 10
     assert visible == canonical
     assert len(entries) == 10
-    assert all(entry.route in live_routes for entry in entries)
+    assert all(entry.metadata.get('full_reference_route') in live_routes for entry in entries)
 
 
 def test_quality_and_readiness_explicitly_gate_10_generic_application_patterns():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
     assert "canonical_patterns == stats.patterns == 10" in source
-    assert '10/10 canonical generic application patterns are discoverable' in source
+    assert 'canonical generic application patterns are discoverable' in source
     assert 'visible_pattern_keys == canonical_pattern_keys' in source
-    assert "patterns={stats.patterns}/10" in source
+    assert "patterns={stats.patterns}/{len(canonical_pattern_keys)}" in source
 
 
 def test_setup_scripts_verify_package_manifest_before_source_manifest_and_install():
@@ -784,10 +788,10 @@ def test_home_promotes_gate2_data_and_generation_through_governed_routes():
     home = source[source.index('def home_page()'):source.index('def build_page()')]
     assert "_action_card('Paste Data'" not in home
     assert "_action_card('Create App'" not in home
-    assert "_action_card('Browse Data Patterns'" in home
-    assert "_action_card('Choose App Starter'" in home
-    assert 'then configure and generate a starter' in home
-    assert 'Paste Excel/CSV/JSON data' in home
+    assert "_action_card('Data & Tables'" in home
+    assert "_action_card('Components'" in home
+    assert "_action_card('Full Applications'" in home
+    assert 'example data to demonstrate schema' in home
 
 
 def _load_materializer_for_test():
@@ -990,7 +994,7 @@ def test_framework_catalog_fallback_exposes_string_visualizations_and_recipe_key
     line = next(e for e in entries if e.metadata['registry_key'] == 'LineChart')
     assert line.title == 'LineChart'
     assert line.route == '/studio/framework%3Avisualizations%3ALineChart'
-    assert line.metadata['reference_route'] == '/charts'
+    assert line.metadata['full_reference_route'] == '/charts'
     runbook = next(e for e in entries if e.metadata['registry_name'] == 'semiconductor_operational_runbooks')
     assert runbook.use_when == ('operate SPC',)
 
@@ -1065,9 +1069,9 @@ def test_framework_fallbacks_expose_governed_reference_routes(monkeypatch):
     monkeypatch.setitem(sys.modules, 'nicegui_base.ai.catalog', ai_catalog)
     entries = framework_catalog_entries(known_entries=set())
     by_registry = {e.metadata['registry_name']:e for e in entries}
-    assert by_registry['visualizations'].metadata['reference_route'] == '/charts'
-    assert by_registry['tables'].metadata['reference_route'] == '/data'
-    assert by_registry['runtime'].metadata['reference_route'] == '/performance'
+    assert by_registry['visualizations'].metadata['full_reference_route'] == '/charts'
+    assert by_registry['tables'].metadata['full_reference_route'] == '/data'
+    assert by_registry['runtime'].metadata['full_reference_route'] == '/performance'
     assert by_registry['runtime'].description == 'Validate runtime before deployment.'
 
 
@@ -1076,8 +1080,8 @@ def test_catalog_detail_delegates_to_capability_studio_with_reference_metadata_p
     detail = source[source.index('def catalog_detail_page'):source.index('def analytics_gallery_page')]
     assert '_studio_entry_page(entry)' in detail
     studio = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'capability_studio.py').read_text()
-    assert "entry.metadata.get('reference_route')" in studio
-    assert 'cui-studio-iframe' in studio
+    assert 'render_catalog_example' in studio
+    assert "cui-studio-preview-frame" in studio
 
 
 def test_framework_catalog_audit_uses_one_payload_snapshot(monkeypatch):

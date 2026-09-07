@@ -26,7 +26,9 @@ def test_history_is_bounded_deduplicated_and_presets_are_sanitized():
     assert len(history) == 1
     assert normalize_history([{'snapshot': None}, *history]) == history
     assert preset_name('  Chamber   drift  ') == 'Chamber drift'
-    assert normalize_presets({'Good': snapshot, '': snapshot}) == {'Good': snapshot}
+    normalized = normalize_presets({'Good': snapshot, '': snapshot})
+    assert set(normalized) == {'Good'}
+    assert normalized['Good']['placements'] == snapshot['placements']
 
 
 def test_browser_contract_v2_keeps_browser_proof_truthful():
@@ -79,6 +81,7 @@ def test_builder_exposes_project_memory_and_one_click_release():
     source = Path(__file__).resolve().parents[1] / 'nicegui_base' / 'workbench' / 'builder.py'
     text = source.read_text(encoding='utf-8')
     assert 'Project presets & history' in text
-    assert 'Build & prove ZIP' in text
+    assert 'Generate project' in text
+    assert 'Download starter ZIP (local startup checked)' in text
     assert 'restore_project_revision' in text
     assert 'save_project_preset' in text

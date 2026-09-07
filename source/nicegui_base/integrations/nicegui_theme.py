@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import wraps
+import inspect
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any
@@ -28,6 +30,8 @@ def build_framework_css() -> str:
     return "\n".join((build_css(), build_layout_css(), build_component_css(), build_interaction_css(), build_data_table_css(), build_visualization_css(), build_visual_asset_css(), build_engineering_css(), build_content_css(), build_visual_normalization_css(), build_constitution_css(), build_hardening_css(), build_analysis_css(), build_debugger_css()))
 
 _INSTALLED=False
+_THEME_CONFIGURED=False
+_DARK_MODE=None
 
 def install_framework_css(ui) -> None:
     """Install the complete NiceGUI Base visual layer exactly once per process."""
@@ -88,8 +92,29 @@ class NiceGUIThemeAdapter:
 
     def install(self) -> Any:
         from nicegui import ui  # pinned by pyproject.toml
+        return install_framework_theme(ui, default_mode=self.default_mode, default_density=self.default_density)
 
-        ui.colors(
+    @staticmethod
+    def set_dom_theme_js(mode: ThemeMode) -> str:
+        """Return the tiny DOM sync snippet used by a future ThemeService."""
+        return f"document.documentElement.dataset.theme='{mode.value}'"
+
+
+def install_framework_theme(ui, *, default_mode: ThemeMode = ThemeMode.SYSTEM, default_density: str = 'compact') -> Any:
+    """Install the complete theme/assets layer once for a standalone runtime.
+
+    ``AppShell`` and Workbench pages may install the CSS layer independently; the
+    process guards below keep colors, dark-mode state and density bootstrap from
+    being registered twice when a generated app also uses a shell.
+    """
+    global _THEME_CONFIGURED, _DARK_MODE
+    if not _THEME_CONFIGURED:
+        # ``ui.colors`` is an Element in NiceGUI 3.15 and therefore creates a
+        # global pseudo-client when called before ``ui.run``. Use the app-wide
+        # configuration API for the runtime bootstrap; page-local colors remain
+        # available to explicit page builders.
+        from nicegui import app
+        app.colors(
             primary=LIGHT.accent,
             positive=LIGHT.success,
             negative=LIGHT.danger,
@@ -97,11 +122,32 @@ class NiceGUIThemeAdapter:
             warning=LIGHT.warning,
         )
         install_framework_css(ui)
-        ui.add_head_html(f"<script>document.documentElement.dataset.density = document.documentElement.dataset.density || '{self.default_density}';</script>", shared=True)
-        dark = ui.dark_mode(value=None if self.default_mode is ThemeMode.SYSTEM else self.default_mode is ThemeMode.DARK)
-        return dark
+        ui.add_head_html(
+            f"<script>document.documentElement.dataset.density = document.documentElement.dataset.density || '{default_density}';</script>",
+            shared=True,
+        )
+        # DarkMode is a client element. Creating it here, before ``ui.run``,
+        # switches NiceGUI 3.15 into script mode and makes a generated app
+        # re-execute app.py on the first request. Install it from the page
+        # wrapper instead, after access guards have run.
+        _DARK_MODE = None
+        _THEME_CONFIGURED = True
+    else:
+        install_framework_css(ui)
+    return _DARK_MODE
 
-    @staticmethod
-    def set_dom_theme_js(mode: ThemeMode) -> str:
-        """Return the tiny DOM sync snippet used by a future ThemeService."""
-        return f"document.documentElement.dataset.theme='{mode.value}'"
+
+def install_page_theme(ui, *, default_mode: ThemeMode = ThemeMode.SYSTEM) -> Any:
+    """Install the client-owned dark-mode element in an active page context."""
+    return ui.dark_mode(value=None if default_mode is ThemeMode.SYSTEM else default_mode is ThemeMode.DARK)
+
+
+def wrap_page_with_framework_theme(ui, handler, *, default_mode: ThemeMode = ThemeMode.SYSTEM):
+    """Add page-local theme state without putting NiceGUI into global script mode."""
+    @wraps(handler)
+    def themed_page(*args, **kwargs):
+        result = handler(*args, **kwargs)
+        if not inspect.isawaitable(result):
+            install_page_theme(ui, default_mode=default_mode)
+        return result
+    return themed_page

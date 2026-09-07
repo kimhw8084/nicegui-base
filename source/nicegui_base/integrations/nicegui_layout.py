@@ -3,9 +3,11 @@ from __future__ import annotations
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from itertools import count
+from types import SimpleNamespace
 from importlib import metadata
 from typing import Any, Callable
 import inspect
+import json
 
 from nicegui_base.integrations.nicegui_theme import install_framework_css
 from nicegui_base.visual import render_icon_svg
@@ -16,6 +18,58 @@ from nicegui_base.version import FRAMEWORK_VERSION
 
 _LAYOUT_IDS = count(1)
 
+
+_MOBILE_NAV_A11Y_RUNTIME = r'''<script>(()=>{
+  const root=document.documentElement;
+  if(window.CompanyUIMobileNavObserver)return;
+  const focusables=drawer=>[...drawer.querySelectorAll('button,a[href],input,select,textarea,[contenteditable="true"],[tabindex]:not([tabindex="-1"])')]
+    .filter(el=>!el.disabled&&el.getAttribute('aria-hidden')!=='true'&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden'&&el.getClientRects().length>0);
+  const state={open:root.dataset.mobileNav==='open',opener:null};
+  const drawer=()=>document.querySelector('.cui-mobile-nav-drawer');
+  const layer=()=>document.querySelector('.cui-mobile-nav-layer');
+  const visible=el=>el instanceof HTMLElement&&el.isConnected&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden'&&el.getClientRects().length>0;
+  const syncSemantics=open=>{
+    const d=drawer(),l=layer();
+    if(d){d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',d.getAttribute('aria-label')||'Mobile navigation');}
+    if(l)l.setAttribute('aria-hidden',open?'false':'true');
+  };
+  const sync=()=>{
+    const open=root.dataset.mobileNav==='open';
+    syncSemantics(open);
+    if(open&&!state.open){
+      const active=document.activeElement;
+      state.opener=visible(active)?active:document.querySelector('.cui-shell-mobile-menu');
+      requestAnimationFrame(()=>{
+        const d=drawer(),items=d?focusables(d):[];
+        (items[0]||d)?.focus?.();
+      });
+    }else if(!open&&state.open){
+      const target=state.opener;
+      requestAnimationFrame(()=>{if(visible(target))target.focus();});
+    }
+    state.open=open;
+  };
+  new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['data-mobile-nav']});
+  window.addEventListener('keydown',event=>{
+    if(root.dataset.mobileNav!=='open')return;
+    const d=drawer();if(!d)return;
+    if(event.key==='Escape'&&!event.defaultPrevented){event.preventDefault();root.dataset.mobileNav='closed';return;}
+    if(event.key!=='Tab')return;
+    const items=focusables(d);if(!items.length)return;
+    const first=items[0],last=items[items.length-1],active=document.activeElement;
+    if(event.shiftKey&&(active===first||!d.contains(active))){event.preventDefault();last.focus();}
+    else if(!event.shiftKey&&(active===last||!d.contains(active))){event.preventDefault();first.focus();}
+  },true);
+  window.CompanyUIMobileNavObserver={sync};
+  syncSemantics(state.open);
+})();</script>'''
+
+
+def _install_mobile_nav_a11y_runtime(ui) -> None:
+    ui.add_head_html(_MOBILE_NAV_A11Y_RUNTIME, shared=True)
+
+
+# WAVE35_CONTRAST_AUTHORITY_V19: layout-owned buttons delegate color to semantic CSS, not Quasar primary.
 
 def _ui():
     try:
@@ -237,7 +291,7 @@ class AppShell(AbstractContextManager):
                 # Mobile navigation exists only when desktop navigation no longer fits,
                 # and lives with actions rather than beside the application title.
                 if self.config.navigation:
-                    mobile = ui.button(on_click=self._toggle_mobile).props('flat round dense aria-label="Open navigation" title="Navigation"').classes('cui-shell-mobile-menu cui-icon-button')
+                    mobile = ui.button(on_click=self._toggle_mobile, color=None).props('flat round dense aria-label="Open navigation" title="Navigation"').classes('cui-shell-mobile-menu cui-icon-button')
                     with mobile: _icon(ui, 'menu', label='Navigation')
                 if self.config.environment: EnvironmentBadge(self.config.environment)
                 if self.config.on_settings or self.config.on_about:
@@ -264,7 +318,7 @@ class AppShell(AbstractContextManager):
         if self.config.navigation and self.config.sidebar is not SidebarMode.HIDDEN:
             with ui.element('aside').classes('cui-app-sidebar').props('aria-label="Application navigation"') as self.sidebar:
                 with ui.element('div').classes('cui-sidebar-top'):
-                    collapse = ui.button(on_click=self._toggle_sidebar).props('flat round dense aria-label="Collapse or expand navigation" title="Collapse / expand navigation"').classes('cui-icon-button cui-sidebar-collapse')
+                    collapse = ui.button(on_click=self._toggle_sidebar, color=None).props('flat round dense aria-label="Collapse or expand navigation" title="Collapse / expand navigation"').classes('cui-icon-button cui-sidebar-collapse')
                     with collapse:
                         with ui.element('span').classes('cui-sidebar-collapse__expanded'): _icon(ui, 'chevron-left', label='Collapse navigation')
                         with ui.element('span').classes('cui-sidebar-collapse__compact'): _icon(ui, 'chevron-right', label='Expand navigation')
@@ -280,7 +334,7 @@ class AppShell(AbstractContextManager):
             self.mobile_drawer.__enter__(); self.mobile_drawer.__exit__(None, None, None)
 
         main_classes = 'cui-app-main' + (' cui-app-main--with-sidebar' if self.config.navigation and self.config.sidebar is not SidebarMode.HIDDEN else '')
-        self.main = ui.column().classes(main_classes).props('id="cui-main-content" role="main" tabindex="-1"')
+        self.main = ui.column().classes(main_classes).props('id="cui-main-content" tabindex="-1" role="main"')
         self.main.__enter__(); return self
 
     def __exit__(self, exc_type, exc, tb):
@@ -351,7 +405,7 @@ class AppHeader(AbstractContextManager):
                 if self.subtitle: ui.label(self.subtitle).classes('cui-shell-subtitle')
         with ui.element('div').classes('cui-shell-actions'):
             if self.on_mobile_navigation:
-                b=ui.button(on_click=self.on_mobile_navigation).props('flat round dense aria-label="Open navigation" title="Navigation"').classes('cui-shell-mobile-menu cui-icon-button')
+                b=ui.button(on_click=self.on_mobile_navigation, color=None).props('flat round dense aria-label="Open navigation" title="Navigation"').classes('cui-shell-mobile-menu cui-icon-button')
                 with b: _icon(ui,'menu',label='Navigation')
             if self.environment: EnvironmentBadge(self.environment)
             if self.on_settings or self.on_about: _ApplicationMenu(environment=self.environment,on_settings=self.on_settings,on_about=self.on_about)
@@ -381,7 +435,7 @@ class AppSidebar(AbstractContextManager):
         ui = _ui(); install_framework_css(ui); ui.run_javascript("document.documentElement.dataset.sidebar=document.documentElement.dataset.sidebar||'expanded'")
         self.element = ui.element('aside').classes('cui-app-sidebar').props('aria-label="Application navigation"'); self.element.__enter__()
         with ui.element('div').classes('cui-sidebar-top'):
-            b = ui.button(on_click=self._toggle).props('flat round dense aria-label="Collapse or expand navigation" title="Collapse / expand navigation"').classes('cui-icon-button cui-sidebar-collapse')
+            b = ui.button(on_click=self._toggle, color=None).props('flat round dense aria-label="Collapse or expand navigation" title="Collapse / expand navigation"').classes('cui-icon-button cui-sidebar-collapse')
             with b:
                 with ui.element('span').classes('cui-sidebar-collapse__expanded'): _icon(ui,'chevron-left',label='Collapse navigation')
                 with ui.element('span').classes('cui-sidebar-collapse__compact'): _icon(ui,'chevron-right',label='Expand navigation')
@@ -404,6 +458,7 @@ class MobileNavigationDrawer(AbstractContextManager):
         self.permission_check = permission_check; self.element = None
     def __enter__(self):
         ui = _ui(); install_framework_css(ui)
+        _install_mobile_nav_a11y_runtime(ui)
         with ui.element('div').classes('cui-mobile-nav-layer') as self.element:
             ui.element('button').classes('cui-mobile-nav-backdrop').props('type="button" aria-label="Close navigation"').on('click', self.close)
             with ui.element('aside').classes('cui-mobile-nav-drawer').props('aria-label="Mobile navigation"'):
@@ -411,7 +466,7 @@ class MobileNavigationDrawer(AbstractContextManager):
                     with ui.element('div').classes('cui-mobile-nav-head__copy'):
                         ui.label('Navigation').classes('cui-mobile-nav-title')
                         ui.label('Application sections').classes('cui-mobile-nav-subtitle')
-                    b = ui.button(on_click=self.close).props('flat round aria-label="Close navigation" title="Close navigation"').classes('cui-icon-button')
+                    b = ui.button(on_click=self.close, color=None).props('flat round aria-label="Close navigation" title="Close navigation"').classes('cui-icon-button')
                     with b: _icon(ui, 'close', label='Close navigation')
                 with ui.element('nav').classes('cui-mobile-nav-body'):
                     _render_navigation(self.navigation, active_route=self.active_route, navigate=self.on_navigate, permission_check=self.permission_check)
@@ -433,7 +488,7 @@ class _ApplicationMenu:
     def __init__(self, *, environment: str | None = None, on_settings: Callable[[], None] | None = None,
                  on_about: Callable[[], None] | None = None):
         ui=_ui()
-        with ui.button().props('flat round dense aria-label="Application settings" title="Application settings"').classes('cui-icon-button cui-shell-settings'):
+        with ui.button(color=None).props('flat round dense aria-label="Application settings" title="Application settings"').classes('cui-icon-button cui-shell-settings'):
             _icon(ui,'settings',label='Application settings')
             with ui.menu().props('anchor="bottom right" self="top right" :offset="[0,8]"').classes('cui-menu cui-shell-settings-menu cui-account-popover cui-overlay-surface cui-overlay-surface--popover'):
                 with ui.element('div').classes('cui-account-popover__head'):
@@ -446,10 +501,10 @@ class _ApplicationMenu:
                         with ui.element('div').classes('cui-account-popover__meta-row'):
                             ui.label('Environment').classes('cui-account-popover__key'); ui.label(environment.upper()).classes('cui-account-popover__value')
                 if on_settings:
-                    b=ui.button(on_click=on_settings).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
+                    b=ui.button(on_click=on_settings, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
                     with b: _icon(ui,'settings',size='xs'); ui.label('Open application settings')
                 if on_about:
-                    b=ui.button(on_click=on_about).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
+                    b=ui.button(on_click=on_about, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
                     with b: _icon(ui,'info',size='xs'); ui.label('About this application')
 
 
@@ -458,7 +513,7 @@ class UserMenu:
                  on_preferences: Callable[[], None] | None = None, on_about: Callable[[], None] | None = None,
                  on_logout: Callable[[], None] | None = None):
         ui = _ui()
-        with ui.button(initials[:2].upper()).props('flat round dense aria-label="User profile" title="User profile"').classes('cui-user-menu-trigger'):
+        with ui.button(initials[:2].upper(), color=None).props('flat round dense aria-label="User profile" title="User profile"').classes('cui-user-menu-trigger'):
             with ui.menu().props('anchor="bottom right" self="top right" :offset="[0,8]"').classes('cui-user-menu cui-menu cui-account-popover cui-overlay-surface cui-overlay-surface--popover'):
                 with ui.element('div').classes('cui-account-popover__identity'):
                     ui.label(initials[:2].upper()).classes('cui-account-avatar')
@@ -466,14 +521,14 @@ class UserMenu:
                         ui.label(user_name or 'Current user').classes('cui-account-popover__title')
                         if greeting: ui.label(greeting).classes('cui-account-popover__subtitle')
                 if on_preferences:
-                    b=ui.button(on_click=on_preferences).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
+                    b=ui.button(on_click=on_preferences, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
                     with b: _icon(ui,'settings',size='xs'); ui.label('Preferences')
                 if on_about:
-                    b=ui.button(on_click=on_about).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
+                    b=ui.button(on_click=on_about, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
                     with b: _icon(ui,'info',size='xs'); ui.label('About')
                 if on_logout:
                     ui.separator().classes('cui-menu-separator')
-                    b=ui.button(on_click=on_logout).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon is-danger')
+                    b=ui.button(on_click=on_logout, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon is-danger')
                     with b: _icon(ui,'logout',size='xs'); ui.label('Sign out')
 
 
@@ -490,11 +545,11 @@ class AppInfoDialog:
                     ui.label(f'Application version {version}').props(f'id="{self.description_id}"').classes('cui-dialog__description')
                     ui.label(f'Framework {framework_version}').classes('cui-dialog__description')
                     if environment: ui.label(f'Environment {environment.upper()}').classes('cui-dialog__description')
-                close = ui.button(on_click=self.close).props('flat round aria-label="Close"').classes('cui-icon-button cui-dialog__close')
+                close = ui.button(on_click=self.close, color=None).props('flat round aria-label="Close"').classes('cui-icon-button cui-dialog__close')
                 with close: _icon(ui, 'close', label='Close')
             with ui.element('div').classes('cui-dialog__footer'):
                 ui.element('div').classes('cui-dialog__footer-spacer')
-                ui.button('Close', on_click=self.close).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
+                ui.button('Close', on_click=self.close, color=None).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
     def open(self) -> None:
         self.dialog.open()
         _ui().run_javascript("window.__companyUiTooltip?.hide?.();document.dispatchEvent(new CustomEvent('cui:overlay-open',{detail:{kind:'dialog'}}));")
@@ -503,14 +558,64 @@ class AppInfoDialog:
 
 
 class SegmentedControl:
+    """Deterministic company-owned segmented choice control.
+
+    NiceGUI/Quasar provide button mechanics only; this wrapper owns semantic
+    radiogroup state, accessible option naming, and truthful programmatic state.
+    """
     def __init__(self, options: dict[str, str], *, value: str | None = None, on_change: Callable[..., Any] | None = None):
-        if not options: raise ValueError('SegmentedControl requires options.')
-        self.element = _ui().toggle(options, value=value or next(iter(options)), on_change=on_change).props('no-caps unelevated').classes('cui-segmented-control')
+        if not options:
+            raise ValueError('SegmentedControl requires options.')
+        ui = _ui()
+        self._options = dict(options)
+        self.value = value if value in self.options else next(iter(self.options))
+        self._on_change = on_change
+        self._buttons: dict[str, Any] = {}
+        with ui.element('div').classes('cui-segmented-control q-btn-toggle cui-segmented-control--semantic-v4 cui-segmented-control--semantic-v8').props(
+            'role="radiogroup" aria-label="Segmented options"'
+        ) as self.element:
+            for key, label in self.options.items():
+                selected = key == self.value
+                async def choose(_e=None, key=key):
+                    await self._select(key)
+                button = ui.button(str(label), on_click=choose, color=None).props(
+                    f'flat no-caps unelevated role="radio" aria-label={json.dumps(str(label))} aria-checked="{str(selected).lower()}"'
+                )
+                if selected:
+                    button.classes(add='q-btn--active')
+                self._buttons[key] = button
+
+    @property
+    def options(self) -> dict[str, str]:
+        return self._options
+
+    @options.setter
+    def options(self, value: dict[str, str]) -> None:
+        self._options = value
+
+    async def set_value(self, value: str, *, emit: bool = False) -> None:
+        if value not in self.options:
+            return
+        self.value = value
+        for key, button in self._buttons.items():
+            selected = key == value
+            button.props(f'aria-checked="{str(selected).lower()}"')
+            if selected:
+                button.classes(add='q-btn--active')
+            else:
+                button.classes(remove='q-btn--active')
+        if emit and self._on_change is not None:
+            result = self._on_change(SimpleNamespace(value=value))
+            if inspect.isawaitable(result):
+                await result
+
+    async def _select(self, value: str) -> None:
+        await self.set_value(value, emit=True)
 
 
 class BackNavigation:
     def __init__(self, label: str = 'Back', *, on_click: Callable[[], None] | None = None):
-        ui = _ui(); self.element = ui.button(on_click=on_click or ui.navigate.back).props('flat no-caps').classes('cui-back-navigation cui-button cui-button--ghost cui-control--medium')
+        ui = _ui(); self.element = ui.button(on_click=on_click or ui.navigate.back, color=None).props('flat no-caps').classes('cui-back-navigation cui-button cui-button--ghost cui-control--medium')
         with self.element: _icon(ui, 'arrow-left', size='xs'); ui.label(label)
 
 
@@ -520,11 +625,11 @@ class PageNavigation:
         ui = _ui()
         with ui.element('nav').classes('cui-page-navigation').props('aria-label="Page navigation"'):
             if previous:
-                b = ui.button(on_click=previous[1]).props('flat no-caps').classes('cui-button cui-button--ghost cui-control--medium')
+                b = ui.button(on_click=previous[1], color=None).props('flat no-caps').classes('cui-button cui-button--ghost cui-control--medium')
                 with b: _icon(ui, 'arrow-left', size='xs'); ui.label(previous[0])
             else: ui.element('span')
             if next:
-                b = ui.button(on_click=next[1]).props('flat no-caps').classes('cui-button cui-button--ghost cui-control--medium')
+                b = ui.button(on_click=next[1], color=None).props('flat no-caps').classes('cui-button cui-button--ghost cui-control--medium')
                 with b: ui.label(next[0]); _icon(ui, 'arrow-right', size='xs')
 
 

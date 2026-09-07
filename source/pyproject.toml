@@ -92,6 +92,7 @@ pythonpath = ["."]
 include = ["nicegui_base*", "company_ui"]
 
 [tool.setuptools.package-data]
+"company_ui" = ["MIGRATION.md"]
 "nicegui_base.visual" = ["icons/**/*.svg", "illustrations/**/*.svg", "dataviz/**/*.svg", "manifest/*.json"]
 "nicegui_base.runtime" = ["compatibility.json"]
 "nicegui_base.ai" = ["construction_manifest.json", "framework_catalog.json", "guides/*.md", "templates/golden/*.py", "templates/golden/*.md"]

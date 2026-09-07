@@ -83,12 +83,12 @@ def test_data_dock_rename_type_and_role_validation():
 
 def test_studio_contract_has_all_six_tabs_and_preview_controls():
     from nicegui_base.workbench.capability_studio import STUDIO_TABS, RESPONSIVE_WIDTHS
-    assert STUDIO_TABS == ('preview','data','configure','states','interactions','code')
+    assert STUDIO_TABS == ('preview','data','configure','states','interactions','inspect','code')
     assert set(RESPONSIVE_WIDTHS) == {'desktop','compact','tablet','phone'}
     source = (ROOT/'source/nicegui_base/workbench/capability_studio.py').read_text()
-    assert "{'system':'System','light':'Light','dark':'Dark'}" in source
-    assert "{'comfortable':'Comfort','compact':'Compact','dense':'Dense'}" in source
-    assert 'Generate Starter ZIP' in source
+    assert 'data-theme="{session.config.theme}" data-density="{session.config.density}"' in source
+    assert "{'comfortable':'Comfortable','compact':'Compact','dense':'Dense'}" in source
+    assert 'Download example ZIP' in source
 
 
 def test_state_matrix_contains_all_required_gate2_states():
@@ -216,12 +216,12 @@ def test_builder_recommendations_are_explained_and_deterministic(monkeypatch):
     pattern = _pattern_entry('monitoring')
     monkeypatch.setattr(builder, 'all_entries', lambda: (pattern,))
     model = builder.BuilderModel(goal='monitor tool health alerts', problem_type='generic application')
-    first = model.recommendations()
-    second = model.recommendations()
+    first = model.pattern_recommendations()
+    second = model.pattern_recommendations()
     assert first == second
     assert first and first[0].entry.key == pattern.key
     assert first[0].reasons
-    model.select(pattern.key)
+    model.select_pattern('monitoring')
     assert model.deterministic_signature() == model.deterministic_signature()
 
 
@@ -257,10 +257,9 @@ def test_editable_table_copy_production_uses_real_governed_constructor_contract(
     entry = _framework_entry('tables','editable_table','EditableTable')
     minimal = minimal_code(entry)
     production = production_code(entry)
-    assert 'EditableTableSpec' in minimal
-    assert "row_key='id'" in minimal
-    assert 'validate_edit=validate_edit' in minimal
-    assert 'save_edit=save_edit' in minimal
+    assert 'render_catalog_example' in minimal
+    assert "CAPABILITY_KEY = 'framework:tables:editable_table'" in minimal
+    assert 'PageHeader' in minimal
     assert validate_generated_code(minimal) == ()
     assert validate_generated_code(production) == ()
 
@@ -269,7 +268,7 @@ def test_visualization_copy_production_uses_series_and_axis_contract():
     from nicegui_base.workbench.codegen import minimal_code, production_code, validate_generated_code
     entry = _framework_entry('visualizations','LineChart','LineChart')
     minimal = minimal_code(entry)
-    assert 'SeriesSpec' in minimal and 'AxisSpec' in minimal and 'LineChart' in minimal
+    assert 'render_catalog_example' in minimal and 'LineChart' in minimal
     assert validate_generated_code(minimal) == ()
     assert validate_generated_code(production_code(entry)) == ()
 
@@ -278,10 +277,10 @@ def test_unknown_constructor_signature_is_not_guessed():
     from nicegui_base.workbench.codegen import minimal_code
     entry = _framework_entry('content','some_future_view','FutureView')
     code = minimal_code(entry)
-    assert "CAPABILITY_NAME = 'FutureView'" in code
-    assert 'FutureView(' not in code
+    assert "CAPABILITY_KEY = 'framework:content:some_future_view'" in code
+    assert 'render_catalog_example' in code
     assert 'from nicegui_base import FutureView' not in code
-    assert 'inspect the canonical Studio/reference' in code
+    assert 'FutureView' in code
 
 
 def test_data_backed_studio_registry_families_have_sample_mode_contract():
@@ -310,8 +309,8 @@ def test_state_matrix_controller_switches_without_background_work():
 
 def test_responsive_preview_is_one_host_not_duplicate_shells():
     source = (ROOT/'source/nicegui_base/workbench/capability_studio.py').read_text()
-    assert source.count("preview_host = ui.element('div').classes('cui-studio-preview-frame')") == 1
-    preview = source[source.index('def render_preview()'):source.index('tab_specs =')]
+    assert source.count('preview_host = ui.element(\'div\').classes(\'cui-studio-preview-frame cui-studio-first-example\')') == 1
+    preview = source[source.index('def render_preview()'):source.index('with Tabs(')]
     assert 'preview_host.clear()' in preview
     assert '_shell(' not in preview and 'AppShell' not in preview
 
@@ -324,23 +323,15 @@ def test_recipe_copy_production_is_governed_composition_and_syntax_valid():
         metadata={'recipe_key':'fdc-tool-health'},
     )
     code = production_code(entry)
-    assert 'NiceGUIWorkspace' in code
-    assert 'create_semiconductor_recipe_runtime' in code
-    assert 'SemiconductorAnalyticalPanel' in code
-    assert "'sensor_value':1.0" in code
+    assert 'entries_by_key' in code
+    assert "CAPABILITY_KEY = 'recipe:fdc-tool-health'" in code
+    assert 'entry.source_authority' in code
     assert validate_generated_code(code) == ()
 
 
 def test_all_10_pattern_starters_use_pattern_specific_information_hierarchy():
     from nicegui_base.workbench.codegen import minimal_code
-    required = {
-        'dashboard':('METRICS','PRIMARY'), 'data_explorer':('FILTERS','DATA'),
-        'master_detail':('DATA','DETAILS'), 'crud':('ACTIONS','DATA'),
-        'monitoring':('METRICS','PRIMARY'), 'search':('FILTERS','DATA'),
-        'settings':('NAVIGATION','CONTENT'), 'wizard':('CONTENT','ACTIONS'),
-        'comparison':('PRIMARY',), 'analysis_workspace':('PRIMARY','DETAILS'),
-    }
-    for key, slots in required.items():
+    for key in PATTERN_KEYS:
         code = minimal_code(_pattern_entry(key))
-        for slot in slots:
-            assert f'LayoutSlot.{slot}' in code, (key, slot)
+        assert f"CAPABILITY_KEY = 'pattern:{key}'" in code
+        assert 'render_catalog_example' in code

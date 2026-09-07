@@ -1023,6 +1023,14 @@
         "when_to_use": "When a named engineering entity needs status + compact properties"
       },
       {
+        "_registry_key": "InvestigationContextBar",
+        "category": "rca",
+        "name": "InvestigationContextBar",
+        "purpose": "Persistent investigation orientation strip",
+        "type": "EngineeringDefinition",
+        "when_to_use": "At the top of RCA workspaces to keep investigation, owner, stage and freshness visible"
+      },
+      {
         "_registry_key": "EngineeringStatusBadge",
         "category": "status",
         "name": "EngineeringStatusBadge",
@@ -6092,6 +6100,14 @@
         "variants": [
           "rca-evidence-first"
         ]
+      }
+    ],
+    "semiconductor_release_channel_policies": [
+      {
+        "_registry_key": "stable",
+        "key": "stable",
+        "purpose": "Stable release-channel policy for evidence-backed candidate promotion.",
+        "type": "ReleaseChannelPolicy"
       }
     ],
     "tables": [

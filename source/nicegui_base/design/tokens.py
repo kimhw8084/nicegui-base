@@ -75,7 +75,7 @@ FONT_SIZES: Mapping[str, float] = _locked({
     "9": 9, "9_5": 9.5, "10": 10, "10_5": 10.5, "11": 11, "11_5": 11.5,
     "12": 12, "12_5": 12.5, "13": 13, "13_5": 13.5, "14": 14, "15": 15,
     "16": 16, "17": 17, "18": 18, "20": 20, "22": 22, "24": 24,
-    "26": 26, "28": 28, "32": 32,
+    "26": 26, "28": 28, "32": 32, "34": 34,
 })
 
 LINE_HEIGHTS: Mapping[str, float] = _locked({
@@ -195,6 +195,54 @@ RESPONSIVE_LAYOUT_METRICS: Mapping[str, Mapping[str, int]] = MappingProxyType({
     "phone": _locked({"surface_padding": 16, "overlay_edge_gap": 10}),
 })
 
+# Semantic aliases are the authoring vocabulary for application composition.
+# Their values intentionally derive from the governed layout scale above so a
+# consumer never has to choose between two independent spacing registries.
+SEMANTIC_GAPS: Mapping[str, int] = _locked({
+    "page": LAYOUT_METRICS["page_gutter"],
+    "section": LAYOUT_METRICS["section_gap"],
+    "content": LAYOUT_METRICS["content_gap"],
+    "stack": LAYOUT_METRICS["stack_gap"],
+    "cluster": LAYOUT_METRICS["cluster_gap"],
+    "control_content": LAYOUT_METRICS["control_content_gap"],
+})
+
+BORDER_WIDTHS: Mapping[str, int] = _locked({
+    "none": 0,
+    "subtle": 1,
+    "strong": 2,
+})
+
+# Elevation roles resolve through the active palette's shadow tokens in CSS.
+ELEVATION: Mapping[str, str] = _locked({
+    "flat": "none",
+    "raised": "shadow_1",
+    "overlay": "shadow_2",
+})
+
+Z_INDEX: Mapping[str, int] = _locked({
+    "layer_sticky": 100,
+    "sidebar": 500,
+    "app_header": 600,
+    "local_popup": 900,
+    "overlay": 2000,
+    "overlay_backdrop": 3000,
+    "modal": 3100,
+    "tooltip": 3200,
+    "toast": 4000,
+    "skip_link": 4100,
+})
+
+INTERACTIVE_STATES: Mapping[str, object] = _locked({
+    "hover_opacity": 0.96,
+    "pressed_opacity": 0.9,
+    "disabled_opacity": 0.52,
+    "focus_width": 3,
+    "focus_offset": 2,
+    "pressed_scale": 0.985,
+    "selected_emphasis": "18%",
+})
+
 
 @dataclass(frozen=True, slots=True)
 class ThemePalette:
@@ -237,7 +285,7 @@ LIGHT = ThemePalette(
     surface_selected="#E8F1FF",
     text_primary="#1D1D1F",
     text_secondary="#525256",
-    text_tertiary="#74747A",
+    text_tertiary="#707076",
     text_inverse="#FFFFFF",
     border_subtle="#ECECEF",
     border_default="#E0E0E4",

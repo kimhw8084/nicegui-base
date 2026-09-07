@@ -62,8 +62,8 @@ def test_public_api_exposes_composition_primitives_and_design_constitution():
 
 def test_live_visual_coverage_is_complete_and_page_header_is_explicitly_accounted_for():
     summary = coverage_summary()
-    assert summary['required_visual_components'] == 183
-    assert summary['covered_visual_components'] == 183
+    assert summary['required_visual_components'] == 185
+    assert summary['covered_visual_components'] == 185
     assert summary['uncovered'] == []
     page_header = next(item for item in live_component_coverage() if item.component == 'PageHeader')
     assert page_header.coverage_kind in {'direct','composite'}

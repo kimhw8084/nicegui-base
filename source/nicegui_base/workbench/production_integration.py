@@ -262,6 +262,11 @@ def _env_example(selected_provider: str) -> str:
 def _bind_app_runtime_source(source: str) -> str:
     if 'register_source_health' in source:
         return source
+    # The real application factory emits NiceGUIRuntimeAdapter. Keep provider
+    # configuration materializable for lightweight generator stubs as well; a
+    # non-runtime stub has no canonical adapter to bind and must remain intact.
+    if 'NiceGUIRuntimeAdapter' not in source:
+        return source
     lines = source.splitlines()
     insert_at = 0
     for index, line in enumerate(lines):

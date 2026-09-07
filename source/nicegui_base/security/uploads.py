@@ -66,11 +66,12 @@ class UploadPolicy:
                 # The complete file can exceed the inspection sample. A truncated
                 # JSON sample is allowed only when it is plausibly text JSON.
                 try:
-                    text = sample.decode('utf-8-sig').lstrip()
+                    import codecs
+                    text = codecs.getincrementaldecoder('utf-8-sig')().decode(sample, final=size <= len(sample)).lstrip()
                 except UnicodeDecodeError:
                     raise ValueError('JSON upload is not valid UTF-8 text') from exc
                 if not text.startswith(('{', '[')):
                     raise ValueError('JSON upload content is not valid JSON') from exc
-        if ext in {'.csv', '.txt', '.json'} and sample and b'\x00' in sample:
+        if ext in {'.csv', '.tsv', '.txt', '.json'} and sample and b'\x00' in sample:
             raise ValueError('text upload contains binary NUL bytes')
         return name

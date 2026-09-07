@@ -7,7 +7,8 @@ STATE_KEY = 'nicegui_base_workbench_project_v2_2'
 STATE_VERSION = 6
 MAX_RECENTS = 16
 MAX_FAVORITES = 64
-MAX_PERSISTED_ROWS = 200
+from .preview_data import MAX_PROJECT_ROWS, checked_rows
+MAX_PERSISTED_ROWS = MAX_PROJECT_ROWS
 
 
 def _safe_nonnegative_int(value: Any, default: int = 0) -> int:
@@ -73,7 +74,10 @@ def normalize_state(value: Mapping[str, Any] | None) -> dict[str, Any]:
     queued = project.get('queued_entry_keys') if isinstance(project.get('queued_entry_keys'), (list, tuple)) else ()
     base['project']['queued_entry_keys'] = list(dict.fromkeys(str(item) for item in queued if item))[:100]
     rows = project.get('data_rows') if isinstance(project.get('data_rows'), (list, tuple)) else ()
-    base['project']['data_rows'] = [dict(row) for row in rows[:MAX_PERSISTED_ROWS] if isinstance(row, Mapping)]
+    base['project']['data_rows'] = checked_rows(rows)
+    from .studio_state import normalize_capability_configurations
+    base['project']['capability_configurations'] = normalize_capability_configurations(project.get('capability_configurations'))
+    base['project']['data_source_format'] = _choice(project.get('data_source_format'), {'sample','csv','tsv','json'}, 'sample')
     schema = project.get('data_schema') if isinstance(project.get('data_schema'), (list, tuple)) else ()
     allowed_types = {'string','integer','float','boolean','date','datetime','category','json','unknown'}
     allowed_roles = {'dimension','measurement','identifier','timestamp','entity','attribute'}
@@ -134,10 +138,12 @@ def project_snapshot() -> dict[str, Any]:
     return deepcopy(_storage_state()['project'])
 
 
-def save_project_snapshot(snapshot: Mapping[str, Any]) -> dict[str, Any]:
+def save_project_snapshot(snapshot: Mapping[str, Any], *, expected_revision: int | None = None) -> dict[str, Any]:
     from .project_history import diff_projects, project_signature, push_history
     state = _storage_state()
     current = state['project']
+    if expected_revision is not None and int(current.get('revision', 0)) != expected_revision:
+        raise ValueError('Builder project changed in another tab. Reload before replacing its data; no changes were overwritten.')
     project = normalize_state({'project': snapshot})['project']
     if project_signature(current) != project_signature(project):
         state['history'] = push_history(state.get('history', ()), current, label=diff_projects(current, project).summary())

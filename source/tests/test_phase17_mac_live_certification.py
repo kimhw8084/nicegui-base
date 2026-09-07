@@ -45,7 +45,7 @@ def test_every_public_visual_integration_has_a_live_review_route():
     coverage = live_component_coverage()
     summary = coverage_summary()
     assert summary['required_visual_components'] >= 175
-    assert summary['covered_visual_components'] == summary['required_visual_components']
+    assert summary['covered_visual_components'] == summary['required_visual_components'] == 185
     assert summary['uncovered'] == []
     assert summary['direct_visual_components'] >= 150
     assert summary['composite_visual_components'] <= 30

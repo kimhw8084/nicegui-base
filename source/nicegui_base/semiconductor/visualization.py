@@ -66,7 +66,7 @@ def qq_probability_visual(values:Sequence[float], *, title:str='Normal probabili
 def ecdf_visual(values:Sequence[float], *, title:str='Empirical cumulative distribution')->SemiconductorVisualPlan:
     points=tuple({'value':x,'probability':p} for x,p in ecdf(values))
     spec=ChartPanelSpec(title=title,kind=ChartKind.LINE,x_axis=AxisSpec(label='Value',kind=AxisType.VALUE),y_axis=AxisSpec(label='Cumulative probability',kind=AxisType.VALUE,min_value=0,max_value=1),selection=SelectionMode.BRUSH)
-    return SemiconductorVisualPlan(spec,(SeriesSpec('ecdf','ECDF',points,kind=ChartKind.LINE,x_key='value',y_key='probability',marker=__import__('nicegui_base.visualization',fromlist=['MarkerShape']).MarkerShape.NONE),),metadata={'distribution':'ecdf'})
+    return SemiconductorVisualPlan(spec,(SeriesSpec('ecdf','ECDF',points,kind=ChartKind.LINE,x_key='value',y_key='probability',marker=__import__('nicegui_base.visualization',fromlist=['MarkerShape']).MarkerShape.NONE),),metadata={'distribution':'ecdf','step':'end'})
 
 def box_distribution_visual(groups:Mapping[str,Sequence[float]], *, title:str='Distribution comparison')->SemiconductorVisualPlan:
     labels=tuple(str(label) for label in groups)

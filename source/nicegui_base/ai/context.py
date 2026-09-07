@@ -39,9 +39,9 @@ class AgentContextPack:
 
 
 _PATTERN_SIGNALS: tuple[tuple[str, tuple[str, ...], str], ...] = (
-    ('analysis_workspace', ('workspace', 'analysis', 'investigation', 'rca', 'spc', 'fdc', 'wafer', 'chamber', 'excursion', 'resizable', 'explore'), 'Dense interactive analysis is the dominant task.'),
+    ('analysis_workspace', ('workspace', 'analysis', 'investigation', 'rca', 'spc', 'ewma', 'cusum', 'capability', 'fdc', 'wafer', 'lot', 'chamber', 'excursion', 'yield', 'defect', 'correlation', 'parameter', 'resizable', 'explore'), 'Dense interactive analysis is the dominant task.'),
     ('crud', ('crud', 'create', 'edit', 'delete', 'manage record', 'admin'), 'Record management is the dominant task.'),
-    ('data_explorer', ('filter', 'table', 'records', 'explorer', 'drill', 'dataset'), 'Filtering and inspecting records is the dominant task.'),
+    ('data_explorer', ('filter', 'table', 'records', 'data explorer', 'explorer', 'drill', 'dataset'), 'Filtering and inspecting records is the dominant task.'),
     ('monitoring', ('monitor', 'health', 'alert', 'live', 'status', 'operations'), 'Operational status and refresh are the dominant task.'),
     ('comparison', ('compare', 'comparison', 'baseline', 'current', 'delta'), 'Direct comparison is the dominant task.'),
     ('search', ('search', 'find', 'lookup', 'facets'), 'Search and refinement are the dominant task.'),
@@ -63,7 +63,7 @@ _CATEGORY_SIGNALS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ('state_async', ('state', 'async', 'refresh', 'debounce', 'cancel', 'persist', 'url state')),
     ('jobs', ('job', 'background', 'long running', 'survive restart')),
     ('engineering', ('semiconductor', 'wafer', 'chamber', 'lot', 'spec', 'control limit', 'rca', 'commonality')),
-    ('semiconductor', ('semiconductor', 'spc', 'capability', 'wafer', 'chamber', 'fdc', 'trace', 'commonality', 'yield', 'weibull', 'doe', 'pm effect', 'drift')),
+    ('semiconductor', ('semiconductor', 'spc', 'ewma', 'cusum', 'capability', 'wafer', 'lot', 'chamber', 'fdc', 'trace', 'commonality', 'yield', 'excursion', 'evidence', 'rca', 'root cause', 'hypothesis', 'parameter', 'correlation', 'weibull', 'doe', 'pm effect', 'drift')),
     ('performance', ('performance', 'large data', '100k', '50k', 'cache', 'latency', 'fan-out')),
     ('security_runtime', ('auth', 'permission', 'upload', 'proxy', 'deployment', 'runtime', 'health', 'secret')),
 )
@@ -90,6 +90,11 @@ def _score(text: str, signals: Iterable[str]) -> int:
 
 
 def _pattern(task: str) -> tuple[str, str]:
+    folded = task.casefold()
+    if 'data explorer' in folded or 'data-explorer' in folded:
+        return 'data_explorer', 'The requirement explicitly names the governed data-explorer pattern.'
+    if 'comparison page' in folded or 'comparison screen' in folded:
+        return 'comparison', 'The requirement explicitly requests the governed comparison pattern.'
     scored = [(name, _score(task, signals), reason) for name, signals, reason in _PATTERN_SIGNALS]
     name, score, reason = max(scored, key=lambda item: item[1])
     if score <= 0:

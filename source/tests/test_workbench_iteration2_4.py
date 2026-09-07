@@ -62,7 +62,7 @@ def test_builder_golden_starter_and_project_audit_have_no_blocking_findings():
         model = BuilderModel()
         resolution = model.apply_golden_starter(starter.key)
         assert model.pattern_key == starter.pattern_key
-        assert model.stage.value == 'compose'
+        assert model.stage.value == 'data'
         assert resolution.selected_keys
         audit = model.audit()
         assert not audit.blocking, (starter.key, audit.blocking)
@@ -155,10 +155,10 @@ def test_canonical_framework_reference_authorities_are_composable():
         {'name':'Canonical Authority Probe','goal':'probe','pattern_key':'dashboard','placements':placements},
         lookup,
     )
-    assert "DataTable(ROWS, COLUMNS" in source
-    assert "LineChart(" in source
-    assert "MetricCard(" in source
-    assert "Button(" in source
+    assert 'render_provider_capability' in source
+    assert 'AnalysisContext' in source
+    assert 'measurement_field=MEASUREMENT_FIELD' in source
+    assert 'filter_state=FILTER_STATE' in source
 
 
 def test_lot_wafer_explorer_required_table_resolves_from_framework_reference_catalog():

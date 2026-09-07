@@ -595,7 +595,14 @@ class DataTable:
                         column['sort'],column['sortIndex']=sort_map[key]
             if row_selection is not None:
                 options['rowSelection']=row_selection
-            self.element=ui.aggrid(options, auto_size_columns=False).classes(spec.classes).style('height:min(62vh,620px);min-height:360px')
+            # Small reference fixtures should end at their content; large datasets
+            # retain the virtualized viewport and bounded production height.
+            content_sized = len(self.rows) <= 12
+            if content_sized:
+                options['domLayout'] = 'autoHeight'
+            table_style = 'height:auto;min-height:0' if content_sized else 'height:min(62vh,620px);min-height:360px'
+            table_classes = f'{spec.classes} cui-data-table--content-sized' if content_sized else spec.classes
+            self.element=ui.aggrid(options, auto_size_columns=False).classes(table_classes).style(table_style)
             with ui.element('div').classes('cui-table-footer') as self.footer:
                 self.footer_label=ui.label(self._footer_text()).classes('cui-table-footer-label').props('aria-live=polite')
                 ui.element('div').classes('cui-table-footer__spacer')

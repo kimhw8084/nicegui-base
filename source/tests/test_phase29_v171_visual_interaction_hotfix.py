@@ -35,7 +35,10 @@ def test_compact_sidebar_footer_is_native_icon_dock_and_callbacks_are_awaited():
     assert "ui.element('button').classes('cui-sidebar-footer__action')" in footer
     assert 'cui-sidebar-footer__action-label' in footer
     assert 'ui.button(on_click=on_support)' not in footer
-    assert 'async def _toggle_mobile' in source and 'await self.mobile_drawer.toggle()' in source
+    # Mobile navigation is page-owned and uses the DOM state contract; it does
+    # not call the legacy drawer toggle API.
+    assert 'async def _toggle_mobile' in source and "dataset.mobileNav='open'" in source
+    assert "dataset.mobileNav='closed'" in source
     assert 'async def _toggle_sidebar' in source and 'return await _ui().run_javascript' in source
     css = _text('nicegui_base/design/hardening_css.py')
     assert "html[data-sidebar='compact'] .cui-sidebar-footer__action-label{display:none!important;}" in css

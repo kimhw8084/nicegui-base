@@ -85,8 +85,22 @@ def sample_rows_for_entry(entry: WorkbenchEntry) -> tuple[dict[str, Any], ...]:
     # One broad semiconductor-friendly fixture lets the same Data Dock demonstrate
     # tables/charts/engineering mappings without creating separate hidden datasets.
     if is_data_backed(entry):
+        if entry.kind is WorkbenchKind.ANALYTIC:
+            from .analytic_specimens import canonical_fixture_for_surface
+            surface_key = str(entry.metadata.get('surface_key') or '')
+            return tuple(dict(row) for row in canonical_fixture_for_surface(surface_key))
         return tuple(dict(row) for row in DEFAULT_ENGINEERING_SAMPLE)
     return ()
+
+
+def default_studio_options(entry: WorkbenchEntry) -> dict[str, Any]:
+    """Seed reference sessions from the canonical contract, never a guessed column."""
+    if entry.kind is WorkbenchKind.ANALYTIC:
+        from .analytic_specimens import CANONICAL_MEASUREMENT_FIELDS
+        surface_key = str(entry.metadata.get('surface_key') or '')
+        field = CANONICAL_MEASUREMENT_FIELDS.get(surface_key)
+        return {'measurement': field} if field else {}
+    return {}
 
 
 def studio_session(entry: WorkbenchEntry) -> StudioSession:
@@ -107,34 +121,26 @@ def _column_kind(type_name: str):
 
 
 def _read_upload_content(event) -> tuple[str, Any]:
-    file_obj = getattr(event, 'file', None) or event
-    name = str(getattr(file_obj, 'name', None) or getattr(event, 'name', None) or 'upload')
-    content = getattr(file_obj, 'content', None) or getattr(event, 'content', None)
+    from nicegui_base.integrations.upload_io import upload_parts
+    name, _media, content = upload_parts(event)
     return name, content
 
 
 async def _read_all(content: Any) -> bytes:
-    if content is None:
-        return b''
-    if isinstance(content, (bytes, bytearray, memoryview)):
-        return bytes(content)
-    read = getattr(content, 'read', None)
-    if not callable(read):
-        return b''
-    value = read()
-    if hasattr(value, '__await__'):
-        value = await value
-    return bytes(value or b'')
+    from nicegui_base.integrations.upload_io import read_upload_bytes
+    from .preview_data import MAX_PROJECT_BYTES
+    return await read_upload_bytes(content, max_bytes=MAX_PROJECT_BYTES)
 
 
 def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel], Any] | None = None, mapping_targets: Sequence[str] = ()) -> None:
-    """Render the reusable development Data Dock using governed controls/table authority."""
+    """Render the reusable example-data playground and data-contract demonstrator."""
     from nicegui import ui
     from nicegui_base.data_table import EditableTableSpec, SelectionMode, TableColumn
     from nicegui_base.integrations.nicegui_components import ActionButton, Button, FileUpload, Select, TextArea, TextInput
     from nicegui_base.integrations.nicegui_data_table import EditableTable
     from nicegui_base.integrations.nicegui_layout import SegmentedControl
 
+    dock_status = ui.label('').classes('cui-workbench-note').props('role=\"status\" aria-live=\"polite\" data-dock-status')
     mode = {'value': 'review'}
     mode_host = ui.element('div').classes('cui-workbench-toolbar cui-data-dock-modebar')
     content_host = ui.element('div').classes('cui-data-dock-content')
@@ -147,12 +153,16 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
         render_mode()
 
     async def mutate(action: Callable[[], Any]) -> None:
-        action()
-        await changed()
+        try:
+            action()
+            await changed()
+            dock_status.set_text('Data updated.')
+        except (ValueError, KeyError, IndexError, TypeError) as exc:
+            dock_status.set_text(f'Change rejected: {exc}')
 
     def status_strip() -> None:
         snap = model.snapshot
-        with ui.element('div').classes('cui-data-dock-summary'):
+        with ui.element('div').classes('cui-data-dock-summary').props(f'data-dock-rows="{snap.quality.rows}" data-dock-columns="{snap.quality.columns}" data-dock-revision="{snap.revision}"'):
             for value, label in (
                 (snap.quality.rows, 'rows'), (snap.quality.columns, 'columns'),
                 (snap.quality.missing_cells, 'missing cells'), (snap.quality.duplicate_rows, 'duplicate rows'),
@@ -171,15 +181,22 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
         if not model.columns:
             ui.label('No columns to edit. Paste or upload data first.').classes('cui-workbench-note')
             return
-        rows = [dict(row, __wb_row=index) for index, row in enumerate(model.rows)]
-        columns = [TableColumn('__wb_row', '#', kind=_column_kind('integer'), visible=False)]
+        row_key = '__wb_row'
+        while row_key in model.snapshot.column_names:
+            row_key += '_'
+        rows = [{**row, row_key:index} for index, row in enumerate(model.rows)]
+        columns = [TableColumn(row_key, '#', kind=_column_kind('integer'), visible=False)]
         columns.extend(TableColumn(column.name, column.name, kind=_column_kind(column.inferred_type), editable=True) for column in model.columns)
-        spec = EditableTableSpec(tuple(columns), row_key='__wb_row', title='Development data', selection=SelectionMode.SINGLE, persist_state=False)
+        spec = EditableTableSpec(tuple(columns), row_key=row_key, title='Example data', selection=SelectionMode.SINGLE, persist_state=False)
 
         async def save_edit(row, key, value):
-            if key == '__wb_row':
+            if key == row_key:
                 return
-            model.edit_cell(int(row['__wb_row']), str(key), value)
+            try:
+                model.edit_cell(int(row[row_key]), str(key), value)
+            except (ValueError, TypeError, IndexError, KeyError) as exc:
+                dock_status.set_text(f'Edit rejected: {exc}')
+                raise
             if on_change:
                 result = on_change(model)
                 if hasattr(result, '__await__'):
@@ -198,7 +215,7 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                 row_index = node.get('rowIndex')
             data = args.get('data')
             if row_index is None and isinstance(data, Mapping):
-                row_index = data.get('__wb_row')
+                row_index = data.get(row_key)
             column = args.get('colId')
             column_payload = args.get('column')
             if column is None and isinstance(column_payload, Mapping):
@@ -226,7 +243,11 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
             if not text.strip():
                 clipboard_status.set_text('Paste cells into the fallback box first.')
                 return
-            model.rectangular_paste(selected['row'], selected['column'], text)
+            try:
+                model.rectangular_paste(selected['row'], selected['column'], text)
+            except (ValueError, TypeError, IndexError) as exc:
+                clipboard_status.set_text(f'Paste rejected: {exc}')
+                return
             clipboard_status.set_text(f"Applied pasted cells at row {selected['row'] + 1} · {selected['column']}")
             await changed()
 
@@ -240,7 +261,11 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
             if not text.strip():
                 clipboard_status.set_text('Clipboard contains no tabular text. Open the fallback paste box if browser permission is restricted.')
                 return
-            model.rectangular_paste(selected['row'], selected['column'], text)
+            try:
+                model.rectangular_paste(selected['row'], selected['column'], text)
+            except (ValueError, TypeError, IndexError) as exc:
+                clipboard_status.set_text(f'Paste rejected: {exc}')
+                return
             clipboard_status.set_text(f"Pasted clipboard at row {selected['row'] + 1} · {selected['column']}")
             await changed()
 
@@ -255,22 +280,24 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
 
     def render_mapping() -> None:
         for column in model.columns:
-            with ui.element('article').classes('cui-data-dock-column'):
+            with ui.element('article').classes('cui-data-dock-column').props('data-dock-column=' + json.dumps(column.name)):
                 ui.label(column.name).classes('cui-workbench-card__title')
                 ui.label(f'{column.inferred_type} · {column.role} · {column.confidence:.0%} confidence').classes('cui-workbench-note')
                 with ui.element('div').classes('cui-data-dock-column__controls'):
                     name_input = TextInput('Column name', value=column.name)
+                    name_input.element.props('data-schema-name=' + json.dumps(column.name))
                     type_select = Select('Type', {key:key.title() for key in ('string','integer','float','boolean','date','datetime','category','json','unknown')}, value=column.inferred_type, clearable=False)
                     role_select = Select('Semantic role', {key:key.title() for key in ('dimension','measurement','identifier','timestamp','entity','attribute')}, value=column.role, clearable=False)
                     async def apply_col(_e=None, original=column.name, n=name_input, t=type_select, r=role_select, inferred=column.inferred_type, role=column.role):
-                        current_name = original
-                        new_name = str(getattr(n.element, 'value', original) or original).strip()
-                        if new_name != original:
-                            model.rename_column(original, new_name)
-                            current_name = new_name
-                        model.set_column_type(current_name, str(getattr(t.element, 'value', inferred)))
-                        model.set_semantic_role(current_name, str(getattr(r.element, 'value', role)))
-                        await changed()
+                        try:
+                            model.configure_column(original,
+                                name=str(getattr(n.element, 'value', original) or original).strip(),
+                                type_name=str(getattr(t.element, 'value', inferred)),
+                                role=str(getattr(r.element, 'value', role)))
+                            await changed()
+                            dock_status.set_text('Schema updated.')
+                        except (ValueError, TypeError, KeyError) as exc:
+                            dock_status.set_text(f'Schema change rejected: {exc}')
                     Button('Apply', on_click=apply_col)
         if mapping_targets:
             ui.label('Logical mapping targets').classes('cui-workbench-section-title')
@@ -285,7 +312,7 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
             result_host.clear()
             with result_host:
                 if result.ok:
-                    ui.label(f'Detected {result.detected_format.value.upper()} · {model.snapshot.quality.rows} rows · {model.snapshot.quality.columns} columns').classes('cui-workbench-note')
+                    dock_status.set_text(f'Loaded pasted data: {model.snapshot.quality.rows} rows · {model.snapshot.quality.columns} columns')
                     if on_change:
                         value = on_change(model)
                         if hasattr(value, '__await__'):
@@ -295,7 +322,8 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                     render_mode()
                 else:
                     for issue in result.issues:
-                        ui.label(issue.message).classes('cui-workbench-note')
+                        ui.label(issue.message).classes('cui-workbench-note').props('role=alert')
+                        dock_status.set_text(f'Import rejected: {issue.message}')
         ActionButton('Load pasted data', on_click=analyze)
         with result_host:
             ui.label('Format is detected immediately when you analyze the paste.').classes('cui-workbench-note')
@@ -304,12 +332,16 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
         result_host = ui.element('div')
         async def uploaded(event):
             name, content = _read_upload_content(event)
-            data = await _read_all(content)
-            result = model.load_bytes(data, filename=name)
+            try:
+                data = await _read_all(content)
+                result = model.load_bytes(data, filename=name)
+            except (ValueError, TypeError) as exc:
+                dock_status.set_text(f'Import rejected: {exc}')
+                return
             result_host.clear()
             with result_host:
                 if result.ok:
-                    ui.label(f'Loaded {name} · {model.snapshot.quality.rows} rows').classes('cui-workbench-note')
+                    dock_status.set_text(f'Loaded {name} · {model.snapshot.quality.rows} rows')
                     if on_change:
                         value = on_change(model)
                         if hasattr(value, '__await__'):
@@ -319,8 +351,11 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                     render_mode()
                 else:
                     for issue in result.issues:
-                        ui.label(issue.message).classes('cui-workbench-note')
-        FileUpload(label='Upload CSV, TSV, or JSON', accept=('.csv','.json','.tsv'), max_file_size_mb=25, on_upload=uploaded)
+                        ui.label(issue.message).classes('cui-workbench-note').props('role=alert')
+                        dock_status.set_text(f'Import rejected: {issue.message}')
+        from nicegui_base.security import UploadPolicy
+        policy = UploadPolicy(max_bytes=2 * 1024 * 1024, allowed_extensions=frozenset({'.csv','.tsv','.json'}), allowed_media_types=frozenset({'text/csv','text/tab-separated-values','text/plain','application/json','application/octet-stream'}))
+        FileUpload(label='Upload CSV, TSV, or JSON', accept=('.csv','.json','.tsv'), max_file_size_mb=2, upload_policy=policy, on_upload=uploaded, auto_upload=True)
         with result_host:
             ui.label('Uploads use the canonical NiceGUI Base upload policy before parsing.').classes('cui-workbench-note')
 
@@ -360,12 +395,12 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
     def render_mode_selector() -> None:
         mode_host.clear()
         with mode_host:
-            ui.label('Data workflow').classes('cui-workbench-card__meta')
+            ui.label('Example data playground').classes('cui-workbench-card__meta')
             SegmentedControl(
-                {'review':'Review & edit','paste':'Paste','upload':'Upload'},
+                {'review':'Inspect & edit','paste':'Paste example','upload':'Upload example'},
                 value=mode['value'], on_change=mode_changed,
             )
-            ui.label('Review the current dataset first; load new data only when you need to replace it.').classes('cui-workbench-note')
+            ui.label('Inspect the supplied example first; paste or upload only to demonstrate a new data contract.').classes('cui-workbench-note')
 
     render_mode_selector()
     render_mode()
@@ -387,7 +422,9 @@ def _related_entry_links(entry: WorkbenchEntry) -> None:
 
 def _header_metadata(entry: WorkbenchEntry) -> None:
     from nicegui import ui
-    with ui.element('section').classes('cui-studio-header'):
+    from nicegui_base.integrations.nicegui_content import CodeViewer
+    contract = entry.reference_contract
+    with ui.element('section').classes('cui-studio-header cui-studio-header--compact'):
         with ui.element('div').classes('cui-workbench-card__meta'):
             ui.label(entry.kind.value)
             if entry.category:
@@ -405,12 +442,33 @@ def _header_metadata(entry: WorkbenchEntry) -> None:
                 ui.label('Live preview').classes('cui-workbench-chip')
             if entry.sample_data:
                 ui.label('Sample data').classes('cui-workbench-chip')
-        if entry.use_when:
-            ui.label('Use when').classes('cui-workbench-section-title')
-            ui.label(' · '.join(entry.use_when)).classes('cui-workbench-note')
-        if entry.avoid_when:
-            ui.label('Avoid when').classes('cui-workbench-section-title')
-            ui.label(' · '.join(entry.avoid_when)).classes('cui-workbench-note')
+        if entry.use_when or entry.avoid_when:
+            with ui.element('details').classes('cui-studio-usage-notes'):
+                with ui.element('summary').props('tabindex="0"'):
+                    ui.label('When to use · when to avoid').classes('cui-workbench-card__meta')
+                if entry.use_when:
+                    ui.label('Use when · ' + ' · '.join(entry.use_when)).classes('cui-workbench-note')
+                if entry.avoid_when:
+                    ui.label('Avoid when · ' + ' · '.join(entry.avoid_when)).classes('cui-workbench-note')
+        with ui.element('details').classes('cui-studio-reference-contract').props('data-reference-contract'):
+            with ui.element('summary').props('tabindex="0"'):
+                ui.label('Reference contract · variants, states, data, and production guidance').classes('cui-workbench-section-title')
+            ui.label('Live example' if contract.live_example else 'Explicit nonvisual variant').classes('cui-workbench-chip')
+            if contract.nonvisual_variant:
+                ui.label(contract.nonvisual_variant).classes('cui-workbench-note')
+            for label, values in (
+                ('Variants', contract.variants), ('Configuration', contract.configuration),
+                ('Data / input contract', contract.data_contract), ('States', contract.states),
+                ('Responsive behavior', contract.responsive_behavior), ('Accessibility', contract.accessibility),
+                ('Best for', contract.best_for), ('Avoid for', contract.avoid_for),
+                ('Requires', contract.requires), ('Produces', contract.produces),
+                ('Alternatives', contract.alternatives), ('Complements', contract.complements),
+                ('Domain tags', contract.domain_tags),
+            ):
+                ui.label(label).classes('cui-workbench-card__meta')
+                ui.label(' · '.join(values)).classes('cui-workbench-note')
+            ui.label(f'Example proof · {contract.example_proof}').classes('cui-workbench-note')
+            CodeViewer(contract.recommended_code, language='python')
         _related_entry_links(entry)
 
 
@@ -422,26 +480,8 @@ _DATA_SPECIMEN_HINTS = ('data_source','datasource','sql','sqlite','csv','query',
 
 
 def studio_specimen_mode(entry: WorkbenchEntry) -> str:
-    """Choose a truthful preview contract instead of forcing every capability into a visual canvas."""
-    registry = str(entry.metadata.get('registry_name') or '').casefold()
-    key = entry.key.casefold()
-    category = str(entry.category or '').casefold()
-    haystack = ' '.join((registry, key, category))
-    if entry.kind is WorkbenchKind.ANALYTIC or registry in {'visualizations','engineering','analysis'}:
-        return 'visualization'
-    if entry.kind is WorkbenchKind.PATTERN or entry.metadata.get('reference_route') or entry.metadata.get('legacy_route'):
-        return 'reference'
-    if entry.kind is WorkbenchKind.RECIPE:
-        return 'recipe'
-    if registry == 'data_sources' or any(hint in haystack for hint in _DATA_SPECIMEN_HINTS):
-        return 'data'
-    if any(hint in haystack for hint in _SECURITY_SPECIMEN_HINTS):
-        return 'security'
-    if any(hint in haystack for hint in _PERFORMANCE_SPECIMEN_HINTS):
-        return 'performance'
-    if any(hint in haystack for hint in _RUNTIME_SPECIMEN_HINTS):
-        return 'runtime'
-    return 'component'
+    from .catalog_runtime import describe_entry
+    return str(describe_entry(entry)['mode'])
 
 
 def _render_contract_specimen(entry: WorkbenchEntry, mode: str) -> None:
@@ -485,215 +525,267 @@ def render_capability_studio(
     data_renderer: Callable[[StudioSession], None] | None = None,
     data_model: DataDockModel | None = None,
     active_route: str = '/catalog',
+    reference_only: bool = True,
 ) -> StudioSession:
-    """Render one standardized Capability Studio inside an already-open Workbench shell."""
+    """Render a reference session; legacy project handoff is opt-in only."""
     from nicegui import app, ui
     from nicegui_base.integrations.nicegui_components import Button, Select, TextInput
     from nicegui_base.integrations.nicegui_content import CodeViewer
-    from nicegui_base.integrations.nicegui_layout import SegmentedControl, Tabs
+    from nicegui_base.integrations.nicegui_layout import Tabs
     from nicegui_base.navigation import TabSpec
+    from .catalog_runtime import describe_entry, example_rows, render_catalog_example, supported_options
+    from .preview_data import checked_rows
 
-    session = StudioSession(entry, data_model or DataDockModel(sample_rows_for_entry(entry), sample_name=f'{entry.title} sample'), StudioConfigModel(entry.title))
+    info = describe_entry(entry)
+    session = StudioSession(
+        entry,
+        data_model if data_model is not None else DataDockModel(sample_rows_for_entry(entry), sample_name=f'{entry.title} sample'),
+        StudioConfigModel(entry.title, options=default_studio_options(entry)),
+    )
+    draft_note = ''
+    draft_state = {'token': None, 'dirty': False}
+    export_policy = {'mode': 'schema_only'}
+    if not reference_only:
+        from .studio_state import DRAFT_STORAGE_KEY, draft_payload, restore_draft, token, save_draft as store_draft, remove_draft
+        saved = app.storage.user.get(DRAFT_STORAGE_KEY, {})
+        draft = saved.get(entry.key) if isinstance(saved, Mapping) else None
+        draft_state['token'] = token(draft)
+        if draft is not None and data_model is None:
+            try:
+                restored_data, cfg, export_mode = restore_draft(draft, title=entry.title)
+                session.data = restored_data
+                session.config = StudioConfigModel(cfg['title'], density=cfg['density'], responsive_width=cfg['responsive_width'], theme=cfg['theme'], options=cfg['options'])
+                export_policy['mode'] = export_mode
+                draft_note = 'Saved development draft restored (data and schema).'
+            except (ValueError, TypeError, KeyError):
+                draft_note = 'The saved draft could not be restored. Its original saved value was not changed.'
+    # Reserve the live example's DOM position before secondary reference metadata
+    # so the first useful visual is immediately below the stable shell toolbar.
+    preview_host = ui.element('div').classes('cui-studio-preview-frame cui-studio-first-example').props(f'data-specimen="{info["mode"]}" data-reference-example-host')
     _header_metadata(entry)
-    from .project_state import render_entry_project_actions
-    render_entry_project_actions(entry)
+    if reference_only:
+        ui.label('Reference example · governed sample data stays on this page and never modifies a project.').classes('cui-workbench-note').props('role=\"status\" data-reference-example')
+    else:
+        from .project_state import render_entry_project_actions
+        render_entry_project_actions(entry)
+    draft_status = ui.label(draft_note or ('Draft not saved. Save explicitly before reloading.' if not reference_only else 'Live example is ready.')).classes('cui-workbench-note').props('role=\"status\" aria-live=\"polite\" data-draft-status')
+    callbacks: dict[str, Any] = {}
+    controls: dict[str, Any] = {}
+    syncing = {'value': False}
+    code_revision = {'value': 0}
 
-    preview_host = ui.element('div').classes('cui-studio-preview-frame').props(f'data-theme="{session.config.theme}" data-density="{session.config.density}" data-specimen="{studio_specimen_mode(entry)}"')
-    preview_host.style(f'max-width:{RESPONSIVE_WIDTHS[session.config.responsive_width]}px')
+    def log(message: str) -> None:
+        session.log(message)
+        if callbacks.get('events'):
+            callbacks['events']()
+
+    def options() -> dict[str, Any]:
+        return {**session.config.options, 'density': session.config.density}
 
     def default_preview() -> None:
-        if entry.kind is WorkbenchKind.ANALYTIC:
-            from .app import _render_surface_preview
-            _render_surface_preview(str(entry.metadata.get('surface_key')), entry.category)
-        elif entry.kind is WorkbenchKind.PATTERN:
-            reference = entry.metadata.get('reference_route') or entry.metadata.get('legacy_route')
-            if reference:
-                ui.html(f'<iframe class="cui-studio-iframe" title={json.dumps(entry.title)} src={json.dumps(str(reference))}></iframe>', sanitize=False)
-            else:
-                ui.label('Pattern sample is generated from the canonical page-pattern contract.').classes('cui-workbench-note')
-        else:
-            reference = entry.metadata.get('reference_route')
-            if reference:
-                ui.html(f'<iframe class="cui-studio-iframe" title={json.dumps(entry.title)} src={json.dumps(str(reference))}></iframe>', sanitize=False)
-            else:
-                _render_contract_specimen(entry, studio_specimen_mode(entry))
+        render_catalog_example(
+            entry.key,
+            title=session.config.title,
+            rows=session.data.serializable_rows(),
+            options=options(),
+            on_event=log,
+            show_reference=True,
+            schema=session.data.schema_metadata(),
+        )
 
     def render_preview() -> None:
         preview_host.clear()
         preview_host.style(replace=f'max-width:{RESPONSIVE_WIDTHS[session.config.responsive_width]}px')
+        preview_host.props(f'data-theme="{session.config.theme}" data-density="{session.config.density}"')
         with preview_host:
-            ui.label(session.config.title).classes('cui-workbench-section-title')
-            (preview_renderer or (lambda _session: default_preview()))(session)
+            if info['mode'] not in {'pattern', 'analytical_sample', 'analytical_data'}:
+                ui.label(session.config.title).classes('cui-workbench-section-title').props('data-preview-title')
+            try:
+                if preview_renderer:
+                    preview_renderer(session)
+                else:
+                    default_preview()
+            except ValueError as exc:
+                from nicegui_base import Alert, FeedbackIntent
+                Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
+        code_revision['value'] += 1
+        if callbacks.get('code'):
+            callbacks['code']()
 
     session.refresh_preview = render_preview
 
-    tab_specs = tuple(TabSpec(tab, tab.replace('_',' ').title()) for tab in STUDIO_TABS)
-    with Tabs(tab_specs, value='preview') as tabs:
+    def sync_controls() -> None:
+        syncing['value'] = True
+        try:
+            values = {'title':session.config.title, 'density':session.config.density, 'width':session.config.responsive_width}
+            values.update(session.config.options)
+            for key, control in controls.items():
+                if key in values:
+                    control.element.set_value(values[key])
+        finally:
+            syncing['value'] = False
+
+    def mark_dirty(_event=None):
+        if syncing['value']: return
+        draft_state['dirty'] = True
+        draft_status.set_text('Unsaved reference changes; use the explicit export action if you want a runnable example.' if reference_only else 'Unsaved changes. Save draft before reloading.')
+
+    with Tabs(tuple(TabSpec(tab, tab.title()) for tab in STUDIO_TABS), value='preview') as tabs:
         with tabs.panel('preview'):
-            event_host = ui.element('div').classes('cui-studio-event-log__events')
-
-            def render_events() -> None:
-                event_host.clear()
-                with event_host:
-                    if not session.event_log:
-                        ui.label('No events yet.').classes('cui-workbench-note')
-                    else:
-                        for line in reversed(session.event_log[-12:]):
-                            ui.label(line).classes('cui-workbench-note')
-
-            def log(message: str) -> None:
-                session.log(message)
-                render_events()
-
-            def width_changed(event):
-                value = str(getattr(event, 'value', 'desktop'))
-                if value in RESPONSIVE_WIDTHS:
-                    session.config.update(responsive_width=value)
-                    log(f'Preview width → {value}')
-                    render_preview()
-
-            def theme_changed(event):
-                value = str(getattr(event, 'value', 'system'))
-                if value not in {'system','light','dark'}:
-                    return
-                session.config.update(theme=value)
-                preview_host.props(f'data-theme="{value}"')
-                log(f'Preview theme → {value}')
-                render_preview()
-
-            async def density_changed(event):
-                value = str(getattr(event, 'value', 'compact'))
-                if value not in {'comfortable','compact','dense'}:
-                    return
-                session.config.update(density=value)
-                preview_host.props(f'data-density="{value}"')
-                log(f'Preview density → {value}')
-                render_preview()
-
-            def refresh_preview():
-                log('Preview refreshed')
-                render_preview()
-
-            def reset_preview():
-                session.config.reset(title=entry.title)
-                preview_host.props('data-theme="system" data-density="compact"')
-                log('Configuration reset')
-                render_preview()
-
             with ui.element('div').classes('cui-workbench-toolbar cui-studio-preview-controls'):
-                Select(
-                    'Preview width', {key:key.replace('_',' ').title() for key in RESPONSIVE_WIDTHS},
-                    value=session.config.responsive_width, clearable=False, on_change=width_changed,
-                )
-                SegmentedControl({'system':'System','light':'Light','dark':'Dark'}, value=session.config.theme, on_change=theme_changed)
-                SegmentedControl({'comfortable':'Comfort','compact':'Compact','dense':'Dense'}, value=session.config.density, on_change=density_changed)
-                Button('Refresh', on_click=refresh_preview)
-                Button('Reset', on_click=reset_preview)
-            render_preview()
-            with ui.element('details').classes('cui-studio-event-log'):
-                with ui.element('summary').classes('cui-workbench-note').props('tabindex="0"'):
-                    ui.label('Event / debug output')
+                def width_changed(event):
+                    if syncing['value']: return
+                    value=str(event.value)
+                    if value in RESPONSIVE_WIDTHS:
+                        session.config.update(responsive_width=value); mark_dirty(); render_preview()
+                controls['width']=Select('Preview width',{k:k.title() for k in RESPONSIVE_WIDTHS},value=session.config.responsive_width,clearable=False,on_change=width_changed)
+                Button('Refresh preview',on_click=render_preview)
+                def reset():
+                    session.config.reset(title=entry.title)
+                    for key in supported_options(entry):
+                        session.config.options[key] = False if key=='disabled' else ('single' if key=='selection' else '')
+                    sync_controls();mark_dirty();log('Configuration reset');render_preview()
+                Button('Reset configuration',on_click=reset)
+                if not reference_only:
+                    def save_draft():
+                        try:
+                            apply_config()
+                            payload = draft_payload(session.data, session.config.frozen().normalized(), export_mode=export_policy['mode'])
+                            draft_state['token'] = store_draft(app.storage.user, entry.key, payload, expected=draft_state['token'])
+                            draft_state['dirty'] = False
+                            draft_status.set_text('Draft saved: data, schema, configuration, and export policy.')
+                            log('Development draft saved for this user')
+                        except (ValueError, TypeError) as exc:
+                            draft_status.set_text(f'Draft not saved: {exc}')
+                    Button('Save draft',on_click=save_draft)
+                    def delete_draft():
+                        try:
+                            remove_draft(app.storage.user, entry.key, expected=draft_state['token'])
+                            draft_state['token'] = None
+                            draft_state['dirty'] = True
+                            draft_status.set_text('Saved draft removed. Current work remains open and unsaved.')
+                        except ValueError as exc:
+                            draft_status.set_text(f'Draft not removed: {exc}')
+                    Button('Remove saved draft',on_click=delete_draft)
+            if draft_note: ui.label(draft_note).classes('cui-workbench-note')
+            ui.label('Examples operate on local development data. No production provider is changed.').classes('cui-workbench-note')
+            if not reference_only:
+                with ui.element('details').classes('cui-studio-event-log'):
+                    with ui.element('summary'):
+                        ui.label('Event / debug output')
+                    event_host=ui.element('div').classes('cui-studio-event-log__events').props('aria-live="polite"')
+                def render_events():
+                    event_host.clear()
+                    with event_host:
+                        for line in reversed(session.event_log[-12:] or ['No events yet.']):
+                            ui.label(line).classes('cui-workbench-note')
+                callbacks['events']=render_events
                 render_events()
+            render_preview()
         with tabs.panel('data'):
-            if data_renderer is not None:
+            if data_renderer:
                 data_renderer(session)
-            elif is_data_backed(entry):
+            elif info['uses_rows']:
+                ui.label('Up to 5,000 rows / 2 MiB per example session. Larger datasets belong in a provider; imports never silently truncate rows.').classes('cui-workbench-note')
                 def data_changed(_model):
-                    session.log(f'Data revision {session.data.snapshot.revision}')
-                    render_preview()
-                render_data_dock(session.data, on_change=data_changed)
+                    measurement = controls.get('measurement')
+                    if measurement is not None:
+                        names = {'':'Automatic'}
+                        names.update({n:n for n in session.data.snapshot.column_names})
+                        current = session.config.options.get('measurement', '')
+                        if current not in names:
+                            current = ''
+                            session.config.options['measurement'] = ''
+                        measurement.element.set_options(names, value=current)
+                    mark_dirty();log(f'Data revision {session.data.snapshot.revision}');render_preview()
+                render_data_dock(session.data,on_change=data_changed)
             else:
-                ui.label('This capability does not require tabular development data.').classes('cui-workbench-note')
-                ui.label('Sample mode is intentionally not fabricated for non-data-backed capabilities.').classes('cui-workbench-note')
+                ui.label('This reference example does not accept tabular data. Its sample dataset or integration contract is described in Preview.').classes('cui-workbench-note')
         with tabs.panel('configure'):
-            ui.label('Governed configuration').classes('cui-workbench-section-title')
-            title_field = TextInput('Title', value=session.config.title)
-            density = Select('Density', {'comfortable':'Comfortable','compact':'Compact','dense':'Dense'}, value=session.config.density, clearable=False)
-            option_fields: dict[str, Any] = {}
-            if entry.kind is WorkbenchKind.ANALYTIC:
-                option_fields['measurement'] = Select(
-                    'Measurement field', {name:name for name in session.data.snapshot.column_names} or {'value':'value'},
-                    value=(session.data.snapshot.column_names[-1] if session.data.snapshot.column_names else 'value'), clearable=False,
-                    description='Select the governed measurement/value field used by this development preview.',
-                )
-                option_fields['show_limits'] = Select('Limit context', {'auto':'Auto','on':'Show limits','off':'Hide limits'}, value='auto', clearable=False)
-                ui.label('Analytical configuration exposes semantic fields/limits/context only; raw ECharts or Quasar props are intentionally unavailable.').classes('cui-workbench-note')
-            elif entry.kind is WorkbenchKind.PATTERN:
-                option_fields['content_density'] = Select('Composition density', {'focused':'Focused','balanced':'Balanced','dense':'Dense analysis'}, value='balanced', clearable=False)
-                option_fields['details'] = Select('Detail treatment', {'auto':'Pattern default','inline':'Inline','drawer':'Contextual drawer'}, value='auto', clearable=False)
-                ui.label('Pattern configuration changes governed composition choices; it is not a freeform pixel canvas.').classes('cui-workbench-note')
-            elif str(entry.metadata.get('registry_name') or '') == 'tables' or 'table' in entry.key.casefold():
-                option_fields['selection'] = Select('Selection', {'none':'None','single':'Single','multiple':'Multiple'}, value='single', clearable=False)
-                option_fields['editing'] = Select('Editing', {'off':'Read only','cell':'Cell editing'}, value='off', clearable=False)
-            elif entry.kind is WorkbenchKind.RECIPE:
-                option_fields['optional_panels'] = Select('Optional panels', {'available':'Show when data supports','hide':'Hide optional panels'}, value='available', clearable=False)
-
+            controls['title']=TextInput('Title',value=session.config.title)
+            controls['title'].element.props('data-config-title')
+            controls['density']=Select('Density',{'comfortable':'Comfortable','compact':'Compact','dense':'Dense'},value=session.config.density,clearable=False)
+            for key in supported_options(entry):
+                if key=='disabled':
+                    controls[key]=Select('Disabled',{False:'Enabled',True:'Disabled'},value=session.config.options.get(key,False),clearable=False)
+                elif key=='selection':
+                    controls[key]=Select('Selection',{'none':'None','single':'Single','multiple':'Multiple'},value=session.config.options.get(key,'single'),clearable=False)
+                elif key=='measurement':
+                    names={'':'Automatic'};names.update({n:n for n in session.data.snapshot.column_names})
+                    controls[key]=Select('Measurement field',names,value=session.config.options.get(key,''),clearable=False)
             def apply_config():
-                options = {key: getattr(control.element, 'value', None) for key, control in option_fields.items()}
-                session.config.update(
-                    title=str(getattr(title_field.element,'value',entry.title) or entry.title),
-                    density=str(getattr(density.element,'value','compact')), options=options,
-                )
-                session.log(f'Configuration revision {session.config.revision}')
-                render_preview()
-            Button('Apply configuration', on_click=apply_config)
+                session.config.update(title=str(controls['title'].element.value or entry.title), density=str(controls['density'].element.value),
+                                      options={key:controls[key].element.value for key in supported_options(entry)})
+                mark_dirty();log(f'Configuration revision {session.config.revision}');render_preview()
+            for control in controls.values():
+                control.element.on_value_change(mark_dirty)
+            Button('Apply configuration',on_click=apply_config)
+            ui.label('Only settings connected to this renderer are exposed. Global appearance is controlled by Preferences.').classes('cui-workbench-note')
         with tabs.panel('states'):
-            state_host = ui.element('div').classes('cui-studio-state-host')
-            render_state_matrix(state_host, lambda: (preview_renderer or (lambda _session: default_preview()))(session))
+            host=ui.element('div').classes('cui-studio-state-host')
+            def render_state_preview() -> None:
+                try:
+                    if preview_renderer:
+                        preview_renderer(session)
+                    else:
+                        default_preview()
+                except ValueError as exc:
+                    from nicegui_base import Alert, FeedbackIntent
+                    Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
+            render_state_matrix(host, render_state_preview)
         with tabs.panel('interactions'):
-            ui.label('Governed interactions').classes('cui-workbench-section-title')
             if interaction_renderer:
                 interaction_renderer(session)
             else:
-                metadata = entry.metadata
-                facts = []
-                if metadata.get('linked_hover'):
-                    facts.append('Linked hover')
-                if metadata.get('spatial'):
-                    facts.append('Spatial selection')
-                facts.extend(entry.tags)
-                if facts:
-                    for fact in dict.fromkeys(str(value) for value in facts):
-                        ui.label(f'• {fact}').classes('cui-workbench-note')
-                else:
-                    ui.label('No additional interaction contract is declared for this capability.').classes('cui-workbench-note')
+                ui.label('Use the actual control in Preview. Actions appear in Event / debug output.').classes('cui-workbench-note')
+                if not info['runnable']:
+                    ui.label('This entry is an integration reference, not an interactive widget.').classes('cui-workbench-note')
         with tabs.panel('inspect'):
             from .interaction_inspector import render_interaction_inspector
-            render_interaction_inspector(entry, session)
+            render_interaction_inspector(entry,session)
         with tabs.panel('code'):
-            code_host = ui.element('div').classes('cui-studio-code')
-            def render_code() -> None:
+            export_select = Select('Export data policy', {'schema_only':'Schema only (synthetic values)', 'include_development_rows':'Include current development rows'}, value=export_policy['mode'], clearable=False)
+            export_select.element.props('data-export-policy')
+            def export_changed(event):
+                export_policy['mode'] = event.value
+                mark_dirty()
+            export_select.element.on_value_change(export_changed)
+            ui.label('The Code tabs show your current values. Downloaded ZIPs follow the explicit export policy above and include the exact framework snapshot needed to run independently.').classes('cui-workbench-note')
+            code_host=ui.element('div').classes('cui-studio-code')
+            def artifact():
+                return code_artifact(entry,session.config.frozen(),data_columns=session.data.snapshot.column_names,rows=session.data.serializable_rows())
+            def render_code():
                 code_host.clear()
-                artifact = code_artifact(entry, session.config.frozen(), data_columns=session.data.snapshot.column_names)
+                try:
+                    current=artifact()
+                except ValueError as exc:
+                    with code_host: ui.label(f'Cannot export: {exc}').props('role="alert"')
+                    return
                 with code_host:
+                    ui.label(f'Current configuration revision {session.config.revision} · data revision {session.data.snapshot.revision}').classes('cui-workbench-note').props('data-code-revision')
                     with ui.element('div').classes('cui-workbench-toolbar'):
-                        _copy_button('Copy Minimal', lambda: artifact.minimal)
-                        _copy_button('Copy Production', lambda: artifact.production)
-                        def add_to_starter():
-                            try:
-                                current = list(app.storage.tab.get('nicegui_base_workbench_starter', []))
-                                current.append(artifact.fragment.to_dict())
-                                app.storage.tab['nicegui_base_workbench_starter'] = current[-30:]
-                                session.log('Added capability to Builder starter composition')
-                            except Exception:
-                                session.log('Starter composition could not be persisted in this runtime')
-                        Button('Add to Starter', on_click=add_to_starter)
-                        if artifact.cli_equivalent:
-                            _copy_button('CLI Equivalent', lambda: artifact.cli_equivalent or '')
-                        if entry.kind in {WorkbenchKind.PATTERN, WorkbenchKind.RECIPE}:
-                            def download_starter():
+                        _copy_button('Copy Minimal',lambda:artifact().minimal)
+                        _copy_button('Copy Runnable Example' if info['runnable'] else 'Copy Integration Reference',lambda:artifact().production)
+                        if info['runnable']:
+                            async def download():
+                                import asyncio
                                 from .codegen import generate_application_zip
-                                data = generate_application_zip(entry, app_name=session.config.title or entry.title, config=session.config.frozen())
-                                filename = (session.config.title or entry.title).lower().replace(' ', '-') + '.zip'
-                                ui.download.content(data, filename)
-                                session.log('Generated governed starter ZIP')
-                            Button('Generate Starter ZIP', on_click=download_starter)
-                    ui.label('Minimal').classes('cui-workbench-section-title')
-                    CodeViewer(artifact.minimal, language='python')
-                    ui.label('Production').classes('cui-workbench-section-title')
-                    CodeViewer(artifact.production, language='python')
-                    ui.label('Builder fragment').classes('cui-workbench-section-title')
-                    CodeViewer(artifact.fragment.to_json(), language='json')
+                                config = session.config.frozen()
+                                rows = session.data.serializable_rows()
+                                schema = session.data.schema_metadata()
+                                mode = export_policy['mode']
+                                try:
+                                    payload = await asyncio.to_thread(generate_application_zip, entry, app_name=config.title or entry.title, config=config, rows=rows, data_schema=schema, data_mode=mode)
+                                    ui.download.content(payload,'nicegui-base-example.zip')
+                                    log(f'Example ZIP generated ({mode}); install/run with the included bootstrap.py')
+                                except (ValueError, RuntimeError) as exc:
+                                    draft_status.set_text(f'Export failed: {exc}')
+                            Button('Download example ZIP',on_click=download)
+                    CodeViewer(current.minimal,language='python')
+                    ui.label('Runnable example — not a production-readiness certificate' if info['runnable'] else 'Integration reference — no blank GUI is generated').classes('cui-workbench-note')
+                    CodeViewer(current.production,language='python')
+                    CodeViewer(current.fragment.to_json(),language='json')
+            callbacks['code']=render_code
             render_code()
     return session
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import base64
 import json
 import os
 import stat
@@ -69,7 +70,7 @@ def test_wave77_audit_preserves_legacy_module_exports_without_removing_them():
     audit = audit_final_release_candidate(ROOT, require_final_artifacts=False)
     finding = next(item for item in audit.findings if item.code == 'legacy_module_reexports_preserved')
     assert finding.severity == 'info'
-    assert audit.public_api_entries == 1525
+    assert audit.public_api_entries == 1532
 
 
 def test_wave77_handoff_is_truthful_pending_not_stable_pass():
@@ -185,6 +186,21 @@ def test_wave77_deterministic_zip_is_byte_identical_and_preserves_exec(tmp_path:
         assert ((info.external_attr >> 16) & 0o111) != 0
 
 
+def test_wave77_release_artifacts_can_exclude_mutable_runtime_trees(tmp_path: Path):
+    stage = tmp_path / 'stage'; stage.mkdir()
+    (stage / 'README.md').write_text('immutable', encoding='utf-8')
+    (stage / '.venv/bin').mkdir(parents=True)
+    (stage / '.venv/bin/python').write_text('runtime', encoding='utf-8')
+    (stage / '.nicegui').mkdir()
+    (stage / '.nicegui/storage.json').write_text('tab state', encoding='utf-8')
+    write_sha256_manifest(stage, exclude=('.venv', '.nicegui'))
+    result = verify_sha256_manifest(stage, exclude=('.venv', '.nicegui'))
+    assert result.passed and result.expected == result.verified == 1
+    archive = build_deterministic_zip(stage, tmp_path / 'rc.zip', exclude=('.venv', '.nicegui'))
+    with zipfile.ZipFile(archive) as source:
+        assert set(source.namelist()) == {'README.md', 'SHA256SUMS.txt'}
+
+
 def test_wave77_archive_verifier_checks_manifest_exact_coverage(tmp_path: Path):
     stage = tmp_path / 'stage'; stage.mkdir(); (stage / 'a').write_text('a')
     write_sha256_manifest(stage)
@@ -234,7 +250,7 @@ def test_wave77_release_artifact_helpers_add_no_runtime_dependency():
 
 def test_wave77_public_api_has_no_additive_root_exports_before_freeze():
     import nicegui_base
-    assert len(set(nicegui_base.__all__)) == 1525
+    assert len(set(nicegui_base.__all__)) == 1532
     assert 'audit_final_release_candidate' not in nicegui_base.__all__
     assert 'build_stable_qualification_handoff' not in nicegui_base.__all__
 
@@ -283,8 +299,30 @@ def test_wave77_stable_handoff_does_not_claim_company_execution():
     assert 'does not publish stable 3.0.0' in boundary
 
 
-def test_wave77_wheel_source_representation_matches_identity_refactored_source():
-    result = verify_wheel_source_representation(ROOT, ROOT / 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl')
+def test_wave77_wheel_source_representation_matches_identity_refactored_source(tmp_path: Path):
+    # The checked-in wheel is historical evidence and must not be rewritten when
+    # source changes. Build a current-source wheel-shaped fixture for this pure
+    # representation test; the D4 release test performs the real backend build.
+    wheel = tmp_path / 'test-current-source-wheel.whl'
+    files: dict[str, bytes] = {}
+    for path in (ROOT / 'nicegui_base').rglob('*'):
+        if path.is_file() and '__pycache__' not in path.parts:
+            files[path.relative_to(ROOT).as_posix()] = path.read_bytes()
+    dist = 'nicegui_base-3.0.0a8.dist-info'
+    files[f'{dist}/METADATA'] = (
+        b'Metadata-Version: 2.1\nName: nicegui-base\nVersion: 3.0.0a8\n'
+        b'Requires-Dist: nicegui==3.15.0\n'
+    )
+    files[f'{dist}/WHEEL'] = b'Wheel-Version: 1.0\nGenerator: test\nRoot-Is-Purelib: true\nTag: py3-none-any\n'
+    records = []
+    for name, data in files.items():
+        digest = base64.urlsafe_b64encode(hashlib.sha256(data).digest()).decode().rstrip('=')
+        records.append(f'{name},sha256={digest},{len(data)}')
+    files[f'{dist}/RECORD'] = ('\n'.join(records) + f'\n{dist}/RECORD,,\n').encode()
+    with zipfile.ZipFile(wheel, 'w', zipfile.ZIP_DEFLATED) as archive:
+        for name, data in files.items():
+            archive.writestr(name, data)
+    result = verify_wheel_source_representation(ROOT, wheel)
     assert result.passed
     assert result.compared_files > 0
 

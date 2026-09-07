@@ -2,6 +2,14 @@
   "agent_interface": {
     "bootstrap_command": "nicegui-base agent-init .",
     "bootstrap_guide": "docs/nicegui_base/OPENCODE_GEMMA_BOOTSTRAP.md",
+    "discovery_commands": {
+      "benchmark": "nicegui-base agent-benchmark agent_tasks/manifest.json --format json",
+      "catalog_audit": "nicegui-base catalog-audit --format json",
+      "catalog_search": "nicegui-base catalog-search \"<intent>\" --format json",
+      "pattern_recommendation": "nicegui-base recommend-pattern \"<requirement>\" --format json",
+      "scaffold_plan": "nicegui-base scaffold-plan \"<requirement>\" --format json",
+      "visualization_recommendation": "nicegui-base recommend-visualization \"<intent>\" --schema <field> --format json"
+    },
     "golden_examples": [
       "examples/nicegui_base/golden_dashboard.py",
       "examples/nicegui_base/golden_data_explorer.py",

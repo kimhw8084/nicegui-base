@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .preview_data import checked_rows
+
 import asyncio
 import hashlib
 import json
@@ -55,6 +57,7 @@ class BuilderModel:
     theme: str = 'system'
     density: str = 'compact'
     placements: dict[str, list[str]] = field(default_factory=dict)
+    capability_configurations: dict[str, dict[str, Any]] = field(default_factory=dict)
     queued_entry_keys: list[str] = field(default_factory=list)
     revision: int = 0
 
@@ -63,10 +66,10 @@ class BuilderModel:
         rows = snapshot.get('data_rows') if isinstance(snapshot.get('data_rows'), list) else []
         schema = snapshot.get('data_schema') if isinstance(snapshot.get('data_schema'), (list, tuple)) else ()
         source_name = str(snapshot.get('data_source_name') or 'Resumed project data')
-        data = DataDockModel(rows, sample_name=source_name) if (rows or schema) else default_data_dock()
-        if schema:
-            data.restore_schema_metadata(schema)
+        from .studio_state import normalize_capability_configurations
+        data = DataDockModel.from_payload({'rows': rows, 'columns': list(schema), 'source_name': source_name, 'source_format': snapshot.get('data_source_format', 'sample')}) if (rows or schema or snapshot.get('data_source_name')) else default_data_dock()
         return cls(
+            capability_configurations=normalize_capability_configurations(snapshot.get('capability_configurations')),
             goal=str(snapshot.get('goal') or ''),
             problem_type=str(snapshot.get('problem_type') or 'engineering analysis'),
             data=data,
@@ -97,6 +100,7 @@ class BuilderModel:
         self.theme = restored.theme
         self.density = restored.density
         self.placements = restored.placements
+        self.capability_configurations = restored.capability_configurations
         self.queued_entry_keys = restored.queued_entry_keys
         self.revision = restored.revision
 
@@ -109,7 +113,9 @@ class BuilderModel:
             'blueprint_key': self.blueprint_key,
             'placements': {slot: list(keys) for slot, keys in self.placements.items()},
             'queued_entry_keys': list(dict.fromkeys(self.queued_entry_keys)),
-            'data_rows': list(self.data.serializable_rows())[:200],
+            'data_rows': checked_rows(self.data.serializable_rows()),
+            'capability_configurations': self.capability_configurations,
+            'data_source_format': self.data.snapshot.source_format.value,
             'data_schema': list(self.data.schema_metadata()),
             'data_source_name': self.data.snapshot.source_name,
             'data_handoff_mode': self.data_handoff_mode,
@@ -341,6 +347,60 @@ class BuilderModel:
             },
         }
 
+    def data_mapping_status(self) -> dict[str, Any]:
+        """Return the resolved chart mapping without embedding development rows."""
+        from .data_handoff import build_data_handoff_plan
+        try:
+            plan = build_data_handoff_plan(self.snapshot(), require_measurement=True)
+        except ValueError as exc:
+            return {'measurement_field': None, 'category_field': None, 'error': str(exc)}
+        return {
+            'measurement_field': plan.measurement_field,
+            'category_field': plan.category_field,
+            'error': None,
+        }
+
+    def review_summary(self) -> dict[str, Any]:
+        """Compact Builder review payload; row values are deliberately excluded."""
+        blueprint = self.blueprint_plan()
+        return {
+            'name': self.app_name,
+            'goal': self.goal,
+            'problem_type': self.problem_type,
+            'pattern_key': self.pattern_key,
+            'blueprint': blueprint.to_dict() if blueprint else None,
+            'placements': {slot: list(keys) for slot, keys in self.placements.items()},
+            'allowed_slots': list(self.allowed_slots()),
+            'required_slots': list(self.required_slots()),
+            'empty_required_slots': [slot for slot in self.required_slots() if not self.placements.get(slot)],
+            'placed_capabilities': sum(len(keys) for keys in self.placements.values()),
+            'data': {
+                'rows': self.data.snapshot.quality.rows,
+                'columns': list(self.data.snapshot.column_names),
+                'roles': {column.name: column.role for column in self.data.columns},
+                'types': {column.name: column.inferred_type for column in self.data.columns},
+                'handoff_mode': self.data_handoff_mode,
+                'production_provider': self.production_provider,
+                'source_name': self.data.snapshot.source_name,
+            },
+            'data_mapping': self.data_mapping_status(),
+        }
+
+    def review_data_details(self, *, limit: int = 20) -> dict[str, Any]:
+        """Return only a bounded, explicitly requested data detail view."""
+        if not 1 <= int(limit) <= 100:
+            raise ValueError('Review detail limit must be between 1 and 100 rows.')
+        rows = list(checked_rows(self.data.serializable_rows()))
+        bounded = rows[:int(limit)]
+        return {
+            'total_rows': len(rows),
+            'shown_rows': len(bounded),
+            'limit': int(limit),
+            'truncated': len(rows) > len(bounded),
+            'columns': list(self.data.snapshot.column_names),
+            'rows': bounded,
+        }
+
     def generation_issues(self) -> tuple[str, ...]:
         issues: list[str] = []
         if not re.fullmatch(r'[A-Za-z][A-Za-z0-9 _.-]{1,79}', self.app_name.strip()):
@@ -398,18 +458,9 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
         action(); save(); render()
 
     async def read_uploaded_bytes(event) -> tuple[str, bytes]:
-        file_obj = getattr(event, 'file', None) or event
-        name = str(getattr(file_obj, 'name', None) or getattr(event, 'name', None) or 'project.ngbproj')
-        content = getattr(file_obj, 'content', None) or getattr(event, 'content', None)
-        if isinstance(content, (bytes, bytearray, memoryview)):
-            return name, bytes(content)
-        read = getattr(content, 'read', None)
-        if not callable(read):
-            return name, b''
-        value = read()
-        if hasattr(value, '__await__'):
-            value = await value
-        return name, bytes(value or b'')
+        from nicegui_base.integrations.upload_io import upload_parts, read_upload_bytes
+        name, _media, content = upload_parts(event)
+        return name, await read_upload_bytes(content, max_bytes=5 * 1024 * 1024)
 
     def render() -> None:
         host.clear()
@@ -499,7 +550,9 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                         render()
                     with ui.element('div').classes('cui-workbench-toolbar'):
                         Button('Download .ngbproj', on_click=download_portable)
-                        FileUpload(label='Import .ngbproj', accept=('.ngbproj','.zip'), max_file_size_mb=5, on_upload=import_portable)
+                        from nicegui_base.security import UploadPolicy
+                        portable_policy = UploadPolicy(max_bytes=5 * 1024 * 1024, allowed_extensions=frozenset({'.ngbproj','.zip'}), allowed_media_types=frozenset({'application/zip','application/x-zip-compressed','application/octet-stream'}))
+                        FileUpload(label='Import .ngbproj', accept=('.ngbproj','.zip'), max_file_size_mb=5, upload_policy=portable_policy, on_upload=import_portable, auto_upload=True)
 
 
             if model.stage is BuilderStage.GOAL:
@@ -507,6 +560,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 ui.label('Describe the outcome').classes('cui-workbench-section-title')
                 ui.label('Start with what the application must help an engineer accomplish. NiceGUI Base will recommend the application structure next.').classes('cui-workbench-note')
                 goal = TextInput('What are you trying to build?', value=model.goal, placeholder='e.g. monitor chamber drift and investigate abnormal wafers')
+                goal.element.props('data-builder-goal')
                 kind = Select('Problem type', {
                     'engineering analysis':'Engineering analysis',
                     'generic application':'Generic application',
@@ -537,7 +591,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
 
             elif model.stage is BuilderStage.DATA:
                 ui.label('Confirm development data').classes('cui-workbench-section-title')
-                ui.label('Paste, upload, or edit once. Confirmed types and semantic roles become the generated application data contract; project resume stores at most 200 development rows and never becomes a production data store.').classes('cui-workbench-note')
+                ui.label('Paste, upload, or edit once. Confirmed types and semantic roles become the generated application data contract; project resume supports up to 5,000 rows / 2 MiB with explicit rejection above those limits and never becomes a production data store.').classes('cui-workbench-note')
                 render_data_dock(model.data, on_change=lambda _data: save())
                 ui.label('Generated ZIP data policy').classes('cui-workbench-section-title')
                 ui.label('Schema-only is the safe default: generated apps receive your field contract plus deterministic synthetic rows, but none of your pasted values.').classes('cui-workbench-note')
@@ -546,7 +600,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 Select('Data handoff', {
                     'schema_only':'Schema only + synthetic development rows (recommended)',
                     'include_development_rows':'Include current development rows (explicit opt-in)',
-                }, value=model.data_handoff_mode, clearable=False, on_change=handoff_changed)
+                }, value=model.data_handoff_mode, clearable=False, on_change=handoff_changed).element.props('data-builder-handoff')
                 ui.label('Production provider').classes('cui-workbench-section-title')
                 ui.label('Choose the adapter contract only. Paths and environment values stay outside the project and generated source.').classes('cui-workbench-note')
                 def provider_changed(e):
@@ -600,6 +654,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                         with ui.element('article').classes('cui-workbench-quality-card'):
                             ui.label(label).classes('cui-workbench-card__title'); ui.label(value).classes('cui-workbench-note')
                 app_name = TextInput('Application name', value=model.app_name)
+                app_name.element.props('data-builder-name')
                 theme = Select('Theme', {'system':'System','light':'Light','dark':'Dark'}, value=model.theme, clearable=False)
                 density = Select('Density', {'comfortable':'Comfortable','compact':'Compact','dense':'Dense'}, value=model.density, clearable=False)
                 def apply_config():
@@ -665,7 +720,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                 ActionButton('Review app', on_click=lambda: change(lambda: model.go(BuilderStage.REVIEW)))
 
             elif model.stage is BuilderStage.REVIEW:
-                review = model.review()
+                review = model.review_summary()
                 ui.label('Review composed application').classes('cui-workbench-section-title')
                 if model.blueprint_key:
                     plan = model.blueprint_plan()
@@ -681,6 +736,11 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                     ui.label(f"{len(model.data.columns)} fields · {model.data.snapshot.quality.rows} Workbench rows · provider boundary: services.app_data:build_source").classes('cui-workbench-note')
                     provider_label = model.production_provider if model.production_provider != 'none' else 'runtime selection / development memory'
                     ui.label(f'Production adapter: {provider_label} · configuration values come from environment only · mutation policy: none').classes('cui-workbench-note')
+                    mapping = review['data_mapping']
+                    if mapping['error']:
+                        ui.label('Measurement mapping requires attention: ' + mapping['error']).classes('cui-workbench-note').props('role="alert" data-builder-measurement-error')
+                    else:
+                        ui.label(f"Chart mapping · measurement: {mapping['measurement_field'] or 'not configured'} · labels: {mapping['category_field'] or 'row key'}").classes('cui-workbench-note').props('data-builder-measurement-mapping')
                     uncertain = [column.name for column in model.data.columns if column.confidence < 0.7]
                     if uncertain:
                         ui.label('Confirm low-confidence semantic roles before production use: ' + ', '.join(uncertain[:8])).classes('cui-workbench-note')
@@ -738,6 +798,20 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                             ui.label(f'↔ {key} · {before} → {after}').classes('cui-workbench-note')
                         Button('Apply recommended composition', on_click=lambda: change(lambda: model.auto_compose(replace=True)))
                 CodeViewer(json.dumps(review, indent=2, sort_keys=True, default=str), language='json')
+                with ui.element('details').classes('cui-workbench-section cui-builder-review-data'):
+                    with ui.element('summary').props('tabindex="0"'):
+                        ui.label('Dataset details · collapsed by default').classes('cui-workbench-section-title')
+                    detail_host = ui.element('div').classes('cui-builder-review-data__host')
+                    detail_loaded = {'value': False}
+
+                    async def load_review_details():
+                        if detail_loaded['value']:
+                            return
+                        detail_loaded['value'] = True
+                        with detail_host:
+                            CodeViewer(json.dumps(model.review_data_details(limit=20), indent=2, sort_keys=True, default=str), language='json')
+
+                    Button('Load first 20 rows', on_click=load_review_details).element.classes('cui-builder-review-data__load')
                 generation_issues = model.generation_issues()
                 for issue in generation_issues:
                     ui.label('⚠ ' + issue).classes('cui-workbench-note')
@@ -791,7 +865,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                             return
                         live = proof_state['report']
                         if live is None:
-                            ui.label('Source and generated-code contracts passed. Execute the generated app in a fresh subprocess and request its root route before download.').classes('cui-workbench-note')
+                            ui.label('Source and generated-code contracts passed. This next check uses the Workbench environment, not the app-local isolated environment. The exported ZIP includes bootstrap.py to install and verify the exact framework independently.').classes('cui-workbench-note')
                             ActionButton('Run live startup proof', on_click=run_live_proof)
                             return
                         with ui.element('div').classes('cui-workbench-quality-grid'):
@@ -812,7 +886,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                                 CodeViewer(live.stderr_tail, language='text')
                             Button('Run live startup proof again', on_click=run_live_proof)
                         else:
-                            ui.label('The generated app started in a fresh Python process and rendered its root route successfully.').classes('cui-workbench-note')
+                            ui.label('The generated app responded using this Workbench runtime. This is not an isolated install or browser qualification; use the bundled bootstrap.py in a separate directory for that check.').classes('cui-workbench-note')
                             readiness = proof_state.get('readiness')
                             if readiness is not None:
                                 ui.label('Handoff readiness · ' + readiness.status).classes('cui-workbench-chip')
@@ -821,7 +895,7 @@ def render_builder(model: BuilderModel | None = None) -> BuilderModel:
                         with download_host:
                             def download_zip():
                                 ui.download.content(proof_state.get('handoff_payload') or payload, f"{model.app_name.lower().replace(' ','-')}.zip")
-                            ActionButton('Download runtime-proven starter ZIP', on_click=download_zip)
+                            ActionButton('Download starter ZIP (local startup checked)', on_click=download_zip)
 
                 render_live_proof()
                 ui.label('Deterministic project signature: ' + model.deterministic_signature()).classes('cui-workbench-note')

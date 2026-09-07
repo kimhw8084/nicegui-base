@@ -13,19 +13,6 @@ def build_hardening_css() -> str:
 /* ================================================================
    COMPANY UI v1.6 RENDERED PRODUCT HARDENING
    ================================================================ */
-:root {
-  --cui-layer-sticky: 100;
-  --cui-sidebar-z: 500;
-  --cui-app-header-z: 600;
-  --cui-local-popup-z: 900;
-  --cui-overlay-z: 2000;
-  --cui-overlay-backdrop-z: 3000;
-  --cui-modal-z: 3100;
-  --cui-tooltip-z: 3200;
-  --cui-toast-z: 4000;
-  --cui-skip-link-z: 4100;
-}
-
 /* The framework, not the page author, owns primary geometry. */
 .cui-page{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:var(--cui-section-gap)!important;width:100%!important;max-width:100%!important;min-width:0!important;}
 .cui-page>*{min-width:0!important;max-width:100%;}
@@ -850,7 +837,84 @@ html[data-sidebar='compact'] .cui-sidebar-footer__action>.cui-svg-icon-host>svg{
 .cui-choice-row--switch:has(.cui-choice-native:focus-visible){background:transparent!important;box-shadow:none!important;}
 .cui-choice-row--switch:has(.cui-choice-native:focus-visible) .cui-switch-track{box-shadow:0 0 0 3px color-mix(in srgb,var(--cui-focus-ring) 34%,transparent)!important;}
 
+/* NICEGUI BASE ITERATION 3 VISUAL CLOSURE V6 — SHARED */
+/*
+   NiceGUI 3.x loads Quasar's !important utility rules in CSS layers. For
+   !important declarations, layered rules outrank unlayered rules; joining the
+   framework's existing `theme` layer is therefore required for semantic
+   Company UI authority to beat Quasar's bg-primary/text-primary utilities.
+*/
+@layer theme {
+  /* Mobile table actions are clean semantic icon actions; accessible names remain on buttons. */
+  @media(max-width:620px){
+    .cui-table-tool-button .q-label,
+    .cui-table-tool-button .cui-table-tool-button__label,
+    .cui-table-tool-button .q-btn__content > .block,
+    .cui-table-tool-button .q-btn__content > span:not(.q-icon){display:none!important;}
+    .cui-table-tool-button .q-btn__content{font-size:0!important;}
+    .cui-table-tool-button .q-icon{font-size:var(--cui-font-size-18)!important;}
+    .cui-chart-panel__header{flex-direction:column!important;align-items:stretch!important;gap:7px!important;}
+    .cui-chart-panel__header>div:first-child{width:100%!important;min-width:0!important;}
+    .cui-chart-panel__title{max-width:100%!important;white-space:normal!important;word-break:normal!important;overflow-wrap:break-word!important;}
+    .cui-chart-toolbar-host{width:100%!important;margin-left:0!important;}
+    .cui-chart-toolbar{justify-content:flex-end!important;flex-wrap:wrap!important;}
+    .cui-chart-panel--donut .cui-chart-canvas{height:220px!important;min-height:220px!important;}
+  }
+  /* Shared semantic button authority owns both the button and Quasar/NiceGUI leaf text. */
+  .q-btn.cui-button.cui-button--primary{background:color-mix(in srgb,var(--cui-accent) 70%,black)!important;background-color:color-mix(in srgb,var(--cui-accent) 70%,black)!important;background-image:none!important;color:#fff!important;}
+  .q-btn.cui-button.cui-button--primary .q-btn__content,.q-btn.cui-button.cui-button--primary .q-btn__content *{color:inherit!important;}
+  .q-btn.cui-button.cui-button--secondary{color:var(--cui-text-primary)!important;}
+  .q-btn.cui-button.cui-button--secondary .q-btn__content,.q-btn.cui-button.cui-button--secondary .q-btn__content *{color:inherit!important;}
+  html[data-theme='light'] .q-btn.cui-button.cui-button--tertiary{color:color-mix(in srgb,var(--cui-accent) 70%,black)!important;}
+  html[data-theme='light'] .q-btn.cui-button.cui-button--tertiary .q-btn__content,html[data-theme='light'] .q-btn.cui-button.cui-button--tertiary .q-btn__content *{color:inherit!important;}
+  /* Table toolbar controls share the same layer authority over Quasar text-primary. */
+  .q-btn.cui-table-tool-button{color:var(--cui-text-secondary)!important;}
+  .q-btn.cui-table-tool-button .q-btn__content,.q-btn.cui-table-tool-button .q-btn__content *{color:inherit!important;}
+  .q-btn.cui-table-tool-button:hover{color:var(--cui-text-primary)!important;}
+}
 '''.strip() + '\n'
 
 
 __all__ = ['build_hardening_css']
+
+# WAVE35_CONTRAST_CLOSURE_V9
+# Final rendered-product contrast closure. Kept in the existing hardening authority
+# so local component/layout CSS may evolve without weakening these shared actions.
+_wave35_v9_base_build_hardening_css = build_hardening_css
+
+def build_hardening_css() -> str:
+    return _wave35_v9_base_build_hardening_css() + r"""
+/* Wave 3.5 contrast closure: shared interactive text must remain readable. */
+.cui-table-tool-button.q-btn,
+.cui-table-tool-button {
+  color: var(--cui-text-primary) !important;
+}
+.cui-user-menu-trigger.q-btn,
+.cui-user-menu-trigger {
+  color: var(--cui-text-primary) !important;
+}
+"""
+
+# WAVE35_CONTRAST_FINAL_V11
+# Browser-proven Wave 3.5 contrast closure. This wrapper intentionally sits after
+# all pre-V11 hardening wrappers and changes only the three paint paths confirmed
+# by the V10 browser-native contrast audit.
+_wave35_v11_base_build_hardening_css = build_hardening_css
+
+def build_hardening_css() -> str:
+    return _wave35_v11_base_build_hardening_css() + r"""
+/* Wave 3.5 browser-proven contrast closure. */
+.cui-user-menu-trigger.q-btn,
+.cui-user-menu-trigger {
+  color: var(--cui-text-inverse) !important;
+}
+html body .cui-table-tool-button.q-btn > .q-btn__content,
+html body .cui-table-tool-button.q-btn > .q-btn__content > .q-label,
+html body .cui-table-tool-button.q-btn > .q-btn__content > .cui-table-tool-button__label,
+html body .cui-table-tool-button .cui-table-tool-button__label {
+  color: var(--cui-text-primary) !important;
+}
+.cui-nav-item--active {
+  color: color-mix(in srgb, var(--cui-accent) 90%, var(--cui-text-primary)) !important;
+}
+"""

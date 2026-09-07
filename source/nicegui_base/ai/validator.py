@@ -9,9 +9,19 @@ from typing import Iterable
 from nicegui_base.ai.models import ValidationIssue, ValidationReport, ValidationSeverity
 
 _ALLOW = 'nicegui-base: allow-'
+# Test fixtures, release tooling, and historical showcases are not application
+# reference code; allowing them avoids turning assertions/tool payloads into
+# design findings while keeping app pages and modules covered.
+_DESIGN_ALLOW_DIRS = {'design', 'tests', 'tools', 'showcase'}
+_DESIGN_ALLOW_FILES = {'tokens.py', 'system.py', 'css.py', 'constitution_css.py', 'hardening_css.py'}
 _HEX = re.compile(r'(?<![A-Za-z0-9])#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})(?![A-Za-z0-9])')
 _CSS_VALUE = re.compile(r'\b(?:margin|padding|gap|border-radius|font-size|width|height|box-shadow|background|color)\s*:')
 _PIXEL = re.compile(r'(?<![\w.])-?\d+(?:\.\d+)?px\b')
+_ARBITRARY_DESIGN_VALUE = re.compile(
+    r'(?:\b(?:margin|padding|gap|border-radius|font-size|line-height|width|height|box-shadow|background(?:-color)?|color)\s*:\s*'
+    r'(?:[^;{}]*(?:-?\d+(?:\.\d+)?(?:px|rem|em|vh|vw|%)|#[0-9a-fA-F]{3,8}|rgba?\(|hsla?\())|'
+    r'#[0-9a-fA-F]{3,8}(?![A-Za-z0-9]))'
+)
 _EMOJI = re.compile('[\U0001F300-\U0001FAFF\u2600-\u27BF]')
 _SQL = re.compile(r'\b(?:SELECT|INSERT\s+INTO|UPDATE\s+\w+\s+SET|DELETE\s+FROM|MERGE\s+INTO)\b', re.I)
 _HTTP = re.compile(r'https?://', re.I)
@@ -48,6 +58,18 @@ def _line_allowed(lines: list[str], line: int, rule: str) -> bool:
     indexes = [line - 1, line - 2]
     marker = f'{_ALLOW}{rule.lower()}'
     return any(0 <= i < len(lines) and marker in lines[i].lower() for i in indexes)
+
+
+def _design_file_allowlisted(path: Path, root: Path, config: ValidatorConfig) -> bool:
+    """Allow only the framework's declared design implementation boundaries."""
+    try:
+        relative = path.relative_to(root)
+    except ValueError:
+        relative = path
+    parts = set(relative.parts)
+    if parts.intersection(_DESIGN_ALLOW_DIRS):
+        return True
+    return 'nicegui_base' in parts and relative.name in _DESIGN_ALLOW_FILES
 
 
 class _PythonValidator(ast.NodeVisitor):
@@ -167,10 +189,16 @@ class _PythonValidator(ast.NodeVisitor):
         if not isinstance(node.value, str):
             return
         text = node.value
-        if (_HEX.search(text) or _CSS_VALUE.search(text) or _PIXEL.search(text)) and ('style' in text.lower() or '{' in text or ';' in text):
+        literal_visual = _HEX.search(text) or _PIXEL.search(text)
+        semantic_css_only = 'var(--cui-' in text and not literal_visual
+        if (_HEX.search(text) or _CSS_VALUE.search(text) or _PIXEL.search(text)) and ('style' in text.lower() or '{' in text or ';' in text) and not semantic_css_only and not _design_file_allowlisted(self.path, self.root, self.config):
             self.issue('AI011', ValidationSeverity.WARNING, node,
                        'Hard-coded visual value detected in a string.',
                        'Move colors/spacing/sizes into framework semantic tokens.')
+        if _ARBITRARY_DESIGN_VALUE.search(text) and not _design_file_allowlisted(self.path, self.root, self.config):
+            self.issue('AI018', ValidationSeverity.WARNING, node,
+                       'Arbitrary design value detected outside the framework design boundary.',
+                       'Use a nicegui_base token or semantic component/layout API; extend an allowlisted framework implementation only when necessary.')
         if _EMOJI.search(text):
             # Avoid noisy warnings for prose/docs: only flag short UI-like literals.
             if len(text) <= 80:
@@ -205,12 +233,15 @@ def validate_python_file(path: str | Path, *, root: str | Path | None = None, co
     return tuple(visitor.issues)
 
 
-def _validate_text_asset(path: Path, root: Path) -> tuple[ValidationIssue, ...]:
+def _validate_text_asset(path: Path, root: Path, config: ValidatorConfig | None = None) -> tuple[ValidationIssue, ...]:
+    cfg = config or ValidatorConfig()
     text = path.read_text(encoding='utf-8', errors='replace')
     rel = str(path.relative_to(root))
     issues: list[ValidationIssue] = []
     suffix = path.suffix.lower()
     if suffix == '.css':
+        if _design_file_allowlisted(path, root, cfg):
+            return ()
         issues.append(ValidationIssue('AI014', ValidationSeverity.WARNING,
             'Application-level CSS file detected.', rel, 1, 0,
             'Prefer NiceGUI Base semantic APIs; keep custom CSS only for a documented framework gap.'))
@@ -251,7 +282,7 @@ def validate_app(root: str | Path, *, config: ValidatorConfig | None = None) -> 
         if target.suffix.lower() == '.py':
             issues = validate_python_file(target, root=target.parent, config=cfg)
         elif target.suffix.lower() in {'.css', '.html', '.htm'}:
-            issues = _validate_text_asset(target, target.parent)
+            issues = _validate_text_asset(target, target.parent, cfg)
         else:
             issues = ()
         return ValidationReport(root=target, issues=tuple(issues), scanned_files=1)
@@ -268,6 +299,6 @@ def validate_app(root: str | Path, *, config: ValidatorConfig | None = None) -> 
             if any(part in excludes for part in path.relative_to(root_path).parts[:-1]):
                 continue
             count += 1
-            issues.extend(_validate_text_asset(path, root_path))
+            issues.extend(_validate_text_asset(path, root_path, cfg))
     issues.sort(key=lambda i: (i.path, i.line, i.column, i.code))
     return ValidationReport(root=root_path, issues=tuple(issues), scanned_files=count)

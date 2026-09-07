@@ -134,8 +134,8 @@ def test_semiconductor_native_visualization_set_includes_comparison_and_radial_p
 def test_live_visual_coverage_expands_with_new_custom_engineering_renderers():
     from nicegui_base.certification.mac_coverage import coverage_summary
     summary=coverage_summary()
-    assert summary['required_visual_components'] == 183
-    assert summary['covered_visual_components'] == 183
+    assert summary['required_visual_components'] == 185
+    assert summary['covered_visual_components'] == 185
     assert summary['uncovered'] == []
 
 

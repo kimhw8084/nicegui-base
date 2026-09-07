@@ -1,0 +1,92 @@
+{
+  "phase": "D6H.3",
+  "status": "PENDING_HUMAN_VISUAL_REVIEW",
+  "behavior_changed": true,
+  "baseline": {
+    "immutable_candidate": "NGB-20260906-D6H.2",
+    "recorded_rc_sha256": "081498460b2b76e7092d6e857d58e5ddfb85e9727d115fddf643c9f7313beb9c",
+    "recorded_wheel_sha256": "3d7c3f7d5f352ee613d91b8ce2d1e745ffcda095699a1040d4bcb2faae776eec",
+    "prior_candidate_artifacts_modified": false
+  },
+  "candidate": {
+    "candidate_id": "NGB-20260906-D6H.3",
+    "framework_version": "3.0.0a8",
+    "nicegui_version": "3.15.0",
+    "python_support": "3.11-3.13",
+    "source_head": "a5e08fd756741cff2d09336a6d5a814691102caa",
+    "source_worktree_diff_sha256_at_build": "715fc25134d0eeff0af8c2387f738b58ff601a0f538180f7636d6e5729db32ed",
+    "source_package_sha256": "b3d27dbbe7077078efaaa1c6067c63f7d8803798caa5cb3d4b46a8e61cc1f66b",
+    "packaged_source_files": 556,
+    "rc_bundle": "/private/tmp/ngb_d6h3_rc_final/NGB-20260906-D6H.3_RC.zip",
+    "rc_bundle_sha256": "db08ce395ca5dbfbc404087146e0cfea1112fac490f26723fe631130ea6e1131",
+    "wheel": "/private/tmp/ngb_d6h3_rc_final/bundle/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+    "wheel_sha256": "87abf7b9c2b6078c164e3d814fc7c8a7900712ce2ec35b3e8950aa1510a272dd"
+  },
+  "changed_files": [
+    "D6_STATE.json",
+    "source/nicegui_base/certification/certification_manifest.json",
+    "source/nicegui_base/design/constitution_css.py",
+    "source/nicegui_base/integrations/nicegui_visualization.py",
+    "source/nicegui_base/layouts/css.py",
+    "source/nicegui_base/workbench/analytic_specimens.py",
+    "source/nicegui_base/workbench/app.py",
+    "source/nicegui_base/workbench/full_applications.py",
+    "source/nicegui_base/workbench/layout_studio.py",
+    "source/nicegui_base/workbench/pattern_specimens.py",
+    "source/nicegui_base/workbench/update_identity.py",
+    "source/nicegui_base/workbench/workbench_css.py",
+    "source/tests/test_workbench_d6h3_golden_semantics.py",
+    "source/tests/test_workbench_iteration1.py",
+    "tools/build_golden_baseline_D6H3.py",
+    "tools/verify_development_D6H3_browser.py"
+  ],
+  "invariants": [
+    "Visible identity is NGB-20260906-D6H.3 with no D3, D6G, Workbench, or Builder leakage.",
+    "All ten canonical patterns expose pattern-specific governed anatomy and bounded local fixtures.",
+    "All 58 promoted analytics have deliberate semantic contracts and production renderer evidence.",
+    "I-MR, Xbar-R, and Xbar-S render both required control-chart panels.",
+    "Full applications reuse the registered governed analytic renderer they name.",
+    "All 34 canonical components expose production Preview, canonical States, and reusable Code evidence.",
+    "NiceGUI remains exactly 3.15.0; persistence, privacy, filtering, export, and rollback protections remain covered.",
+    "Golden promotion is reserved for a separate human reviewer."
+  ],
+  "tests_and_evidence": [
+    {
+      "command": "cd source && ../.venv/bin/pytest -q",
+      "result": "PASS; 1841 tests",
+      "evidence": "terminal execution in D6H.3 qualification"
+    },
+    {
+      "command": "PYTHONPATH=source .venv/bin/pytest -q",
+      "result": "PASS; 27 tests",
+      "evidence": "terminal execution in D6H.3 qualification"
+    },
+    {
+      "command": "PYTHONPATH=source .venv/bin/python -m nicegui_base.validate .",
+      "result": "PASS; 0 errors, 44 unchanged non-gating test-fixture warnings",
+      "evidence": "terminal execution in D6H.3 qualification"
+    },
+    {
+      "command": ".venv/bin/python tools/build_golden_baseline_D6H3.py --output /private/tmp/ngb_d6h3_rc_final",
+      "result": "PASS; wheel/source 556 files, zero mismatches, pip check, site-packages provenance, runtime contract, 23-route smoke, healthy readiness, graceful shutdown",
+      "evidence": "/private/tmp/ngb_d6h3_rc_final/bundle/QUALIFICATION_SUMMARY.json"
+    },
+    {
+      "command": "PYTHONPATH=tools .venv/bin/python tools/verify_development_D6H3_browser.py --url http://127.0.0.1:8108 --output /private/tmp/ngb_d6h3_browser_final",
+      "result": "PASS; 251/251 checks, 347 screenshots, patterns 10/10, analytics 58/58, components 34/34, zero page/console/overflow failures",
+      "evidence": "/private/tmp/ngb_d6h3_browser_final/D6H3_BROWSER_RESULT.json"
+    }
+  ],
+  "evidence": {
+    "browser_directory": "/private/tmp/ngb_d6h3_browser_final",
+    "contact_sheet": "/private/tmp/ngb_d6h3_browser_final/contact_sheet.png",
+    "section_contact_sheets": "/private/tmp/ngb_d6h3_browser_final/contact_sheets",
+    "evidence_zip": "/private/tmp/ngb_d6h3_evidence_final.zip",
+    "status": "PENDING_HUMAN_VISUAL_REVIEW",
+    "separate_human_reviewer_required": true
+  },
+  "next_phase_facts": [
+    "Review the supplied D6H.3 section contact sheets and full screenshots independently before Golden promotion.",
+    "Do not mutate this candidate; any further source change requires a new candidate identity."
+  ]
+}

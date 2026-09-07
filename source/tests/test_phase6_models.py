@@ -19,7 +19,7 @@ def test_series_key_and_label_required():
 
 def test_chart_classes_are_semantic():
     s=ChartPanelSpec('Trend',size=ChartSize.LARGE)
-    assert s.classes=='cui-chart-panel cui-chart-panel--large'
+    assert s.classes=='cui-chart-panel cui-chart-panel--large cui-chart-panel--line'
 
 def test_chart_enums_are_stable():
     assert ChartKind.CONTROL.value=='control'

@@ -321,10 +321,12 @@ class CommandPalette:
                         elif key == 'ArrowDown':
                             ui.run_javascript("document.querySelector('.cui-command-palette__item:not([disabled])')?.focus()")
                     self.search.on('input',changed,throttle=.08,leading_events=False,trailing_events=True,js_handler='e => emit(e.target.value)')
-                    self.search.on('keydown',search_key,js_handler='e => { if (["Escape","ArrowDown"].includes(e.key)) { e.preventDefault(); emit(e.key); } }')
+                    self.search.on('keydown',search_key,js_handler='e => { if (e.key==="ArrowDown") { e.preventDefault(); emit(e.key); } else if (e.key==="Escape") { emit(e.key); } /* Wave 3.5: do not cancel Escape; allow native QDialog dismissal/focus restoration. */ }')
                     with ui.element('kbd').classes('cui-command-palette__escape').props('aria-hidden="true"'):
                         ui.label('ESC')
                 self.results=ui.element('div').classes('cui-command-palette__results').props('id="cui-command-palette-results" role="listbox" aria-label="Commands"')
+        # Escape is part of the keyboard contract regardless of which palette child owns focus.
+        self.element.on('keydown.escape', lambda _e: self.close())
         self._render_results('')
     def open(self):
         self.dialog.open()
@@ -353,7 +355,7 @@ class CommandPalette:
                         ui.run_javascript(f"""(() => {{ const items=[...document.querySelectorAll('.cui-command-palette__item:not([disabled])')]; const i=items.indexOf(document.activeElement); if(!items.length)return; items[(i+{direction}+items.length)%items.length].focus(); }})()""")
                 props=f'type="button" role="option" aria-label="{command.label}" aria-disabled="{str(not command.is_enabled).lower()}"'
                 button=ui.element('button').classes('cui-command-palette__item').props(props).on('click',run)
-                button.on('keydown',item_key,js_handler='e => { if (["Escape","ArrowDown","ArrowUp"].includes(e.key)) { e.preventDefault(); emit(e.key); } }')
+                button.on('keydown',item_key,js_handler='e => { if (e.key==="ArrowDown"||e.key==="ArrowUp") { e.preventDefault(); emit(e.key); } else if (e.key==="Escape") { emit(e.key); } }')
                 if not command.is_enabled: button.props('disabled')
                 with button:
                     with ui.element('span').classes('cui-command-palette__item-copy'):

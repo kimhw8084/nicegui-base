@@ -232,14 +232,22 @@ async def test_file_upload_handler_enforces_policy_before_application_callback()
 
     calls: list[str] = []
     upload = object.__new__(FileUpload)
+    upload._closed = False
     upload.upload_policy = UploadPolicy()
     upload._on_upload = lambda event: calls.append('called')
+    class Status:
+        text = ''
+
+        def set_text(self, value):
+            self.text = value
+
+    upload._upload_status = Status()
     bad_event = type('Event', (), {
         'name': 'image.png', 'size': 4, 'content_type': 'image/png', 'content': io.BytesIO(b'NOPE')
     })()
-    with pytest.raises(ValueError, match='does not match'):
-        await upload._handle_upload(bad_event)
+    await upload._handle_upload(bad_event)
     assert calls == []
+    assert 'does not match' in upload._upload_status.text
 
     good = b'\x89PNG\r\n\x1a\nbody'
     good_event = type('Event', (), {

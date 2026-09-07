@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .preview_data import checked_rows
+
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
@@ -108,7 +110,7 @@ def _project_from_starter(starter_key: str, rows: Sequence[Mapping[str, Any]] = 
         'pattern_key': resolution.pattern_key,
         'placements': {slot: list(keys) for slot, keys in resolution.placements.items()},
         'queued_entry_keys': [],
-        'data_rows': list(data.serializable_rows())[:200],
+        'data_rows': checked_rows(data.serializable_rows()),
         'theme': 'system',
         'density': 'compact',
         'revision': 0,

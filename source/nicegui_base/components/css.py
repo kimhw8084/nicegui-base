@@ -33,6 +33,15 @@ def build_component_css() -> str:
   user-select: none;
 }
 .cui-button { padding-inline: var(--cui-control-padding-x); gap: var(--cui-space-2); }
+/* WAVE35_CONTRAST_AUTHORITY_V19: normalize legacy/direct Quasar primary button utilities to semantic roles. */
+.q-btn.bg-primary.text-white {
+  background: var(--cui-accent) !important;
+  color: var(--cui-text-inverse) !important;
+}
+.q-btn.text-primary:not(.bg-primary) {
+  color: var(--cui-accent-hover) !important;
+}
+
 .cui-button--primary { background: var(--cui-accent); color: var(--cui-text-inverse); border-color: var(--cui-accent); }
 .cui-button--primary:hover { background: var(--cui-accent-hover); border-color: var(--cui-accent-hover); }
 .cui-button--secondary { background: var(--cui-surface); color: var(--cui-text-primary); border-color: var(--cui-border-default); }

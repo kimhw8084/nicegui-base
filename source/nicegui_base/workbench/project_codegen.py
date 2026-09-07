@@ -49,72 +49,28 @@ _COMPOSABLE_RENDER_KEYS = frozenset({
 
 
 def is_composable_entry(entry) -> bool:
-    """Return whether Workbench can truthfully emit this catalog entry.
-
-    Framework-catalog rows are intentionally REFERENCE entries. They become project
-    composable only when this generator owns a rendering adapter for the exact
-    canonical registry/key. Catalog visibility and generator support remain separate
-    contracts so choosing a capability can never silently emit an unrelated widget.
-    """
-    kind = _entry_kind(entry)
-    if kind == 'analytic':
-        return True
-    metadata = getattr(entry, 'metadata', {}) or {}
-    registry = str(metadata.get('registry_name') or '')
-    registry_key = str(metadata.get('registry_key') or metadata.get('component_key') or '')
-    if kind not in {'component', 'reference'}:
-        return False
-    allowed = _COMPOSABLE_REFERENCE_KEYS.get(registry)
-    if allowed is not None:
-        return registry_key in allowed
-    return registry_key in _COMPOSABLE_RENDER_KEYS
+    from .catalog_runtime import describe_entry
+    info = describe_entry(entry)
+    return info['runnable'] and info['mode'] not in {'pattern'}
 
 
 def _safe_title(value: Any) -> str:
     return str(value or 'Capability').replace('\n', ' ').strip()[:100]
 
 
-def _render_entry_lines(entry, indent: str) -> list[str]:
-    title = _safe_title(entry.title)
-    kind = _entry_kind(entry)
-    if kind == 'analytic':
-        key = str(entry.metadata.get('surface_key') or entry.key.split(':')[-1])
-        return [
-            f"{indent}with SemiconductorAnalyticalPanel({key!r}, CONTEXT, SELECTIONS, title={title!r}):",
-            f"{indent}    MetricCard('Surface', {key!r}.replace('_', ' ').title())",
-        ]
-    registry = str(entry.metadata.get('registry_name') or '')
-    registry_key = str(entry.metadata.get('registry_key') or entry.metadata.get('component_key') or '')
-    if registry == 'tables':
-        return [f"{indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, spec=DATA_TABLE_SPEC)"]
-    if registry == 'visualizations':
-        chart = registry_key if registry_key in {'LineChart','AreaChart','BarChart','StackedBarChart'} else 'BoxPlot'
-        if chart == 'BoxPlot':
-            return [
-                f"{indent}BoxPlot({title!r}, (SeriesSpec('distribution','Distribution',(series_values(),)),),",
-                f"{indent}        x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=('Current',)))",
-            ]
-        return [
-            f"{indent}{chart}({title!r}, (SeriesSpec('value','Value',series_values(), smooth=True),),",
-            f"{indent}          x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=series_labels()))",
-        ]
-    if registry_key in {'search_input'}:
-        return [f"{indent}SearchInput({title!r}, placeholder='Search…')"]
-    if registry_key in {'select'}:
-        return [f"{indent}Select({title!r}, {{'all':'All','watch':'Watch','critical':'Critical'}}, value='all')"]
-    if registry_key in {'text_input'}:
-        return [f"{indent}TextInput({title!r})"]
-    if registry_key == 'button':
-        return [f"{indent}Button({title!r})"]
-    if registry_key == 'action_button':
-        return [f"{indent}ActionButton({title!r})"]
-    if registry_key in {'status_badge', 'badge'}:
-        return [f"{indent}StatusBadge({title!r})"]
-    if registry_key == 'alert':
-        return [f"{indent}Alert({title!r}, message='Generated application alert')"]
-    if registry_key == 'metric_strip':
-        return [f"{indent}with MetricStrip():", f"{indent}    MetricCard({title!r}, 'Ready')"]
-    return [f"{indent}MetricCard({title!r}, 'Ready')"]
+def _render_entry_lines(entry, indent: str, configuration=None, *, density: str = 'compact') -> list[str]:
+    from .studio_state import normalize_configuration
+    cfg = normalize_configuration(configuration, title=entry.title)
+    options = {'density': cfg['density'] if configuration else density, **cfg['options']}
+    # Preserve the same renderer, options and data source through composition.
+    # Tables still use a bounded provider query; other page-owned data slots retain
+    # the existing paged DataSourceTable adapter.
+    encoded = json.dumps(options, ensure_ascii=False, allow_nan=False)
+    return [
+        f"{indent}render_provider_capability({entry.key!r}, SOURCE, CONTEXT, title={cfg['title']!r}, "
+        f"options=json.loads({encoded!r}), schema=DATA_SCHEMA, measurement_field=MEASUREMENT_FIELD, "
+        f"category_field=CATEGORY_FIELD, filter_state=FILTER_STATE)"
+    ]
 
 
 def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> str:
@@ -137,13 +93,14 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
     )
     lines = [
         'from __future__ import annotations',
+        'import json',
         f'from nicegui_base import {page_class}, {imports}',
         '',
-        'from services.app_data import DATA_SCHEMA, DATA_TABLE_SPEC, ROW_KEY, SOURCE, series_labels, series_values',
+        'from services.app_data import DATA_SCHEMA, DATA_TABLE_SPEC, ROW_KEY, SOURCE, MEASUREMENT_FIELD, CATEGORY_FIELD, series_labels, series_values',
+        'from nicegui_base.workbench.provider_preview import render_provider_capability',
         'from services.app_workflow import create_page_workflow',
         '',
-        "CONTEXT = AnalysisContext(source_key='application')",
-        'SELECTIONS = SelectionBus()',
+
     ]
     if navigation:
         lines.extend(['', 'NAVIGATION = NavigationModel((', "    NavSection('application', None, ("])
@@ -159,7 +116,11 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
             seen_ids.add(item_id)
             lines.append(f'        NavItem({item_id!r}, {label!r}, route={route!r}),')
         lines.extend(['    )),', '))', f"ACTIVE_ROUTE = {str(project.get('active_route') or '/')!r}"])
-    lines.extend(['', 'def build_page() -> None:', f"    workflow = create_page_workflow(CONTEXT, SELECTIONS, route={workflow_route!r}, pattern_key={pattern_key!r})"])
+    lines.extend([
+        '', 'def build_page() -> None:', "    CONTEXT = AnalysisContext(source_key='application')",
+        '    SELECTIONS = SelectionBus()', '    FILTER_STATE = {}',
+        f"    workflow = create_page_workflow(CONTEXT, SELECTIONS, route={workflow_route!r}, pattern_key={pattern_key!r})",
+    ])
     page_indent = '    '
     if navigation:
         lines.append(f"    with AppShell({_safe_title(project.get('name'))!r}, NAVIGATION, active_route=ACTIVE_ROUTE):")
@@ -182,7 +143,7 @@ def project_home_code(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> 
                 rendered += 1
         if entries:
             for entry in entries:
-                lines.extend(_render_entry_lines(entry, content_indent))
+                lines.extend(_render_entry_lines(entry, content_indent, project.get('capability_configurations', {}).get(entry.key), density=str(project.get('density') or 'compact')))
                 rendered += 1
         elif slot == 'data':
             lines.append(f"{content_indent}DataSourceTable(SOURCE, schema=DATA_SCHEMA, context=CONTEXT, selections=SELECTIONS, spec=DATA_TABLE_SPEC)")
@@ -219,6 +180,7 @@ def _relative_written_paths(root: Path, written) -> tuple[str, ...]:
 def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) -> tuple[bytes, GeneratedSmokeReport]:
     from nicegui_base.ai.project import create_application
     from .codegen import _zip_directory
+    from .studio_state import normalize_capability_configurations
 
     pattern_key = str(project.get('pattern_key') or 'analysis_workspace')
     template = _PATTERN_TEMPLATE.get(pattern_key, 'analysis-workspace')
@@ -234,6 +196,7 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         'placements': {str(k): list(v) for k, v in dict(project.get('placements') or {}).items()},
         'theme': str(project.get('theme') or 'system'),
         'density': str(project.get('density') or 'compact'),
+        'capability_configurations': normalize_capability_configurations(project.get('capability_configurations')),
     }
     with tempfile.TemporaryDirectory(prefix='nicegui-base-workbench-project-') as temp:
         root = Path(temp) / 'app'
@@ -289,6 +252,10 @@ def generate_project_zip(project: Mapping[str, Any], lookup: Mapping[str, Any]) 
         (tools / 'browser_acceptance.py').write_text(generated_browser_runner_source(), encoding='utf-8')
         generator_files = _relative_written_paths(root, created.written)
         extra_files = _relative_written_paths(root, extra_written) if extra_written else ()
+        from .runtime_bundle import materialize_runtime_bundle
+        bundle = materialize_runtime_bundle(root)
+        manifest['runtime_bundle'] = {'build_id': bundle['build_id'], 'wheel_sha256': bundle['wheel_sha256']}
+        (meta / 'workbench_project.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         payload = _zip_directory(root)
     expected = [*generator_files, *extra_files, '.nicegui_base/workbench_project.json', '.nicegui_base/browser_acceptance.json', 'tools/browser_acceptance.py']
     if blueprint_key:

@@ -58,6 +58,7 @@ def _page_project(project: Mapping[str, Any], blueprint: ResolvedAppBlueprint, p
         'navigation': _navigation(blueprint),
         'active_route': page.route,
         'blueprint_key': blueprint.key,
+        'capability_configurations': dict(project.get('capability_configurations') or {}),
     }
 
 

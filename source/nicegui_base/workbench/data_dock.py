@@ -11,6 +11,8 @@ from datetime import date, datetime
 from enum import Enum
 from typing import Any, Iterable, Mapping, Sequence
 
+from .preview_data import checked_rows, MAX_PROJECT_BYTES, MAX_PROJECT_ROWS, MAX_PROJECT_COLUMNS
+
 
 class DataDockFormat(str, Enum):
     SAMPLE = 'sample'
@@ -85,7 +87,7 @@ class DataDockParseResult:
 _ROLE_TOKENS = {
     'timestamp': ('time', 'timestamp', 'datetime', 'date', 'event_time', 'measured_at', 'sample_time'),
     'identifier': ('id', 'uuid', 'key', 'record_id', 'measurement_id', 'trace_id'),
-    'entity': ('wafer', 'wafer_id', 'lot', 'lot_id', 'tool', 'tool_id', 'chamber', 'chamber_id', 'sensor', 'sensor_id', 'recipe', 'recipe_version', 'product', 'operation', 'route', 'fab', 'area'),
+    'entity': ('wafer', 'wafer_id', 'lot', 'lot_id', 'batch', 'tool', 'tool_id', 'chamber', 'chamber_id', 'sensor', 'sensor_id', 'recipe', 'recipe_version', 'product', 'operation', 'route', 'fab', 'area'),
     'measurement': ('value', 'measurement', 'metric', 'reading', 'count', 'yield', 'yield_pct', 'cd', 'sensor_value', 'loss', 'output', 'throughput'),
     'dimension': ('category', 'bin', 'yield_bin', 'defect_class', 'status', 'state', 'group', 'type', 'class'),
 }
@@ -102,7 +104,7 @@ def _normalize_header(value: Any, index: int) -> str:
 
 
 def _parse_scalar(value: Any) -> Any:
-    if value is None or isinstance(value, (bool, int, float, date, datetime)):
+    if value is None or isinstance(value, (bool, int, float, date, datetime, dict, list, tuple)):
         return value
     text = str(value).strip()
     if text == '':
@@ -113,6 +115,8 @@ def _parse_scalar(value: Any) -> Any:
     if low in {'false', 'no'}:
         return False
     if _INT_RE.fullmatch(text):
+        if len(text.lstrip('+-')) > 1 and text.lstrip('+-').startswith('0'):
+            return text  # Preserve zero-padded identifiers from CSV/TSV.
         try:
             return int(text)
         except ValueError:
@@ -183,7 +187,10 @@ def _coerce_for_type(value: Any, type_name: str) -> Any:
     if type_name == 'integer':
         if isinstance(raw, bool):
             raise ValueError('boolean is not an integer value')
-        return int(raw)
+        converted = int(raw)
+        if isinstance(raw, float) and raw != converted:
+            raise ValueError('fractional values cannot be converted to integers without data loss')
+        return converted
     if type_name == 'float':
         if isinstance(raw, bool):
             raise ValueError('boolean is not a numeric value')
@@ -213,18 +220,19 @@ def _coerce_for_type(value: Any, type_name: str) -> Any:
 
 
 def _dedupe_headers(headers: Sequence[str]) -> tuple[tuple[str, ...], tuple[DataDockIssue, ...]]:
-    seen: dict[str, int] = {}
+    used: set[str] = set()
     output: list[str] = []
     issues: list[DataDockIssue] = []
     for index, header in enumerate(headers):
         base = _normalize_header(header, index)
-        count = seen.get(base, 0)
-        seen[base] = count + 1
-        if count:
-            name = f'{base}_{count + 1}'
+        name = base
+        suffix = 2
+        while name in used:
+            name = f'{base}_{suffix}'
+            suffix += 1
+        if name != base:
             issues.append(DataDockIssue('duplicate_header', f'Duplicate column {base!r} was renamed to {name!r}.', DataDockSeverity.WARNING, column=name))
-        else:
-            name = base
+        used.add(name)
         output.append(name)
     return tuple(output), tuple(issues)
 
@@ -256,7 +264,7 @@ def _infer_columns(rows: Sequence[Mapping[str, Any]], names: Sequence[str]) -> t
 
 
 def _rows_from_delimited(text: str, delimiter: str) -> tuple[list[dict[str, Any]], tuple[DataDockIssue, ...]]:
-    reader = csv.reader(io.StringIO(text), delimiter=delimiter)
+    reader = csv.reader(io.StringIO(text), delimiter=delimiter, strict=True)
     records = list(reader)
     if not records:
         return [], (DataDockIssue('empty_input', 'Paste or upload at least a header row and one data row.', DataDockSeverity.ERROR),)
@@ -267,18 +275,33 @@ def _rows_from_delimited(text: str, delimiter: str) -> tuple[list[dict[str, Any]
         if not any(str(value).strip() for value in values):
             continue
         if len(values) > len(headers):
-            extra_issues.append(DataDockIssue('extra_cells', f'Row {row_index} contains {len(values) - len(headers)} extra cell(s); extras were ignored.', DataDockSeverity.WARNING, row=row_index))
+            extra_issues.append(DataDockIssue('extra_cells', f'Row {row_index} contains {len(values) - len(headers)} extra cell(s). Correct the header or row before importing; no data was replaced.', DataDockSeverity.ERROR, row=row_index))
         if len(values) < len(headers):
             values = [*values, *([''] * (len(headers) - len(values)))]
         rows.append({name: _parse_scalar(value) for name, value in zip(headers, values[:len(headers)])})
     return rows, tuple(extra_issues)
 
 
+def _unique_json_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f'Duplicate JSON key {key!r}; no data was replaced.')
+        result[key] = value
+    return result
+
+
+def _reject_json_constant(value):
+    raise ValueError(f'Non-finite JSON number {value!r} is not accepted.')
+
+
 def _rows_from_json(text: str) -> tuple[list[dict[str, Any]], tuple[DataDockIssue, ...]]:
     try:
-        payload = json.loads(text)
+        payload = json.loads(text, object_pairs_hook=_unique_json_object, parse_constant=_reject_json_constant)
     except json.JSONDecodeError as exc:
         return [], (DataDockIssue('invalid_json', f'JSON parse error at line {exc.lineno}, column {exc.colno}: {exc.msg}', DataDockSeverity.ERROR, row=exc.lineno),)
+    except (ValueError, RecursionError) as exc:
+        return [], (DataDockIssue('invalid_json', str(exc), DataDockSeverity.ERROR),)
     if not isinstance(payload, list):
         return [], (DataDockIssue('json_not_array', 'JSON input must be an array of objects.', DataDockSeverity.ERROR),)
     if not payload:
@@ -314,13 +337,25 @@ def parse_data(text: str, *, filename: str | None = None, format_hint: DataDockF
         detected = DataDockFormat(format_hint) if format_hint is not None else detect_format(text, filename=filename)
     except ValueError:
         return DataDockParseResult(None, (DataDockIssue('unsupported_format', f'Unsupported data format: {format_hint!r}.', DataDockSeverity.ERROR),))
-    if detected is DataDockFormat.JSON:
-        rows, issues = _rows_from_json(text)
-    else:
-        rows, issues = _rows_from_delimited(text, '\t' if detected is DataDockFormat.TSV else ',')
-    if any(issue.severity is DataDockSeverity.ERROR for issue in issues):
-        return DataDockParseResult(None, issues, detected)
-    names = tuple(dict.fromkeys(key for row in rows for key in row))
+    text = text.lstrip('\ufeff')
+    if len(text.encode('utf-8')) > MAX_PROJECT_BYTES:
+        return DataDockParseResult(None, (DataDockIssue('data_limit', 'Input exceeds the 2 MiB development limit. Existing data was not changed.', DataDockSeverity.ERROR),), detected)
+    try:
+        if detected is DataDockFormat.JSON:
+            rows, issues = _rows_from_json(text)
+        else:
+            rows, issues = _rows_from_delimited(text, '\t' if detected is DataDockFormat.TSV else ',')
+        if any(issue.severity is DataDockSeverity.ERROR for issue in issues):
+            return DataDockParseResult(None, issues, detected)
+        checked_rows(rows)
+        names = tuple(dict.fromkeys(key for row in rows for key in row))
+        if not names and detected is not DataDockFormat.JSON:
+            header = next(csv.reader(io.StringIO(text), delimiter='\t' if detected is DataDockFormat.TSV else ',', strict=True), ())
+            names, _ = _dedupe_headers(header)
+        if len(names) > MAX_PROJECT_COLUMNS or any(len(n) > 160 for n in names):
+            raise ValueError('Use at most 128 columns with names of at most 160 characters.')
+    except (ValueError, TypeError, csv.Error, RecursionError) as exc:
+        return DataDockParseResult(None, (DataDockIssue('invalid_data', str(exc), DataDockSeverity.ERROR),), detected)
     columns = _infer_columns(rows, names)
     quality = _quality(rows, columns, issues)
     snapshot = DataDockSnapshot(tuple(deepcopy(rows)), columns, detected, quality, source_name=source_name or filename or detected.value)
@@ -328,15 +363,16 @@ def parse_data(text: str, *, filename: str | None = None, format_hint: DataDockF
 
 
 class DataDockModel:
-    """Local development-data editor backed by canonical NiceGUI Base schema/source types.
+    """Example-data playground backed by canonical NiceGUI Base schema/source types.
 
-    The model owns Workbench-only editing history. It does not replace DataSource: use
+    The model owns bounded example editing history. It does not replace DataSource: use
     :meth:`to_data_source` when a framework capability needs queryable data.
     """
 
     def __init__(self, sample_rows: Sequence[Mapping[str, Any]] = (), *, sample_name: str = 'Sample data', history_limit: int = 50):
         if history_limit < 1:
             raise ValueError('history_limit must be positive')
+        checked_rows(sample_rows)
         self.history_limit = history_limit
         self._sample_rows = tuple(deepcopy(dict(row)) for row in sample_rows)
         self.sample_name = sample_name
@@ -366,15 +402,23 @@ class DataDockModel:
         return bool(self._redo)
 
     def _from_rows(self, rows: Sequence[Mapping[str, Any]], source_format: DataDockFormat, source_name: str, *, columns: Sequence[DataDockColumn] | None = None, issues: Iterable[DataDockIssue] = ()) -> DataDockSnapshot:
+        checked_rows(rows)
         copied = tuple(deepcopy(dict(row)) for row in rows)
         names = tuple(dict.fromkeys(key for row in copied for key in row))
         inferred = tuple(columns) if columns is not None else _infer_columns(copied, names)
+        column_names = [column.name for column in inferred]
+        if (len(column_names) > MAX_PROJECT_COLUMNS or len(set(column_names)) != len(column_names)
+                or any(not isinstance(name, str) or not name.strip() or len(name) > 160 for name in column_names)):
+            raise ValueError('Schema must contain at most 128 distinct, nonempty field names of at most 160 characters.')
         return DataDockSnapshot(copied, inferred, source_format, _quality(copied, inferred, issues), source_name, self._revision)
 
     def _commit(self, snapshot: DataDockSnapshot) -> DataDockSnapshot:
+        checked_rows(snapshot.rows)
         self._undo.append(self._snapshot)
         if len(self._undo) > self.history_limit:
             del self._undo[: len(self._undo) - self.history_limit]
+        while len(self._undo) > 1 and sum(len(json.dumps(x.rows, default=str).encode('utf-8')) for x in self._undo) > 8 * MAX_PROJECT_BYTES:
+            self._undo.pop(0)
         self._redo.clear()
         self._revision += 1
         self._snapshot = replace(snapshot, revision=self._revision)
@@ -382,12 +426,14 @@ class DataDockModel:
 
     def load_text(self, text: str, *, filename: str | None = None, format_hint: DataDockFormat | str | None = None, source_name: str = '') -> DataDockParseResult:
         result = parse_data(text, filename=filename, format_hint=format_hint, source_name=source_name)
-        if result.snapshot is not None:
+        if result.ok:
             self._commit(result.snapshot)
             result = DataDockParseResult(self._snapshot, self._snapshot.quality.issues, result.detected_format)
         return result
 
     def load_bytes(self, content: bytes, *, filename: str) -> DataDockParseResult:
+        if len(content) > MAX_PROJECT_BYTES:
+            return DataDockParseResult(None, (DataDockIssue('data_limit', 'Upload exceeds 2 MiB. Existing data was not changed.', DataDockSeverity.ERROR),))
         try:
             text = bytes(content).decode('utf-8-sig')
         except UnicodeDecodeError:
@@ -416,7 +462,7 @@ class DataDockModel:
             raise KeyError(column)
         rows = [dict(row) for row in self.rows]
         rows[row_index][column] = _coerce_for_type(value, target.inferred_type)
-        return self.replace_rows(rows)
+        return self._commit(self._from_rows(rows, self.snapshot.source_format, self.snapshot.source_name, columns=self.columns))
 
     def add_row(self, values: Mapping[str, Any] | None = None) -> DataDockSnapshot:
         row = {column.name: None for column in self.columns}
@@ -425,7 +471,7 @@ class DataDockModel:
                 raise KeyError(key)
             target = next(column for column in self.columns if column.name == key)
             row[key] = _coerce_for_type(value, target.inferred_type)
-        return self.replace_rows((*self.rows, row))
+        return self._commit(self._from_rows((*self.rows, row), self.snapshot.source_format, self.snapshot.source_name, columns=self.columns))
 
     def delete_row(self, row_index: int) -> DataDockSnapshot:
         if not 0 <= row_index < len(self.rows):
@@ -434,7 +480,7 @@ class DataDockModel:
         # Preserve columns when the last row is removed.
         if not rows:
             return self._commit(self._from_rows((), self.snapshot.source_format, self.snapshot.source_name, columns=self.columns))
-        return self.replace_rows(rows)
+        return self._commit(self._from_rows(rows, self.snapshot.source_format, self.snapshot.source_name, columns=self.columns))
 
     def rename_column(self, old: str, new: str) -> DataDockSnapshot:
         new = str(new).strip()
@@ -452,6 +498,36 @@ class DataDockModel:
             rows.append(updated)
         columns = tuple(replace(column, name=new, original_name=column.original_name or old) if column.name == old else column for column in self.columns)
         return self._commit(self._from_rows(rows, self.snapshot.source_format, self.snapshot.source_name, columns=columns))
+
+    def configure_column(self, old: str, *, name: str, type_name: str, role: str) -> DataDockSnapshot:
+        """Apply rename/type/role together, or leave the original state and history intact."""
+        staged = DataDockModel(self.rows, sample_name=self.snapshot.source_name)
+        staged.restore_schema_metadata(self.schema_metadata())
+        if name != old:
+            staged.rename_column(old, name)
+        staged.set_column_type(name, type_name)
+        staged.set_semantic_role(name, role)
+        return self._commit(self._from_rows(staged.rows, self.snapshot.source_format, self.snapshot.source_name, columns=staged.columns))
+
+    def to_payload(self) -> dict[str, Any]:
+        return {'rows': checked_rows(self.serializable_rows()), 'columns': list(self.schema_metadata()),
+                'source_name': self.snapshot.source_name, 'source_format': self.snapshot.source_format.value}
+
+    @classmethod
+    def from_payload(cls, payload: Mapping[str, Any]) -> 'DataDockModel':
+        rows = checked_rows(payload.get('rows', []))
+        columns = payload.get('columns', ())
+        if not isinstance(columns, (list, tuple)) or len(columns) > MAX_PROJECT_COLUMNS:
+            raise ValueError('Saved data schema is invalid.')
+        result = cls(rows, sample_name=str(payload.get('source_name') or 'Restored data')[:160])
+        result.restore_schema_metadata(columns)
+        # Rehydrate serialized date/datetime values with the persisted field contract.
+        converted = []
+        for row in rows:
+            converted.append({col.name: _coerce_for_type(row.get(col.name), col.inferred_type) for col in result.columns})
+        fmt = DataDockFormat(payload.get('source_format', 'sample'))
+        result._snapshot = result._from_rows(converted, fmt, result.sample_name, columns=result.columns)
+        return result
 
     def set_column_type(self, column: str, type_name: str) -> DataDockSnapshot:
         allowed = {'string','integer','float','boolean','date','datetime','category','json','unknown'}
@@ -484,6 +560,10 @@ class DataDockModel:
         return self._commit(self._from_rows(self.rows, self.snapshot.source_format, self.snapshot.source_name, columns=columns))
 
     def rectangular_paste(self, start_row: int, start_column: str | int, text: str) -> DataDockSnapshot:
+        if start_row >= MAX_PROJECT_ROWS:
+            raise ValueError(f'Paste exceeds the {MAX_PROJECT_ROWS:,}-row development limit.')
+        if len(text.encode('utf-8')) > MAX_PROJECT_BYTES:
+            raise ValueError('Paste exceeds the 2 MiB development limit.')
         if start_row < 0:
             raise ValueError('start_row must be >= 0')
         if isinstance(start_column, str):
@@ -498,6 +578,10 @@ class DataDockModel:
         matrix = [row for row in csv.reader(io.StringIO(text), delimiter='\t') if row]
         if not matrix:
             return self.snapshot
+        if start_row + len(matrix) > MAX_PROJECT_ROWS:
+            raise ValueError('Paste exceeds the development row limit; existing data was not changed.')
+        if any(start_col + len(row) > len(self.columns) for row in matrix):
+            raise ValueError('Paste is wider than the remaining columns; no cells were discarded or changed.')
         rows = [dict(row) for row in self.rows]
         while len(rows) < start_row + len(matrix):
             rows.append({column.name: None for column in self.columns})
@@ -508,20 +592,22 @@ class DataDockModel:
                     break
                 column = self.columns[c_index]
                 rows[start_row + r_offset][column.name] = _coerce_for_type(cell, column.inferred_type)
-        return self.replace_rows(rows)
+        return self._commit(self._from_rows(rows, self.snapshot.source_format, self.snapshot.source_name, columns=self.columns))
 
     def undo(self) -> DataDockSnapshot:
         if not self._undo:
             return self.snapshot
         self._redo.append(self._snapshot)
-        self._snapshot = self._undo.pop()
+        self._revision += 1
+        self._snapshot = replace(self._undo.pop(), revision=self._revision)
         return self._snapshot
 
     def redo(self) -> DataDockSnapshot:
         if not self._redo:
             return self.snapshot
         self._undo.append(self._snapshot)
-        self._snapshot = self._redo.pop()
+        self._revision += 1
+        self._snapshot = replace(self._redo.pop(), revision=self._revision)
         return self._snapshot
 
     def schema_metadata(self) -> tuple[dict[str, Any], ...]:

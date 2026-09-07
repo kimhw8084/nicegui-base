@@ -1,9 +1,9 @@
 {
-  "export_count": 1525,
+  "export_count": 1532,
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "0693fd41e7e8f628b2ff65431094a420bf085d53a56b7fb62d8c48fa4433a1a6",
+  "sha256": "d43e2904f4fadd400e148b0597490223fd324c9fb47ab19b26c2689e009dfe71",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -2554,6 +2554,24 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "permission_check"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "debugger"
+          },
+          {
+            "annotation": "'Callable[[], Any] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "debugger_health_provider"
           }
         ],
         "return": ""
@@ -10813,6 +10831,75 @@
       "kind": "class",
       "module": "nicegui_base.async_tools.runtime"
     },
+    "DebugEvent": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "timestamp"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "level"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "logger"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "message"
+          },
+          {
+            "annotation": "'Mapping[str, Any]'",
+            "default": {
+              "present": true,
+              "repr": "<factory>",
+              "type": "dataclasses._HAS_DEFAULT_FACTORY_CLASS"
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "context"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "exception_type"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "exception"
+          }
+        ],
+        "return": "None"
+      },
+      "kind": "class",
+      "module": "nicegui_base.diagnostics.debug_runtime"
+    },
     "Defect": {
       "callable": {
         "parameters": [
@@ -11122,6 +11209,24 @@
       },
       "kind": "class",
       "module": "nicegui_base.integrations.nicegui_interactions"
+    },
+    "DiagnosticBuffer": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 500
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "capacity"
+          }
+        ],
+        "return": "'None'"
+      },
+      "kind": "class",
+      "module": "nicegui_base.diagnostics.debug_runtime"
     },
     "Dialog": {
       "callable": {
@@ -14994,6 +15099,15 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "on_upload"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": false
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "auto_upload"
           }
         ],
         "return": ""
@@ -36072,6 +36186,15 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "retry_base_delay_seconds"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": 120.0
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "stale_after_seconds"
           }
         ],
         "return": "None"
@@ -36346,6 +36469,24 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "permission_check"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "debugger"
+          },
+          {
+            "annotation": "'Callable[[], Any] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "debugger_health_provider"
           }
         ],
         "return": "None"
@@ -44390,6 +44531,24 @@
             "name": "size"
           },
           {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Measurement"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "legend_title"
+          },
+          {
+            "annotation": "'Sequence[str]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "legend_labels"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -45785,6 +45944,69 @@
       },
       "kind": "function",
       "module": "nicegui_base.design.system"
+    },
+    "build_diagnostic_bundle": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "app_name"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "app_version"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "environment"
+          },
+          {
+            "annotation": "'Mapping[str, Any] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "browser"
+          },
+          {
+            "annotation": "'Mapping[str, Any] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "health"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 500
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "event_limit"
+          }
+        ],
+        "return": "'bytes'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.diagnostics.debug_runtime"
     },
     "build_echarts_options": {
       "callable": {
@@ -49100,6 +49322,10 @@
       "kind": "class",
       "module": "datetime"
     },
+    "debug_runtime": {
+      "kind": "module",
+      "module": "builtins"
+    },
     "defect_clusters": {
       "callable": {
         "parameters": [
@@ -49333,6 +49559,14 @@
       },
       "kind": "function",
       "module": "nicegui_base.semiconductor.spc"
+    },
+    "diagnostic_buffer": {
+      "callable": {
+        "parameters": [],
+        "return": "'DiagnosticBuffer'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.diagnostics.debug_runtime"
     },
     "diagnostics": {
       "kind": "module",
@@ -50550,6 +50784,14 @@
       },
       "kind": "function",
       "module": "nicegui_base.ai.scaffold"
+    },
+    "install_diagnostic_logging": {
+      "callable": {
+        "parameters": [],
+        "return": "'DiagnosticBuffer'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.diagnostics.debug_runtime"
     },
     "install_visual_assets_css": {
       "callable": {
@@ -54740,6 +54982,42 @@
     "runtime_smoke": {
       "kind": "module",
       "module": "builtins"
+    },
+    "runtime_snapshot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "app_name"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "app_version"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "environment"
+          }
+        ],
+        "return": "'dict[str, Any]'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.diagnostics.debug_runtime"
     },
     "safe_filename": {
       "callable": {

@@ -60,7 +60,7 @@ def test_builder_requires_live_runtime_proof_before_runtime_proven_download() ->
     root = Path(__file__).resolve().parents[1]
     source = (root / 'nicegui_base' / 'workbench' / 'builder.py').read_text(encoding='utf-8')
     assert 'run_generated_live_smoke' in source
-    assert 'Download runtime-proven starter ZIP' in source
+    assert 'Download starter ZIP (local startup checked)' in source
     assert "live is not None and live.ok" in source
 
 
@@ -68,7 +68,7 @@ def test_capability_studio_wires_interaction_inspector_and_selected_cell_clipboa
     root = Path(__file__).resolve().parents[1]
     source = (root / 'nicegui_base' / 'workbench' / 'capability_studio.py').read_text(encoding='utf-8')
     assert "'inspect'" in source
-    assert 'render_interaction_inspector(entry, session)' in source
+    assert 'render_interaction_inspector(entry,session)' in source
     assert "table.element.on('cellClicked', select_cell)" in source
     assert 'navigator.clipboard.readText()' in source
     assert "model.rectangular_paste(selected['row'], selected['column'], text)" in source

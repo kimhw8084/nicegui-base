@@ -16,7 +16,15 @@ def main()->int:
     ai_ctx=sub.add_parser('agent-context',help='Build compact task-specific coding-agent context');ai_ctx.add_argument('task');ai_ctx.add_argument('--format',choices=('text','json'),default='text');ai_ctx.add_argument('--output',type=Path)
     ai_check=sub.add_parser('agent-check',help='Run fail-closed coding-agent preflight');ai_check.add_argument('path',nargs='?',default='.');ai_check.add_argument('--format',choices=('text','json'),default='text')
     create=sub.add_parser('create',help='Create a governed NiceGUI Base application starter');create.add_argument('path');create.add_argument('--name',required=True);create.add_argument('--template',choices=('dashboard','data-explorer','crud','analysis-workspace','responsive-operations','async-workflow'),default='analysis-workspace');create.add_argument('--recipe');create.add_argument('--variant');create.add_argument('--overwrite',action='store_true')
+    create_pattern=sub.add_parser('create-pattern',help='Create an application from a canonical registered pattern');create_pattern.add_argument('path');create_pattern.add_argument('--name',required=True);create_pattern.add_argument('--pattern',required=True);create_pattern.add_argument('--overwrite',action='store_true')
+    create_recipe=sub.add_parser('create-recipe',help='Create an application from a canonical semiconductor recipe');create_recipe.add_argument('path');create_recipe.add_argument('--name',required=True);create_recipe.add_argument('--recipe',required=True);create_recipe.add_argument('--variant');create_recipe.add_argument('--overwrite',action='store_true')
     recipes=sub.add_parser('recipes',help='List or recommend semiconductor application recipes');recipes.add_argument('intent',nargs='?');recipes.add_argument('--format',choices=('text','json'),default='text')
+    catalog_search=sub.add_parser('catalog-search',help='Search the canonical catalog for a component, pattern, recipe or visualization');catalog_search.add_argument('query',nargs='?');catalog_search.add_argument('--limit',type=int,default=20);catalog_search.add_argument('--intent');catalog_search.add_argument('--data-shape');catalog_search.add_argument('--domain');catalog_search.add_argument('--related-to');catalog_search.add_argument('--format',choices=('text','json'),default='text')
+    recommend_pattern=sub.add_parser('recommend-pattern',help='Recommend a canonical page pattern for a requirement');recommend_pattern.add_argument('requirement');recommend_pattern.add_argument('--format',choices=('text','json'),default='text')
+    recommend_visualization=sub.add_parser('recommend-visualization',help='Recommend registered analytical visualizations for intent and schema');recommend_visualization.add_argument('intent');recommend_visualization.add_argument('--schema',action='append',default=[]);recommend_visualization.add_argument('--domain');recommend_visualization.add_argument('--limit',type=int,default=5);recommend_visualization.add_argument('--format',choices=('text','json'),default='text')
+    scaffold_plan=sub.add_parser('scaffold-plan',help='Print canonical scaffold commands without writing files');scaffold_plan.add_argument('requirement');scaffold_plan.add_argument('--format',choices=('text','json'),default='text')
+    catalog_audit=sub.add_parser('catalog-audit',help='Validate canonical catalog completeness and family coverage');catalog_audit.add_argument('--format',choices=('text','json'),default='text')
+    agent_benchmark=sub.add_parser('agent-benchmark',help='Score deterministic agent discovery and scaffold choices');agent_benchmark.add_argument('manifest',type=Path);agent_benchmark.add_argument('--no-materialize',action='store_true');agent_benchmark.add_argument('--format',choices=('text','json'),default='text')
     provider_init=sub.add_parser('provider-init',help='Create a provider-neutral semiconductor adapter SDK starter');provider_init.add_argument('path');provider_init.add_argument('--key',required=True);provider_init.add_argument('--class-name',default='CompanySemiconductorAdapter');provider_init.add_argument('--recipe',action='append');provider_init.add_argument('--profile',choices=('development','production'),default='production');provider_init.add_argument('--overwrite',action='store_true')
     provider_check=sub.add_parser('provider-check',help='Run bounded semiconductor adapter conformance and optional benchmark');provider_check.add_argument('adapter');provider_check.add_argument('--recipe',action='append');provider_check.add_argument('--fixtures');provider_check.add_argument('--profile',choices=('development','production'),default='production');provider_check.add_argument('--benchmark-profile',choices=('development-smoke','provider-rc'));provider_check.add_argument('--output',type=Path);provider_check.add_argument('--format',choices=('text','json'),default='text')
     target_qualify=sub.add_parser('target-qualify',help='Aggregate target evidence and evaluate stable semiconductor promotion readiness');target_qualify.add_argument('evidence',nargs='+');target_qualify.add_argument('--provider');target_qualify.add_argument('--base-dir',type=Path);target_qualify.add_argument('--operational-readiness',action='append');target_qualify.add_argument('--require-recipe',action='append');target_qualify.add_argument('--qualification-output',type=Path);target_qualify.add_argument('--decision-output',type=Path);target_qualify.add_argument('--format',choices=('text','json'),default='text')
@@ -69,9 +77,33 @@ def main()->int:
     elif args.command=='create':
         from nicegui_base.ai_cli import create_main as cmd
         argv=['nicegui-base create',str(args.path),'--name',args.name,'--template',args.template]+(['--recipe',args.recipe] if args.recipe else [])+(['--variant',args.variant] if args.variant else [])+(['--overwrite'] if args.overwrite else [])
+    elif args.command=='create-pattern':
+        from nicegui_base.ai_cli import create_pattern_main as cmd
+        argv=['nicegui-base create-pattern',str(args.path),'--name',args.name,'--pattern',args.pattern]+(['--overwrite'] if args.overwrite else [])
+    elif args.command=='create-recipe':
+        from nicegui_base.ai_cli import create_recipe_main as cmd
+        argv=['nicegui-base create-recipe',str(args.path),'--name',args.name,'--recipe',args.recipe]+(['--variant',args.variant] if args.variant else [])+(['--overwrite'] if args.overwrite else [])
     elif args.command=='recipes':
         from nicegui_base.ai_cli import recipes_main as cmd
         argv=['nicegui-base recipes']+([args.intent] if args.intent else [])+['--format',args.format]
+    elif args.command=='catalog-search':
+        from nicegui_base.ai_cli import catalog_search_main as cmd
+        argv=['nicegui-base catalog-search']+([args.query] if args.query else [])+['--limit',str(args.limit)]+(['--intent',args.intent] if args.intent else [])+(['--data-shape',args.data_shape] if args.data_shape else [])+(['--domain',args.domain] if args.domain else [])+(['--related-to',args.related_to] if args.related_to else [])+['--format',args.format]
+    elif args.command=='recommend-pattern':
+        from nicegui_base.ai_cli import recommend_pattern_main as cmd
+        argv=['nicegui-base recommend-pattern',args.requirement,'--format',args.format]
+    elif args.command=='recommend-visualization':
+        from nicegui_base.ai_cli import recommend_visualization_main as cmd
+        argv=['nicegui-base recommend-visualization',args.intent]+sum((['--schema',value] for value in args.schema),[])+(['--domain',args.domain] if args.domain else [])+['--limit',str(args.limit),'--format',args.format]
+    elif args.command=='scaffold-plan':
+        from nicegui_base.ai_cli import scaffold_plan_main as cmd
+        argv=['nicegui-base scaffold-plan',args.requirement,'--format',args.format]
+    elif args.command=='catalog-audit':
+        from nicegui_base.ai_cli import catalog_audit_main as cmd
+        argv=['nicegui-base catalog-audit','--format',args.format]
+    elif args.command=='agent-benchmark':
+        from nicegui_base.ai_cli import benchmark_main as cmd
+        argv=['nicegui-base agent-benchmark',str(args.manifest)]+(['--no-materialize'] if args.no_materialize else [])+['--format',args.format]
     elif args.command=='provider-init':
         from nicegui_base.semiconductor.provider_cli import provider_init_main as cmd
         argv=['nicegui-base provider-init',str(args.path),'--key',args.key,'--class-name',args.class_name,'--profile',args.profile]+sum((['--recipe',item] for item in (args.recipe or [])),[])+(['--overwrite'] if args.overwrite else [])

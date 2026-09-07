@@ -120,6 +120,7 @@ class NiceGUIRuntimeAdapter:
         if not pages:
             return ()
         _, ui = _nicegui()
+        from .nicegui_theme import wrap_page_with_framework_theme
         reserved = {self.config.health_path, self.config.readiness_path}
         if self.config.diagnostics_enabled:
             reserved.add(self.config.diagnostics_path)
@@ -136,13 +137,18 @@ class NiceGUIRuntimeAdapter:
                 raise TypeError(f'application page handler for {route!r} must be callable')
             if route in self._page_routes:
                 continue
-            ui.page(route)(handler)
+            ui.page(route)(wrap_page_with_framework_theme(ui, handler))
             self._page_routes.add(route)
             registered.append(route)
         return tuple(registered)
 
     def run(self, *, root: Callable[..., Any] | None = None, pages: Mapping[str, Callable[..., Any]] | None = None, environ=None) -> None:
         app, ui = _nicegui()
+        # Generated exports do not necessarily enter AppShell. Install the same
+        # Company theme/assets bootstrap at the runtime boundary, before page
+        # construction, with the adapter's process guard preventing duplicates.
+        from .nicegui_theme import install_framework_theme
+        install_framework_theme(ui)
         self.install_middleware(app)
         self.install_operational_endpoints(app)
         self.install_pages(pages)
@@ -150,4 +156,5 @@ class NiceGUIRuntimeAdapter:
         if root is None:
             ui.run(**kwargs)
         else:
-            ui.run(root=root, **kwargs)
+            from .nicegui_theme import wrap_page_with_framework_theme
+            ui.run(root=wrap_page_with_framework_theme(ui, root), **kwargs)

@@ -171,6 +171,10 @@ class SemiconductorRecipeDefinition:
     def analytical_panels(self) -> tuple[RecipePanelDefinition, ...]:
         return tuple(panel for panel in self.panels if panel.kind is RecipePanelKind.ANALYTICAL)
 
+    @property
+    def scaffold_command(self) -> str:
+        return f'nicegui-base create ./<app> --name "{self.application_name}" --template {self.base_template} --recipe {self.key}'
+
 
 @dataclass(frozen=True, slots=True)
 class RecipeSourceCompatibility:
@@ -460,6 +464,77 @@ _RECIPES = (
 
 SEMICONDUCTOR_RECIPE_REGISTRY: Mapping[str, SemiconductorRecipeDefinition] = MappingProxyType({item.key: item for item in _RECIPES})
 
+
+@dataclass(frozen=True, slots=True)
+class RecipeWorkflowCoverage:
+    """A concrete engineering question mapped to one complete recipe composition."""
+
+    key: str
+    recipe_key: str
+    engineering_question: str
+    required_data: tuple[str, ...]
+    visualizations: tuple[str, ...]
+    patterns: tuple[str, ...]
+    alternatives: tuple[str, ...]
+    caveats: tuple[str, ...]
+    runnable_example: str
+    scaffold_command: str
+
+    def __post_init__(self) -> None:
+        if not self.key.strip() or not self.recipe_key.strip() or not self.engineering_question.strip():
+            raise ValueError('recipe workflow coverage requires key, recipe and engineering question')
+        for name in ('required_data', 'visualizations', 'patterns', 'alternatives', 'caveats'):
+            if not getattr(self, name):
+                raise ValueError(f'{self.key}: {name} must not be empty')
+        if not self.runnable_example.strip() or not self.scaffold_command.strip():
+            raise ValueError(f'{self.key}: runnable example and scaffold command are required')
+        object.__setattr__(self, 'required_data', tuple(self.required_data))
+        object.__setattr__(self, 'visualizations', tuple(self.visualizations))
+        object.__setattr__(self, 'patterns', tuple(self.patterns))
+        object.__setattr__(self, 'alternatives', tuple(self.alternatives))
+        object.__setattr__(self, 'caveats', tuple(self.caveats))
+
+
+def _workflow(
+    key: str,
+    recipe_key: str,
+    question: str,
+    data: Sequence[str],
+    visuals: Sequence[str],
+    patterns: Sequence[str],
+    alternatives: Sequence[str],
+    caveats: Sequence[str],
+) -> RecipeWorkflowCoverage:
+    recipe = SEMICONDUCTOR_RECIPE_REGISTRY[recipe_key]
+    command = recipe.scaffold_command
+    return RecipeWorkflowCoverage(
+        key, recipe_key, question, tuple(data), tuple(visuals), tuple(patterns),
+        tuple(alternatives), tuple(caveats), command, command,
+    )
+
+
+RECIPE_WORKFLOW_COVERAGE = (
+    _workflow('spc_monitoring', 'spc-monitor', 'Is the process stable and are any observations outside governed control limits?', ('ordered measurement values', 'time or sequence', 'baseline and control-rule definition'), ('spc_i_mr', 'capability_histogram', 'ecdf'), ('monitoring', 'dashboard', 'drill_down'), ('spc_xbar_r for rational subgroups', 'spc_ewma for small persistent shifts'), ('Control limits are not specification limits; the fixture does not infer a root cause.')),
+    _workflow('i_mr', 'spc-monitor', 'What do individual observations and moving ranges say about short-term process behavior?', ('ordered individual measurements', 'stable sampling sequence'), ('spc_i_mr', 'ecdf'), ('monitoring', 'analysis_workspace'), ('spc_xbar_r when subgroup samples are defensible', 'spc_ewma for smoothed monitoring'), ('I-MR assumes an appropriate sequence and does not replace subgroup selection or measurement-system review.')),
+    _workflow('ewma_cusum', 'spc-monitor', 'Can a small sustained process shift be made visible without overstating statistical evidence?', ('ordered measurements', 'target/baseline', 'tuning parameters and rule definition'), ('spc_ewma', 'spc_cusum'), ('monitoring', 'analysis_workspace'), ('spc_i_mr for direct observations', 'spc_xbar_r for subgrouped data'), ('EWMA/CUSUM signals are detection aids; confirm sampling, limits and process context before action.')),
+    _workflow('capability_distribution_comparison', 'spc-monitor', 'How do current and reference populations differ in distribution and capability?', ('measurement values', 'specification limits', 'population labels'), ('capability_histogram', 'box_distribution', 'qq_probability', 'ecdf'), ('comparison', 'report'), ('violin_distribution for shape emphasis', 'spc_i_mr for sequence behavior'), ('Capability indices require valid specification limits and a defensible population; no normality conclusion is fabricated.')),
+    _workflow('chamber_tool_health', 'fdc-tool-health', 'Which tool or chamber signals require engineering review?', ('aligned sensor traces', 'tool/chamber identity', 'equipment events'), ('fdc_multi_sensor', 'fdc_chamber_fingerprint', 'fdc_alarm_overlay'), ('monitoring', 'full_screen_operations'), ('fdc_recipe_step_trace for one signal', 'fdc_pca_scores for multivariate screening'), ('Health panels expose evidence and status, not an automatic maintenance or causal conclusion.')),
+    _workflow('lot_history', 'lot-wafer-explorer', 'Where did a lot or wafer move through the process, and which measurements support the current view?', ('lot/wafer genealogy', 'ordered process records', 'optional die coordinates and measurement'), ('lot_wafer_strip', 'wafer_continuous', 'wafer_radial'), ('master_detail', 'drill_down'), ('data_explorer for flat records', 'wafer_small_multiples for bounded comparisons'), ('Spatial views require valid coordinates and identity; missing genealogy remains explicit.')),
+    _workflow('yield_defect_review', 'yield-loss', 'Which bins or defect categories account for the observed yield loss?', ('tested units/denominator', 'defect or yield category', 'population and period'), ('yield_pareto', 'bin_pareto', 'wafer_categorical'), ('dashboard', 'investigation', 'report'), ('rca_commonality_ranking for enriched factors', 'wafer_defect for spatial defects'), ('Pareto ranks contribution within the supplied population; it does not prove defect causation.')),
+    _workflow('recipe_tool_comparison', 'chamber-matching', 'Which recipe, tool or chamber characteristics differ across comparable populations?', ('comparable measurements/features', 'chamber/tool identity', 'recipe/version context'), ('fdc_chamber_fingerprint', 'fdc_tool_chamber_compare', 'ridge_distribution'), ('comparison', 'analysis_workspace'), ('pm-effect-analysis for explicit before/after windows', 'fdc_pca_scores for multivariate screening'), ('Comparison requires aligned populations; separation is not causal attribution.')),
+    _workflow('fdc_signal_explorer', 'fdc-tool-health', 'How does a sensor signal evolve across recipe steps and event markers?', ('timestamp or aligned step', 'sensor identifier', 'numeric signal', 'event markers where available'), ('fdc_recipe_step_trace', 'fdc_golden_envelope', 'fdc_equipment_event_overlay'), ('data_explorer', 'drill_down'), ('fdc_multi_sensor for coordinated signals', 'fdc_alarm_overlay for alarm-focused review'), ('Trace alignment and envelope provenance must be supplied by the provider; no event is invented.')),
+    _workflow('excursion_investigation', 'excursion-defense-line', 'What affected/control differences should an engineer investigate for an excursion?', ('affected/control populations', 'measurement or yield signal', 'lot/wafer/tool context'), ('rca_affected_control', 'wafer_delta', 'rca_commonality_ranking', 'rca_evidence_matrix'), ('investigation', 'analysis_workspace'), ('rca-cockpit for hypothesis/evidence workflow', 'yield-loss for bin-led triage'), ('Commonality is evidence ranking, not causal probability; control-population definitions remain governed inputs.')),
+    _workflow('hypothesis_evidence_cockpit', 'rca-cockpit', 'How should hypotheses, evidence and supporting process relationships be kept together during an investigation?', ('investigation identity', 'hypothesis/evidence records', 'affected/control context where available'), ('rca_commonality_ranking', 'rca_evidence_matrix', 'rca_genealogy_graph'), ('investigation', 'drill_down'), ('excursion-defense-line for first-pass triage', 'yield-loss for bin-led review'), ('The cockpit organizes evidence and hypotheses; it does not turn observational association into causal proof.')),
+    _workflow('correlation_parameter_exploration', 'chamber-matching', 'Which measured parameters move together or separate by chamber/tool?', ('numeric parameter matrix', 'group identity', 'sampling and missing-value policy'), ('rca_correlation_matrix', 'fdc_pca_loadings', 'fdc_chamber_fingerprint'), ('analysis_workspace', 'comparison'), ('rca-cockpit for evidence context', 'spc-monitor for sequence behavior'), ('Correlation is association only; confounding, alignment and missingness require engineering review.')),
+    _workflow('golden_tool_before_after', 'pm-effect-analysis', 'Did the post-maintenance population move toward the reference or golden-tool behavior?', ('pre/post maintenance labels', 'reference/golden population', 'measurement and event timing'), ('rca_affected_control', 'fdc_tool_chamber_compare', 'fdc_golden_envelope'), ('comparison', 'report'), ('chamber-matching for cross-chamber matching', 'spc-monitor for stability after the change'), ('Before/after movement does not establish PM causality without a governed comparison design.')),
+    _workflow('alarm_event_timeline', 'fdc-tool-health', 'Which signal changes coincide with alarms, equipment events or process-step transitions?', ('ordered signal samples', 'event timestamp/type', 'tool/chamber and step identity'), ('fdc_alarm_overlay', 'fdc_equipment_event_overlay', 'fdc_recipe_step_trace'), ('monitoring', 'drill_down'), ('fdc_signal_explorer for detailed trace review', 'spc-monitor for post-event stability'), ('Temporal coincidence is not causal evidence; event clocks and alignment quality must be checked.')),
+    _workflow('pm_effectiveness', 'pm-effect-analysis', 'What measurable process or equipment changes are associated with a maintenance window?', ('pre/post windows', 'maintenance event', 'measurement/FDC data', 'comparable tool/chamber populations'), ('rca_affected_control', 'spc_i_mr', 'fdc_chamber_fingerprint'), ('comparison', 'report'), ('golden_tool_before_after', 'chamber-matching'), ('The recipe reports observed deltas and caveats; it does not certify maintenance effectiveness without an approved study design.')),
+)
+
+
+def recipe_workflow_coverage() -> tuple[RecipeWorkflowCoverage, ...]:
+    return RECIPE_WORKFLOW_COVERAGE
+
 _RECIPE_ALIASES: Mapping[str, str] = MappingProxyType({
     'spcmonitor': 'spc-monitor', 'spc-monitor': 'spc-monitor',
     'excursiondefenseline': 'excursion-defense-line', 'excursion-defense-line': 'excursion-defense-line',
@@ -662,6 +737,11 @@ def recipe_catalog_entries() -> tuple[dict[str, Any], ...]:
         'base_template': recipe.base_template,
         'tags': recipe.tags,
         'variants': tuple(item.key for item in variants_for_recipe(recipe)),
+        'engineering_questions': tuple(item.engineering_question for item in RECIPE_WORKFLOW_COVERAGE if item.recipe_key == recipe.key),
+        'required_data': tuple(dict.fromkeys(data for item in RECIPE_WORKFLOW_COVERAGE if item.recipe_key == recipe.key for data in item.required_data)),
+        'runnable_example': recipe.scaffold_command,
+        'scaffold_command': recipe.scaffold_command,
+        'workflow_keys': tuple(item.key for item in RECIPE_WORKFLOW_COVERAGE if item.recipe_key == recipe.key),
         'production_onboarding': 'SemiconductorRecipeRuntime.onboarding_view()',
         'guided_setup': 'SemiconductorRecipeRuntime.prepare_setup_workflow()',
         'provider_sdk': 'SemiconductorProviderAdapterBase + provider-check CLI',
@@ -677,7 +757,8 @@ def recipe_catalog_entries() -> tuple[dict[str, Any], ...]:
 
 __all__ = [
     'RecipeCompatibilityError','RecipeFieldRequirement','RecipeFilterDefinition','RecipeInteractionDefinition',
-    'RecipePanelDefinition','RecipePanelKind','RecipeSourceCompatibility','SEMICONDUCTOR_RECIPE_REGISTRY',
+    'RecipePanelDefinition','RecipePanelKind','RecipeSourceCompatibility',
+    'SEMICONDUCTOR_RECIPE_REGISTRY',
     'SemiconductorApplicationAssembly','SemiconductorRecipeDefinition','assemble_semiconductor_application',
     'get_semiconductor_recipe','recipe_catalog_entries','recommend_semiconductor_recipe','resolve_recipe_source',
 ]

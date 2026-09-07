@@ -8,7 +8,8 @@ from typing import Any, Mapping, Sequence
 
 MAX_HISTORY = 24
 MAX_PRESETS = 16
-MAX_SNAPSHOT_ROWS = 200
+from .preview_data import MAX_PROJECT_ROWS, checked_rows
+MAX_SNAPSHOT_ROWS = MAX_PROJECT_ROWS
 
 
 def _stable_project(snapshot: Mapping[str, Any] | None) -> dict[str, Any]:
@@ -22,7 +23,7 @@ def _stable_project(snapshot: Mapping[str, Any] | None) -> dict[str, Any]:
     queued = source.get('queued_entry_keys') if isinstance(source.get('queued_entry_keys'), (list, tuple)) else ()
     source['queued_entry_keys'] = list(dict.fromkeys(str(key) for key in queued if key))
     rows = source.get('data_rows') if isinstance(source.get('data_rows'), (list, tuple)) else ()
-    source['data_rows'] = [dict(row) for row in rows[:MAX_SNAPSHOT_ROWS] if isinstance(row, Mapping)]
+    source['data_rows'] = checked_rows(rows)
     return source
 
 
@@ -72,7 +73,7 @@ class ProjectDiff:
 def diff_projects(before: Mapping[str, Any] | None, after: Mapping[str, Any] | None) -> ProjectDiff:
     left = _stable_project(before)
     right = _stable_project(after)
-    tracked = ('name', 'goal', 'problem_type', 'pattern_key', 'blueprint_key', 'data_handoff_mode', 'production_provider', 'data_source_name', 'data_schema', 'theme', 'density', 'queued_entry_keys')
+    tracked = ('name', 'goal', 'problem_type', 'pattern_key', 'blueprint_key', 'data_handoff_mode', 'production_provider', 'data_source_name', 'data_schema', 'data_rows', 'theme', 'density', 'queued_entry_keys', 'capability_configurations', 'data_source_format')
     fields = tuple(key for key in tracked if left.get(key) != right.get(key))
     left_loc = {str(key): str(slot) for slot, keys in left.get('placements', {}).items() for key in keys}
     right_loc = {str(key): str(slot) for slot, keys in right.get('placements', {}).items() for key in keys}

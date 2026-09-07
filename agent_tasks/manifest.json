@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "name": "nicegui-base-agent-authority-benchmark",
+  "description": "Short deterministic requirements used to verify pattern, visualization and recipe discovery.",
+  "scenarios": [
+    {
+      "id": "spc-single-measurements",
+      "prompt": "Build an SPC monitoring workspace for continuous measurements without rational subgroups.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:spc_i_mr", "recipe": "spc-monitor"},
+      "schema": ["timestamp", "measurement", "tool", "lot"]
+    },
+    {
+      "id": "ewma-shift-detection",
+      "prompt": "Analyze small sustained process shifts with EWMA in an analysis workspace.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:spc_ewma", "recipe": "spc-monitor"},
+      "schema": ["timestamp", "measurement", "subgroup"]
+    },
+    {
+      "id": "capability-comparison",
+      "prompt": "Compare process capability and distribution shape on an explicit comparison page with specification limits.",
+      "expected": {"pattern": "comparison", "visualization": "analytics:capability_histogram", "recipe": "spc-monitor"},
+      "schema": ["population", "measurement", "lsl", "usl"]
+    },
+    {
+      "id": "chamber-health",
+      "prompt": "Build an FDC analysis workspace for multivariate chamber matching and fingerprint health.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:fdc_chamber_fingerprint", "recipe": "fdc-tool-health"},
+      "schema": ["timestamp", "sensor", "sensor_value", "chamber"]
+    },
+    {
+      "id": "lot-wafer-explorer",
+      "prompt": "Explore lot history and wafer spatial variation in an analysis workspace.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:lot_wafer_strip", "recipe": "lot-wafer-explorer"},
+      "schema": ["lot", "wafer", "x", "y", "measurement"]
+    },
+    {
+      "id": "yield-loss-review",
+      "prompt": "Review yield loss and rank yield-loss contributors in a data explorer.",
+      "expected": {"pattern": "data_explorer", "visualization": "analytics:yield_pareto", "recipe": "yield-loss"},
+      "schema": ["lot", "bin", "count", "yield_pct"]
+    },
+    {
+      "id": "recipe-tool-comparison",
+      "prompt": "Compare recipe and tool populations with chamber matching on an explicit comparison page.",
+      "expected": {"pattern": "comparison", "visualization": "analytics:fdc_tool_chamber_compare", "recipe": "chamber-matching"},
+      "schema": ["recipe", "tool", "chamber", "measurement"]
+    },
+    {
+      "id": "fdc-signal-explorer",
+      "prompt": "Explore FDC sensor signals and align equipment events in an analysis workspace.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:fdc_equipment_event_overlay", "recipe": "fdc-tool-health"},
+      "schema": ["timestamp", "sensor", "sensor_value", "equipment_event"]
+    },
+    {
+      "id": "excursion-investigation",
+      "prompt": "Investigate an excursion defense line with affected and control evidence in an analysis workspace.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:rca_affected_control", "recipe": "excursion-defense-line"},
+      "schema": ["lot", "wafer", "population", "measurement", "tool"]
+    },
+    {
+      "id": "parameter-correlation",
+      "prompt": "Explore correlation between process parameters in an RCA analysis workspace.",
+      "expected": {"pattern": "analysis_workspace", "visualization": "analytics:rca_correlation_matrix", "recipe": "rca-cockpit"},
+      "schema": ["lot", "parameter_a", "parameter_b", "measurement"]
+    }
+  ]
+}

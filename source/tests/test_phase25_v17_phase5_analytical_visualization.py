@@ -108,6 +108,6 @@ def test_browser_certification_proves_2d_zoom_scale_band_and_svg_containment():
 
 def test_phase5_visual_coverage_is_complete_after_new_native_renderers():
     summary=coverage_summary()
-    assert summary['required_visual_components']==183
-    assert summary['covered_visual_components']==183
+    assert summary['required_visual_components']==185
+    assert summary['covered_visual_components']==185
     assert summary['uncovered']==[]

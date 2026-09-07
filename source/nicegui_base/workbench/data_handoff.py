@@ -9,7 +9,14 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 DATA_HANDOFF_MODES = ('schema_only', 'include_development_rows')
-MAX_GENERATED_DEVELOPMENT_ROWS = 100
+from .preview_data import (
+    MAX_PROJECT_COLUMNS,
+    MAX_PROJECT_ROWS,
+    checked_rows,
+    resolve_category_field,
+    resolve_measurement_field,
+)
+MAX_GENERATED_DEVELOPMENT_ROWS = MAX_PROJECT_ROWS
 _ALLOWED_TYPES = {'string','integer','float','boolean','date','datetime','category','json','unknown'}
 _ALLOWED_ROLES = {'dimension','measurement','identifier','timestamp','entity','attribute'}
 
@@ -109,7 +116,7 @@ def _infer_role(name: str, inferred_type: str) -> str:
         return 'identifier'
     if 'time' in folded or 'date' in folded:
         return 'timestamp'
-    if folded in {'tool','chamber','wafer','lot','product','recipe','operation','area','fab','sensor'}:
+    if folded in {'tool','chamber','wafer','lot','batch','product','recipe','operation','area','fab','sensor'}:
         return 'entity'
     if inferred_type in {'integer','float'}:
         return 'measurement'
@@ -154,7 +161,7 @@ def _unique_identifier(fields: Sequence[HandoffField], rows: Sequence[Mapping[st
         return identifiers[0].name
     for field in identifiers:
         values = [row.get(field.name) for row in rows]
-        if values and all(value not in {None, ''} for value in values) and len(values) == len({repr(value) for value in values}):
+        if values and all(value is not None and value != '' for value in values) and len(values) == len({repr(value) for value in values}):
             return field.name
     return None
 
@@ -188,9 +195,13 @@ def _with_generated_row_key(fields: tuple[HandoffField, ...], rows: Sequence[Map
     identifier = _unique_identifier(fields, rows)
     if identifier:
         return fields, identifier
+    if len(fields) >= MAX_PROJECT_COLUMNS:
+        raise ValueError('A 128-column dataset needs a confirmed unique identifier before export; no column was discarded.')
     key = '__row_id'
-    if any(field.name == key for field in fields):
-        return fields, key
+    suffix = 2
+    while any(field.name == key for field in fields):
+        key = f'__row_id_{suffix}'
+        suffix += 1
     return (HandoffField(key, 'string', 'identifier', False, 1.0, generated=True), *fields), key
 
 
@@ -215,19 +226,49 @@ def _ensure_row_key(rows: Sequence[Mapping[str, Any]], row_key: str) -> tuple[di
     output: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
         item = dict(row)
-        if item.get(row_key) in {None, ''}:
+        if item.get(row_key) is None or item.get(row_key) == '':
             item[row_key] = f'R-{index:03d}'
         output.append(item)
     return tuple(output)
 
 
-def build_data_handoff_plan(project: Mapping[str, Any]) -> DataHandoffPlan:
+def _explicit_mapping(project: Mapping[str, Any], kind: str) -> str | None:
+    """Read one explicit field mapping from the project/configuration boundary."""
+    aliases = {
+        'measurement': ('measurement_field', 'measurement'),
+        'category': ('category_field', 'label_field', 'category'),
+    }[kind]
+    values: list[str] = []
+    for key in aliases:
+        raw = project.get(key)
+        if raw is not None and str(raw).strip():
+            values.append(str(raw).strip())
+    configurations = project.get('capability_configurations')
+    if isinstance(configurations, Mapping):
+        for configuration in configurations.values():
+            if not isinstance(configuration, Mapping):
+                continue
+            options = configuration.get('options')
+            if not isinstance(options, Mapping):
+                continue
+            for key in aliases:
+                raw = options.get(key)
+                if raw is not None and str(raw).strip():
+                    values.append(str(raw).strip())
+    unique = tuple(dict.fromkeys(values))
+    if len(unique) > 1:
+        label = 'measurement' if kind == 'measurement' else 'category'
+        raise ValueError(f'Multiple explicit {label} mappings were provided: {", ".join(unique)}. Choose one field.')
+    return unique[0] if unique else None
+
+
+def build_data_handoff_plan(project: Mapping[str, Any], *, require_measurement: bool = True) -> DataHandoffPlan:
     mode = str(project.get('data_handoff_mode') or 'schema_only')
     if mode not in DATA_HANDOFF_MODES:
         raise ValueError(f'unsupported data handoff mode: {mode!r}')
     source_name = str(project.get('data_source_name') or 'Workbench development data')[:160]
     raw_rows = project.get('data_rows') if isinstance(project.get('data_rows'), (list, tuple)) else ()
-    selected_rows = tuple(dict(row) for row in raw_rows[:MAX_GENERATED_DEVELOPMENT_ROWS] if isinstance(row, Mapping))
+    selected_rows = tuple(checked_rows(raw_rows))
     if mode == 'include_development_rows':
         original_rows = tuple(
             {str(key): _literal_safe(item, path=f'row[{index}].{key}') for key, item in row.items()}
@@ -238,15 +279,34 @@ def build_data_handoff_plan(project: Mapping[str, Any]) -> DataHandoffPlan:
         original_rows = selected_rows
     fields = normalize_schema(project)
     fields, row_key = _with_generated_row_key(fields, original_rows)
-    if mode == 'include_development_rows' and original_rows:
+    if mode == 'include_development_rows':
         fixture = _ensure_row_key(original_rows, row_key)
     else:
         fixture = tuple({field.name: _synthetic_value(field, index) for field in fields} for index in range(5))
         fixture = _ensure_row_key(fixture, row_key)
-    measurement = next((field.name for field in fields if field.role == 'measurement' and field.inferred_type in {'integer','float'}), None)
-    category = next((field.name for field in fields if field.role in {'dimension','entity'}), None)
-    if category is None:
-        category = row_key
+    explicit_measurement = _explicit_mapping(project, 'measurement')
+    try:
+        measurement = resolve_measurement_field(
+            original_rows,
+            schema=fields,
+            field=explicit_measurement,
+            required=require_measurement,
+        )
+    except ValueError as exc:
+        # Ambiguity remains visible in the generated chart and Builder review, but a
+        # table-only project may still export a truthful schema-only contract. An
+        # explicit invalid mapping is never swallowed.
+        if not require_measurement and str(exc).startswith('ambiguous measurement mapping'):
+            measurement = None
+        else:
+            raise
+    explicit_category = _explicit_mapping(project, 'category')
+    category = resolve_category_field(
+        original_rows,
+        schema=fields,
+        field=explicit_category,
+        required=False,
+    ) or row_key
     return DataHandoffPlan(mode, source_name, fields, row_key, measurement, category, fixture, len(raw_rows))
 
 
@@ -283,7 +343,8 @@ def validate_data_contract_manifest(value: Any) -> tuple[str, ...]:
         fixture_rows = int(value.get('fixture_rows') or 0)
     except (TypeError, ValueError):
         fixture_rows = 0
-    if not 1 <= fixture_rows <= MAX_GENERATED_DEVELOPMENT_ROWS:
+    minimum_rows = 0 if mode == 'include_development_rows' else 1
+    if not minimum_rows <= fixture_rows <= MAX_GENERATED_DEVELOPMENT_ROWS:
         findings.append('data_contract:fixture_rows')
     contains = bool(value.get('contains_original_values'))
     if contains != (mode == 'include_development_rows'):
@@ -355,6 +416,7 @@ def _fixture_source(plan: DataHandoffPlan) -> str:
 
 def _app_data_source(plan: DataHandoffPlan) -> str:
     return r'''from __future__ import annotations
+import math
 from typing import Any
 
 from nicegui_base import (
@@ -541,19 +603,33 @@ def series_labels() -> tuple[str, ...]:
     # data surfaces use SOURCE directly through DataSourceTable; do not query async
     # production providers during module import/page construction.
     field = CATEGORY_FIELD or ROW_KEY
-    return tuple(str(row.get(field) if row.get(field) is not None else row.get(ROW_KEY, '')) for row in DEVELOPMENT_ROWS)
+    return tuple(
+        str(row.get(field) if row.get(field) not in (None, '') else row.get(ROW_KEY, index + 1))
+        for index, row in enumerate(DEVELOPMENT_ROWS)
+    )
 
 
-def series_values() -> tuple[float, ...]:
-    if MEASUREMENT_FIELD:
-        values: list[float] = []
-        for index, row in enumerate(DEVELOPMENT_ROWS):
-            try:
-                values.append(float(row.get(MEASUREMENT_FIELD)))
-            except (TypeError, ValueError):
-                values.append(float(index + 1))
-        return tuple(values)
-    return tuple(float(index + 1) for index, _ in enumerate(DEVELOPMENT_ROWS))
+def series_values() -> tuple[float | None, ...]:
+    if not MEASUREMENT_FIELD:
+        raise ValueError('No confirmed measurement field is available for this generated chart.')
+    values: list[float | None] = []
+    for index, row in enumerate(DEVELOPMENT_ROWS):
+        raw = row.get(MEASUREMENT_FIELD)
+        if raw is None or raw == '':
+            values.append(None)
+            continue
+        if isinstance(raw, bool):
+            raise ValueError(f'Measurement field {MEASUREMENT_FIELD!r} contains boolean data at row {index + 1}.')
+        try:
+            value = float(raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f'Measurement field {MEASUREMENT_FIELD!r} contains non-numeric data at row {index + 1}.') from exc
+        if not math.isfinite(value):
+            raise ValueError(f'Measurement field {MEASUREMENT_FIELD!r} contains a non-finite number at row {index + 1}.')
+        values.append(value)
+    if not any(value is not None for value in values):
+        raise ValueError(f'Measurement field {MEASUREMENT_FIELD!r} has no populated numeric values.')
+    return tuple(values)
 
 
 __all__ = [
@@ -563,8 +639,8 @@ __all__ = [
 '''
 
 
-def materialize_data_handoff(root: Path, project: Mapping[str, Any]) -> tuple[dict[str, object], tuple[Path, ...], dict[str, str]]:
-    plan = build_data_handoff_plan(project)
+def materialize_data_handoff(root: Path, project: Mapping[str, Any], *, require_measurement: bool = False) -> tuple[dict[str, object], tuple[Path, ...], dict[str, str]]:
+    plan = build_data_handoff_plan(project, require_measurement=require_measurement)
     sources = {
         'services/data_contract.py': _schema_source(plan),
         'services/development_fixture.py': _fixture_source(plan),

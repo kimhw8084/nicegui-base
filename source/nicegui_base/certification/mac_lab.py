@@ -78,7 +78,7 @@ from nicegui_base.integrations.nicegui_theme import install_framework_css
 from nicegui_base.integrations.nicegui_visual_assets import StateIllustration, SvgIcon
 from nicegui_base.integrations.nicegui_visualization import (
     AreaChart, BarChart, BoxPlot, ChartBrush, ChartCrossFilter, ChartDataView, ChartExport, ChartFullscreen, ChartLegend, ChartPanel, ChartSelection, ChartToolbar, ChartTooltip, ChartZoom,
-    ControlChart, DistributionPanel, DonutChart, Gauge, Heatmap, Histogram, LineChart, ParetoChart, PlotlyPanel, ProcessTrendPanel, ScatterChart, SpatialMap,
+    ControlChart, DistributionPanel, DonutChart, Gauge, Heatmap, Histogram, LineChart, ParetoChart, PlotlyPanel, ProcessTrendPanel, RidgePlot, ScatterChart, SpatialMap, ViolinPlot,
     StackedBarChart, TimelineChart, WaferMap, WaferComparisonMap, ChamberFingerprintMatrix, CommonalityMatrix, RadialProfilePlot, apply_all_chart_themes,
 )
 from nicegui_base.layouts import ActionRow, AlertStack, ButtonCluster, ContentColumn, FormStack, LayoutSlot, SurfaceGrid, ToolbarGroup
@@ -946,6 +946,10 @@ def _charts(_: Any = None) -> None:
                 BoxPlot('Control vs affected box plot', (SeriesSpec('cd-box','CD',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected')))
             with ui.element('div').classes('cui-lab-span-4'):
                 DistributionPanel('Distribution panel', (SeriesSpec('dist','Count',(1,4,10,18,13,7,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38','39','39.5','40','40.5','41','42')))
+            with ui.element('div').classes('cui-lab-span-6'):
+                ViolinPlot('Violin distribution', ((2,4,9,16,21,17,10,5,2),(1,3,8,14,19,15,9,4,1)), labels=('Control','Affected'), description='Density shape with a bounded silhouette; use when distribution form matters.')
+            with ui.element('div').classes('cui-lab-span-6'):
+                RidgePlot('Ridge distribution', (SeriesSpec('ch1','CH-1',(2,5,11,18,14,8,3)), SeriesSpec('ch2','CH-2',(1,4,9,16,13,7,2)), SeriesSpec('ch3','CH-3',(2,6,12,17,12,6,2))), description='Offset density curves compare several populations without collapsing them into one histogram.')
             with ui.element('div').classes('cui-lab-span-6'):
                 ControlChart('Control chart + limits', (SeriesSpec('cd-control','CD',(39.7,39.9,40.1,40.0,40.4,41.0,41.4,41.8)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(f'W{i}' for i in range(1,9))), spec_limits=SpecLimits(lower=37.5,upper=42.5,target=40))
             plotly_recipe('Violin + box + points', [

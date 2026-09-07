@@ -80,6 +80,6 @@ def test_shell_primitives_uses_canonical_shell_and_no_competing_mobile_action():
 
 def test_visual_coverage_remains_complete_after_shell_architecture_change():
     summary = coverage_summary()
-    assert summary['required_visual_components'] == 183
-    assert summary['covered_visual_components'] == 183
+    assert summary['required_visual_components'] == 185
+    assert summary['covered_visual_components'] == 185
     assert summary['uncovered'] == []

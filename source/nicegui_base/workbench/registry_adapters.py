@@ -23,6 +23,13 @@ def canonical_catalog_item_key(registry: str, item) -> str:
 
 
 def _humanize(value: str) -> str:
+    exact = {
+        'spc_i_mr': 'SPC I-MR',
+        'spc_xbar_r': 'SPC Xbar-R',
+        'spc_xbar_s': 'SPC Xbar-S',
+    }
+    if value in exact:
+        return exact[value]
     special = {
         'fdc': 'FDC', 'spc': 'SPC', 'rca': 'RCA', 'doe': 'DOE', 'pca': 'PCA',
         'spe': 'SPE', 'qq': 'Q-Q', 'ecdf': 'ECDF', 'cusum': 'CUSUM', 'ewma': 'EWMA',
@@ -160,14 +167,20 @@ def component_entries() -> tuple[WorkbenchEntry, ...]:
         from nicegui_base.components.registry import COMPONENT_REGISTRY
     except ImportError:
         return ()
+    from .component_specimens import COMPONENT_SPECIMEN_KEYS
+    registry_keys = frozenset(COMPONENT_REGISTRY)
+    if registry_keys != COMPONENT_SPECIMEN_KEYS:
+        missing = sorted(registry_keys - COMPONENT_SPECIMEN_KEYS)
+        extra = sorted(COMPONENT_SPECIMEN_KEYS - registry_keys)
+        raise ValueError(f'component preview coverage mismatch: missing={missing} extra={extra}')
     result = []
     for key, item in COMPONENT_REGISTRY.items():
         result.append(WorkbenchEntry(
-            key=f'component:{key}', kind=WorkbenchKind.COMPONENT, title=item.public_name,
+            key=f'component:{key}', kind=WorkbenchKind.COMPONENT, title=item.public_name.removesuffix('Spec'),
             description=item.purpose, route=f'/studio/{quote(f"component:{key}", safe="")}', category=item.category,
             aliases=(key.replace('_', ' '),), use_when=tuple(item.preferred_for), tags=('component', item.category),
             source_authority='COMPONENT_REGISTRY', live_preview=True,
-            metadata={'component_key': key, 'reference_route': '/controls'},
+            metadata={'component_key': key, 'preview_kind': 'component'},
         ))
     return tuple(result)
 
@@ -206,7 +219,7 @@ def pattern_entries() -> tuple[WorkbenchEntry, ...]:
             description=definition.purpose, route=f'/studio/{quote(f"pattern:{key}", safe="")}', category='application pattern',
             aliases=tuple(dict.fromkeys((key.replace('_', ' '), *_PATTERN_ALIASES.get(key, ())))),
             tags=('pattern', 'starter'), source_authority='PATTERN_REGISTRY', live_preview=True, sample_data=True,
-            metadata={'pattern_key': key, 'reference_route': route_map.get(key, '/catalog')},
+            metadata={'pattern_key': key, 'full_reference_route': route_map.get(key, '/catalog')},
         ))
     return tuple(result)
 
@@ -275,7 +288,7 @@ def construction_entries() -> tuple[WorkbenchEntry, ...]:
                 'registry_key': str(key),
                 'catalog_item': catalog_item,
                 'catalog_family': family,
-                'reference_route': '/catalog',
+                'full_reference_route': '/catalog',
             },
         ))
     return tuple(entries)
@@ -299,6 +312,7 @@ _FRAMEWORK_REFERENCE_ROUTES = {
     'runtime': '/performance',
     'security': '/states',
     'semiconductor': '/engineering',
+    'semiconductor_release_channel_policies': '/engineering',
     'tables': '/data',
     'visualizations': '/charts',
 }
@@ -365,7 +379,7 @@ def framework_catalog_entries(*, known_entries: set[tuple[str, str]]) -> tuple[W
                 live_preview=bool(_FRAMEWORK_REFERENCE_ROUTES.get(registry)),
                 sample_data=registry in _FRAMEWORK_DATA_REGISTRIES,
                 related_keys=related,
-                metadata={'registry_name': registry, 'registry_key': raw, 'catalog_item': payload, 'reference_route': _FRAMEWORK_REFERENCE_ROUTES.get(registry)},
+                metadata={'registry_name': registry, 'registry_key': raw, 'catalog_item': payload, 'full_reference_route': _FRAMEWORK_REFERENCE_ROUTES.get(registry)},
             ))
     return tuple(entries)
 

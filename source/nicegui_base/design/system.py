@@ -4,7 +4,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Mapping
 
-from .tokens import BREAKPOINTS, CONTROL_HEIGHTS, DARK, DENSITIES, LIGHT, MOTION, RADII, SPACING, TYPOGRAPHY, ThemePalette
+from .tokens import (
+    BORDER_WIDTHS, BREAKPOINTS, CONTROL_HEIGHTS, DARK, DENSITIES, ELEVATION,
+    INTERACTIVE_STATES, LIGHT, MOTION, RADII, SEMANTIC_GAPS, SPACING, TYPOGRAPHY,
+    Z_INDEX, ThemePalette,
+)
 
 
 class ThemeMode(str, Enum):
@@ -24,6 +28,26 @@ class DesignSystem:
     motion: Mapping[str, object]
     typography: Mapping[str, Mapping[str, object]]
     densities: Mapping[str, Mapping[str, int]]
+
+    @property
+    def semantic_gaps(self) -> Mapping[str, int]:
+        return SEMANTIC_GAPS
+
+    @property
+    def border_widths(self) -> Mapping[str, int]:
+        return BORDER_WIDTHS
+
+    @property
+    def elevation(self) -> Mapping[str, str]:
+        return ELEVATION
+
+    @property
+    def z_index(self) -> Mapping[str, int]:
+        return Z_INDEX
+
+    @property
+    def interactive_states(self) -> Mapping[str, object]:
+        return INTERACTIVE_STATES
 
 
 def build_design_system() -> DesignSystem:

@@ -80,8 +80,8 @@ def test_browser_certification_measures_phase6_interactions_and_containment():
 
 def test_phase6_visual_coverage_is_complete():
     summary=coverage_summary()
-    assert summary['required_visual_components']==183
-    assert summary['covered_visual_components']==183
-    assert summary['direct_visual_components']==155
+    assert summary['required_visual_components']==185
+    assert summary['covered_visual_components']==185
+    assert summary['direct_visual_components']==157
     assert summary['composite_visual_components']==28
     assert summary['uncovered']==[]

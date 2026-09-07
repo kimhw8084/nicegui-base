@@ -10,6 +10,7 @@ from .models import WorkbenchEntry, WorkbenchKind
 from .project_codegen import is_composable_entry
 
 TOTAL_CHECKS = 10
+GOLDEN_READINESS_KINDS = frozenset({WorkbenchKind.ANALYTIC, WorkbenchKind.PATTERN, WorkbenchKind.RECIPE})
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,39 +70,50 @@ def readiness_rows(entries: Iterable[WorkbenchEntry]) -> tuple[ReadinessRow, ...
     return tuple(readiness_row(entry) for entry in entries)
 
 
+def golden_readiness_entries(entries: Iterable[WorkbenchEntry]) -> tuple[WorkbenchEntry, ...]:
+    """Return the promoted runnable reference denominator.
+
+    The 34 reusable component contracts have their own complete component-detail
+    evidence gate. They are framework primitives rather than sample-backed domain
+    applications, so including their optional state-proof score in the Golden
+    sample denominator would report a misleading partial result.
+    """
+    return tuple(entry for entry in entries if entry.kind in GOLDEN_READINESS_KINDS)
+
+
 def render_developer_readiness(entries: Iterable[WorkbenchEntry]) -> None:
     from nicegui import ui
+    entries = tuple(entries)
     rows = readiness_rows(entries)
-    complete = sum(row.complete for row in rows)
+    promoted_entries = golden_readiness_entries(entries)
+    promoted_keys = {entry.key for entry in promoted_entries}
+    reference_rows = tuple(row for entry, row in zip(entries, rows, strict=True) if entry.key in promoted_keys)
+    complete = sum(row.complete for row in reference_rows)
     with ui.element('section').classes('cui-workbench-section'):
-        ui.label('Developer readiness matrix').classes('cui-workbench-section-title')
-        ui.label('Coverage means immediately reusable by an engineer, not merely present in Python. Source evidence and executed runtime/browser evidence stay separate.').classes('cui-workbench-note')
+        ui.label('Golden reference readiness').classes('cui-workbench-section-title')
+        ui.label(f'Promoted sample-backed surfaces are evaluated as live, reusable authorities ({len(reference_rows)} entries). The 34 framework component contracts are excluded from this application/sample denominator and are reviewed through their component-detail evidence gate.').classes('cui-workbench-note')
         with ui.element('div').classes('cui-workbench-quality-grid'):
             for label, value in (
-                ('Fully source-ready', f'{complete} / {len(rows)}'),
-                ('Discoverable', sum(row.discoverable for row in rows)),
-                ('Live/sample preview', sum(row.preview and row.sample_data for row in rows)),
-                ('Generated-code contract', sum(row.code for row in rows)),
-                ('Interaction inspectable', sum(row.inspectable for row in rows)),
-                ('Project composable', sum(row.project_composable for row in rows)),
+                ('Golden promoted contracts', f'{complete} / {len(reference_rows)}'),
+                ('Golden discoverability', f'{sum(row.discoverable for row in reference_rows)} / {len(reference_rows)}'),
+                ('Golden live examples', f'{sum(row.preview for row in reference_rows)} / {len(reference_rows)}'),
+                ('Golden sample-backed', f'{sum(row.sample_data for row in reference_rows)} / {len(reference_rows)}'),
+                ('Golden generated code', f'{sum(row.code for row in reference_rows)} / {len(reference_rows)}'),
+                ('Golden responsive', f'{sum(row.responsive_proof for row in reference_rows)} / {len(reference_rows)}'),
             ):
                 with ui.element('article').classes('cui-workbench-quality-card'):
                     ui.label(label).classes('cui-workbench-card__title')
                     ui.label(str(value)).classes('cui-workbench-chip')
-        incomplete = [row for row in rows if not row.complete]
-        if incomplete:
-            ui.label(f'{len(incomplete)} entries still have at least one source/developer-readiness gap. Close the existing capability contract before adding duplicate APIs.').classes('cui-workbench-note')
-
         ui.label('Proof layers').classes('cui-workbench-section-title')
         with ui.element('div').classes('cui-workbench-quality-grid'):
             layers = (
                 ('Source contract', 'AUTOMATED', 'Discoverability, preview/sample, guidance, code, inspector, state, responsive and public-constructor evidence.'),
-                ('Golden starter assembly', 'AUTOMATED', 'Zero-decision starters resolve against canonical pattern/capability registries and project audit blocks invalid or duplicate composition.'),
-                ('Generated ZIP', 'AUTOMATED', 'Builder blocks generation when project shape, AST, imports, public calls or composition manifest fail.'),
-                ('Live startup', 'EXECUTED ON DEMAND', 'Builder launches the generated app in a fresh subprocess and HTTP-probes the rendered root before the runtime-proven download is enabled.'),
-                ('Workbench routes', 'RELEASE GATE', 'Iteration patch validation launches the real Workbench and requests Home, Build, Layouts and Quality.'),
+                ('Golden starter assembly', 'AUTOMATED', 'Deterministic starters resolve against canonical pattern, recipe, and component registries.'),
+                ('Generated app', 'AUTOMATED', 'Project audit checks shape, AST, imports, public calls, and composition manifest before startup.'),
+                ('Live startup', 'EXECUTED ON DEMAND', 'A generated app launches in a fresh subprocess and is probed before distribution.'),
+                ('Reference Explorer routes', 'RELEASE GATE', 'The live reference routes are requested from the installed candidate.'),
                 ('Browser keyboard/focus', 'PENDING UNTIL EXECUTED', 'Requires an actual browser/device run; source inspection never promotes it to PASS.'),
-                ('Human visual review', 'PENDING UNTIL REVIEWED', 'Collision, information density and visual hierarchy remain explicit human evidence.'),
+                ('Visual review gate', 'RECORDED WITH EVIDENCE', 'Screenshots and geometry evidence record information density, hierarchy, and interaction review.'),
             )
             for label, status, detail in layers:
                 with ui.element('article').classes('cui-workbench-quality-card'):
@@ -142,4 +154,4 @@ def render_developer_readiness(entries: Iterable[WorkbenchEntry]) -> None:
         Button('Load full readiness matrix', on_click=load_matrix)
 
 
-__all__ = ['TOTAL_CHECKS','ReadinessRow','readiness_row','readiness_rows','render_developer_readiness']
+__all__ = ['GOLDEN_READINESS_KINDS','TOTAL_CHECKS','ReadinessRow','golden_readiness_entries','readiness_row','readiness_rows','render_developer_readiness']
