@@ -535,8 +535,10 @@ def test_workbench_page_builders_construct_with_bounded_ui_stubs(monkeypatch):
     monkeypatch.setitem(sys.modules, 'nicegui', nicegui_mod)
     import nicegui_base.workbench.builder as builder_mod
     import nicegui_base.workbench.capability_studio as studio_mod
+    import nicegui_base.workbench.data_table_lab as data_lab_mod
     monkeypatch.setattr(builder_mod, 'render_builder', lambda *args, **kwargs: None)
     monkeypatch.setattr(studio_mod, 'render_data_dock', lambda *args, **kwargs: None)
+    monkeypatch.setattr(data_lab_mod, 'render_data_table_lab', lambda *args, **kwargs: None)
     monkeypatch.setattr(workbench_app, '_studio_entry_page', lambda *args, **kwargs: None)
 
     workbench_app.home_page()

@@ -1587,12 +1587,9 @@ def recipe_detail_page(recipe_key: str) -> None:
     )
 
 def data_page() -> None:
-    from .capability_studio import render_data_capability_map, render_data_dock
-    from .data_dock import default_data_dock
-    shell = _shell('/workbench/data', 'Data & Tables', 'Use example data to demonstrate schema, mappings, table behavior, and query-ready contracts.')
-    model = default_data_dock()
-    render_data_capability_map()
-    render_data_dock(model)
+    from .data_table_lab import render_data_table_lab
+    shell = _shell('/workbench/data', 'Data & Tables', 'A governed production reference for tables, record management, data exploration and provider-scale grids.')
+    render_data_table_lab()
     _end_shell(shell)
 
 def quality_page() -> None:

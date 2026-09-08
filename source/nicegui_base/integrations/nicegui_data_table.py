@@ -183,10 +183,16 @@ def _filter_specs_from_grid_model(model: Mapping[str, Any]) -> list[FilterExpres
 def _leaf_to_grid(item: FilterSpec) -> dict[str, Any] | None:
     if item.operator in {FilterOperator.IN, FilterOperator.NOT_IN}:
         # AG Grid's set filter has no portable native NOT_IN representation.
-        # IN round-trips exactly; NOT_IN remains a server-side query expression.
+        # Community AG Grid does not provide the Enterprise set-filter module.
+        # Represent IN as an OR of exact text predicates so the same public
+        # filter contract works without a proprietary runtime.
         if item.operator is FilterOperator.NOT_IN:
             return None
-        return {'filterType': 'set', 'values': list(item.value)}
+        values = item.value if isinstance(item.value, (list, tuple, set)) else (item.value,)
+        conditions = [{'filterType': 'text', 'type': 'equals', 'filter': value} for value in values]
+        if len(conditions) == 1:
+            return conditions[0]
+        return {'filterType': 'text', 'operator': 'OR', 'conditions': conditions}
     type_map = {
         FilterOperator.CONTAINS: 'contains', FilterOperator.NOT_CONTAINS: 'notContains',
         FilterOperator.EQUALS: 'equals', FilterOperator.NOT_EQUALS: 'notEqual',
@@ -631,20 +637,40 @@ class DataTable:
                 self.footer_label=ui.label(self._footer_text()).classes('cui-table-footer-label').props('aria-live=polite')
                 ui.element('div').classes('cui-table-footer__spacer')
                 self.footer_density_label=ui.label(self._density_text()).classes('cui-table-footer-density')
-        self.element.on('selectionChanged', self._handle_selection_changed)
-        self.element.on('cellClicked', self._handle_cell_clicked)
-        self.element.on('cellContextMenu', self._handle_context_menu)
-        self.element.on('filterChanged', self._sync_displayed_count)
-        self.element.on('filterChanged', self._schedule_persist_state)
-        self.element.on('sortChanged', self._schedule_persist_state)
-        self.element.on('columnMoved', self._schedule_persist_state)
-        self.element.on('columnPinned', self._schedule_persist_state)
-        self.element.on('columnVisible', self._schedule_persist_state)
-        self.element.on('columnResized', self._handle_column_resized_persist)
-        self.element.on('paginationChanged', self._schedule_persist_state)
-        self.element.on('bodyScrollEnd', self._schedule_persist_state)
-        if on_row_double_click: self.element.on('rowDoubleClicked', on_row_double_click)
-        if on_cell_value_changed: self.element.on('cellValueChanged', on_cell_value_changed)
+        # AG Grid event objects contain circular references (the grid API points
+        # back to its bean context). Emit only the normalized payload needed by
+        # the framework callbacks so selection/actions never create a browser
+        # JSON serialization error.
+        # The NiceGUI AG Grid wrapper already exposes a server-side grid API;
+        # emit no raw event payload here and let _handle_selection_changed read
+        # the normalized selected rows through that API. This avoids forwarding
+        # AG Grid's circular context object over the websocket.
+        self.element.on('selectionChanged', self._handle_selection_changed,
+                        js_handler='() => emit()')
+        self.element.on(
+            'cellClicked', self._handle_cell_clicked,
+            js_handler="e => emit({colId: e.colId || e.column?.getColId?.() || '', data: e.data || {}})",
+        )
+        self.element.on('cellContextMenu', self._handle_context_menu,
+                        js_handler='e => emit({data: e.data || {}})')
+        # These lifecycle events are used only as invalidation signals. Do not
+        # forward AG Grid's raw event object (which includes circular context).
+        self.element.on('filterChanged', self._sync_displayed_count, js_handler='() => emit()')
+        self.element.on('filterChanged', self._schedule_persist_state, js_handler='() => emit()')
+        self.element.on('sortChanged', self._schedule_persist_state, js_handler='() => emit()')
+        self.element.on('columnMoved', self._schedule_persist_state, js_handler='() => emit()')
+        self.element.on('columnPinned', self._schedule_persist_state, js_handler='() => emit()')
+        self.element.on('columnVisible', self._schedule_persist_state, js_handler='() => emit()')
+        self.element.on('columnResized', self._handle_column_resized_persist, js_handler='e => emit({finished: e.finished !== false})')
+        self.element.on('paginationChanged', self._schedule_persist_state, js_handler='() => emit()')
+        self.element.on('bodyScrollEnd', self._schedule_persist_state, js_handler='() => emit()')
+        if on_row_double_click:
+            self.element.on('rowDoubleClicked', on_row_double_click, js_handler='e => emit({data: e.data || {}})')
+        if on_cell_value_changed:
+            self.element.on(
+                'cellValueChanged', on_cell_value_changed,
+                js_handler="e => emit({data: e.data || {}, colId: e.colId || '', newValue: e.newValue, oldValue: e.oldValue, rowIndex: e.rowIndex})",
+            )
         if spec.persist_state:
             _schedule_scope_task(
                 self._lifecycle,
@@ -766,6 +792,57 @@ class DataTable:
             self.toolbar.column_manager.set_visible(key,visible)
         self._schedule_persist_state()
         return result
+
+    async def set_column_pinned(self, key: str, position: PinPosition = PinPosition.NONE):
+        """Pin one governed column without exposing the underlying grid API."""
+        if key not in {column.key for column in self.spec.columns}:
+            raise KeyError(key)
+        await self.element.run_grid_method('applyColumnState', {
+            'state': [{'colId': key, 'pinned': None if position is PinPosition.NONE else position.value}],
+            'applyOrder': False,
+        })
+        self._schedule_persist_state()
+
+    async def set_filters(self, filters: Sequence[FilterExpression] = ()):
+        """Apply normalized table filters and preserve them through user preferences."""
+        known = {column.key for column in self.spec.columns}
+        if any(item.key not in known for item in filters if isinstance(item, FilterSpec)):
+            raise KeyError('filter references an unknown table column')
+        self.state.filters = list(filters)
+        await self.element.run_grid_method('setFilterModel', _filter_model_from_specs(filters))
+        await self._sync_displayed_count()
+        self._schedule_persist_state()
+
+    async def clear_filters(self):
+        return await self.set_filters(())
+
+    async def clear_sorting(self):
+        await self.element.run_grid_method('applyColumnState', {
+            'state': [{'colId': column.key, 'sort': None, 'sortIndex': None} for column in self.spec.columns],
+            'applyOrder': False,
+        })
+        self.state.sorts.clear()
+        self._schedule_persist_state()
+
+    async def reset_layout(self):
+        """Restore visibility, order, widths and pinning from the declared spec."""
+        state = []
+        for index, column in enumerate(self.spec.columns):
+            state.append({
+                'colId': column.key,
+                'hide': not column.visible,
+                'pinned': None if column.pinned is PinPosition.NONE else column.pinned.value,
+                'width': column.width,
+                'sort': None,
+                'sortIndex': None,
+                'order': index,
+            })
+        await self.element.run_grid_method('applyColumnState', {'state': state, 'applyOrder': True})
+        await self.clear_filters()
+        self.search = ''
+        self.state.search = ''
+        await self.element.run_grid_method('setGridOption', 'quickFilterText', '')
+        self._schedule_persist_state()
 
     async def set_search(self, value:str):
         self.search=value or ''
@@ -973,8 +1050,8 @@ class ServerDataTable(DataTable):
                 sorts=tuple(self.state.sorts), filters=tuple(self.state.filters),
             )
         # AG Grid filter/sort changes are translated back into the server query.
-        self.element.on('sortChanged', self._grid_query_changed)
-        self.element.on('filterChanged', self._grid_query_changed)
+        self.element.on('sortChanged', self._grid_query_changed, js_handler='() => emit()')
+        self.element.on('filterChanged', self._grid_query_changed, js_handler='() => emit()')
         ui=_ui()
         with self.footer:
             self.page_label=ui.label('Page 1').classes('cui-table-page-label')
@@ -1245,17 +1322,7 @@ class TablePresetSelector:
             state.append(item)
         if preset.pinned_left or preset.pinned_right or preset.sorts:
             await self.table.element.run_grid_method('applyColumnState',{'state':state,'applyOrder':False})
-        if preset.filters:
-            filter_model={}
-            for f in preset.filters:
-                type_map={
-                    FilterOperator.CONTAINS:'contains',FilterOperator.EQUALS:'equals',FilterOperator.NOT_EQUALS:'notEqual',
-                    FilterOperator.STARTS_WITH:'startsWith',FilterOperator.ENDS_WITH:'endsWith',FilterOperator.GT:'greaterThan',
-                    FilterOperator.GTE:'greaterThanOrEqual',FilterOperator.LT:'lessThan',FilterOperator.LTE:'lessThanOrEqual',
-                }
-                filter_type=type_map.get(f.operator)
-                if filter_type:filter_model[f.key]={'type':filter_type,'filter':f.value}
-            await self.table.element.run_grid_method('setFilterModel',filter_model)
+        await self.table.set_filters(preset.filters)
 
 
 __all__=[

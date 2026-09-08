@@ -231,7 +231,7 @@ def test_app_registers_studio_data_and_builder_routes():
     assert "ui.page('/build')(build_page)" in source
     assert "ui.page('/workbench/data')(data_page)" in source
     assert 'render_builder()' in source
-    assert 'render_data_dock(model)' in source
+    assert 'render_data_table_lab()' in source
 
 
 def test_no_deferred_iteration2_language_or_disabled_recipe_actions_remain():

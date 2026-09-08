@@ -374,7 +374,8 @@ class DataTableSpec:
 
     @property
     def classes(self) -> str:
-        return f'cui-data-table cui-data-table--{self.density.value}'
+        striped = ' cui-data-table--striped' if self.striped else ''
+        return f'cui-data-table cui-data-table--{self.density.value}{striped}'
 
 @dataclass(frozen=True, slots=True)
 class ServerDataTableSpec(DataTableSpec):
