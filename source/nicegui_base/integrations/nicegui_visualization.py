@@ -531,10 +531,13 @@ class _EmpiricalCDFChart(LineChart):
 
     @staticmethod
     def build_options(title: str, points: Sequence[tuple[float, float]], *, theme_mode: str = 'light') -> dict[str, Any]:
+        xs = tuple(float(point[0]) for point in points)
+        lo, hi = (min(xs), max(xs)) if xs else (0.0, 1.0)
+        pad = max((hi - lo) * .06, .1)
         spec = ChartPanelSpec(
             title=title,
             kind=ChartKind.LINE,
-            x_axis=AxisSpec(label='Observed value', kind=AxisType.VALUE),
+            x_axis=AxisSpec(label='Observed value', kind=AxisType.VALUE, min_value=lo - pad, max_value=hi + pad),
             y_axis=AxisSpec(label='Cumulative probability', min_value=0.0, max_value=1.0),
         )
         options = build_echarts_options(spec, (SeriesSpec('ecdf', 'ECDF', tuple(points), kind=ChartKind.LINE),), theme=chart_theme(theme_mode))
@@ -548,7 +551,12 @@ class _EmpiricalCDFChart(LineChart):
             (SeriesSpec('ecdf', 'ECDF', tuple(points)),),
             description=description,
             size=size,
-            x_axis=AxisSpec(label='Observed value', kind=AxisType.VALUE),
+            x_axis=AxisSpec(
+                label='Observed value',
+                kind=AxisType.VALUE,
+                min_value=(min(float(point[0]) for point in points) - max((max(float(point[0]) for point in points) - min(float(point[0]) for point in points)) * .06, .1)) if points else 0.0,
+                max_value=(max(float(point[0]) for point in points) + max((max(float(point[0]) for point in points) - min(float(point[0]) for point in points)) * .06, .1)) if points else 1.0,
+            ),
             y_axis=AxisSpec(label='Cumulative probability', min_value=0.0, max_value=1.0),
             theme_mode=theme_mode,
         )
@@ -1136,12 +1144,50 @@ class RidgePlot:
         rows = max(1, len(series))
         for row, item in enumerate(series):
             values = tuple(float(value) for value in item.data)
-            baseline = 62 + row * (184 / rows)
-            points = [(42 + index * (596 / max(1, len(values) - 1)), baseline - (value / (max(values, default=1) or 1)) * 54) for index, value in enumerate(values)]
-            path = 'M ' + ' L '.join(f'{x:.2f},{y:.2f}' for x, y in points)
-            paths.append(f'<path class="cui-ridge-shape cui-ridge-shape--{row % 4}" d="{path}" fill="none" stroke="var(--cui-accent)" stroke-width="3"/>')
-            paths.append(f'<text class="cui-chart-axis-label" x="12" y="{baseline + 4:.1f}">{html.escape(item.label)}</text>')
-        svg = f'<svg viewBox="0 0 680 270" role="img" aria-label="{html.escape(title)}" data-visual-semantic="ridge" xmlns="http://www.w3.org/2000/svg">{"".join(paths)}</svg>'
+            baseline = 58 + row * (176 / rows)
+            points = [
+                (52 + index * (576 / max(1, len(values) - 1)),
+                 baseline - (value / (max(values, default=1) or 1)) * 50)
+                for index, value in enumerate(values)
+            ]
+            if points:
+                area = (
+                    f'M {points[0][0]:.2f},{baseline:.2f} L '
+                    + ' L '.join(f'{x:.2f},{y:.2f}' for x, y in points)
+                    + f' L {points[-1][0]:.2f},{baseline:.2f} Z'
+                )
+                path = 'M ' + ' L '.join(f'{x:.2f},{y:.2f}' for x, y in points)
+                paths.append(
+                    f'<path class="cui-ridge-area cui-ridge-area--{row % 4}" d="{area}" '
+                    f'fill="var(--cui-accent-soft)" fill-opacity="0.72" stroke="none"/>'
+                )
+                paths.append(
+                    f'<path class="cui-ridge-shape cui-ridge-shape--{row % 4}" d="{path}" '
+                    f'fill="none" stroke="var(--cui-accent)" stroke-width="2.5"/>'
+                )
+                paths.append(
+                    f'<line x1="52" y1="{baseline:.2f}" x2="628" y2="{baseline:.2f}" '
+                    f'stroke="var(--cui-border-subtle)" stroke-width="1"/>'
+                )
+            paths.append(
+                f'<text class="cui-chart-axis-label" x="12" y="{baseline + 4:.1f}">'
+                f'{html.escape(item.label)}</text>'
+            )
+        if labels:
+            last = max(1, len(labels) - 1)
+            stride = max(1, last // 4)
+            for index, label in enumerate(labels):
+                if index not in {0, last} and index % stride:
+                    continue
+                x = 52 + index * (576 / last)
+                paths.append(
+                    f'<text class="cui-chart-axis-label" x="{x:.2f}" y="260" text-anchor="middle">'
+                    f'{html.escape(str(label))}</text>'
+                )
+        svg = (
+            f'<svg viewBox="0 0 680 270" role="img" aria-label="{html.escape(title)}" '
+            f'data-visual-semantic="ridge" xmlns="http://www.w3.org/2000/svg">{"".join(paths)}</svg>'
+        )
         with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{size.value} cui-distribution-panel').props('data-visual-semantic="ridge" role="figure"'):
             with ui.element('div').classes('cui-chart-panel__header'):
                 ui.label(title).classes('cui-chart-panel__title')

@@ -1,0 +1,19 @@
+{
+  "candidate_id": "NGB-20260907-G2.5",
+  "baseline": "NGB-20260907-G2.4",
+  "status": "CANONICAL_LAUNCHER_READY",
+  "human_entrypoint": "run_nicegui_base.py",
+  "canonical_command": "python run_nicegui_base.py",
+  "preflight_command": "python run_nicegui_base.py --check",
+  "programmatic_authority": "nicegui_base.workbench.app.run_workbench",
+  "launcher_authority": "nicegui_base.workbench.launcher.main",
+  "installed_convenience": "nicegui-base-explorer",
+  "environment_contract": {
+    "python": ">=3.11,<3.14",
+    "nicegui": "==3.15.0",
+    "default_host": "127.0.0.1",
+    "default_port": 8091
+  },
+  "visual_baseline": "G2.3 human visual PASS",
+  "runtime_baseline": "G2.4 lifecycle PASS"
+}

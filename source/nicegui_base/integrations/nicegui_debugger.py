@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import inspect
 import json
 import logging
@@ -104,6 +105,8 @@ class UniversalDebugger:
         self._events_host = None
         self._environment_host = None
         self._health_host = None
+        self._trigger_task: asyncio.Task[None] | None = None
+        self._trigger_disposed = False
         ui.add_head_html(BROWSER_DIAGNOSTICS_BOOTSTRAP, shared=True)
         self.dialog = ui.dialog().props('maximized transition-show=fade transition-hide=fade')
         self._build_dialog()
@@ -121,8 +124,53 @@ class UniversalDebugger:
             ).classes('cui-icon-button cui-debugger-trigger') as button:
                 self._icon('diagnostics', 'Debugger', size='sm')
             self._trigger_badge = ui.label('').classes('cui-debugger-trigger-badge')
-        ui.timer(1.5, self._update_trigger_badge)
+
+        # Do not use NiceGUI Timer here: Timer is slot-owned and can race a
+        # client/page deletion. A plain task has explicit client lifecycle.
+        self._trigger_disposed = False
+        self._update_trigger_badge()
+        try:
+            self._trigger_task = asyncio.get_running_loop().create_task(
+                self._trigger_loop(),
+                name='nicegui-base-debugger-badge',
+            )
+        except RuntimeError:
+            self._trigger_task = None
+
+        client = getattr(getattr(ui, 'context', None), 'client', None)
+        on_delete = getattr(client, 'on_delete', None)
+        if callable(on_delete):
+            on_delete(self._dispose_trigger)
         return button
+
+    async def _trigger_loop(self) -> None:
+        try:
+            while not self._trigger_disposed:
+                await asyncio.sleep(1.5)
+                if self._trigger_disposed:
+                    return
+                try:
+                    self._update_trigger_badge()
+                except RuntimeError as exc:
+                    # A client can disappear between the sleep wake-up and the
+                    # on-delete callback. Treat deleted-slot access as disposal.
+                    message = str(exc).casefold()
+                    if 'parent slot' in message or 'deleted' in message:
+                        self._trigger_disposed = True
+                        return
+                    raise
+        except asyncio.CancelledError:
+            return
+
+    def _dispose_trigger(self, *_args) -> None:
+        if self._trigger_disposed:
+            return
+        self._trigger_disposed = True
+        task = self._trigger_task
+        self._trigger_task = None
+        if task is not None and not task.done():
+            task.cancel()
+        self._trigger_badge = None
 
     def _build_dialog(self) -> None:
         ui = self.ui

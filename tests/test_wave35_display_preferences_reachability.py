@@ -20,13 +20,13 @@ def test_display_preference_reconciliation_is_reachable() -> None:
         i for i, n in enumerate(body)
         if isinstance(n, ast.AsyncFunctionDef) and n.name == "reconcile_initial_theme"
     )
-    timer_index = next(
+    reconciliation_index = next(
         i for i, n in enumerate(body)
         if isinstance(n, ast.If)
         and any(
             isinstance(x, ast.Call)
             and isinstance(x.func, ast.Attribute)
-            and x.func.attr == "timer"
+            and x.func.attr == "create_task"
             for x in ast.walk(n)
         )
     )
@@ -37,7 +37,7 @@ def test_display_preference_reconciliation_is_reachable() -> None:
         and n.value.id == "trigger"
     ]
     assert return_indices == [len(body) - 1]
-    assert reconcile_index < timer_index < return_indices[0]
+    assert reconcile_index < reconciliation_index < return_indices[0]
 
 def test_display_preferences_are_menu_owned_and_accessible() -> None:
     source = APP.read_text(encoding="utf-8")

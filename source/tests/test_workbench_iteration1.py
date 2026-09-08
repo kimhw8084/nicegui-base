@@ -149,6 +149,8 @@ def test_all_58_preview_dispatch_paths_construct_with_bounded_ui_stubs(monkeypat
 
     class FakeUI:
         def element(self, *args, **kwargs): return Chain()
+        def column(self, *args, **kwargs): return Chain()
+        def row(self, *args, **kwargs): return Chain()
         def label(self, *args, **kwargs): return Chain()
 
     class Value:
@@ -447,6 +449,7 @@ def test_workbench_page_builders_construct_with_bounded_ui_stubs(monkeypatch):
         def props(self, *args, **kwargs): return self
         def on(self, *args, **kwargs): return self
         def clear(self): return None
+        def set_text(self, *args, **kwargs): return self
         def set_visibility(self, *args, **kwargs): return self
 
     class Navigate:
@@ -455,7 +458,11 @@ def test_workbench_page_builders_construct_with_bounded_ui_stubs(monkeypatch):
     class FakeUI:
         def __init__(self): self.navigate = Navigate()
         def element(self, *args, **kwargs): return Chain()
+        def column(self, *args, **kwargs): return Chain()
+        def row(self, *args, **kwargs): return Chain()
         def label(self, *args, **kwargs): return Chain()
+        def html(self, *args, **kwargs): return Chain()
+        def image(self, *args, **kwargs): return Chain()
         def button(self, *args, **kwargs): return Chain()
         def input(self, *args, **kwargs): return Chain('')
         def select(self, *args, **kwargs): return Chain(kwargs.get('value'))
@@ -788,10 +795,11 @@ def test_home_promotes_gate2_data_and_generation_through_governed_routes():
     home = source[source.index('def home_page()'):source.index('def build_page()')]
     assert "_action_card('Paste Data'" not in home
     assert "_action_card('Create App'" not in home
-    assert "_action_card('Data & Tables'" in home
-    assert "_action_card('Components'" in home
-    assert "_action_card('Full Applications'" in home
-    assert 'example data to demonstrate schema' in home
+    gallery = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'explorer_gallery.py').read_text()
+    assert "('Data & Tables'" in gallery
+    assert "('Components'" in gallery
+    assert "('Full Applications'" in gallery
+    assert 'engineering intent' in gallery
 
 
 def _load_materializer_for_test():
@@ -922,7 +930,7 @@ def test_framework_catalog_item_level_parity_accepts_rich_and_fallback_adapters(
 
 def test_quality_and_readiness_gate_item_level_framework_catalog_parity():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
-    assert "with _section('Canonical catalog parity'" in source
+    assert "with _section('Framework coverage'" in source
     assert 'Every packaged canonical framework-catalog record is discoverable' in source
     assert 'catalog_visible == catalog_total' in source
     assert 'not catalog_missing' in source

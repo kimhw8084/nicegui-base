@@ -13,6 +13,7 @@ dependencies = [
 
 [project.scripts]
 nicegui-base = "nicegui_base.cli:main"
+nicegui-base-explorer = "nicegui_base.workbench.launcher:main"
 nicegui-base-govern = "nicegui_base.governance.cli:main"
 nicegui-base-release-sync = "nicegui_base.governance.release_sync:main"
 nicegui-base-source-certify = "nicegui_base.governance.source_evidence:main"
@@ -97,5 +98,6 @@ include = ["nicegui_base*", "company_ui"]
 "nicegui_base.runtime" = ["compatibility.json"]
 "nicegui_base.ai" = ["construction_manifest.json", "framework_catalog.json", "guides/*.md", "templates/golden/*.py", "templates/golden/*.md"]
 
+"nicegui_base.workbench" = ["preview_assets/*.webp", "preview_assets/index.json"]
 "nicegui_base.certification" = ["certification_manifest.json"]
 "nicegui_base" = ["release_authority.json", "identity_migration.json"]

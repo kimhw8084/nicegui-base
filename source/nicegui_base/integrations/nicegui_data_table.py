@@ -17,7 +17,7 @@ from nicegui_base.data_table import (
 )
 from nicegui_base.data_table.engine import export_csv as _export_csv_text
 from nicegui_base.async_tools import LatestRequestController
-from nicegui_base.performance import RetryPolicy
+from nicegui_base.performance import LifecycleScope, RetryPolicy
 from nicegui_base.services import PreferenceService
 from nicegui_base.visual import render_icon_svg
 
@@ -105,6 +105,25 @@ def _register_client_delete(ui: Any, callback: Callable[..., Any]) -> bool:
         on_delete(callback)
         return True
     return False
+
+async def _deferred_lifecycle_call(callback: Callable[[], Any]) -> None:
+    """Run startup work on the next loop turn without creating a slot-owned Timer."""
+    await asyncio.sleep(0)
+    value = callback()
+    if inspect.isawaitable(value):
+        await value
+
+
+def _schedule_scope_task(scope: LifecycleScope, awaitable, *, name: str) -> asyncio.Task[Any] | None:
+    """Schedule lifecycle work when a running loop exists; remain inert in static construction."""
+    try:
+        return scope.create_task(awaitable, name=name)
+    except RuntimeError:
+        close = getattr(awaitable, 'close', None)
+        if callable(close):
+            close()
+        return None
+
 
 
 def _ag_operator(raw_type: Any) -> FilterOperator | None:
@@ -533,7 +552,10 @@ class DataTable:
             self.state = TableState.from_persisted(None, spec.columns, default_density=spec.density, default_page_size=spec.page_size)
         self.spec=spec; self.bulk_actions=tuple(bulk_actions); self.row_actions=tuple(row_actions)
         self.rows=list(rows or []); self.on_select=on_select; self.on_refresh=on_refresh; self.search=self.state.search; self.displayed_count=len(self.rows)
-        self._persist_task: asyncio.Task[None] | None = None; self._restoring_state=False; self._closed=False
+        self._persist_task: asyncio.Task[None] | None = None
+        self._lifecycle = LifecycleScope()
+        self._restoring_state=False
+        self._closed=False
         self._validate_row_identities(self.rows)
         ui=_ui()
         with ui.element('section').classes('cui-table-shell') as self.container:
@@ -565,7 +587,9 @@ class DataTable:
             options={
                 'columnDefs': col_defs,
                 'rowData': self.rows,
-                ':getRowId': f"params => params.data[{_js_literal(spec.row_key)}]",
+                # AG Grid's identity contract is a string even when the application
+                # uses an integer row ordinal internally for edit/undo bookkeeping.
+                ':getRowId': f"params => String(params.data[{_js_literal(spec.row_key)}])",
                 'animateRows': False,
                 # Smooth-scroll contract: keep enough pre-rendered rows for fast trackpad/wheel
                 # movement and never defer the viewport until scrolling settles. AG Grid's
@@ -622,7 +646,11 @@ class DataTable:
         if on_row_double_click: self.element.on('rowDoubleClicked', on_row_double_click)
         if on_cell_value_changed: self.element.on('cellValueChanged', on_cell_value_changed)
         if spec.persist_state:
-            ui.timer(0.0, self._restore_runtime_state, once=True)
+            _schedule_scope_task(
+                self._lifecycle,
+                _deferred_lifecycle_call(self._restore_runtime_state),
+                name='nicegui-base-table-restore',
+            )
         _register_client_delete(ui,self.aclose)
         _ACTIVE_TABLES.add(self)
 
@@ -906,10 +934,14 @@ class DataTable:
         if self._closed:
             return
         self._closed=True
+        await self._lifecycle.aclose()
         if self._persist_task is not None and not self._persist_task.done():
             self._persist_task.cancel()
-            try: await self._persist_task
-            except asyncio.CancelledError: pass
+            try:
+                await self._persist_task
+            except asyncio.CancelledError:
+                pass
+        self._persist_task = None
         _ACTIVE_TABLES.discard(self)
 
 
@@ -950,7 +982,11 @@ class ServerDataTable(DataTable):
             with prev: _icon(ui,'arrow-left',label='Previous page')
             nxt=ui.button(on_click=self.next_page).props('flat round aria-label="Next page"').classes('cui-icon-button')
             with nxt: _icon(ui,'arrow-right',label='Next page')
-        ui.timer(0.0, self.refresh, once=True)
+        _schedule_scope_task(
+            self._lifecycle,
+            _deferred_lifecycle_call(self.refresh),
+            name='nicegui-base-server-table-initial-refresh',
+        )
 
     @property
     def is_stale(self) -> bool:
@@ -1047,7 +1083,10 @@ class ServerDataTable(DataTable):
                 self._sync_footer()
 
     async def aclose(self) -> None:
+        if getattr(self, '_closed', False):
+            return
         await self._requests.aclose()
+        await super().aclose()
         await super().aclose()
 
 

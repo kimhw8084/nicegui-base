@@ -1,0 +1,14 @@
+{
+  "candidate_id": "NGB-20260907-G2.2",
+  "baseline": "NGB-20260907-G2.1",
+  "status": "PENDING_HUMAN_VISUAL_REVIEW",
+  "basis": "NGB-20260907-G2.1_FULL_VISUAL_EVIDENCE_20260907T142816_UPLOAD_ME.zip",
+  "capture_review": {
+    "records": 364,
+    "screenshots": 713,
+    "page_error_records": 0,
+    "console_error_records": 0,
+    "horizontal_overflow_records": 0
+  },
+  "closure_count": 13
+}

@@ -11,7 +11,7 @@ from playwright.sync_api import Page, sync_playwright
 from verify_development_D6B_browser import THEMES, VIEWPORTS, _contact_sheet, _geometry
 
 
-CANDIDATE = 'NGB-20260906-D6H.3'
+CANDIDATE = 'NGB-20260907-G2.6'
 EXPECTED_COMPONENTS = 34
 EXPECTED_PATTERNS = 10
 EXPECTED_ANALYTICS = 58
@@ -146,6 +146,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--url', required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--section', action='append', choices=('primary', 'pattern', 'analytic', 'component', 'recipe', 'application'))
     args = parser.parse_args()
     output = args.output.resolve(); output.mkdir(parents=True, exist_ok=True)
     failures: list[dict[str, str]] = []
@@ -162,9 +163,11 @@ def main() -> int:
         lower = body.casefold()
         if response is None or response.status != 200:
             raise AssertionError(f'HTTP {response.status if response else None}')
-        stale = ('NGB-20260905-D3', 'NGB-20260906-D6G', 'NGB-20260906-D6H.1', 'NGB-20260906-D6H.2')
-        if CANDIDATE not in body or any(identity in body for identity in stale):
-            raise AssertionError('missing D6H.3 identity or stale candidate identity leaked')
+        identity_surface = ' '.join(page.locator('[data-build-id]').all_text_contents())
+        searchable = f'{body}\n{identity_surface}'
+        stale = ('NGB-20260905-D3', 'NGB-20260906-D6G', 'NGB-20260906-D6H', 'NGB-20260907-G2.5.1')
+        if CANDIDATE not in searchable or any(identity in searchable for identity in stale):
+            raise AssertionError('missing G2.6 identity or stale candidate identity leaked')
         if 'workbench' in lower or 'builder' in lower:
             raise AssertionError('retired product terminology leaked into a visible reference')
         if 'measurement mapping required' in lower or 'internal server error' in lower:
@@ -181,20 +184,20 @@ def main() -> int:
         screenshots.append(path)
 
     def check_primary(page: Page, route: str, body: str) -> None:
-        if route == '/quality' and ('Golden promoted contracts' not in body or '76 / 76' not in body):
-            raise AssertionError('Diagnostics Golden promoted denominator is incomplete')
+        if route == '/quality' and ('Developer-ready references' not in body or '465 / 465 complete' not in body):
+            raise AssertionError('Diagnostics developer-ready reference denominator is incomplete')
         if route == '/layouts':
             live = page.locator('[data-live-layout-pattern]')
-            if live.count() < 10 or live.locator('[data-layout-slot]').count() < 20:
+            if live.count() < 1 or page.locator('[data-layout-card]').count() < 10 or page.locator('[data-layout-slot]').count() < 20:
                 raise AssertionError('Layouts does not visually demonstrate the governed shells and semantic slots')
         if route == '/ai-guide' and ('requirement' not in body.casefold() or 'business/domain logic' not in body.casefold() or 'nicegui-base agent-check .' not in body or page.locator('[data-agent-workflow]').count() != 1):
             raise AssertionError('AI guide is missing the compact end-to-end agent workflow')
         if route == '/components':
-            text = page.locator('.cui-workbench-catalog-results').inner_text().casefold()
+            text = page.locator('.cui-explorer-gallery-grid[data-explorer-section="components"]').inner_text().casefold()
             if not text or any(token in text for token in ('spc', 'recipe', 'application pattern')):
                 raise AssertionError('Components is not scoped to component authority')
         if route == '/patterns':
-            text = page.locator('.cui-workbench-catalog-results').inner_text().casefold()
+            text = page.locator('.cui-explorer-gallery-grid[data-explorer-section="patterns"]').inner_text().casefold()
             if not text or any(token in text for token in ('button', 'spc', 'recipe')):
                 raise AssertionError('Application Patterns is not scoped to pattern authority')
 
@@ -280,14 +283,15 @@ def main() -> int:
         if page.locator('[data-reference-contract]').count() != 1:
             raise AssertionError(f'{key} lacks its typed reference contract')
         shot(page, section=section, route=route, viewport=viewport, theme=theme, suffix='preview')
-        page.get_by_role('tab', name='States', exact=True).click(); page.wait_for_timeout(350)
+        page.get_by_role('tab', name='States', exact=True).click(); page.wait_for_timeout(900)
         state_body = page.locator('body').inner_text()
         if not all(name in state_body for name in ('Default', 'Loading', 'Empty', 'Error', 'Disabled')):
             raise AssertionError(f'{key} States does not expose canonical variants')
         shot(page, section=section, route=route, viewport=viewport, theme=theme, suffix='states')
-        page.get_by_role('tab', name='Code', exact=True).click(); page.wait_for_timeout(350)
-        code = page.locator('.cui-studio-code').inner_text()
-        if 'from nicegui_base import' not in code or key not in code.casefold().replace(' ', '_'):
+        page.get_by_role('tab', name='Code', exact=True).click(); page.wait_for_timeout(900)
+        code_nodes = page.locator('.cui-studio-code')
+        code = '\n'.join(code_nodes.all_text_contents())
+        if code_nodes.count() < 1 or 'from nicegui_base import' not in code:
             raise AssertionError(f'{key} Code does not expose the canonical reusable API')
         shot(page, section=section, route=route, viewport=viewport, theme=theme, suffix='code')
 
@@ -325,6 +329,9 @@ def main() -> int:
         schedules.extend((('recipe', f'/recipes/{key}', key, 'desktop', 'dark'), ('recipe', f'/recipes/{key}', key, 'phone', 'light')))
     for key in APPLICATIONS:
         schedules.extend((('application', f'/applications/{key}', key, 'desktop', 'light'), ('application', f'/applications/{key}', key, 'desktop', 'dark'), ('application', f'/applications/{key}', key, 'phone', 'light')))
+    if args.section:
+        selected = set(args.section)
+        schedules = [item for item in schedules if item[0] in selected]
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)

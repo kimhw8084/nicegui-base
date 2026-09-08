@@ -55,3 +55,13 @@ nicegui-base runtime-contract
 ```
 
 Report exact commands, PASS/FAIL/NOT_RUN, evidence paths and any pre-existing warning separately. Never claim a live/browser/runtime PASS without executing it. Do not reset, clean, stash or overwrite unrelated work.
+
+## G2 Explorer product laws
+
+- Prefer intent-first and gallery-first discovery. A user must not open dozens of detail pages merely to learn what capabilities look like.
+- Normal reference/application canvases use the full width beside governed navigation with semantic gutters; do not add an outer narrow max-width.
+- Preserve Explorer search, filters, comparison, favorites and return context. Static registry/sample/thumbnail work may be build-bound cached; never share user/provider data across authorization boundaries.
+- Reuse the canonical registry and production renderer. Do not create a second catalog, preview-only component authority, or schematic that is mislabeled as the current live renderer.
+- Heavy galleries use evidence-bound thumbnails/lazy rendering and bounded live mounts. Detail pages remain the current interactive authority.
+- Before adding a component, visualization, pattern, or full app, prove an existing authority/variant/composition cannot cover the recurring need without semantic distortion.
+- Explorer changes require click-efficiency, search-latency, state-restoration, installed-browser and human-visual evidence in addition to normal framework gates.

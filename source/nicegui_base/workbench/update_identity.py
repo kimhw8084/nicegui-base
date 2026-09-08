@@ -1,4 +1,4 @@
-"""Single runtime identity for the D6H.2 visual/reference closure candidate."""
+"""Single runtime identity for the G2.6 Reference Explorer candidate."""
 
-BUILD_ID = 'NGB-20260906-D6H.3'
-BUILD_LABEL = 'Visual and reference closure D6H.2'
+BUILD_ID = 'NGB-20260907-G2.6'
+BUILD_LABEL = 'Reference Explorer usability reconstruction'

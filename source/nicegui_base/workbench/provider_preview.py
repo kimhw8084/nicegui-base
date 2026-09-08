@@ -177,6 +177,11 @@ def _render_filter_control(entry_key, source, context, *, schema, options, filte
         control = Select(f'Filter by {label}', {'': 'All values'}, value=current_value, clearable=True, searchable=True)
     control.element.props(f'data-provider-filter="{field}"')
     raw_by_key: dict[str, Any] = {}
+    choice_scope = LifecycleScope()
+    client = getattr(getattr(ui, 'context', None), 'client', None)
+    on_delete = getattr(client, 'on_delete', None)
+    if callable(on_delete):
+        on_delete(choice_scope.aclose)
 
     def changed(event=None):
         value = getattr(event, 'value', None)
@@ -200,18 +205,33 @@ def _render_filter_control(entry_key, source, context, *, schema, options, filte
     async def populate_choices():
         try:
             result = await source.distinct(field, Query())
+            if choice_scope.closed:
+                return
             labels, raw_by_key_local, truncated = _bounded_choice_map(result.values)
             raw_by_key.update(raw_by_key_local)
             control.element.set_options(labels, value=() if component_key == 'multi_select' else '')
-            if truncated:
+            if truncated and not choice_scope.closed:
                 ui.label(f'First {MAX_FILTER_CHOICES} values shown; narrow the provider query for more choices.').classes('cui-workbench-note')
         except asyncio.CancelledError:
             raise
         except Exception as exc:
+            if choice_scope.closed:
+                return
             from nicegui_base.security import redact_text
             ui.label('Filter choices unavailable: ' + redact_text(str(exc))).classes('cui-workbench-note').props('role="alert"')
 
-    ui.timer(0, populate_choices, once=True)
+    choice_awaitable = populate_choices()
+    try:
+        choice_scope.create_task(
+            choice_awaitable,
+            name='nicegui-base-provider-filter-choices',
+        )
+    except RuntimeError:
+        # Static construction without an event loop: keep the control renderable
+        # and do not leak an un-awaited coroutine.
+        close_coro = getattr(choice_awaitable, 'close', None)
+        if callable(close_coro):
+            close_coro()
     return control
 
 
@@ -289,7 +309,13 @@ def render_provider_capability(
     def schedule(_context=None) -> None:
         if state['closed']:
             return
-        scope.create_task(refresh(), name='nicegui-base-provider-render')
+        awaitable = refresh()
+        try:
+            scope.create_task(awaitable, name='nicegui-base-provider-render')
+        except RuntimeError:
+            close_coro = getattr(awaitable, 'close', None)
+            if callable(close_coro):
+                close_coro()
 
     unsubscribe = context.watch(schedule)
 
@@ -302,7 +328,7 @@ def render_provider_capability(
 
     ui.context.client.on_delete(close)
     Button('Refresh provider data', on_click=schedule)
-    ui.timer(0, schedule, once=True)
+    schedule()
     return host
 
 

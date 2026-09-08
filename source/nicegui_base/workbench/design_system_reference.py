@@ -66,7 +66,7 @@ def _live_specimen(key: str) -> None:
         ui.label('Live use').classes('cui-d6c-live-specimen__title')
         if key == 'spacing':
             with ui.element('div').classes('cui-d6c-spacing-demo cui-stack cui-gap-content'):
-                for label in ('Page section', 'Content group', 'Control cluster'):
+                for label in ('Tight', 'Related', 'Stack', 'Content', 'Section', 'Page'):
                     with ui.element('div').classes('cui-d6c-spacing-block'):
                         ui.label(label)
         elif key == 'semantic-gaps':
@@ -81,10 +81,19 @@ def _live_specimen(key: str) -> None:
                         ui.label(label)
         elif key == 'typography':
             with ui.element('div').classes('cui-d6c-type-demo'):
-                ui.label('Reference heading').classes('cui-d6c-type-display')
-                ui.label('Section title and supporting copy').classes('cui-d6c-type-heading')
-                ui.label('Body text uses a readable hierarchy with stable line length.').classes('cui-d6c-type-body')
-                ui.label('Metadata · 08:42 · Ready').classes('cui-d6c-type-meta')
+                for role, text, css_class in (
+                    ('Display', 'Reference Explorer', 'cui-d6c-type-display'),
+                    ('Page title', 'SPC Control Center', 'cui-d6c-type-page-title'),
+                    ('Section title', 'Choose a governed pattern', 'cui-d6c-type-heading'),
+                    ('Card title', 'Chamber health', 'cui-d6c-type-card-title'),
+                    ('Body', 'Use this view to compare stability and exceptions.', 'cui-d6c-type-body'),
+                    ('Metadata', 'ETCH-021 · CH-3 · 08:42', 'cui-d6c-type-meta'),
+                    ('Label', 'Measurement field', 'cui-d6c-type-label'),
+                    ('Code', 'LineChart(series=signals)', 'cui-d6c-type-code'),
+                ):
+                    with ui.element('div').classes('cui-d6c-type-role'):
+                        ui.label(role).classes('cui-d6c-type-role__label')
+                        ui.label(text).classes(css_class)
         elif key == 'borders':
             with ui.element('div').classes('cui-d6c-border-demo'):
                 ui.label('Subtle structural boundary').classes('cui-d6c-border-subtle')
@@ -141,13 +150,15 @@ def _family(title: str, key: str, values: Mapping[str, Any], guidance: str) -> N
             ui.label(title).classes('cui-workbench-section-title')
             ui.label(guidance).classes('cui-workbench-note')
         with ui.element('div').classes('cui-d6c-token-family__body'):
-            with ui.element('div').classes('cui-d6c-token-contract'):
+            _live_specimen(key)
+            with ui.element('details').classes('cui-d6c-token-details'):
+                with ui.element('summary').props('tabindex="0"'):
+                    ui.label('View token details').classes('cui-workbench-card__meta')
                 with ui.element('div').classes('cui-d6c-token-list'):
                     for name, value in values.items():
                         with ui.element('div').classes('cui-d6c-token-row'):
                             ui.label(name.replace('_', ' ')).classes('cui-d6c-token-name')
                             ui.label(_text(value)).classes('cui-d6c-token-value cui-tabular')
-            _live_specimen(key)
 
 
 def _palette() -> None:
@@ -165,12 +176,17 @@ def _palette() -> None:
             for mode, palette in (('light', system.light), ('dark', system.dark)):
                 with ui.element('article').classes('cui-d6c-theme-card').props(f'data-theme-preview="{mode}"'):
                     ui.label(f'{mode.title()} mapping').classes('cui-d6c-token-name')
-                    for role in roles:
-                        value = getattr(palette, role)
-                        with ui.element('div').classes('cui-d6c-color-row'):
-                            # This is a token-driven specimen swatch, not an app CSS escape hatch.
-                            ui.element('span').classes('cui-d6c-swatch').style(f'background-color:{value}')
-                            ui.label(f'{role.replace("_", " ")} · {value}').classes('cui-d6c-token-value')
+                    with ui.element('div').classes('cui-d6c-color-grid'):
+                        for role in roles:
+                            value = getattr(palette, role)
+                            with ui.element('div').classes('cui-d6c-color-row'):
+                                ui.element('span').classes('cui-d6c-swatch').style(f'background-color:{value}')
+                                ui.label(role.replace('_', ' ')).classes('cui-d6c-token-value')
+                    with ui.element('details').classes('cui-d6c-token-details'):
+                        with ui.element('summary').props('tabindex="0"'):
+                            ui.label('View color token values').classes('cui-workbench-card__meta')
+                        for role in roles:
+                            ui.label(f'{role.replace("_", " ")} · {getattr(palette, role)}').classes('cui-d6c-token-value cui-tabular')
         with ui.element('div').classes('cui-d6c-palette-specimen'):
             ui.label('Live semantic surface pairing').classes('cui-d6c-live-specimen__title')
             with ui.element('div').classes('cui-d6c-palette-cards'):
@@ -202,9 +218,15 @@ def _responsive() -> None:
                     ui.label(viewport.tier.title()).classes('cui-d6c-viewport-card__title')
                     ui.label(f'{viewport.width} × {viewport.height}').classes('cui-d6c-token-value cui-tabular')
                     with ui.element('div').classes(f'cui-d6c-mini-canvas cui-d6c-canvas--{key.split("-")[0]}'):
+                        if viewport.tier == 'desktop':
+                            ui.label('Filters').classes('cui-d6c-mini-slot')
+                        elif viewport.tier == 'tablet':
+                            ui.label('Filters row').classes('cui-d6c-mini-slot cui-d6c-mini-slot--wide')
+                        else:
+                            ui.label('Filters drawer').classes('cui-d6c-mini-slot cui-d6c-mini-slot--wide')
                         ui.label('Main').classes('cui-d6c-mini-slot')
-                        ui.label('Inspector').classes('cui-d6c-mini-slot')
-                    ui.label('Full-width canvas; inner content reflows through framework slots.').classes('cui-workbench-note')
+                        ui.label('Inspector' if viewport.tier != 'phone' else 'Inspector · collapsed').classes('cui-d6c-mini-slot')
+                    ui.label('Desktop: filters | main | inspector · tablet: filter row, split content · phone: drawer, main, collapsed detail.').classes('cui-workbench-note')
 
 
 def _density_and_states() -> None:

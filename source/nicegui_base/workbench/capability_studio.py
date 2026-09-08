@@ -10,7 +10,7 @@ from .models import WorkbenchEntry, WorkbenchKind
 from .state_matrix import render_state_matrix
 
 
-STUDIO_TABS = ('preview', 'data', 'configure', 'states', 'interactions', 'inspect', 'code')
+STUDIO_TABS = ('preview', 'usage', 'data', 'configure', 'states', 'interactions', 'inspect', 'code')
 RESPONSIVE_WIDTHS = {
     'desktop': 1200,
     'compact': 980,
@@ -67,6 +67,13 @@ class StudioSession:
 
 
 _DATA_REGISTRIES = {'tables', 'visualizations', 'engineering', 'data_sources', 'analysis'}
+_INTERACTIVE_COMPONENTS = frozenset({
+    'button', 'action_button', 'button_group', 'icon_button', 'text_input', 'number_input',
+    'textarea', 'search_input', 'select', 'combobox', 'autocomplete', 'multi_select',
+    'checkbox', 'checkbox_group', 'radio_group', 'switch', 'slider', 'range_slider',
+    'date_picker', 'date_range_picker', 'datetime_picker', 'time_picker', 'file_upload',
+    'data_table', 'accordion', 'collapsible_panel',
+})
 
 
 def is_data_backed(entry: WorkbenchEntry) -> bool:
@@ -79,6 +86,27 @@ def is_data_backed(entry: WorkbenchEntry) -> bool:
         return True
     key = entry.key.casefold()
     return any(token in key for token in ('table','chart','plot','map','trend','distribution','metric','analysis'))
+
+
+def studio_tabs_for_entry(entry: WorkbenchEntry, *, data_renderer=None, interaction_renderer=None) -> tuple[str, ...]:
+    """Return only tabs that teach a capability the entry actually supports.
+
+    The tab contract is deliberately computed from the same registry metadata used
+    by the renderer.  This prevents empty Data/Interactions panels from becoming a
+    second, misleading catalog surface.
+    """
+    tabs = ['preview', 'usage']
+    if data_renderer is not None or is_data_backed(entry):
+        tabs.append('data')
+    component_key = str(entry.metadata.get('component_key') or '')
+    if entry.kind in {WorkbenchKind.ANALYTIC, WorkbenchKind.PATTERN, WorkbenchKind.RECIPE} or component_key in _INTERACTIVE_COMPONENTS:
+        tabs.append('configure')
+    if entry.reference_contract.states:
+        tabs.append('states')
+    if interaction_renderer is not None or component_key in _INTERACTIVE_COMPONENTS or entry.kind in {WorkbenchKind.ANALYTIC, WorkbenchKind.PATTERN, WorkbenchKind.RECIPE}:
+        tabs.append('interactions')
+    tabs.extend(('inspect', 'code'))
+    return tuple(dict.fromkeys(tabs))
 
 
 def sample_rows_for_entry(entry: WorkbenchEntry) -> tuple[dict[str, Any], ...]:
@@ -130,6 +158,41 @@ async def _read_all(content: Any) -> bytes:
     from nicegui_base.integrations.upload_io import read_upload_bytes
     from .preview_data import MAX_PROJECT_BYTES
     return await read_upload_bytes(content, max_bytes=MAX_PROJECT_BYTES)
+
+
+def render_data_capability_map() -> None:
+    """Show the honest Data & Tables surface map before the editable example.
+
+    This is intentionally a capability inventory, not a promise that a control
+    exists because its label was rendered.  Unsupported enterprise operations stay
+    explicit until their canonical DataTable API is implemented.
+    """
+    from nicegui import ui
+
+    supported = (
+        ('Find', 'global search, no-results state, and refresh', 'search'),
+        ('Edit safely', 'inline cell editing, validation, add/delete, undo and redo', 'editing'),
+        ('Paste', 'clipboard rectangular paste with a permission-safe fallback', 'paste'),
+        ('Schema', 'rename/type/semantic-role editing with missing and duplicate checks', 'schema'),
+        ('Inspect', 'row selection, density, column visibility, export, upload and sample reset', 'inspect'),
+    )
+    planned = (
+        'server-backed pagination', 'multi-sort and grouping/aggregation', 'permission-filtered rows',
+        'frozen/reordered columns', 'expandable master/detail rows',
+    )
+    with ui.element('section').classes('cui-data-dock-capability-map').props('data-data-capability-map'):
+        with ui.element('div').classes('cui-data-dock-capability-head'):
+            ui.label('Serious table work, shown honestly').classes('cui-workbench-section-title')
+            ui.label('Try the supported interactions below; the roadmap is separated so an engineer never mistakes a label for an implemented contract.').classes('cui-workbench-note')
+        with ui.element('div').classes('cui-data-dock-capability-grid'):
+            for title, description, key in supported:
+                with ui.element('article').classes('cui-data-dock-capability-card').props(f'data-data-capability="{key}"'):
+                    ui.label(title).classes('cui-workbench-card__title')
+                    ui.label(description).classes('cui-workbench-note')
+        with ui.element('details').classes('cui-data-dock-unsupported'):
+            with ui.element('summary').props('tabindex="0"'):
+                ui.label('Not represented by this example yet').classes('cui-workbench-card__meta')
+            ui.label(' · '.join(planned)).classes('cui-workbench-note')
 
 
 def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel], Any] | None = None, mapping_targets: Sequence[str] = ()) -> None:
@@ -436,23 +499,23 @@ def _header_metadata(entry: WorkbenchEntry) -> None:
         ui.label(entry.title).classes('cui-workbench-title')
         ui.label(entry.description).classes('cui-workbench-subtitle')
         with ui.element('div').classes('cui-workbench-chiprow'):
-            ui.label(entry.source_authority or 'Canonical NiceGUI Base authority').classes('cui-workbench-chip')
-            ui.label(entry.key).classes('cui-workbench-chip')
             if entry.live_preview:
                 ui.label('Live preview').classes('cui-workbench-chip')
             if entry.sample_data:
                 ui.label('Sample data').classes('cui-workbench-chip')
-        if entry.use_when or entry.avoid_when:
-            with ui.element('details').classes('cui-studio-usage-notes'):
-                with ui.element('summary').props('tabindex="0"'):
-                    ui.label('When to use · when to avoid').classes('cui-workbench-card__meta')
-                if entry.use_when:
-                    ui.label('Use when · ' + ' · '.join(entry.use_when)).classes('cui-workbench-note')
-                if entry.avoid_when:
-                    ui.label('Avoid when · ' + ' · '.join(entry.avoid_when)).classes('cui-workbench-note')
+        with ui.element('div').classes('cui-studio-decision-grid'):
+            if entry.reference_contract.best_for:
+                with ui.element('div').classes('cui-studio-decision-card'):
+                    ui.label('Best for').classes('cui-workbench-card__meta')
+                    ui.label(' · '.join(entry.reference_contract.best_for[:2])).classes('cui-workbench-note')
+            if entry.reference_contract.avoid_for:
+                with ui.element('div').classes('cui-studio-decision-card'):
+                    ui.label('Avoid when').classes('cui-workbench-card__meta')
+                    ui.label(' · '.join(entry.reference_contract.avoid_for[:1])).classes('cui-workbench-note')
         with ui.element('details').classes('cui-studio-reference-contract').props('data-reference-contract'):
             with ui.element('summary').props('tabindex="0"'):
-                ui.label('Reference contract · variants, states, data, and production guidance').classes('cui-workbench-section-title')
+                ui.label('Advanced contract · configuration, data, accessibility, and authority').classes('cui-workbench-section-title')
+            ui.label(f'Authority · {entry.source_authority or "canonical NiceGUI Base registry"} · {entry.key}').classes('cui-workbench-note')
             ui.label('Live example' if contract.live_example else 'Explicit nonvisual variant').classes('cui-workbench-chip')
             if contract.nonvisual_variant:
                 ui.label(contract.nonvisual_variant).classes('cui-workbench-note')
@@ -559,16 +622,19 @@ def render_capability_studio(
                 draft_note = 'Saved development draft restored (data and schema).'
             except (ValueError, TypeError, KeyError):
                 draft_note = 'The saved draft could not be restored. Its original saved value was not changed.'
-    # Reserve the live example's DOM position before secondary reference metadata
-    # so the first useful visual is immediately below the stable shell toolbar.
-    preview_host = ui.element('div').classes('cui-studio-preview-frame cui-studio-first-example').props(f'data-specimen="{info["mode"]}" data-reference-example-host')
+    # The live specimen is scoped to Preview so States/Code/Inspect never repeat
+    # a large hidden-context preview above the selected tab.
+    preview_host = None
     _header_metadata(entry)
-    if reference_only:
-        ui.label('Reference example · governed sample data stays on this page and never modifies a project.').classes('cui-workbench-note').props('role=\"status\" data-reference-example')
-    else:
-        from .project_state import render_entry_project_actions
-        render_entry_project_actions(entry)
-    draft_status = ui.label(draft_note or ('Draft not saved. Save explicitly before reloading.' if not reference_only else 'Live example is ready.')).classes('cui-workbench-note').props('role=\"status\" aria-live=\"polite\" data-draft-status')
+    with ui.element('div').classes('cui-studio-status-row'):
+        if reference_only:
+            ui.label('Reference example · governed sample data stays on this page and never modifies a project.').classes('cui-workbench-note').props('role=\"status\" data-reference-example')
+        else:
+            from .project_state import render_entry_project_actions
+            render_entry_project_actions(entry)
+        draft_status = ui.label(
+            draft_note or ('Draft not saved. Save explicitly before reloading.' if not reference_only else 'Live example is ready.')
+        ).classes('cui-workbench-note').props('role=\"status\" aria-live=\"polite\" data-draft-status')
     callbacks: dict[str, Any] = {}
     controls: dict[str, Any] = {}
     syncing = {'value': False}
@@ -617,11 +683,12 @@ def render_capability_studio(
     def sync_controls() -> None:
         syncing['value'] = True
         try:
-            values = {'title':session.config.title, 'density':session.config.density, 'width':session.config.responsive_width}
+            values = {'title':session.config.title, 'density':session.config.density, 'theme':session.config.theme, 'width':session.config.responsive_width}
             values.update(session.config.options)
             for key, control in controls.items():
-                if key in values:
-                    control.element.set_value(values[key])
+                value_key = {'preview_theme': 'theme', 'preview_density': 'density'}.get(key, key)
+                if value_key in values:
+                    control.element.set_value(values[value_key])
         finally:
             syncing['value'] = False
 
@@ -630,8 +697,20 @@ def render_capability_studio(
         draft_state['dirty'] = True
         draft_status.set_text('Unsaved reference changes; use the explicit export action if you want a runnable example.' if reference_only else 'Unsaved changes. Save draft before reloading.')
 
-    with Tabs(tuple(TabSpec(tab, tab.title()) for tab in STUDIO_TABS), value='preview') as tabs:
+    tab_names = studio_tabs_for_entry(entry, data_renderer=data_renderer, interaction_renderer=interaction_renderer)
+    with Tabs(tuple(TabSpec(tab, tab.title()) for tab in tab_names), value='preview') as tabs:
+        def panel(tab_id: str):
+            # Keep the shared rendering path simple while omitting unsupported tab
+            # buttons.  Omitted panels are inert and hidden; they never become a
+            # second visible reference surface.
+            if tab_id in tab_names:
+                return tabs.panel(tab_id)
+            return ui.element('div').classes('cui-studio-omitted-panel').style('display:none')
+
         with tabs.panel('preview'):
+            preview_host = ui.element('div').classes('cui-studio-preview-frame cui-studio-first-example').props(
+                f'data-specimen="{info["mode"]}" data-reference-example-host'
+            )
             with ui.element('div').classes('cui-workbench-toolbar cui-studio-preview-controls'):
                 def width_changed(event):
                     if syncing['value']: return
@@ -639,6 +718,20 @@ def render_capability_studio(
                     if value in RESPONSIVE_WIDTHS:
                         session.config.update(responsive_width=value); mark_dirty(); render_preview()
                 controls['width']=Select('Preview width',{k:k.title() for k in RESPONSIVE_WIDTHS},value=session.config.responsive_width,clearable=False,on_change=width_changed)
+                def theme_changed(event):
+                    if syncing['value']:
+                        return
+                    value = str(getattr(event, 'value', 'system'))
+                    if value in {'system', 'light', 'dark'}:
+                        session.config.update(theme=value); mark_dirty(); render_preview()
+                controls['preview_theme']=Select('Specimen theme', {'system':'System','light':'Light','dark':'Dark'}, value=session.config.theme, clearable=False, on_change=theme_changed)
+                def density_changed(event):
+                    if syncing['value']:
+                        return
+                    value = str(getattr(event, 'value', 'compact'))
+                    if value in {'comfortable', 'compact', 'dense'}:
+                        session.config.update(density=value); mark_dirty(); render_preview()
+                controls['preview_density']=Select('Specimen density', {'comfortable':'Comfort','compact':'Compact','dense':'Dense'}, value=session.config.density, clearable=False, on_change=density_changed)
                 Button('Refresh preview',on_click=render_preview)
                 def reset():
                     session.config.reset(title=entry.title)
@@ -682,7 +775,14 @@ def render_capability_studio(
                 callbacks['events']=render_events
                 render_events()
             render_preview()
-        with tabs.panel('data'):
+        with tabs.panel('usage'):
+            ui.label('When to use').classes('cui-workbench-section-title')
+            ui.label(' · '.join(entry.reference_contract.best_for or entry.use_when or (entry.description,))).classes('cui-workbench-note')
+            ui.label('When to avoid').classes('cui-workbench-section-title')
+            ui.label(' · '.join(entry.reference_contract.avoid_for or entry.avoid_when or ('Use a different registered authority when the data or interaction contract does not fit.',))).classes('cui-workbench-note')
+            ui.label('Responsive and accessibility contract').classes('cui-workbench-section-title')
+            ui.label(' · '.join((*entry.reference_contract.responsive_behavior[:2], *entry.reference_contract.accessibility[:2]))).classes('cui-workbench-note')
+        with panel('data'):
             if data_renderer:
                 data_renderer(session)
             elif info['uses_rows']:
@@ -701,7 +801,7 @@ def render_capability_studio(
                 render_data_dock(session.data,on_change=data_changed)
             else:
                 ui.label('This reference example does not accept tabular data. Its sample dataset or integration contract is described in Preview.').classes('cui-workbench-note')
-        with tabs.panel('configure'):
+        with panel('configure'):
             controls['title']=TextInput('Title',value=session.config.title)
             controls['title'].element.props('data-config-title')
             controls['density']=Select('Density',{'comfortable':'Comfortable','compact':'Compact','dense':'Dense'},value=session.config.density,clearable=False)
@@ -721,7 +821,7 @@ def render_capability_studio(
                 control.element.on_value_change(mark_dirty)
             Button('Apply configuration',on_click=apply_config)
             ui.label('Only settings connected to this renderer are exposed. Global appearance is controlled by Preferences.').classes('cui-workbench-note')
-        with tabs.panel('states'):
+        with panel('states'):
             host=ui.element('div').classes('cui-studio-state-host')
             def render_state_preview() -> None:
                 try:
@@ -733,7 +833,7 @@ def render_capability_studio(
                     from nicegui_base import Alert, FeedbackIntent
                     Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
             render_state_matrix(host, render_state_preview)
-        with tabs.panel('interactions'):
+        with panel('interactions'):
             if interaction_renderer:
                 interaction_renderer(session)
             else:
@@ -744,49 +844,107 @@ def render_capability_studio(
             from .interaction_inspector import render_interaction_inspector
             render_interaction_inspector(entry,session)
         with tabs.panel('code'):
-            export_select = Select('Export data policy', {'schema_only':'Schema only (synthetic values)', 'include_development_rows':'Include current development rows'}, value=export_policy['mode'], clearable=False)
-            export_select.element.props('data-export-policy')
-            def export_changed(event):
-                export_policy['mode'] = event.value
-                mark_dirty()
-            export_select.element.on_value_change(export_changed)
-            ui.label('The Code tabs show your current values. Downloaded ZIPs follow the explicit export policy above and include the exact framework snapshot needed to run independently.').classes('cui-workbench-note')
-            code_host=ui.element('div').classes('cui-studio-code')
-            def artifact():
-                return code_artifact(entry,session.config.frozen(),data_columns=session.data.snapshot.column_names,rows=session.data.serializable_rows())
-            def render_code():
-                code_host.clear()
-                try:
-                    current=artifact()
-                except ValueError as exc:
-                    with code_host: ui.label(f'Cannot export: {exc}').props('role="alert"')
-                    return
-                with code_host:
-                    ui.label(f'Current configuration revision {session.config.revision} · data revision {session.data.snapshot.revision}').classes('cui-workbench-note').props('data-code-revision')
-                    with ui.element('div').classes('cui-workbench-toolbar'):
-                        _copy_button('Copy Minimal',lambda:artifact().minimal)
-                        _copy_button('Copy Runnable Example' if info['runnable'] else 'Copy Integration Reference',lambda:artifact().production)
-                        if info['runnable']:
-                            async def download():
-                                import asyncio
-                                from .codegen import generate_application_zip
-                                config = session.config.frozen()
-                                rows = session.data.serializable_rows()
-                                schema = session.data.schema_metadata()
-                                mode = export_policy['mode']
-                                try:
-                                    payload = await asyncio.to_thread(generate_application_zip, entry, app_name=config.title or entry.title, config=config, rows=rows, data_schema=schema, data_mode=mode)
-                                    ui.download.content(payload,'nicegui-base-example.zip')
-                                    log(f'Example ZIP generated ({mode}); install/run with the included bootstrap.py')
-                                except (ValueError, RuntimeError) as exc:
-                                    draft_status.set_text(f'Export failed: {exc}')
-                            Button('Download example ZIP',on_click=download)
-                    CodeViewer(current.minimal,language='python')
-                    ui.label('Runnable example — not a production-readiness certificate' if info['runnable'] else 'Integration reference — no blank GUI is generated').classes('cui-workbench-note')
-                    CodeViewer(current.production,language='python')
-                    CodeViewer(current.fragment.to_json(),language='json')
-            callbacks['code']=render_code
-            render_code()
+            from .public_examples import production_example_code
+            with ui.element('section').classes('cui-studio-public-code'):
+                ui.label('Production public API').classes('cui-workbench-section-title')
+                ui.label(
+                    'Use this in application code. It imports the stable nicegui_base public surface; '
+                    'the Reference Explorer harness is available below only for reproducing this reference session.'
+                ).classes('cui-workbench-note')
+                _copy_button('Copy Public API', lambda: production_example_code(entry))
+                CodeViewer(production_example_code(entry), language='python')
+
+            with ui.element('details').classes('cui-studio-harness-details'):
+                with ui.element('summary').props('tabindex="0"'):
+                    ui.label('Reference Explorer harness · advanced / reproducibility')
+                ui.label(
+                    'Open only when you need the Explorer-specific runtime, export policy, or reproducibility payload. '
+                    'Normal application code should use the public API example above.'
+                ).classes('cui-workbench-note')
+                export_select = Select(
+                    'Reference harness data policy',
+                    {
+                        'schema_only': 'Schema only (synthetic values)',
+                        'include_development_rows': 'Include current development rows',
+                    },
+                    value=export_policy['mode'],
+                    clearable=False,
+                )
+                export_select.element.props('data-export-policy')
+
+                def export_changed(event):
+                    export_policy['mode'] = event.value
+                    mark_dirty()
+
+                export_select.element.on_value_change(export_changed)
+                code_host = ui.element('div').classes('cui-studio-code')
+
+                def artifact():
+                    return code_artifact(
+                        entry,
+                        session.config.frozen(),
+                        data_columns=session.data.snapshot.column_names,
+                        rows=session.data.serializable_rows(),
+                    )
+
+                def render_code():
+                    code_host.clear()
+                    try:
+                        current = artifact()
+                    except ValueError as exc:
+                        with code_host:
+                            ui.label(f'Cannot export: {exc}').props('role="alert"')
+                        return
+
+                    with code_host:
+                        ui.label(
+                            f'Current configuration revision {session.config.revision} · '
+                            f'data revision {session.data.snapshot.revision}'
+                        ).classes('cui-workbench-note').props('data-code-revision')
+                        with ui.element('div').classes('cui-workbench-toolbar'):
+                            _copy_button('Copy Explorer Harness', lambda: artifact().minimal)
+                            _copy_button(
+                                'Copy Reference Runtime' if info['runnable'] else 'Copy Integration Reference',
+                                lambda: artifact().production,
+                            )
+                            if info['runnable']:
+                                async def download():
+                                    import asyncio
+                                    from .codegen import generate_application_zip
+                                    config = session.config.frozen()
+                                    rows = session.data.serializable_rows()
+                                    schema = session.data.schema_metadata()
+                                    mode = export_policy['mode']
+                                    try:
+                                        payload = await asyncio.to_thread(
+                                            generate_application_zip,
+                                            entry,
+                                            app_name=config.title or entry.title,
+                                            config=config,
+                                            rows=rows,
+                                            data_schema=schema,
+                                            data_mode=mode,
+                                        )
+                                        ui.download.content(payload, 'nicegui-base-example.zip')
+                                        log(
+                                            f'Reference harness ZIP generated ({mode}); '
+                                            'install/run with the included bootstrap.py'
+                                        )
+                                    except (ValueError, RuntimeError) as exc:
+                                        draft_status.set_text(f'Export failed: {exc}')
+
+                                Button('Download reference harness ZIP', on_click=download)
+                        CodeViewer(current.minimal, language='python')
+                        ui.label(
+                            'Reference runtime example — not the production public API shown above'
+                            if info['runnable']
+                            else 'Integration reference — no blank GUI is generated'
+                        ).classes('cui-workbench-note')
+                        CodeViewer(current.production, language='python')
+                        CodeViewer(current.fragment.to_json(), language='json')
+
+                callbacks['code'] = render_code
+                render_code()
     return session
 
 

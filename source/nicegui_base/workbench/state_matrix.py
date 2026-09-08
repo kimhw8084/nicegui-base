@@ -116,6 +116,12 @@ def render_state_matrix(host, ready_content: Callable[[], None], *, initial: Stu
         controller.select(str(getattr(event, 'value', StudioState.DEFAULT.value)))
         render()
 
+    with ui.element('div').classes('cui-state-atlas').props('aria-label="Canonical state atlas"'):
+        for demo in STATE_DEMOS:
+            with ui.element('article').classes('cui-state-atlas__item'):
+                ui.label(demo.label).classes('cui-state-atlas__label')
+                ui.label(demo.description).classes('cui-state-atlas__description')
+    ui.label('Interactive state preview').classes('cui-workbench-card__meta')
     options = {demo.state.value: demo.label for demo in STATE_DEMOS}
     SegmentedControl(options, value=initial.value, on_change=changed)
     render()

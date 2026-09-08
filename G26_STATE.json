@@ -1,0 +1,57 @@
+{
+  "phase": "G2.6",
+  "candidate_id": "NGB-20260907-G2.6",
+  "status": "PENDING_HUMAN_VISUAL_REVIEW",
+  "baseline": "D6H.3 preserved; prior D6G/D5 artifacts untouched",
+  "runtime": {
+    "framework": "3.0.0a8",
+    "nicegui": "3.15.0",
+    "python": "3.13.13",
+    "launcher": "python run_nicegui_base.py"
+  },
+  "changed_files": [
+    "source/nicegui_base/workbench/update_identity.py",
+    "source/nicegui_base/workbench/app.py",
+    "source/nicegui_base/workbench/explorer_gallery.py",
+    "source/nicegui_base/workbench/capability_studio.py",
+    "source/nicegui_base/workbench/design_system_reference.py",
+    "source/nicegui_base/workbench/layout_studio.py",
+    "source/nicegui_base/workbench/workbench_css.py",
+    "source/nicegui_base/workbench/preview_catalog.py",
+    "source/nicegui_base/workbench/preview_assets/index.json",
+    "source/nicegui_base/integrations/nicegui_data_table.py",
+    "source/AGENTS.md",
+    "source/nicegui_base/ai/guides/AGENTS.md",
+    "source/tests/test_workbench_g26_reconstruction.py",
+    "source/tests/test_workbench_iteration1.py",
+    "source/tests/test_workbench_iteration2.py",
+    "tests/test_wave35_display_preferences_reachability.py",
+    "tools/verify_G26_browser.py",
+    "tools/verify_development_D6H3_browser.py"
+  ],
+  "invariants": [
+    "G2.6 is the only current user-facing candidate identity",
+    "build identity is owned by the shell footer/navigation, not the primary toolbar",
+    "canonical registries and production renderers remain the only Explorer authorities",
+    "component tabs are capability-driven and public Code examples are specific",
+    "design specimens use token authority and content-driven geometry",
+    "AG Grid row identity is string-normalized without changing application row keys"
+  ],
+  "tests": {
+    "source": "cd source && ../.venv/bin/pytest -q",
+    "source_collected": 1854,
+    "root": ".venv/bin/pytest -q",
+    "root_collected": 27,
+    "validator": ".venv/bin/python -m nicegui_base.validate .",
+    "browser_route": "/private/tmp/ngb_g26_verifier_final3",
+    "browser_semantic": "/private/tmp/ngb_g26_semantic_clean/D6H3_BROWSER_RESULT.json",
+    "component_evidence": "/private/tmp/ngb_g26_components3/D6H3_BROWSER_RESULT.json",
+    "interaction_smoke": "/private/tmp/ngb_g26_interactions/INTERACTION_RESULT.json",
+    "evidence_zip": "/private/tmp/NGB-20260907-G2.6-evidence-final3.zip"
+  },
+  "next_phase_facts": [
+    "Human reviewer must inspect the supplied screenshots before any Golden promotion",
+    "Final evidence package is created outside the repository and must not mutate D6H.3 artifacts",
+    "Do not rewrite D6H.3 release evidence or promote this candidate automatically"
+  ]
+}

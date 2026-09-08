@@ -472,9 +472,9 @@ class MobileNavigationDrawer(AbstractContextManager):
                     _render_navigation(self.navigation, active_route=self.active_route, navigate=self.on_navigate, permission_check=self.permission_check)
                 _render_support_footer(owner=self.owner, on_support=self.on_support, on_feedback=self.on_feedback, on_docs=self.on_docs)
         if self.value:
-            async def _open_initially():
-                await ui.run_javascript("document.documentElement.dataset.mobileNav='open'")
-            ui.timer(0, _open_initially, once=True)
+            # Root dataset state is safe to set immediately; it does not depend on
+            # the drawer element being mounted and therefore needs no Timer.
+            ui.run_javascript("document.documentElement.dataset.mobileNav='open'")
         return self
     def __exit__(self, exc_type, exc, tb): return False
     async def open(self): return await _ui().run_javascript("document.documentElement.dataset.mobileNav='open'")

@@ -1,0 +1,9 @@
+{
+  "candidate_id": "NGB-20260907-G2.5.1",
+  "baseline": "NGB-20260907-G2.5",
+  "status": "LAUNCHER_HOTFIX_READY",
+  "defect": "G2.5 launcher passed unsupported storage_secret kwarg to run_workbench",
+  "fix": "delegate storage secret handling to run_workbench and use NICEGUI_BASE_STORAGE_SECRET",
+  "canonical_command": "python run_nicegui_base.py",
+  "regression_gate": "mock normal launch path against actual run_workbench signature"
+}

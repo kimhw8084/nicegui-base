@@ -83,12 +83,12 @@ def test_data_dock_rename_type_and_role_validation():
 
 def test_studio_contract_has_all_six_tabs_and_preview_controls():
     from nicegui_base.workbench.capability_studio import STUDIO_TABS, RESPONSIVE_WIDTHS
-    assert STUDIO_TABS == ('preview','data','configure','states','interactions','inspect','code')
+    assert STUDIO_TABS == ('preview','usage','data','configure','states','interactions','inspect','code')
     assert set(RESPONSIVE_WIDTHS) == {'desktop','compact','tablet','phone'}
     source = (ROOT/'source/nicegui_base/workbench/capability_studio.py').read_text()
     assert 'data-theme="{session.config.theme}" data-density="{session.config.density}"' in source
     assert "{'comfortable':'Comfortable','compact':'Compact','dense':'Dense'}" in source
-    assert 'Download example ZIP' in source
+    assert 'Download reference harness ZIP' in source
 
 
 def test_state_matrix_contains_all_required_gate2_states():

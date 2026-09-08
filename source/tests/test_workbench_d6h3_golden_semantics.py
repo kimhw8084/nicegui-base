@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_d6h3_identity_is_distinct_from_preserved_candidates():
     from nicegui_base.workbench.update_identity import BUILD_ID
 
-    assert BUILD_ID == 'NGB-20260906-D6H.3'
+    assert BUILD_ID == 'NGB-20260907-G2.6'
 
 
 def test_all_patterns_declare_and_render_their_defining_anatomy():

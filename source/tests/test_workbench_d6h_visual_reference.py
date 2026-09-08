@@ -10,7 +10,7 @@ def test_d6h_identity_and_reference_explorer_copy_are_current():
     from nicegui_base.workbench.app import WORKBENCH_SUBTITLE, WORKBENCH_TITLE
     from nicegui_base.workbench.update_identity import BUILD_ID
 
-    assert BUILD_ID == 'NGB-20260906-D6H.3'
+    assert BUILD_ID == 'NGB-20260907-G2.6'
     assert WORKBENCH_TITLE == 'NiceGUI Base Reference Explorer'
     assert 'Workbench' not in WORKBENCH_TITLE
     assert 'Reference Explorer' in WORKBENCH_SUBTITLE

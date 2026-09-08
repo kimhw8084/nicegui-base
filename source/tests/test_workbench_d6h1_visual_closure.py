@@ -10,7 +10,7 @@ REPO = ROOT.parent
 def test_d6h1_identity_and_required_visual_acceptance_scope():
     from nicegui_base.workbench.update_identity import BUILD_ID
 
-    assert BUILD_ID == 'NGB-20260906-D6H.3'
+    assert BUILD_ID == 'NGB-20260907-G2.6'
     browser = (REPO / 'tools' / 'verify_development_D6H_browser.py').read_text(encoding='utf-8')
     assert "'/workbench/data'" in browser
     assert "'/analytics'" in browser

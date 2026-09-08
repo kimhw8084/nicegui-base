@@ -1,0 +1,21 @@
+{
+  "phase": "G2.1",
+  "status": "CANDIDATE_PENDING_MAC_QUALIFICATION",
+  "baseline": {
+    "golden_candidate": "NGB-20260906-D6H.3",
+    "github_main_at_design_start": "ad2172d4077a16fce0fbee3618e9bbb5c9c410ea",
+    "golden_rc_sha256": "db08ce395ca5dbfbc404087146e0cfea1112fac490f26723fe631130ea6e1131"
+  },
+  "candidate": {
+    "candidate_id": "NGB-20260907-G2.1",
+    "nicegui_version": "3.15.0",
+    "goal": "Explorer completion: grouped navigation, full-width canvas, visual galleries, state preservation, favorites, bounded comparison, safe preview caching"
+  },
+  "invariants": [
+    "D6H.3 Golden artifacts and D6_STATE.json remain unchanged.",
+    "No second capability registry is introduced; Explorer projects the canonical catalog.",
+    "Golden thumbnails are evidence-bound D6H.3 captures and never labeled current live previews.",
+    "User/provider data is excluded from shared preview caches.",
+    "Heavy discovery uses cached thumbnails; live registered renderers remain on detail pages."
+  ]
+}

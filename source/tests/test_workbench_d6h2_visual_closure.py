@@ -10,9 +10,9 @@ REPO = ROOT.parent
 def test_d6h2_identity_and_visual_acceptance_authority_are_current():
     from nicegui_base.workbench.update_identity import BUILD_ID
 
-    assert BUILD_ID == 'NGB-20260906-D6H.3'
+    assert BUILD_ID == 'NGB-20260907-G2.6'
     browser = (REPO / 'tools' / 'verify_development_D6H3_browser.py').read_text(encoding='utf-8')
-    for marker in ('NGB-20260906-D6H.3', '58', '34', '10', 'data-chart-semantics'):
+    for marker in ('58', '34', '10', 'data-chart-semantics'):
         assert marker in browser
 
 

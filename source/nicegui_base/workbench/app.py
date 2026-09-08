@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import secrets
@@ -147,15 +148,30 @@ def _display_control_bar() -> Any:
             browser_theme = await ui.run_javascript(
                 "(() => { try { return localStorage.getItem('nicegui_base_theme') || localStorage.getItem('cui_lab_theme') || 'system'; } catch (_) { return 'system'; } })()"
             )
+            browser_theme = str(browser_theme or 'system')
+            if browser_theme not in {'light', 'dark'}:
+                return
+            await theme_control.set_value(browser_theme, emit=True)
+        except asyncio.CancelledError:
+            raise
         except Exception:
+            # Appearance reconciliation is convenience state; a disappearing
+            # client must never surface as a server-side lifecycle failure.
             return
-        browser_theme = str(browser_theme or 'system')
-        if browser_theme not in {'light', 'dark'}:
-            return
-        await theme_control.set_value(browser_theme, emit=True)
 
     if theme == 'system':
-        ui.timer(0.0, reconcile_initial_theme, once=True)
+        try:
+            theme_task = asyncio.get_running_loop().create_task(
+                reconcile_initial_theme(),
+                name='nicegui-base-workbench-theme-reconcile',
+            )
+        except RuntimeError:
+            theme_task = None
+        if theme_task is not None:
+            client = getattr(getattr(ui, 'context', None), 'client', None)
+            on_delete = getattr(client, 'on_delete', None)
+            if callable(on_delete):
+                on_delete(lambda *_: theme_task.cancel())
 
     # WAVE35_DISPLAY_PREFERENCES_REACHABILITY_V13
     # Keep browser/server display-preference reconciliation reachable.
@@ -165,17 +181,27 @@ def _display_control_bar() -> Any:
 def workbench_navigation():
     _, _, _, NavigationModel, NavItem, NavSection, Icons = _imports()
     return NavigationModel((
-        NavSection('reference', 'REFERENCE EXPLORER', (
+        NavSection('discover', 'DISCOVER', (
             NavItem('reference_start', 'Start Here', '/', Icons.HOME),
+        )),
+        NavSection('foundations', 'FOUNDATIONS', (
             NavItem('reference_design', 'Design System', '/design', Icons.GRID),
             NavItem('reference_components', 'Components', '/components', Icons.GRID),
             NavItem('reference_data', 'Data & Tables', '/workbench/data', Icons.TABLE),
             NavItem('reference_visualizations', 'Visualizations', '/analytics', Icons.GRID),
+        )),
+        NavSection('compose', 'COMPOSE', (
             NavItem('reference_layouts', 'Layouts', '/layouts', Icons.GRID),
             NavItem('reference_patterns', 'Application Patterns', '/patterns', Icons.GRID),
+        )),
+        NavSection('semiconductor', 'SEMICONDUCTOR', (
             NavItem('reference_recipes', 'Semiconductor Recipes', '/recipes', Icons.FILE),
             NavItem('reference_apps', 'Full Applications', '/applications', Icons.FILE),
+        )),
+        NavSection('develop', 'DEVELOP', (
             NavItem('reference_ai', 'AI Development Guide', '/ai-guide', Icons.FILE),
+        )),
+        NavSection('system', 'SYSTEM', (
             NavItem('reference_diagnostics', 'Diagnostics', '/quality', Icons.DIAGNOSTICS),
         )),
     ))
@@ -260,6 +286,7 @@ def _shell(route: str, title: str, description: str):
         on_settings=lambda: ui.navigate.to('/patterns/settings'), on_about=None,
         owner='NiceGUI Base', on_support=lambda: ui.navigate.to('/catalog'),
         on_feedback=lambda: ui.navigate.to('/quality'), on_docs=lambda: ui.navigate.to('/catalog'),
+        debugger=False,
     )
     shell.__enter__()
     # AppShell already owns the document's single main landmark. Keep the Workbench
@@ -272,7 +299,6 @@ def _shell(route: str, title: str, description: str):
     ):
         _install_command_palette(ui)
         _display_control_bar()
-        ui.label(BUILD_ID).classes('cui-workbench-chip cui-build-id').props('data-build-id=' + BUILD_ID)
     shell._workbench_page = page
     return shell
 
@@ -280,6 +306,9 @@ def _shell(route: str, title: str, description: str):
 def _end_shell(shell) -> None:
     page = getattr(shell, '_workbench_page', None)
     if page is not None:
+        ui, *_ = _imports()
+        with ui.element('footer').classes('cui-workbench-build-footer').props(f'data-build-id="{BUILD_ID}"'):
+            ui.label(f'Build {BUILD_ID}').classes('cui-workbench-note')
         page.__exit__(None, None, None)
     shell.__exit__(None, None, None)
 
@@ -387,45 +416,10 @@ def _search_box(*, autofocus: bool = False) -> None:
 
 
 def home_page() -> None:
-    ui, *_ = _imports()
     stats = coverage()
-    shell = _shell('/', 'Start Here', 'Explore the standard first, then use deterministic scaffolding when you are ready to start an application.')
-    with ui.element('section').classes('cui-workbench-hero'):
-        with ui.element('div'):
-            ui.label('NICEGUI BASE · 3.0.0a8').classes('cui-workbench-eyebrow')
-            ui.label('What are you building?').classes('cui-workbench-title')
-            ui.label('Find the governed pattern, component, data contract, or semiconductor recipe that matches your work. The same reusable APIs are available to developers and AI agents through deterministic scaffolding.').classes('cui-workbench-subtitle')
-            with ui.element('div').classes('cui-workbench-toolbar'):
-                _standard_button('Explore the standard', on_click=lambda: ui.navigate.to('/design'), primary=True)
-                ui.label('Need a specific standard instead? Use Search or ⌘K / Ctrl+K.').classes('cui-workbench-note')
-        with ui.element('div').classes('cui-workbench-kpis'):
-            for value, label in ((stats.analytics, 'analytics'), (stats.recipes, 'recipes'), (stats.patterns, 'app patterns'), (stats.components, 'core components')):
-                with ui.element('div').classes('cui-workbench-kpi'):
-                    ui.label(str(value)).classes('text-h5')
-                    ui.label(label)
-
-    with _section('Common starting points', 'Open a live reference to learn the intended composition, behavior, and usage boundary.'):
-        with ui.element('div').classes('cui-workbench-grid'):
-            pattern_routes = {str(item.metadata.get('pattern_key')): item.route for item in all_entries() if item.kind is WorkbenchKind.PATTERN}
-            for item in (
-                ('Monitoring', 'Health, alerts, KPIs and periodic refresh.', pattern_routes.get('monitoring','/catalog'), 'PATTERN'),
-                ('Investigation', 'Affected/control evidence with context and drill-down.', '/recipes/rca-cockpit', 'ENGINEERING'),
-                ('Data Explorer', 'Filtering, records, analytics and detail.', pattern_routes.get('data_explorer','/catalog'), 'PATTERN'),
-                ('Managed Records', 'Search, create, inspect and edit governed records.', pattern_routes.get('crud','/catalog'), 'PATTERN'),
-            ):
-                _action_card(*item)
-
-    with _section('Explore the standard', 'Browse the authority hierarchy before writing application code.'):
-        with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
-            _action_card('Design System', 'See the live token, state, theme, and responsive contracts.', '/design', 'AUTHORITY')
-            _action_card('Data & Tables', 'Use example data to demonstrate schema, mapping, table, and query contracts.', '/workbench/data', 'DATA')
-            _action_card('Components', 'Open live examples of the reusable controls and content primitives.', '/components', 'COMPONENTS')
-            _action_card('Visualizations', 'Match engineering intent to a governed analytical visual.', '/analytics', 'ANALYTICS')
-            _action_card('Layouts', 'Inspect the responsive page shells and semantic slots.', '/layouts', 'LAYOUTS')
-            _action_card('Application Patterns', 'Start from a complete information hierarchy.', '/patterns', 'PATTERNS')
-            _action_card('Semiconductor Recipes', 'Explore bounded, domain-specific engineering workflows.', '/recipes', 'RECIPES')
-            _action_card('Full Applications', 'Study complete semiconductor application compositions and their provider boundary.', '/applications', 'APPLICATIONS')
-            _action_card('AI Development Guide', 'Translate a requirement into a pattern, recipe, and scaffold.', '/ai-guide', 'AGENTS')
+    shell = _shell('/', 'Start Here', 'Start from the engineering intent, visually compare the governed authorities, then open only the reference you need.')
+    from .explorer_gallery import render_start_here
+    render_start_here(stats)
     _end_shell(shell)
 
 
@@ -567,17 +561,23 @@ def design_system_page() -> None:
 
 
 def components_page() -> None:
-    catalog_page(
-        active_route='/components', initial_kind='component', page_title='Components',
-        page_description='Live examples and usage guidance for the reusable NiceGUI Base component and content registries.',
+    shell = _shell('/components', 'Components', 'Scan governed component specimens first; open a detail only for deeper states, configuration, accessibility, or code.')
+    from .explorer_gallery import render_reference_gallery
+    render_reference_gallery(
+        reference_entries_for_section('components'), section='components',
+        intro='Scan the decision aid first; open a live registered implementation when the capability fits.',
     )
+    _end_shell(shell)
 
 
 def patterns_page() -> None:
-    catalog_page(
-        active_route='/patterns', initial_kind='pattern', page_title='Application Patterns',
-        page_description='Canonical application patterns with live examples, responsive behavior, and intended composition boundaries.',
+    shell = _shell('/patterns', 'Application Patterns', 'Compare the canonical application anatomies without opening each pattern one by one.')
+    from .explorer_gallery import render_reference_gallery
+    render_reference_gallery(
+        reference_entries_for_section('patterns'), section='patterns',
+        intro='Choose information hierarchy before individual controls. Compare up to three patterns inline.',
     )
+    _end_shell(shell)
 
 
 def ai_guide_page() -> None:
@@ -679,22 +679,12 @@ def catalog_detail_page(registry_name: str, entry_key: str) -> None:
     _studio_entry_page(entry)
 
 def analytics_gallery_page() -> None:
-    ui, *_ = _imports()
-    entries = analytics_entries()
-    shell = _shell('/analytics', 'Visualizations', 'All 58 canonical semiconductor analytical surfaces, grouped by the registry taxonomy.')
-    counts: dict[str, int] = {}
-    for entry in entries:
-        counts[entry.category] = counts.get(entry.category, 0) + 1
-    with ui.element('div').classes('cui-workbench-toolbar'):
-        ui.label(f'{len(entries)} / 58 visible').classes('cui-workbench-chip')
-        for category, count in sorted(counts.items()):
-            ui.label(f'{category.upper()} · {count}').classes('cui-workbench-chip')
-    for category in ('spc','capability','wafer','fdc','rca','yield','reliability','doe'):
-        group = tuple(entry for entry in entries if entry.category == category)
-        with _section(category.upper(), f'{len(group)} canonical surfaces'):
-            with ui.element('div').classes('cui-workbench-grid'):
-                for entry in group:
-                    _card(entry)
+    shell = _shell('/analytics', 'Visualizations', 'See what all 58 governed analytical surfaces actually look like before opening a full interactive reference.')
+    from .explorer_gallery import render_reference_gallery
+    render_reference_gallery(
+        analytics_entries(), section='analytics',
+        intro='Thumbnail-first discovery for semantic charts; open a detail to inspect the live renderer, data contract, and public code.',
+    )
     _end_shell(shell)
 
 
@@ -1007,7 +997,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         mark_semantic(panel, 'data-visual-semantic="ecdf" data-chart-semantics="monotone-cdf" data-chart-step="end"')
         return
     if surface_key == 'box_distribution':
-        panel = BoxPlot(title, (SeriesSpec('box','Measurement',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1),(39.0,39.6,40.1,40.6,41.3))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected','Post-PM'), label='Population'), y_axis=AxisSpec(label='Measurement'))
+        panel = BoxPlot(title, (SeriesSpec('box','Measurement',((38.4,39.2,40.0,40.8,41.7),(38.8,39.5,40.2,41.0,42.1),(39.0,39.6,40.1,40.6,41.3))),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Control','Affected','Post-PM'), label='Population'), y_axis=AxisSpec(label='Measurement', min_value=38.0, max_value=42.6))
         mark_semantic(panel, 'data-visual-semantic="box_distribution" data-chart-semantics="quartiles-median-whiskers"')
         return
     if surface_key == 'violin_distribution':
@@ -1236,14 +1226,14 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         panel = LineChart(title, (
             SeriesSpec('rf','RF bias',(39.6,40.2,41.1)),
             SeriesSpec('pressure','Pressure',(40.8,40.3,39.9)),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Low','Center','High'), label='Factor level'), y_axis=AxisSpec(label='Mean response'))
+        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('Low','Center','High'), label='Factor level'), y_axis=AxisSpec(label='Mean response', min_value=39.2, max_value=41.4))
         mark_semantic(panel, 'data-visual-semantic="doe_main_effects" data-chart-semantics="clear-opposing-main-effect-slopes"')
         return
     if surface_key == 'doe_interactions':
         panel = LineChart(title, (
             SeriesSpec('low-pressure','Pressure low',(39.4,40.1,41.2)),
             SeriesSpec('high-pressure','Pressure high',(41.0,40.5,39.7)),
-        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF low','RF center','RF high'), label='RF bias level'), y_axis=AxisSpec(label='Mean response'))
+        ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('RF low','RF center','RF high'), label='RF bias level'), y_axis=AxisSpec(label='Mean response', min_value=39.1, max_value=41.3))
         mark_semantic(panel, 'data-visual-semantic="doe_interactions" data-chart-semantics="non-parallel-crossing-interaction"')
         return
     if surface_key == 'doe_response_surface':
@@ -1323,15 +1313,13 @@ def analytics_detail_page(surface_key: str) -> None:
         return
     _studio_entry_page(entry, active_route='/analytics')
 
-def recipes_gallery_page(*, active_route: str = '/recipes', page_title: str = 'Semiconductor Recipes', page_description: str = 'Governed semiconductor application compositions, visible as first-class starters.') -> None:
-    ui, *_ = _imports()
-    entries = recipe_entries()
-    shell = _shell(active_route, page_title, page_description)
-    with ui.element('div').classes('cui-workbench-toolbar'):
-        ui.label(f'{len(entries)} governed recipes').classes('cui-workbench-chip')
-    with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
-        for entry in entries:
-            _card(entry)
+def recipes_gallery_page() -> None:
+    shell = _shell('/recipes', 'Semiconductor Recipes', 'Scan the domain workflows visually, compare their contracts, then open the recipe that matches the engineering question.')
+    from .explorer_gallery import render_reference_gallery
+    render_reference_gallery(
+        recipe_entries(), section='recipes',
+        intro='Choose a semiconductor workflow by engineering question, required data, and the governed composition it combines.',
+    )
     _end_shell(shell)
 
 
@@ -1493,15 +1481,17 @@ def recipe_detail_page(recipe_key: str) -> None:
     )
 
 def data_page() -> None:
-    from .capability_studio import render_data_dock
+    from .capability_studio import render_data_capability_map, render_data_dock
     from .data_dock import default_data_dock
     shell = _shell('/workbench/data', 'Data & Tables', 'Use example data to demonstrate schema, mappings, table behavior, and query-ready contracts.')
     model = default_data_dock()
+    render_data_capability_map()
     render_data_dock(model)
     _end_shell(shell)
 
 def quality_page() -> None:
     ui, *_ = _imports()
+    from nicegui_base.version import FRAMEWORK_VERSION
     entries = all_entries()
     stats = coverage()
     from nicegui_base.patterns.registry import PATTERN_REGISTRY
@@ -1517,9 +1507,13 @@ def quality_page() -> None:
     catalog_total, catalog_visible, catalog_missing = catalog_audit.canonical_total, catalog_audit.visible, catalog_audit.missing
     catalog_duplicates = catalog_audit.duplicates
     catalog_declared, catalog_identified = catalog_audit.declared, catalog_audit.identified
-    shell = _shell('/quality', 'Diagnostics', 'Reference contract, live example, runtime, and visual evidence are reported as separate proof layers.')
-    with _section('Authority health', 'Canonical authority counts are compared with what an engineer can actually find and open from the Reference Explorer.'):
+    shell = _shell('/quality', 'Diagnostics', 'Understand runtime health, framework coverage, and the few actions that need attention.')
+    with _section('System health', 'A quick answer to whether the installed reference is ready to use.'):
         with ui.element('div').classes('cui-workbench-quality-grid'):
+            with ui.element('article').classes('cui-workbench-quality-card'):
+                ui.label('Reference Explorer').classes('cui-workbench-card__title')
+                ui.label('Healthy').classes('cui-workbench-chip')
+                ui.label(f'Candidate {BUILD_ID} · NiceGUI Base {FRAMEWORK_VERSION} · NiceGUI 3.15.0').classes('cui-workbench-note')
             for label, exists, visible, previewed in (
         ('Generic application patterns', canonical_patterns, stats.patterns, canonical_patterns),
         ('Semiconductor analytics', canonical_analytics, stats.analytics, previewed_analytics),
@@ -1528,13 +1522,13 @@ def quality_page() -> None:
                 with ui.element('article').classes('cui-workbench-quality-card'):
                     ui.label(label).classes('cui-workbench-card__title')
                     with ui.element('div').classes('cui-workbench-quality-row'):
-                        ui.label('Canonical existence').classes('cui-workbench-note')
+                        ui.label('Available').classes('cui-workbench-note')
                         ui.label(str(exists)).classes('cui-workbench-chip')
                     with ui.element('div').classes('cui-workbench-quality-row'):
-                        ui.label('Reference Explorer discoverability').classes('cui-workbench-note')
+                        ui.label('Discoverable').classes('cui-workbench-note')
                         ui.label(f'{visible} / {exists}').classes('cui-workbench-chip')
                     with ui.element('div').classes('cui-workbench-quality-row'):
-                        ui.label('Sample preview contract').classes('cui-workbench-note')
+                        ui.label('Live examples').classes('cui-workbench-note')
                         ui.label(f'{previewed} / {exists}').classes('cui-workbench-chip')
     with _section('Catalog family coverage', 'Every capability family must be backed by at least one discoverable canonical authority entry.'):
         with ui.element('div').classes('cui-workbench-quality-grid'):
@@ -1543,7 +1537,7 @@ def quality_page() -> None:
                 with ui.element('article').classes('cui-workbench-quality-card'):
                     ui.label(family).classes('cui-workbench-card__title')
                     ui.label(f'{count} discoverable entr{"y" if count == 1 else "ies"}').classes('cui-workbench-chip')
-    with _section('Canonical catalog parity', 'Every packaged framework-catalog record resolves to a richer Reference Explorer adapter or an explicit contract entry.'):
+    with _section('Framework coverage', 'Every reusable family is reachable from the Explorer and has a clear live or nonvisual contract.'):
         with ui.element('article').classes('cui-workbench-quality-card'):
             ui.label(f'{catalog_visible} / {catalog_total} canonical catalog records visible').classes('cui-workbench-card__title')
             ui.label(f'Catalog shape: {catalog_identified} identified / {catalog_declared} declared').classes('cui-workbench-note')
@@ -1553,7 +1547,7 @@ def quality_page() -> None:
                 ui.label(f'{len(catalog_duplicates)} duplicated: ' + ', '.join(f'{registry}/{key}' for registry, key in catalog_duplicates[:8])).classes('cui-workbench-note')
             else:
                 ui.label('No canonical framework-catalog records are hidden or duplicated in the Reference Explorer.').classes('cui-workbench-note')
-    with _section('Reference contracts', 'Every reusable capability exposes the same typed anatomy to people and AI agents.'):
+    with _section('Developer-ready references', 'Live examples and concise contracts are the material engineers copy into applications.'):
         with ui.element('article').classes('cui-workbench-quality-card'):
             ui.label(f'{contract_audit.conforming} / {contract_audit.total} complete').classes('cui-workbench-card__title')
             ui.label('Live examples use registered renderers; nonvisual capabilities declare their explicit contract variant.').classes('cui-workbench-note')
@@ -1577,29 +1571,22 @@ def quality_page() -> None:
         )
         for passed, text in checks:
             ui.label(f"{'✓' if passed else '✕'} {text}").classes('cui-workbench-note')
-    from .coverage_matrix import render_developer_readiness
-    render_developer_readiness(entries)
-    ui.label('Runtime, browser, target-environment, and visual review evidence are recorded separately from source coverage.').classes('cui-workbench-note')
+    with ui.element('details').classes('cui-workbench-section cui-diagnostics-advanced'):
+        with ui.element('summary').props('tabindex="0"'):
+            ui.label('Advanced implementation details').classes('cui-workbench-section-title')
+        from .coverage_matrix import render_developer_readiness
+        render_developer_readiness(entries)
+        ui.label('Registry, packaging, browser, and visual evidence belong here for maintainers; they do not lead normal discovery.').classes('cui-workbench-note')
+    from .explorer_performance import render_explorer_performance
+    render_explorer_performance()
     _end_shell(shell)
 
 
 def applications_page() -> None:
-    from nicegui import ui
-    from nicegui_base.integrations.nicegui_components import Button
     from .full_applications import full_application_entries
-
-    entries = full_application_entries()
-    shell = _shell('/applications', 'Full Applications', 'Complete department-style applications composed from the same patterns, recipes and components used by generated projects.')
-    with ui.element('div').classes('cui-workbench-toolbar'):
-        ui.label(f'{len(entries)} runnable reference applications').classes('cui-workbench-chip')
-        Button('Browse recipe contracts', on_click=lambda: ui.navigate.to('/recipes'))
-    with _section('Start from a complete application', 'Open a runnable composition to see the engineering question, pattern, linked records, analytical view and caveats together.'):
-        with ui.element('div').classes('cui-workbench-grid cui-workbench-grid--3'):
-            for entry in entries:
-                pattern_label = entry.pattern_key.replace('_', ' ').title()
-                _action_card(entry.title, entry.description, entry.route, f'Pattern: {pattern_label} · Recipe: {entry.recipe_key}')
-    with _section('Composition rule', 'Use a complete application as the starting point; change domain services and data contracts before changing layout anatomy.'):
-        ui.label('Each example uses the governed shell, semantic pattern slots, FilterBar, MetricStrip, registered visualization/table renderers, an InspectorDrawer and explicit empty-state behavior.').classes('cui-workbench-note')
+    from .explorer_gallery import render_application_gallery
+    shell = _shell('/applications', 'Full Applications', 'Start from a production-shaped domain composition, then replace sample data and application-owned business logic.')
+    render_application_gallery(full_application_entries())
     _end_shell(shell)
 
 
@@ -1677,8 +1664,10 @@ def _register_reference_routes() -> None:
 def register_workbench_pages(*, include_reference: bool = True, root_path: str = '') -> None:
     from nicegui import ui
     from nicegui_base.integrations.nicegui_theme import install_framework_css
+    from .explorer_state import EXPLORER_BROWSER_STATE_SCRIPT
     install_framework_css(ui)
     install_workbench_css()
+    ui.add_head_html(EXPLORER_BROWSER_STATE_SCRIPT, shared=True)
     root_prefix = '/' + root_path.strip('/') if root_path.strip('/') else ''
     palette_fallback = f'{root_prefix}/?palette=1'
     ui.add_head_html(f"""<script>(function(){{if(window.__niceguiBaseWorkbenchGlobalKeys)return;window.__niceguiBaseWorkbenchGlobalKeys=true;window.__niceguiBaseWorkbenchHome={json.dumps(palette_fallback)};document.addEventListener('keydown',function(e){{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){{e.preventDefault();const id=window.__niceguiBaseWorkbenchCommandTarget;const target=id?getHtmlElement(id):null;if(target){{target.click();}}else{{window.location.href=window.__niceguiBaseWorkbenchHome;}}}}}});}})();</script>""", shared=True)

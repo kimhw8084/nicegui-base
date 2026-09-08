@@ -1,0 +1,62 @@
+{
+  "candidate_id": "NGB-20260907-G2.4",
+  "baseline": "NGB-20260907-G2.3",
+  "status": "PENDING_RUNTIME_LIFECYCLE_EVIDENCE",
+  "visual_baseline": {
+    "candidate": "NGB-20260907-G2.3",
+    "capture_records": 806,
+    "screenshots": 1291,
+    "human_visual_review": "PASS",
+    "page_error_records": 0,
+    "console_error_records": 0,
+    "horizontal_overflow_records": 0
+  },
+  "runtime_finding": "G2.3 server evidence contained one NiceGUI 3.15 slot-lifecycle exception from a deleted Timer parent slot.",
+  "reviewed_timer_authority_before": [
+    {
+      "path": "source/nicegui_base/integrations/nicegui_data_table.py",
+      "line": 625,
+      "source": "ui.timer(0.0, self._restore_runtime_state, once=True)"
+    },
+    {
+      "path": "source/nicegui_base/integrations/nicegui_data_table.py",
+      "line": 953,
+      "source": "ui.timer(0.0, self.refresh, once=True)"
+    },
+    {
+      "path": "source/nicegui_base/integrations/nicegui_debugger.py",
+      "line": 124,
+      "source": "ui.timer(1.5, self._update_trigger_badge)"
+    },
+    {
+      "path": "source/nicegui_base/integrations/nicegui_layout.py",
+      "line": 477,
+      "source": "ui.timer(0, _open_initially, once=True)"
+    },
+    {
+      "path": "source/nicegui_base/workbench/app.py",
+      "line": 158,
+      "source": "ui.timer(0.0, reconcile_initial_theme, once=True)"
+    },
+    {
+      "path": "source/nicegui_base/workbench/provider_preview.py",
+      "line": 214,
+      "source": "ui.timer(0, populate_choices, once=True)"
+    },
+    {
+      "path": "source/nicegui_base/workbench/provider_preview.py",
+      "line": 305,
+      "source": "ui.timer(0, schedule, once=True)"
+    }
+  ],
+  "closure": [
+    "UniversalDebugger recurring badge refresh -> client-owned asyncio task",
+    "DataTable persisted restore -> LifecycleScope startup task",
+    "ServerDataTable initial refresh -> LifecycleScope startup task",
+    "MobileNavigationDrawer initial state -> immediate document root state",
+    "Reference Explorer theme reconcile -> cancellable client task",
+    "Provider filter distinct values -> LifecycleScope task",
+    "Provider capability initial render -> existing LifecycleScope schedule",
+    "No production ui.timer remains outside certification harnesses"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "candidate_id": "NGB-20260907-G2.3",
+  "baseline": "NGB-20260907-G2.2",
+  "status": "PENDING_HUMAN_VISUAL_REVIEW",
+  "basis": "NGB-20260907-G2.2_FULL_VISUAL_EVIDENCE_20260907T160537_UPLOAD_ME.zip",
+  "g22_capture": {
+    "capture_records": 806,
+    "screenshots": 1291,
+    "status_counts": {
+      "PASS": 806
+    },
+    "horizontal_overflow_records": 0,
+    "page_error_records": 0,
+    "console_error_records": 0
+  },
+  "remaining_human_polish_closed": [
+    "Layouts gallery now precedes the live Dashboard inspector in actual DOM order",
+    "State atlas expands across the available desktop width",
+    "Reference Explorer harness is collapsed by default behind an advanced disclosure",
+    "Capability reference/draft status uses one compact horizontal status row"
+  ]
+}
