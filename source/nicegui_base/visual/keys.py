@@ -6,6 +6,7 @@ class Icons(StrEnum):
     ALARM = 'alarm'
     ANNOUNCEMENT = 'announcement'
     API = 'api'
+    APPEARANCE = 'appearance'
     APPROVE = 'approve'
     ARROW_DOWN = 'arrow-down'
     ARROW_LEFT = 'arrow-left'

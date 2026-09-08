@@ -99,11 +99,12 @@ def studio_tabs_for_entry(entry: WorkbenchEntry, *, data_renderer=None, interact
     if data_renderer is not None or is_data_backed(entry):
         tabs.append('data')
     component_key = str(entry.metadata.get('component_key') or '')
-    if entry.kind in {WorkbenchKind.ANALYTIC, WorkbenchKind.PATTERN, WorkbenchKind.RECIPE} or component_key in _INTERACTIVE_COMPONENTS:
+    from .catalog_runtime import supported_options
+    if supported_options(entry) or component_key in _INTERACTIVE_COMPONENTS:
         tabs.append('configure')
-    if entry.reference_contract.states:
+    if (component_key in _INTERACTIVE_COMPONENTS or entry.metadata.get('states')) and len(entry.reference_contract.states) >= 2:
         tabs.append('states')
-    if interaction_renderer is not None or component_key in _INTERACTIVE_COMPONENTS or entry.kind in {WorkbenchKind.ANALYTIC, WorkbenchKind.PATTERN, WorkbenchKind.RECIPE}:
+    if interaction_renderer is not None or component_key in _INTERACTIVE_COMPONENTS:
         tabs.append('interactions')
     tabs.extend(('inspect', 'code'))
     return tuple(dict.fromkeys(tabs))
@@ -161,29 +162,21 @@ async def _read_all(content: Any) -> bytes:
 
 
 def render_data_capability_map() -> None:
-    """Show the honest Data & Tables surface map before the editable example.
-
-    This is intentionally a capability inventory, not a promise that a control
-    exists because its label was rendered.  Unsupported enterprise operations stay
-    explicit until their canonical DataTable API is implemented.
-    """
+    """Introduce the canonical table lab with a truthful interaction contract."""
     from nicegui import ui
 
     supported = (
-        ('Find', 'global search, no-results state, and refresh', 'search'),
-        ('Edit safely', 'inline cell editing, validation, add/delete, undo and redo', 'editing'),
-        ('Paste', 'clipboard rectangular paste with a permission-safe fallback', 'paste'),
-        ('Schema', 'rename/type/semantic-role editing with missing and duplicate checks', 'schema'),
-        ('Inspect', 'row selection, density, column visibility, export, upload and sample reset', 'inspect'),
-    )
-    planned = (
-        'server-backed pagination', 'multi-sort and grouping/aggregation', 'permission-filtered rows',
-        'frozen/reordered columns', 'expandable master/detail rows',
+        ('Find & filter', 'global search, column filters, sort, no-results, refresh', 'search'),
+        ('Edit safely', 'inline editing, validation, add/delete, undo and redo', 'editing'),
+        ('Select & act', 'single selection, row actions, export, density and visible columns', 'selection'),
+        ('Paste & import', 'rectangular clipboard paste plus CSV, TSV and JSON upload', 'paste'),
+        ('Understand schema', 'types, semantic roles, missing values and duplicate checks', 'schema'),
+        ('Bounded data', 'pagination, responsive overflow and canonical empty/error states', 'bounded'),
     )
     with ui.element('section').classes('cui-data-dock-capability-map').props('data-data-capability-map'):
         with ui.element('div').classes('cui-data-dock-capability-head'):
-            ui.label('Serious table work, shown honestly').classes('cui-workbench-section-title')
-            ui.label('Try the supported interactions below; the roadmap is separated so an engineer never mistakes a label for an implemented contract.').classes('cui-workbench-note')
+            ui.label('Enterprise Data Table Lab').classes('cui-workbench-section-title')
+            ui.label('Use the live table below to learn the canonical DataTable and DataDock contracts. Each capability card names a real interaction in this lab, not a decorative promise.').classes('cui-workbench-note')
         with ui.element('div').classes('cui-data-dock-capability-grid'):
             for title, description, key in supported:
                 with ui.element('article').classes('cui-data-dock-capability-card').props(f'data-data-capability="{key}"'):
@@ -191,14 +184,14 @@ def render_data_capability_map() -> None:
                     ui.label(description).classes('cui-workbench-note')
         with ui.element('details').classes('cui-data-dock-unsupported'):
             with ui.element('summary').props('tabindex="0"'):
-                ui.label('Not represented by this example yet').classes('cui-workbench-card__meta')
-            ui.label(' · '.join(planned)).classes('cui-workbench-note')
+                ui.label('Provider-scale extensions').classes('cui-workbench-card__meta')
+            ui.label('Server-backed reads, stale-request cancellation, permissions, expandable master/detail, and grouping remain available through the reusable table APIs for application pages; this bounded local lab keeps one editable dataset fast and legible.').classes('cui-workbench-note')
 
 
 def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel], Any] | None = None, mapping_targets: Sequence[str] = ()) -> None:
     """Render the reusable example-data playground and data-contract demonstrator."""
     from nicegui import ui
-    from nicegui_base.data_table import EditableTableSpec, SelectionMode, TableColumn
+    from nicegui_base.data_table import BulkAction, EditableTableSpec, PinPosition, RowAction, SelectionMode, TableColumn
     from nicegui_base.integrations.nicegui_components import ActionButton, Button, FileUpload, Select, TextArea, TextInput
     from nicegui_base.integrations.nicegui_data_table import EditableTable
     from nicegui_base.integrations.nicegui_layout import SegmentedControl
@@ -248,9 +241,26 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
         while row_key in model.snapshot.column_names:
             row_key += '_'
         rows = [{**row, row_key:index} for index, row in enumerate(model.rows)]
-        columns = [TableColumn(row_key, '#', kind=_column_kind('integer'), visible=False)]
+        columns = [TableColumn(row_key, '#', kind=_column_kind('integer'), visible=False, pinned=PinPosition.LEFT)]
         columns.extend(TableColumn(column.name, column.name, kind=_column_kind(column.inferred_type), editable=True) for column in model.columns)
-        spec = EditableTableSpec(tuple(columns), row_key=row_key, title='Example data', selection=SelectionMode.SINGLE, persist_state=False)
+        selected_rows: list[Mapping[str, Any]] = []
+
+        async def remove_selected(rows: Sequence[Mapping[str, Any]]) -> None:
+            indexes = sorted({int(row.get(row_key, -1)) for row in rows if str(row.get(row_key, '')).isdigit()}, reverse=True)
+            for index in indexes:
+                if 0 <= index < len(model.rows):
+                    model.delete_row(index)
+            if indexes:
+                await changed()
+                dock_status.set_text(f'Deleted {len(indexes)} selected row(s); use Undo to restore them.')
+
+        def inspect_row(row: Mapping[str, Any]) -> None:
+            dock_status.set_text('Selected row · ' + ' · '.join(f'{key}={value}' for key, value in row.items() if key != row_key)[:240])
+
+        async def selected(rows: Sequence[Mapping[str, Any]]) -> None:
+            selected_rows[:] = rows
+
+        spec = EditableTableSpec(tuple(columns), row_key=row_key, title='Example data', selection=SelectionMode.MULTIPLE, persist_state=False)
 
         async def save_edit(row, key, value):
             if key == row_key:
@@ -265,7 +275,11 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                 if hasattr(result, '__await__'):
                     await result
 
-        table = EditableTable(rows, columns, spec=spec, save_edit=save_edit)
+        table = EditableTable(
+            rows, columns, spec=spec, save_edit=save_edit, on_select=selected,
+            bulk_actions=(BulkAction('delete', 'Delete selected', icon='delete', intent='danger', on_action=remove_selected),),
+            row_actions=(RowAction('inspect', 'Inspect row', icon='info', on_action=inspect_row),),
+        )
         selected = {'row': 0, 'column': model.columns[0].name}
         target_label = ui.label(f"Paste target · row 1 · {selected['column']}").classes('cui-workbench-note')
         clipboard_status = ui.label('Select any editable cell, then paste from the clipboard or use the fallback box.').classes('cui-workbench-note')
@@ -498,11 +512,8 @@ def _header_metadata(entry: WorkbenchEntry) -> None:
                 ui.label(entry.maturity)
         ui.label(entry.title).classes('cui-workbench-title')
         ui.label(entry.description).classes('cui-workbench-subtitle')
-        with ui.element('div').classes('cui-workbench-chiprow'):
-            if entry.live_preview:
-                ui.label('Live preview').classes('cui-workbench-chip')
-            if entry.sample_data:
-                ui.label('Sample data').classes('cui-workbench-chip')
+        # The live specimen is the proof; a badge repeating that fact adds no
+        # decision value to the first layer of the reference page.
         with ui.element('div').classes('cui-studio-decision-grid'):
             if entry.reference_contract.best_for:
                 with ui.element('div').classes('cui-studio-decision-card'):
@@ -570,7 +581,7 @@ def _render_contract_specimen(entry: WorkbenchEntry, mode: str) -> None:
         authority = entry.source_authority or 'Canonical NiceGUI Base authority'
         ui.label(f'Authority · {authority}').classes('cui-workbench-note')
         if mode in {'runtime','security','performance','data'}:
-            ui.label('Inspect Configure, States, Interactions, and Code for the governed behavior contract.').classes('cui-workbench-note')
+            ui.label('Use the sections shown for this capability: live preview first, then only the data, controls, behavior, reference, and code contracts it actually supports.').classes('cui-workbench-note')
 
 def _copy_button(label: str, text_supplier: Callable[[], str]):
     from nicegui import ui

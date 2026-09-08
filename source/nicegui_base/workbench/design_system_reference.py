@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import fields
 from typing import Any, Mapping
 
-from nicegui_base.design import CANONICAL_VIEWPORTS, ThemePalette, build_design_system
+from nicegui_base.design import ThemePalette, build_design_system
 from nicegui_base.components import ButtonIntent, StatusIntent
 from nicegui_base.integrations.nicegui_components import ActionButton, Button, StatusBadge
 
@@ -45,7 +45,7 @@ def _copy_api(api: str) -> None:
         ))
 
 
-def _live_specimen(key: str) -> None:
+def _live_specimen(key: str, values: Mapping[str, Any] | None = None) -> None:
     """Show the token in use beside its contract, using only semantic classes."""
     from nicegui import ui
 
@@ -65,10 +65,12 @@ def _live_specimen(key: str) -> None:
     with ui.element('div').classes('cui-d6c-live-specimen').props(f'data-token-specimen="{key}"'):
         ui.label('Live use').classes('cui-d6c-live-specimen__title')
         if key == 'spacing':
-            with ui.element('div').classes('cui-d6c-spacing-demo cui-stack cui-gap-content'):
-                for label in ('Tight', 'Related', 'Stack', 'Content', 'Section', 'Page'):
+            names = (('Tight', '1'), ('Related', '2'), ('Stack', '4'), ('Content', '6'), ('Section', '10'), ('Page', '16'))
+            with ui.element('div').classes('cui-d6c-spacing-demo'):
+                for label, token in names:
                     with ui.element('div').classes('cui-d6c-spacing-block'):
-                        ui.label(label)
+                        ui.label(label).classes('cui-d6c-spacing-block__label')
+                        ui.label(f'--cui-space-{token} · {values.get(token, "")}px' if values else f'--cui-space-{token}').classes('cui-d6c-spacing-block__value cui-tabular')
         elif key == 'semantic-gaps':
             with ui.element('div').classes('cui-d6c-gap-demo'):
                 for label in ('Page', 'Section', 'Content', 'Control'):
@@ -150,14 +152,19 @@ def _family(title: str, key: str, values: Mapping[str, Any], guidance: str) -> N
             ui.label(title).classes('cui-workbench-section-title')
             ui.label(guidance).classes('cui-workbench-note')
         with ui.element('div').classes('cui-d6c-token-family__body'):
-            _live_specimen(key)
+            _live_specimen(key, values)
             with ui.element('details').classes('cui-d6c-token-details'):
                 with ui.element('summary').props('tabindex="0"'):
                     ui.label('View token details').classes('cui-workbench-card__meta')
-                with ui.element('div').classes('cui-d6c-token-list'):
+                with ui.element('div').classes('cui-d6c-token-list').props('role="table" aria-label="Token details"'):
+                    with ui.element('div').classes('cui-d6c-token-row cui-d6c-token-row--head').props('role="row"'):
+                        ui.label('Token').classes('cui-d6c-token-name')
+                        ui.label('Semantic value').classes('cui-d6c-token-meaning')
+                        ui.label('Value').classes('cui-d6c-token-value')
                     for name, value in values.items():
-                        with ui.element('div').classes('cui-d6c-token-row'):
-                            ui.label(name.replace('_', ' ')).classes('cui-d6c-token-name')
+                        with ui.element('div').classes('cui-d6c-token-row').props('role="row"'):
+                            ui.label(name.replace('_', ' ')).classes('cui-d6c-token-name').props('role="cell"')
+                            ui.label(guidance).classes('cui-d6c-token-meaning').props('role="cell"')
                             ui.label(_text(value)).classes('cui-d6c-token-value cui-tabular')
 
 
@@ -199,34 +206,6 @@ def _palette() -> None:
                         ui.label(label).classes('cui-d6c-token-name')
                         ui.label(copy).classes('cui-workbench-note')
             _copy_api('classes("cui-surface-token cui-border-subtle")')
-
-
-def _responsive() -> None:
-    from nicegui import ui
-
-    with ui.element('section').classes('cui-d6c-token-family cui-surface-token').props(
-        'data-design-token-family="responsive-preview"'
-    ):
-        ui.label('Responsive reference').classes('cui-workbench-section-title')
-        ui.label('The same semantic surface is checked at the governed desktop, tablet, and phone profiles.').classes('cui-workbench-note')
-        with ui.element('div').classes('cui-d6c-viewport-grid'):
-            for key in ('desktop-wide', 'tablet-wide', 'phone-compact'):
-                viewport = CANONICAL_VIEWPORTS[key]
-                with ui.element('article').classes('cui-d6c-viewport-card').props(
-                    f'data-design-viewport="{viewport.tier}" data-viewport-width="{viewport.width}"'
-                ):
-                    ui.label(viewport.tier.title()).classes('cui-d6c-viewport-card__title')
-                    ui.label(f'{viewport.width} × {viewport.height}').classes('cui-d6c-token-value cui-tabular')
-                    with ui.element('div').classes(f'cui-d6c-mini-canvas cui-d6c-canvas--{key.split("-")[0]}'):
-                        if viewport.tier == 'desktop':
-                            ui.label('Filters').classes('cui-d6c-mini-slot')
-                        elif viewport.tier == 'tablet':
-                            ui.label('Filters row').classes('cui-d6c-mini-slot cui-d6c-mini-slot--wide')
-                        else:
-                            ui.label('Filters drawer').classes('cui-d6c-mini-slot cui-d6c-mini-slot--wide')
-                        ui.label('Main').classes('cui-d6c-mini-slot')
-                        ui.label('Inspector' if viewport.tier != 'phone' else 'Inspector · collapsed').classes('cui-d6c-mini-slot')
-                    ui.label('Desktop: filters | main | inspector · tablet: filter row, split content · phone: drawer, main, collapsed detail.').classes('cui-workbench-note')
 
 
 def _density_and_states() -> None:
@@ -279,7 +258,6 @@ def render_design_system_reference() -> None:
         _family('Z-index', 'z-index', system.z_index, _FAMILY_GUIDANCE['z_index'])
         _family('Interactive states', 'interactive-states', system.interactive_states, _FAMILY_GUIDANCE['interactive_states'])
 
-    _responsive()
     _density_and_states()
 
 

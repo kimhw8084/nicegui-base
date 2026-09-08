@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "port": 60299,
+  "port": 52081,
   "route_count": 23,
   "routes": [
     {
@@ -142,7 +142,7 @@
       "detail": ""
     }
   ],
-  "log_path": "/Users/haewonkim/home/development/nicegui-base/certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log",
+  "log_path": "certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log",
   "log_error_patterns": [],
   "process_returncode": -15
 }

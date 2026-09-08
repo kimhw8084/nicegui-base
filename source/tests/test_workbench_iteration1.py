@@ -728,7 +728,7 @@ def test_catalog_groups_entries_by_plan_family_and_exposes_family_filter():
 
 def test_workbench_owns_display_controls_instead_of_private_certification_lab_control_bar():
     source = (ROOT / 'source' / 'nicegui_base' / 'workbench' / 'app.py').read_text()
-    assert 'def _display_control_bar()' in source
+    assert 'def _display_control_bar(*, inline: bool = False)' in source
     assert '_display_control_bar()' in source[source.index('def _shell('):source.index('def _end_shell', source.index('def _shell('))]
     assert 'from nicegui_base.certification.mac_lab import _control_bar' not in source
     assert "SegmentedControl({'system': 'System', 'light': 'Light', 'dark': 'Dark'}" in source

@@ -19,7 +19,7 @@ PRIMARY = (
     ('start', '/'), ('design', '/design'), ('components', '/components'),
     ('data', '/workbench/data'), ('visualizations', '/analytics'), ('layouts', '/layouts'),
     ('patterns', '/patterns'), ('recipes', '/recipes'), ('applications', '/applications'),
-    ('ai-guide', '/ai-guide'), ('diagnostics', '/quality'),
+    ('ai-guide', '/ai-guide'), ('settings', '/settings'), ('diagnostics', '/quality'),
 )
 ANALYTICS = (
     'spc_i_mr','spc_xbar_r','spc_xbar_s','spc_p','spc_np','spc_c','spc_u','spc_ewma','spc_cusum',
@@ -69,6 +69,64 @@ def _check(page, response, route: str, *, semantic: bool = False) -> list[str]:
     return issues
 
 
+def _prime_full_page_media(page) -> None:
+    """Paint below-the-fold media before a long human-review screenshot.
+
+    Chromium can report a loaded data URI while its compositor has not painted an
+    off-screen image yet. Scrolling the bounded page once makes evidence faithful
+    without changing the product's lazy/lifecycle behavior.
+    """
+    if page.locator('img').count():
+        page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
+        page.wait_for_timeout(120)
+        page.evaluate('window.scrollTo(0, 0)')
+        page.wait_for_timeout(120)
+
+
+def _interaction_result(page, base: str, *, width: int) -> dict[str, object]:
+    """Exercise the high-risk shell and discovery interactions on a live page."""
+    issues: list[str] = []
+    page.goto(base.rstrip('/') + '/', wait_until='domcontentloaded', timeout=45000)
+    page.wait_for_timeout(350)
+    mobile = page.locator('button.cui-shell-mobile-menu').first
+    if width >= 900:
+        if mobile.is_visible():
+            issues.append('desktop-hamburger-visible')
+        if not page.locator('button.cui-shell-settings').is_visible():
+            issues.append('settings-action-hidden')
+    else:
+        if not mobile.is_visible():
+            issues.append('mobile-hamburger-hidden')
+        else:
+            mobile.click(); page.wait_for_timeout(180)
+            if page.locator('html[data-mobile-nav="open"]').count() != 1 or mobile.get_attribute('aria-expanded') != 'true':
+                issues.append('mobile-drawer-not-open')
+            page.keyboard.press('Escape'); page.wait_for_timeout(180)
+            if page.locator('html[data-mobile-nav="open"]').count() or mobile.get_attribute('aria-expanded') != 'false':
+                issues.append('mobile-drawer-not-closed')
+    if width >= 900:
+        recommendation = page.get_by_role('button', name='View recommendation').first
+        if recommendation.count():
+            before = page.evaluate('window.scrollY')
+            recommendation.click(); page.wait_for_timeout(260)
+            if page.get_by_role('button', name='Clear recommendation').count() != 1:
+                issues.append('recommendation-not-open')
+            if page.evaluate('window.scrollY') != before:
+                issues.append('recommendation-scroll-jump')
+            page.get_by_role('button', name='Clear recommendation').click(); page.wait_for_timeout(160)
+            if page.get_by_role('button', name='Clear recommendation').count():
+                issues.append('recommendation-not-cleared')
+    settings_response = page.goto(base.rstrip('/') + '/settings', wait_until='domcontentloaded', timeout=45000)
+    page.wait_for_timeout(250)
+    if settings_response is None or settings_response.status != 200:
+        issues.append('settings-route-failed')
+    if page.locator('.cui-page-title').filter(has_text='Settings').count() != 1:
+        issues.append('settings-title-missing')
+    if width >= 900 and not page.locator('.cui-app-sidebar').is_visible():
+        issues.append('settings-shell-missing')
+    return {'label': f'shell-interactions-{width}', 'route': '/ and /settings', 'issues': issues}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--url', required=True)
@@ -96,6 +154,7 @@ def main() -> int:
                     response = page.goto(args.url.rstrip('/') + route, wait_until='domcontentloaded', timeout=45000)
                     page.wait_for_timeout(350)
                     page.evaluate('(theme) => { document.documentElement.dataset.theme = theme; document.body.classList.toggle("q-dark", theme === "dark") }', theme)
+                    _prime_full_page_media(page)
                     issues = _check(page, response, route)
                     if events['console'] or events['page']:
                         issues.append('browser-error')
@@ -111,12 +170,18 @@ def main() -> int:
             events['console'].clear(); events['page'].clear()
             response = page.goto(args.url.rstrip('/') + route, wait_until='domcontentloaded', timeout=45000)
             page.wait_for_timeout(350)
+            _prime_full_page_media(page)
             semantic = label.startswith('analytic-')
             issues = _check(page, response, route, semantic=semantic)
             if events['console'] or events['page']:
                 issues.append('browser-error')
             page.screenshot(path=str(screenshots / f'{label}_desktop_light.png'), full_page=True)
             results.append({'label': label, 'route': route, 'viewport': 'desktop', 'theme': 'light', 'issues': issues, 'console': events['console'][:3], 'page_errors': events['page'][:3], 'height': page.evaluate('document.body.scrollHeight')})
+        for width in (1440, 390):
+            context.close()
+            context = browser.new_context(viewport={'width': width, 'height': 1000 if width >= 900 else 844})
+            page = context.new_page()
+            results.append(_interaction_result(page, args.url, width=width))
         context.close(); browser.close()
     payload = {'candidate': CANDIDATE, 'total': len(results), 'passed': sum(not item['issues'] for item in results), 'results': results}
     (output / 'G26_BROWSER_RESULT.json').write_text(json.dumps(payload, indent=2), encoding='utf-8')

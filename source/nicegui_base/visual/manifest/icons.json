@@ -1081,6 +1081,19 @@
       "aliases": []
     },
     {
+      "key": "appearance",
+      "category": "system",
+      "domain": "generic",
+      "path": "icons/generic/appearance.svg",
+      "style": "outline",
+      "canvas": "24",
+      "stroke_width": 1.75,
+      "theme": "currentColor",
+      "source": "nicegui-base-project-authored",
+      "license": "NiceGUI Base project-authored asset",
+      "aliases": ["theme"]
+    },
+    {
       "key": "cloud",
       "category": "system",
       "domain": "generic",

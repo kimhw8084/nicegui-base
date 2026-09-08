@@ -1,32 +1,32 @@
-INFO:     Started server process [94928]
+INFO:     Started server process [44449]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://127.0.0.1:60299 (Press CTRL+C to quit)
-INFO:     127.0.0.1:60309 - "GET /healthz HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60310 - "GET /healthz HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60311 - "GET /readyz HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60312 - "GET / HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60313 - "GET /foundation HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60314 - "GET /shell HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60315 - "GET /controls HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60316 - "GET /forms HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60317 - "GET /data HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60318 - "GET /charts HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60319 - "GET /content HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60320 - "GET /engineering HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60321 - "GET /states HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60322 - "GET /performance HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60323 - "GET /patterns/dashboard HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /patterns/explorer HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60325 - "GET /patterns/master-detail HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60326 - "GET /patterns/crud HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60327 - "GET /patterns/monitoring HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60328 - "GET /patterns/search HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60329 - "GET /patterns/settings HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60331 - "GET /patterns/wizard HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60332 - "GET /patterns/comparison HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60333 - "GET /patterns/analysis HTTP/1.1" 200 OK
+INFO:     Uvicorn running on http://127.0.0.1:52081 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52094 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52095 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52096 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52097 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52099 - "GET /foundation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52101 - "GET /shell HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52105 - "GET /controls HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52107 - "GET /forms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52108 - "GET /data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52110 - "GET /charts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52112 - "GET /content HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52113 - "GET /engineering HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52114 - "GET /states HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52115 - "GET /performance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52116 - "GET /patterns/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52118 - "GET /patterns/explorer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52121 - "GET /patterns/master-detail HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52123 - "GET /patterns/crud HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52124 - "GET /patterns/monitoring HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52125 - "GET /patterns/search HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52126 - "GET /patterns/settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52127 - "GET /patterns/wizard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52131 - "GET /patterns/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52132 - "GET /patterns/analysis HTTP/1.1" 200 OK
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [94928]
+INFO:     Finished server process [44449]

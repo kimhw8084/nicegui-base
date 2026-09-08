@@ -24,8 +24,7 @@ def test_navigation_is_grouped_without_changing_primary_destination_set():
     labels = tuple(item.label for section in nav.sections for item in section.items)
     assert labels == (
         'Start Here', 'Design System', 'Components', 'Data & Tables', 'Visualizations',
-        'Layouts', 'Application Patterns', 'Semiconductor Recipes', 'Full Applications',
-        'AI Development Guide', 'Diagnostics',
+        'Application Patterns', 'Semiconductor Recipes', 'AI Development Guide', 'Settings',
     )
     assert all(item.route != '/build' for section in nav.sections for item in section.items)
 

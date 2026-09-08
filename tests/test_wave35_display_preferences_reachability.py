@@ -13,23 +13,9 @@ def _display_control_bar() -> ast.FunctionDef:
     assert len(nodes) == 1
     return nodes[0]
 
-def test_display_preference_reconciliation_is_reachable() -> None:
+def test_display_preferences_are_reachable_and_return_the_trigger() -> None:
     fn = _display_control_bar()
     body = fn.body
-    reconcile_index = next(
-        i for i, n in enumerate(body)
-        if isinstance(n, ast.AsyncFunctionDef) and n.name == "reconcile_initial_theme"
-    )
-    reconciliation_index = next(
-        i for i, n in enumerate(body)
-        if isinstance(n, ast.If)
-        and any(
-            isinstance(x, ast.Call)
-            and isinstance(x.func, ast.Attribute)
-            and x.func.attr == "create_task"
-            for x in ast.walk(n)
-        )
-    )
     return_indices = [
         i for i, n in enumerate(body)
         if isinstance(n, ast.Return)
@@ -37,11 +23,11 @@ def test_display_preference_reconciliation_is_reachable() -> None:
         and n.value.id == "trigger"
     ]
     assert return_indices == [len(body) - 1]
-    assert reconcile_index < reconciliation_index < return_indices[0]
+    assert any(isinstance(n, ast.Call) and getattr(n.func, 'id', '') == 'sync_theme' for n in ast.walk(fn))
 
 def test_display_preferences_are_menu_owned_and_accessible() -> None:
     source = APP.read_text(encoding="utf-8")
     assert "cui-workbench-preferences-trigger" in source
-    assert 'aria-label="Open display preferences"' in source
+    assert 'aria-label="Open appearance preferences"' in source
     assert "cui-workbench-display-controls" in source
     assert "WAVE35_DISPLAY_PREFERENCES_REACHABILITY_V13" in source

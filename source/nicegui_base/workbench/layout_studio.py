@@ -124,8 +124,10 @@ def render_layout_studio() -> None:
                 with ui.element('div').classes('cui-explorer-card__actions'):
                     Button('Open live example', icon='arrow-right', on_click=lambda _e=None, value=key: inspect(value))
                     Button(
-                        'Create from this', icon='add',
-                        on_click=lambda _e=None, value=key: ui.navigate.to(f'/studio/pattern%3A{value}'),
+                        'Copy scaffold command', icon='code',
+                        on_click=lambda _e=None, value=key: ui.run_javascript(
+                            f'navigator.clipboard && navigator.clipboard.writeText({("nicegui-base create-pattern ./" + value)!r})'
+                        ),
                     )
 
     ui.label('Inspect a layout').classes('cui-workbench-section-title')

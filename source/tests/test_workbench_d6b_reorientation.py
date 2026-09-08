@@ -18,8 +18,7 @@ def test_reference_explorer_navigation_has_no_builder_entry_point():
     labels = tuple(item.label for item in items)
     assert labels == (
         'Start Here', 'Design System', 'Components', 'Data & Tables', 'Visualizations',
-        'Layouts', 'Application Patterns', 'Semiconductor Recipes', 'Full Applications',
-        'AI Development Guide', 'Diagnostics',
+        'Application Patterns', 'Semiconductor Recipes', 'AI Development Guide', 'Settings',
     )
     assert all(item.route != '/build' for item in items)
     app_source = (ROOT / 'source/nicegui_base/workbench/app.py').read_text(encoding='utf-8')

@@ -53,9 +53,10 @@ class Button:
             self.element = ui.button(on_click=on_click, color=None).props('no-caps unelevated').classes(self.spec.classes)
             with self.element:
                 ui.html(render_icon_svg(icon, size='sm'), sanitize=False).classes('cui-svg-icon-host')
-                ui.label(label)
+                self.label_element = ui.label(label)
         else:
             self.element = ui.button(label, on_click=on_click, color=None).props('no-caps unelevated').classes(self.spec.classes)
+            self.label_element = None
         self.element.props(f'aria-label={json.dumps(label)}')
         if disabled:
             self.element.disable()

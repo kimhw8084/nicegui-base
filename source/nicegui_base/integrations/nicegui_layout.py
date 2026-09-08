@@ -32,6 +32,11 @@ _MOBILE_NAV_A11Y_RUNTIME = r'''<script>(()=>{
     const d=drawer(),l=layer();
     if(d){d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',d.getAttribute('aria-label')||'Mobile navigation');}
     if(l)l.setAttribute('aria-hidden',open?'false':'true');
+    document.querySelectorAll('.cui-shell-mobile-menu').forEach(button=>{
+      button.setAttribute('aria-expanded',String(open));
+      button.setAttribute('aria-label',open?'Close navigation':'Open navigation');
+      button.setAttribute('title',open?'Close navigation':'Open navigation');
+    });
   };
   const sync=()=>{
     const open=root.dataset.mobileNav==='open';
@@ -202,6 +207,8 @@ class ShellConfig:
     greeting: str | None = None
     user_name: str | None = None
     user_initials: str = 'U'
+    user_role: str = 'Member'
+    department: str = 'Department unavailable'
     on_settings: Callable[[], None] | None = None
     on_about: Callable[[], None] | None = None
     on_logout: Callable[[], None] | None = None
@@ -225,13 +232,14 @@ class AppShell(AbstractContextManager):
                  sidebar: SidebarMode = SidebarMode.AUTO, environment: str | None = None,
                  on_navigate: Callable[[str], None] | None = None, subtitle: str | None = None,
                  greeting: str | None = None, user_name: str | None = None, user_initials: str = 'U',
+                 user_role: str = 'Member', department: str = 'Department unavailable',
                  on_settings: Callable[[], None] | None = None, on_about: Callable[[], None] | None = None,
                  on_logout: Callable[[], None] | None = None, owner: str | None = None,
                  on_support: Callable[[], None] | None = None, on_feedback: Callable[[], None] | None = None,
                  on_docs: Callable[[], None] | None = None, permission_check: Callable[[str], bool] | None = None,
                  debugger: bool = True, debugger_health_provider: Callable[[], Any] | None = None):
         self.config = ShellConfig(title, navigation, active_route, sidebar, environment, on_navigate, subtitle,
-                                  greeting, user_name, user_initials, on_settings, on_about, on_logout,
+                                  greeting, user_name, user_initials, user_role, department, on_settings, on_about, on_logout,
                                   owner, on_support, on_feedback, on_docs, permission_check, debugger, debugger_health_provider)
         self.header = None; self.sidebar = None; self.mobile_drawer = None; self.main = None; self.debugger = None
 
@@ -256,7 +264,16 @@ class AppShell(AbstractContextManager):
         # avoids a timing dependency on the drawer object being assigned after
         # the header button is constructed.
         return await _ui().run_javascript(
-            "document.documentElement.dataset.mobileNav=document.documentElement.dataset.mobileNav==='open'?'closed':'open'"
+            """(() => {
+              const open=document.documentElement.dataset.mobileNav!=='open';
+              document.documentElement.dataset.mobileNav=open?'open':'closed';
+              document.querySelectorAll('.cui-shell-mobile-menu').forEach(button => {
+                button.setAttribute('aria-expanded',String(open));
+                button.setAttribute('aria-label',open?'Close navigation':'Open navigation');
+                button.setAttribute('title',open?'Close navigation':'Open navigation');
+              });
+              return open;
+            })()"""
         )
 
     def __enter__(self):
@@ -291,7 +308,7 @@ class AppShell(AbstractContextManager):
                 # Mobile navigation exists only when desktop navigation no longer fits,
                 # and lives with actions rather than beside the application title.
                 if self.config.navigation:
-                    mobile = ui.button(on_click=self._toggle_mobile, color=None).props('flat round dense aria-label="Open navigation" title="Navigation"').classes('cui-shell-mobile-menu cui-icon-button')
+                    mobile = ui.button(on_click=self._toggle_mobile, color=None).props('flat round dense aria-label="Open navigation" title="Open navigation" aria-expanded="false"').classes('cui-shell-mobile-menu cui-icon-button')
                     with mobile: _icon(ui, 'menu', label='Navigation')
                 if self.config.environment: EnvironmentBadge(self.config.environment)
                 if self.config.on_settings or self.config.on_about:
@@ -310,6 +327,8 @@ class AppShell(AbstractContextManager):
                             self.config.user_initials,
                             user_name=self.config.user_name,
                             greeting=self.config.greeting,
+                            role=self.config.user_role,
+                            department=self.config.department,
                             on_preferences=self.config.on_settings,
                             on_about=self.config.on_about,
                             on_logout=self.config.on_logout,
@@ -362,12 +381,35 @@ class Tabs(AbstractContextManager):
         if not specs: raise ValueError('Tabs require at least one TabSpec.')
         self.specs = specs; self.value = value or specs[0].id; self.tabs = None; self.panels = None
     def __enter__(self):
-        ui = _ui(); self.tabs = ui.tabs(value=self.value).classes('cui-tabs-region').props('aria-label="Sections"')
+        ui = _ui(); self.tabs = ui.tabs(value=self.value).classes('cui-tabs-region').props('aria-label="Sections" data-preserve-scroll="true"')
         with self.tabs:
             for spec in self.specs:
                 tab = ui.tab(spec.id, label=spec.label).classes('cui-tab')
                 if spec.disabled: tab.props('disable')
-        self.panels = ui.tab_panels(self.tabs, value=self.value).classes('cui-tab-panels'); self.panels.__enter__(); return self
+        self.panels = ui.tab_panels(self.tabs, value=self.value).classes('cui-tab-panels'); self.panels.__enter__()
+        tabs_id = getattr(self.tabs, 'id', None)
+        # Keep bounded synthetic construction tests useful without weakening the
+        # live-browser guard: real NiceGUI tabs expose an integer element id,
+        # while the certification FakeUI intentionally exposes callable stubs.
+        if isinstance(tabs_id, (int, str)) and not callable(tabs_id):
+            tabs_id = int(tabs_id)
+            ui.run_javascript(f"""(() => {{
+          const root=getHtmlElement({tabs_id});
+          if (!root || root.__niceguiBaseScrollGuard) return;
+          root.__niceguiBaseScrollGuard=true;
+          root.addEventListener('click', (event) => {{
+            const tab=event.target.closest('[role=tab]');
+            if (!tab) return;
+            const y=window.scrollY;
+            requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo({{top:y, behavior:'auto'}})));
+          }}, true);
+          root.addEventListener('keydown', (event) => {{
+            if (!['Enter',' ','ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+            const y=window.scrollY;
+            requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo({{top:y, behavior:'auto'}})));
+          }}, true);
+        }})()""")
+        return self
     def panel(self, tab_id: str):
         if tab_id not in {spec.id for spec in self.specs}: raise KeyError(f'Unknown tab id: {tab_id}')
         return _ui().tab_panel(tab_id)
@@ -405,7 +447,7 @@ class AppHeader(AbstractContextManager):
                 if self.subtitle: ui.label(self.subtitle).classes('cui-shell-subtitle')
         with ui.element('div').classes('cui-shell-actions'):
             if self.on_mobile_navigation:
-                b=ui.button(on_click=self.on_mobile_navigation, color=None).props('flat round dense aria-label="Open navigation" title="Navigation"').classes('cui-shell-mobile-menu cui-icon-button')
+                b=ui.button(on_click=self.on_mobile_navigation, color=None).props('flat round dense aria-label="Open navigation" title="Open navigation" aria-expanded="false"').classes('cui-shell-mobile-menu cui-icon-button')
                 with b: _icon(ui,'menu',label='Navigation')
             if self.environment: EnvironmentBadge(self.environment)
             if self.on_settings or self.on_about: _ApplicationMenu(environment=self.environment,on_settings=self.on_settings,on_about=self.on_about)
@@ -510,6 +552,7 @@ class _ApplicationMenu:
 
 class UserMenu:
     def __init__(self, initials: str = 'U', *, user_name: str | None = None, greeting: str | None = None,
+                 role: str = 'Member', department: str = 'Department unavailable',
                  on_preferences: Callable[[], None] | None = None, on_about: Callable[[], None] | None = None,
                  on_logout: Callable[[], None] | None = None):
         ui = _ui()
@@ -519,10 +562,11 @@ class UserMenu:
                     ui.label(initials[:2].upper()).classes('cui-account-avatar')
                     with ui.element('div').classes('cui-account-popover__identity-copy'):
                         ui.label(user_name or 'Current user').classes('cui-account-popover__title')
-                        if greeting: ui.label(greeting).classes('cui-account-popover__subtitle')
+                        ui.label(role or 'Member').classes('cui-account-popover__subtitle')
+                        ui.label(department or 'Department unavailable').classes('cui-account-popover__subtitle')
                 if on_preferences:
                     b=ui.button(on_click=on_preferences, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
-                    with b: _icon(ui,'settings',size='xs'); ui.label('Preferences')
+                    with b: _icon(ui,'settings',size='xs'); ui.label('Settings')
                 if on_about:
                     b=ui.button(on_click=on_about, color=None).props('flat no-caps').classes('cui-menu-item cui-menu-item--with-icon')
                     with b: _icon(ui,'info',size='xs'); ui.label('About')

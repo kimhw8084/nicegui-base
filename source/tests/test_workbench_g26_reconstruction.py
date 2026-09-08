@@ -36,7 +36,7 @@ def test_g26_gallery_is_content_driven_and_build_id_is_not_a_toolbar_control():
 
 def test_g26_design_system_teaches_examples_before_raw_tokens():
     source = (WORKBENCH / 'design_system_reference.py').read_text(encoding='utf-8')
-    for marker in ('Tight', 'Related', 'Stack', 'Content', 'Section', 'Page', 'View token details', 'Filters drawer', 'Inspector · collapsed'):
+    for marker in ('Tight', 'Related', 'Stack', 'Content', 'Section', 'Page', 'View token details'):
         assert marker in source
     assert 'cui-d6c-type-page-title' in source
 
@@ -47,7 +47,7 @@ def test_g26_detail_tabs_are_capability_driven():
 
     divider = WorkbenchEntry('component:divider', WorkbenchKind.COMPONENT, 'Divider', 'Separates content.', '/components/divider', metadata={'component_key': 'divider'}, live_preview=True)
     button = WorkbenchEntry('component:button', WorkbenchKind.COMPONENT, 'Button', 'Runs an action.', '/components/button', metadata={'component_key': 'button'}, live_preview=True)
-    assert studio_tabs_for_entry(divider) == ('preview', 'usage', 'states', 'inspect', 'code')
+    assert studio_tabs_for_entry(divider) == ('preview', 'usage', 'inspect', 'code')
     assert 'interactions' in studio_tabs_for_entry(button)
     assert 'configure' in studio_tabs_for_entry(button)
 
@@ -61,7 +61,7 @@ def test_g26_application_gallery_explains_real_domain_compositions():
     assert all(entry.domain_facets and entry.composition_apis for entry in entries)
     source = (WORKBENCH / 'explorer_gallery.py').read_text(encoding='utf-8')
     assert 'View architecture' in source
-    assert 'Create from this' in source
+    assert 'Create from this' not in source
 
 
 def test_g26_diagnostics_keeps_deep_readiness_details_out_of_the_first_layer():

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import asyncio
 import json
 import os
 import secrets
@@ -11,6 +10,7 @@ from typing import Any, Callable
 from .catalog import CATALOG_INTENT_FILTERS, EXPECTED_FRAMEWORK_CATALOG_RECORDS, REQUIRED_CATALOG_FAMILIES, all_entries, analytics_entries, catalog_contract_audit, catalog_family, catalog_family_coverage, catalog_filter_options, coverage, framework_catalog_audit, recipe_entries, search
 from .models import WorkbenchEntry, WorkbenchKind
 from .workbench_css import install_workbench_css
+from .identity import ExplorerIdentity, resolve_explorer_identity
 
 WORKBENCH_TITLE = 'NiceGUI Base Reference Explorer'
 WORKBENCH_SUBTITLE = 'Reference Explorer for the department standard: find the right authority, understand it, and open a governed live example.'
@@ -48,7 +48,7 @@ def _standard_select(label: str, options: dict[str, str], *, value: str, on_chan
 
 
 
-def _display_control_bar() -> Any:
+def _display_control_bar(*, inline: bool = False) -> Any:
     """Workbench-owned theme/density/motion controls using governed primitives.
 
     Preference keys intentionally match the legacy reference lab so engineers can move
@@ -82,7 +82,23 @@ def _display_control_bar() -> Any:
             dark.disable()
         else:
             dark.auto()
-        ui.run_javascript(f"document.documentElement.dataset.theme={value!r};try{{localStorage.setItem(\'nicegui_base_theme\',{value!r});localStorage.setItem(\'cui_lab_theme\',{value!r});}}catch(_){{}}")
+        ui.run_javascript(f"""(() => {{
+          const root=document.documentElement;
+          const requested={value!r};
+          const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+          const apply=()=>{{
+            const resolved=requested==='system' ? (media?.matches ? 'dark' : 'light') : requested;
+            root.dataset.theme=resolved;
+            document.body?.classList.toggle('q-dark', resolved==='dark');
+            document.body?.classList.toggle('body--dark', resolved==='dark');
+          }};
+          apply();
+          if(requested==='system' && media && !root.__niceguiBaseThemeListener){{
+            root.__niceguiBaseThemeListener=()=>apply();
+            media.addEventListener?.('change',root.__niceguiBaseThemeListener);
+          }}
+          try{{localStorage.setItem('nicegui_base_theme',requested);localStorage.setItem('cui_lab_theme',requested);}}catch(_){{}}
+        }})()""")
         if value in {'light', 'dark'}:
             apply_all_chart_themes(value)
 
@@ -90,8 +106,7 @@ def _display_control_bar() -> Any:
     # Explicit server light/dark is authoritative. If server storage is still
     # neutral 'system', preserve the browser-restored appearance until the
     # connected client can reconcile that display-only preference.
-    if theme in {'light', 'dark'}:
-        sync_theme(theme)
+    sync_theme(theme)
     ui.run_javascript(
         f"document.documentElement.dataset.density={density!r}; "
         f"document.documentElement.dataset.motion={motion!r}; "
@@ -124,54 +139,44 @@ def _display_control_bar() -> Any:
             f"try{{localStorage.setItem('nicegui_base_motion',{value!r});localStorage.setItem('cui_lab_motion',{value!r});}}catch(_){{}}"
         )
 
-    trigger = _standard_button('Preferences', classes='cui-workbench-preferences-trigger')
-    trigger.props('aria-label="Open display preferences"')
+    def render_controls() -> None:
+        with ui.element('div').classes('cui-workbench-display-controls').props(
+            'role="group" aria-label="Reference Explorer display preferences"'
+        ):
+            ui.label('Theme').classes('cui-workbench-display-controls__label')
+            SegmentedControl({'system': 'System', 'light': 'Light', 'dark': 'Dark'}, value=theme, on_change=theme_changed)
+            ui.label('Density').classes('cui-workbench-display-controls__label')
+            SegmentedControl({'comfortable': 'Comfort', 'compact': 'Compact', 'dense': 'Dense'}, value=density, on_change=density_changed)
+            ui.label('Motion').classes('cui-workbench-display-controls__label')
+            SegmentedControl({'normal': 'Normal', 'reduced': 'Reduced'}, value=motion, on_change=motion_changed)
+
+    if inline:
+        render_controls()
+        return None
+    from nicegui_base.integrations.nicegui_components import Button
+    theme_state = {'value': theme}
+    quick_theme = Button(
+        f'Theme · {theme.title()}',
+        icon='appearance',
+        on_click=lambda _event=None: toggle_quick_theme(),
+    )
+    quick_theme.element.classes(add='cui-workbench-theme-quick')
+    quick_theme.element.props(f'aria-label="Appearance theme: {theme.title()}" title="Appearance theme: {theme.title()}"')
+
+    def toggle_quick_theme() -> None:
+        next_value = {'light': 'dark', 'dark': 'light', 'system': 'dark'}[theme_state['value']]
+        theme_state['value'] = next_value
+        app.storage.user['cui_lab_theme'] = next_value
+        sync_theme(next_value)
+        if quick_theme.label_element is not None:
+            quick_theme.label_element.set_text(f'Theme · {next_value.title()}')
+        quick_theme.element.props(f'aria-label="Appearance theme: {next_value.title()}" title="Appearance theme: {next_value.title()}"')
+
+    trigger = _standard_button('Appearance', classes='cui-workbench-preferences-trigger')
+    trigger.props('aria-label="Open appearance preferences"')
     with trigger:
         with ui.menu().props('anchor="bottom left" self="top left"'):
-            with ui.element('div').classes('cui-workbench-display-controls').props(
-                'role="group" aria-label="Reference Explorer display preferences"'
-            ):
-                ui.label('Theme').classes('cui-workbench-display-controls__label')
-                theme_control = SegmentedControl({'system': 'System', 'light': 'Light', 'dark': 'Dark'}, value=theme, on_change=theme_changed)
-                ui.label('Density').classes('cui-workbench-display-controls__label')
-                SegmentedControl({'comfortable': 'Comfort', 'compact': 'Compact', 'dense': 'Dense'}, value=density, on_change=density_changed)
-                ui.label('Motion').classes('cui-workbench-display-controls__label')
-                SegmentedControl({'normal': 'Normal', 'reduced': 'Reduced'}, value=motion, on_change=motion_changed)
-
-    async def reconcile_initial_theme() -> None:
-        # localStorage is consulted only for non-sensitive appearance. Authentication,
-        # permissions, provider configuration, and application data remain server-owned.
-        if theme != 'system':
-            return
-        try:
-            await ui.context.client.connected()
-            browser_theme = await ui.run_javascript(
-                "(() => { try { return localStorage.getItem('nicegui_base_theme') || localStorage.getItem('cui_lab_theme') || 'system'; } catch (_) { return 'system'; } })()"
-            )
-            browser_theme = str(browser_theme or 'system')
-            if browser_theme not in {'light', 'dark'}:
-                return
-            await theme_control.set_value(browser_theme, emit=True)
-        except asyncio.CancelledError:
-            raise
-        except Exception:
-            # Appearance reconciliation is convenience state; a disappearing
-            # client must never surface as a server-side lifecycle failure.
-            return
-
-    if theme == 'system':
-        try:
-            theme_task = asyncio.get_running_loop().create_task(
-                reconcile_initial_theme(),
-                name='nicegui-base-workbench-theme-reconcile',
-            )
-        except RuntimeError:
-            theme_task = None
-        if theme_task is not None:
-            client = getattr(getattr(ui, 'context', None), 'client', None)
-            on_delete = getattr(client, 'on_delete', None)
-            if callable(on_delete):
-                on_delete(lambda *_: theme_task.cancel())
+            render_controls()
 
     # WAVE35_DISPLAY_PREFERENCES_REACHABILITY_V13
     # Keep browser/server display-preference reconciliation reachable.
@@ -191,18 +196,16 @@ def workbench_navigation():
             NavItem('reference_visualizations', 'Visualizations', '/analytics', Icons.GRID),
         )),
         NavSection('compose', 'COMPOSE', (
-            NavItem('reference_layouts', 'Layouts', '/layouts', Icons.GRID),
             NavItem('reference_patterns', 'Application Patterns', '/patterns', Icons.GRID),
         )),
         NavSection('semiconductor', 'SEMICONDUCTOR', (
             NavItem('reference_recipes', 'Semiconductor Recipes', '/recipes', Icons.FILE),
-            NavItem('reference_apps', 'Full Applications', '/applications', Icons.FILE),
         )),
         NavSection('develop', 'DEVELOP', (
             NavItem('reference_ai', 'AI Development Guide', '/ai-guide', Icons.FILE),
         )),
         NavSection('system', 'SYSTEM', (
-            NavItem('reference_diagnostics', 'Diagnostics', '/quality', Icons.DIAGNOSTICS),
+            NavItem('reference_settings', 'Settings', '/settings', Icons.SETTINGS),
         )),
     ))
 
@@ -243,12 +246,10 @@ def _install_command_palette(ui):
         ('reference:components','Components','/components','Reference Explorer','components controls content'),
         ('reference:data','Data & Tables','/workbench/data','Reference Explorer','data tables schema playground'),
         ('reference:visualizations','Visualizations','/analytics','Reference Explorer','charts analytics semiconductor'),
-        ('reference:layouts','Layouts','/layouts','Reference Explorer','layouts shells responsive geometry'),
         ('reference:patterns','Application Patterns','/patterns','Reference Explorer','patterns application composition'),
         ('reference:recipes','Semiconductor Recipes','/recipes','Reference Explorer','recipes semiconductor'),
-        ('reference:apps','Full Applications','/applications','Reference Explorer','full application examples'),
         ('reference:ai','AI Development Guide','/ai-guide','Reference Explorer','agents scaffolding developer guidance'),
-        ('reference:diagnostics','Diagnostics','/quality','Reference Explorer','diagnostics coverage runtime'),
+        ('reference:settings','Settings','/settings','Reference Explorer','appearance account explorer preferences'),
     )
     for key, label, route, group, words in top_level:
         registry.register(Command(key, label, lambda route=route: ui.navigate.to(route), keywords=tuple(words.split()), group=group))
@@ -279,14 +280,16 @@ def _install_command_palette(ui):
 
 def _shell(route: str, title: str, description: str):
     ui, AppShell, PageHeader, *_ = _imports()
+    identity = resolve_explorer_identity()
     shell = AppShell(
         'NiceGUI Base', workbench_navigation(), active_route=route,
         environment='REFERENCE', subtitle='Department standard · Reference Explorer',
-        greeting='Explore the standard', user_name='Engineer', user_initials='EN',
-        on_settings=lambda: ui.navigate.to('/patterns/settings'), on_about=None,
+        greeting=identity.role, user_name=identity.access_key, user_initials=identity.initials,
+        user_role=identity.role, department=identity.department,
+        on_settings=lambda: ui.navigate.to('/settings'), on_about=None,
         owner='NiceGUI Base', on_support=lambda: ui.navigate.to('/catalog'),
         on_feedback=lambda: ui.navigate.to('/quality'), on_docs=lambda: ui.navigate.to('/catalog'),
-        debugger=False,
+        debugger=True,
     )
     shell.__enter__()
     # AppShell already owns the document's single main landmark. Keep the Workbench
@@ -442,10 +445,7 @@ def _legacy_builder_surface() -> None:
 
 
 def layout_studio_page() -> None:
-    from .layout_studio import render_layout_studio
-    shell = _shell('/layouts', 'Layouts & Shells', 'Canonical application patterns, real slots, and responsive behavior before individual component choices.')
-    render_layout_studio()
-    _end_shell(shell)
+    _unified_patterns_compatibility_page()
 
 
 def catalog_page(*, active_route: str = '/catalog', initial_kind: str = 'all', page_title: str = 'Design System', page_description: str = 'One discoverable inventory over canonical NiceGUI Base registries, grouped by the job each capability solves.') -> None:
@@ -560,6 +560,66 @@ def design_system_page() -> None:
     _end_shell(shell)
 
 
+def settings_page() -> None:
+    """The Explorer's real appearance/account surface.
+
+    Settings intentionally uses the same AppShell and the same display
+    preference callbacks as the compact header control.  It is not the
+    registered Settings application pattern, which remains available as a
+    reference specimen under the compatibility route.
+    """
+    from nicegui import ui
+    from nicegui_base.version import FRAMEWORK_VERSION
+
+    identity = resolve_explorer_identity()
+    shell = _shell('/settings', 'Settings', 'Manage appearance and Explorer identity without leaving the department reference shell.')
+    with ui.element('div').classes('cui-settings-page').props('data-settings-page'):
+        with ui.element('div').classes('cui-settings-grid'):
+            with ui.element('section').classes('cui-settings-card').props('aria-labelledby="settings-appearance-title"'):
+                ui.label('Appearance').classes('cui-workbench-section-title').props('id="settings-appearance-title"')
+                ui.label('These preferences apply to the Explorer and its mounted reference previews. System follows the operating-system color scheme.').classes('cui-workbench-note')
+                _display_control_bar(inline=True)
+            with ui.element('section').classes('cui-settings-card').props('aria-labelledby="settings-account-title"'):
+                ui.label('Account').classes('cui-workbench-section-title').props('id="settings-account-title"')
+                ui.label('Identity is read from the company environment and is display-only here.').classes('cui-workbench-note')
+                for label, value in (
+                    ('AccessKey', identity.access_key),
+                    ('Role', identity.role),
+                    ('Department', identity.department),
+                ):
+                    with ui.element('div').classes('cui-settings-row'):
+                        with ui.element('div').classes('cui-settings-row__copy'):
+                            ui.label(label).classes('cui-settings-row__label')
+                            ui.label('Company identity value' if label == 'AccessKey' else 'Reference Explorer display value').classes('cui-settings-row__description')
+                        ui.label(value).classes('cui-settings-row__value cui-tabular')
+            with ui.element('section').classes('cui-settings-card').props('aria-labelledby="settings-about-title"'):
+                ui.label('About this reference').classes('cui-workbench-section-title').props('id="settings-about-title"')
+                ui.label('Use the canonical registries, patterns, tables, visualizations and recipes shown here in application code.').classes('cui-workbench-note')
+                with ui.element('div').classes('cui-settings-facts'):
+                    ui.label(f'NiceGUI Base {FRAMEWORK_VERSION}').classes('cui-settings-fact')
+                    ui.label('NiceGUI 3.15.0').classes('cui-settings-fact')
+                    ui.label('Reference Explorer').classes('cui-settings-fact')
+            if identity.account_missing or identity.department_missing:
+                with ui.element('details').classes('cui-settings-diagnostics'):
+                    with ui.element('summary').props('tabindex="0"'):
+                        ui.label('Development identity diagnostics').classes('cui-workbench-card__meta')
+                    if identity.account_missing:
+                        ui.label('AccessKey is not set; the neutral Member fallback is active.').classes('cui-workbench-note')
+                    if identity.department_missing:
+                        ui.label('DEPARTMENT is not set; the department fallback is active.').classes('cui-workbench-note')
+    _end_shell(shell)
+
+
+def _settings_compatibility_page() -> None:
+    from nicegui import ui
+    ui.navigate.to('/settings')
+
+
+def _unified_patterns_compatibility_page() -> None:
+    from nicegui import ui
+    ui.navigate.to('/patterns')
+
+
 def components_page() -> None:
     shell = _shell('/components', 'Components', 'Scan governed component specimens first; open a detail only for deeper states, configuration, accessibility, or code.')
     from .explorer_gallery import render_reference_gallery
@@ -571,12 +631,58 @@ def components_page() -> None:
 
 
 def patterns_page() -> None:
-    shell = _shell('/patterns', 'Application Patterns', 'Compare the canonical application anatomies without opening each pattern one by one.')
-    from .explorer_gallery import render_reference_gallery
-    render_reference_gallery(
-        reference_entries_for_section('patterns'), section='patterns',
-        intro='Choose information hierarchy before individual controls. Compare up to three patterns inline.',
-    )
+    from nicegui import ui
+    from nicegui_base.integrations.nicegui_components import Button, Select
+    from nicegui_base.patterns.registry import PATTERN_REGISTRY
+    from .pattern_specimens import PATTERN_SEMANTIC_ANATOMY, render_pattern
+    from .full_applications import full_application_entries
+    from .explorer_gallery import _preview_image
+    from .preview_catalog import application_asset_key
+
+    shell = _shell('/patterns', 'Application Patterns', 'Choose a finished application structure, see the real governed composition, then adapt business logic in your own services.')
+    pattern_keys = tuple(pattern.value for pattern in PATTERN_REGISTRY)
+    titles = {key: key.replace('_', ' ').title() for key in pattern_keys}
+    selected = {'key': 'dashboard'}
+    host = ui.element('div').classes('cui-unified-pattern-preview-host')
+
+    def show_pattern(key: str) -> None:
+        if key not in pattern_keys:
+            return
+        selected['key'] = key
+        host.clear()
+        with host:
+            with ui.element('div').classes('cui-unified-pattern-context'):
+                ui.label('Live governed composition').classes('cui-workbench-card__meta')
+                ui.label(titles[key]).classes('cui-workbench-section-title')
+                ui.label(' · '.join(PATTERN_SEMANTIC_ANATOMY.get(key, ())).replace('_', ' ')).classes('cui-workbench-note')
+            render_pattern(key, title=titles[key], rows=(), on_event=lambda _message: None)
+
+    with ui.element('section').classes('cui-unified-pattern-chooser').props('data-unified-pattern-explorer'):
+        with ui.element('div').classes('cui-unified-pattern-chooser__copy'):
+            ui.label('Which finished structure fits the work?').classes('cui-workbench-section-title')
+            ui.label('Patterns define information hierarchy and behavior. The live example below uses the same registered composition used by generated applications.').classes('cui-workbench-note')
+        with ui.element('div').classes('cui-unified-pattern-rail'):
+            for key in pattern_keys:
+                with ui.element('article').classes('cui-unified-pattern-option').props(f'data-pattern-option="{key}"'):
+                    ui.label(titles[key]).classes('cui-workbench-card__title')
+                    ui.label(PATTERN_REGISTRY[next(item for item in PATTERN_REGISTRY if item.value == key)].purpose).classes('cui-workbench-note')
+                    ui.label(' · '.join(PATTERN_SEMANTIC_ANATOMY.get(key, ())[:3]).replace('_', ' ')).classes('cui-workbench-card__meta')
+                    Button('Open live example', icon='arrow-right', on_click=lambda _e=None, value=key: show_pattern(value))
+        Select('Selected application pattern', titles, value='dashboard', clearable=False, on_change=lambda event: show_pattern(str(getattr(event, 'value', 'dashboard'))))
+    show_pattern('dashboard')
+
+    with ui.element('section').classes('cui-unified-pattern-apps').props('data-full-application-showcases'):
+        ui.label('Full application references').classes('cui-workbench-section-title')
+        ui.label('These are larger domain compositions built from the same patterns, governed analytics, tables, and inspectors.').classes('cui-workbench-note')
+        with ui.element('div').classes('cui-unified-pattern-apps__grid'):
+            for definition in full_application_entries():
+                with ui.element('article').classes('cui-explorer-card cui-full-app-showcase'):
+                    _preview_image(application_asset_key(definition.key), label=definition.title)
+                    ui.label('FULL APPLICATION').classes('cui-workbench-card__meta')
+                    ui.label(definition.title).classes('cui-workbench-card__title')
+                    ui.label(definition.question).classes('cui-workbench-card__body')
+                    ui.label(' · '.join(definition.domain_facets)).classes('cui-workbench-note')
+                    Button('Open live application', icon='arrow-right', on_click=lambda _e=None, route=definition.route: ui.navigate.to(route))
     _end_shell(shell)
 
 
@@ -1583,11 +1689,7 @@ def quality_page() -> None:
 
 
 def applications_page() -> None:
-    from .full_applications import full_application_entries
-    from .explorer_gallery import render_application_gallery
-    shell = _shell('/applications', 'Full Applications', 'Start from a production-shaped domain composition, then replace sample data and application-owned business logic.')
-    render_application_gallery(full_application_entries())
-    _end_shell(shell)
+    _unified_patterns_compatibility_page()
 
 
 def full_application_detail_page(application_key: str) -> None:
@@ -1654,12 +1756,15 @@ def _register_reference_routes() -> None:
     mac_lab._lab_css()
     _install_workbench_reference_preview(mac_lab)
     for route in mac_lab.ROUTES:
-        if route.path == '/':
+        if route.path in {'/', '/patterns/settings'}:
             continue
         def page_builder(_route=route):
             _route.builder(None)
         page_builder.__name__ = 'workbench_reference_' + (route.path.strip('/').replace('/','_').replace('-','_') or 'overview')
         ui.page(route.path)(page_builder)
+    # The former Settings pattern URL remains a safe compatibility alias; it
+    # must never replace the normal Explorer shell with a pattern shell.
+    ui.page('/patterns/settings')(_settings_compatibility_page)
 
 def register_workbench_pages(*, include_reference: bool = True, root_path: str = '') -> None:
     from nicegui import ui
@@ -1674,6 +1779,7 @@ def register_workbench_pages(*, include_reference: bool = True, root_path: str =
     ui.page('/')(home_page)
     ui.page('/build')(build_page)
     ui.page('/design')(design_system_page)
+    ui.page('/settings')(settings_page)
     ui.page('/catalog')(catalog_page)
     ui.page('/components')(components_page)
     ui.page('/patterns')(patterns_page)

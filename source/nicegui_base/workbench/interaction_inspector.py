@@ -139,9 +139,9 @@ def _responsive_contract(entry: WorkbenchEntry) -> tuple[str, ...]:
             except Exception:
                 pass
     return (
-        'Desktop preview · 1200 px Workbench proof surface',
-        'Tablet preview · 760 px Workbench proof surface',
-        'Phone preview · 390 px Workbench proof surface',
+        'Desktop preview · 1200 px governed reference surface',
+        'Tablet preview · 760 px governed reference surface',
+        'Phone preview · 390 px governed reference surface',
     )
 
 
@@ -179,7 +179,7 @@ def inspect_entry(entry: WorkbenchEntry) -> InteractionInspection:
     composable = is_composable_entry(entry) or entry.kind in {WorkbenchKind.PATTERN, WorkbenchKind.RECIPE}
     evidence.append(InspectorEvidence(
         'project', 'App-composition path', 'PROVEN' if composable else 'DECLARED',
-        'Can be queued/placed in Builder.' if composable else 'Capability remains directly reusable through its Studio/code contract.',
+        'Can be composed directly in a scaffolded application.' if composable else 'Capability remains directly reusable through its public API contract.',
     ))
     declared = _declared_interactions(entry)
     interaction_proven = bool(callbacks or declared or entry.kind is WorkbenchKind.PATTERN)

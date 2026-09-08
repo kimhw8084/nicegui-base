@@ -33,6 +33,16 @@ BROWSER_DIAGNOSTICS_BOOTSTRAP = r'''<script>
     message: String(e.reason?.message || e.reason || 'Unhandled promise rejection').slice(0, 1000),
     stack: String(e.reason?.stack || '').slice(0, 4000),
   }));
+  const captureConsole = (method, type) => {
+    const original = console[method]?.bind(console);
+    if (!original) return;
+    console[method] = (...args) => {
+      push('errors', {time:new Date().toISOString(), type, message:args.map(value => String(value)).join(' ').slice(0,1000), stack:''});
+      original(...args);
+    };
+  };
+  captureConsole('error', 'console-error');
+  captureConsole('warn', 'console-warning');
   document.addEventListener('cui:overlay-open', e => push('events', {
     time: new Date().toISOString(), type: 'overlay-open', kind: String(e.detail?.kind || 'overlay')
   }));
@@ -105,6 +115,10 @@ class UniversalDebugger:
         self._events_host = None
         self._environment_host = None
         self._health_host = None
+        self._filter_level = 'all'
+        self._filter_query = ''
+        self._filter_search = None
+        self._filter_level_control = None
         self._trigger_task: asyncio.Task[None] | None = None
         self._trigger_disposed = False
         ui.add_head_html(BROWSER_DIAGNOSTICS_BOOTSTRAP, shared=True)
@@ -120,9 +134,9 @@ class UniversalDebugger:
         ui = self.ui
         with ui.element('div').classes('cui-debugger-trigger-wrap'):
             with ui.button(on_click=self.open).props(
-                'flat round dense aria-label="Open debugger" title="Debugger"'
+                'flat round dense aria-label="Open Buganizer runtime diagnostics" title="Buganizer · runtime diagnostics"'
             ).classes('cui-icon-button cui-debugger-trigger') as button:
-                self._icon('diagnostics', 'Debugger', size='sm')
+                self._icon('diagnostics', 'Buganizer runtime diagnostics', size='sm')
             self._trigger_badge = ui.label('').classes('cui-debugger-trigger-badge')
 
         # Do not use NiceGUI Timer here: Timer is slot-owned and can race a
@@ -176,20 +190,29 @@ class UniversalDebugger:
         ui = self.ui
         with self.dialog:
             with ui.element('section').classes('cui-debugger-shell').props(
-                'role="dialog" aria-modal="true" aria-label="NiceGUI Base debugger"'
+                'role="dialog" aria-modal="true" aria-label="Buganizer runtime diagnostics"'
             ):
                 with ui.element('header').classes('cui-debugger-header'):
                     with ui.element('div').classes('cui-debugger-header__title'):
-                        self._icon('diagnostics', 'Debugger', size='sm')
+                        self._icon('diagnostics', 'Buganizer', size='sm')
                         with ui.element('div'):
-                            ui.label('Debugger').classes('cui-debugger-title')
-                            ui.label('Logs · errors · requests · events · performance · environment').classes('cui-debugger-subtitle')
+                            ui.label('Buganizer').classes('cui-debugger-title')
+                            ui.label('Runtime events, warnings, errors, requests, and health').classes('cui-debugger-subtitle')
                     with ui.element('div').classes('cui-debugger-header__actions'):
                         ui.button('Refresh', on_click=self.refresh).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
+                        ui.button('Clear visible log', on_click=self.clear).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
                         ui.button('Download diagnostic bundle', on_click=self.download_bundle).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
                         with ui.button(on_click=self.close).props('flat round aria-label="Close debugger" title="Close"').classes('cui-icon-button'):
                             self._icon('close', 'Close debugger', size='sm')
                 self._summary_host = ui.element('div').classes('cui-debugger-summary')
+                with ui.element('div').classes('cui-debugger-filters').props('role="toolbar" aria-label="Buganizer filters"'):
+                    from nicegui_base.integrations.nicegui_components import SearchInput, Select
+                    self._filter_search = SearchInput('Search events', placeholder='Message or source…', debounce_ms=120, on_change=self._filter_query_changed)
+                    self._filter_search.element.props('aria-label="Search Buganizer events"')
+                    self._filter_level_control = Select(
+                        'Severity', {'all': 'All', 'ERROR': 'Errors', 'WARNING': 'Warnings', 'INFO': 'Info'},
+                        value='all', clearable=False, on_change=self._filter_level_changed,
+                    )
                 tabs = ui.tabs(value='logs').classes('cui-debugger-tabs').props('dense no-caps align=left')
                 with tabs:
                     ui.tab('logs', label='Logs')
@@ -265,7 +288,7 @@ class UniversalDebugger:
                     self.ui.label(label).classes('cui-debugger-kpi__label')
 
     def _render_logs(self) -> None:
-        events = self.buffer.snapshot(limit=self.config.event_limit)
+        events = self._filtered_events()
         if self._logs_host is not None:
             self._logs_host.clear()
             with self._logs_host:
@@ -353,6 +376,36 @@ class UniversalDebugger:
         self._render_environment()
         self._render_health()
         self._update_trigger_badge()
+
+    def _filter_changed(self, event=None) -> None:
+        self._filter_query_changed(event)
+
+    def _filter_level_changed(self, event=None) -> None:
+        value = getattr(event, 'value', '') if event is not None else ''
+        self._filter_level = str(value or 'all')
+        self._render_logs()
+
+    def _filter_query_changed(self, event=None) -> None:
+        value = getattr(event, 'value', '') if event is not None else ''
+        self._filter_query = str(value or '').strip()[:160]
+        self._render_logs()
+
+    def _filtered_events(self):
+        query = self._filter_query.casefold()
+        events = self.buffer.snapshot(limit=self.config.event_limit)
+        return tuple(
+            event for event in events
+            if (self._filter_level == 'all' or event.level == self._filter_level)
+            and (not query or query in event.message.casefold() or query in event.logger.casefold())
+        )
+
+    async def clear(self) -> None:
+        self.buffer.clear()
+        try:
+            await self.ui.run_javascript('window.__niceguiBaseDiagnostics?.clear?.()')
+        except Exception:
+            pass
+        await self.refresh()
 
     async def open(self) -> None:
         await self.refresh()

@@ -3,7 +3,7 @@
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "d43e2904f4fadd400e148b0597490223fd324c9fb47ab19b26c2689e009dfe71",
+  "sha256": "b0e50f46132e1dda68bacb5fafc2ad8ba33911c3d18df99cf1f26dee2c67863d",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -2482,6 +2482,24 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "user_initials"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Member"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "user_role"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Department unavailable"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "department"
           },
           {
             "annotation": "'Callable[[], None] | None'",
@@ -36399,6 +36417,24 @@
             "name": "user_initials"
           },
           {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Member"
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "user_role"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Department unavailable"
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "department"
+          },
+          {
             "annotation": "'Callable[[], None] | None'",
             "default": {
               "present": true,
@@ -43982,6 +44018,24 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "greeting"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Member"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "role"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "Department unavailable"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "department"
           },
           {
             "annotation": "'Callable[[], None] | None'",

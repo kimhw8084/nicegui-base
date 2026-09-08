@@ -72,7 +72,7 @@ def _preview_image(asset_key: str | None, *, label: str) -> None:
     with ui.element('div').classes('cui-explorer-preview'):
         if uri:
             ui.image(uri).classes('cui-explorer-preview__image').props(
-                f'loading="lazy" decoding="async" alt="{label} governed preview"'
+                f'loading="eager" decoding="async" alt="{label} governed preview"'
             )
         else:
             with ui.element('div').classes('cui-explorer-preview__placeholder'):
@@ -240,8 +240,14 @@ def render_start_here(stats) -> None:
             ui.label('What are you building?').classes('cui-workbench-title')
             ui.label('Start from intent. NiceGUI Base will lead you to the governed pattern, layout, visualization, component, recipe and scaffold instead of making you browse hundreds of references one by one.').classes('cui-workbench-subtitle')
         with ui.element('div').classes('cui-explorer-start-hero__metrics'):
-            for value, label in ((stats.patterns, 'patterns'), (stats.analytics, 'analytics'), (stats.components, 'components'), (stats.recipes, 'recipes')):
-                with ui.element('div').classes('cui-workbench-kpi'):
+            metrics = (
+                (stats.patterns, 'Patterns', 'Information hierarchy and workflow structure for complete pages.'),
+                (stats.analytics, 'Analytics', 'Governed visualization and analysis surfaces for engineering questions.'),
+                (stats.components, 'Components', 'Reusable controls, content primitives, and state behavior.'),
+                (stats.recipes, 'Recipes', 'Semiconductor-domain compositions that combine the authorities.'),
+            )
+            for value, label, help_text in metrics:
+                with ui.element('div').classes('cui-workbench-kpi').props(f'tabindex="0" title="{help_text}" aria-label="{label}: {help_text}"'):
                     ui.label(str(value)).classes('text-h5')
                     ui.label(label)
 
@@ -360,7 +366,10 @@ def render_application_gallery(entries: Iterable[Any]) -> None:
                             ui.label('Fixture · ' + str(entry.fixture_signature[1]) + ' representative records').classes('cui-workbench-note')
                         with ui.element('div').classes('cui-explorer-card__actions'):
                             Button('Open live app', icon='arrow-right', on_click=lambda _e=None, route=entry.route: ui.navigate.to(route))
-                            Button('Create from this', icon='add', on_click=lambda _e=None, route=entry.route: ui.navigate.to(route))
+                            Button(
+                                'View architecture', icon='code',
+                                on_click=lambda _e=None, route=entry.route: ui.navigate.to(route),
+                            )
                             Button('★ Saved' if entry.key in favorites else '☆ Favorite', on_click=lambda _e=None, key=entry.key: toggle(key))
     render()
 
