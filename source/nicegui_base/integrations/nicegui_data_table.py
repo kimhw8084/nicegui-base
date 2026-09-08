@@ -12,10 +12,10 @@ from typing import Any, Callable, Mapping, Sequence
 
 from nicegui_base.data_table import (
     BulkAction, ColumnKind, ConditionalRule, DataTableSpec, EditCommitMode, EditableTableSpec, FilterExpression, FilterGroup, FilterLogic, FilterOperator, FilterSpec,
-    PinPosition, RowAction, SelectionMode, ServerDataTableSpec, SortDirection, SortSpec, TableColumn,
+    PinPosition, RowAction, SelectionMode, ServerDataTableSpec, SortDirection, SortSpec, TableColumn, TableViewSnapshot,
     TableDensity, TablePreset, TableQuery, TableResult, TableState,
 )
-from nicegui_base.data_table.engine import export_csv as _export_csv_text
+from nicegui_base.data_table.engine import TableQueryEngine, export_csv as _export_csv_text
 from nicegui_base.async_tools import LatestRequestController
 from nicegui_base.performance import LifecycleScope, RetryPolicy
 from nicegui_base.services import PreferenceService
@@ -361,6 +361,12 @@ def _column_def(c: TableColumn) -> dict[str, Any]:
     if c.width is not None: d['width'] = c.width
     if c.max_width is not None: d['maxWidth'] = c.max_width
     if c.pinned is not PinPosition.NONE: d['pinned'] = c.pinned.value
+    # Arrays/objects such as sparklines are intentionally rendered by the
+    # semantic cell renderer.  Tell AG Grid not to infer its object data type;
+    # otherwise the community runtime emits formatter warnings for a valid
+    # framework-owned renderer.
+    if c.kind in {ColumnKind.SPARKLINE, ColumnKind.CUSTOM}:
+        d['cellDataType'] = False
     class_rules = ConditionalCellFormatter.class_rules(c.rules) if c.rules else {}
     if c.editable:
         class_rules['cui-table-cell--pending'] = "Array.isArray(data?.__cui_pending_fields) && data.__cui_pending_fields.includes(colDef.field)"
@@ -376,6 +382,28 @@ def _column_def(c: TableColumn) -> dict[str, Any]:
         decimals = c.decimals if c.decimals is not None else (0 if c.kind is ColumnKind.INTEGER else 2)
         suffix = '%' if c.kind is ColumnKind.PERCENT else (f' {c.unit}' if c.unit else '')
         d[':valueFormatter'] = f"params => params.value == null || params.value === '' ? '—' : (Number(params.value).toFixed({decimals}) + {_js_literal(suffix)})"
+    if c.editable:
+        editor = c.editor_spec()
+        editor_kind = editor['kind']
+        if editor_kind == 'number':
+            d['cellEditor'] = 'agNumberCellEditor'
+            params = {key: editor[key] for key in ('minimum', 'maximum', 'step') if editor[key] is not None}
+            if params:
+                d['cellEditorParams'] = params
+            d[':valueParser'] = 'params => { const value=Number(params.newValue); return Number.isFinite(value) ? value : params.oldValue; }'
+        elif editor_kind == 'select':
+            d['cellEditor'] = 'agSelectCellEditor'
+            d['cellEditorParams'] = {'values': list(editor['choices'])}
+        elif editor_kind == 'boolean':
+            d['cellEditor'] = 'agSelectCellEditor'
+            d['cellEditorParams'] = {'values': [True, False]}
+            d[':valueParser'] = "params => params.newValue === true || params.newValue === 'true'"
+        elif editor_kind in {'date', 'datetime'}:
+            d['cellEditor'] = 'agDateStringCellEditor'
+        else:
+            d['cellEditor'] = 'agTextCellEditor'
+        if editor.get('placeholder'):
+            d.setdefault('cellEditorParams', {})['placeholder'] = editor['placeholder']
     return d
 
 
@@ -409,7 +437,13 @@ class TableToolbar:
                     button=ui.button(on_click=do_export).props('flat no-caps aria-label="Export CSV"').classes('cui-table-tool-button')
                     with button: _icon(ui,'download',size='xs'); ui.label('Export')
                 if self.refresh:
-                    async def do_refresh(e=None): await _invoke(table.refresh)
+                    async def do_refresh(e=None):
+                        # ServerDataTable owns a forced refresh hook so the
+                        # visible Refresh action cannot silently return a
+                        # cached page.  Normal tables keep their regular
+                        # refresh contract.
+                        callback = table.on_refresh if table.on_refresh is not None else table.refresh
+                        await _invoke(callback)
                     button=ui.button(on_click=do_refresh).props('flat no-caps aria-label="Refresh table"').classes('cui-table-tool-button')
                     with button: _icon(ui,'refresh',size='xs'); ui.label('Refresh')
         return self.element
@@ -450,10 +484,11 @@ class TableColumnManager:
                     ui.label('Visible columns').classes('cui-menu-heading')
                     with ui.element('div').classes('cui-table-column-list'):
                         for column in self.columns:
-                            with ui.element('label').classes('cui-table-column-option'):
+                            with ui.element('div').classes('cui-table-column-option'):
                                 props='type="checkbox"'
                                 if column.visible: props += ' checked'
                                 control=ui.element('input').classes('cui-table-column-option__native').props(props)
+                                control.props(f'aria-label="Show {html.escape(column.label, quote=True)} column"')
                                 self.controls[column.key]=control
                                 async def change(e, c=column):
                                     checked=bool(getattr(e,'args',False))
@@ -461,6 +496,18 @@ class TableColumnManager:
                                 control.on('change', change, js_handler='e => emit(e.target.checked)')
                                 ui.element('span').classes('cui-table-column-option__check').props('aria-hidden="true"')
                                 ui.label(column.label).classes('cui-table-column-option__label')
+                                if column.key not in {item.key for item in self.columns if item.kind is ColumnKind.ACTION}:
+                                    pin_button = ui.button().props('flat round aria-label="Pin ' + html.escape(column.label, quote=True) + ' column"').classes('cui-icon-button cui-table-column-pin')
+                                    with pin_button:
+                                        _icon(ui, 'pin', label=f'Pin {column.label} column', size='xs')
+                                        with ui.menu().classes('cui-menu cui-overlay-surface cui-overlay-surface--popover'):
+                                            ui.label(f'Pin {column.label}').classes('cui-menu-heading')
+                                            async def pin_left(e=None, key=column.key): await table.set_column_pinned(key, PinPosition.LEFT)
+                                            async def pin_right(e=None, key=column.key): await table.set_column_pinned(key, PinPosition.RIGHT)
+                                            async def unpin(e=None, key=column.key): await table.set_column_pinned(key, PinPosition.NONE)
+                                            for label, callback, icon in (('Pin left', pin_left, 'panel-left'), ('Pin right', pin_right, 'panel-right'), ('Unpin', unpin, 'unpin')):
+                                                with ui.button(label, on_click=callback).props('flat no-caps').classes('cui-menu-item'):
+                                                    _icon(ui, icon, size='xs')
                     ui.separator().classes('cui-menu-separator')
                     async def auto_size(e=None): await _invoke(table.auto_size_columns)
                     ui.button('Auto-size columns', on_click=auto_size).props('flat no-caps').classes('cui-menu-item')
@@ -537,6 +584,7 @@ class DataTable:
                  row_key: str='id', selection: SelectionMode=SelectionMode.NONE, density: TableDensity=TableDensity.COMPACT,
                  expandable: bool=False, master_detail: bool=False, bulk_actions: Sequence[BulkAction]=(),
                  row_actions: Sequence[RowAction]=(), on_select: Callable[...,Any] | None=None,
+                 on_view_changed: Callable[[TableViewSnapshot], Any] | None=None,
                  on_row_double_click: Callable[...,Any] | None=None, on_cell_value_changed: Callable[...,Any] | None=None,
                  on_refresh: Callable[...,Any] | None=None, show_toolbar: bool=True,
                  preferences: PreferenceService | None=None):
@@ -544,6 +592,9 @@ class DataTable:
             if not columns: raise ValueError('columns are required when spec is not supplied')
             spec=DataTableSpec(tuple(columns), row_key=row_key, title=title, description=description, selection=selection,
                                density=density, expandable=expandable, master_detail=master_detail)
+        # Keep the authored contract immutable.  Hydrated user state belongs in
+        # ``self.spec`` only; Reset view must never reset to a user's old layout.
+        self.default_spec = spec
         self.preferences = preferences if preferences is not None else (_default_table_preferences() if spec.persist_state else None)
         payload: Mapping[str, Any] | None = None
         if spec.persist_state and self.preferences is not None and spec.persist_key:
@@ -557,10 +608,11 @@ class DataTable:
         else:
             self.state = TableState.from_persisted(None, spec.columns, default_density=spec.density, default_page_size=spec.page_size)
         self.spec=spec; self.bulk_actions=tuple(bulk_actions); self.row_actions=tuple(row_actions)
-        self.rows=list(rows or []); self.on_select=on_select; self.on_refresh=on_refresh; self.search=self.state.search; self.displayed_count=len(self.rows)
+        self.rows=list(rows or []); self._selected_rows_cache: tuple[dict[str, Any], ...] = (); self._selection_restore_until = 0.0; self._selection_restore_pending = False; self.on_select=on_select; self.on_view_changed=on_view_changed; self.on_refresh=on_refresh; self.search=self.state.search; self.displayed_count=len(self.rows)
         self._persist_task: asyncio.Task[None] | None = None
         self._lifecycle = LifecycleScope()
         self._restoring_state=False
+        self._suppress_callbacks=False
         self._closed=False
         self._validate_row_identities(self.rows)
         ui=_ui()
@@ -572,7 +624,7 @@ class DataTable:
                         if spec.description: ui.label(spec.description).classes('cui-table-description')
             if show_toolbar and any((spec.searchable,spec.column_manager,spec.density_control,spec.export_csv,spec.refresh_enabled)):
                 self.toolbar=TableToolbar(self, searchable=spec.searchable, columns=spec.column_manager,
-                                          density=spec.density_control, export=spec.export_csv, refresh=spec.refresh_enabled)
+                                          density=spec.density_control, export=spec.export_csv and spec.export_enabled, refresh=spec.refresh_enabled)
             else: self.toolbar=None
             self.selection_bar=TableSelectionBar(self.bulk_actions, table=self) if self.bulk_actions else None
             self.context_menu=TableContextMenu(self.row_actions) if self.row_actions else None
@@ -614,6 +666,7 @@ class DataTable:
                 'defaultColDef': {'resizable': True, 'sortable': True, 'filter': True},
                 'stopEditingWhenCellsLoseFocus': True,
                 'preventDefaultOnContextMenu': bool(self.row_actions),
+                'overlayNoRowsTemplate': f'<div class="cui-table-empty" role="status">{html.escape(spec.empty_message)}</div>',
             }
             if self.search: options['quickFilterText'] = self.search
             if self.state.filters: options['filterModel'] = _filter_model_from_specs(self.state.filters)
@@ -706,16 +759,75 @@ class DataTable:
         if self.footer_label is not None: self.footer_label.set_text(self._footer_text())
         if getattr(self,'footer_density_label',None) is not None: self.footer_density_label.set_text(self._density_text())
 
+    async def _displayed_rows(self, count: int) -> tuple[Mapping[str, Any], ...]:
+        """Return bounded displayed records without serializing AG Grid nodes."""
+        if count <= 0:
+            return ()
+        # AG Grid RowNode objects contain circular bean references and must never
+        # cross the websocket. Reapply the normalized table query over bounded
+        # client rows instead; the server table overrides its population with the
+        # current page and never claims the page is the whole provider.
+        if self.spec.pagination.value == 'server':
+            return tuple(dict(row) for row in self.rows[:count])
+        query = TableQuery(page=1, page_size=max(len(self.rows), 1), search=self.search,
+                           filters=tuple(self.state.filters), sorts=tuple(self.state.sorts))
+        result = TableQueryEngine(self.rows).query(query)
+        return tuple(dict(row) for row in result.rows[:count])
+
+    async def _emit_view_changed(self, *, displayed_rows: Sequence[Mapping[str, Any]] | None = None) -> None:
+        if self.on_view_changed is None or self._suppress_callbacks:
+            return
+        if displayed_rows is None:
+            displayed_rows = await self._displayed_rows(self.displayed_count)
+        selected = await self.selected_rows() if self.spec.selection is not SelectionMode.NONE else ()
+        snapshot = TableViewSnapshot(
+            displayed_count=self.displayed_count,
+            total_count=self.total if self.spec.pagination.value == 'server' and hasattr(self, 'total') else len(self.rows),
+            visible_rows=tuple(dict(row) for row in displayed_rows),
+            selected_keys=frozenset(row.get(self.spec.row_key) for row in selected),
+            search=self.search,
+            filters=tuple(self.state.filters),
+            sorts=tuple(self.state.sorts),
+        )
+        await _invoke(self.on_view_changed, snapshot)
+
     async def _sync_displayed_count(self, event=None) -> None:
         try:
             count=await self.element.run_grid_method('getDisplayedRowCount')
             if count is not None: self.displayed_count=int(count)
         except Exception:
             self.displayed_count=len(self.rows)
+        try:
+            filter_model = await self.element.run_grid_method('getFilterModel') or {}
+            self.state.filters = _filter_specs_from_grid_model(filter_model)
+            column_states = await self.element.run_grid_method('getColumnState') or []
+            self.state.sorts = [
+                SortSpec(item.get('colId'), SortDirection(item['sort']))
+                for item in sorted(column_states, key=lambda item: int(item.get('sortIndex') or 0))
+                if item.get('sort') in {'asc', 'desc'} and item.get('colId') in {column.key for column in self.spec.columns}
+            ]
+        except Exception:
+            pass
         self._sync_footer()
+        await self._emit_view_changed()
 
     async def _handle_selection_changed(self, event=None):
-        rows=await self.selected_rows()
+        # Read the live grid selection here; ``selected_rows`` intentionally
+        # has a normalized fallback for action callbacks during a transaction,
+        # but using that fallback would make a real user deselection appear
+        # selected forever.
+        rows=await self.element.get_selected_rows()
+        if self._selection_restore_pending:
+            if not rows:
+                self.state.selected_keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
+                if self.selection_bar: self.selection_bar.update_count(len(self._selected_rows_cache))
+                return
+            if not self._suppress_callbacks:
+                self._selection_restore_pending = False
+        if time.monotonic() < self._selection_restore_until and self._selected_rows_cache:
+            self.state.selected_keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
+            if self.selection_bar: self.selection_bar.update_count(len(self._selected_rows_cache))
+            return
         current_keys={row.get(self.spec.row_key) for row in self.rows}
         selected_now={row.get(self.spec.row_key) for row in rows}
         if self.spec.pagination.value == 'server':
@@ -725,12 +837,17 @@ class DataTable:
             self.state.selected_keys.update(selected_now)
         else:
             self.state.selected_keys=set(selected_now)
+        if not self._suppress_callbacks:
+            self._selected_rows_cache = tuple(dict(row) for row in rows)
         if self.selection_bar: self.selection_bar.update_count(len(rows))
+        if self._suppress_callbacks:
+            return
         if not self._restoring_state:
             self._schedule_persist_state()
         else:
             return
         await _invoke(self.on_select, rows)
+        await self._emit_view_changed()
 
     async def _handle_cell_clicked(self, event):
         args=getattr(event,'args',{}) or {}; col=args.get('colId') or args.get('column',{}).get('colId')
@@ -744,9 +861,32 @@ class DataTable:
         row=(getattr(event,'args',{}) or {}).get('data') or {}
         self.context_menu.open_for(row)
 
-    async def selected_rows(self): return await self.element.get_selected_rows()
+    async def selected_rows(self):
+        rows = await self.element.get_selected_rows()
+        if rows:
+            self._selected_rows_cache = tuple(dict(row) for row in rows)
+            return rows
+        if self._selected_rows_cache:
+            keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
+            return [row for row in self.rows if row.get(self.spec.row_key) in keys]
+        if not self.state.selected_keys:
+            return rows
+        # A row-data transaction can briefly leave AG Grid's client selection
+        # empty while the normalized keys are being restored. Keep action and
+        # summary callbacks truthful during that bounded transition.
+        keys = set(self.state.selected_keys)
+        return [row for row in self.rows if row.get(self.spec.row_key) in keys]
+
+    def _sync_selection_bar(self) -> None:
+        """Keep the governed action surface visible after in-place row updates."""
+        if self.selection_bar is not None:
+            keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
+            self.selection_bar.update_count(len(keys or self.state.selected_keys))
+
     async def deselect_all(self):
         self.state.selected_keys.clear()
+        self._selected_rows_cache = ()
+        self._selection_restore_pending = False
         result=await self.element.run_grid_method('deselectAll')
         self._schedule_persist_state()
         return result
@@ -826,8 +966,9 @@ class DataTable:
 
     async def reset_layout(self):
         """Restore visibility, order, widths and pinning from the declared spec."""
+        declared = self.default_spec
         state = []
-        for index, column in enumerate(self.spec.columns):
+        for index, column in enumerate(declared.columns):
             state.append({
                 'colId': column.key,
                 'hide': not column.visible,
@@ -838,11 +979,20 @@ class DataTable:
                 'order': index,
             })
         await self.element.run_grid_method('applyColumnState', {'state': state, 'applyOrder': True})
-        await self.clear_filters()
+        await self.element.run_grid_method('setFilterModel', {})
         self.search = ''
-        self.state.search = ''
+        self.spec = declared
+        self.state = TableState.from_persisted(None, declared.columns, default_density=declared.density, default_page_size=declared.page_size)
         await self.element.run_grid_method('setGridOption', 'quickFilterText', '')
-        self._schedule_persist_state()
+        await self.element.run_grid_method('setGridOption', 'paginationPageSize', declared.page_size)
+        if self.toolbar is not None:
+            if self.toolbar.density_selector is not None:
+                self.toolbar.density_selector.set_value(declared.density)
+            if self.toolbar.column_manager is not None:
+                for column in declared.columns:
+                    self.toolbar.column_manager.set_visible(column.key, column.visible)
+        await self._sync_displayed_count()
+        await self.persist_state()
 
     async def set_search(self, value:str):
         self.search=value or ''
@@ -869,10 +1019,111 @@ class DataTable:
         self.rows=next_rows; self.displayed_count=len(self.rows); self.element.options['rowData']=self.rows
         if self.spec.pagination.value != 'server':
             self.state.reconcile_selection(row.get(self.spec.row_key) for row in self.rows)
-        await self.element.run_grid_method('setGridOption','rowData',self.rows)
-        await self._restore_selection()
-        self._sync_footer()
+        preserved_selection = set(self.state.selected_keys)
+        self._suppress_callbacks = True
+        try:
+            await self.element.run_grid_method('setGridOption','rowData',self.rows)
+            await self.element.run_grid_method('deselectAll')
+            self.state.selected_keys = preserved_selection
+            self._selected_rows_cache = tuple(dict(row) for row in self.rows if row.get(self.spec.row_key) in preserved_selection)
+            await self._restore_selection()
+        finally:
+            self._suppress_callbacks = False
+        self._sync_selection_bar()
+        await self._sync_displayed_count()
         self._schedule_persist_state()
+
+    async def apply_row_transaction(self, *, update: Sequence[Mapping[str, Any]] = (), add: Sequence[Mapping[str, Any]] = (), remove_keys: Sequence[Any] = ()) -> None:
+        """Apply normalized row mutations without remounting the grid.
+
+        Applications never need to reach into AG Grid transactions.  Row identity
+        and selection reconciliation remain owned by the framework.
+        """
+        key_name = self.spec.row_key
+        current = {row.get(key_name): dict(row) for row in self.rows}
+        update_rows = [dict(row) for row in update]
+        add_rows = [dict(row) for row in add]
+        remove_set = set(remove_keys)
+        for row in update_rows:
+            key = row.get(key_name)
+            if key not in current or key in remove_set:
+                continue
+            current[key].update(row)
+        for row in add_rows:
+            key = row.get(key_name)
+            if key is None or key in current or key in remove_set:
+                raise ValueError(f'row transaction requires a unique non-null {key_name} identity')
+            current[key] = row
+        next_rows = [row for row in self.rows if row.get(key_name) not in remove_set]
+        next_rows = [current[row.get(key_name)] for row in next_rows]
+        next_rows.extend(row for row in add_rows if row.get(key_name) not in remove_set)
+        self._validate_row_identities(next_rows)
+        if update_rows and not add_rows and not remove_set:
+            # Updating a row through its normalized RowNode.setData contract
+            # preserves AG Grid selection, focus and scroll. Update individual
+            # governed fields so AG Grid does not replace the selected RowNode.
+            # Full rowData
+            # replacement is reserved for add/remove transactions where the
+            # client row set really changes.
+            original_rows = {row.get(key_name): row for row in self.rows}
+            preserved_cache = self._selected_rows_cache
+            self.rows = next_rows
+            self.state.reconcile_selection(row.get(key_name) for row in next_rows)
+            preserved_selection = set(self.state.selected_keys) or {row.get(key_name) for row in preserved_cache}
+            if preserved_selection:
+                self._selection_restore_until = time.monotonic() + 0.75
+                self._selection_restore_pending = True
+            self._suppress_callbacks = True
+            try:
+                for row in update_rows:
+                    key = row.get(key_name)
+                    if key in current:
+                        original = original_rows.get(key, {})
+                        for field, value in current[key].items():
+                            if field != key_name and original.get(field) != value:
+                                await self.element.run_row_method(str(key), 'setDataValue', field, value)
+                self.state.selected_keys = preserved_selection
+                self._selected_rows_cache = tuple(dict(row) for row in self.rows if row.get(key_name) in preserved_selection)
+                await self._restore_selection()
+            finally:
+                self._suppress_callbacks = False
+            self._sync_selection_bar()
+            self.element.options['rowData'] = self.rows
+            await self._sync_displayed_count()
+            self._schedule_persist_state()
+            return
+        self.rows = next_rows
+        self.state.reconcile_selection(row.get(key_name) for row in next_rows)
+        preserved_cache = self._selected_rows_cache
+        preserved_selection = set(self.state.selected_keys) or {row.get(key_name) for row in preserved_cache}
+        if preserved_selection:
+            self._selection_restore_until = time.monotonic() + 0.75
+            self._selection_restore_pending = True
+        self._suppress_callbacks = True
+        try:
+            # AG Grid's ``applyTransaction`` returns RowNode objects. NiceGUI
+            # would try to serialize that circular result over the websocket
+            # when the method is awaited, so the framework-owned normalized
+            # contract uses the equivalent row-data update in place. It keeps
+            # the mounted grid, column state and scroll geometry intact while
+            # never exposing raw AG Grid transaction objects to applications.
+            await self.element.run_grid_method('setGridOption', 'rowData', self.rows)
+            await self.element.run_grid_method('deselectAll')
+            self.state.selected_keys = preserved_selection
+            self._selected_rows_cache = tuple(dict(row) for row in self.rows if row.get(key_name) in preserved_selection)
+            await self._restore_selection()
+        finally:
+            self._suppress_callbacks = False
+        self._sync_selection_bar()
+        self.element.options['rowData'] = self.rows
+        await self._sync_displayed_count()
+        self._schedule_persist_state()
+
+    async def update_rows_by_key(self, rows: Sequence[Mapping[str, Any]]) -> None:
+        await self.apply_row_transaction(update=rows)
+
+    async def remove_rows_by_key(self, keys: Sequence[Any]) -> None:
+        await self.apply_row_transaction(remove_keys=keys)
 
     def update_rows(self, rows: Sequence[Mapping[str,Any]]) -> asyncio.Task[None]:
         """Schedule the canonical async row replacement without dropping its awaitable.
@@ -975,13 +1226,26 @@ class DataTable:
         if self.spec.selection is SelectionMode.NONE or not self.state.selected_keys:
             return
         selected={(type(key),key) for key in self.state.selected_keys}
-        for row in self.rows:
-            key=row.get(self.spec.row_key)
-            if (type(key),key) in selected:
-                try:
-                    await self.element.run_row_method(str(key),'setSelected',True,False)
-                except Exception:
-                    continue
+        keys = [str(row.get(self.spec.row_key)) for row in self.rows if (type(row.get(self.spec.row_key)), row.get(self.spec.row_key)) in selected]
+        if not keys:
+            return
+        # Restoring each RowNode through separate websocket calls can race with
+        # AG Grid's selectionChanged event after a row-data update. The
+        # framework-owned bridge restores the normalized key set in one client
+        # transaction; the row-method loop remains a compatibility fallback for
+        # lightweight test doubles and alternate AG Grid hosts.
+        try:
+            await _ui().run_javascript(
+                f"(() => {{ const restore=()=>{{ const grid=getElement({int(self.element.id)}).api; for (const key of {_js_literal(keys)}) grid.getRowNode(key)?.setSelected(true, false); }}; restore(); setTimeout(restore, 0); setTimeout(restore, 80); }})()"
+            )
+            return
+        except Exception:
+            pass
+        for key in keys:
+            try:
+                await self.element.run_row_method(str(key),'setSelected',True,False)
+            except Exception:
+                continue
 
     async def _restore_runtime_state(self) -> None:
         if self._closed:
@@ -1025,8 +1289,10 @@ class DataTable:
 class ServerDataTable(DataTable):
     """Server-paged table with cancellation, coalescing, retry and page cache."""
     def __init__(self, columns: Sequence[TableColumn], *, fetch: Callable[[TableQuery], Any],
-                 spec: ServerDataTableSpec | None=None, query: TableQuery | None=None, **kwargs):
+                 spec: ServerDataTableSpec | None=None, query: TableQuery | None=None,
+                 on_error: Callable[[BaseException], Any] | None=None, **kwargs):
         if fetch is None: raise ValueError('ServerDataTable requires fetch(query)')
+        self.on_error = on_error
         spec=spec or ServerDataTableSpec(tuple(columns), title=kwargs.pop('title', None), description=kwargs.pop('description', None),
                                          selection=kwargs.pop('selection', SelectionMode.NONE), density=kwargs.pop('density', TableDensity.COMPACT))
         self.fetch=fetch; self.query=query or TableQuery(page_size=spec.page_size)
@@ -1096,6 +1362,13 @@ class ServerDataTable(DataTable):
         return await self.refresh()
 
     async def set_query(self, query:TableQuery): self.query=query; return await self.refresh()
+    async def set_page_size(self, page_size: int):
+        if page_size not in self.spec.page_size_options:
+            raise ValueError(f'page_size must be one of {self.spec.page_size_options}')
+        self.query = replace(self.query, page=1, page_size=page_size)
+        self.state.page = 1
+        self.state.page_size = page_size
+        return await self.refresh(force=True)
     async def set_page(self,page:int): self.query=replace(self.query,page=max(1,page)); return await self.refresh()
     async def previous_page(self): return await self.set_page(max(1,self.query.page-1))
     async def next_page(self):
@@ -1153,6 +1426,8 @@ class ServerDataTable(DataTable):
         except Exception as exc:
             self.last_error=exc; self.stale=bool(self.rows)
             self._sync_footer()
+            if self.on_error is not None:
+                await _invoke(self.on_error, exc)
             raise
         finally:
             if not self._requests.running:
@@ -1163,7 +1438,6 @@ class ServerDataTable(DataTable):
         if getattr(self, '_closed', False):
             return
         await self._requests.aclose()
-        await super().aclose()
         await super().aclose()
 
 
@@ -1183,7 +1457,13 @@ class EditableTable(DataTable):
         self.validate_edit=validate_edit; self.save_edit=save_edit
         self._edit_revisions: dict[tuple[type,Any,str],int]={}
         super().__init__(rows, spec=spec, **kwargs)
-        self.element.on('cellValueChanged', self._handle_edit)
+        # Only forward the normalized edit payload.  AG Grid's raw event
+        # contains circular API/RowNode references and cannot cross NiceGUI's
+        # websocket safely.
+        self.element.on(
+            'cellValueChanged', self._handle_edit,
+            js_handler="e => emit({data: e.data || {}, colId: e.colId || '', newValue: e.newValue, oldValue: e.oldValue, rowIndex: e.rowIndex})",
+        )
 
     def _cell_identity(self, row: Mapping[str,Any], key: str) -> tuple[type,Any,str]:
         row_id=row.get(self.spec.row_key)

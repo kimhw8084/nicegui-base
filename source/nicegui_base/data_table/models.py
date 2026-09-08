@@ -8,7 +8,7 @@ from typing import Any, Callable, Iterable, Mapping, Sequence, TypeAlias
 
 
 class ColumnKind(str, Enum):
-    TEXT='text'; INTEGER='integer'; FLOAT='float'; PERCENT='percent'; DATETIME='datetime'; DURATION='duration'
+    TEXT='text'; INTEGER='integer'; FLOAT='float'; PERCENT='percent'; DATE='date'; DATETIME='datetime'; DURATION='duration'
     STATUS='status'; BOOLEAN='boolean'; LINK='link'; ACTION='action'; SPARKLINE='sparkline'; CUSTOM='custom'
 
 class TableDensity(str, Enum):
@@ -63,6 +63,14 @@ class TableColumn:
     rules: tuple[ConditionalRule, ...] = ()
     priority: str = 'normal'
     status_map: Mapping[str, str] = field(default_factory=dict)
+    # Editing metadata stays semantic; integrations translate it to the
+    # installed grid/editor implementation.
+    editor: str | None = None
+    choices: tuple[Any, ...] = ()
+    minimum: float | int | None = None
+    maximum: float | int | None = None
+    step: float | int | None = None
+    placeholder: str | None = None
 
     def __post_init__(self) -> None:
         if not self.key.strip() or not self.label.strip():
@@ -82,6 +90,42 @@ class TableColumn:
         allowed_intents = {'neutral', 'info', 'success', 'warning', 'danger'}
         if any(intent not in allowed_intents for intent in self.status_map.values()):
             raise ValueError('status_map contains unsupported intent')
+        if self.editor is not None and self.editor not in {'text', 'number', 'select', 'boolean', 'date', 'datetime'}:
+            raise ValueError('editor must be a semantic text, number, select, boolean, date, or datetime editor')
+        if self.minimum is not None and self.maximum is not None and self.minimum > self.maximum:
+            raise ValueError('minimum cannot exceed maximum')
+        if self.step is not None and self.step <= 0:
+            raise ValueError('step must be positive')
+
+    def editor_spec(self) -> dict[str, Any]:
+        """Return the normalized semantic editor contract for this column."""
+        if self.editor is not None:
+            kind = self.editor
+        elif self.kind in {ColumnKind.INTEGER, ColumnKind.FLOAT, ColumnKind.PERCENT, ColumnKind.DURATION}:
+            kind = 'number'
+        elif self.kind is ColumnKind.BOOLEAN:
+            kind = 'boolean'
+        elif self.kind is ColumnKind.STATUS or self.choices:
+            kind = 'select'
+        elif self.kind is ColumnKind.DATE:
+            kind = 'date'
+        elif self.kind is ColumnKind.DATETIME:
+            kind = 'datetime'
+        else:
+            kind = 'text'
+        choices = self.choices
+        if kind == 'select' and not choices and self.status_map:
+            choices = tuple(self.status_map)
+        if kind == 'boolean' and not choices:
+            choices = (True, False)
+        return {
+            'kind': kind,
+            'choices': tuple(choices),
+            'minimum': self.minimum,
+            'maximum': self.maximum,
+            'step': self.step,
+            'placeholder': self.placeholder,
+        }
 
     @property
     def effective_align(self) -> str:
@@ -172,6 +216,18 @@ class TableResult:
     @property
     def page_count(self) -> int:
         return max(1, (self.total + self.page_size - 1) // self.page_size)
+
+
+@dataclass(frozen=True, slots=True)
+class TableViewSnapshot:
+    """Normalized client-visible table state for linked summaries and charts."""
+    displayed_count: int
+    total_count: int
+    visible_rows: tuple[Mapping[str, Any], ...] = ()
+    selected_keys: frozenset[Any] = frozenset()
+    search: str = ''
+    filters: tuple[FilterExpression, ...] = ()
+    sorts: tuple[SortSpec, ...] = ()
 
 @dataclass(frozen=True, slots=True)
 class TablePreset:
@@ -350,6 +406,7 @@ class DataTableSpec:
     column_manager: bool = True
     density_control: bool = True
     export_csv: bool = True
+    export_enabled: bool = True
     copy_enabled: bool = True
     refresh_enabled: bool = True
     persist_state: bool = True
@@ -423,6 +480,9 @@ class BulkAction:
     intent: str = 'secondary'
     requires_selection: bool = True
     on_action: Callable[[Sequence[Mapping[str, Any]]], Any] | None = field(default=None, compare=False, repr=False)
+    visible_when: Callable[[Sequence[Mapping[str, Any]]], bool] | None = field(default=None, compare=False, repr=False)
+    enabled_when: Callable[[Sequence[Mapping[str, Any]]], bool] | None = field(default=None, compare=False, repr=False)
+    disabled_reason: Callable[[Sequence[Mapping[str, Any]]], str | None] | None = field(default=None, compare=False, repr=False)
 
     def __post_init__(self) -> None:
         if not self.key.strip() or not self.label.strip():
@@ -435,6 +495,9 @@ class RowAction:
     icon: str | None = None
     intent: str = 'secondary'
     on_action: Callable[[Mapping[str, Any]], Any] | None = field(default=None, compare=False, repr=False)
+    visible_when: Callable[[Mapping[str, Any]], bool] | None = field(default=None, compare=False, repr=False)
+    enabled_when: Callable[[Mapping[str, Any]], bool] | None = field(default=None, compare=False, repr=False)
+    disabled_reason: Callable[[Mapping[str, Any]], str | None] | None = field(default=None, compare=False, repr=False)
 
     def __post_init__(self) -> None:
         if not self.key.strip() or not self.label.strip():
@@ -442,6 +505,6 @@ class RowAction:
 
 __all__ = [
     'ColumnKind','TableDensity','SelectionMode','PaginationMode','SortDirection','FilterOperator','FilterLogic','PinPosition','EditCommitMode',
-    'ConditionalRule','TableColumn','SortSpec','FilterSpec','FilterGroup','FilterExpression','TableQuery','TableResult','TablePreset','TableState',
+    'ConditionalRule','TableColumn','SortSpec','FilterSpec','FilterGroup','FilterExpression','TableQuery','TableResult','TableViewSnapshot','TablePreset','TableState',
     'DataTableSpec','ServerDataTableSpec','EditableTableSpec','BulkAction','RowAction',
 ]

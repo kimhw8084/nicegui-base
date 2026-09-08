@@ -380,6 +380,7 @@ class DataDockModel:
         self._redo: list[DataDockSnapshot] = []
         self._revision = 0
         self._snapshot = self._from_rows(self._sample_rows, DataDockFormat.SAMPLE, sample_name)
+        self._staged: DataDockParseResult | None = None
 
     @property
     def snapshot(self) -> DataDockSnapshot:
@@ -400,6 +401,10 @@ class DataDockModel:
     @property
     def can_redo(self) -> bool:
         return bool(self._redo)
+
+    @property
+    def staged_snapshot(self) -> DataDockSnapshot | None:
+        return self._staged.snapshot if self._staged is not None and self._staged.ok else None
 
     def _from_rows(self, rows: Sequence[Mapping[str, Any]], source_format: DataDockFormat, source_name: str, *, columns: Sequence[DataDockColumn] | None = None, issues: Iterable[DataDockIssue] = ()) -> DataDockSnapshot:
         checked_rows(rows)
@@ -431,6 +436,12 @@ class DataDockModel:
             result = DataDockParseResult(self._snapshot, self._snapshot.quality.issues, result.detected_format)
         return result
 
+    def stage_text(self, text: str, *, filename: str | None = None, format_hint: DataDockFormat | str | None = None, source_name: str = '') -> DataDockParseResult:
+        """Parse into a preview without changing the active dataset."""
+        result = parse_data(text, filename=filename, format_hint=format_hint, source_name=source_name)
+        self._staged = result if result.ok else None
+        return result
+
     def load_bytes(self, content: bytes, *, filename: str) -> DataDockParseResult:
         if len(content) > MAX_PROJECT_BYTES:
             return DataDockParseResult(None, (DataDockIssue('data_limit', 'Upload exceeds 2 MiB. Existing data was not changed.', DataDockSeverity.ERROR),))
@@ -439,6 +450,63 @@ class DataDockModel:
         except UnicodeDecodeError:
             return DataDockParseResult(None, (DataDockIssue('encoding', 'CSV/JSON uploads must be UTF-8 encoded.', DataDockSeverity.ERROR),))
         return self.load_text(text, filename=filename, source_name=filename)
+
+    def stage_bytes(self, content: bytes, *, filename: str) -> DataDockParseResult:
+        if len(content) > MAX_PROJECT_BYTES:
+            self._staged = None
+            return DataDockParseResult(None, (DataDockIssue('data_limit', 'Upload exceeds 2 MiB. Existing data was not changed.', DataDockSeverity.ERROR),))
+        try:
+            text = bytes(content).decode('utf-8-sig')
+        except UnicodeDecodeError:
+            self._staged = None
+            return DataDockParseResult(None, (DataDockIssue('encoding', 'CSV/JSON uploads must be UTF-8 encoded.', DataDockSeverity.ERROR),))
+        return self.stage_text(text, filename=filename, source_name=filename)
+
+    def schema_diff(self, snapshot: DataDockSnapshot | None = None) -> dict[str, list[Any]]:
+        """Return a compact active-versus-staged schema diff."""
+        incoming = snapshot or self.staged_snapshot
+        if incoming is None:
+            return {'added': [], 'removed': [], 'changed': []}
+        current = {column.name: column for column in self.columns}
+        staged = {column.name: column for column in incoming.columns}
+        return {
+            'added': sorted(set(staged) - set(current)),
+            'removed': sorted(set(current) - set(staged)),
+            'changed': sorted(
+                ({'column': key, 'from': current[key].inferred_type, 'to': staged[key].inferred_type}
+                 for key in set(current) & set(staged)
+                 if current[key].inferred_type != staged[key].inferred_type),
+                key=lambda item: item['column'],
+            ),
+        }
+
+    def commit_stage(self) -> DataDockSnapshot:
+        if self._staged is None or not self._staged.ok or self._staged.snapshot is None:
+            raise ValueError('No valid staged import is available to commit.')
+        snapshot = self._commit(self._staged.snapshot)
+        self._staged = None
+        return snapshot
+
+    def discard_stage(self) -> None:
+        self._staged = None
+
+    def profile_column(self, column: str) -> dict[str, Any]:
+        """Return a bounded numeric/categorical profile for one active column."""
+        target = next((item for item in self.columns if item.name == column), None)
+        if target is None:
+            raise KeyError(column)
+        values = [row.get(column) for row in self.rows]
+        present = [value for value in values if value is not None and value != '']
+        profile: dict[str, Any] = {'count': len(values), 'missing': len(values) - len(present), 'unique': len({repr(value) for value in present})}
+        if target.inferred_type in {'integer', 'float'}:
+            numbers = [float(value) for value in present if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))]
+            profile.update({'min': min(numbers) if numbers else None, 'max': max(numbers) if numbers else None, 'mean': sum(numbers) / len(numbers) if numbers else None})
+        else:
+            counts: dict[str, int] = {}
+            for value in present:
+                counts[str(value)] = counts.get(str(value), 0) + 1
+            profile['top_values'] = tuple(sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:5])
+        return profile
 
     def reset_sample(self) -> DataDockSnapshot:
         return self._commit(self._from_rows(self._sample_rows, DataDockFormat.SAMPLE, self.sample_name))

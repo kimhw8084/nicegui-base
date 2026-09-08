@@ -118,7 +118,7 @@ __all__ += ['INTERACTION_REGISTRY','InteractionDefinition','get_interaction']
 from nicegui_base.data_table import (
     BulkAction, ColumnKind, ConditionalRule, DataTableSpec, EditCommitMode, EditableTableSpec, FilterGroup, FilterLogic, FilterOperator, FilterSpec,
     PaginationMode, PinPosition, RowAction, SelectionMode, ServerDataTableSpec, SortDirection, SortSpec,
-    TABLE_REGISTRY, TableColumn, TableDefinition, TableDensity, TablePreset, TableQuery, TableResult, TableState,
+    TABLE_REGISTRY, TableColumn, TableDefinition, TableDensity, TablePreset, TableQuery, TableResult, TableState, TableViewSnapshot,
     apply_query, build_data_table_css, export_csv, format_cell, get_table,
 )
 from nicegui_base.integrations import (
@@ -129,7 +129,7 @@ from nicegui_base.integrations import (
 __all__ += [
     'BulkAction','ColumnKind','ConditionalRule','DataTableSpec','EditCommitMode','EditableTableSpec','FilterGroup','FilterLogic','FilterOperator','FilterSpec',
     'PaginationMode','PinPosition','RowAction','SelectionMode','ServerDataTableSpec','SortDirection','SortSpec',
-    'TABLE_REGISTRY','TableColumn','TableDefinition','TableDensity','TablePreset','TableQuery','TableResult','TableState',
+    'TABLE_REGISTRY','TableColumn','TableDefinition','TableDensity','TablePreset','TableQuery','TableResult','TableState','TableViewSnapshot',
     'apply_query','build_data_table_css','export_csv','format_cell','get_table','ConditionalCellFormatter','DataTable',
     'EditableTable','ExpandableRow','MasterDetailTable','ServerDataTable','SparklineCell','StatusCell','TableColumnManager',
     'TableContextMenu','TableDensitySelector','TablePresetSelector','TableRowActions','TableSelectionBar','TableToolbar',

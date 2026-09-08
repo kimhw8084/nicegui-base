@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Sequence
 
 from .codegen import CapabilityConfiguration, code_artifact
-from .data_dock import DEFAULT_ENGINEERING_SAMPLE, DataDockModel, DataDockSeverity, default_data_dock
+from .data_dock import DEFAULT_ENGINEERING_SAMPLE, DataDockModel, DataDockParseResult, DataDockSeverity, default_data_dock
 from .models import WorkbenchEntry, WorkbenchKind
 from .state_matrix import render_state_matrix
 
@@ -146,6 +146,8 @@ def _column_kind(type_name: str):
         'boolean': ColumnKind.BOOLEAN,
         'datetime': ColumnKind.DATETIME,
         'date': ColumnKind.DATETIME,
+        'json': ColumnKind.CUSTOM,
+        'unknown': ColumnKind.CUSTOM,
     }.get(type_name, ColumnKind.TEXT)
 
 
@@ -383,53 +385,103 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
     def render_paste() -> None:
         paste = TextArea('Paste data', placeholder='Paste TSV from Excel, CSV, or a JSON array of objects…', rows=12)
         result_host = ui.element('div')
-        async def analyze():
-            text = str(getattr(paste.element, 'value', '') or '')
-            result = model.load_text(text, source_name='Pasted data')
+
+        async def commit_preview() -> None:
+            try:
+                snapshot = model.commit_stage()
+            except (ValueError, TypeError) as exc:
+                dock_status.set_text(f'Import rejected: {exc}')
+                return
+            dock_status.set_text(f'Imported {snapshot.quality.rows} rows · {snapshot.quality.columns} columns')
+            mode['value'] = 'review'
+            if on_change:
+                value = on_change(model)
+                if hasattr(value, '__await__'):
+                    await value
+            render_mode_selector(); render_mode()
+
+        def discard_preview() -> None:
+            model.discard_stage()
+            dock_status.set_text('Import preview discarded; active data was unchanged.')
+            mode['value'] = 'review'
+            render_mode_selector(); render_mode()
+
+        def preview(result: DataDockParseResult) -> None:
             result_host.clear()
             with result_host:
-                if result.ok:
-                    dock_status.set_text(f'Loaded pasted data: {model.snapshot.quality.rows} rows · {model.snapshot.quality.columns} columns')
-                    if on_change:
-                        value = on_change(model)
-                        if hasattr(value, '__await__'):
-                            await value
-                    mode['value'] = 'review'
-                    render_mode_selector()
-                    render_mode()
-                else:
+                if not result.ok or result.snapshot is None:
                     for issue in result.issues:
                         ui.label(issue.message).classes('cui-workbench-note').props('role=alert')
-                        dock_status.set_text(f'Import rejected: {issue.message}')
-        ActionButton('Load pasted data', on_click=analyze)
+                    return
+                snap = result.snapshot; diff = model.schema_diff(snap)
+                with ui.element('section').classes('cui-data-dock-import-preview').props('data-import-preview'):
+                    ui.label('Import preview · active data is unchanged').classes('cui-workbench-section-title')
+                    ui.label(f'{result.detected_format.value.upper() if result.detected_format else "DATA"} · {snap.quality.rows:,} rows · {snap.quality.columns} columns').classes('cui-workbench-note')
+                    ui.label(f"Schema diff · +{len(diff['added'])} added · −{len(diff['removed'])} removed · {len(diff['changed'])} type changes").classes('cui-workbench-note')
+                    if diff['added']: ui.label('Added: ' + ', '.join(diff['added'])).classes('cui-workbench-note')
+                    if diff['removed']: ui.label('Removed: ' + ', '.join(diff['removed'])).classes('cui-workbench-note')
+                    if diff['changed']:
+                        ui.label('Changed: ' + ', '.join(f"{item['column']} ({item['from']} → {item['to']})" for item in diff['changed'])).classes('cui-workbench-note')
+                    with ui.element('div').classes('cui-workbench-toolbar'):
+                        ActionButton('Confirm import', on_click=commit_preview)
+                        Button('Cancel', on_click=discard_preview)
+
+        async def analyze():
+            text = str(getattr(paste.element, 'value', '') or '')
+            result = model.stage_text(text, source_name='Pasted data')
+            dock_status.set_text(f'Preview ready · active data remains at {model.snapshot.quality.rows} rows' if result.ok else f'Import rejected: {result.issues[0].message if result.issues else "invalid data"}')
+            preview(result)
+        ActionButton('Preview import', on_click=analyze)
         with result_host:
-            ui.label('Format is detected immediately when you analyze the paste.').classes('cui-workbench-note')
+            ui.label('Format is detected when previewing; confirmation is required to replace active data.').classes('cui-workbench-note')
 
     def render_upload() -> None:
         result_host = ui.element('div')
+        async def commit_preview() -> None:
+            try:
+                snapshot = model.commit_stage()
+            except (ValueError, TypeError) as exc:
+                dock_status.set_text(f'Import rejected: {exc}')
+                return
+            dock_status.set_text(f'Imported {snapshot.quality.rows} rows from staged upload')
+            mode['value'] = 'review'
+            if on_change:
+                value = on_change(model)
+                if hasattr(value, '__await__'):
+                    await value
+            render_mode_selector(); render_mode()
+
+        def discard_preview() -> None:
+            model.discard_stage()
+            dock_status.set_text('Upload preview discarded; active data was unchanged.')
+            mode['value'] = 'review'
+            render_mode_selector(); render_mode()
+
+        def preview(result: DataDockParseResult, name: str) -> None:
+            result_host.clear()
+            with result_host:
+                if not result.ok or result.snapshot is None:
+                    for issue in result.issues:
+                        ui.label(issue.message).classes('cui-workbench-note').props('role=alert')
+                    return
+                snap = result.snapshot; diff = model.schema_diff(snap)
+                with ui.element('section').classes('cui-data-dock-import-preview').props('data-import-preview'):
+                    ui.label(f'Upload preview · {name} · active data is unchanged').classes('cui-workbench-section-title')
+                    ui.label(f'{snap.quality.rows:,} rows · {snap.quality.columns} columns · +{len(diff["added"])} / −{len(diff["removed"])} fields').classes('cui-workbench-note')
+                    with ui.element('div').classes('cui-workbench-toolbar'):
+                        ActionButton('Confirm import', on_click=commit_preview)
+                        Button('Cancel', on_click=discard_preview)
+
         async def uploaded(event):
             name, content = _read_upload_content(event)
             try:
                 data = await _read_all(content)
-                result = model.load_bytes(data, filename=name)
+                result = model.stage_bytes(data, filename=name)
             except (ValueError, TypeError) as exc:
                 dock_status.set_text(f'Import rejected: {exc}')
                 return
-            result_host.clear()
-            with result_host:
-                if result.ok:
-                    dock_status.set_text(f'Loaded {name} · {model.snapshot.quality.rows} rows')
-                    if on_change:
-                        value = on_change(model)
-                        if hasattr(value, '__await__'):
-                            await value
-                    mode['value'] = 'review'
-                    render_mode_selector()
-                    render_mode()
-                else:
-                    for issue in result.issues:
-                        ui.label(issue.message).classes('cui-workbench-note').props('role=alert')
-                        dock_status.set_text(f'Import rejected: {issue.message}')
+            dock_status.set_text(f'Preview ready · {name} · active data remains at {model.snapshot.quality.rows} rows' if result.ok else f'Import rejected: {result.issues[0].message if result.issues else "invalid data"}')
+            preview(result, name)
         from nicegui_base.security import UploadPolicy
         policy = UploadPolicy(max_bytes=2 * 1024 * 1024, allowed_extensions=frozenset({'.csv','.tsv','.json'}), allowed_media_types=frozenset({'text/csv','text/tab-separated-values','text/plain','application/json','application/octet-stream'}))
         FileUpload(label='Upload CSV, TSV, or JSON', accept=('.csv','.json','.tsv'), max_file_size_mb=2, upload_policy=policy, on_upload=uploaded, auto_upload=True)

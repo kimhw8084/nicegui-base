@@ -90,6 +90,8 @@ def build_data_table_css() -> str:
 .cui-table-footer-density { color:var(--cui-text-tertiary); font-variant-numeric:tabular-nums; }
 .cui-table-empty { min-height:220px; display:grid; place-items:center; text-align:center; color:var(--cui-text-secondary); padding:var(--cui-space-6); }
 .cui-table-empty strong { display:block; color:var(--cui-text-primary); margin-bottom:4px; }
+.cui-table-error { display:grid; gap:var(--cui-gap-control-content); padding:var(--cui-gap-content); border:1px solid var(--cui-danger); border-radius:var(--cui-radius-surface); background:var(--cui-danger-soft); color:var(--cui-text-primary); }
+.cui-table-refreshing { display:flex; align-items:center; gap:var(--cui-gap-control-content); min-height:34px; padding:var(--cui-gap-control-content) var(--cui-gap-content); border:1px solid var(--cui-warning); border-radius:var(--cui-radius-control); background:var(--cui-warning-soft); color:var(--cui-text-primary); }
 .cui-table-loading { min-height:220px; padding:12px; display:grid; gap:7px; }
 .cui-table-loading__row { height:28px; border-radius:var(--cui-radius-inner); background:linear-gradient(90deg,var(--cui-surface-secondary),var(--cui-surface-hover),var(--cui-surface-secondary)); background-size:200% 100%; animation:cui-table-shimmer var(--cui-duration-table-shimmer) infinite var(--cui-easing-linear); }
 @keyframes cui-table-shimmer { to { background-position:-200% 0; } }
@@ -149,6 +151,10 @@ def build_data_table_css() -> str:
 .cui-data-table .ag-sort-indicator-icon, .cui-data-table .ag-header-icon { color:var(--cui-text-tertiary); opacity:.82; }
 .cui-data-table .ag-header-cell-sorted-asc .ag-sort-indicator-icon, .cui-data-table .ag-header-cell-sorted-desc .ag-sort-indicator-icon { color:var(--cui-accent); opacity:1; }
 .cui-data-table .ag-row { border-bottom:1px solid var(--cui-border-subtle); color:var(--cui-text-primary); }
+.cui-data-table--striped .ag-row-even { background:var(--cui-surface-secondary); }
+.cui-data-table--striped .ag-row-odd { background:var(--cui-surface); }
+.cui-data-table--striped .ag-row:nth-child(even) { background:var(--cui-surface-secondary); }
+.cui-data-table--striped .ag-row-even:hover, .cui-data-table--striped .ag-row-odd:hover { background:var(--cui-surface-hover); }
 .cui-data-table .ag-row-hover { background:var(--cui-surface-hover) !important; }
 .cui-data-table .ag-row-selected { background:var(--cui-accent-soft) !important; }
 .cui-data-table .ag-row-selected::before { background:transparent !important; }

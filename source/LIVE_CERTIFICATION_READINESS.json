@@ -1,9 +1,9 @@
 {
-  "automated_tests": 1587,
+  "automated_tests": 1871,
   "browser_native_uiux_constitution": "PENDING",
   "clean_install_offline_certification": "NOT EXECUTED FOR 3.0.0A8",
   "framework_version": "3.0.0a8",
-  "generated_at": "2026-08-30T23:35:11Z",
+  "generated_at": "2026-09-08T21:16:43Z",
   "governance": "PASS",
   "live_routes": 21,
   "nicegui_version": "3.15.0",
@@ -16,5 +16,5 @@
     "./run_lab.sh for manual review",
     "install certification deps then certify for browser/runtime evidence"
   ],
-  "visual_coverage": "183/183"
+  "visual_coverage": "185/185"
 }
