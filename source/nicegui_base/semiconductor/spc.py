@@ -19,6 +19,18 @@ class ControlChartResult:
     family:ControlChartFamily; values:tuple[float,...]; center:tuple[float,...]; ucl:tuple[float,...]; lcl:tuple[float,...]
     secondary_values:tuple[float,...]=(); secondary_center:tuple[float,...]=(); secondary_ucl:tuple[float,...]=(); secondary_lcl:tuple[float,...]=()
     sigma:float|None=None; violations:tuple[RuleViolation,...]=(); excluded_indices:tuple[int,...]=(); metadata:dict=field(default_factory=dict)
+    # CUSUM has two independent signed accumulators.  These fields were added
+    # after the original result contract so positional construction of the
+    # other chart families remains backwards compatible.
+    positive_values:tuple[float,...]=(); negative_values:tuple[float,...]=()
+
+    @property
+    def c_plus(self)->tuple[float,...]:
+        return self.positive_values
+
+    @property
+    def c_minus(self)->tuple[float,...]:
+        return self.negative_values
 @dataclass(frozen=True,slots=True)
 class CapabilityResult:
     count:int; mean:float; within_sigma:float|None; overall_sigma:float|None; cp:float|None; cpk:float|None; pp:float|None; ppk:float|None; lsl:float|None; usl:float|None; target:float|None
@@ -209,11 +221,16 @@ def cusum(values:Iterable[float|None], *, target:float|None=None, k:float=.5, h:
     if not isfinite(center): raise SPCInputError('CUSUM target must be finite')
     sigma=_sample_sigma(x)
     if sigma is None: raise SPCInputError('CUSUM requires non-degenerate variance')
-    cp=cm=0.0; vals=[]; violations=[]
+    cp=cm=0.0; plus=[]; minus=[]; vals=[]; violations=[]
     for i,v in enumerate(x):
-        z=(v-center)/sigma; cp=max(0,cp+z-k); cm=min(0,cm+z+k); vals.append(cp if abs(cp)>=abs(cm) else cm)
+        z=(v-center)/sigma; cp=max(0,cp+z-k); cm=min(0,cm+z+k); plus.append(cp); minus.append(cm)
+        # ``values`` remains the historical dominant-side projection for
+        # consumers that only draw one line. New consumers must use c_plus and
+        # c_minus, which preserve both declared CUSUM paths.
+        vals.append(cp if abs(cp)>=abs(cm) else cm)
         if cp>h or cm<-h: violations.append(RuleViolation('cusum','CUSUM',(i,),'CUSUM decision interval exceeded'))
-    return ControlChartResult(ControlChartFamily.CUSUM,tuple(vals),_repeat(0,len(vals)),_repeat(h,len(vals)),_repeat(-h,len(vals)),sigma=sigma,violations=tuple(violations),excluded_indices=excluded,metadata={'k':k,'h':h,'target':center})
+    plus_values=tuple(plus); minus_values=tuple(minus)
+    return ControlChartResult(ControlChartFamily.CUSUM,tuple(vals),_repeat(0,len(vals)),_repeat(h,len(vals)),_repeat(-h,len(vals)),sigma=sigma,violations=tuple(violations),excluded_indices=excluded,metadata={'k':k,'h':h,'target':center,'c_plus':plus_values,'c_minus':minus_values,'positive_limit':h,'negative_limit':-h},positive_values=plus_values,negative_values=minus_values)
 
 
 def capability_indices(values:Iterable[float|None], *, lsl:float|None=None, usl:float|None=None, target:float|None=None, within_sigma:float|None=None)->CapabilityResult:

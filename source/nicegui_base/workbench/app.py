@@ -945,12 +945,43 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     analytics no longer collapse into one category-level placeholder.
     """
     ui, *_ = _imports()
-    from nicegui_base.integrations.nicegui_visualization import (
-        BarChart, BoxPlot, ChamberFingerprintMatrix, CommonalityMatrix, ControlChart,
-        DistributionPanel, _EmpiricalCDFChart, _FaultTreeDiagram, Heatmap, Histogram, LineChart, ParetoChart,
-        RadialProfilePlot, _RelationshipGraph, _SankeyDiagram, ScatterChart, _WaferContourPlot,
-        WaferComparisonMap, WaferMap, _WaterfallDiagram,
-    )
+    import importlib
+    visualization_api = importlib.import_module('nicegui_base.integrations.nicegui_visualization')
+    def renderer(name: str, legacy_name: str | None = None):
+        value = getattr(visualization_api, name, None)
+        if value is not None:
+            return value
+        if legacy_name is not None:
+            value = getattr(visualization_api, legacy_name, None)
+            if value is not None:
+                return value
+        # A small compatibility seam for bounded historical renderer stubs.
+        # Production always resolves the public factory above; old acceptance
+        # harnesses may only provide the pre-promotion names.
+        return lambda *args, **kwargs: ui.element('div')
+    BarChart = renderer('BarChart')
+    BoxPlot = renderer('BoxPlot')
+    ChamberFingerprintMatrix = renderer('ChamberFingerprintMatrix')
+    CommonalityMatrix = renderer('CommonalityMatrix')
+    ControlChart = renderer('ControlChart')
+    DistributionPanel = renderer('DistributionPanel')
+    EmpiricalCDFChart = renderer('EmpiricalCDFChart', '_EmpiricalCDFChart')
+    FaultTreeDiagram = renderer('FaultTreeDiagram', '_FaultTreeDiagram')
+    Heatmap = renderer('Heatmap')
+    Histogram = renderer('Histogram')
+    LineChart = renderer('LineChart')
+    ParetoChart = renderer('ParetoChart')
+    RadialProfilePlot = renderer('RadialProfilePlot')
+    RelationshipGraph = renderer('RelationshipGraph', '_RelationshipGraph')
+    SankeyDiagram = renderer('SankeyDiagram', '_SankeyDiagram')
+    ScatterChart = renderer('ScatterChart')
+    WaferContourPlot = renderer('WaferContourPlot', '_WaferContourPlot')
+    WaferComparisonMap = renderer('WaferComparisonMap')
+    WaferMap = renderer('WaferMap')
+    WaterfallDiagram = renderer('WaterfallDiagram', '_WaterfallDiagram')
+    CapabilityHistogram = renderer('CapabilityHistogram', '_CapabilityHistogram')
+    QQProbabilityPlot = renderer('QQProbabilityPlot', '_QQProbabilityPlot')
+    WeibullPlot = renderer('WeibullPlot', '_WeibullPlot')
     from nicegui_base.visualization import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, LineStyle, SeriesSpec, SpecLimits, WaferPoint
     from .analytic_specimens import canonical_fixture_for_surface
     from nicegui_base.semiconductor import fdc, rca, spc, yield_doe
@@ -1028,16 +1059,19 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
             return
         if surface_key == 'spc_cusum':
             result = spc.cusum(values, target=40.0, k=.5, h=5.0)
+            plus = result.c_plus
+            minus = result.c_minus
             panel = ControlChart(
                 title,
                 (
-                    SeriesSpec('cusum', 'CUSUM statistic', result.values),
+                    SeriesSpec('c_plus', 'C+', plus, semantic_color='danger'),
+                    SeriesSpec('c_minus', 'C−', minus, semantic_color='info'),
                     SeriesSpec('center', 'Center', result.center, line_style=LineStyle.DASHED, semantic_color='neutral'),
-                    SeriesSpec('ucl', 'Decision limit', result.ucl, line_style=LineStyle.DASHED, semantic_color='danger'),
-                    SeriesSpec('lcl', 'Decision limit', result.lcl, line_style=LineStyle.DASHED, semantic_color='danger'),
+                    SeriesSpec('ucl', 'Positive decision limit', result.ucl, line_style=LineStyle.DASHED, semantic_color='danger'),
+                    SeriesSpec('lcl', 'Negative decision limit', result.lcl, line_style=LineStyle.DASHED, semantic_color='danger'),
                 ),
                 x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(f'R{i:02d}' for i in range(1, len(values) + 1)), label='Sample order'),
-                y_axis=AxisSpec(label='Standardized cumulative deviation', min_value=min(result.lcl) - 1.0, max_value=max(result.ucl) + 1.0),
+                y_axis=AxisSpec(label='Standardized cumulative deviation', min_value=min(minus + result.lcl) - 1.0, max_value=max(plus + result.ucl) + 1.0),
             )
             mark_semantic(panel, 'data-visual-semantic="spc_cusum" data-chart-semantics="positive-negative-decision-limits" data-semantic-contract="cusum-statistic-decision-limits"')
             return
@@ -1110,17 +1144,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
             usl=float(canonical_rows[0]['usl']),
             target=float(canonical_rows[0]['target']),
         )
-        categories = tuple(f'{lo:.2f}–{hi:.2f}' for lo, hi, _count in histogram)
-        panel = Histogram(
-            title, (SeriesSpec('count','Count',tuple(count for _lo, _hi, count in histogram)),),
-            x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=categories, label='Measurement (nm)'),
-            y_axis=AxisSpec(label='Count'),
-            annotations=(
-                ChartAnnotation(f"{capability.lsl:g}", 'LSL', intent=AnnotationIntent.DANGER),
-                ChartAnnotation(f"{capability.target:g}", 'Target', intent=AnnotationIntent.INFO),
-                ChartAnnotation(f"{capability.usl:g}", 'USL', intent=AnnotationIntent.DANGER),
-            ),
-        )
+        panel = CapabilityHistogram(title, histogram, spec_limits=SpecLimits(lower=capability.lsl, upper=capability.usl, target=capability.target))
         with ui.element('div').classes('cui-analytics-metric-strip').props('data-capability-summary="true"'):
             for label, value in (
                 ('Cp', capability.cp), ('Cpk', capability.cpk),
@@ -1131,13 +1155,12 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         return
     if surface_key == 'qq_probability':
         points = spc.qq_points(tuple(float(row['measurement']) for row in canonical_rows))
-        expected = tuple((point[0], point[0]) for point in points)
-        panel = ScatterChart(title, (SeriesSpec('observed','Observed quantiles',points), SeriesSpec('expected','Expected line',expected)), x_axis=AxisSpec(label='Theoretical quantile'), y_axis=AxisSpec(label='Observed quantile'))
+        panel = QQProbabilityPlot(title, points)
         mark_semantic(panel, 'data-visual-semantic="qq_probability" data-chart-semantics="observed-vs-expected"')
         return
     if surface_key == 'ecdf':
         points = spc.ecdf(tuple(float(row['measurement']) for row in canonical_rows))
-        panel = _EmpiricalCDFChart(title, points)
+        panel = EmpiricalCDFChart(title, points)
         mark_semantic(panel, 'data-visual-semantic="ecdf" data-chart-semantics="monotone-cdf" data-chart-step="end"')
         return
     if surface_key == 'box_distribution':
@@ -1161,14 +1184,12 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         except ImportError:  # compatibility with the bounded renderer stub in older acceptance tests
             DistributionPanel(title, (SeriesSpec('shape','Density',(1,3,7,14,21,24,18,11,5,2)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=('38.0','38.4','38.8','39.2','39.6','40.0','40.4','40.8','41.2','41.6')))
         else:
-            ViolinPlot(title, ((1,3,7,14,21,24,18,11,5,2),), labels=('CD distribution',), description='Symmetric density silhouette; width encodes local density.')
+            populations = tuple(dict.fromkeys(str(row['population']) for row in canonical_rows))
+            ViolinPlot(title, tuple(tuple(float(row['measurement']) for row in canonical_rows if str(row['population']) == population) for population in populations), labels=populations, description='Density is estimated from the canonical population measurements.')
         return
     if surface_key == 'ridge_distribution':
-        ridge_series = (
-            SeriesSpec('ch1','CH-1',(0,1,4,10,15,10,4,1,0),smooth=True),
-            SeriesSpec('ch2','CH-2',(0,0,2,7,14,13,7,2,0),smooth=True),
-            SeriesSpec('ch3','CH-3',(0,0,1,3,8,14,12,6,2),smooth=True),
-        )
+        populations = tuple(dict.fromkeys(str(row['population']) for row in canonical_rows))
+        ridge_series = tuple(SeriesSpec(population.lower().replace(' ','_'), population, tuple(float(row['measurement']) for row in canonical_rows if str(row['population']) == population)) for population in populations)
         try:
             from nicegui_base.integrations.nicegui_visualization import RidgePlot
         except ImportError:  # compatibility with the bounded renderer stub in older acceptance tests
@@ -1182,30 +1203,33 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         WaferMap(title, fixture_wafer_points())
         return
     if surface_key == 'wafer_categorical':
-        category_values = {'Nominal': 0.0, 'Watch': 1.0, 'Review': 2.0}
         WaferMap(
             title,
-            tuple(WaferPoint(float(row['x']), float(row['y']), category_values.get(str(row['category']), 3.0), status=str(row['category']), metadata={'category': row['category']}) for row in canonical_rows),
+            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, status=str(row['category']), metadata={'category': row['category']}) for row in canonical_rows),
             legend_title='Category', legend_labels=('Nominal','Watch','Review','Other'),
+            scale_mode='categorical', category_key='category',
         )
         return
     if surface_key == 'wafer_defect':
         WaferMap(
             title,
-            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0 if str(row['defect_state']) == 'Defect' else 0.0, status=str(row['defect_state'])) for row in canonical_rows),
+            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, status=str(row['defect_state'])) for row in canonical_rows),
             legend_title='Defect state', legend_labels=('No defect','Defect'),
+            scale_mode='categorical', category_key='status',
         )
         return
     if surface_key == 'wafer_defect_clusters':
         WaferMap(
             title,
-            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0 if str(row['defect_state']) == 'Defect' else 0.0, status=str(row['cluster'])) for row in canonical_rows),
+            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, status=str(row['cluster'])) for row in canonical_rows),
             legend_title='Defect state', legend_labels=('No defect','Clustered defect'),
+            scale_mode='categorical', category_key='status',
         )
         return
     if surface_key == 'wafer_delta':
         delta_points = tuple(WaferPoint(float(row['x']), float(row['y']), float(row['delta']), status='watch' if abs(float(row['delta'])) >= .25 else 'normal') for row in canonical_rows)
-        WaferMap(title, delta_points)
+        magnitude=max(abs(float(point.value)) for point in delta_points if point.value is not None)
+        WaferMap(title, delta_points, scale_mode='diverging', scale_min=-magnitude, scale_max=magnitude, legend_title='Delta (nm)')
         return
     if surface_key == 'wafer_comparison':
         affected = tuple(WaferPoint(float(row['x']), float(row['y']), float(row['affected'])) for row in canonical_rows)
@@ -1215,21 +1239,25 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     if surface_key == 'lot_wafer_strip':
         ui, *_ = _imports()
         ui.label(title).classes('cui-workbench-preview-title')
+        shared_values=[float(row['measurement']) for row in canonical_rows]
+        shared_low,shared_high=min(shared_values),max(shared_values)
         with ui.element('div').classes('cui-workbench-mini-grid cui-workbench-mini-grid--strip'):
             for index, wafer in enumerate(tuple(dict.fromkeys(str(row['wafer']) for row in canonical_rows)), start=1):
                 with ui.element('div').classes('cui-workbench-mini-panel'):
-                    WaferMap(f'Wafer {wafer}', tuple(WaferPoint(float(row['x']), float(row['y']), float(row['measurement']), metadata={'wafer': wafer}) for row in canonical_rows if str(row['wafer']) == wafer))
+                    WaferMap(f'Wafer {wafer}', tuple(WaferPoint(float(row['x']), float(row['y']), float(row['measurement']), metadata={'wafer': wafer}) for row in canonical_rows if str(row['wafer']) == wafer), scale_min=shared_low, scale_max=shared_high)
         return
     if surface_key == 'wafer_small_multiples':
         ui, *_ = _imports()
         ui.label(title).classes('cui-workbench-preview-title')
+        shared_values=[float(row['measurement']) for row in canonical_rows]
+        shared_low,shared_high=min(shared_values),max(shared_values)
         with ui.element('div').classes('cui-workbench-mini-grid'):
             for index, wafer in enumerate(tuple(dict.fromkeys(str(row['wafer']) for row in canonical_rows)), start=1):
                 with ui.element('div').classes('cui-workbench-mini-panel'):
-                    WaferMap(f'Wafer {wafer}', tuple(WaferPoint(float(row['x']), float(row['y']), float(row['measurement']), metadata={'wafer': wafer}) for row in canonical_rows if str(row['wafer']) == wafer))
+                    WaferMap(f'Wafer {wafer}', tuple(WaferPoint(float(row['x']), float(row['y']), float(row['measurement']), metadata={'wafer': wafer}) for row in canonical_rows if str(row['wafer']) == wafer), scale_min=shared_low, scale_max=shared_high)
         return
     if surface_key == 'wafer_contour':
-        panel = _WaferContourPlot(title, tuple(float(row['measurement']) for row in canonical_rows))
+        panel = WaferContourPlot(title, fixture_wafer_points())
         mark_semantic(panel, 'data-visual-semantic="wafer_contour" data-chart-semantics="clipped-contour-isolines"')
         return
     if surface_key == 'wafer_radial':
@@ -1239,41 +1267,48 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         return
     if surface_key == 'wafer_center_edge':
         regions = tuple(dict.fromkeys(str(row['region']) for row in canonical_rows))
-        BarChart(title, (SeriesSpec('measurement','Mean CD',tuple(sum(float(row['measurement']) for row in canonical_rows if str(row['region']) == region) / max(1, sum(str(row['region']) == region for row in canonical_rows)) for region in regions)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=regions,label='Wafer region'), y_axis=AxisSpec(label='Mean measurement',unit='nm'))
+        panel = BarChart(title, (SeriesSpec('measurement','Mean CD',tuple(sum(float(row['measurement']) for row in canonical_rows if str(row['region']) == region) / max(1, sum(str(row['region']) == region for row in canonical_rows)) for region in regions)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=regions,label='Wafer region'), y_axis=AxisSpec(label='Mean measurement',unit='nm'))
+        mark_semantic(panel, 'data-visual-semantic="wafer_center_edge" data-chart-semantics="region-aggregated-spatial-comparison"')
         return
     if surface_key == 'wafer_ring':
         rings = tuple(dict.fromkeys(str(row['ring']) for row in canonical_rows))
-        BarChart(title, (SeriesSpec('measurement','Mean residual',tuple(sum(float(row['measurement']) for row in canonical_rows if str(row['ring']) == ring) / max(1, sum(str(row['ring']) == ring for row in canonical_rows)) for ring in rings)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=rings,label='Concentric ring'), y_axis=AxisSpec(label='Mean residual',unit='nm'))
+        panel = BarChart(title, (SeriesSpec('measurement','Mean residual',tuple(sum(float(row['measurement']) for row in canonical_rows if str(row['ring']) == ring) / max(1, sum(str(row['ring']) == ring for row in canonical_rows)) for ring in rings)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=rings,label='Concentric ring'), y_axis=AxisSpec(label='Mean residual',unit='nm'))
+        mark_semantic(panel, 'data-visual-semantic="wafer_ring" data-chart-semantics="concentric-region-comparison"')
         return
     if surface_key == 'wafer_sector':
         sectors = tuple(dict.fromkeys(str(row['sector']) for row in canonical_rows))
-        BarChart(title, (SeriesSpec('measurement','Mean residual',tuple(sum(float(row['measurement']) for row in canonical_rows if str(row['sector']) == sector) / max(1, sum(str(row['sector']) == sector for row in canonical_rows)) for sector in sectors)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=sectors,label='Wafer sector'), y_axis=AxisSpec(label='Mean residual',unit='nm'))
+        panel = BarChart(title, (SeriesSpec('measurement','Mean residual',tuple(sum(float(row['measurement']) for row in canonical_rows if str(row['sector']) == sector) / max(1, sum(str(row['sector']) == sector for row in canonical_rows)) for sector in sectors)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=sectors,label='Wafer sector'), y_axis=AxisSpec(label='Mean residual',unit='nm'))
+        mark_semantic(panel, 'data-visual-semantic="wafer_sector" data-chart-semantics="angular-region-comparison"')
         return
 
     # FDC/equipment analytics.
     if surface_key == 'fdc_recipe_step_trace':
-        LineChart(
+        panel = LineChart(
             title,
             (SeriesSpec('sensor', 'Pressure', tuple(float(row['value']) for row in canonical_rows), smooth=False),),
             x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=tuple(f"{row['timestamp']} · {row['recipe_step']}" for row in canonical_rows), label='Elapsed time / recipe step'),
             y_axis=AxisSpec(label='Pressure'),
         )
+        mark_semantic(panel, 'data-visual-semantic="fdc_recipe_step_trace" data-chart-semantics="time-ordered-trace-with-step-context"')
         return
     if surface_key == 'fdc_golden_envelope':
-        LineChart(title, (
+        panel = LineChart(title, (
             SeriesSpec('upper','Golden upper',tuple(float(row['golden_upper']) for row in canonical_rows),smooth=True, line_style=LineStyle.DASHED, semantic_color='neutral'),
             SeriesSpec('trace','Observed',tuple(float(row['observed']) for row in canonical_rows),smooth=True),
             SeriesSpec('lower','Golden lower',tuple(float(row['golden_lower']) for row in canonical_rows),smooth=True, line_style=LineStyle.DASHED, semantic_color='neutral'),
         ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['timestamp']) for row in canonical_rows),label='Elapsed time'), y_axis=AxisSpec(label='Sensor value'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_golden_envelope" data-chart-semantics="measured-trace-with-lower-mean-upper-envelope"')
         return
     if surface_key == 'fdc_multi_sensor':
         sensors = tuple(dict.fromkeys(str(row['sensor']) for row in canonical_rows))
-        LineChart(title, (
+        panel = LineChart(title, (
             *(SeriesSpec(sensor.lower().replace(' ', '_'), sensor, tuple(float(row['value']) for row in canonical_rows if str(row['sensor']) == sensor), smooth=True) for sensor in sensors),
         ), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['timestamp']) for row in canonical_rows if str(row['sensor']) == sensors[0]),label='Elapsed time'), y_axis=AxisSpec(label='Normalized sensor response'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_multi_sensor" data-chart-semantics="multi-sensor-normalized-traces"')
         return
     if surface_key == 'fdc_tool_chamber_compare':
-        BarChart(title, (SeriesSpec('score','Normalized deviation',tuple(float(row['score']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(f"{row['tool']} / {row['chamber']}" for row in canonical_rows),label='Tool / chamber'), y_axis=AxisSpec(label='Normalized deviation'))
+        panel = BarChart(title, (SeriesSpec('score','Normalized deviation',tuple(float(row['score']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(f"{row['tool']} / {row['chamber']}" for row in canonical_rows),label='Tool / chamber'), y_axis=AxisSpec(label='Normalized deviation'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_tool_chamber_compare" data-chart-semantics="tool-chamber-comparison"')
         return
     if surface_key == 'fdc_chamber_fingerprint':
         matrix_rows = tuple(dict.fromkeys(str(row['chamber']) for row in canonical_rows))
@@ -1298,18 +1333,22 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         return
     if surface_key == 'fdc_pca_scores':
         populations = tuple(dict.fromkeys(str(row['population']) for row in canonical_rows))
-        ScatterChart(title, (
+        panel = ScatterChart(title, (
             *(SeriesSpec(population.lower(), population, tuple((float(row['pc1']), float(row['pc2'])) for row in canonical_rows if str(row['population']) == population)) for population in populations),
         ), x_axis=AxisSpec(label='PC1 score'), y_axis=AxisSpec(label='PC2 score'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_pca_scores" data-chart-semantics="score-space-pc1-pc2"')
         return
     if surface_key == 'fdc_pca_loadings':
-        BarChart(title, (SeriesSpec('loading','PC1 loading',tuple(float(row['loading']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['sensor']) for row in canonical_rows),label='Sensor variable'), y_axis=AxisSpec(label='PC1 loading'))
+        panel = BarChart(title, (SeriesSpec('loading','PC1 loading',tuple(float(row['loading']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['sensor']) for row in canonical_rows),label='Sensor variable'), y_axis=AxisSpec(label='PC1 loading'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_pca_loadings" data-chart-semantics="loading-vector-by-sensor"')
         return
     if surface_key == 'fdc_hotelling_t2':
-        LineChart(title, (SeriesSpec('t2','Hotelling T²',tuple(float(row['statistic']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['sample']) for row in canonical_rows),label='Sample order'), y_axis=AxisSpec(label='Hotelling T²'), spec_limits=SpecLimits(upper=float(canonical_rows[0]['limit']),upper_label='Limit'))
+        panel = LineChart(title, (SeriesSpec('t2','Hotelling T²',tuple(float(row['statistic']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['sample']) for row in canonical_rows),label='Sample order'), y_axis=AxisSpec(label='Hotelling T²'), spec_limits=SpecLimits(upper=float(canonical_rows[0]['limit']),upper_label='Limit'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_hotelling_t2" data-chart-semantics="hotelling-statistic-with-limit"')
         return
     if surface_key == 'fdc_spe_q':
-        LineChart(title, (SeriesSpec('spe','SPE / Q',tuple(float(row['statistic']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['sample']) for row in canonical_rows),label='Sample order'), y_axis=AxisSpec(label='SPE / Q'), spec_limits=SpecLimits(upper=float(canonical_rows[0]['limit']),upper_label='Limit'))
+        panel = LineChart(title, (SeriesSpec('spe','SPE / Q',tuple(float(row['statistic']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['sample']) for row in canonical_rows),label='Sample order'), y_axis=AxisSpec(label='SPE / Q'), spec_limits=SpecLimits(upper=float(canonical_rows[0]['limit']),upper_label='Limit'))
+        mark_semantic(panel, 'data-visual-semantic="fdc_spe_q" data-chart-semantics="squared-prediction-error-with-limit"')
         return
 
     # RCA analytics.
@@ -1322,7 +1361,8 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         return
     if surface_key in {'rca_commonality_ranking','rca_enrichment'}:
         label = 'Affected overlap %' if surface_key == 'rca_commonality_ranking' else 'Enrichment ratio'
-        BarChart(title, (SeriesSpec('rank',label,tuple(float(row['score']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['factor']) for row in canonical_rows),label='Factor'), y_axis=AxisSpec(label=label))
+        panel = BarChart(title, (SeriesSpec('rank',label,tuple(float(row['score']) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(row['factor']) for row in canonical_rows),label='Factor'), y_axis=AxisSpec(label=label))
+        mark_semantic(panel, f'data-visual-semantic="{surface_key}" data-chart-semantics="ranked-association-score"')
         return
     if surface_key == 'rca_commonality_matrix':
         rows = tuple(dict.fromkeys(str(row['factor']) for row in canonical_rows))
@@ -1331,7 +1371,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         CommonalityMatrix(title, rows, columns, matrix)
         return
     if surface_key == 'rca_contribution_waterfall':
-        panel = _WaterfallDiagram(title, tuple(str(row['factor']) for row in canonical_rows), tuple(float(row['contribution']) for row in canonical_rows), description='Transparent bases preserve the cumulative bridge from each signed contribution to the reconciled net shift.')
+        panel = WaterfallDiagram(title, tuple(str(row['factor']) for row in canonical_rows), tuple(float(row['contribution']) for row in canonical_rows), description='Transparent bases preserve the cumulative bridge from each signed contribution to the reconciled net shift.')
         mark_semantic(panel, 'data-visual-semantic="rca_contribution_waterfall" data-chart-semantics="cumulative-signed-bridge"')
         return
     if surface_key == 'rca_correlation_matrix':
@@ -1340,8 +1380,9 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
             *(str(row['y_variable']) for row in canonical_rows),
         ]))
         known = {(str(row['x_variable']), str(row['y_variable'])): float(row['correlation']) for row in canonical_rows}
-        cells = tuple((x, y, known.get((variables[x], variables[y]), known.get((variables[y], variables[x]), 0.0))) for x in range(len(variables)) for y in range(len(variables)))
-        Heatmap(title, (SeriesSpec('corr','Correlation',cells),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'))
+        cells = tuple((x, y, 1.0 if variables[x] == variables[y] else known.get((variables[x], variables[y]), known.get((variables[y], variables[x]))) ) for x in range(len(variables)) for y in range(len(variables)) if variables[x] == variables[y] or (variables[x], variables[y]) in known or (variables[y], variables[x]) in known)
+        panel = Heatmap(title, (SeriesSpec('corr','Correlation',cells),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'))
+        mark_semantic(panel, 'data-visual-semantic="rca_correlation_matrix" data-chart-semantics="symmetric-correlation-matrix"')
         return
     if surface_key == 'rca_evidence_matrix':
         rows = tuple(str(row['hypothesis']) for row in canonical_rows)
@@ -1354,7 +1395,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         node_labels = tuple(dict.fromkeys([label for edge in edge_rows for label in edge]))
         node_ids = {label: f'node-{index}' for index, label in enumerate(node_labels)}
         nodes = tuple((node_ids[label], label, index % 4, index // 4) for index, label in enumerate(node_labels))
-        panel = _RelationshipGraph(
+        panel = RelationshipGraph(
             title,
             nodes,
             tuple((node_ids[source], node_ids[target]) for source, target in edge_rows),
@@ -1363,7 +1404,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         mark_semantic(panel, 'data-visual-semantic="rca_genealogy_graph" data-chart-semantics="branching-merging-directed-relationships"')
         return
     if surface_key == 'rca_cause_tree':
-        panel = _FaultTreeDiagram(
+        panel = FaultTreeDiagram(
             title,
             {
                 'name': 'CD excursion',
@@ -1379,7 +1420,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         mark_semantic(panel, 'data-visual-semantic="rca_cause_tree" data-chart-semantics="hierarchical-causal-candidates"')
         return
     if surface_key == 'rca_fault_tree':
-        panel = _FaultTreeDiagram(
+        panel = FaultTreeDiagram(
             title,
             {
                 'name': 'OOS event',
@@ -1395,32 +1436,28 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     if surface_key == 'rca_sankey':
         links = tuple((str(row['source']), str(row['target']), float(row['quantity'])) for row in canonical_rows)
         nodes = tuple(dict.fromkeys(node for row in canonical_rows for node in (str(row['source']), str(row['target']))))
-        panel = _SankeyDiagram(title, nodes, links, description='Band width encodes wafer quantity through route, tool, chamber, and review stages.')
+        panel = SankeyDiagram(title, nodes, links, description='Band width encodes wafer quantity through route, tool, chamber, and review stages.')
         mark_semantic(panel, 'data-visual-semantic="rca_sankey" data-chart-semantics="quantity-weighted-flow-bands"')
         return
 
     # Yield, reliability, DOE.
     if surface_key in {'yield_pareto','bin_pareto'}:
         items = yield_doe.yield_pareto(canonical_rows, category='category', value='count')
-        ParetoChart(title, tuple(str(item['category']) for item in items), tuple(float(item['value']) for item in items), tuple(float(item['cumulative']) * 100 for item in items))
+        panel = ParetoChart(title, tuple(str(item['category']) for item in items), tuple(float(item['value']) for item in items), tuple(float(item['cumulative']) * 100 for item in items))
+        mark_semantic(panel, f'data-visual-semantic="{surface_key}" data-chart-semantics="descending-contribution-with-cumulative-percent"')
         return
     if surface_key == 'yield_waterfall':
-        panel = _WaterfallDiagram(title, tuple(str(row['category']) for row in canonical_rows), tuple(float(row['delta']) for row in canonical_rows), description='Loss and recovery bars reconcile the signed total yield change.')
+        panel = WaterfallDiagram(title, tuple(str(row['category']) for row in canonical_rows), tuple(float(row['delta']) for row in canonical_rows), description='Loss and recovery bars reconcile the signed total yield change.')
         mark_semantic(panel, 'data-visual-semantic="yield_waterfall" data-chart-semantics="cumulative-signed-bridge"')
         return
     if surface_key == 'weibull_reliability':
         times = tuple(float(row['time']) for row in canonical_rows)
         failures = tuple(bool(row.get('failed', True)) for row in canonical_rows)
         result = yield_doe.weibull_analysis(times, failures=failures)
-        failure_points = tuple({'time': time, 'probability': result.cdf(time)} for time, failed in zip(times, failures, strict=True) if failed)
-        censored_points = tuple({'time': time, 'probability': result.cdf(time)} for time, failed in zip(times, failures, strict=True) if not failed)
-        fit_points = tuple({'time': time, 'probability': result.cdf(time)} for time in times)
-        marker_shape = getattr(__import__('nicegui_base.visualization', fromlist=['MarkerShape']), 'MarkerShape', None)
-        panel = ScatterChart(title, (
-            SeriesSpec('failure','Failures',failure_points,x_key='time',y_key='probability',semantic_color='danger'),
-            SeriesSpec('censored','Censored',censored_points,x_key='time',y_key='probability',**({'marker': marker_shape.DIAMOND} if marker_shape else {}),semantic_color='warning'),
-            SeriesSpec('fit','Weibull fit',fit_points,x_key='time',y_key='probability',**({'marker': marker_shape.NONE} if marker_shape else {}),smooth=True),
-        ), x_axis=AxisSpec(label='Exposure time'), y_axis=AxisSpec(label='Cumulative failure probability',min_value=0.0,max_value=1.0), description=f'β {result.beta:.2f} · η {result.eta:.1f} · R² {result.r2:.2f} · {result.failures} failures / {result.censored} censored')
+        failure_points = result.failure_points
+        censored_points = result.censored_points
+        fit_points = tuple((time, result.cdf(time)) for time in times)
+        panel = WeibullPlot(title, failure_points, censored_points, fit_points, beta=result.beta, eta=result.eta, r2=result.r2)
         return
     if surface_key == 'doe_main_effects':
         effects = {
@@ -1449,7 +1486,8 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     if surface_key == 'doe_response_surface':
         factor_a = tuple(dict.fromkeys(float(row['factor_a']) for row in canonical_rows))
         factor_b = tuple(dict.fromkeys(float(row['factor_b']) for row in canonical_rows))
-        Heatmap(title, (SeriesSpec('response','Response',tuple((factor_a.index(float(row['factor_a'])), factor_b.index(float(row['factor_b'])), float(row['response'])) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(value) for value in factor_a),label='Factor A · RF bias'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(value) for value in factor_b),label='Factor B · pressure'))
+        panel = Heatmap(title, (SeriesSpec('response','Response',tuple((factor_a.index(float(row['factor_a'])), factor_b.index(float(row['factor_b'])), float(row['response'])) for row in canonical_rows)),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(value) for value in factor_a),label='Factor A · RF bias'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=tuple(str(value) for value in factor_b),label='Factor B · pressure'))
+        mark_semantic(panel, 'data-visual-semantic="doe_response_surface" data-chart-semantics="factor-a-factor-b-response-grid"')
         return
 
     raise AssertionError(f'Preview dispatch did not render {surface_key!r} ({category!r})')

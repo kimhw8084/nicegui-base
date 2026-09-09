@@ -139,7 +139,7 @@ __all__ += [
 from nicegui_base.visualization import (
     AnnotationIntent, AxisSpec, AxisType, CATEGORICAL, ChartAnnotation, ChartEvent, ChartKind, ChartPanelSpec,
     ChartSize, ChartTheme, ChartToolbarSpec, CrossFilterBinding, CrossFilterEngine, DIVERGING, FilterMutation, FilterMutationAction, LinkedAnalysisController,
-    LegendPosition, LineStyle, MarkerShape, SelectionMode as ChartSelectionMode, SEQUENTIAL_BLUE, SeriesSpec,
+    LegendPosition, LineStyle, MarkerShape, ScaleMode, SelectionMode as ChartSelectionMode, SEQUENTIAL_BLUE, SeriesSpec,
     SpatialPoint, SpecLimits, ThresholdSpec, VISUALIZATION_REGISTRY, WaferPoint, box_summary, build_echarts_options,
     build_visualization_css, chart_theme, get_visualization, histogram, pareto, series_rows, spatial_bounds, stable_series_color,
     wafer_bounds,
@@ -148,7 +148,8 @@ from nicegui_base.integrations.nicegui_visualization import (
     AreaChart, BarChart, BoxPlot, ChartBrush, ChartCrossFilter, ChartDataView, ChartExport, ChartFullscreen,
     ChartLegend, ChartPanel, ChartSelection, ChartToolbar, ChartTooltip, ChartZoom, ControlChart, DistributionPanel,
     DonutChart, Gauge, Heatmap, Histogram, LineChart, ParetoChart, PlotlyPanel, ProcessTrendPanel, ScatterChart, SpatialMap, WaferComparisonMap, ChamberFingerprintMatrix, CommonalityMatrix, RadialProfilePlot,
-    StackedBarChart, TimelineChart, WaferMap,
+    StackedBarChart, TimelineChart, WaferMap, ViolinPlot, RidgePlot, EmpiricalCDFChart, WaferContourPlot, SankeyDiagram,
+    RelationshipGraph, FaultTreeDiagram, WaterfallDiagram, QQProbabilityPlot, CapabilityHistogram, WeibullPlot,
 )
 
 __all__ = [name for name in globals() if not name.startswith('_')]

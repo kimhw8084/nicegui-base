@@ -265,9 +265,12 @@ def build_echarts_options(spec: ChartPanelSpec, series: Sequence[SeriesSpec], *,
     for t in thresholds:
         mark_lines.append({'yAxis':t.value,'name':t.label,'lineStyle':{'type':t.line_style.value,'color':{'info':theme.info,'success':theme.success,'warning':theme.warning,'danger':theme.danger,'neutral':theme.text_secondary}[t.intent.value],'width':1.2},'label':{'formatter':t.label,'color':theme.text_secondary,'fontSize':FONT_SIZES['10']}})
     if spec_limits:
-        if spec_limits.lower is not None: mark_lines.append({'yAxis':spec_limits.lower,'name':spec_limits.lower_label,'lineStyle':{'type':'dashed','color':theme.danger,'width':1.2},'label':{'formatter':spec_limits.lower_label,'color':theme.danger,'fontSize':FONT_SIZES['10']}})
-        if spec_limits.upper is not None: mark_lines.append({'yAxis':spec_limits.upper,'name':spec_limits.upper_label,'lineStyle':{'type':'dashed','color':theme.danger,'width':1.2},'label':{'formatter':spec_limits.upper_label,'color':theme.danger,'fontSize':FONT_SIZES['10']}})
-        if spec_limits.target is not None: mark_lines.append({'yAxis':spec_limits.target,'name':spec_limits.target_label,'lineStyle':{'type':'dotted','color':theme.info,'width':1.2},'label':{'formatter':spec_limits.target_label,'color':theme.info,'fontSize':FONT_SIZES['10']}})
+        # Capability limits are vertical annotations on a numeric measurement
+        # axis. Every other limit contract is a horizontal y-axis reference.
+        coordinate = 'xAxis' if spec.kind is ChartKind.HISTOGRAM else 'yAxis'
+        if spec_limits.lower is not None: mark_lines.append({coordinate:spec_limits.lower,'name':spec_limits.lower_label,'lineStyle':{'type':'dashed','color':theme.danger,'width':1.2},'label':{'formatter':spec_limits.lower_label,'color':theme.danger,'fontSize':FONT_SIZES['10']}})
+        if spec_limits.upper is not None: mark_lines.append({coordinate:spec_limits.upper,'name':spec_limits.upper_label,'lineStyle':{'type':'dashed','color':theme.danger,'width':1.2},'label':{'formatter':spec_limits.upper_label,'color':theme.danger,'fontSize':FONT_SIZES['10']}})
+        if spec_limits.target is not None: mark_lines.append({coordinate:spec_limits.target,'name':spec_limits.target_label,'lineStyle':{'type':'dotted','color':theme.info,'width':1.2},'label':{'formatter':spec_limits.target_label,'color':theme.info,'fontSize':FONT_SIZES['10']}})
     annotation_colors={AnnotationIntent.INFO:theme.info,AnnotationIntent.SUCCESS:theme.success,AnnotationIntent.WARNING:theme.warning,AnnotationIntent.DANGER:theme.danger,AnnotationIntent.NEUTRAL:theme.text_secondary}
     mark_points=[]
     for annotation in annotations:

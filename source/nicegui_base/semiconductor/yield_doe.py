@@ -7,6 +7,8 @@ from typing import Any,Mapping,Sequence
 @dataclass(frozen=True,slots=True)
 class WeibullResult:
     count:int; beta:float; eta:float; r2:float; failures:int; censored:int; method:str='median_rank_regression'
+    failure_points:tuple[tuple[float,float],...]=()
+    censored_points:tuple[tuple[float,float],...]=()
     def reliability(self,time:float)->float:
         t=float(time)
         if t<0: raise ValueError('reliability time must be >= 0')
@@ -69,7 +71,16 @@ def weibull_analysis(times:Sequence[float], *, failures:Sequence[bool]|None=None
     if not isfinite(beta) or beta<=0: raise ValueError('Weibull shape estimate is not positive')
     intercept=my-beta*mx;eta=exp(-intercept/beta)
     pred=[intercept+beta*x for x in xs];ssr=sum((y-p)**2 for y,p in zip(ys,pred));sst=sum((y-my)**2 for y in ys);r2=1-ssr/sst if sst else 1.0
-    return WeibullResult(n,beta,eta,r2,failure_count,censored,'johnson_adjusted_rank_regression' if censored else 'median_rank_regression')
+    # Keep observed plotting positions separate from the fitted CDF.  A
+    # reliability plot must not present fitted probabilities as empirical
+    # observations, especially for right-censored records.
+    observed=[]; events=0
+    for time,event in records:
+        if event: events += 1
+        observed.append((time, min(1 - 1e-12, max(1e-12, events / (n + 1)))))
+    failure_points=tuple(point for point, (_time,event) in zip(observed, records, strict=True) if event)
+    censored_points=tuple(point for point, (_time,event) in zip(observed, records, strict=True) if not event)
+    return WeibullResult(n,beta,eta,r2,failure_count,censored,'johnson_adjusted_rank_regression' if censored else 'median_rank_regression',failure_points,censored_points)
 def doe_main_effects(rows:Sequence[Mapping[str,Any]], factors:Sequence[str], response:str)->dict[str,dict[Any,float]]:
     if not factors: raise ValueError('DOE main effects require at least one factor')
     out={}

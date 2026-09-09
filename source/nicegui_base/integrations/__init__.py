@@ -30,8 +30,10 @@ from .nicegui_data_table import (
 from .nicegui_visualization import (
     AreaChart, BarChart, BoxPlot, ChartBrush, ChartCrossFilter, ChartDataView, ChartExport, ChartFullscreen,
     ChartLegend, ChartPanel, ChartSelection, ChartToolbar, ChartTooltip, ChartZoom, ControlChart, DistributionPanel,
-    DonutChart, Gauge, Heatmap, Histogram, LineChart, ParetoChart, PlotlyPanel, ProcessTrendPanel, ScatterChart, SpatialMap, WaferComparisonMap, ChamberFingerprintMatrix, CommonalityMatrix, RadialProfilePlot,
-    StackedBarChart, TimelineChart, WaferMap,
+    DonutChart, Gauge, Heatmap, Histogram, LineChart, ParetoChart, PlotlyPanel, ProcessTrendPanel, ScatterChart, SpatialMap,
+    WaferComparisonMap, ChamberFingerprintMatrix, CommonalityMatrix, RadialProfilePlot, ViolinPlot, RidgePlot,
+    EmpiricalCDFChart, WaferContourPlot, SankeyDiagram, RelationshipGraph, FaultTreeDiagram, WaterfallDiagram,
+    QQProbabilityPlot, CapabilityHistogram, WeibullPlot, StackedBarChart, TimelineChart, WaferMap,
 )
 
 __all__ = [name for name in globals() if not name.startswith('_')]

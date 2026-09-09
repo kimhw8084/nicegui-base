@@ -23,6 +23,13 @@ class ChartKind(str, Enum):
     SPATIAL = 'spatial'
 
 
+class ScaleMode(str, Enum):
+    """Quantitative/color semantics for spatial renderers."""
+    CONTINUOUS = 'continuous'
+    DIVERGING = 'diverging'
+    CATEGORICAL = 'categorical'
+
+
 class ChartSize(str, Enum):
     COMPACT = 'compact'
     STANDARD = 'standard'
@@ -261,7 +268,7 @@ class SpatialPoint:
 
 
 __all__ = [
-    'AnnotationIntent','AxisSpec','AxisType','ChartAnnotation','ChartEvent','ChartKind','ChartPanelSpec','ChartSize',
+    'AnnotationIntent','AxisSpec','AxisType','ChartAnnotation','ChartEvent','ChartKind','ChartPanelSpec','ChartSize','ScaleMode',
     'ChartToolbarSpec','CrossFilterBinding','FilterMutation','FilterMutationAction','LegendPosition','LineStyle','MarkerShape','SelectionMode',
     'SeriesSpec','SpatialPoint','SpecLimits','ThresholdSpec','WaferPoint',
 ]

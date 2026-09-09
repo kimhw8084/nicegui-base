@@ -7,14 +7,14 @@ import json
 import weakref
 import html
 import uuid
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any
 
 from nicegui_base.design.tokens import FONT_SIZES, MOTION_DURATIONS_MS
 from nicegui_base.visual import render_icon_svg
 from nicegui_base.visualization import (
-    AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec, ChartSize, CrossFilterEngine, LegendPosition, SelectionMode,
-    SeriesSpec, SpatialPoint, SpecLimits, ThresholdSpec, WaferPoint, build_echarts_options, chart_theme, stable_series_color,
+    AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec, ChartSize, CrossFilterEngine, LegendPosition, LineStyle, SelectionMode,
+    ScaleMode, SeriesSpec, SpatialPoint, SpecLimits, ThresholdSpec, WaferPoint, build_echarts_options, chart_theme, stable_series_color,
 )
 
 
@@ -24,6 +24,16 @@ def _ui():
     except ImportError as exc:
         raise RuntimeError('NiceGUI is required to render NiceGUI Base visualizations') from exc
     return ui
+
+
+def _resolve_theme_mode(mode: str | None) -> str:
+    if mode in {'light', 'dark'}:
+        return mode
+    try:
+        value=getattr(_ui().dark_mode(), 'value', False)
+    except Exception:
+        value=False
+    return 'dark' if value is True else 'light'
 
 
 def _register_client_delete(ui: Any, callback: Callable[..., Any]) -> bool:
@@ -49,12 +59,23 @@ def _icon(ui, key: str, *, label: str | None = None, size: str = 'xs'):
     return ui.html(render_icon_svg(key, size=size, label=label), sanitize=False).classes('cui-svg-icon-host')
 
 _ACTIVE_CHARTS: 'weakref.WeakSet[ChartPanel]' = weakref.WeakSet()
+# Theme updates are application-wide and must retain a renderer until the
+# client lifecycle invokes its explicit dispose callback. A WeakSet here can
+# collect Workbench-created panels immediately because the page owns the DOM
+# element, not the Python wrapper; that makes a live theme switch silently
+# miss the chart. Every renderer registered below removes itself from this set
+# in dispose(), so the strong ownership is bounded by the client lifecycle.
+_ACTIVE_THEME_RENDERERS: set[Any] = set()
+
+
+def _register_theme_renderer(renderer: Any) -> None:
+    _ACTIVE_THEME_RENDERERS.add(renderer)
 
 def apply_all_chart_themes(mode: str) -> None:
     if mode not in {'light','dark'}:
         return
     failures=[]
-    for panel in tuple(_ACTIVE_CHARTS):
+    for panel in tuple(_ACTIVE_THEME_RENDERERS):
         try:
             panel.apply_theme(mode)
         except Exception as exc:
@@ -144,6 +165,11 @@ class ChartZoom:
             raise ValueError("axis must be 'x', 'y', or 'both'")
         for a in axes:
             self._fallback[a]=(start,end)
+            # Keep the normalized live range observable to accessibility and
+            # browser acceptance tooling without exposing the ECharts instance
+            # or its private event payloads as an application contract.
+            if self.panel.container is not None:
+                self.panel.container.props(f'data-chart-range-{a}="{start:g},{end:g}"')
             await self.panel.element.run_chart_method('dispatchAction', {
                 'type':'dataZoom','dataZoomId':self.IDS[a],'start':start,'end':end,
             })
@@ -183,7 +209,20 @@ class ChartDataView:
         result: list[dict[str, Any]] = []
         for series in self.panel.series:
             for index, value in enumerate(series.data):
-                result.append({'series': series.label, 'index': index, 'value': value})
+                row: dict[str, Any] = {
+                    'series': series.label,
+                    'series_key': getattr(series, 'key', None),
+                    'index': index,
+                    'value': value,
+                }
+                x_key = getattr(series, 'x_key', None)
+                y_key = getattr(series, 'y_key', None)
+                if x_key is not None and isinstance(value, Mapping):
+                    row['x'] = value.get(x_key)
+                    row['y'] = value.get(y_key or '')
+                elif isinstance(value, (tuple, list)) and len(value) >= 2:
+                    row['x'], row['y'] = value[0], value[1]
+                result.append(row)
         return result
 
     def open(self):
@@ -201,12 +240,13 @@ class ChartDataView:
                         with ui.element('table').classes('cui-chart-data-table'):
                             with ui.element('thead'):
                                 with ui.element('tr'):
-                                    for label in ('Series', 'Index', 'Value'):
+                                    headers = ('Series', 'Index', 'X', 'Y', 'Value')
+                                    for label in headers:
                                         with ui.element('th'): ui.label(label)
                             with ui.element('tbody'):
                                 for row in self.rows():
                                     with ui.element('tr'):
-                                        for value in (row['series'], row['index'], row['value']):
+                                        for value in (row['series'], row['index'], row.get('x', ''), row.get('y', ''), row['value']):
                                             with ui.element('td'): ui.label(str(value))
                 with ui.element('div').classes('cui-dialog__footer'):
                     ui.element('div').classes('cui-dialog__footer-spacer')
@@ -247,8 +287,13 @@ class ChartExport:
         return data_url
 
     def csv_text(self) -> str:
-        buffer=io.StringIO(); writer=csv.writer(buffer); writer.writerow(['series','index','value'])
-        for row in self.panel.data_view.rows(): writer.writerow([row['series'],row['index'],row['value']])
+        buffer=io.StringIO(); writer=csv.writer(buffer)
+        rows=self.panel.data_view.rows()
+        has_xy=any('x' in row or 'y' in row for row in rows)
+        headers=['series','index'] + (['x','y'] if has_xy else []) + ['value']
+        writer.writerow(headers)
+        for row in rows:
+            writer.writerow([row['series'],row['index']] + ([row.get('x',''),row.get('y','')] if has_xy else []) + [row['value']])
         return buffer.getvalue()
 
     def download_csv(self, filename: str | None = None):
@@ -403,16 +448,19 @@ def _render_chart_accessibility_data(ui, spec: ChartPanelSpec, series: Sequence[
 class ChartPanel:
     def __init__(self, series: Sequence[SeriesSpec], *, spec: ChartPanelSpec,
                  thresholds: Sequence[ThresholdSpec]=(), spec_limits: SpecLimits | None=None, annotations: Sequence[ChartAnnotation]=(),
-                 on_click: Callable[..., Any] | None=None, on_select: Callable[..., Any] | None=None, theme_mode: str='light'):
-        self.spec=spec; self.series=tuple(series); self.thresholds=tuple(thresholds); self.spec_limits=spec_limits; self.annotations=tuple(annotations); self.theme_mode=theme_mode
+                 on_click: Callable[..., Any] | None=None, on_select: Callable[..., Any] | None=None, theme_mode: str|None=None):
+        self.spec=spec; self.series=tuple(series); self.thresholds=tuple(thresholds); self.spec_limits=spec_limits; self.annotations=tuple(annotations)
         self._disposed=False; self._renderable=True; self._pending_render=False
         chart_id=uuid.uuid4().hex; self.title_id=f'cui-chart-title-{chart_id}'; self.summary_id=f'cui-chart-summary-{chart_id}'
         ui=_ui()
+        self.theme_mode=_resolve_theme_mode(theme_mode)
         with ui.element('section').classes(spec.classes).props(
             f'role="figure" aria-labelledby="{self.title_id}" aria-describedby="{self.summary_id}" '
             f'data-chart-kind="{spec.kind.value}" data-series-count="{len(series)}" '
             f'data-series-labels={json.dumps("|".join(item.label for item in series))} '
-            f'data-chart-x={json.dumps(spec.x_axis.label or "")} data-chart-y={json.dumps(spec.y_axis.label or "")}'
+            f'data-chart-x={json.dumps(spec.x_axis.label or "")} data-chart-y={json.dumps(spec.y_axis.label or "")} '
+            f'data-series-kinds={json.dumps("|".join(item.kind.value for item in series))} '
+            f'data-chart-theme="{self.theme_mode}" data-chart-range-x="0,100" data-chart-range-y="0,100"'
         ) as self.container:
             with ui.element('div').classes('cui-chart-panel__header'):
                 with ui.element('div'):
@@ -434,6 +482,7 @@ class ChartPanel:
             t=spec.toolbar
             self.toolbar=ChartToolbar(self,zoom=t.zoom,reset=t.reset,fullscreen=t.fullscreen,export_image=t.export_image,export_data=t.export_data,data_view=t.data_view)
         _ACTIVE_CHARTS.add(self)
+        _register_theme_renderer(self)
         _register_client_delete(ui,self.dispose)
         self.container.on('cui-chart-visibility', self._handle_visibility, js_handler='e => emit(e.detail)')
         self._install_visibility_observer(ui)
@@ -502,6 +551,9 @@ class ChartPanel:
         if self._disposed:return
         if mode not in {'light','dark'}: raise ValueError('chart theme mode must be light or dark')
         self.theme_mode=mode
+        container = getattr(self, 'container', None)
+        if container is not None:
+            container.props(f'data-chart-theme="{mode}"')
         options=build_echarts_options(self.spec,self.series,thresholds=self.thresholds,spec_limits=self.spec_limits,annotations=getattr(self,'annotations',()),theme=chart_theme(mode))
         if 'toolbox' in options: options['toolbox']['show']=False
         self._replace_options(options)
@@ -510,6 +562,7 @@ class ChartPanel:
         if self._disposed:return
         self._disposed=True; self._pending_render=False
         _ACTIVE_CHARTS.discard(self)
+        _ACTIVE_THEME_RENDERERS.discard(self)
 
 
 class _TypedChart(ChartPanel):
@@ -545,7 +598,7 @@ class _EmpiricalCDFChart(LineChart):
         return options
 
     def __init__(self, title: str, points: Sequence[tuple[float, float]], *, description: str | None = None,
-                 size: ChartSize = ChartSize.STANDARD, theme_mode: str = 'light') -> None:
+                 size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None) -> None:
         super().__init__(
             title,
             (SeriesSpec('ecdf', 'ECDF', tuple(points)),),
@@ -563,6 +616,64 @@ class _EmpiricalCDFChart(LineChart):
         self.element.options['series'][0]['step'] = 'end'
         self.element.update()
         self.container.props('data-chart-step="end" data-visual-semantic="ecdf"')
+
+
+class _QQProbabilityPlot(ChartPanel):
+    """Mixed observed-scatter/reference-line probability plot."""
+    renderer_type = 'qq_probability'
+
+    @staticmethod
+    def build_series(points: Sequence[tuple[float, float]], *, mean: float | None = None, sigma: float | None = None) -> tuple[SeriesSpec, ...]:
+        normalized=tuple({'theoretical':float(q), 'observed':float(value)} for q,value in points)
+        observed=tuple(point['observed'] for point in normalized)
+        location=float(mean) if mean is not None else (sum(observed)/len(observed) if observed else 0.0)
+        scale=float(sigma) if sigma is not None else (max(1e-12, (sum((v-location)**2 for v in observed)/(len(observed)-1))**.5) if len(observed)>1 else 1.0)
+        reference=tuple({'theoretical':point['theoretical'], 'observed':location + scale * point['theoretical']} for point in normalized)
+        return (
+            SeriesSpec('observed','Observed',normalized,kind=ChartKind.SCATTER,x_key='theoretical',y_key='observed'),
+            SeriesSpec('reference','Expected reference',reference,kind=ChartKind.LINE,x_key='theoretical',y_key='observed',marker=__import__('nicegui_base.visualization',fromlist=['MarkerShape']).MarkerShape.NONE,line_style=__import__('nicegui_base.visualization',fromlist=['LineStyle']).LineStyle.DASHED,semantic_color='neutral'),
+        )
+
+    @staticmethod
+    def build_options(title: str, points: Sequence[tuple[float,float]], *, theme_mode: str='light') -> dict[str,Any]:
+        series=_QQProbabilityPlot.build_series(points)
+        spec=ChartPanelSpec(title=title,kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed measurement',kind=AxisType.VALUE))
+        return build_echarts_options(spec,series,theme=chart_theme(theme_mode))
+
+    def __init__(self,title:str,points:Sequence[tuple[float,float]],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,theme_mode:str|None=None):
+        series=self.build_series(points)
+        super().__init__(series,spec=ChartPanelSpec(title=title,description=description or 'Observed points against a fitted location/scale normal reference line.',kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed measurement',kind=AxisType.VALUE),selection=SelectionMode.BRUSH),theme_mode=theme_mode)
+        self.container.props('data-visual-semantic="qq_probability" data-qq-reference="location-scale"')
+
+
+class _CapabilityHistogram(ChartPanel):
+    """Numeric-x histogram so LSL/Target/USL are true x coordinates."""
+    renderer_type='capability_histogram'
+
+    def __init__(self,title:str,bins:Sequence[tuple[float,float,int]],*,spec_limits:SpecLimits|None=None,description:str|None=None,size:ChartSize=ChartSize.STANDARD,theme_mode:str|None=None):
+        data=tuple({'measurement':(float(lo)+float(hi))/2 if hi != lo else float(lo),'count':int(count),'start':float(lo),'end':float(hi)} for lo,hi,count in bins)
+        values=[item['measurement'] for item in data]
+        low=min(values+[v for v in (spec_limits.lower if spec_limits else None,spec_limits.upper if spec_limits else None) if v is not None],default=0.0)
+        high=max(values+[v for v in (spec_limits.lower if spec_limits else None,spec_limits.upper if spec_limits else None) if v is not None],default=1.0)
+        if high <= low: high=low+1.0
+        pad=(high-low)*.04
+        series=(SeriesSpec('count','Count',data,kind=ChartKind.HISTOGRAM,x_key='measurement',y_key='count'),)
+        super().__init__(series,spec=ChartPanelSpec(title=title,description=description or 'Numeric measurement bins with specification markers on the same coordinate axis.',kind=ChartKind.HISTOGRAM,x_axis=AxisSpec(label='Measurement',unit='nm',kind=AxisType.VALUE,min_value=low-pad,max_value=high+pad),y_axis=AxisSpec(label='Count',kind=AxisType.VALUE),legend=LegendPosition.HIDDEN),spec_limits=spec_limits,theme_mode=theme_mode)
+        self.container.props('data-visual-semantic="capability_histogram" data-spec-axis="x" data-spec-lines="LSL Target USL"')
+
+
+class _WeibullPlot(ChartPanel):
+    """Mixed reliability plot with empirical failure/censor markers and fit line."""
+    renderer_type='weibull_reliability'
+
+    def __init__(self,title:str,failures:Sequence[tuple[float,float]],censored:Sequence[tuple[float,float]],fit:Sequence[tuple[float,float]],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,beta:float|None=None,eta:float|None=None,r2:float|None=None,theme_mode:str|None=None):
+        marker=__import__('nicegui_base.visualization',fromlist=['MarkerShape']).MarkerShape
+        def points(values): return tuple({'time':float(x),'probability':float(y)} for x,y in values)
+        series=(SeriesSpec('failures','Failures',points(failures),kind=ChartKind.SCATTER,x_key='time',y_key='probability',marker=marker.CIRCLE,semantic_color='danger'),SeriesSpec('censored','Censored',points(censored),kind=ChartKind.SCATTER,x_key='time',y_key='probability',marker=marker.DIAMOND,semantic_color='warning'),SeriesSpec('fit','Weibull fit',points(fit),kind=ChartKind.LINE,x_key='time',y_key='probability',marker=marker.NONE,line_style=LineStyle.SOLID,semantic_color='info',smooth=True))
+        subtitle='';
+        if beta is not None and eta is not None and r2 is not None: subtitle=f'β {beta:.2f} · η {eta:.1f} · R² {r2:.2f} · failures {len(failures)} · censored {len(censored)}'
+        super().__init__(series,spec=ChartPanelSpec(title=title,description=description or subtitle,kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Exposure time',kind=AxisType.VALUE),y_axis=AxisSpec(label='Cumulative failure probability',kind=AxisType.VALUE,min_value=0.0,max_value=1.0)),theme_mode=theme_mode)
+        self.container.props('data-visual-semantic="weibull_reliability" data-weibull-fit="line" data-weibull-censor-marker="diamond"')
 
 class AreaChart(_TypedChart): KIND=ChartKind.AREA
 class BarChart(_TypedChart): KIND=ChartKind.BAR
@@ -600,7 +711,7 @@ class _SpatialSvgPanel:
     renderer_type='spatial'
 
     def __init__(self,title:str,*,description:str|None=None,size:ChartSize=ChartSize.STANDARD):
-        self.title=title;self.description=description;self.size=size;self.viewport_id='cui-spatial-'+uuid.uuid4().hex
+        self.title=title;self.description=description;self.size=size;self.viewport_id='cui-spatial-'+uuid.uuid4().hex;self.theme_mode=_resolve_theme_mode(None);self._disposed=False
         self.container=None;self.element=None;self._zoom=1.0
 
     def _toolbar(self):
@@ -617,7 +728,8 @@ class _SpatialSvgPanel:
     def _render(self,svg:str):
         ui=_ui()
         with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{self.size.value} cui-spatial-panel').props(
-            f'role="figure" data-renderer-type="{self.renderer_type}"'
+            f'role="figure" data-renderer-type="{self.renderer_type}" '
+            f'data-visual-semantic="{self.renderer_type}" data-chart-theme="{self.theme_mode}"'
         ) as self.container:
             with ui.element('div').classes('cui-chart-panel__header'):
                 with ui.element('div'):
@@ -629,13 +741,29 @@ class _SpatialSvgPanel:
                 with ui.element('div').classes('cui-spatial-viewport').props(f'id={json.dumps(self.viewport_id)} tabindex="0" aria-label={json.dumps(self.title)}'):
                     self.element=ui.html(svg,sanitize=False).classes('cui-spatial-svg-host')
         ui.run_javascript(f"window.CompanyUISpatial && window.CompanyUISpatial.attach('{self.viewport_id}')")
+        _register_theme_renderer(self)
+        _register_client_delete(ui, self.dispose)
+
+    def apply_theme(self, mode: str) -> None:
+        if mode not in {'light','dark'}: raise ValueError('spatial theme mode must be light or dark')
+        self.theme_mode=mode
+        if self.container is not None:
+            self.container.props(f'data-chart-theme="{mode}"')
+
+    def dispose(self) -> None:
+        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
 
 
 class WaferMap(_SpatialSvgPanel):
     renderer_type='wafer_map'
-    def __init__(self,title:str,points:Sequence[WaferPoint],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,legend_title:str='Measurement',legend_labels:Sequence[str]=(),**kwargs):
+    def __init__(self,title:str,points:Sequence[WaferPoint],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,legend_title:str='Measurement',legend_labels:Sequence[str]=(),scale_mode:ScaleMode|str=ScaleMode.CONTINUOUS,scale_min:float|None=None,scale_max:float|None=None,category_key:str='status',**kwargs):
         super().__init__(title,description=description or 'Die-level wafer signature · wheel/drag to inspect spatial structure',size=size)
-        pts=tuple(points);values=[float(p.value) for p in pts if isinstance(p.value,(int,float))]; low=min(values) if values else 0; high=max(values) if values else 1
+        pts=tuple(points);mode=ScaleMode(scale_mode);self.scale_mode=mode;values=[float(p.value) for p in pts if isinstance(p.value,(int,float))]; low=float(scale_min) if scale_min is not None else (min(values) if values else 0); high=float(scale_max) if scale_max is not None else (max(values) if values else 1)
+        if mode is ScaleMode.DIVERGING:
+            magnitude=max(abs(low),abs(high),1e-12);low,high=-magnitude,magnitude
+        if high <= low: high=low+1.0
+        categories=tuple(dict.fromkeys(str((p.metadata.get(category_key) if p.metadata.get(category_key) is not None else p.status) or 'Unknown') for p in pts if p.value is not None))
+        category_colors={category: f'cui-spatial-bin-{index % 7}' for index,category in enumerate(categories)}
         cx,cy,r=220,200,168; xs=[p.x for p in pts] or [-1,1]; ys=[p.y for p in pts] or [-1,1]; span=max(max(abs(float(x)) for x in xs),max(abs(float(y)) for y in ys),1)
         step=(r*1.82)/(span*2+1); die=max(8,min(22,step*.84)); parts=[]
         clip_id=f'{self.viewport_id}-wafer-clip'
@@ -648,34 +776,50 @@ class WaferMap(_SpatialSvgPanel):
             if p.value is None:
                 cls='cui-spatial-missing'+(' is-watch' if status.lower() not in {'','normal','ok'} else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · no measurement · {status or "normal"}')
             else:
-                b=_spatial_bin(float(p.value),low,high); cls=f'cui-spatial-bin-{b}'+(' is-watch' if status.lower() not in {'','normal','ok'} else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · {float(p.value):.3f} · {status or "normal"}')
+                if mode is ScaleMode.CATEGORICAL:
+                    category=str((p.metadata.get(category_key) if p.metadata.get(category_key) is not None else p.status) or 'Unknown'); cls=category_colors.setdefault(category,f'cui-spatial-bin-{len(category_colors) % 7}')
+                elif mode is ScaleMode.DIVERGING:
+                    ratio=(float(p.value)-low)/(high-low); cls=f'cui-spatial-bin-{min(6,max(0,int(ratio*7)))}'
+                else:
+                    cls=f'cui-spatial-bin-{_spatial_bin(float(p.value),low,high)}'
+                cls += (' is-watch' if status.lower() not in {'','normal','ok'} else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · {float(p.value):.3f} · {status or "normal"}')
             parts.append(f'<rect class="cui-wafer-die {cls}" x="{x-die/2:.2f}" y="{y-die/2:.2f}" width="{die:.2f}" height="{die:.2f}" rx="3"><title>{tooltip}</title></rect>')
         parts.append('</g><circle class="cui-wafer-boundary" cx="220" cy="200" r="168"/><path class="cui-wafer-notch" d="M211 365 L220 374 L229 365"/>')
-        if legend_labels:
-            parts.append(_spatial_svg_discrete_legend(legend_labels,x=430,y=92,title=legend_title))
+        if mode is ScaleMode.CATEGORICAL:
+            legend_values=legend_labels or categories
+            parts.append(_spatial_svg_discrete_legend(legend_values,x=430,y=92,title=legend_title,mapping=category_colors))
         else:
             parts.append(_spatial_svg_legend(low,high,x=430,y=92,height=190,title=legend_title))
         parts.append('<text class="cui-spatial-annotation" x="220" y="22" text-anchor="middle">CENTER ↔ EDGE SIGNATURE</text>')
-        parts.append('</svg>');self._render(''.join(parts))
+        self.scale_bounds=(low,high); self.legend_mapping=dict(category_colors); self.svg=''.join(parts) + '</svg>'
+        self._render(self.svg);self.container.props(f'data-wafer-scale-mode="{mode.value}" data-wafer-scale-min="{low:.6g}" data-wafer-scale-max="{high:.6g}" data-wafer-legend-mapping={json.dumps(category_colors)}')
 
 
 class _WaferContourPlot(_SpatialSvgPanel):
-    """Clipped continuous wafer field with visible synthetic contour isolines."""
+    """Clipped continuous wafer field with data-derived contour isolines."""
 
     renderer_type='wafer_contour'
 
-    def __init__(self,title:str,levels:Sequence[float],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD):
-        values=tuple(float(value) for value in levels)
-        if len(values)<4 or len(set(values))<4:
-            raise ValueError('Wafer contour reference requires at least four distinct levels')
-        super().__init__(title,description=description or 'Smoothed synthetic field · isolines are clipped to governed wafer geometry',size=size)
+    def __init__(self,title:str,points:Sequence[WaferPoint],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD):
+        pts=tuple(points);values=tuple(float(p.value) for p in pts if p.value is not None)
+        if len(pts)<4 or len(values)<4 or len(set(values))<2: raise ValueError('Wafer contour reference requires at least four measured spatial samples')
+        super().__init__(title,description=description or 'Data-derived continuous wafer field · isolines are clipped to governed wafer geometry',size=size)
         low,high=min(values),max(values); clip_id=f'{self.viewport_id}-contour-clip'
-        paths=(
-            'M72 214 C86 104 150 48 242 54 C330 60 374 130 362 224 C348 318 270 354 176 338 C98 324 60 284 72 214 Z',
-            'M112 214 C124 132 176 92 246 96 C310 100 340 154 326 230 C312 292 258 316 194 302 C138 290 102 266 112 214 Z',
-            'M154 210 C164 158 198 132 246 138 C288 144 306 176 294 228 C284 266 248 280 210 268 C176 258 148 242 154 210 Z',
-            'M194 208 C202 180 220 168 246 174 C268 180 276 198 268 226 C260 246 240 250 222 242 C204 236 190 226 194 208 Z',
-        )
+        # Build isolines from the actual spatial samples.  Each level follows
+        # the angular envelope of samples above the level; unlike the former
+        # decorative paths, changing x/y/measurement changes every path.
+        cx,cy,r=220.0,200.0,168.0; span=max(max(abs(float(p.x)) for p in pts),max(abs(float(p.y)) for p in pts),1.0)
+        points_xy=[(cx+float(p.x)/span*r*.9,cy-float(p.y)/span*r*.9,float(p.value)) for p in pts if p.value is not None]
+        center_x=sum(p[0] for p in points_xy)/len(points_xy);center_y=sum(p[1] for p in points_xy)/len(points_xy)
+        levels=tuple(low+(high-low)*fraction for fraction in (.2,.4,.6,.8))
+        paths=[]
+        from math import atan2
+        for level in levels:
+            selected=[(x,y) for x,y,value in points_xy if value >= level]
+            if len(selected)<3:
+                selected=[(x,y) for x,y,_value in sorted(points_xy,key=lambda item: abs(item[0]-center_x)+abs(item[1]-center_y))[:max(3,min(8,len(points_xy)))]]
+            selected.sort(key=lambda item: atan2(item[1]-center_y,item[0]-center_x))
+            paths.append('M '+' L '.join(f'{x:.2f},{y:.2f}' for x,y in selected)+' Z')
         parts=[f'<svg viewBox="0 0 560 400" role="img" aria-label="{html.escape(title)}" xmlns="http://www.w3.org/2000/svg">']
         parts.append(f'<defs><clipPath id="{clip_id}"><circle cx="220" cy="200" r="168"/></clipPath></defs>')
         parts.append(f'<g clip-path="url(#{clip_id})">')
@@ -685,8 +829,9 @@ class _WaferContourPlot(_SpatialSvgPanel):
             parts.append(f'<path class="cui-wafer-contour-line" d="{path}" fill="none"><title>Contour {values[index]:.2f}</title></path>')
         parts.append('</g><circle class="cui-wafer-boundary" cx="220" cy="200" r="168"/><path class="cui-wafer-notch" d="M211 365 L220 374 L229 365"/>')
         parts.append(_spatial_svg_legend(low,high,x=430,y=92,height=190,title='Smoothed field'))
-        parts.append('<text class="cui-spatial-annotation" x="220" y="22" text-anchor="middle">CLIPPED CONTOUR ISOLINES · SYNTHETIC FIELD</text>')
-        parts.append('</svg>');self._render(''.join(parts))
+        parts.append('<text class="cui-spatial-annotation" x="220" y="22" text-anchor="middle">CLIPPED DATA-DERIVED CONTOUR ISOLINES</text>')
+        self.svg=''.join(parts) + '</svg>'
+        self._render(self.svg);self.container.props(f'data-contour-samples="{len(points_xy)}" data-contour-levels={json.dumps([round(value,6) for value in levels])}')
 
 
 class SpatialMap(_SpatialSvgPanel):
@@ -754,7 +899,7 @@ class WaferComparisonMap(_SpatialSvgPanel):
             if am and cm:
                 delta=sum(am)/len(am)-sum(cm)/len(cm)
                 parts.append(f'<text class="cui-spatial-annotation" x="340" y="370" text-anchor="middle">MEAN Δ {delta:+.3f} · SAME COLOR SCALE</text>')
-        parts.append('</svg>'); self._render(''.join(parts))
+        parts.append('</svg>'); self._render(''.join(parts)); self.container.props(f'data-wafer-scale-mode="continuous" data-wafer-scale-min="{low:.6g}" data-wafer-scale-max="{high:.6g}"')
 
 
 class ChamberFingerprintMatrix(_SpatialSvgPanel):
@@ -858,11 +1003,12 @@ def _spatial_svg_legend(low:float,high:float,*,x:int,y:int,height:int,title:str)
     return ''.join(parts)
 
 
-def _spatial_svg_discrete_legend(labels: Sequence[str], *, x: int, y: int, title: str) -> str:
+def _spatial_svg_discrete_legend(labels: Sequence[str], *, x: int, y: int, title: str, mapping: Mapping[str, str] | None = None) -> str:
     parts = [f'<text class="cui-spatial-legend-title" x="{x}" y="{y-18}">{html.escape(title)}</text>']
     for index, label in enumerate(labels):
         top = y + index * 28
-        parts.append(f'<rect class="cui-spatial-bin-{index % 7}" x="{x}" y="{top}" width="12" height="18"/>')
+        color_class=(mapping or {}).get(str(label), f'cui-spatial-bin-{index % 7}')
+        parts.append(f'<rect class="{html.escape(color_class)}" x="{x}" y="{top}" width="12" height="18"/>')
         parts.append(f'<text class="cui-spatial-legend-label" x="{x+20}" y="{top+13}">{html.escape(str(label))}</text>')
     return ''.join(parts)
 
@@ -883,6 +1029,23 @@ class PlotlyPanel:
                     if description: ui.label(description).classes('cui-chart-panel__description')
             with ui.element('div').classes('cui-chart-panel__body'):
                 self.element=ui.plotly(figure).classes('cui-chart-canvas w-full')
+        self.title=title; self.theme_mode=_resolve_theme_mode(None); self._disposed=False
+        _register_theme_renderer(self)
+        _register_client_delete(ui, self.dispose)
+
+    def apply_theme(self, mode: str) -> None:
+        if mode not in {'light','dark'}: raise ValueError('Plotly theme mode must be light or dark')
+        self.theme_mode=mode; theme=chart_theme(mode)
+        if isinstance(self.figure, dict):
+            self.figure.setdefault('layout', {})
+            self.figure['layout'].update({'paper_bgcolor':theme.background,'plot_bgcolor':theme.background,'font':{'color':theme.text_primary}})
+            self.figure.setdefault('config', {})['responsive']=True
+            if hasattr(self.element, 'figure'): self.element.figure=self.figure
+            if hasattr(self.element, 'update'): self.element.update()
+        if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
+
+    def dispose(self) -> None:
+        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
 
 
 class _SemanticOptionDiagram:
@@ -891,17 +1054,19 @@ class _SemanticOptionDiagram:
     renderer_type = 'diagram'
 
     def __init__(self, title: str, options: dict[str, Any], *, description: str | None = None,
-                 size: ChartSize = ChartSize.STANDARD) -> None:
+                 size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None) -> None:
         ui = _ui()
         chart_id = uuid.uuid4().hex
         title_id = f'cui-chart-title-{chart_id}'
         summary_id = f'cui-chart-summary-{chart_id}'
         self.chart_options = options
+        self._theme_builder: Callable[[str], dict[str, Any]] | None = getattr(self, '_theme_builder', None)
+        self.theme_mode = _resolve_theme_mode(theme_mode)
         option_series_types = '|'.join(str(item.get('type', '')) for item in options.get('series', ()))
         with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{size.value}').props(
             f'role="figure" aria-labelledby="{title_id}" aria-describedby="{summary_id}" '
             f'data-renderer-type="{self.renderer_type}" data-visual-semantic="{self.renderer_type}" '
-            f'data-option-series-types={json.dumps(option_series_types)}'
+            f'data-option-series-types={json.dumps(option_series_types)} data-chart-theme="{self.theme_mode}"'
         ) as self.container:
             with ui.element('div').classes('cui-chart-panel__header'):
                 with ui.element('div'):
@@ -911,6 +1076,18 @@ class _SemanticOptionDiagram:
             with ui.element('div').classes('cui-chart-panel__body'):
                 self.element = ui.echart(options).classes('cui-chart-canvas w-full')
             ui.label(self.accessibility_summary(options)).props(f'id="{summary_id}"').classes('cui-visually-hidden')
+        _register_theme_renderer(self)
+
+    def apply_theme(self, mode: str) -> None:
+        if mode not in {'light','dark'}: raise ValueError('diagram theme mode must be light or dark')
+        self.theme_mode=mode
+        if self._theme_builder is not None:
+            self.chart_options=self._theme_builder(mode)
+            self.element.options.clear(); self.element.options.update(self.chart_options); self.element.update()
+        if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
+
+    def dispose(self) -> None:
+        _ACTIVE_THEME_RENDERERS.discard(self)
 
     @classmethod
     def accessibility_summary(cls, options: dict[str, Any]) -> str:
@@ -958,8 +1135,10 @@ class _SankeyDiagram(_SemanticOptionDiagram):
         }
 
     def __init__(self, title: str, nodes: Sequence[str], links: Sequence[tuple[str, str, float]], *,
-                 description: str | None = None, size: ChartSize = ChartSize.STANDARD, theme_mode: str = 'light') -> None:
-        super().__init__(title, self.build_options(nodes, links, theme_mode=theme_mode), description=description, size=size)
+                 description: str | None = None, size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None) -> None:
+        theme_mode=_resolve_theme_mode(theme_mode)
+        self._theme_builder=lambda mode:self.build_options(nodes,links,theme_mode=mode)
+        super().__init__(title, self.build_options(nodes, links, theme_mode=theme_mode), description=description, size=size, theme_mode=theme_mode)
 
 
 class _RelationshipGraph(_SemanticOptionDiagram):
@@ -999,8 +1178,10 @@ class _RelationshipGraph(_SemanticOptionDiagram):
         }
 
     def __init__(self, title: str, nodes: Sequence[tuple[str, str, float, float]], links: Sequence[tuple[str, str]], *,
-                 description: str | None = None, size: ChartSize = ChartSize.STANDARD, theme_mode: str = 'light') -> None:
-        super().__init__(title, self.build_options(nodes, links, theme_mode=theme_mode), description=description, size=size)
+                 description: str | None = None, size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None) -> None:
+        theme_mode=_resolve_theme_mode(theme_mode)
+        self._theme_builder=lambda mode:self.build_options(nodes,links,theme_mode=mode)
+        super().__init__(title, self.build_options(nodes, links, theme_mode=theme_mode), description=description, size=size, theme_mode=theme_mode)
 
 
 class _FaultTreeDiagram(_SemanticOptionDiagram):
@@ -1058,9 +1239,11 @@ class _FaultTreeDiagram(_SemanticOptionDiagram):
         return f'{self.renderer_type.replace("_", " ").title()} with {nodes} nodes and {max(0, nodes - 1)} relationships.'
 
     def __init__(self, title: str, tree: dict[str, Any], *, description: str | None = None,
-                 size: ChartSize = ChartSize.STANDARD, theme_mode: str = 'light', renderer_type: str = 'fault_tree') -> None:
+                 size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None, renderer_type: str = 'fault_tree') -> None:
+        theme_mode=_resolve_theme_mode(theme_mode)
         self.renderer_type = renderer_type
-        super().__init__(title, self.build_options(tree, theme_mode=theme_mode), description=description, size=size)
+        self._theme_builder=lambda mode:self.build_options(tree,theme_mode=mode)
+        super().__init__(title, self.build_options(tree, theme_mode=theme_mode), description=description, size=size, theme_mode=theme_mode)
 
 
 class _WaterfallDiagram(_SemanticOptionDiagram):
@@ -1095,8 +1278,10 @@ class _WaterfallDiagram(_SemanticOptionDiagram):
         bars = len(options.get('xAxis', {}).get('data', ()))
         return f'Waterfall with {bars} cumulative bars; green increases and red decreases reconcile to Net.'
 
-    def __init__(self,title:str,categories:Sequence[str],deltas:Sequence[float],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,theme_mode:str='light') -> None:
-        super().__init__(title,self.build_options(categories,deltas,theme_mode=theme_mode),description=description,size=size)
+    def __init__(self,title:str,categories:Sequence[str],deltas:Sequence[float],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,theme_mode:str|None=None) -> None:
+        theme_mode=_resolve_theme_mode(theme_mode)
+        self._theme_builder=lambda mode:self.build_options(categories,deltas,theme_mode=mode)
+        super().__init__(title,self.build_options(categories,deltas,theme_mode=theme_mode),description=description,size=size,theme_mode=theme_mode)
 
 
 class DistributionPanel:
@@ -1115,35 +1300,52 @@ def _svg_density_path(values: Sequence[float], *, center: float, baseline: float
 
 
 class ViolinPlot:
-    """Company-owned violin silhouette; never substitutes a histogram for a violin."""
+    """Company-owned violin silhouette derived from canonical measurements."""
     def __init__(self, title: str, distributions: Sequence[Sequence[float]], *, labels: Sequence[str]=(), description: str|None=None, size: ChartSize=ChartSize.STANDARD):
         ui = _ui()
         labels = tuple(labels) or tuple(f'Group {index + 1}' for index in range(len(distributions)))
         columns = max(1, len(distributions))
         width = 680 / columns
+        from nicegui_base.semiconductor.spc import density_estimate
         paths = []
+        self.density_inputs=tuple(tuple(float(value) for value in values) for values in distributions)
         for index, values in enumerate(distributions):
+            density = density_estimate(tuple(float(value) for value in values))
+            density_values=tuple(point.density for point in density)
             center = width * (index + .5)
-            paths.append(f'<path class="cui-violin-shape" d="{_svg_density_path(values, center=center, baseline=220, width=180, height=min(62, width*.22))}" fill="var(--cui-accent)" fill-opacity=".72" stroke="var(--cui-accent)"/>')
+            paths.append(f'<path class="cui-violin-shape" d="{_svg_density_path(density_values, center=center, baseline=220, width=180, height=min(62, width*.22))}" fill="var(--cui-accent)" fill-opacity=".72" stroke="var(--cui-accent)"/>')
             paths.append(f'<text class="cui-chart-axis-label" x="{center:.1f}" y="246" text-anchor="middle">{html.escape(str(labels[index]))}</text>')
         svg = f'<svg viewBox="0 0 680 270" role="img" aria-label="{html.escape(title)}" data-visual-semantic="violin" xmlns="http://www.w3.org/2000/svg">{"".join(paths)}</svg>'
-        with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{size.value} cui-distribution-panel').props('data-visual-semantic="violin" role="figure"'):
+        with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{size.value} cui-distribution-panel').props('data-visual-semantic="violin" data-density-source="semiconductor.spc.density_estimate" role="figure"') as self.container:
             with ui.element('div').classes('cui-chart-panel__header'):
                 ui.label(title).classes('cui-chart-panel__title')
                 if description: ui.label(description).classes('cui-chart-panel__description')
             with ui.element('div').classes('cui-chart-panel__body'):
                 ui.html(svg, sanitize=False).classes('cui-distribution-svg')
+        self.theme_mode=_resolve_theme_mode(None); self._disposed=False; _register_theme_renderer(self); _register_client_delete(ui,self.dispose)
+
+    def apply_theme(self, mode: str) -> None:
+        if mode not in {'light','dark'}: raise ValueError('violin theme mode must be light or dark')
+        self.theme_mode=mode
+        if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
+
+    def dispose(self) -> None:
+        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
 
 
 class RidgePlot:
-    """Company-owned offset density curves for ridge distributions."""
+    """Company-owned offset density curves derived from canonical measurements."""
     def __init__(self, title: str, series: Sequence[SeriesSpec], *, labels: Sequence[str]=(), description: str|None=None, size: ChartSize=ChartSize.STANDARD):
         ui = _ui()
         labels = tuple(labels) or tuple(str(index + 1) for index in range(max((len(item.data) for item in series), default=0)))
+        from nicegui_base.semiconductor.spc import ridge_distributions
+        raw_groups={item.label: tuple(float(value.get('value')) if isinstance(value, Mapping) else float(value) for value in item.data) for item in series}
+        densities=ridge_distributions(raw_groups)
         paths = []
+        self.density_inputs={item.label: tuple(float(value.get('value')) if isinstance(value, Mapping) else float(value) for value in item.data) for item in series}
         rows = max(1, len(series))
         for row, item in enumerate(series):
-            values = tuple(float(value) for value in item.data)
+            values = tuple(point.density for point in densities[item.label])
             baseline = 58 + row * (176 / rows)
             points = [
                 (52 + index * (576 / max(1, len(values) - 1)),
@@ -1188,12 +1390,21 @@ class RidgePlot:
             f'<svg viewBox="0 0 680 270" role="img" aria-label="{html.escape(title)}" '
             f'data-visual-semantic="ridge" xmlns="http://www.w3.org/2000/svg">{"".join(paths)}</svg>'
         )
-        with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{size.value} cui-distribution-panel').props('data-visual-semantic="ridge" role="figure"'):
+        with ui.element('section').classes(f'cui-chart-panel cui-chart-panel--{size.value} cui-distribution-panel').props('data-visual-semantic="ridge" data-density-source="semiconductor.spc.ridge_distributions" role="figure"') as self.container:
             with ui.element('div').classes('cui-chart-panel__header'):
                 ui.label(title).classes('cui-chart-panel__title')
                 if description: ui.label(description).classes('cui-chart-panel__description')
             with ui.element('div').classes('cui-chart-panel__body'):
                 ui.html(svg, sanitize=False).classes('cui-distribution-svg')
+        self.theme_mode=_resolve_theme_mode(None); self._disposed=False; _register_theme_renderer(self); _register_client_delete(ui,self.dispose)
+
+    def apply_theme(self, mode: str) -> None:
+        if mode not in {'light','dark'}: raise ValueError('ridge theme mode must be light or dark')
+        self.theme_mode=mode
+        if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
+
+    def dispose(self) -> None:
+        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
 
 
 class ProcessTrendPanel:
@@ -1210,6 +1421,9 @@ def SankeyDiagram(*args, **kwargs): return _SankeyDiagram(*args, **kwargs)
 def RelationshipGraph(*args, **kwargs): return _RelationshipGraph(*args, **kwargs)
 def FaultTreeDiagram(*args, **kwargs): return _FaultTreeDiagram(*args, **kwargs)
 def WaterfallDiagram(*args, **kwargs): return _WaterfallDiagram(*args, **kwargs)
+def QQProbabilityPlot(*args, **kwargs): return _QQProbabilityPlot(*args, **kwargs)
+def CapabilityHistogram(*args, **kwargs): return _CapabilityHistogram(*args, **kwargs)
+def WeibullPlot(*args, **kwargs): return _WeibullPlot(*args, **kwargs)
 
 
 __all__=[
@@ -1217,4 +1431,5 @@ __all__=[
 'LineChart','AreaChart','BarChart','StackedBarChart','ScatterChart','Histogram','BoxPlot','Heatmap','ParetoChart','ControlChart','TimelineChart','DonutChart','Gauge',
 'WaferMap','SpatialMap','WaferComparisonMap','ChamberFingerprintMatrix','CommonalityMatrix','RadialProfilePlot','PlotlyPanel','DistributionPanel','ViolinPlot','RidgePlot','ProcessTrendPanel',
 'EmpiricalCDFChart','WaferContourPlot','SankeyDiagram','RelationshipGraph','FaultTreeDiagram','WaterfallDiagram',
+'QQProbabilityPlot','CapabilityHistogram','WeibullPlot',
 'apply_all_chart_themes']

@@ -1,9 +1,9 @@
 {
-  "export_count": 1537,
+  "export_count": 1549,
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "ae643cb251d9a38791977bc91e949eaa09fb3f0eb031f583c11b60472d41aee5",
+  "sha256": "1dbb184e2829abbae5de9b52091209c4df4d6a509c75721292bd274ba2117b71",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -5529,6 +5529,31 @@
       "kind": "class",
       "module": "nicegui_base.async_tools.runtime"
     },
+    "CapabilityHistogram": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "CapabilityResult": {
       "callable": {
         "parameters": [
@@ -6239,10 +6264,10 @@
             "name": "on_select"
           },
           {
-            "annotation": "'str'",
+            "annotation": "'str | None'",
             "default": {
               "present": true,
-              "value": "light"
+              "value": null
             },
             "kind": "KEYWORD_ONLY",
             "name": "theme_mode"
@@ -8759,6 +8784,24 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "metadata"
+          },
+          {
+            "annotation": "'tuple[float, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "positive_values"
+          },
+          {
+            "annotation": "'tuple[float, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "negative_values"
           }
         ],
         "return": "None"
@@ -12713,6 +12756,31 @@
       "kind": "class",
       "module": "nicegui_base.data_table.models"
     },
+    "EmpiricalCDFChart": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "EmptyState": {
       "callable": {
         "parameters": [
@@ -14928,6 +14996,31 @@
       },
       "kind": "class",
       "module": "nicegui_base.semiconductor.entities"
+    },
+    "FaultTreeDiagram": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
     },
     "FeedbackIntent": {
       "callable": {
@@ -28175,6 +28268,31 @@
       "kind": "class",
       "module": "nicegui_base.runtime.config"
     },
+    "QQProbabilityPlot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "Query": {
       "callable": {
         "parameters": [
@@ -30179,6 +30297,31 @@
       "kind": "class",
       "module": "nicegui_base.async_tools.models"
     },
+    "RelationshipGraph": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "ReleaseAuditArchiveFinding": {
       "callable": {
         "parameters": [
@@ -30899,6 +31042,58 @@
       },
       "kind": "class",
       "module": "nicegui_base.performance.runtime"
+    },
+    "RidgePlot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "title"
+          },
+          {
+            "annotation": "'Sequence[SeriesSpec]'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "series"
+          },
+          {
+            "annotation": "'Sequence[str]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "labels"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "description"
+          },
+          {
+            "annotation": "'ChartSize'",
+            "default": {
+              "present": true,
+              "value": "standard"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "size"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "class",
+      "module": "nicegui_base.integrations.nicegui_visualization"
     },
     "RoleDefinition": {
       "callable": {
@@ -32596,6 +32791,31 @@
       "kind": "constant",
       "module": "nicegui_base.certification.semiconductor_continuity"
     },
+    "SankeyDiagram": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "SavedFilterView": {
       "callable": {
         "parameters": [
@@ -32674,6 +32894,23 @@
       },
       "kind": "class",
       "module": "nicegui_base.filters.models"
+    },
+    "ScaleMode": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "values"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "class",
+      "module": "nicegui_base.visualization.models"
     },
     "ScatterChart": {
       "callable": {
@@ -41402,6 +41639,25 @@
               "tuple": []
             },
             "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "column_order"
+          },
+          {
+            "annotation": "'Mapping[str, int]'",
+            "default": {
+              "present": true,
+              "repr": "<factory>",
+              "type": "dataclasses._HAS_DEFAULT_FACTORY_CLASS"
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "column_widths"
+          },
+          {
+            "annotation": "'tuple[str, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
             "name": "pinned_left"
           },
           {
@@ -41439,6 +41695,42 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "filters"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "search"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 1
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "page"
+          },
+          {
+            "annotation": "'int | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "page_size"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 0
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "scroll_row_index"
           }
         ],
         "return": "None"
@@ -44658,6 +44950,58 @@
       "kind": "class",
       "module": "nicegui_base.design.responsive"
     },
+    "ViolinPlot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "title"
+          },
+          {
+            "annotation": "'Sequence[Sequence[float]]'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "distributions"
+          },
+          {
+            "annotation": "'Sequence[str]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "labels"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "description"
+          },
+          {
+            "annotation": "'ChartSize'",
+            "default": {
+              "present": true,
+              "value": "standard"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "size"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "class",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "VisualAuditIssue": {
       "callable": {
         "parameters": [
@@ -44814,6 +45158,31 @@
       "kind": "class",
       "module": "nicegui_base.integrations.nicegui_visualization"
     },
+    "WaferContourPlot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "WaferMap": {
       "callable": {
         "parameters": [
@@ -44868,6 +45237,42 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "legend_labels"
+          },
+          {
+            "annotation": "'ScaleMode | str'",
+            "default": {
+              "present": true,
+              "value": "continuous"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_max"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": "status"
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "category_key"
           },
           {
             "annotation": "",
@@ -45025,6 +45430,56 @@
       "kind": "class",
       "module": "nicegui_base.semiconductor.spatial"
     },
+    "WaterfallDiagram": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
+    "WeibullPlot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_POSITIONAL",
+            "name": "args"
+          },
+          {
+            "annotation": "",
+            "default": {
+              "present": false
+            },
+            "kind": "VAR_KEYWORD",
+            "name": "kwargs"
+          }
+        ],
+        "return": ""
+      },
+      "kind": "function",
+      "module": "nicegui_base.integrations.nicegui_visualization"
+    },
     "WeibullResult": {
       "callable": {
         "parameters": [
@@ -45084,6 +45539,24 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "method"
+          },
+          {
+            "annotation": "'tuple[tuple[float, float], ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "failure_points"
+          },
+          {
+            "annotation": "'tuple[tuple[float, float], ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "censored_points"
           }
         ],
         "return": "None"

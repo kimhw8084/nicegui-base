@@ -2,7 +2,7 @@
 
 Framework version: `3.0.0a8`  
 NiceGUI runtime: `3.15.0`  
-Frozen root exports: **1537**
+Frozen root exports: **1549**
 
 Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered table—is authoritative for compatibility checks.
 
@@ -125,6 +125,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `CSVDataSource` | class | `nicegui_base.data_sources.csv` | `(key: "'str'", path: "'str \| Path'", schema: "'DataSchema \| None'" = None, encoding: "'str'" = 'utf-8-sig', timeout_seconds: "'float \| None'" = 30.0) -> "'None'"` |
 | `Calibration` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, tool_id: "'str'" = '', sensor_id: "'str \| None'" = None, parameter_id: "'str \| None'" = None, timestamp: "'datetime \| None'" = None) -> 'None'` |
 | `CancelableTask` | class | `nicegui_base.async_tools.runtime` | `(timeout: "'float \| None'" = None)` |
+| `CapabilityHistogram` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
 | `CapabilityResult` | class | `nicegui_base.semiconductor.spc` | `(count: "'int'", mean: "'float'", within_sigma: "'float \| None'", overall_sigma: "'float \| None'", cp: "'float \| None'", cpk: "'float \| None'", pp: "'float \| None'", ppk: "'float \| None'", lsl: "'float \| None'", usl: "'float \| None'", target: "'float \| None'", within_method: "'str'" = 'moving_range', overall_method: "'str'" = 'sample_stdev') -> 'None'` |
 | `Card` | class | `nicegui_base.integrations.nicegui_components` | `(interactive: "'bool'" = False, selected: "'bool'" = False)` |
 | `Carrier` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, carrier_type: "'str \| None'" = None) -> 'None'` |
@@ -142,7 +143,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ChartFullscreen` | class | `nicegui_base.integrations.nicegui_visualization` | `(panel: '"\'ChartPanel\'"')` |
 | `ChartKind` | class | `nicegui_base.visualization.models` | `(*values)` |
 | `ChartLegend` | class | `nicegui_base.integrations.nicegui_visualization` | `(panel: '"\'ChartPanel\'"', position: "'LegendPosition \| None'" = None)` |
-| `ChartPanel` | class | `nicegui_base.integrations.nicegui_visualization` | `(series: "'Sequence[SeriesSpec]'", spec: "'ChartPanelSpec'", thresholds: "'Sequence[ThresholdSpec]'" = (), spec_limits: "'SpecLimits \| None'" = None, annotations: "'Sequence[ChartAnnotation]'" = (), on_click: "'Callable[..., Any] \| None'" = None, on_select: "'Callable[..., Any] \| None'" = None, theme_mode: "'str'" = 'light')` |
+| `ChartPanel` | class | `nicegui_base.integrations.nicegui_visualization` | `(series: "'Sequence[SeriesSpec]'", spec: "'ChartPanelSpec'", thresholds: "'Sequence[ThresholdSpec]'" = (), spec_limits: "'SpecLimits \| None'" = None, annotations: "'Sequence[ChartAnnotation]'" = (), on_click: "'Callable[..., Any] \| None'" = None, on_select: "'Callable[..., Any] \| None'" = None, theme_mode: "'str \| None'" = None)` |
 | `ChartPanelSpec` | class | `nicegui_base.visualization.models` | `(title: "'str'", description: "'str \| None'" = None, kind: "'ChartKind'" = 'line', size: "'ChartSize'" = 'standard', x_axis: "'AxisSpec'" = <factory>, y_axis: "'AxisSpec'" = <factory>, legend: "'LegendPosition'" = 'top', selection: "'SelectionMode'" = 'none', toolbar: "'ChartToolbarSpec'" = <factory>, empty_message: "'str'" = 'No data available', error_message: "'str'" = 'Unable to load visualization', animate: "'bool'" = True, responsive: "'bool'" = True) -> 'None'` |
 | `ChartSelection` | class | `nicegui_base.integrations.nicegui_visualization` | `(panel: '"\'ChartPanel\'"', mode: "'SelectionMode \| None'" = None)` |
 | `ChartSelectionMode` | class | `nicegui_base.visualization.models` | `(*values)` |
@@ -199,7 +200,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ContextWatcher` | constant | `collections.abc` | `` |
 | `ControlChart` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", series: "'Sequence[SeriesSpec]'", description: "'str \| None'" = None, size: "'ChartSize'" = 'standard', x_axis: "'AxisSpec \| None'" = None, y_axis: "'AxisSpec \| None'" = None, thresholds: "'Sequence[ThresholdSpec]'" = (), spec_limits: "'SpecLimits \| None'" = None, **kwargs)` |
 | `ControlChartFamily` | class | `nicegui_base.semiconductor.spc` | `(*values)` |
-| `ControlChartResult` | class | `nicegui_base.semiconductor.spc` | `(family: "'ControlChartFamily'", values: "'tuple[float, ...]'", center: "'tuple[float, ...]'", ucl: "'tuple[float, ...]'", lcl: "'tuple[float, ...]'", secondary_values: "'tuple[float, ...]'" = (), secondary_center: "'tuple[float, ...]'" = (), secondary_ucl: "'tuple[float, ...]'" = (), secondary_lcl: "'tuple[float, ...]'" = (), sigma: "'float \| None'" = None, violations: "'tuple[RuleViolation, ...]'" = (), excluded_indices: "'tuple[int, ...]'" = (), metadata: "'dict'" = <factory>) -> 'None'` |
+| `ControlChartResult` | class | `nicegui_base.semiconductor.spc` | `(family: "'ControlChartFamily'", values: "'tuple[float, ...]'", center: "'tuple[float, ...]'", ucl: "'tuple[float, ...]'", lcl: "'tuple[float, ...]'", secondary_values: "'tuple[float, ...]'" = (), secondary_center: "'tuple[float, ...]'" = (), secondary_ucl: "'tuple[float, ...]'" = (), secondary_lcl: "'tuple[float, ...]'" = (), sigma: "'float \| None'" = None, violations: "'tuple[RuleViolation, ...]'" = (), excluded_indices: "'tuple[int, ...]'" = (), metadata: "'dict'" = <factory>, positive_values: "'tuple[float, ...]'" = (), negative_values: "'tuple[float, ...]'" = ()) -> 'None'` |
 | `ControlLimits` | class | `nicegui_base.engineering.models` | `(lower_control: "'float \| None'" = None, upper_control: "'float \| None'" = None, centerline: "'float \| None'" = None, unit: "'str \| None'" = None) -> 'None'` |
 | `ControlState` | class | `nicegui_base.components.models` | `(*values)` |
 | `ConvenienceDefinition` | class | `nicegui_base.convenience_registry` | `(key: "'str'", category: "'str'", purpose: "'str'", use_when: "'str'") -> 'None'` |
@@ -283,6 +284,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `EditCommitMode` | class | `nicegui_base.data_table.models` | `(*values)` |
 | `EditableTable` | class | `nicegui_base.integrations.nicegui_data_table` | `(rows: "'Sequence[Mapping[str, Any]]'", columns: "'Sequence[TableColumn]'", spec: "'EditableTableSpec \| None'" = None, validate_edit: "'Callable[[Mapping[str, Any], str, Any], str \| None] \| None'" = None, save_edit: "'Callable[[Mapping[str, Any], str, Any], Any] \| None'" = None, **kwargs)` |
 | `EditableTableSpec` | class | `nicegui_base.data_table.models` | `(columns: "'tuple[TableColumn, ...]'", row_key: "'str'" = 'id', title: "'str \| None'" = None, description: "'str \| None'" = None, density: "'TableDensity'" = 'compact', selection: "'SelectionMode'" = 'none', pagination: "'PaginationMode'" = 'client', page_size: "'int'" = 50, page_size_options: "'tuple[int, ...]'" = (25, 50, 100, 250), searchable: "'bool'" = True, column_manager: "'bool'" = True, density_control: "'bool'" = True, export_csv: "'bool'" = True, export_enabled: "'bool'" = True, copy_enabled: "'bool'" = True, refresh_enabled: "'bool'" = True, persist_state: "'bool'" = True, persist_key: "'str \| None'" = None, striped: "'bool'" = False, sticky_header: "'bool'" = True, expandable: "'bool'" = False, master_detail: "'bool'" = False, editable: "'bool'" = True, empty_message: "'str'" = 'No records', error_message: "'str'" = 'Unable to load records', save_mode: "'str'" = 'row', commit_mode: "'EditCommitMode'" = 'optimistic', restore_focus_on_error: "'bool'" = True) -> 'None'` |
+| `EmpiricalCDFChart` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
 | `EmptyState` | class | `nicegui_base.integrations.nicegui_interactions` | `(title: "'str'" = 'No data yet', message: "'str \| None'" = None, action_label: "'str \| None'" = None, compact: "'bool'" = False, on_action: "'Callable[..., Any] \| None'" = None)` |
 | `EngineeringChange` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, affected_entity: "'EntityRef \| None'" = None, effective_at: "'datetime \| None'" = None, change_type: "'str \| None'" = None) -> 'None'` |
 | `EngineeringDefinition` | class | `nicegui_base.engineering.registry` | `(name: "'str'", category: "'str'", purpose: "'str'", when_to_use: "'str'") -> 'None'` |
@@ -335,6 +337,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `FRAMEWORK_REGISTRY_COUNTS` | constant | `builtins` | `` |
 | `FRAMEWORK_VERSION` | constant | `builtins` | `` |
 | `Fab` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>) -> 'None'` |
+| `FaultTreeDiagram` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
 | `FeedbackIntent` | class | `nicegui_base.feedback.models` | `(*values)` |
 | `FieldRole` | class | `nicegui_base.data_sources.models` | `(*values)` |
 | `FieldSpec` | class | `nicegui_base.components.models` | `(label: "'str'", value: "'object \| None'" = None, placeholder: "'str \| None'" = None, description: "'str \| None'" = None, error: "'str \| None'" = None, required: "'bool'" = False, disabled: "'bool'" = False, readonly: "'bool'" = False, size: "'ComponentSize'" = 'medium', width: "'InputWidth'" = 'auto', leading_icon: "'str \| None'" = None, trailing_icon: "'str \| None'" = None) -> 'None'` |
@@ -662,6 +665,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ProviderFixtureResult` | class | `nicegui_base.semiconductor.provider_sdk` | `(fixture: "'ProviderConformanceFixture'", report: "'AdapterConformanceReport'", guidance: "'tuple[ProviderDiagnosticGuidance, ...]'") -> 'None'` |
 | `ProviderQualificationPack` | class | `nicegui_base.certification.semiconductor_orchestrator` | `(provider: "'str'", bundles: "'tuple[SemiconductorTargetEvidenceBundle, ...]'", traceability: "'tuple[EvidenceTraceabilityReport, ...]'", qualification_id: "'str'", source_keys: "'tuple[str, ...]'", superseded_bundles: "'int'" = 0, generated_at: "'str'" = <factory>) -> 'None'` |
 | `ProxyConfig` | class | `nicegui_base.runtime.config` | `(enabled: "'bool'" = False, trusted_proxies: "'tuple[str, ...]'" = ('127.0.0.1', '::1'), root_path: "'str'" = '') -> 'None'` |
+| `QQProbabilityPlot` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
 | `Query` | class | `nicegui_base.data_sources.query` | `(filter: "'FilterExpression \| None'" = None, search: "'str'" = '', search_fields: "'tuple[str, ...]'" = (), projection: "'tuple[str, ...]'" = (), sorts: "'tuple[QuerySort, ...]'" = (), offset: "'int'" = 0, limit: "'int \| None'" = None) -> 'None'` |
 | `QueryResult` | class | `nicegui_base.data_sources.models` | `(rows: "'tuple[dict[str, Any], ...]'", total: "'int'", filtered_total: "'int'", provenance: "'SourceProvenance'", stats: "'QueryStats'") -> 'None'` |
 | `QuerySort` | class | `nicegui_base.data_sources.query` | `(field: "'str'", direction: "'SortDirection'" = 'asc') -> 'None'` |
@@ -704,6 +708,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `RecipeVariantDefinition` | class | `nicegui_base.semiconductor.variants` | `(key: "'str'", recipe_key: "'str'", label: "'str'", description: "'str'", hidden_panels: "'tuple[str, ...]'" = (), panel_order: "'tuple[str, ...]'" = (), panel_layout: "'Mapping[str, PanelLayoutOverride]'" = <factory>, pinned_filters: "'tuple[str, ...]'" = (), field_overrides: "'Mapping[str, str]'" = <factory>, initial_filters: "'Mapping[str, Any]'" = <factory>, metadata: "'Mapping[str, Any]'" = <factory>) -> 'None'` |
 | `RecipeVersion` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, recipe_id: "'str'" = '', version: "'str'" = '') -> 'None'` |
 | `RefreshStatus` | class | `nicegui_base.async_tools.models` | `(last_attempt: "'datetime \| None'" = None, last_success: "'datetime \| None'" = None, last_error: "'str \| None'" = None, refreshing: "'bool'" = False, stale_after_seconds: "'float'" = 300.0) -> 'None'` |
+| `RelationshipGraph` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
 | `ReleaseAuditArchiveFinding` | class | `nicegui_base.certification.semiconductor_release_acceptance` | `(code: "'str'", status: "'ReleaseAuditArchiveStatus'", message: "'str'", remediation: "'str'" = '') -> 'None'` |
 | `ReleaseAuditArchiveStatus` | class | `nicegui_base.certification.semiconductor_release_acceptance` | `(*values)` |
 | `ReleaseAuditArchiveVerification` | class | `nicegui_base.certification.semiconductor_release_acceptance` | `(path: "'str'", sha256: "'str \| None'", status: "'ReleaseAuditArchiveStatus'", audit_id: "'str \| None'" = None, candidate_id: "'str \| None'" = None, entries: "'tuple[str, ...]'" = (), findings: "'tuple[ReleaseAuditArchiveFinding, ...]'" = ()) -> 'None'` |
@@ -720,6 +725,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ResponsiveGrid` | class | `nicegui_base.layouts.primitives` | `(preset: "'GridPreset'" = 'auto')` |
 | `ResponsiveRule` | class | `nicegui_base.layouts.models` | `(phone: "'str'", tablet: "'str'", laptop: "'str'", desktop: "'str'") -> 'None'` |
 | `RetryPolicy` | class | `nicegui_base.performance.runtime` | `(attempts: "'int'" = 3, base_delay_seconds: "'float'" = 0.25, max_delay_seconds: "'float'" = 2.0, jitter: "'float'" = 0.1) -> 'None'` |
+| `RidgePlot` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", series: "'Sequence[SeriesSpec]'", labels: "'Sequence[str]'" = (), description: "'str \| None'" = None, size: "'ChartSize'" = 'standard')` |
 | `RoleDefinition` | class | `nicegui_base.security.authorization` | `(name: "'str'", permissions: "'frozenset[str]'" = frozenset({})) -> 'None'` |
 | `RollbackReadinessFinding` | class | `nicegui_base.certification.semiconductor_stability` | `(code: "'str'", status: "'RollbackReadinessStatus'", message: "'str'", remediation: "'str'" = '') -> 'None'` |
 | `RollbackReadinessPolicy` | class | `nicegui_base.certification.semiconductor_stability` | `(key: "'str'" = 'stable', target_version: "'str'" = '3.0.0', required_artifact_keys: "'tuple[str, ...]'" = ('rollback-plan-validation', 'rollback-artifact-integrity', 'rollback-rehearsal'), require_stable_post_release_evidence: "'bool'" = True) -> 'None'` |
@@ -771,8 +777,10 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `SUSTAINED_OPERATIONS_EVIDENCE_RENEWAL_ADAPTERS` | constant | `builtins` | `` |
 | `SUSTAINED_OPERATIONS_RENEWAL_POLICIES` | constant | `builtins` | `` |
 | `SUSTAINED_OPERATIONS_RENEWAL_POLICY` | constant | `nicegui_base.certification.semiconductor_continuity` | `` |
+| `SankeyDiagram` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
 | `SavedFilterView` | class | `nicegui_base.integrations.nicegui_interactions` | `(views: "'Sequence[SavedFilterViewSpec]'", value: "'str \| None'" = None, on_change: "'Callable[..., Any] \| None'" = None)` |
 | `SavedFilterViewSpec` | class | `nicegui_base.filters.models` | `(key: "'str'", label: "'str'", values: "'Mapping[str, object]'" = <factory>, is_default: "'bool'" = False) -> 'None'` |
+| `ScaleMode` | class | `nicegui_base.visualization.models` | `(*values)` |
 | `ScatterChart` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", series: "'Sequence[SeriesSpec]'", description: "'str \| None'" = None, size: "'ChartSize'" = 'standard', x_axis: "'AxisSpec \| None'" = None, y_axis: "'AxisSpec \| None'" = None, thresholds: "'Sequence[ThresholdSpec]'" = (), spec_limits: "'SpecLimits \| None'" = None, **kwargs)` |
 | `ScrollablePanel` | class | `nicegui_base.layouts.primitives` | `()` |
 | `SearchInput` | class | `nicegui_base.integrations.nicegui_components` | `(label: "'str'" = 'Search', debounce_ms: "'int'" = 250, shortcut: "'str \| None'" = '/', **kwargs)` |
@@ -960,7 +968,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `TableDefinition` | class | `nicegui_base.data_table.registry` | `(key: 'str', public_name: 'str', purpose: 'str', use_when: 'tuple[str, ...]', avoid_when: 'tuple[str, ...]' = ()) -> 'None'` |
 | `TableDensity` | class | `nicegui_base.data_table.models` | `(*values)` |
 | `TableDensitySelector` | class | `nicegui_base.integrations.nicegui_data_table` | `(density: "'TableDensity'" = 'compact', table: '"\'DataTable \| None\'"' = None)` |
-| `TablePreset` | class | `nicegui_base.data_table.models` | `(name: "'str'", visible_columns: "'tuple[str, ...]'" = (), pinned_left: "'tuple[str, ...]'" = (), pinned_right: "'tuple[str, ...]'" = (), density: "'TableDensity'" = 'compact', sorts: "'tuple[SortSpec, ...]'" = (), filters: "'tuple[FilterExpression, ...]'" = ()) -> 'None'` |
+| `TablePreset` | class | `nicegui_base.data_table.models` | `(name: "'str'", visible_columns: "'tuple[str, ...]'" = (), column_order: "'tuple[str, ...]'" = (), column_widths: "'Mapping[str, int]'" = <factory>, pinned_left: "'tuple[str, ...]'" = (), pinned_right: "'tuple[str, ...]'" = (), density: "'TableDensity'" = 'compact', sorts: "'tuple[SortSpec, ...]'" = (), filters: "'tuple[FilterExpression, ...]'" = (), search: "'str'" = '', page: "'int'" = 1, page_size: "'int \| None'" = None, scroll_row_index: "'int'" = 0) -> 'None'` |
 | `TablePresetSelector` | class | `nicegui_base.integrations.nicegui_data_table` | `(presets: "'Sequence[TablePreset]'", table: "'DataTable \| None'" = None, on_select: "'Callable[[TablePreset], Any] \| None'" = None)` |
 | `TableQuery` | class | `nicegui_base.data_table.models` | `(page: "'int'" = 1, page_size: "'int'" = 50, search: "'str'" = '', sorts: "'tuple[SortSpec, ...]'" = (), filters: "'tuple[FilterExpression, ...]'" = ()) -> 'None'` |
 | `TableQueryEngine` | class | `nicegui_base.data_table.engine` | `(rows: "'Iterable[Mapping[str, Any]]'", searchable_columns: "'Sequence[str] \| None'" = None, max_cached_queries: "'int'" = 32, build_search_index: "'bool'" = True)` |
@@ -1027,14 +1035,18 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ValidationSummarySpec` | class | `nicegui_base.forms.models` | `(issues: "'Sequence[ValidationIssue]'", title: "'str'" = 'Please review the highlighted fields') -> 'None'` |
 | `ValidatorConfig` | class | `nicegui_base.ai.validator` | `(exclude_dirs: "'tuple[str, ...]'" = ('.git', '.venv', 'venv', '__pycache__', 'build', 'dist', 'nicegui_base'), page_dirs: "'tuple[str, ...]'" = ('pages', 'views', 'screens'), warnings_as_errors: "'bool'" = False) -> 'None'` |
 | `ViewportProfile` | class | `nicegui_base.design.responsive` | `(key: "'str'", width: "'int'", height: "'int'", tier: "'str'") -> 'None'` |
+| `ViolinPlot` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", distributions: "'Sequence[Sequence[float]]'", labels: "'Sequence[str]'" = (), description: "'str \| None'" = None, size: "'ChartSize'" = 'standard')` |
 | `VisualAuditIssue` | class | `nicegui_base.certification.visual_audit` | `(code: "'str'", message: "'str'", path: "'str \| None'" = None) -> 'None'` |
 | `VisualIntent` | class | `nicegui_base.visualization.semantic` | `(*values)` |
 | `Wafer` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, lot_id: "'str'" = '', slot: "'int \| None'" = None) -> 'None'` |
 | `WaferComparisonMap` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", affected: "'Sequence[WaferPoint]'", control: "'Sequence[WaferPoint]'", description: "'str \| None'" = None, size: "'ChartSize'" = 'standard')` |
-| `WaferMap` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", points: "'Sequence[WaferPoint]'", description: "'str \| None'" = None, size: "'ChartSize'" = 'standard', legend_title: "'str'" = 'Measurement', legend_labels: "'Sequence[str]'" = (), **kwargs)` |
+| `WaferContourPlot` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
+| `WaferMap` | class | `nicegui_base.integrations.nicegui_visualization` | `(title: "'str'", points: "'Sequence[WaferPoint]'", description: "'str \| None'" = None, size: "'ChartSize'" = 'standard', legend_title: "'str'" = 'Measurement', legend_labels: "'Sequence[str]'" = (), scale_mode: "'ScaleMode \| str'" = 'continuous', scale_min: "'float \| None'" = None, scale_max: "'float \| None'" = None, category_key: "'str'" = 'status', **kwargs)` |
 | `WaferPoint` | class | `nicegui_base.visualization.models` | `(x: "'float'", y: "'float'", value: "'float \| int \| None'" = None, die_x: "'int \| None'" = None, die_y: "'int \| None'" = None, status: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>) -> 'None'` |
 | `WaferSample` | class | `nicegui_base.semiconductor.spatial` | `(x: "'float'", y: "'float'", value: "'float \| None'" = None, wafer_id: "'str \| None'" = None, category: "'str \| None'" = None, defect_class: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>) -> 'None'` |
-| `WeibullResult` | class | `nicegui_base.semiconductor.yield_doe` | `(count: "'int'", beta: "'float'", eta: "'float'", r2: "'float'", failures: "'int'", censored: "'int'", method: "'str'" = 'median_rank_regression') -> 'None'` |
+| `WaterfallDiagram` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
+| `WeibullPlot` | function | `nicegui_base.integrations.nicegui_visualization` | `(*args, **kwargs)` |
+| `WeibullResult` | class | `nicegui_base.semiconductor.yield_doe` | `(count: "'int'", beta: "'float'", eta: "'float'", r2: "'float'", failures: "'int'", censored: "'int'", method: "'str'" = 'median_rank_regression', failure_points: "'tuple[tuple[float, float], ...]'" = (), censored_points: "'tuple[tuple[float, float], ...]'" = ()) -> 'None'` |
 | `Well` | class | `nicegui_base.integrations.nicegui_components` | `()` |
 | `WizardPage` | class | `nicegui_base.patterns.pages` | `(title: "'str'", description: "'str \| None'" = None, breadcrumbs: "'tuple[Breadcrumb, ...]'" = ()) -> "'None'"` |
 | `WorkspaceBreakpoint` | class | `nicegui_base.workspace.models` | `(*values)` |

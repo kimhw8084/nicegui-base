@@ -254,28 +254,23 @@ ControlChart("EWMA", (SeriesSpec("ewma", "EWMA statistic", ewma),), y_axis=AxisS
 """,
         'spc_cusum': """from nicegui_base import ControlChart
 
-cusum = (-0.2, -0.1, 0.3, 0.8, 1.2)
-ControlChart("CUSUM", (SeriesSpec("cusum", "Cumulative deviation", cusum),), y_axis=AxisSpec(label="CUSUM statistic"))
+c_plus = (0.0, 0.2, 0.0, 0.4, 0.9)
+c_minus = (0.0, 0.0, -0.3, 0.0, 0.0)
+ControlChart("CUSUM", (SeriesSpec("c_plus", "C+", c_plus), SeriesSpec("c_minus", "C−", c_minus)), y_axis=AxisSpec(label="Cumulative deviation"))
 """,
-        'capability_histogram': """from nicegui_base import Histogram, SpecLimits
+        'capability_histogram': """from nicegui_base import CapabilityHistogram, SpecLimits, capability_histogram
 
 measurements = (39.4, 39.8, 40.0, 40.1, 40.5)
-Histogram(
-    "Capability distribution",
-    (SeriesSpec("count", "Count", (1, 1, 1, 1, 1)),),
-    x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=("39.4", "39.8", "40.0", "40.1", "40.5"), label="Measurement", unit="nm"),
-    y_axis=AxisSpec(label="Count"),
-    spec_limits=SpecLimits(lower=38.5, upper=41.5, target=40.0),
-)
+CapabilityHistogram("Capability distribution", capability_histogram(measurements, bins=4), spec_limits=SpecLimits(lower=38.5, upper=41.5, target=40.0))
 """,
-        'qq_probability': """from nicegui_base import ScatterChart
+        'qq_probability': """from nicegui_base import QQProbabilityPlot
 
 points = ((-1.2, 39.2), (0.0, 40.0), (1.2, 40.8))
-ScatterChart("Normal probability plot", (SeriesSpec("observed", "Observed", points, x_key="x", y_key="y"),), x_axis=AxisSpec(label="Theoretical quantile"), y_axis=AxisSpec(label="Observed measurement", unit="nm"))
+QQProbabilityPlot("Normal probability plot", points)
 """,
         'ecdf': """from nicegui_base import LineChart
 
-points = ((39.2, 0.2), (40.0, 0.6), (40.8, 1.0))
+points = ({"x": 39.2, "y": 0.2}, {"x": 40.0, "y": 0.6}, {"x": 40.8, "y": 1.0})
 LineChart("Empirical cumulative distribution", (SeriesSpec("ecdf", "ECDF", points, x_key="x", y_key="y"),), x_axis=AxisSpec(label="Observed value", unit="nm"), y_axis=AxisSpec(label="Cumulative probability"))
 """,
         'box_distribution': """from nicegui_base import BoxPlot
@@ -283,29 +278,30 @@ LineChart("Empirical cumulative distribution", (SeriesSpec("ecdf", "ECDF", point
 groups = ((39.2, 39.8, 40.0, 40.3, 40.8), (39.7, 40.1, 40.4, 40.7, 41.2))
 BoxPlot("Distribution comparison", (SeriesSpec("groups", "Population quartiles", groups),), x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=("Control", "Affected"), label="Population"), y_axis=AxisSpec(label="Measurement", unit="nm"))
 """,
-        'violin_distribution': """from nicegui_base import LineChart
+        'violin_distribution': """from nicegui_base import ViolinPlot
 
-density = ({"value": 39.2, "density": 0.1}, {"value": 40.0, "density": 0.8}, {"value": 40.8, "density": 0.2})
-LineChart("Violin distribution", (SeriesSpec("density", "Control density", density, x_key="value", y_key="density", smooth=True),), x_axis=AxisSpec(label="Measurement", unit="nm"), y_axis=AxisSpec(label="Density"))
+control = (39.2, 39.8, 40.0, 40.3, 40.8)
+affected = (39.7, 40.1, 40.4, 40.7, 41.2)
+ViolinPlot("Violin distribution", (control, affected), labels=("Control", "Affected"))
 """,
-        'ridge_distribution': """from nicegui_base import LineChart
+        'ridge_distribution': """from nicegui_base import RidgePlot, SeriesSpec
 
-density = ({"value": 39.2, "density": 0.1}, {"value": 40.0, "density": 0.8}, {"value": 40.8, "density": 0.2})
-LineChart("Ridge distribution", (SeriesSpec("density", "Chamber density", density, x_key="value", y_key="density", smooth=True),), x_axis=AxisSpec(label="Measurement", unit="nm"), y_axis=AxisSpec(label="Offset density"))
+RidgePlot("Ridge distribution", (SeriesSpec("ch1", "CH-1", (39.2, 39.8, 40.0, 40.3, 40.8)), SeriesSpec("ch2", "CH-2", (39.7, 40.1, 40.4, 40.7, 41.2))), labels=("CH-1", "CH-2"))
 """,
         'yield_pareto': """from nicegui_base import ParetoChart
 
-ParetoChart("Yield-loss Pareto", ("Scratch", "CD", "Particle"), (42, 28, 16), (0.49, 0.82, 1.0))
+ParetoChart("Yield-loss Pareto", ("Scratch", "CD", "Particle"), (42, 28, 16), (49, 82, 100))
 """,
         'bin_pareto': """from nicegui_base import ParetoChart
 
-ParetoChart("Failing-bin Pareto", ("Bin 12", "Bin 7", "Bin 3"), (42, 28, 16), (0.49, 0.82, 1.0))
+ParetoChart("Failing-bin Pareto", ("Bin 12", "Bin 7", "Bin 3"), (42, 28, 16), (49, 82, 100))
 """,
-        'weibull_reliability': """from nicegui_base import ScatterChart
+        'weibull_reliability': """from nicegui_base import WeibullPlot
 
 failures = ((120.0, 0.12), (180.0, 0.27), (260.0, 0.55))
 censored = ((300.0, 0.55),)
-ScatterChart("Weibull reliability", (SeriesSpec("failures", "Failures", failures, x_key="time", y_key="probability"), SeriesSpec("censored", "Censored", censored, x_key="time", y_key="probability")), x_axis=AxisSpec(label="Exposure time"), y_axis=AxisSpec(label="Cumulative failure probability"))
+fit = ((100.0, 0.08), (200.0, 0.32), (300.0, 0.65))
+WeibullPlot("Weibull reliability", failures, censored, fit, beta=2.1, eta=280.0, r2=0.94)
 """,
         'doe_main_effects': """from nicegui_base import LineChart
 
@@ -322,27 +318,25 @@ Heatmap("DOE response surface", (SeriesSpec("response", "Response", response),),
 """,
     }
     specialized = {
-        'ecdf': """from nicegui_base.integrations.nicegui_visualization import EmpiricalCDFChart
+        'ecdf': """from nicegui_base import EmpiricalCDFChart
 
 points = ((39.2, 0.2), (40.0, 0.6), (40.8, 1.0))
 EmpiricalCDFChart("Empirical cumulative distribution", points)
 """,
-        'violin_distribution': """from nicegui_base import SeriesSpec
-from nicegui_base.integrations.nicegui_visualization import ViolinPlot
+        'violin_distribution': """from nicegui_base import ViolinPlot
 
-ViolinPlot("Violin distribution", (SeriesSpec("control", "Control", (0.2, 0.8, 0.3)),), labels=("Control",))
+ViolinPlot("Violin distribution", ((39.2, 39.8, 40.0, 40.3, 40.8),), labels=("Control",))
 """,
-        'ridge_distribution': """from nicegui_base import SeriesSpec
-from nicegui_base.integrations.nicegui_visualization import RidgePlot
+        'ridge_distribution': """from nicegui_base import RidgePlot, SeriesSpec
 
-RidgePlot("Ridge distribution", (SeriesSpec("chamber", "Chamber", (0.2, 0.8, 0.3)),), labels=("Low", "Center", "High"))
+RidgePlot("Ridge distribution", (SeriesSpec("chamber", "Chamber", (39.2, 39.8, 40.0, 40.3, 40.8)),), labels=("Low", "Center", "High"))
 """,
-        'wafer_contour': """from nicegui_base.integrations.nicegui_visualization import WaferContourPlot
+        'wafer_contour': """from nicegui_base import WaferContourPlot, WaferPoint
 
-WaferContourPlot("Wafer contour", (39.2, 39.8, 40.0, 40.8, 41.2))
+points = tuple(WaferPoint(x, y, value) for x, y, value in ((-1, -1, 39.2), (0, -1, 39.8), (1, -1, 40.0), (-1, 0, 40.8), (0, 0, 41.2), (1, 0, 40.5)))
+WaferContourPlot("Wafer contour", points)
 """,
-        'wafer_comparison': """from nicegui_base import WaferPoint
-from nicegui_base.integrations.nicegui_visualization import WaferComparisonMap
+        'wafer_comparison': """from nicegui_base import WaferPoint, WaferComparisonMap
 
 affected = (WaferPoint(0, 0, 40.2), WaferPoint(1, 0, 40.4))
 control = (WaferPoint(0, 0, 40.0), WaferPoint(1, 0, 40.1))
@@ -352,44 +346,44 @@ WaferComparisonMap("Affected vs control wafer", affected, control)
 
 RadialProfilePlot("Wafer radial profile", (40.0, 40.2, 40.4), (39.9, 40.0, 40.1), unit="nm")
 """,
-        'fdc_chamber_fingerprint': """from nicegui_base.integrations.nicegui_visualization import ChamberFingerprintMatrix
+        'fdc_chamber_fingerprint': """from nicegui_base import ChamberFingerprintMatrix
 
 ChamberFingerprintMatrix("Chamber fingerprint", ("ETCH-03/A", "ETCH-07/B"), ("Slope", "Noise"), ((0.2, -0.1), (0.7, 0.4)))
 """,
-        'fdc_sensor_fingerprint': """from nicegui_base.integrations.nicegui_visualization import ChamberFingerprintMatrix
+        'fdc_sensor_fingerprint': """from nicegui_base import ChamberFingerprintMatrix
 
 ChamberFingerprintMatrix("Sensor fingerprint", ("Pressure", "RF bias"), ("Slope", "Noise"), ((0.2, -0.1), (0.7, 0.4)))
 """,
-        'rca_commonality_matrix': """from nicegui_base.integrations.nicegui_visualization import CommonalityMatrix
+        'rca_commonality_matrix': """from nicegui_base import CommonalityMatrix
 
 CommonalityMatrix("Commonality matrix", ("CH-3", "Recipe R18"), ("Affected", "Control"), ((0.94, 0.18), (0.88, 0.31)))
 """,
-        'rca_evidence_matrix': """from nicegui_base.integrations.nicegui_visualization import CommonalityMatrix
+        'rca_evidence_matrix': """from nicegui_base import CommonalityMatrix
 
 CommonalityMatrix("Evidence matrix", ("CH-3 drift", "Recipe mismatch"), ("Supports", "Contradicts"), ((0.90, 0.0), (0.0, 0.61)))
 """,
-        'rca_sankey': """from nicegui_base.integrations.nicegui_visualization import SankeyDiagram
+        'rca_sankey': """from nicegui_base import SankeyDiagram
 
 SankeyDiagram("Process flow", ("Lot", "Wafer", "Chamber", "Review"), (("Lot", "Wafer", 48), ("Wafer", "Chamber", 48), ("Chamber", "Review", 48)))
 """,
-        'rca_genealogy_graph': """from nicegui_base.integrations.nicegui_visualization import RelationshipGraph
+        'rca_genealogy_graph': """from nicegui_base import RelationshipGraph
 
 nodes = (("lot", "LOT-2471", 0, 0), ("wafer", "W08", 1, 0), ("tool", "ETCH-021", 2, 0))
 RelationshipGraph("Lot genealogy", nodes, (("lot", "wafer"), ("wafer", "tool")))
 """,
-        'rca_cause_tree': """from nicegui_base.integrations.nicegui_visualization import FaultTreeDiagram
+        'rca_cause_tree': """from nicegui_base import FaultTreeDiagram
 
 FaultTreeDiagram("Cause tree", {"name": "CD excursion", "children": ({"name": "Equipment"}, {"name": "Process"})}, renderer_type="cause_tree")
 """,
-        'rca_fault_tree': """from nicegui_base.integrations.nicegui_visualization import FaultTreeDiagram
+        'rca_fault_tree': """from nicegui_base import FaultTreeDiagram
 
 FaultTreeDiagram("Fault tree", {"name": "OOS event", "children": ({"name": "OR", "gate": "OR", "children": ({"name": "Pressure"}, {"name": "RF"})},)})
 """,
-        'rca_contribution_waterfall': """from nicegui_base.integrations.nicegui_visualization import WaterfallDiagram
+        'rca_contribution_waterfall': """from nicegui_base import WaterfallDiagram
 
 WaterfallDiagram("Contribution waterfall", ("CH-3", "Recipe", "PM age"), (2.2, -0.4, 1.1))
 """,
-        'yield_waterfall': """from nicegui_base.integrations.nicegui_visualization import WaterfallDiagram
+        'yield_waterfall': """from nicegui_base import WaterfallDiagram
 
 WaterfallDiagram("Yield waterfall", ("Scratch", "CD", "Recovery"), (-0.04, -0.02, 0.01))
 """,
@@ -407,7 +401,7 @@ points = tuple(WaferPoint(x, y, value, metadata={"wafer": "W08"}) for x, y, valu
 WaferMap("Wafer signature", points, legend_title="Measurement", description="Clipped die-level spatial response.")
 """
     if surface_key in {'fdc_chamber_fingerprint', 'fdc_sensor_fingerprint', 'rca_commonality_matrix', 'rca_evidence_matrix', 'rca_correlation_matrix', 'doe_response_surface'}:
-        return """from nicegui_base import Heatmap
+        return """from nicegui_base import AxisSpec, AxisType, Heatmap, SeriesSpec
 
 cells = ((0, 0, 0.82), (1, 0, 0.31), (0, 1, -0.44), (1, 1, 0.61))
 Heatmap("Governed matrix", (SeriesSpec("matrix", "Score", cells),), x_axis=AxisSpec(kind=AxisType.CATEGORY, categories=("A", "B"), label="Column"), y_axis=AxisSpec(kind=AxisType.CATEGORY, categories=("A", "B"), label="Row"))

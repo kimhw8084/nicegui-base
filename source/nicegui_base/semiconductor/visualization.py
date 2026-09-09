@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
+from statistics import fmean, stdev
 
 from nicegui_base.visualization import (
     AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec,
@@ -24,12 +25,10 @@ class SemiconductorVisualPlan:
 def control_chart_visual(result:ControlChartResult, *, title:str='SPC control chart', labels:Sequence[str]|None=None, lsl:float|None=None, usl:float|None=None, target:float|None=None, event_overlays:Sequence[tuple[int,str]] = (), limit_version:str|None=None, baseline_period:str|None=None)->SemiconductorVisualPlan:
     n=len(result.values); categories=tuple(labels) if labels is not None else tuple(str(i+1) for i in range(n))
     if len(categories)!=n: raise ValueError('control-chart labels must match values')
-    series=(
-        SeriesSpec('value','Value',result.values,kind=ChartKind.CONTROL,line_style=LineStyle.SOLID),
-        SeriesSpec('ucl','UCL',result.ucl,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='danger'),
-        SeriesSpec('center','Center',result.center,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='neutral'),
-        SeriesSpec('lcl','LCL',result.lcl,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='danger'),
-    )
+    if result.family.value == 'cusum' and result.c_plus and result.c_minus:
+        series=(SeriesSpec('c_plus','C+',result.c_plus,kind=ChartKind.CONTROL,line_style=LineStyle.SOLID,semantic_color='danger'),SeriesSpec('c_minus','C−',result.c_minus,kind=ChartKind.CONTROL,line_style=LineStyle.SOLID,semantic_color='info'),SeriesSpec('center','Center',result.center,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='neutral'),SeriesSpec('positive_limit','Positive decision limit',result.ucl,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='danger'),SeriesSpec('negative_limit','Negative decision limit',result.lcl,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='danger'))
+    else:
+        series=(SeriesSpec('value','Value',result.values,kind=ChartKind.CONTROL,line_style=LineStyle.SOLID),SeriesSpec('ucl','UCL',result.ucl,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='danger'),SeriesSpec('center','Center',result.center,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='neutral'),SeriesSpec('lcl','LCL',result.lcl,kind=ChartKind.CONTROL,line_style=LineStyle.DASHED,semantic_color='danger'))
     annotations=[ChartAnnotation(i,label,intent=AnnotationIntent.INFO) for i,label in event_overlays]
     for violation in result.violations:
         for idx in violation.indices[:1]:
@@ -52,16 +51,20 @@ def affected_control_visual(affected:Sequence[float],control:Sequence[float], *,
 
 def capability_histogram_visual(values:Sequence[float], *, title:str='Capability distribution', bins:int=20, lsl:float|None=None, usl:float|None=None, target:float|None=None)->SemiconductorVisualPlan:
     histogram=capability_histogram(values,bins)
-    categories=tuple(f'{lo:g}–{hi:g}' for lo,hi,_ in histogram)
-    counts=tuple(count for _,_,count in histogram)
-    spec=ChartPanelSpec(title=title,kind=ChartKind.HISTOGRAM,x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=categories),y_axis=AxisSpec(label='Count',kind=AxisType.VALUE),legend=LegendPosition.HIDDEN)
+    # Histogram bars use numeric bin centers. This keeps specification markers
+    # in the same coordinate system as the measurement axis.
+    points=tuple({'measurement': (lo + hi) / 2 if hi != lo else lo, 'count': count, 'start': lo, 'end': hi} for lo,hi,count in histogram)
+    spec=ChartPanelSpec(title=title,kind=ChartKind.HISTOGRAM,x_axis=AxisSpec(label='Measurement',unit='nm',kind=AxisType.VALUE),y_axis=AxisSpec(label='Count',kind=AxisType.VALUE),legend=LegendPosition.HIDDEN)
     limits=SpecLimits(lsl,usl,target) if any(v is not None for v in (lsl,usl,target)) else None
-    return SemiconductorVisualPlan(spec,(SeriesSpec('count','Count',counts,kind=ChartKind.HISTOGRAM),),spec_limits=limits,metadata={'bins':bins,'distribution':'histogram'})
+    return SemiconductorVisualPlan(spec,(SeriesSpec('count','Count',points,kind=ChartKind.HISTOGRAM,x_key='measurement',y_key='count'),),spec_limits=limits,metadata={'bins':bins,'distribution':'histogram','numeric_x':True})
 
 def qq_probability_visual(values:Sequence[float], *, title:str='Normal probability plot')->SemiconductorVisualPlan:
     points=tuple({'theoretical':x,'observed':y} for x,y in qq_points(values))
+    observed=tuple(point['observed'] for point in points)
+    mean=fmean(observed); sigma=stdev(observed) if len(observed)>1 else 1.0
+    reference=tuple({'theoretical':point['theoretical'],'observed':mean + sigma * point['theoretical']} for point in points)
     spec=ChartPanelSpec(title=title,kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed value',kind=AxisType.VALUE),selection=SelectionMode.BRUSH)
-    return SemiconductorVisualPlan(spec,(SeriesSpec('qq','Observed',points,kind=ChartKind.SCATTER,x_key='theoretical',y_key='observed'),),metadata={'distribution':'qq'})
+    return SemiconductorVisualPlan(spec,(SeriesSpec('qq','Observed',points,kind=ChartKind.SCATTER,x_key='theoretical',y_key='observed'),SeriesSpec('reference','Expected reference',reference,kind=ChartKind.LINE,x_key='theoretical',y_key='observed',marker=__import__('nicegui_base.visualization',fromlist=['MarkerShape']).MarkerShape.NONE,line_style=LineStyle.DASHED,semantic_color='neutral')),metadata={'distribution':'qq','reference':'location-scale fitted line'})
 
 def ecdf_visual(values:Sequence[float], *, title:str='Empirical cumulative distribution')->SemiconductorVisualPlan:
     points=tuple({'value':x,'probability':p} for x,p in ecdf(values))
