@@ -4,6 +4,7 @@ import asyncio
 import html
 import inspect
 import json
+import math
 import time
 import weakref
 from contextlib import AbstractContextManager
@@ -11,9 +12,10 @@ from dataclasses import replace
 from typing import Any, Callable, Mapping, Sequence
 
 from nicegui_base.data_table import (
-    BulkAction, ColumnKind, ConditionalRule, DataTableSpec, EditCommitMode, EditableTableSpec, FilterExpression, FilterGroup, FilterLogic, FilterOperator, FilterSpec,
+    ActionState, BulkAction, ColumnKind, ConditionalRule, DataTableSpec, EditCommitMode, EditableTableSpec, ExportDisabledError, FilterExpression, FilterGroup, FilterLogic, FilterOperator, FilterSpec,
     PinPosition, RowAction, SelectionMode, ServerDataTableSpec, SortDirection, SortSpec, TableColumn, TableViewSnapshot,
     TableDensity, TablePreset, TableQuery, TableResult, TableState,
+    resolve_bulk_action_state, resolve_row_action_state,
 )
 from nicegui_base.data_table.engine import TableQueryEngine, export_csv as _export_csv_text
 from nicegui_base.async_tools import LatestRequestController
@@ -387,10 +389,14 @@ def _column_def(c: TableColumn) -> dict[str, Any]:
         editor_kind = editor['kind']
         if editor_kind == 'number':
             d['cellEditor'] = 'agNumberCellEditor'
-            params = {key: editor[key] for key in ('minimum', 'maximum', 'step') if editor[key] is not None}
+            params = {'min': editor['minimum'], 'max': editor['maximum'], 'step': editor['step']}
+            params = {key: value for key, value in params.items() if value is not None}
             if params:
                 d['cellEditorParams'] = params
-            d[':valueParser'] = 'params => { const value=Number(params.newValue); return Number.isFinite(value) ? value : params.oldValue; }'
+            if c.kind is ColumnKind.INTEGER:
+                d[':valueParser'] = 'params => { const value=Number(params.newValue); return Number.isInteger(value) ? value : params.oldValue; }'
+            else:
+                d[':valueParser'] = 'params => { const value=Number(params.newValue); return Number.isFinite(value) ? value : params.oldValue; }'
         elif editor_kind == 'select':
             d['cellEditor'] = 'agSelectCellEditor'
             d['cellEditorParams'] = {'values': list(editor['choices'])}
@@ -400,10 +406,9 @@ def _column_def(c: TableColumn) -> dict[str, Any]:
             d[':valueParser'] = "params => params.newValue === true || params.newValue === 'true'"
         elif editor_kind in {'date', 'datetime'}:
             d['cellEditor'] = 'agDateStringCellEditor'
+            d['cellEditorParams'] = {'includeTime': editor_kind == 'datetime'}
         else:
             d['cellEditor'] = 'agTextCellEditor'
-        if editor.get('placeholder'):
-            d.setdefault('cellEditorParams', {})['placeholder'] = editor['placeholder']
     return d
 
 
@@ -447,6 +452,22 @@ class TableToolbar:
                     button=ui.button(on_click=do_refresh).props('flat no-caps aria-label="Refresh table"').classes('cui-table-tool-button')
                     with button: _icon(ui,'refresh',size='xs'); ui.label('Refresh')
         return self.element
+
+    async def clear_search_input(self) -> None:
+        """Clear the native search control after a canonical table reset."""
+        if self.search_input is None:
+            return
+        try:
+            await _ui().run_javascript(
+                f"(() => {{ const root=getElement({int(self.search_input.id)}); if (root) {{ root.value=''; root.dispatchEvent(new Event('input', {{bubbles:true}})); }} }})()"
+            )
+        except Exception:
+            # Static/FakeUI construction has no browser DOM; the next render still
+            # receives the empty value from the table state.
+            try:
+                self.search_input.props('value=""')
+            except Exception:
+                return
 
 
 class TableDensitySelector:
@@ -521,15 +542,20 @@ class TableColumnManager:
 
 class TableSelectionBar:
     def __init__(self, actions: Sequence[BulkAction]=(), *, table: 'DataTable | None'=None):
-        self.actions=tuple(actions); self.table=table; self.element=None; self.count_label=None
+        self.actions=tuple(actions); self.table=table; self.element=None; self.count_label=None; self.buttons: dict[str, Any] = {}
         if table is not None:
             ui=_ui()
             with ui.element('div').classes('cui-table-selection-bar') as self.element:
                 self.count_label=ui.label('0 selected').classes('cui-table-selection-count')
                 for action in self.actions:
                     async def run(e=None, a=action):
-                        rows=await table.selected_rows(); await _invoke(a.on_action, rows)
+                        rows=await table.selected_rows()
+                        policy = resolve_bulk_action_state(a, rows)
+                        if not policy.visible or not policy.enabled:
+                            return
+                        await _invoke(a.on_action, rows)
                     btn=ui.button(on_click=run).props('flat dense no-caps').classes(f'cui-button cui-button--{action.intent} cui-control--small')
+                    self.buttons[action.key] = btn
                     with btn:
                         if action.icon: _icon(ui,action.icon,size='xs')
                         ui.label(action.label)
@@ -539,11 +565,30 @@ class TableSelectionBar:
                 with clear: _icon(ui,'close',label='Clear selection')
             self.element.set_visibility(False)
 
-    def update_count(self, count:int) -> None:
+    def update_count(self, count:int, rows: Sequence[Mapping[str, Any]] = ()) -> None:
         if self.count_label is not None:
             self.count_label.set_text(f'{count} selected')
         if self.element is not None:
             self.element.set_visibility(count>0)
+        for action in self.actions:
+            policy = resolve_bulk_action_state(action, rows)
+            button = self.buttons.get(action.key)
+            if button is None:
+                continue
+            button.set_visibility(policy.visible)
+            if policy.enabled:
+                enable = getattr(button, 'enable', None)
+                if callable(enable):
+                    enable()
+            else:
+                disable = getattr(button, 'disable', None)
+                if callable(disable):
+                    disable()
+            try:
+                reason = policy.disabled_reason or ''
+                button.props(f'aria-disabled="{str(not policy.enabled).lower()}" title="{html.escape(reason, quote=True)}"')
+            except Exception:
+                return
 
 
 class TableRowActions:
@@ -553,21 +598,45 @@ class TableRowActions:
 class TableContextMenu(TableRowActions):
     """Executable row context menu for DataTable records."""
     def __init__(self, actions: Sequence[RowAction]=()):
-        super().__init__(actions); self.row: Mapping[str,Any] | None=None; self.menu=None
+        super().__init__(actions); self.row: Mapping[str,Any] | None=None; self.menu=None; self.buttons: dict[str, Any] = {}
         if actions:
             ui=_ui(); self.menu=ui.context_menu().classes('cui-menu cui-table-context-menu')
             with self.menu:
                 for action in self.actions:
                     async def run(e=None, a=action):
-                        if self.row is not None: await _invoke(a.on_action,self.row)
+                        if self.row is not None:
+                            policy = resolve_row_action_state(a, self.row)
+                            if policy.visible and policy.enabled:
+                                await _invoke(a.on_action,self.row)
                         self.menu.close()
-                    with ui.button(on_click=run).props('flat dense no-caps').classes(f'cui-menu-item cui-menu-item--{action.intent}'):
+                    button = ui.button(on_click=run).props('flat dense no-caps').classes(f'cui-menu-item cui-menu-item--{action.intent}')
+                    self.buttons[action.key] = button
+                    with button:
                         if action.icon: _icon(ui,action.icon,size='xs')
                         ui.label(action.label)
     def open_for(self,row:Mapping[str,Any]):
         # ui.context_menu is opened client-side at the actual pointer position;
         # the AG Grid event only supplies the row payload used by its actions.
         self.row=row
+        for action in self.actions:
+            policy = resolve_row_action_state(action, row)
+            button = self.buttons.get(action.key)
+            if button is None:
+                continue
+            button.set_visibility(policy.visible)
+            if policy.enabled:
+                enable = getattr(button, 'enable', None)
+                if callable(enable):
+                    enable()
+            else:
+                disable = getattr(button, 'disable', None)
+                if callable(disable):
+                    disable()
+            try:
+                reason = policy.disabled_reason or ''
+                button.props(f'aria-disabled="{str(not policy.enabled).lower()}" title="{html.escape(reason, quote=True)}"')
+            except Exception:
+                pass
 
 
 
@@ -608,6 +677,8 @@ class DataTable:
         else:
             self.state = TableState.from_persisted(None, spec.columns, default_density=spec.density, default_page_size=spec.page_size)
         self.spec=spec; self.bulk_actions=tuple(bulk_actions); self.row_actions=tuple(row_actions)
+        self._preset_selector: TablePresetSelector | None = None
+        self._active_view_name = 'Default'
         self.rows=list(rows or []); self._selected_rows_cache: tuple[dict[str, Any], ...] = (); self._selection_restore_until = 0.0; self._selection_restore_pending = False; self.on_select=on_select; self.on_view_changed=on_view_changed; self.on_refresh=on_refresh; self.search=self.state.search; self.displayed_count=len(self.rows)
         self._persist_task: asyncio.Task[None] | None = None
         self._lifecycle = LifecycleScope()
@@ -633,11 +704,25 @@ class DataTable:
                 icon_html=render_icon_svg(action.icon or 'more', size='xs', label=None)
                 safe_label=html.escape(action.label, quote=True)
                 action_html=f'<span class="cui-table-row-action" role="button" aria-label="{safe_label}"><span class="cui-table-row-action__icon">{icon_html}</span><span>{safe_label}</span></span>'
+                disabled_html=f'<span class="cui-table-row-action is-disabled" role="button" aria-label="{safe_label}" aria-disabled="true"><span class="cui-table-row-action__icon">{icon_html}</span><span>{safe_label}</span></span>'
+                action_states = {}
+                for row in self.rows:
+                    resolved = resolve_row_action_state(action, row)
+                    action_states[str(row.get(spec.row_key))] = {
+                        'visible': resolved.visible,
+                        'enabled': resolved.enabled,
+                        'reason': resolved.disabled_reason or '',
+                    }
+                renderer = (
+                    f"params => {{ const state={_js_literal(action_states)}[String(params.data?.[{_js_literal(spec.row_key)}])] || {{visible:true,enabled:true,reason:''}}; "
+                    f"if (!state.visible) return ''; const html=state.enabled ? {_js_literal(action_html)} : {_js_literal(disabled_html)}; "
+                    "return html.replace('aria-disabled=\"true\"', `aria-disabled=\"${state.enabled ? 'false' : 'true'}\" title=\"${String(state.reason || '').replace(/\"/g, '&quot;')}\"`); }"
+                )
                 col_defs.append({
                     'colId': f'__action_{action.key}', 'headerName':'', 'sortable':False, 'filter':False,
                     'resizable':False, 'width': max(72, min(124, len(action.label)*8+42)), 'pinned':'right',
                     'suppressHeaderMenuButton':True, 'suppressMovable':True,
-                    'cellClass':'cui-table-action-cell', ':cellRenderer': f"() => {_js_literal(action_html)}",
+                    'cellClass':'cui-table-action-cell', ':cellRenderer': renderer,
                 })
             row_selection = None
             if spec.selection is SelectionMode.MULTIPLE: row_selection={'mode':'multiRow'}
@@ -820,13 +905,13 @@ class DataTable:
         if self._selection_restore_pending:
             if not rows:
                 self.state.selected_keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
-                if self.selection_bar: self.selection_bar.update_count(len(self._selected_rows_cache))
+                if self.selection_bar: self.selection_bar.update_count(len(self._selected_rows_cache), self._selected_rows_cache)
                 return
             if not self._suppress_callbacks:
                 self._selection_restore_pending = False
         if time.monotonic() < self._selection_restore_until and self._selected_rows_cache:
             self.state.selected_keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
-            if self.selection_bar: self.selection_bar.update_count(len(self._selected_rows_cache))
+            if self.selection_bar: self.selection_bar.update_count(len(self._selected_rows_cache), self._selected_rows_cache)
             return
         current_keys={row.get(self.spec.row_key) for row in self.rows}
         selected_now={row.get(self.spec.row_key) for row in rows}
@@ -839,7 +924,7 @@ class DataTable:
             self.state.selected_keys=set(selected_now)
         if not self._suppress_callbacks:
             self._selected_rows_cache = tuple(dict(row) for row in rows)
-        if self.selection_bar: self.selection_bar.update_count(len(rows))
+        if self.selection_bar: self.selection_bar.update_count(len(rows), rows)
         if self._suppress_callbacks:
             return
         if not self._restoring_state:
@@ -854,7 +939,10 @@ class DataTable:
         if not col or not str(col).startswith('__action_'): return
         key=str(col)[len('__action_'):]; row=args.get('data') or {}
         action=next((a for a in self.row_actions if a.key==key),None)
-        if action: await _invoke(action.on_action,row)
+        if action:
+            policy = resolve_row_action_state(action, row)
+            if policy.visible and policy.enabled:
+                await _invoke(action.on_action,row)
 
     async def _handle_context_menu(self,event):
         if not self.context_menu:return
@@ -881,7 +969,8 @@ class DataTable:
         """Keep the governed action surface visible after in-place row updates."""
         if self.selection_bar is not None:
             keys = {row.get(self.spec.row_key) for row in self._selected_rows_cache}
-            self.selection_bar.update_count(len(keys or self.state.selected_keys))
+            selected = tuple(row for row in self.rows if row.get(self.spec.row_key) in (keys or self.state.selected_keys))
+            self.selection_bar.update_count(len(selected), selected)
 
     async def deselect_all(self):
         self.state.selected_keys.clear()
@@ -892,13 +981,15 @@ class DataTable:
         return result
     async def select_all(self): return await self.element.run_grid_method('selectAll')
     async def auto_size_columns(self): return await self.element.run_grid_method('autoSizeAllColumns')
-    async def export(self, filename: str='table.csv'):
+    async def export(self, filename: str='table.csv', *, rows: Sequence[Mapping[str, Any]] | None = None):
         """Export currently loaded rows through NiceGUI Base's hardened CSV serializer.
 
         This deliberately avoids AG Grid's direct CSV export because that path
         bypasses spreadsheet-formula injection protection.
         """
-        csv_text = _export_csv_text(self.rows, self.spec.columns)
+        if not self.spec.export_enabled:
+            raise ExportDisabledError('Table export is disabled by the table permission contract.')
+        csv_text = _export_csv_text(self.rows if rows is None else rows, self.spec.columns)
         result = _ui().download(csv_text.encode('utf-8-sig'), filename=filename, media_type='text/csv')
         if inspect.isawaitable(result):
             return await result
@@ -962,10 +1053,11 @@ class DataTable:
             'applyOrder': False,
         })
         self.state.sorts.clear()
+        await self._sync_displayed_count()
         self._schedule_persist_state()
 
     async def reset_layout(self):
-        """Restore visibility, order, widths and pinning from the declared spec."""
+        """Restore every live control to the immutable declared table defaults."""
         declared = self.default_spec
         state = []
         for index, column in enumerate(declared.columns):
@@ -985,12 +1077,28 @@ class DataTable:
         self.state = TableState.from_persisted(None, declared.columns, default_density=declared.density, default_page_size=declared.page_size)
         await self.element.run_grid_method('setGridOption', 'quickFilterText', '')
         await self.element.run_grid_method('setGridOption', 'paginationPageSize', declared.page_size)
+        await self.element.run_grid_method('setGridOption', 'rowHeight', _DENSITY_ROWS[declared.density.value])
+        await self.element.run_grid_method('setGridOption', 'headerHeight', _DENSITY_ROWS[declared.density.value] + 2)
+        await self.element.run_grid_method('resetRowHeights')
+        await self.element.run_grid_method('refreshHeader')
+        if declared.pagination.value == 'client':
+            await self.element.run_grid_method('paginationGoToFirstPage')
+        self.state.selected_keys.clear()
+        self._selected_rows_cache = ()
+        self._selection_restore_pending = False
+        await self.element.run_grid_method('deselectAll')
+        self._sync_selection_bar()
+        if self.toolbar is not None:
+            await self.toolbar.clear_search_input()
+        self.element.classes(remove='cui-data-table--dense cui-data-table--comfortable cui-data-table--compact', add=f'cui-data-table--{declared.density.value}')
         if self.toolbar is not None:
             if self.toolbar.density_selector is not None:
                 self.toolbar.density_selector.set_value(declared.density)
             if self.toolbar.column_manager is not None:
                 for column in declared.columns:
                     self.toolbar.column_manager.set_visible(column.key, column.visible)
+        if self._preset_selector is not None:
+            self._preset_selector.reset()
         await self._sync_displayed_count()
         await self.persist_state()
 
@@ -1101,13 +1209,21 @@ class DataTable:
             self._selection_restore_pending = True
         self._suppress_callbacks = True
         try:
-            # AG Grid's ``applyTransaction`` returns RowNode objects. NiceGUI
-            # would try to serialize that circular result over the websocket
-            # when the method is awaited, so the framework-owned normalized
-            # contract uses the equivalent row-data update in place. It keeps
-            # the mounted grid, column state and scroll geometry intact while
-            # never exposing raw AG Grid transaction objects to applications.
-            await self.element.run_grid_method('setGridOption', 'rowData', self.rows)
+            # AG Grid's ``applyTransaction`` returns circular RowNode objects.
+            # Dispatch the framework-owned transaction without awaiting that
+            # result, then await a harmless refresh command to preserve command
+            # ordering. This keeps existing RowNodes/action renderers alive
+            # after add/remove operations instead of replacing rowData and
+            # leaving row-action callbacks detached from the live grid.
+            transaction: dict[str, list[dict[str, Any]]] = {}
+            if update_rows:
+                transaction['update'] = update_rows
+            if add_rows:
+                transaction['add'] = add_rows
+            if remove_set:
+                transaction['remove'] = [current[key] for key in remove_set if key in current]
+            self.element.run_grid_method('applyTransaction', transaction)
+            await self.element.run_grid_method('refreshCells', {'force': False})
             await self.element.run_grid_method('deselectAll')
             self.state.selected_keys = preserved_selection
             self._selected_rows_cache = tuple(dict(row) for row in self.rows if row.get(key_name) in preserved_selection)
@@ -1222,6 +1338,72 @@ class DataTable:
             self.preferences.save_table_state(self.spec.persist_key,state.to_persisted(self.spec.columns))
         return state
 
+    def _saved_view_key(self, name: str) -> str:
+        clean = str(name).strip()
+        if not clean:
+            raise ValueError('saved view name is required')
+        if not self.spec.persist_key:
+            raise ValueError('saved views require a persist_key')
+        return f'{self.spec.persist_key}::view::{clean}'
+
+    def saved_view_names(self) -> tuple[str, ...]:
+        if self.preferences is None or not self.spec.persist_key:
+            return ()
+        prefix = f'{self.spec.persist_key}::view::'
+        return tuple(sorted(key[len(prefix):] for key in self.preferences.load().filter_views if key.startswith(prefix)))
+
+    async def save_named_view(self, name: str) -> str:
+        """Persist a complete named table view through the governed preference service."""
+        if self.preferences is None:
+            raise RuntimeError('Named table views require a user preference service.')
+        state = await self.capture_state()
+        clean = str(name).strip()
+        key = self._saved_view_key(clean)
+        self.preferences.save_filter_view(key, {'name': clean, 'state': state.to_persisted(self.spec.columns)})
+        self._active_view_name = clean
+        if self._preset_selector is not None:
+            self._preset_selector.set_active_label(clean)
+        return clean
+
+    async def apply_named_view(self, name: str) -> None:
+        if self.preferences is None:
+            raise RuntimeError('Named table views require a user preference service.')
+        payload = self.preferences.load().filter_views.get(self._saved_view_key(name))
+        if not isinstance(payload, Mapping) or not isinstance(payload.get('state'), Mapping):
+            raise KeyError(name)
+        target = TableState.from_persisted(payload['state'], self.default_spec.columns, default_density=self.default_spec.density, default_page_size=self.default_spec.page_size)
+        self.spec = _stateful_table_spec(self.default_spec, target)
+        state = []
+        sort_map = {item.key: (item.direction.value, index) for index, item in enumerate(target.sorts)}
+        for index, column in enumerate(self.default_spec.columns):
+            state.append({
+                'colId': column.key,
+                'hide': column.key not in target.visible_columns,
+                'pinned': 'left' if column.key in target.pinned_left else 'right' if column.key in target.pinned_right else None,
+                'width': target.column_widths.get(column.key, column.width),
+                'sort': sort_map.get(column.key, (None, None))[0],
+                'sortIndex': sort_map.get(column.key, (None, None))[1],
+            })
+        await self.element.run_grid_method('applyColumnState', {'state': state, 'applyOrder': True})
+        self.state = target
+        await self.set_density(target.density)
+        self.search = target.search
+        await self.element.run_grid_method('setGridOption', 'quickFilterText', self.search)
+        await self.element.run_grid_method('setGridOption', 'paginationPageSize', target.page_size)
+        await self.element.run_grid_method('setFilterModel', _filter_model_from_specs(target.filters))
+        await self._sync_displayed_count()
+        self._active_view_name = str(name).strip()
+        if self._preset_selector is not None:
+            self._preset_selector.set_active_label(self._active_view_name)
+        await self.persist_state()
+
+    def delete_named_view(self, name: str) -> None:
+        if self.preferences is None:
+            raise RuntimeError('Named table views require a user preference service.')
+        self.preferences.delete_filter_view(self._saved_view_key(name))
+        if self._active_view_name == str(name).strip():
+            self._active_view_name = 'Default'
+
     async def _restore_selection(self) -> None:
         if self.spec.selection is SelectionMode.NONE or not self.state.selected_keys:
             return
@@ -1325,6 +1507,8 @@ class ServerDataTable(DataTable):
             with prev: _icon(ui,'arrow-left',label='Previous page')
             nxt=ui.button(on_click=self.next_page).props('flat round aria-label="Next page"').classes('cui-icon-button')
             with nxt: _icon(ui,'arrow-right',label='Next page')
+            last=ui.button(on_click=self.last_page).props('flat round aria-label="Last page"').classes('cui-icon-button')
+            with last: _icon(ui,'arrow-right',label='Last page')
         _schedule_scope_task(
             self._lifecycle,
             _deferred_lifecycle_call(self.refresh),
@@ -1374,6 +1558,10 @@ class ServerDataTable(DataTable):
     async def next_page(self):
         pages=max(1,(self.total+self.query.page_size-1)//self.query.page_size)
         return await self.set_page(min(pages,self.query.page+1))
+    async def last_page(self):
+        """Navigate to the mathematically last page of the current query."""
+        pages=max(1,(self.total+self.query.page_size-1)//self.query.page_size)
+        return await self.set_page(pages)
 
     async def _grid_query_changed(self, event=None):
         try:
@@ -1439,6 +1627,64 @@ class ServerDataTable(DataTable):
             return
         await self._requests.aclose()
         await super().aclose()
+
+
+def _normalize_editor_value(column: TableColumn, value: Any) -> Any:
+    """Normalize semantic editor output before validation or persistence."""
+    editor = column.editor_spec()
+    kind = editor['kind']
+    if value is None or value == '':
+        if column.required:
+            raise ValueError(f'{column.label} is required.')
+        return None
+    if kind == 'number':
+        try:
+            number = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f'{column.label} must be numeric.') from exc
+        if not math.isfinite(number):
+            raise ValueError(f'{column.label} must be finite.')
+        if editor['minimum'] is not None and number < editor['minimum']:
+            raise ValueError(f'{column.label} must be at least {editor["minimum"]}.')
+        if editor['maximum'] is not None and number > editor['maximum']:
+            raise ValueError(f'{column.label} must be at most {editor["maximum"]}.')
+        if column.kind is ColumnKind.INTEGER:
+            if not number.is_integer():
+                raise ValueError(f'{column.label} must be an integer.')
+            return int(number)
+        return number
+    if kind == 'boolean':
+        if isinstance(value, bool):
+            return value
+        if str(value).casefold() in {'true', 'yes', '1'}:
+            return True
+        if str(value).casefold() in {'false', 'no', '0'}:
+            return False
+        raise ValueError(f'{column.label} must be boolean.')
+    if kind == 'select':
+        choices = tuple(editor['choices'])
+        if choices and value not in choices and str(value) not in {str(choice) for choice in choices}:
+            raise ValueError(f'{column.label} must be one of the governed choices.')
+        return value
+    if kind == 'date':
+        from datetime import date
+        if isinstance(value, date):
+            return value
+        try:
+            date.fromisoformat(str(value)[:10])
+        except ValueError as exc:
+            raise ValueError(f'{column.label} must be a valid date.') from exc
+        return value
+    if kind == 'datetime':
+        from datetime import datetime
+        if isinstance(value, datetime):
+            return value
+        try:
+            datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+        except ValueError as exc:
+            raise ValueError(f'{column.label} must be a valid date and time.') from exc
+        return value
+    return str(value) if kind == 'text' else value
 
 
 class EditableTable(DataTable):
@@ -1522,7 +1768,18 @@ class EditableTable(DataTable):
         if index is None: return
         cell=self._cell_identity(event_row,str(key)); revision=self._edit_revisions.get(cell,0)+1; self._edit_revisions[cell]=revision
         row_index=self._event_row_index(args)
-        base=dict(self.rows[index]); candidate=dict(event_row or base); candidate[key]=new
+        base=dict(self.rows[index]); candidate=dict(event_row or base)
+        column = next((item for item in self.spec.columns if item.key == str(key)), None)
+        try:
+            new = _normalize_editor_value(column, new) if column is not None else new
+        except ValueError as exc:
+            rollback=self._with_pending({**base,key:old},str(key),False); self.rows[index]=rollback
+            await self._set_grid_row(rollback)
+            await self._restore_edit_focus(row_index,str(key))
+            from nicegui_base.integrations.nicegui_feedback_runtime import show_company_toast
+            show_company_toast(_ui(), str(exc), intent='danger')
+            return
+        candidate[key]=new
         pending=self._with_pending(candidate,str(key),True)
         self.rows[index]=pending
         await self._set_grid_row(self._with_pending({**pending, key:(old if self.spec.commit_mode is EditCommitMode.CONFIRMED else new)},str(key),True))
@@ -1566,6 +1823,7 @@ class TablePresetSelector:
     def __init__(self, presets: Sequence[TablePreset], *, table: DataTable | None=None, on_select:Callable[[TablePreset],Any] | None=None):
         self.presets=tuple(presets); self.table=table; self.element=None; self.label=None; self.active:TablePreset | None=None
         if table is not None and self.presets:
+            table._preset_selector = self
             ui=_ui(); self.active=self.presets[0]
             button=ui.button().props('flat no-caps aria-label="Table view"').classes('cui-table-tool-button cui-table-view-button')
             with button:
@@ -1579,11 +1837,38 @@ class TablePresetSelector:
                         with ui.button(on_click=choose).props('flat no-caps').classes('cui-menu-item cui-table-view-option'):
                             ui.label(preset.name)
                             ui.label(preset.density.value.title()).classes('cui-table-view-option__meta')
+                    with ui.element('div').classes('cui-table-view-personal'):
+                        ui.label('Personal view').classes('cui-menu-heading')
+                        async def save_personal(e=None):
+                            await table.save_named_view('Personal')
+                        async def load_personal(e=None):
+                            if 'Personal' in table.saved_view_names():
+                                await table.apply_named_view('Personal')
+                        def delete_personal(e=None):
+                            if 'Personal' in table.saved_view_names():
+                                table.delete_named_view('Personal')
+                        with ui.button('Save current as Personal', on_click=save_personal).props('flat no-caps').classes('cui-menu-item'):
+                            _icon(ui, 'save', size='xs')
+                        with ui.button('Load Personal', on_click=load_personal).props('flat no-caps').classes('cui-menu-item'):
+                            _icon(ui, 'folder', size='xs')
+                        with ui.button('Delete Personal', on_click=delete_personal).props('flat no-caps').classes('cui-menu-item'):
+                            _icon(ui, 'delete', size='xs')
             self.element=button
+
+    def set_active_label(self, value: str) -> None:
+        if self.label is not None:
+            self.label.set_text(value)
+
+    def reset(self) -> None:
+        self.active = None
+        if self.table is not None:
+            self.table._active_view_name = 'Default'
+        self.set_active_label('Default')
 
     async def apply(self,preset:TablePreset):
         if self.table is None:return
         self.active=preset
+        self.table._active_view_name = preset.name
         if self.label is not None:self.label.set_text(preset.name)
         await self.table.set_density(preset.density)
         visible=set(preset.visible_columns)
@@ -1596,12 +1881,12 @@ class TablePresetSelector:
             item={'colId':c.key}
             if c.key in preset.pinned_left:item['pinned']='left'
             elif c.key in preset.pinned_right:item['pinned']='right'
-            elif preset.pinned_left or preset.pinned_right:item['pinned']=None
+            else:item['pinned']=None
             if c.key in sort_map:item['sort']=sort_map[c.key]
             elif preset.sorts:item['sort']=None
             state.append(item)
-        if preset.pinned_left or preset.pinned_right or preset.sorts:
-            await self.table.element.run_grid_method('applyColumnState',{'state':state,'applyOrder':False})
+        await self.table.element.run_grid_method('applyColumnState',{'state':state,'applyOrder':False})
+        await self.table.set_search('')
         await self.table.set_filters(preset.filters)
 
 

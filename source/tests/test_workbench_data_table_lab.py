@@ -159,6 +159,8 @@ def test_logical_provider_is_bounded_and_mathematically_valid_at_late_pages() ->
     sorted_page = provider.query(TableQuery(page=3, page_size=10, filters=(FilterSpec('status', FilterOperator.EQUALS, 'OOS'),), sorts=(SortSpec('record_id', SortDirection.DESC),)))
     assert sorted_page.rows and sorted_page.rows[0]['status'] == 'OOS'
     assert all(math.isfinite(float(row['measurement_nm'])) for row in sorted_page.rows)
+    source = (ROOT / 'nicegui_base' / 'integrations' / 'nicegui_data_table.py').read_text(encoding='utf-8')
+    assert 'async def last_page' in source
 
 
 def test_edit_specimen_uses_confirmed_mode_and_has_no_fake_actions() -> None:

@@ -2,7 +2,7 @@
 
 Framework version: `3.0.0a8`  
 NiceGUI runtime: `3.15.0`  
-Frozen root exports: **1533**
+Frozen root exports: **1537**
 
 Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered table—is authoritative for compatibility checks.
 
@@ -17,6 +17,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ActionButtonSpec` | class | `nicegui_base.components.models` | `(label: "'str'", intent: "'ButtonIntent'" = 'secondary', size: "'ComponentSize'" = 'medium', icon: "'str \| None'" = None, disabled: "'bool'" = False, loading: "'bool'" = False, full_width: "'bool'" = False, aria_label: "'str \| None'" = None, success_message: "'str \| None'" = None, error_message: "'str \| None'" = None, prevent_duplicate: "'bool'" = True) -> 'None'` |
 | `ActionMenu` | class | `nicegui_base.integrations.nicegui_interactions` | `(items: "'Sequence[MenuItemSpec]'")` |
 | `ActionRow` | class | `nicegui_base.layouts.primitives` | `()` |
+| `ActionState` | class | `nicegui_base.data_table.models` | `(visible: "'bool'" = True, enabled: "'bool'" = True, disabled_reason: "'str \| None'" = None) -> 'None'` |
 | `ActiveFilter` | class | `nicegui_base.filters.models` | `(key: "'str'", label: "'str'", display_value: "'str'", value: "'object'", removable: "'bool'" = True) -> 'None'` |
 | `ActivityDrawer` | class | `nicegui_base.integrations.nicegui_interactions` | `(title: "'str'", subtitle: "'str \| None'" = None, side: "'DrawerSide'" = 'right', size: "'OverlaySize'" = 'medium', dismissible: "'bool'" = True, resizable: "'bool'" = False, persistent: "'bool'" = False)` |
 | `ActivityFeed` | class | `nicegui_base.integrations.nicegui_content` | `(items: "'Sequence[ActivityItem]'", empty_message: "'str'" = 'No recent activity')` |
@@ -325,6 +326,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `EvidenceTraceabilityReport` | class | `nicegui_base.certification.semiconductor_orchestrator` | `(recipe_key: "'str'", freshness: "'EvidenceFreshnessAssessment'", artifacts: "'tuple[ArtifactIntegrityFinding, ...]'", untraced_pass_gates: "'tuple[str, ...]'" = ()) -> 'None'` |
 | `Excursion` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, parameter_id: "'str \| None'" = None, detected_at: "'datetime \| None'" = None, affected_population_key: "'str \| None'" = None) -> 'None'` |
 | `ExpandableRow` | class | `nicegui_base.integrations.nicegui_data_table` | `(title: "'str'" = 'Details', open: "'bool'" = False)` |
+| `ExportDisabledError` | class | `nicegui_base.data_table.models` | `()` |
 | `ExtensionDefinition` | class | `nicegui_base.extensions.registry` | `(key: "'str'", kind: "'ExtensionKind'", factory: "'Callable[..., Any]'", version: "'str'" = '1.0', description: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>) -> 'None'` |
 | `ExtensionKind` | class | `nicegui_base.extensions.registry` | `(*values)` |
 | `ExtensionRegistry` | class | `nicegui_base.extensions.registry` | `() -> "'None'"` |
@@ -1399,9 +1401,11 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `required` | function | `nicegui_base.forms.validation` | `(message: "'str'" = 'Required') -> "'Callable[[object \| None], str \| None]'"` |
 | `required_visual_classes` | function | `nicegui_base.certification.mac_coverage` | `() -> "'tuple[tuple[str, str], ...]'"` |
 | `reset_correlation_id` | function | `nicegui_base.diagnostics.correlation` | `(token: "'contextvars.Token'") -> "'None'"` |
+| `resolve_bulk_action_state` | function | `nicegui_base.data_table.models` | `(action: "'BulkAction'", rows: "'Sequence[Mapping[str, Any]]'") -> "'ActionState'"` |
 | `resolve_icon_key` | function | `nicegui_base.visual.registry` | `(key: "'str'") -> "'str'"` |
 | `resolve_recipe_configuration` | function | `nicegui_base.semiconductor.variants` | `(recipe: "'str \| SemiconductorRecipeDefinition'", variant: "'str \| RecipeVariantDefinition \| None'" = None, customization: "'RecipeCustomization \| None'" = None) -> "'ResolvedRecipeConfiguration'"` |
 | `resolve_recipe_source` | function | `nicegui_base.semiconductor.recipes` | `(recipe: "'str \| SemiconductorRecipeDefinition'", schema: "'DataSchema'", field_overrides: "'Mapping[str, str] \| None'" = None, field_map: "'SemiconductorFieldMap \| None'" = None, semantic_role_fallback: "'bool'" = True, resolve_unoverridden: "'bool'" = True) -> "'RecipeSourceCompatibility'"` |
+| `resolve_row_action_state` | function | `nicegui_base.data_table.models` | `(action: "'RowAction'", row: "'Mapping[str, Any]'") -> "'ActionState'"` |
 | `response_surface` | function | `nicegui_base.semiconductor.yield_doe` | `(rows: "'Sequence[Mapping[str, Any]]'", factor_a: "'str'", factor_b: "'str'", response: "'str'") -> "'ResponseSurfaceResult'"` |
 | `restore_recipe_runtime_preset` | function | `nicegui_base.semiconductor.runtime_experience` | `(runtime, preset: "'RecipeRuntimePreset'", strict_variant: "'bool'" = True) -> "'None'"` |
 | `review_recipe_configuration` | function | `nicegui_base.semiconductor.operations` | `(runtime, adapter_conformance: "'AdapterConformanceReport \| None'" = None, benchmark: "'SemiconductorBenchmarkReport \| None'" = None) -> "'RecipeConfigurationReview'"` |

@@ -34,6 +34,31 @@ class PinPosition(str, Enum):
 class EditCommitMode(str, Enum):
     OPTIMISTIC='optimistic'; CONFIRMED='confirmed'
 
+
+class ExportDisabledError(RuntimeError):
+    """Raised when an application attempts export from a restricted table."""
+
+
+@dataclass(frozen=True, slots=True)
+class ActionState:
+    """The normalized, fail-closed policy result shared by table action surfaces."""
+
+    visible: bool = True
+    enabled: bool = True
+    disabled_reason: str | None = None
+
+
+def _evaluate_predicate(predicate: Callable[..., Any] | None, value: Any, *, default: bool) -> tuple[bool, str | None]:
+    if predicate is None:
+        return default, None
+    try:
+        result = bool(predicate(value))
+    except Exception:
+        # A policy callback is an authorization boundary. A broken predicate must
+        # not accidentally expose or invoke the action.
+        return False, 'Action policy could not be evaluated.'
+    return result, None
+
 @dataclass(frozen=True, slots=True)
 class ConditionalRule:
     operator: FilterOperator
@@ -503,8 +528,38 @@ class RowAction:
         if not self.key.strip() or not self.label.strip():
             raise ValueError('RowAction requires key and label')
 
+
+def resolve_row_action_state(action: RowAction, row: Mapping[str, Any]) -> ActionState:
+    visible, policy_error = _evaluate_predicate(action.visible_when, row, default=True)
+    if not visible:
+        return ActionState(False, False, None)
+    enabled, enabled_error = _evaluate_predicate(action.enabled_when, row, default=True)
+    reason = policy_error or enabled_error
+    if not enabled and reason is None and action.disabled_reason is not None:
+        try:
+            reason = action.disabled_reason(row)
+        except Exception:
+            reason = 'Action policy could not be evaluated.'
+    return ActionState(True, enabled, reason)
+
+
+def resolve_bulk_action_state(action: BulkAction, rows: Sequence[Mapping[str, Any]]) -> ActionState:
+    visible, policy_error = _evaluate_predicate(action.visible_when, rows, default=True)
+    if not visible:
+        return ActionState(False, False, None)
+    if action.requires_selection and not rows:
+        return ActionState(True, False, 'Select at least one record.')
+    enabled, enabled_error = _evaluate_predicate(action.enabled_when, rows, default=True)
+    reason = policy_error or enabled_error
+    if not enabled and reason is None and action.disabled_reason is not None:
+        try:
+            reason = action.disabled_reason(rows)
+        except Exception:
+            reason = 'Action policy could not be evaluated.'
+    return ActionState(True, enabled, reason)
+
 __all__ = [
-    'ColumnKind','TableDensity','SelectionMode','PaginationMode','SortDirection','FilterOperator','FilterLogic','PinPosition','EditCommitMode',
+    'ColumnKind','TableDensity','SelectionMode','PaginationMode','SortDirection','FilterOperator','FilterLogic','PinPosition','EditCommitMode','ExportDisabledError','ActionState',
     'ConditionalRule','TableColumn','SortSpec','FilterSpec','FilterGroup','FilterExpression','TableQuery','TableResult','TableViewSnapshot','TablePreset','TableState',
-    'DataTableSpec','ServerDataTableSpec','EditableTableSpec','BulkAction','RowAction',
+    'DataTableSpec','ServerDataTableSpec','EditableTableSpec','BulkAction','RowAction','resolve_row_action_state','resolve_bulk_action_state',
 ]

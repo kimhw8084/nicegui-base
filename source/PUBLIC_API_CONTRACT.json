@@ -1,9 +1,9 @@
 {
-  "export_count": 1533,
+  "export_count": 1537,
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "21e72dcd65f00c61323ff5d5047f47a699b58fb650ba3965725a20f28670947b",
+  "sha256": "ae643cb251d9a38791977bc91e949eaa09fb3f0eb031f583c11b60472d41aee5",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -376,6 +376,42 @@
       },
       "kind": "class",
       "module": "nicegui_base.layouts.primitives"
+    },
+    "ActionState": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "visible"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "enabled"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "disabled_reason"
+          }
+        ],
+        "return": "None"
+      },
+      "kind": "class",
+      "module": "nicegui_base.data_table.models"
     },
     "ActiveFilter": {
       "callable": {
@@ -14610,6 +14646,14 @@
       },
       "kind": "class",
       "module": "nicegui_base.integrations.nicegui_data_table"
+    },
+    "ExportDisabledError": {
+      "callable": {
+        "parameters": [],
+        "return": "<unavailable>"
+      },
+      "kind": "class",
+      "module": "nicegui_base.data_table.models"
     },
     "ExtensionDefinition": {
       "callable": {
@@ -54360,6 +54404,31 @@
       "kind": "function",
       "module": "nicegui_base.diagnostics.correlation"
     },
+    "resolve_bulk_action_state": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'BulkAction'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "action"
+          },
+          {
+            "annotation": "'Sequence[Mapping[str, Any]]'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "rows"
+          }
+        ],
+        "return": "'ActionState'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.data_table.models"
+    },
     "resolve_icon_key": {
       "callable": {
         "parameters": [
@@ -54472,6 +54541,31 @@
       },
       "kind": "function",
       "module": "nicegui_base.semiconductor.recipes"
+    },
+    "resolve_row_action_state": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'RowAction'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "action"
+          },
+          {
+            "annotation": "'Mapping[str, Any]'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "row"
+          }
+        ],
+        "return": "'ActionState'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.data_table.models"
     },
     "response_surface": {
       "callable": {

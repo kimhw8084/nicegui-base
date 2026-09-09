@@ -1,9 +1,9 @@
 {
-  "export_count": 1532,
+  "export_count": 1537,
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "b0e50f46132e1dda68bacb5fafc2ad8ba33911c3d18df99cf1f26dee2c67863d",
+  "sha256": "ae643cb251d9a38791977bc91e949eaa09fb3f0eb031f583c11b60472d41aee5",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -376,6 +376,42 @@
       },
       "kind": "class",
       "module": "nicegui_base.layouts.primitives"
+    },
+    "ActionState": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "visible"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "enabled"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "disabled_reason"
+          }
+        ],
+        "return": "None"
+      },
+      "kind": "class",
+      "module": "nicegui_base.data_table.models"
     },
     "ActiveFilter": {
       "callable": {
@@ -5105,6 +5141,33 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "on_action"
+          },
+          {
+            "annotation": "'Callable[[Sequence[Mapping[str, Any]]], bool] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "visible_when"
+          },
+          {
+            "annotation": "'Callable[[Sequence[Mapping[str, Any]]], bool] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "enabled_when"
+          },
+          {
+            "annotation": "'Callable[[Sequence[Mapping[str, Any]]], str | None] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "disabled_reason"
           }
         ],
         "return": "None"
@@ -9884,6 +9947,15 @@
             "name": "on_select"
           },
           {
+            "annotation": "'Callable[[TableViewSnapshot], Any] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "on_view_changed"
+          },
+          {
             "annotation": "'Callable[..., Any] | None'",
             "default": {
               "present": true,
@@ -10069,6 +10141,15 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "export_csv"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "export_enabled"
           },
           {
             "annotation": "'bool'",
@@ -12498,6 +12579,15 @@
               "value": true
             },
             "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "export_enabled"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
             "name": "copy_enabled"
           },
           {
@@ -14556,6 +14646,14 @@
       },
       "kind": "class",
       "module": "nicegui_base.integrations.nicegui_data_table"
+    },
+    "ExportDisabledError": {
+      "callable": {
+        "parameters": [],
+        "return": "<unavailable>"
+      },
+      "kind": "class",
+      "module": "nicegui_base.data_table.models"
     },
     "ExtensionDefinition": {
       "callable": {
@@ -31164,6 +31262,33 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "on_action"
+          },
+          {
+            "annotation": "'Callable[[Mapping[str, Any]], bool] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "visible_when"
+          },
+          {
+            "annotation": "'Callable[[Mapping[str, Any]], bool] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "enabled_when"
+          },
+          {
+            "annotation": "'Callable[[Mapping[str, Any]], str | None] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "disabled_reason"
           }
         ],
         "return": "None"
@@ -35903,6 +36028,15 @@
             "name": "query"
           },
           {
+            "annotation": "'Callable[[BaseException], Any] | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "on_error"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -36051,6 +36185,15 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "export_csv"
+          },
+          {
+            "annotation": "'bool'",
+            "default": {
+              "present": true,
+              "value": true
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "export_enabled"
           },
           {
             "annotation": "'bool'",
@@ -41033,6 +41176,60 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "status_map"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "editor"
+          },
+          {
+            "annotation": "'tuple[Any, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "choices"
+          },
+          {
+            "annotation": "'float | int | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "minimum"
+          },
+          {
+            "annotation": "'float | int | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "maximum"
+          },
+          {
+            "annotation": "'float | int | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "step"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "placeholder"
           }
         ],
         "return": "None"
@@ -41676,6 +41873,76 @@
       },
       "kind": "class",
       "module": "nicegui_base.integrations.nicegui_data_table"
+    },
+    "TableViewSnapshot": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "displayed_count"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "total_count"
+          },
+          {
+            "annotation": "'tuple[Mapping[str, Any], ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "visible_rows"
+          },
+          {
+            "annotation": "'frozenset[Any]'",
+            "default": {
+              "present": true,
+              "set": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "selected_keys"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "search"
+          },
+          {
+            "annotation": "'tuple[FilterExpression, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "filters"
+          },
+          {
+            "annotation": "'tuple[SortSpec, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "sorts"
+          }
+        ],
+        "return": "None"
+      },
+      "kind": "class",
+      "module": "nicegui_base.data_table.models"
     },
     "Tabs": {
       "callable": {
@@ -54137,6 +54404,31 @@
       "kind": "function",
       "module": "nicegui_base.diagnostics.correlation"
     },
+    "resolve_bulk_action_state": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'BulkAction'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "action"
+          },
+          {
+            "annotation": "'Sequence[Mapping[str, Any]]'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "rows"
+          }
+        ],
+        "return": "'ActionState'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.data_table.models"
+    },
     "resolve_icon_key": {
       "callable": {
         "parameters": [
@@ -54249,6 +54541,31 @@
       },
       "kind": "function",
       "module": "nicegui_base.semiconductor.recipes"
+    },
+    "resolve_row_action_state": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'RowAction'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "action"
+          },
+          {
+            "annotation": "'Mapping[str, Any]'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "row"
+          }
+        ],
+        "return": "'ActionState'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.data_table.models"
     },
     "response_surface": {
       "callable": {

@@ -116,10 +116,10 @@ __all__ += ['INTERACTION_REGISTRY','InteractionDefinition','get_interaction']
 
 # Phase 5 enterprise DataTable public surface
 from nicegui_base.data_table import (
-    BulkAction, ColumnKind, ConditionalRule, DataTableSpec, EditCommitMode, EditableTableSpec, FilterGroup, FilterLogic, FilterOperator, FilterSpec,
+    ActionState, BulkAction, ColumnKind, ConditionalRule, DataTableSpec, EditCommitMode, EditableTableSpec, ExportDisabledError, FilterGroup, FilterLogic, FilterOperator, FilterSpec,
     PaginationMode, PinPosition, RowAction, SelectionMode, ServerDataTableSpec, SortDirection, SortSpec,
     TABLE_REGISTRY, TableColumn, TableDefinition, TableDensity, TablePreset, TableQuery, TableResult, TableState, TableViewSnapshot,
-    apply_query, build_data_table_css, export_csv, format_cell, get_table,
+    apply_query, build_data_table_css, export_csv, format_cell, get_table, resolve_bulk_action_state, resolve_row_action_state,
 )
 from nicegui_base.integrations import (
     ConditionalCellFormatter, DataTable, EditableTable, ExpandableRow, MasterDetailTable, ServerDataTable,
@@ -127,10 +127,10 @@ from nicegui_base.integrations import (
     TableRowActions, TableSelectionBar, TableToolbar,
 )
 __all__ += [
-    'BulkAction','ColumnKind','ConditionalRule','DataTableSpec','EditCommitMode','EditableTableSpec','FilterGroup','FilterLogic','FilterOperator','FilterSpec',
+    'ActionState','BulkAction','ColumnKind','ConditionalRule','DataTableSpec','EditCommitMode','EditableTableSpec','ExportDisabledError','FilterGroup','FilterLogic','FilterOperator','FilterSpec',
     'PaginationMode','PinPosition','RowAction','SelectionMode','ServerDataTableSpec','SortDirection','SortSpec',
     'TABLE_REGISTRY','TableColumn','TableDefinition','TableDensity','TablePreset','TableQuery','TableResult','TableState','TableViewSnapshot',
-    'apply_query','build_data_table_css','export_csv','format_cell','get_table','ConditionalCellFormatter','DataTable',
+    'apply_query','build_data_table_css','export_csv','format_cell','get_table','resolve_bulk_action_state','resolve_row_action_state','ConditionalCellFormatter','DataTable',
     'EditableTable','ExpandableRow','MasterDetailTable','ServerDataTable','SparklineCell','StatusCell','TableColumnManager',
     'TableContextMenu','TableDensitySelector','TablePresetSelector','TableRowActions','TableSelectionBar','TableToolbar',
 ]

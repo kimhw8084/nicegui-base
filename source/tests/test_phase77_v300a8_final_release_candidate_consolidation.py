@@ -73,7 +73,10 @@ def test_wave77_audit_preserves_legacy_module_exports_without_removing_them():
     # The current DataTable platform adds the normalized displayed-population
     # snapshot as an intentional root API; the release contract is regenerated
     # from that current source authority.
-    assert audit.public_api_entries == 1533
+    # The final Data & Tables closure adds four normalized root APIs for action
+    # policy and export denial; the contract is intentionally regenerated for
+    # this additive, backwards-compatible surface.
+    assert audit.public_api_entries == 1537
 
 
 def test_wave77_handoff_is_truthful_pending_not_stable_pass():
@@ -253,7 +256,7 @@ def test_wave77_release_artifact_helpers_add_no_runtime_dependency():
 
 def test_wave77_public_api_has_no_additive_root_exports_before_freeze():
     import nicegui_base
-    assert len(set(nicegui_base.__all__)) == 1533
+    assert len(set(nicegui_base.__all__)) == 1537
     assert 'TableViewSnapshot' in nicegui_base.__all__
     assert 'audit_final_release_candidate' not in nicegui_base.__all__
     assert 'build_stable_qualification_handoff' not in nicegui_base.__all__

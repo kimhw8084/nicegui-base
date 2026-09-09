@@ -54,7 +54,7 @@ def _compile_filter(spec: FilterSpec):
             if op is FilterOperator.BETWEEN: return target <= normalized <= spec.value2
         except TypeError:
             return False
-        return True
+        raise ValueError(f'Unsupported filter operator: {op!r}')
 
     return lambda row: match(row.get(spec.key))
 

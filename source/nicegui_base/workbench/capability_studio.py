@@ -202,6 +202,7 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
     mode = {'value': 'review'}
     mode_host = ui.element('div').classes('cui-workbench-toolbar cui-data-dock-modebar')
     content_host = ui.element('div').classes('cui-data-dock-content')
+    quality_host = ui.element('div').classes('cui-data-dock-quality-results')
 
     async def changed() -> None:
         if on_change is not None:
@@ -234,6 +235,50 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
             with ui.element('div').classes('cui-data-dock-issues'):
                 for issue in (*errors, *warnings[:5]):
                     ui.label(f'{issue.severity.value.upper()} · {issue.message}').classes('cui-workbench-note')
+
+        def show_quality(kind: str) -> None:
+            quality_host.clear()
+            with quality_host:
+                if kind == 'missing':
+                    findings = [(index + 1, column.name) for index, row in enumerate(model.rows) for column in model.columns if row.get(column.name) in (None, '')]
+                    ui.label(f'Missing values · {len(findings)} cells').classes('cui-workbench-section-title')
+                    for row_index, column in findings[:40]:
+                        ui.label(f'Row {row_index} · {column}').classes('cui-workbench-note')
+                    if not findings:
+                        ui.label('No missing values in the active dataset.').classes('cui-workbench-note')
+                elif kind == 'duplicates':
+                    seen: dict[str, int] = {}
+                    for row in model.rows:
+                        key = json.dumps(row, sort_keys=True, default=str)
+                        seen[key] = seen.get(key, 0) + 1
+                    duplicates = [count for count in seen.values() if count > 1]
+                    ui.label(f'Duplicate rows · {sum(count - 1 for count in duplicates)} repeated row(s)').classes('cui-workbench-section-title')
+                    ui.label('Duplicate detection uses the full normalized row value.').classes('cui-workbench-note')
+                else:
+                    issues = model.snapshot.quality.issues
+                    ui.label(f'Quality issues · {len(issues)}').classes('cui-workbench-section-title')
+                    for issue in issues[:40]:
+                        ui.label(f'{issue.severity.value.upper()} · {issue.message}').classes('cui-workbench-note').props('role="alert"' if issue.severity is DataDockSeverity.ERROR else '')
+
+        def show_profile(event=None) -> None:
+            column = str(getattr(event, 'value', '') or '')
+            if not column:
+                return
+            profile = model.profile_column(column)
+            quality_host.clear()
+            with quality_host:
+                ui.label(f'Column profile · {column}').classes('cui-workbench-section-title')
+                ui.label(' · '.join(f'{key}: {value}' for key, value in profile.items() if key != 'top_values')).classes('cui-workbench-note')
+                if profile.get('top_values'):
+                    ui.label('Top values · ' + ' · '.join(f'{value} ({count})' for value, count in profile['top_values'])).classes('cui-workbench-note')
+
+        with ui.element('div').classes('cui-data-dock-quality-actions'):
+            Button('Show missing', on_click=lambda: show_quality('missing'))
+            Button('Show duplicates', on_click=lambda: show_quality('duplicates'))
+            Button('Show issues', on_click=lambda: show_quality('issues'))
+            Select('Profile column', {column.name: column.name for column in model.columns}, value=model.columns[0].name if model.columns else None, clearable=True, on_change=show_profile)
+        with quality_host:
+            ui.label('Quality findings and bounded column profiles appear here.').classes('cui-workbench-note')
 
     def render_edit_grid() -> None:
         if not model.columns:
@@ -417,6 +462,7 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                 with ui.element('section').classes('cui-data-dock-import-preview').props('data-import-preview'):
                     ui.label('Import preview · active data is unchanged').classes('cui-workbench-section-title')
                     ui.label(f'{result.detected_format.value.upper() if result.detected_format else "DATA"} · {snap.quality.rows:,} rows · {snap.quality.columns} columns').classes('cui-workbench-note')
+                    ui.label(f'Quality · {snap.quality.missing_cells:,} missing cells · {snap.quality.duplicate_rows:,} duplicate rows · {len(snap.quality.issues)} issues').classes('cui-workbench-note')
                     ui.label(f"Schema diff · +{len(diff['added'])} added · −{len(diff['removed'])} removed · {len(diff['changed'])} type changes").classes('cui-workbench-note')
                     if diff['added']: ui.label('Added: ' + ', '.join(diff['added'])).classes('cui-workbench-note')
                     if diff['removed']: ui.label('Removed: ' + ', '.join(diff['removed'])).classes('cui-workbench-note')
@@ -468,6 +514,7 @@ def render_data_dock(model: DataDockModel, *, on_change: Callable[[DataDockModel
                 with ui.element('section').classes('cui-data-dock-import-preview').props('data-import-preview'):
                     ui.label(f'Upload preview · {name} · active data is unchanged').classes('cui-workbench-section-title')
                     ui.label(f'{snap.quality.rows:,} rows · {snap.quality.columns} columns · +{len(diff["added"])} / −{len(diff["removed"])} fields').classes('cui-workbench-note')
+                    ui.label(f'Quality · {snap.quality.missing_cells:,} missing cells · {snap.quality.duplicate_rows:,} duplicate rows · {len(snap.quality.issues)} issues').classes('cui-workbench-note')
                     with ui.element('div').classes('cui-workbench-toolbar'):
                         ActionButton('Confirm import', on_click=commit_preview)
                         Button('Cancel', on_click=discard_preview)

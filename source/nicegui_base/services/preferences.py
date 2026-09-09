@@ -29,6 +29,10 @@ class PreferenceService:
         current = self.load(); views = {k: dict(v) for k, v in current.filter_views.items()}; views[view_key] = dict(values)
         return self.save(replace(current, filter_views=views))
 
+    def delete_filter_view(self, view_key: str) -> UserPreferences:
+        current = self.load(); views = {k: dict(v) for k, v in current.filter_views.items()}; views.pop(view_key, None)
+        return self.save(replace(current, filter_views=views))
+
 
 class WorkspacePreferenceService:
     """Persists complete analysis workspace state under the existing user preference backing."""

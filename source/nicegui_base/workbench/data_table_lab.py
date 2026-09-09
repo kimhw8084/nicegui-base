@@ -169,57 +169,85 @@ class LogicalEngineeringProvider:
             raise ValueError('total must be positive and cache_size must be non-negative')
         self.total = total
         self.cache_size = cache_size
+        self._pattern_rows = tuple(_fixture_row(index) for index in range(64))
         self._index_cache: OrderedDict[tuple[Any, ...], tuple[int, ...]] = OrderedDict()
 
     def row_at(self, index: int) -> dict[str, Any]:
         if index < 0 or index >= self.total:
             raise IndexError(index)
-        row = dict(_fixture_row(index % 64))
+        row = dict(self._pattern_rows[index % 64])
         row['record_id'] = f'P-{index + 1:06d}'
         row['lot_id'] = f'LOT-{(index // 4) + 101:06d}'
         row['wafer_id'] = f'W{(index % 25) + 1:02d}'
         return row
 
     @staticmethod
-    def _matches(row: Mapping[str, Any], query: TableQuery) -> bool:
+    def _matches_values(value_for: Callable[[str], Any], query: TableQuery) -> bool:
         if query.search:
             needle = query.search.casefold().strip()
             searchable = ('record_id', 'lot_id', 'wafer_id', 'tool_id', 'chamber_id', 'status', 'owner')
-            if not any(needle in str(row.get(key, '')).casefold() for key in searchable):
+            if not any(needle in str(value_for(key) or '').casefold() for key in searchable):
                 return False
 
         def match(expression: FilterExpression) -> bool:
             if isinstance(expression, FilterGroup):
                 values = [match(item) for item in expression.filters]
                 return any(values) if expression.logic is FilterLogic.OR else all(values)
-            value = row.get(expression.key)
+            value = value_for(expression.key)
             target = expression.value
-            if expression.operator is FilterOperator.IN:
+            operator = expression.operator
+            if operator is FilterOperator.IN:
                 return value in set(target or ())
-            if expression.operator is FilterOperator.NOT_IN:
+            if operator is FilterOperator.NOT_IN:
                 return value not in set(target or ())
-            if expression.operator is FilterOperator.IS_EMPTY:
+            if operator is FilterOperator.IS_EMPTY:
                 return value is None or value == ''
-            if expression.operator is FilterOperator.IS_NOT_EMPTY:
+            if operator is FilterOperator.IS_NOT_EMPTY:
                 return value is not None and value != ''
-            if expression.operator is FilterOperator.CONTAINS:
+            if operator is FilterOperator.CONTAINS:
                 return str(target).casefold() in str(value or '').casefold()
-            if expression.operator is FilterOperator.EQUALS:
+            if operator is FilterOperator.NOT_CONTAINS:
+                return str(target).casefold() not in str(value or '').casefold()
+            if operator is FilterOperator.STARTS_WITH:
+                return str(value or '').casefold().startswith(str(target).casefold())
+            if operator is FilterOperator.ENDS_WITH:
+                return str(value or '').casefold().endswith(str(target).casefold())
+            if operator is FilterOperator.EQUALS:
                 return value == target
-            if expression.operator is FilterOperator.NOT_EQUALS:
+            if operator is FilterOperator.NOT_EQUALS:
                 return value != target
             try:
                 return {
-                    FilterOperator.GT: value > target,
-                    FilterOperator.GTE: value >= target,
-                    FilterOperator.LT: value < target,
-                    FilterOperator.LTE: value <= target,
-                    FilterOperator.BETWEEN: target <= value <= expression.value2,
-                }.get(expression.operator, True)
+                    FilterOperator.GT: value is not None and value > target,
+                    FilterOperator.GTE: value is not None and value >= target,
+                    FilterOperator.LT: value is not None and value < target,
+                    FilterOperator.LTE: value is not None and value <= target,
+                    FilterOperator.BETWEEN: value is not None and target <= value <= expression.value2,
+                }[operator]
+            except KeyError:
+                raise ValueError(f'Unsupported filter operator: {operator!r}') from None
             except TypeError:
                 return False
 
         return all(match(item) for item in query.filters)
+
+    @classmethod
+    def _matches(cls, row: Mapping[str, Any], query: TableQuery) -> bool:
+        return cls._matches_values(row.get, query)
+
+    def _matches_index(self, index: int, query: TableQuery) -> bool:
+        pattern = self._pattern_rows[index % 64]
+
+        def value_for(key: str) -> Any:
+            if key == 'record_id':
+                return f'P-{index + 1:06d}'
+            if key == 'lot_id':
+                return f'LOT-{(index // 4) + 101:06d}'
+            if key == 'wafer_id':
+                return f'W{(index % 25) + 1:02d}'
+            return pattern.get(key)
+
+        return self._matches_values(value_for, query)
 
     def _candidate_indices(self, query: TableQuery) -> tuple[int, ...] | None:
         """Narrow deterministic provider queries before row materialization.
@@ -267,12 +295,27 @@ class LogicalEngineeringProvider:
 
         needle = query.search.casefold().strip()
         if needle:
+            search_candidates: set[int] = set()
             for key, values in categories.items():
                 matching = {value for value in values if needle in str(value).casefold()}
                 if matching:
                     narrowed = bucket(key, matching)
-                    candidates = narrowed if candidates is None else candidates & narrowed
-                    break
+                    if narrowed is not None:
+                        search_candidates.update(narrowed)
+            # Identifier/lot/wafer search is part of the same OR contract as
+            # categorical search.  This scans only deterministic index strings;
+            # it never materializes provider row dictionaries.
+            for index in range(self.total):
+                if (
+                    needle in f'p-{index + 1:06d}'.casefold()
+                    or needle in f'lot-{(index // 4) + 101:06d}'.casefold()
+                    or needle in f'w{(index % 25) + 1:02d}'.casefold()
+                ):
+                    search_candidates.add(index)
+            # An empty union is a conclusive no-match result. Keeping it as an
+            # explicit empty candidate set avoids scanning the entire logical
+            # universe for a query that cannot match any searchable field.
+            candidates = search_candidates if candidates is None else candidates & search_candidates
             if candidates is None and needle.startswith('p-') and needle[2:].isdigit():
                 index = int(needle[2:]) - 1
                 candidates = {index} if 0 <= index < self.total else set()
@@ -293,9 +336,31 @@ class LogicalEngineeringProvider:
             self._index_cache.move_to_end(key)
             return self._index_cache[key]
         candidate_indices = self._candidate_indices(query)
-        indices = [index for index in (candidate_indices if candidate_indices is not None else range(self.total)) if self._matches(self.row_at(index), query)]
+        indices = [index for index in (candidate_indices if candidate_indices is not None else range(self.total)) if self._matches_index(index, query)]
+        row_cache = {index: self._pattern_rows[index % 64] for index in indices}
+        dynamic_keys = {'record_id', 'lot_id', 'wafer_id'}
+
+        def sort_value(index: int, key: str) -> Any:
+            if key == 'record_id':
+                return f'P-{index + 1:06d}'
+            if key == 'lot_id':
+                return f'LOT-{(index // 4) + 101:06d}'
+            if key == 'wafer_id':
+                return f'W{(index % 25) + 1:02d}'
+            return row_cache[index].get(key)
+
         for spec in reversed(query.sorts):
-            indices.sort(key=lambda index: (self.row_at(index).get(spec.key) is None, self.row_at(index).get(spec.key)), reverse=spec.direction is SortDirection.DESC)
+            if spec.key in dynamic_keys:
+                present = indices[:]
+                missing: list[int] = []
+            else:
+                present = [index for index in indices if row_cache[index].get(spec.key) is not None]
+                missing = [index for index in indices if row_cache[index].get(spec.key) is None]
+            try:
+                present.sort(key=lambda index: sort_value(index, spec.key), reverse=spec.direction is SortDirection.DESC)
+            except TypeError:
+                present.sort(key=lambda index: (type(row_cache[index].get(spec.key)).__name__, str(row_cache[index].get(spec.key))), reverse=spec.direction is SortDirection.DESC)
+            indices = [*present, *missing]
         result = tuple(indices)
         if self.cache_size:
             self._index_cache[key] = result
@@ -485,6 +550,21 @@ def _render_actions(parts, session: DataLabSession) -> None:
         await update_rows({'reviewed': True}, rows)
         status.set_text(f'Marked {len(rows)} record(s) reviewed.')
 
+    async def release(rows):
+        await update_rows({'status': 'Nominal', 'disposition': 'Released'}, rows)
+        status.set_text(f'Released {len(rows)} record(s) and updated the active grid.')
+
+    async def assign(rows):
+        await update_rows({'owner': 'M. Chen'}, rows)
+        status.set_text(f'Assigned {len(rows)} record(s) to M. Chen.')
+
+    async def export_selected(rows):
+        if not rows:
+            status.set_text('Select at least one record before exporting.')
+            return
+        await table.export(rows=rows, filename='selected-engineering-records.csv')
+        status.set_text(f'Exported {len(rows)} selected record(s).')
+
     async def compare(rows):
         if len(rows) < 2:
             status.set_text('Select at least two records before Compare selected.')
@@ -516,7 +596,12 @@ def _render_actions(parts, session: DataLabSession) -> None:
         bulk_actions=(
             BulkAction('hold', 'Hold selected', icon='pause', intent='warning', on_action=hold),
             BulkAction('review', 'Mark reviewed', icon='check', on_action=review),
+            BulkAction('release', 'Release selected', icon='check-circle', on_action=release,
+                       enabled_when=lambda rows: any(row.get('status') in {'Hold', 'OOS', 'Watch'} for row in rows),
+                       disabled_reason=lambda rows: 'Selected records are already nominal.'),
+            BulkAction('assign', 'Assign selected', icon='user', on_action=assign),
             BulkAction('compare', 'Compare selected', icon='split', on_action=compare),
+            BulkAction('export', 'Export selected', icon='download', on_action=export_selected),
             BulkAction('delete', 'Delete selected', icon='delete', intent='danger', on_action=delete),
         ), on_select=selected, on_view_changed=lambda snapshot: summary_update(snapshot.visible_rows),
         row_actions=(RowAction('inspect', 'View details', icon='info', on_action=lambda row: _open_detail(parts, row)),),
@@ -564,7 +649,67 @@ def _render_edit(parts, session: DataLabSession) -> None:
                     current['delta_nm'] = round(float(value) - float(current.get('target_nm') or 0), 3)
         status.set_text(f'Saved {row.get("record_id")} · {key}.')
 
-    table = EditableTable(rows, columns, spec=EditableTableSpec(tuple(columns), row_key='record_id', title='Engineering disposition', selection=SelectionMode.SINGLE, save_mode='cell', commit_mode=EditCommitMode.CONFIRMED, persist_key='reference-data-edit'), validate_edit=validate, save_edit=save, row_actions=(RowAction('inspect', 'Inspect row', icon='info', on_action=lambda row: _open_detail(parts, row)),))
+    async def edit_record(row: Mapping[str, Any]) -> None:
+        drawer = FormDrawer(f"Edit {row.get('record_id')}", subtitle='Confirmed save · validation and rollback are framework-owned')
+        with drawer:
+            measurement = parts['NumberInput']('Measurement', value=float(row.get('measurement_nm') or 0), minimum=0, maximum=100, step=.001, unit='nm', required=True)
+            status_input = parts['Select']('Status', {value: value for value in ('Nominal', 'Watch', 'OOS', 'Hold')}, value=row.get('status'), clearable=False)
+            owner_input = parts['TextInput']('Owner', value=str(row.get('owner') or ''), required=True)
+            reviewed_input = parts['Select']('Reviewed', {'true': 'Yes', 'false': 'No'}, value='true' if row.get('reviewed') else 'false', clearable=False)
+            async def commit():
+                try:
+                    value = float(measurement.element.value)
+                except (TypeError, ValueError):
+                    status.set_text('Edit rejected: Measurement must be a finite number between 0 and 100 nm.')
+                    return
+                candidate = dict(row)
+                candidate.update({'measurement_nm': value, 'delta_nm': round(value - float(candidate.get('target_nm') or 0), 3), 'status': status_input.element.value, 'owner': owner_input.element.value, 'reviewed': str(reviewed_input.element.value).lower() == 'true'})
+                error = validate(candidate, 'measurement_nm', value)
+                if error:
+                    status.set_text(f'Edit rejected: {error}')
+                    return
+                for current in session.rows:
+                    if current.get('record_id') == row.get('record_id'):
+                        current.update(candidate)
+                await table.update_rows_by_key((candidate,))
+                status.set_text(f"Updated {row.get('record_id')}.")
+                drawer.close()
+            _button(parts, 'Save record', commit, primary=True, icon='save')
+        drawer.open()
+
+    async def duplicate_record(row: Mapping[str, Any]) -> None:
+        base = dict(row)
+        index = len(session.rows) + 1
+        new_id = f'R-DUP-{index:03d}'
+        while any(item.get('record_id') == new_id for item in session.rows):
+            index += 1
+            new_id = f'R-DUP-{index:03d}'
+        base['record_id'] = new_id
+        base['reviewed'] = False
+        base['comment'] = 'Duplicated from reference action'
+        session.rows.append(base)
+        await table.apply_row_transaction(add=(base,))
+        status.set_text(f'Duplicated {row.get("record_id")} as {new_id}.')
+
+    async def delete_record(row: Mapping[str, Any]) -> None:
+        async def confirm():
+            session.rows[:] = [item for item in session.rows if item.get('record_id') != row.get('record_id')]
+            await table.remove_rows_by_key((row.get('record_id'),))
+            status.set_text(f'Deleted {row.get("record_id")}.')
+        danger = parts['DangerConfirmDialog']('Delete engineering record', description='Only this local reference record will be removed.', on_confirm=confirm)
+        danger.open()
+
+    table = EditableTable(
+        rows, columns,
+        spec=EditableTableSpec(tuple(columns), row_key='record_id', title='Engineering disposition', selection=SelectionMode.SINGLE, save_mode='cell', commit_mode=EditCommitMode.CONFIRMED, persist_key='reference-data-edit'),
+        validate_edit=validate, save_edit=save,
+        row_actions=(
+            RowAction('inspect', 'Inspect row', icon='info', on_action=lambda row: _open_detail(parts, row)),
+            RowAction('edit', 'Edit record', icon='edit', on_action=edit_record),
+            RowAction('duplicate', 'Duplicate record', icon='copy', on_action=duplicate_record),
+            RowAction('delete', 'Delete record', icon='delete', intent='danger', on_action=delete_record),
+        ),
+    )
 
     def add_record():
         drawer = FormDrawer('Add engineering record', subtitle='Typed record form · local reference fixture')
@@ -611,37 +756,42 @@ EditableTable(records, columns, spec=EditableTableSpec(
     validate_edit=validate_edit, save_edit=save_edit)""", 'Use typed TableColumn metadata plus validate_edit/save_edit for safe edits. The framework owns pending, rollback and focus restoration.')
 
 
-def _chart(parts, rows: Sequence[Mapping[str, Any]], *, kind: str = 'trend'):
+def _chart(parts, rows: Sequence[Mapping[str, Any]], *, kind: str = 'trend', measurement_key: str = 'measurement_nm', x_key: str = 'timestamp', y_key: str = 'yield_pct'):
     ChartPanel = parts['ChartPanel']; AxisSpec = parts['AxisSpec']; AxisType = parts['AxisType']; ChartKind = parts['ChartKind']; ChartPanelSpec = parts['ChartPanelSpec']; ChartSize = parts['ChartSize']; SeriesSpec = parts['SeriesSpec']; SpecLimits = parts['SpecLimits']
-    labels = [str(row.get('record_id')) for row in rows]
+    labels = [str(row.get(x_key) or row.get('record_id')) for row in rows]
+    measurement_label = next((column.label for column in fixture_columns() if column.key == measurement_key), measurement_key.replace('_', ' ').title())
+    values = [float(row.get(measurement_key)) for row in rows if isinstance(row.get(measurement_key), (int, float)) and math.isfinite(float(row.get(measurement_key)))]
     if kind == 'distribution':
-        bins = ('49.2–49.5', '49.5–49.8', '49.8–50.1', '50.1–50.4')
-        values = [sum(49.2 + bucket * .3 <= float(row.get('measurement_nm') or 0) < 49.2 + (bucket + 1) * .3 for row in rows) for bucket in range(4)]
-        spec = ChartPanelSpec('Measurement distribution', 'Filtered records by measurement band.', kind=ChartKind.BAR, size=ChartSize.STANDARD, x_axis=AxisSpec('Measurement band', AxisType.CATEGORY, categories=bins), y_axis=AxisSpec('Records', AxisType.VALUE))
-        series = (SeriesSpec('distribution', 'Records', values, kind=ChartKind.BAR),)
+        lo = min(values) if values else 0.0
+        hi = max(values) if values else 1.0
+        span = max((hi - lo) / 4, .001)
+        bins = tuple(f'{lo + index * span:.2f}–{lo + (index + 1) * span:.2f}' for index in range(4))
+        counts = [sum(lo + bucket * span <= value < (lo + (bucket + 1) * span if bucket < 3 else hi + .001) for value in values) for bucket in range(4)]
+        spec = ChartPanelSpec(f'{measurement_label} distribution', 'Filtered records by measurement band.', kind=ChartKind.BAR, size=ChartSize.STANDARD, x_axis=AxisSpec(f'{measurement_label} band', AxisType.CATEGORY, categories=bins), y_axis=AxisSpec('Records', AxisType.VALUE))
+        series = (SeriesSpec('distribution', 'Records', counts, kind=ChartKind.BAR),)
         return ChartPanel(series, spec=spec)
     if kind == 'scatter':
-        data = [{'x': float(row.get('measurement_nm') or 0), 'y': float(row.get('yield_pct') or 0)} for row in rows]
-        spec = ChartPanelSpec('Measurement vs yield', 'Selected and filtered records stay in the same engineering population.', kind=ChartKind.SCATTER, size=ChartSize.STANDARD, x_axis=AxisSpec('Measurement', AxisType.VALUE, unit='nm'), y_axis=AxisSpec('Yield', AxisType.VALUE, unit='%'))
+        data = [{'x': float(row.get(x_key)), 'y': float(row.get(y_key))} for row in rows if isinstance(row.get(x_key), (int, float)) and isinstance(row.get(y_key), (int, float)) and math.isfinite(float(row.get(x_key))) and math.isfinite(float(row.get(y_key)))]
+        x_label = next((column.label for column in fixture_columns() if column.key == x_key), x_key.replace('_', ' ').title())
+        y_label = next((column.label for column in fixture_columns() if column.key == y_key), y_key.replace('_', ' ').title())
+        spec = ChartPanelSpec(f'{x_label} vs {y_label}', 'Selected and filtered records stay in the same engineering population.', kind=ChartKind.SCATTER, size=ChartSize.STANDARD, x_axis=AxisSpec(x_label, AxisType.VALUE), y_axis=AxisSpec(y_label, AxisType.VALUE))
         return ChartPanel((SeriesSpec('records', 'Records', data, kind=ChartKind.SCATTER, x_key='x', y_key='y'),), spec=spec)
     if kind == 'spc':
-        values = [float(row.get('measurement_nm') or 0) for row in rows]
         center = sum(values) / len(values) if values else 50.0
         spread = max(.12, (max(values) - min(values)) * .75) if values else .3
-        spec = ChartPanelSpec('SPC measurement trend', 'Mean and control limits are reference fixture semantics, not a production conclusion.', kind=ChartKind.CONTROL, size=ChartSize.STANDARD, x_axis=AxisSpec('Record', AxisType.CATEGORY, categories=labels), y_axis=AxisSpec('Measurement', AxisType.VALUE, unit='nm'))
-        return ChartPanel((SeriesSpec('measurement', 'Measurement', values, kind=ChartKind.CONTROL, semantic_color='accent'),), spec=spec, thresholds=(parts['ThresholdSpec'](center, 'Center'), parts['ThresholdSpec'](center + spread, 'UCL'), parts['ThresholdSpec'](center - spread, 'LCL')))
+        spec = ChartPanelSpec(f'SPC {measurement_label} trend', 'Mean and control limits are reference fixture semantics, not a production conclusion.', kind=ChartKind.CONTROL, size=ChartSize.STANDARD, x_axis=AxisSpec('Record', AxisType.CATEGORY, categories=labels), y_axis=AxisSpec(measurement_label, AxisType.VALUE, unit='nm'))
+        return ChartPanel((SeriesSpec('measurement', measurement_label, values, kind=ChartKind.CONTROL, semantic_color='accent'),), spec=spec, spec_limits=SpecLimits(lower=center - spread, upper=center + spread, target=center), thresholds=(parts['ThresholdSpec'](center, 'Center'), parts['ThresholdSpec'](center + spread, 'UCL'), parts['ThresholdSpec'](center - spread, 'LCL')))
     if kind == 'wafer':
-        points = [((index % 7) - 3, (index // 7) - 3, float(row.get('measurement_nm') or 0)) for index, row in enumerate(rows[:49])]
-        spec = ChartPanelSpec('Wafer measurement map', 'The same filtered engineering records mapped to bounded wafer coordinates.', kind=ChartKind.WAFER, size=ChartSize.STANDARD, x_axis=AxisSpec('Die X', AxisType.VALUE), y_axis=AxisSpec('Die Y', AxisType.VALUE))
-        return ChartPanel((SeriesSpec('wafer', 'Measurement', points, kind=ChartKind.WAFER),), spec=spec)
-    values = [float(row.get('measurement_nm') or 0) for row in rows]
-    spec = ChartPanelSpec('Measurement trend', 'Filtering the table changes this governed series.', kind=ChartKind.LINE, size=ChartSize.STANDARD, x_axis=AxisSpec('Record', AxisType.CATEGORY, categories=labels), y_axis=AxisSpec('Measurement', AxisType.VALUE, unit='nm'))
-    return ChartPanel((SeriesSpec('measurement', 'Measurement', values, kind=ChartKind.LINE, x_key=None, y_key=None),), spec=spec, spec_limits=SpecLimits(lower=49.4, upper=50.6, target=50.0))
+        points = [((index % 7) - 3, (index // 7) - 3, float(row.get(measurement_key) or 0)) for index, row in enumerate(rows[:49])]
+        spec = ChartPanelSpec(f'Wafer {measurement_label} map', 'The same filtered engineering records mapped to bounded wafer coordinates.', kind=ChartKind.WAFER, size=ChartSize.STANDARD, x_axis=AxisSpec('Die X', AxisType.VALUE), y_axis=AxisSpec('Die Y', AxisType.VALUE))
+        return ChartPanel((SeriesSpec('wafer', measurement_label, points, kind=ChartKind.WAFER),), spec=spec)
+    spec = ChartPanelSpec(f'{measurement_label} trend', 'Filtering the table changes this governed series.', kind=ChartKind.LINE, size=ChartSize.STANDARD, x_axis=AxisSpec(x_key.replace('_', ' ').title(), AxisType.CATEGORY, categories=labels), y_axis=AxisSpec(measurement_label, AxisType.VALUE, unit='nm'))
+    return ChartPanel((SeriesSpec('measurement', measurement_label, values, kind=ChartKind.LINE, x_key=None, y_key=None),), spec=spec, spec_limits=SpecLimits(lower=49.4, upper=50.6, target=50.0))
 
 
 def _render_visualize(parts, session: DataLabSession) -> None:
     ui = parts['ui']; SearchInput = parts['SearchInput']; SegmentedControl = parts['SegmentedControl']
-    state: dict[str, Any] = {'search': '', 'chart': 'trend', 'selected': set(), 'population': tuple(session.rows)}
+    state: dict[str, Any] = {'search': '', 'chart': 'trend', 'selected': set(), 'population': tuple(session.rows), 'measurement_field': 'measurement_nm', 'x_field': 'measurement_nm', 'y_field': 'yield_pct'}
     summary_host = None
     chart_host = None
     status = None
@@ -656,7 +806,7 @@ def _render_visualize(parts, session: DataLabSession) -> None:
         with chart_host:
             chart_rows = tuple(row for row in rows if not state['selected'] or row.get('record_id') in state['selected'])
             ui.label(f"Chart uses {'selected' if state['selected'] else 'filtered'} population · {len(chart_rows)} records").classes('cui-workbench-section-title')
-            _chart(parts, chart_rows, kind=state['chart'])
+            _chart(parts, chart_rows, kind=state['chart'], measurement_key=state['measurement_field'], x_key=state['x_field'], y_key=state['y_field'])
         status.set_text(f"Filtered records: {len(rows)} · Selected records: {len(state['selected'])} · Chart uses {'selected' if state['selected'] else 'filtered'} population")
 
     async def selected(chosen: Sequence[Mapping[str, Any]]) -> None:
@@ -679,6 +829,21 @@ def _render_visualize(parts, session: DataLabSession) -> None:
             state['population'] = tuple(table.rows)
             set_summary(state['population']); set_chart(state['population'])
         SearchInput('Search linked records', placeholder='Lot, tool, chamber, status…', debounce_ms=180, on_change=search_changed)
+        field_options = {'measurement_nm': 'Measurement (nm)', 'target_nm': 'Target (nm)', 'delta_nm': 'Delta (nm)', 'yield_pct': 'Yield (%)'}
+        async def measurement_changed(event) -> None:
+            state['measurement_field'] = str(getattr(event, 'value', 'measurement_nm') or 'measurement_nm')
+            set_chart(state['population'])
+        async def x_changed(event) -> None:
+            state['x_field'] = str(getattr(event, 'value', 'measurement_nm') or 'measurement_nm')
+            set_chart(state['population'])
+        async def y_changed(event) -> None:
+            state['y_field'] = str(getattr(event, 'value', 'yield_pct') or 'yield_pct')
+            set_chart(state['population'])
+        ui.label('Field mapping').classes('cui-workbench-card__meta')
+        Select = parts['Select']
+        Select('Measurement / Y', field_options, value='measurement_nm', clearable=False, on_change=measurement_changed)
+        Select('X (scatter)', field_options, value='measurement_nm', clearable=False, on_change=x_changed)
+        Select('Y (scatter)', field_options, value='yield_pct', clearable=False, on_change=y_changed)
         with ui.element('div').classes('cui-data-lab-chart-switcher'):
             async def chart_changed(event) -> None:
                 state['chart'] = str(getattr(event, 'value', 'trend') or 'trend')
@@ -714,10 +879,13 @@ def _render_import(parts, session: DataLabSession) -> None:
     _api_disclosure(parts, """from nicegui_base.workbench.data_dock import DataDockModel
 
 dock = DataDockModel(records)
-result = dock.load_text(text, filename='incoming.tsv')
-if result.ok:
-    rows = dock.rows
-""", 'DataDock owns format detection, schema inference, quality issues, hardened import limits and rectangular paste.')
+preview = dock.stage_text(text, source_name='incoming.tsv')
+if preview.ok:
+    # Inspect preview.snapshot/schema_diff() before replacing active rows.
+    dock.commit_stage()
+else:
+    dock.discard_stage()
+""", 'DataDock owns format detection, schema inference, quality issues, hardened import limits, staged preview/commit/cancel and rectangular paste.')
 
 
 def _import_changed(session: DataLabSession, model: Any) -> None:

@@ -38,7 +38,7 @@ def _switch_lab(page, label: str, *, wait: int = 500) -> None:
     control = page.get_by_role('radio', name=label, exact=True)
     control.scroll_into_view_if_needed()
     control.click()
-    page.locator(f'[data-active-lab="{label.lower()}"]').wait_for(state='visible', timeout=5000)
+    page.locator(f'[data-active-lab="{label.lower()}"]').wait_for(state='visible', timeout=10000)
     page.wait_for_timeout(wait)
     expected_title = {
         'Grid': 'Lot and wafer monitoring',
@@ -146,12 +146,67 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         page.wait_for_timeout(160)
         if page.locator('.ag-pinned-left-header .ag-header-cell[col-id="tool_id"]').count() != 1:
             issues.append('grid-pin-left-failed')
+        # Nested column menus retain the parent menu in the DOM.  Click the
+        # page surface to close the child menu before opening the next column's
+        # pin menu; Escape alone only closes the child in this Quasar version.
+        page.mouse.click(10, 10); page.wait_for_timeout(80)
+        page.get_by_role('button', name='Choose columns', exact=True).click()
+        for _ in range(3):
+            try:
+                page.get_by_role('button', name='Pin Status column', exact=True).scroll_into_view_if_needed()
+                break
+            except Exception:
+                page.wait_for_timeout(100)
+        page.get_by_role('button', name='Pin Status column', exact=True).click(force=True)
+        page.get_by_role('menu').last.get_by_role('button', name='Pin right', exact=True).click()
+        page.wait_for_timeout(160)
+        _ensure_column(page, 'status')
+        if page.locator('.ag-pinned-right-header .ag-header-cell[col-id="status"]').count() != 1:
+            issues.append('grid-pin-right-failed')
+        page.mouse.click(10, 10); page.wait_for_timeout(80)
+        page.get_by_role('button', name='Choose columns', exact=True).click()
+        for _ in range(3):
+            try:
+                page.get_by_role('button', name='Pin Status column', exact=True).scroll_into_view_if_needed()
+                break
+            except Exception:
+                page.wait_for_timeout(100)
+        page.get_by_role('button', name='Pin Status column', exact=True).click(force=True)
+        page.get_by_role('menu').last.get_by_role('button', name='Unpin', exact=True).click()
+        page.wait_for_timeout(160)
+        if page.locator('.ag-pinned-right-header .ag-header-cell[col-id="status"]').count() != 0:
+            issues.append('grid-unpin-failed')
         page.get_by_role('button', name='Table density', exact=True).click()
-        page.get_by_role('menu').get_by_role('button', name='Dense', exact=False).click()
+        page.locator('.cui-table-density-menu').get_by_role('button', name='Dense 34 px rows', exact=True).click()
         page.wait_for_timeout(150)
         if 'Dense' not in page.locator('.cui-table-footer-density').inner_text():
             issues.append('grid-density-failed')
-        page.get_by_role('button', name='Reset view', exact=True).click(); page.wait_for_timeout(220)
+        page.get_by_role('button', name='Reset view', exact=True).click(); page.wait_for_timeout(500)
+        if page.get_by_label('Search table').input_value() != '':
+            issues.append('grid-reset-search-not-cleared')
+        if page.locator('.cui-table-footer-label').inner_text() != '64 records':
+            issues.append('grid-reset-records-not-restored')
+        if 'Compact' not in page.locator('.cui-table-footer-density').inner_text():
+            issues.append('grid-reset-density-not-restored')
+        if page.get_by_role('button', name='Table view', exact=True).inner_text().strip() != 'Default':
+            issues.append('grid-reset-view-label-not-default')
+        # Personal views use the governed preference service, then reset returns
+        # the live control and persisted default to the authored contract.
+        page.get_by_role('button', name='Table view', exact=True).click()
+        page.get_by_role('button', name='Save current as Personal', exact=True).click()
+        page.wait_for_timeout(180)
+        page.get_by_role('button', name='Table density', exact=True).click()
+        page.locator('.cui-table-density-menu').get_by_role('button', name='Dense 34 px rows', exact=True).click()
+        page.wait_for_timeout(120)
+        page.get_by_role('button', name='Table view', exact=True).click()
+        page.get_by_role('button', name='Load Personal', exact=True).click()
+        page.wait_for_timeout(220)
+        if 'Compact' not in page.locator('.cui-table-footer-density').inner_text():
+            issues.append('grid-personal-view-not-restored')
+        page.get_by_role('button', name='Reset view', exact=True).click(); page.wait_for_timeout(350)
+        page.reload(wait_until='domcontentloaded', timeout=45000); page.wait_for_timeout(650)
+        if page.get_by_label('Search table').input_value() != '' or 'Compact' not in page.locator('.cui-table-footer-density').inner_text():
+            issues.append('grid-reset-not-persistent-after-reload')
     except Exception as exc:
         issues.append(f'grid-interaction:{type(exc).__name__}:{exc}')
 
@@ -165,12 +220,28 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         selected_status = page.locator('[data-actions-status]').inner_text()
         if 'selected' not in selected_status or int(selected_status.split()[0]) < 2:
             issues.append('selection-callback-not-normalized')
-        page.get_by_role('button', name='Hold selected', exact=True).click(); page.wait_for_timeout(280)
+        page.get_by_role('button', name='Hold selected', exact=True).click(); page.wait_for_timeout(550)
         _ensure_column(page, 'status')
         if page.locator('.ag-center-cols-container .ag-row').nth(0).locator('[col-id="status"]').inner_text().strip() != 'Hold':
             issues.append('hold-not-reflected-in-grid')
+        page.get_by_role('button', name='Release selected', exact=True).click(force=True); page.wait_for_timeout(550)
+        _ensure_column(page, 'status')
+        if page.locator('.ag-center-cols-container .ag-row').nth(0).locator('[col-id="status"]').inner_text().strip() != 'Nominal':
+            issues.append('release-not-reflected-in-grid')
+        page.get_by_role('button', name='Assign selected', exact=True).click(force=True); page.wait_for_timeout(450)
+        _ensure_column(page, 'owner')
+        if page.locator('.ag-center-cols-container .ag-row').nth(0).locator('[col-id="owner"]').inner_text().strip() != 'M. Chen':
+            issues.append('assign-not-reflected-in-grid')
+        try:
+            with page.expect_download(timeout=8000) as download_info:
+                page.get_by_role('button', name='Export selected', exact=True).click(force=True)
+            if not download_info.value.suggested_filename.endswith('.csv'):
+                issues.append('selected-export-filename-invalid')
+        except Exception as exc:
+            issues.append(f'selected-export-failed:{type(exc).__name__}')
         page.wait_for_timeout(160)
-        page.get_by_role('button', name='Mark reviewed', exact=True).click(force=True); page.wait_for_timeout(280)
+        page.get_by_role('button', name='Mark reviewed', exact=True).click(force=True); page.wait_for_timeout(550)
+        _ensure_column(page, 'reviewed')
         if 'Marked ' not in page.locator('[data-actions-status]').inner_text():
             issues.append('review-not-reflected-in-grid')
         page.get_by_role('button', name='Compare selected', exact=True).click(force=True); page.wait_for_timeout(220)
@@ -220,6 +291,14 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         current_drawer.get_by_role('button', name='Add record', exact=True).click(); page.wait_for_timeout(120)
         if 'already exists' not in page.locator('[data-edit-status]').inner_text():
             issues.append('duplicate-add-not-rejected')
+        # Native number inputs reject non-numeric text before the application
+        # receives it; exercise the semantic range validator with a finite
+        # out-of-range value instead.
+        current_drawer.get_by_role('textbox', name='Record ID', exact=True).fill('R-VERIFY-BAD')
+        current_drawer.get_by_role('spinbutton', name='Measurement', exact=True).fill('101')
+        current_drawer.get_by_role('button', name='Add record', exact=True).click(); page.wait_for_timeout(120)
+        if 'finite number' not in page.locator('[data-edit-status]').inner_text() and 'between 0 and 100' not in page.locator('[data-edit-status]').inner_text():
+            issues.append('invalid-add-number-not-rejected')
         page.keyboard.press('Escape'); page.wait_for_timeout(100)
         _ensure_column(page, 'measurement_nm')
         cell = page.locator('.ag-center-cols-container .ag-row').first.locator('[col-id="measurement_nm"]')
@@ -229,13 +308,39 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         _ensure_column(page, 'status')
         page.locator('.ag-center-cols-container .ag-row').first.locator('[col-id="status"]').dblclick(); page.wait_for_timeout(80)
         page.locator('.ag-cell-editor [role="combobox"]').click(); page.get_by_role('option', name='Hold', exact=True).click(); page.wait_for_timeout(240)
+        _ensure_column(page, 'status')
         if page.locator('.ag-center-cols-container .ag-row').first.locator('[col-id="status"]').inner_text().strip() != 'Hold':
             issues.append('status-editor-save-missing')
         _ensure_column(page, 'reviewed')
         page.locator('.ag-center-cols-container .ag-row').first.locator('[col-id="reviewed"]').dblclick(); page.wait_for_timeout(80)
         page.locator('.ag-cell-editor [role="combobox"]').click(); page.get_by_role('option', name='Yes', exact=True).click(); page.wait_for_timeout(240)
+        _ensure_column(page, 'reviewed')
         if page.locator('.ag-center-cols-container .ag-row').first.locator('[col-id="reviewed"]').inner_text().strip() not in {'Yes', 'true', 'True'}:
             issues.append('boolean-editor-save-missing')
+        edit_action = page.get_by_label('Edit record').first
+        if edit_action.count():
+            edit_action.click(force=True); page.wait_for_timeout(150)
+            edit_drawer = page.locator('.cui-drawer').last
+            edit_drawer.get_by_role('textbox', name='Owner', exact=True).fill('M. Chen')
+            edit_drawer.get_by_role('button', name='Save record', exact=True).click(); page.wait_for_timeout(800)
+            if 'Updated ' not in page.locator('[data-edit-status]').inner_text():
+                issues.append('full-record-edit-not-committed')
+        duplicate_action = page.get_by_label('Duplicate record').first
+        if duplicate_action.count():
+            duplicate_action.click(force=True)
+            try:
+                page.locator('[data-edit-status]').filter(has_text='Duplicated ').wait_for(state='visible', timeout=8000)
+            except Exception:
+                issues.append('duplicate-record-not-committed')
+        delete_action = page.get_by_label('Delete record').first
+        if delete_action.count():
+            delete_action.click(force=True); page.wait_for_timeout(120)
+            if page.get_by_role('button', name='Delete', exact=True).count() != 1:
+                issues.append('edit-delete-confirmation-missing')
+            else:
+                page.get_by_role('button', name='Delete', exact=True).click(force=True); page.wait_for_timeout(280)
+                if 'Deleted ' not in page.locator('[data-edit-status]').inner_text():
+                    issues.append('edit-delete-not-committed')
     except Exception as exc:
         issues.append(f'edit-interaction:{type(exc).__name__}:{exc}')
 
@@ -266,7 +371,16 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         # Import: stage, cancel without mutation, then confirm a second stage.
         open_lab('Import', wait=650)
         before = page.get_by_text('64 active rows', exact=False).count()
-        page.get_by_role('radio', name='Paste example', exact=True).click(); page.wait_for_timeout(100)
+        page.get_by_role('button', name='Show missing', exact=True).click(); page.wait_for_timeout(100)
+        if 'Missing values' not in page.locator('.cui-data-dock-quality-results').inner_text():
+            issues.append('import-missing-quality-action-missing')
+        page.get_by_role('button', name='Show duplicates', exact=True).click(); page.wait_for_timeout(100)
+        if 'Duplicate rows' not in page.locator('.cui-data-dock-quality-results').inner_text():
+            issues.append('import-duplicate-quality-action-missing')
+        page.get_by_role('button', name='Show issues', exact=True).click(); page.wait_for_timeout(100)
+        if 'Quality issues' not in page.locator('.cui-data-dock-quality-results').inner_text():
+            issues.append('import-issues-quality-action-missing')
+        page.get_by_role('radio', name='Paste example', exact=True).click(force=True); page.wait_for_timeout(180)
         paste = page.locator('textarea[aria-label="Paste data"]')
         paste.wait_for(state='visible', timeout=8000)
         paste.fill('record_id\tmeasurement_nm\tstatus\nR-STAGED\t52.2\tWatch\n')
@@ -285,7 +399,7 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         committed_paste.fill('record_id\tmeasurement_nm\tstatus\nR-COMMIT\t52.4\tNominal\n')
         page.get_by_role('button', name='Preview import', exact=True).click(); page.wait_for_timeout(180)
         page.get_by_role('button', name='Confirm import', exact=True).click(); page.wait_for_timeout(260)
-        if 'Imported 1 row' not in page.locator('body').inner_text():
+        if 'Imported 1 row' not in page.locator('body').inner_text() and 'Imported 1 rows' not in page.locator('body').inner_text():
             issues.append('import-confirm-status-missing')
     except Exception as exc:
         issues.append(f'import-interaction:{type(exc).__name__}:{exc}')
@@ -310,9 +424,15 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         page.get_by_role('button', name='Next page', exact=True).click(); page.wait_for_timeout(450)
         if 'Page 2 of 25000' not in page_label.inner_text():
             issues.append('server-page-two-missing')
+        page.get_by_role('button', name='Last page', exact=True).click(); page.wait_for_timeout(550)
+        if 'Page 25000 of 25000' not in page_label.inner_text() or page.locator('.ag-center-cols-container .ag-row').count() != 10:
+            issues.append('server-last-page-contract-invalid')
         page.get_by_role('combobox').click(); page.get_by_role('option', name='25', exact=True).click(); page.wait_for_timeout(450)
         if 'Page 1 of 10000' not in page_label.inner_text() or page.locator('.ag-center-cols-container .ag-row').count() != 25:
             issues.append('server-page-size-not-applied')
+        page.get_by_role('button', name='Last page', exact=True).click(); page.wait_for_timeout(550)
+        if 'Page 10000 of 10000' not in page_label.inner_text() or page.locator('.ag-center-cols-container .ag-row').count() != 25:
+            issues.append('server-page-size-last-page-invalid')
         server_search = page.get_by_label('Search table')
         server_search.fill('ETCH-021'); page.wait_for_timeout(1200)
         if '62,500 matching records' not in server_status.inner_text():
@@ -381,7 +501,7 @@ def main() -> int:
                 for label in LABS:
                     if label != 'Grid':
                         page.get_by_role('radio', name=label).click()
-                        page.locator(f'[data-active-lab="{label.lower()}"]').wait_for(state='visible', timeout=5000)
+                        page.locator(f'[data-active-lab="{label.lower()}"]').wait_for(state='visible', timeout=10000)
                         page.wait_for_timeout(120)
                     issues = _check_page(page, response, expected_lab=label)
                     if label == 'Visualize':
