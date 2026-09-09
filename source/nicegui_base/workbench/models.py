@@ -90,12 +90,18 @@ class ReferenceContract:
             if api_name.isidentifier() else
             'import nicegui_base\n\n'
         )
-        recommended_code = (
-            public_import
-            + f'# Generated from the current ReferenceContract for {entry.key}\n'
-            + f'# Canonical authority: {source}\n'
-            + f'# Use the registered {api_name} API; keep domain logic in app-owned services.\n'
-        )
+        if entry.kind is WorkbenchKind.ANALYTIC and metadata.get('surface_key'):
+            # Analytical code must teach the actual governed renderer.  Keep the
+            # import local so the model remains independent of the Workbench
+            # example catalog during normal framework imports.
+            from .public_examples import production_analytic_example
+            recommended_code = production_analytic_example(str(metadata['surface_key']))
+        else:
+            recommended_code = (
+                public_import
+                + f'# Canonical authority: {source}\n'
+                + f'# Use the registered {api_name} API; keep domain logic in app-owned services.\n'
+            )
         data_contract = (
             ('rows are a sequence of named mappings; preserve field names, row order, nulls, and schema semantics.',
              'numeric values must be finite when consumed by an analytical renderer.')

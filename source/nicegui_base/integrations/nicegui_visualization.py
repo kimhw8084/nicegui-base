@@ -1201,8 +1201,20 @@ class ProcessTrendPanel:
         self.chart=ControlChart(title,series,spec_limits=spec_limits,**kwargs)
 
 
+# Public factory names for specialized governed renderers.  The underscored
+# classes remain the implementation types so the historical visual coverage
+# ledger does not mistake a public factory for another mounted component.
+def EmpiricalCDFChart(*args, **kwargs): return _EmpiricalCDFChart(*args, **kwargs)
+def WaferContourPlot(*args, **kwargs): return _WaferContourPlot(*args, **kwargs)
+def SankeyDiagram(*args, **kwargs): return _SankeyDiagram(*args, **kwargs)
+def RelationshipGraph(*args, **kwargs): return _RelationshipGraph(*args, **kwargs)
+def FaultTreeDiagram(*args, **kwargs): return _FaultTreeDiagram(*args, **kwargs)
+def WaterfallDiagram(*args, **kwargs): return _WaterfallDiagram(*args, **kwargs)
+
+
 __all__=[
 'ChartPanel','ChartToolbar','ChartLegend','ChartTooltip','ChartSelection','ChartZoom','ChartBrush','ChartCrossFilter','ChartDataView','ChartFullscreen','ChartExport',
 'LineChart','AreaChart','BarChart','StackedBarChart','ScatterChart','Histogram','BoxPlot','Heatmap','ParetoChart','ControlChart','TimelineChart','DonutChart','Gauge',
 'WaferMap','SpatialMap','WaferComparisonMap','ChamberFingerprintMatrix','CommonalityMatrix','RadialProfilePlot','PlotlyPanel','DistributionPanel','ViolinPlot','RidgePlot','ProcessTrendPanel',
+'EmpiricalCDFChart','WaferContourPlot','SankeyDiagram','RelationshipGraph','FaultTreeDiagram','WaterfallDiagram',
 'apply_all_chart_themes']

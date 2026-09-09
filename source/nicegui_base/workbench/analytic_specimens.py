@@ -225,7 +225,15 @@ def _build_fixtures() -> dict[str, tuple[dict[str, object], ...]]:
         'yield_pareto': tuple({'category': category, 'count': count, 'cumulative_pct': pct} for category, count, pct in zip(('CD OOS', 'Edge defect', 'Overlay', 'Scratch', 'Other'), (34, 22, 13, 8, 5), (41.5, 68.3, 84.1, 93.9, 100.0), strict=True)),
         'bin_pareto': tuple({'category': category, 'count': count, 'cumulative_pct': pct} for category, count, pct in zip(('Bin 3', 'Bin 7', 'Edge', 'Scratch', 'Other'), (31, 24, 14, 9, 6), (36.9, 65.5, 82.1, 92.9, 100.0), strict=True)),
         'yield_waterfall': tuple({'category': category, 'delta': delta} for category, delta in (('CD OOS', -1.8), ('Edge', -.9), ('Overlay', -.6), ('Recovery', .3), ('Other', -.2))),
-        'weibull_reliability': tuple({'time': time, 'failure_probability': probability} for time, probability in zip(range(10, 130, 10), (.01, .02, .04, .07, .12, .19, .29, .42, .57, .71, .83, .91), strict=True)),
+        'weibull_reliability': tuple(
+            {'time': time, 'failure_probability': probability, 'failed': failed}
+            for time, probability, failed in zip(
+                range(10, 130, 10),
+                (.01, .02, .04, .07, .12, .19, .29, .42, .57, .71, .83, .91),
+                (True, True, False, True, True, False, True, True, True, False, True, True),
+                strict=True,
+            )
+        ),
         'doe_main_effects': tuple({'factor': factor, 'level': level, 'response': response} for factor, values in (('RF bias', (39.4, 40.1, 41.3)), ('Pressure', (40.9, 40.2, 39.5))) for level, response in zip(('Low', 'Center', 'High'), values, strict=True)),
         'doe_interactions': tuple({'factor_a': factor_a, 'factor_b': factor_b, 'response': response} for factor_b, values in (('Pressure low', (39.4, 40.1, 41.2)), ('Pressure high', (41.0, 40.5, 39.7))) for factor_a, response in zip(('RF low', 'RF center', 'RF high'), values, strict=True)),
         'doe_response_surface': tuple({'factor_a': a, 'factor_b': b, 'response': round(39.5 + .18 * a - .12 * b + .06 * a * b - .035 * a * a, 3)} for a in range(-3, 4) for b in range(-2, 4)),

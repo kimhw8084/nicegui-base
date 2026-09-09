@@ -82,7 +82,7 @@ EXPECTED_RENDERER = {
     'rca_evidence_matrix': 'renderer:commonality_matrix', 'rca_genealogy_graph': 'renderer:relationship_graph',
     'rca_cause_tree': 'renderer:cause_tree', 'rca_fault_tree': 'renderer:fault_tree', 'rca_sankey': 'renderer:sankey',
     'yield_pareto': 'chart:pareto', 'bin_pareto': 'chart:pareto', 'yield_waterfall': 'renderer:waterfall',
-    'weibull_reliability': 'chart:line', 'doe_main_effects': 'chart:line', 'doe_interactions': 'chart:line',
+    'weibull_reliability': 'chart:scatter', 'doe_main_effects': 'chart:line', 'doe_interactions': 'chart:line',
     'doe_response_surface': 'chart:heatmap',
 }
 assert set(EXPECTED_RENDERER) == set(ANALYTICS)
