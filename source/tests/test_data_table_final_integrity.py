@@ -216,3 +216,13 @@ def test_visual_metric_contract_keeps_units_roles_and_metric_aware_limits() -> N
     assert "AxisSpec('Timestamp'" in source
     assert 'metric.spec_lower' in source and 'metric.spec_upper' in source
     assert 'unit=metric.unit' in source
+
+
+def test_table_selection_actions_switch_to_governed_overflow_before_tablet_clipping() -> None:
+    from nicegui_base.data_table.css import build_data_table_css
+
+    css = build_data_table_css()
+    tablet = css[css.index('@media (max-width:1100px)'):css.index('@media (max-width:620px)')]
+    assert '.cui-table-selection-bar:not(.cui-table-selection-bar--mobile)' in tablet
+    assert '.cui-table-selection-bar--mobile' in tablet
+    assert '.cui-table-selection-overflow' in tablet

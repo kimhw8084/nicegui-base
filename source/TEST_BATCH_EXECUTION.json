@@ -4,7 +4,7 @@
   "test_files": 167,
   "batches_requested": 6,
   "batches_executed": 6,
-  "duration_ms": 70364.8,
+  "duration_ms": 71291.4,
   "results": [
     {
       "batch": 1,
@@ -39,7 +39,7 @@
         "tests/test_phase12_combinatorial.py"
       ],
       "returncode": 0,
-      "duration_ms": 14634.5
+      "duration_ms": 16987.7
     },
     {
       "batch": 2,
@@ -74,7 +74,7 @@
         "tests/test_phase35_v200_single_token_authority.py"
       ],
       "returncode": 0,
-      "duration_ms": 9991.3
+      "duration_ms": 10867.3
     },
     {
       "batch": 3,
@@ -109,7 +109,7 @@
         "tests/test_phase59_v300a8_production_data_platform.py"
       ],
       "returncode": 0,
-      "duration_ms": 10598.8
+      "duration_ms": 10045.1
     },
     {
       "batch": 4,
@@ -144,7 +144,7 @@
         "tests/test_phase76_v300a8_longitudinal_assurance_review_exception_governance.py"
       ],
       "returncode": 0,
-      "duration_ms": 20904.2
+      "duration_ms": 20321.6
     },
     {
       "batch": 5,
@@ -179,7 +179,7 @@
         "tests/test_showcase_phase5.py"
       ],
       "returncode": 0,
-      "duration_ms": 2932.9
+      "duration_ms": 2688.5
     },
     {
       "batch": 6,
@@ -213,7 +213,7 @@
         "tests/test_workbench_iteration2_9.py"
       ],
       "returncode": 0,
-      "duration_ms": 11300.4
+      "duration_ms": 10377.7
     }
   ]
 }

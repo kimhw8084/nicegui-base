@@ -204,12 +204,22 @@ def build_data_table_css() -> str:
   .cui-table-viewport { max-width:100%; }
   .cui-table-footer { flex-wrap:wrap; }
 }
-@media (max-width:620px) {
+/*
+ * A selected action group needs the same compact anatomy before phone width.
+ * The shell sidebar leaves roughly 728px of content at the governed 1024px
+ * tablet viewport; rendering seven labeled buttons there makes every label
+ * narrower than its content.  Keep the canonical direct-action bar for wide
+ * tables and expose the already-mounted governed overflow surface below the
+ * minimum useful action-group width.
+ */
+@media (max-width:1100px) {
   .cui-table-selection-bar:not(.cui-table-selection-bar--mobile) { display:none; }
   .cui-table-selection-bar--mobile { display:flex; flex-wrap:nowrap; min-height:44px; padding-inline:8px; }
   .cui-table-selection-bar__direct { display:none; }
   .cui-table-selection-overflow { display:inline-flex; flex:0 0 auto; }
   .cui-table-selection-bar .cui-table-toolbar__spacer { min-width:0; }
+}
+@media (max-width:620px) {
   .cui-table-footer { display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"label density" "pagination pagination"; gap:4px 8px; min-height:0; }
   .cui-table-footer-label { grid-area:label; min-width:0; }
   .cui-table-footer-density { grid-area:density; justify-self:end; }

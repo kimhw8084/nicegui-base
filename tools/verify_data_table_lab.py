@@ -415,31 +415,44 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         if '0 selected' not in page.locator('[data-actions-status]').inner_text() and page.locator('.cui-table-selection-bar:not(.cui-table-selection-bar--mobile)').is_visible():
             issues.append('delete-selection-not-reconciled')
 
-        # Narrow screens use the same governed bulk-action policy through one
-        # compact overflow surface; no second grid or action implementation is
-        # mounted for the mobile presentation.
-        mobile_page = page_context.new_page()
-        mobile_page.set_viewport_size({'width': 390, 'height': 844})
-        mobile_page.set_default_timeout(8000)
-        mobile_page.on('console', lambda message: local_console_errors.append(message.text) if message.type == 'error' else None)
-        mobile_page.on('pageerror', lambda error: local_page_errors.append(str(error)))
-        mobile_page.goto(url.rstrip('/') + '/workbench/data', wait_until='domcontentloaded', timeout=45000)
-        mobile_page.get_by_role('radio', name='Grid', exact=True).wait_for(state='visible', timeout=10000)
-        _switch_lab(mobile_page, 'Actions', wait=700)
-        _select_row(mobile_page, 0)
-        mobile_bar = mobile_page.locator('.cui-table-selection-bar--mobile')
-        mobile_bar.wait_for(state='visible', timeout=8000)
-        if mobile_page.locator('.cui-table-selection-bar:not(.cui-table-selection-bar--mobile):visible').count() != 0:
-            issues.append('mobile-desktop-selection-bar-still-visible')
-        mobile_page.locator('.cui-table-selection-overflow').click()
-        mobile_menu = mobile_page.locator('.cui-table-selection-menu--inline')
-        mobile_menu.wait_for(state='visible', timeout=5000)
-        for label in ('Hold selected', 'Assign selected', 'Compare selected', 'Delete selected'):
-            if mobile_menu.get_by_role('button', name=label, exact=True).count() != 1:
-                issues.append(f'mobile-bulk-action-missing:{label}')
-        if evidence_dir is not None:
-            mobile_page.screenshot(path=str(evidence_dir / 'actions_overflow_phone_light.png'), full_page=True)
-        mobile_page.close()
+        # Tablet and phone use the same governed compact overflow surface once
+        # the shell leaves less than the direct action group's useful width.
+        # There is still one table and one policy/action authority.
+        for responsive_width, evidence_name in ((1024, 'actions_overflow_tablet_light'), (390, 'actions_overflow_phone_light')):
+            # Use a fresh context per responsive surface.  Keeping the prior
+            # desktop/tablet websocket alive in one context can deliver a late
+            # visibility update to the next page; that is harness cross-talk,
+            # not a product state.  The browser surface remains the same.
+            compact_context = page_context.browser.new_context(viewport={'width': responsive_width, 'height': 844 if responsive_width < 600 else 900})
+            compact_page = compact_context.new_page()
+            compact_page.set_default_timeout(8000)
+            compact_page.on('console', lambda message: local_console_errors.append(message.text) if message.type == 'error' else None)
+            compact_page.on('pageerror', lambda error: local_page_errors.append(str(error)))
+            compact_page.goto(url.rstrip('/') + '/workbench/data', wait_until='domcontentloaded', timeout=45000)
+            compact_page.get_by_role('radio', name='Grid', exact=True).wait_for(state='visible', timeout=10000)
+            _switch_lab(compact_page, 'Actions', wait=700)
+            _select_row(compact_page, 0)
+            compact_bar = compact_page.locator('.cui-table-selection-bar--mobile')
+            compact_bar.wait_for(state='visible', timeout=8000)
+            if compact_page.locator('.cui-table-selection-bar:not(.cui-table-selection-bar--mobile):visible').count() != 0:
+                issues.append(f'compact-actions-desktop-bar-visible:{responsive_width}')
+            # The bar is a client-owned visibility surface and can receive one
+            # late websocket visibility mutation after selection. Re-check
+            # visibility before using the same normal accessible button action.
+            compact_page.wait_for_timeout(180)
+            if not compact_bar.is_visible():
+                issues.append(f'compact-actions-bar-lost-visibility:{responsive_width}')
+                compact_context.close()
+                continue
+            compact_bar.locator('.cui-table-selection-overflow').click()
+            compact_menu = compact_bar.locator('.cui-table-selection-menu--inline')
+            compact_menu.wait_for(state='visible', timeout=5000)
+            for label in ('Hold selected', 'Assign selected', 'Compare selected', 'Delete selected'):
+                if compact_menu.get_by_role('button', name=label, exact=True).count() != 1:
+                    issues.append(f'compact-bulk-action-missing:{responsive_width}:{label}')
+            if evidence_dir is not None:
+                compact_page.screenshot(path=str(evidence_dir / f'{evidence_name}.png'), full_page=True)
+            compact_context.close()
     except Exception as exc:
         issues.append(f'actions-interaction:{type(exc).__name__}:{exc}')
 
