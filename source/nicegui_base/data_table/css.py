@@ -52,6 +52,14 @@ def build_data_table_css() -> str:
 .cui-table-column-option__native:focus-visible + .cui-table-column-option__check { box-shadow:0 0 0 3px color-mix(in srgb,var(--cui-focus-ring) 30%,transparent); }
 .cui-table-column-option__label { font-size:var(--cui-font-size-12); line-height:var(--cui-line-height-18); font-weight:var(--cui-font-weight-520); }
 .cui-table-selection-bar { display:flex; align-items:center; gap:8px; padding:6px 10px; min-height:44px; background:var(--cui-accent-soft); border-bottom:1px solid color-mix(in srgb,var(--cui-accent) 22%,var(--cui-border-subtle)); color:var(--cui-text-primary); }
+.cui-table-selection-bar--mobile { display:none; }
+.cui-table-selection-bar__direct { display:flex; align-items:center; gap:6px; min-width:0; }
+.cui-table-selection-overflow { display:none; }
+.cui-table-selection-menu { min-width:220px; }
+.cui-table-selection-overflow__summary { display:inline-flex; align-items:center; gap:6px; cursor:pointer; list-style:none; }
+.cui-table-selection-overflow__summary::-webkit-details-marker { display:none; }
+.cui-table-selection-bar--mobile { position:relative; }
+.cui-table-selection-bar--mobile .cui-table-selection-menu--inline { display:flex; flex-direction:column; gap:var(--cui-space-1); position:absolute; inset-inline-end:var(--cui-space-2); inset-block-start:calc(100% + var(--cui-space-1)); z-index:var(--cui-overlay-z); min-width:220px; padding:var(--cui-space-2); border:1px solid var(--cui-border-subtle); border-radius:var(--cui-radius-overlay); background:var(--cui-surface); box-shadow:var(--cui-shadow-2); }
 .cui-table-viewport { width:100%; overflow:auto; position:relative; }
 .cui-data-table { width:100%; border-collapse:separate; border-spacing:0; table-layout:auto; color:var(--cui-text-primary); font-size:var(--cui-type-data-size); font-variant-numeric:tabular-nums; }
 .cui-data-table th { position:relative; height:var(--cui-table-header); padding:0 var(--cui-table-cell-x); background:var(--cui-surface-secondary); color:var(--cui-text-secondary); font-size:var(--cui-type-label-size); font-weight:var(--cui-font-weight-600); text-align:left; white-space:nowrap; border-bottom:1px solid var(--cui-border-default); }
@@ -87,6 +95,8 @@ def build_data_table_css() -> str:
 .cui-table-expanded > td { padding:var(--cui-space-4); white-space:normal; }
 .cui-table-footer { min-height:40px; display:flex; align-items:center; gap:10px; padding:6px 10px; border-top:1px solid var(--cui-border-subtle); color:var(--cui-text-secondary); font-size:var(--cui-type-caption-size); }
 .cui-table-footer__spacer { flex:1; }
+.cui-table-footer__pagination { display:flex; align-items:center; gap:4px; margin-inline-start:auto; min-width:0; }
+.cui-table-page-label { white-space:nowrap; }
 .cui-table-footer-density { color:var(--cui-text-tertiary); font-variant-numeric:tabular-nums; }
 .cui-table-empty { min-height:220px; display:grid; place-items:center; text-align:center; color:var(--cui-text-secondary); padding:var(--cui-space-6); }
 .cui-table-empty strong { display:block; color:var(--cui-text-primary); margin-bottom:4px; }
@@ -195,6 +205,16 @@ def build_data_table_css() -> str:
   .cui-table-footer { flex-wrap:wrap; }
 }
 @media (max-width:620px) {
+  .cui-table-selection-bar:not(.cui-table-selection-bar--mobile) { display:none; }
+  .cui-table-selection-bar--mobile { display:flex; flex-wrap:nowrap; min-height:44px; padding-inline:8px; }
+  .cui-table-selection-bar__direct { display:none; }
+  .cui-table-selection-overflow { display:inline-flex; flex:0 0 auto; }
+  .cui-table-selection-bar .cui-table-toolbar__spacer { min-width:0; }
+  .cui-table-footer { display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"label density" "pagination pagination"; gap:4px 8px; min-height:0; }
+  .cui-table-footer-label { grid-area:label; min-width:0; }
+  .cui-table-footer-density { grid-area:density; justify-self:end; }
+  .cui-table-footer__spacer { display:none; }
+  .cui-table-footer__pagination { grid-area:pagination; width:100%; justify-content:flex-end; margin-inline-start:0; }
   .cui-table-tool-button .q-label { display:none; }
   .cui-table-tool-button { width:34px !important; min-width:34px !important; padding:0 !important; }
   .cui-table-tool-button .q-btn__content { gap:0 !important; }

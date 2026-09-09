@@ -1,10 +1,11 @@
 {
-  "automated_tests": 1587,
+  "scope": "source/static evidence only; target runtime, browser and human evidence are recorded separately",
+  "automated_tests": 1880,
   "browser_execution": "PENDING",
   "browser_native_uiux_constitution": "PENDING",
   "compileall": "PASS",
   "framework_version": "3.0.0a8",
-  "generated_at": "2026-08-30T23:35:11Z",
+  "generated_at": "2026-09-09T02:15:47Z",
   "governance": {
     "errors": 0,
     "status": "PASS",
@@ -16,11 +17,11 @@
   "pytest": "PASS",
   "static_certification": {
     "fail": 0,
-    "pass": 12,
+    "pass": 14,
     "skip": 0,
-    "warning": 1
+    "warning": 0
   },
   "status": "PASS",
   "target_runtime_execution": "PENDING (requires installed NiceGUI 3.15.0 target environment)",
-  "visual_component_coverage": "183/183"
+  "visual_component_coverage": "185/185"
 }

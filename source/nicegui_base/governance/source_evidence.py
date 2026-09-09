@@ -889,6 +889,7 @@ def generate_source_evidence(root: str | Path = '.', *, run_tests: bool = True, 
         raise RuntimeError(f'source gates failed: {source_summary}')
 
     test_report = {
+        'scope': 'source/static evidence only; target runtime, browser and human evidence are recorded separately',
         'framework_version': FRAMEWORK_VERSION,
         'nicegui_version': NICEGUI_VERSION,
         'generated_at': generated_at,
@@ -906,6 +907,7 @@ def generate_source_evidence(root: str | Path = '.', *, run_tests: bool = True, 
 
 
     certification = {
+        'scope': 'source/static evidence only; target runtime, browser and human evidence are recorded separately',
         'framework_version': FRAMEWORK_VERSION,
         'nicegui_version': NICEGUI_VERSION,
         'generated_at': generated_at,
@@ -925,6 +927,7 @@ def generate_source_evidence(root: str | Path = '.', *, run_tests: bool = True, 
     _write(root / 'CERTIFICATION_REPORT.json', certification)
 
     readiness = {
+        'scope': 'source/static evidence only; target runtime, browser and human evidence are recorded separately',
         'framework_version': FRAMEWORK_VERSION,
         'nicegui_version': NICEGUI_VERSION,
         'generated_at': generated_at,

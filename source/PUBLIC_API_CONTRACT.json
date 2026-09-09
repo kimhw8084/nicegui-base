@@ -3,7 +3,7 @@
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "ae643cb251d9a38791977bc91e949eaa09fb3f0eb031f583c11b60472d41aee5",
+  "sha256": "511a0598084573f6210772984d982a613353f6751f6658bd4e8f718b39c86449",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -41402,6 +41402,25 @@
               "tuple": []
             },
             "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "column_order"
+          },
+          {
+            "annotation": "'Mapping[str, int]'",
+            "default": {
+              "present": true,
+              "repr": "<factory>",
+              "type": "dataclasses._HAS_DEFAULT_FACTORY_CLASS"
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "column_widths"
+          },
+          {
+            "annotation": "'tuple[str, ...]'",
+            "default": {
+              "present": true,
+              "tuple": []
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
             "name": "pinned_left"
           },
           {
@@ -41439,6 +41458,42 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "filters"
+          },
+          {
+            "annotation": "'str'",
+            "default": {
+              "present": true,
+              "value": ""
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "search"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 1
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "page"
+          },
+          {
+            "annotation": "'int | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "page_size"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 0
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "scroll_row_index"
           }
         ],
         "return": "None"

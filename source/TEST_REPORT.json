@@ -1,10 +1,10 @@
 {
-  "automated_tests": 1871,
+  "automated_tests": 1880,
   "browser_execution": "PENDING",
   "browser_native_uiux_constitution": "PENDING",
   "compileall": "PASS",
   "framework_version": "3.0.0a8",
-  "generated_at": "2026-09-08T21:16:43Z",
+  "generated_at": "2026-09-09T04:51:46Z",
   "governance": {
     "errors": 0,
     "status": "PASS",
@@ -13,7 +13,8 @@
   "human_visual_baseline": "PENDING",
   "live_routes": 21,
   "nicegui_version": "3.15.0",
-  "pytest": "NOT_RUN",
+  "pytest": "PASS",
+  "scope": "source/static evidence only; target runtime, browser and human evidence are recorded separately",
   "static_certification": {
     "fail": 0,
     "pass": 14,

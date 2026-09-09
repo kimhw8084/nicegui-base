@@ -534,61 +534,125 @@ class TableColumnManager:
                     ui.button('Auto-size columns', on_click=auto_size).props('flat no-caps').classes('cui-menu-item')
             self.element=button
 
-    def set_visible(self, key: str, visible: bool) -> None:
+    async def set_visible(self, key: str, visible: bool) -> None:
         control=self.controls.get(key)
         if control is None: return
-        control.props(add='checked' if visible else None, remove=None if visible else 'checked')
+        # Do not replace the native input with a NiceGUI element patch here.
+        # Replacing an input after a preset/reset can detach its normalized
+        # change listener in NiceGUI 3.15.0.  Mutate the DOM property in place;
+        # this keeps the checkbox and its event authority live while the grid
+        # state changes underneath it.
+        try:
+            await _ui().run_javascript(
+                f"(() => {{ const input=getHtmlElement({int(control.id)}); if (input) {{ input.checked={'true' if visible else 'false'}; input.defaultChecked={'true' if visible else 'false'}; }} }})()"
+            )
+        except Exception:
+            # Static construction/fake clients do not have a DOM.  Keep the
+            # server-side fallback for those callers and for the next render.
+            control.props(add='checked' if visible else None, remove=None if visible else 'checked')
 
 
 class TableSelectionBar:
     def __init__(self, actions: Sequence[BulkAction]=(), *, table: 'DataTable | None'=None):
-        self.actions=tuple(actions); self.table=table; self.element=None; self.count_label=None; self.buttons: dict[str, Any] = {}
+        self.actions=tuple(actions); self.table=table; self.element=None; self.count_label=None
+        self.buttons: dict[str, Any] = {}; self.mobile_buttons: dict[str, Any] = {}
+        self.mobile_trigger=None; self.mobile_menu=None; self.mobile_host=None; self.mobile_count_label=None; self._mobile_menu_open=False
         if table is not None:
             ui=_ui()
             with ui.element('div').classes('cui-table-selection-bar') as self.element:
                 self.count_label=ui.label('0 selected').classes('cui-table-selection-count')
-                for action in self.actions:
-                    async def run(e=None, a=action):
-                        rows=await table.selected_rows()
-                        policy = resolve_bulk_action_state(a, rows)
-                        if not policy.visible or not policy.enabled:
-                            return
-                        await _invoke(a.on_action, rows)
-                    btn=ui.button(on_click=run).props('flat dense no-caps').classes(f'cui-button cui-button--{action.intent} cui-control--small')
-                    self.buttons[action.key] = btn
-                    with btn:
-                        if action.icon: _icon(ui,action.icon,size='xs')
-                        ui.label(action.label)
+                with ui.element('div').classes('cui-table-selection-bar__direct'):
+                    for action in self.actions:
+                        async def run(e=None, a=action): await self._run_action(a)
+                        btn=ui.button(on_click=run).props('flat dense no-caps').classes(f'cui-button cui-button--{action.intent} cui-control--small cui-table-selection-action')
+                        self.buttons[action.key] = btn
+                        with btn:
+                            if action.icon: _icon(ui,action.icon,size='xs')
+                            ui.label(action.label)
                 ui.element('div').classes('cui-table-toolbar__spacer')
                 async def clear_selection(e=None): await _invoke(table.deselect_all)
                 clear=ui.button(on_click=clear_selection).props('flat round aria-label="Clear selection"').classes('cui-icon-button')
                 with clear: _icon(ui,'close',label='Clear selection')
             self.element.set_visibility(False)
 
+    def mount_mobile_menu(self) -> None:
+        """Mount the compact narrow-screen action surface in the table shell."""
+        if self.element is None or self.mobile_host is not None:
+            return
+        ui = _ui()
+        with ui.element('div').classes('cui-table-selection-bar cui-table-selection-bar--mobile') as self.mobile_host:
+            self.mobile_count_label=ui.label('0 selected').classes('cui-table-selection-count')
+            self.mobile_trigger=ui.button().props('flat dense no-caps aria-label="Bulk actions"').classes('cui-button cui-control--small cui-table-selection-overflow')
+            with self.mobile_trigger:
+                _icon(ui, 'more-horizontal', size='xs')
+                ui.label('Actions')
+            async def toggle_mobile_menu(e=None):
+                is_open=not self._mobile_menu_open
+                self._mobile_menu_open=is_open
+                if self.mobile_menu is not None:
+                    self.mobile_menu.set_visibility(is_open)
+                self.mobile_trigger.props(f'aria-expanded="{str(is_open).lower()}"')
+            self.mobile_trigger.on('click', toggle_mobile_menu)
+            self.mobile_menu=ui.element('div').classes('cui-table-selection-menu cui-table-selection-menu--inline').props('role="menu" aria-label="Bulk actions"')
+            with self.mobile_menu:
+                ui.label('Bulk actions').classes('cui-menu-heading')
+                for action in self.actions:
+                    async def run_mobile(e=None, a=action): await self._run_action(a, close_menu=True)
+                    button=ui.button(on_click=run_mobile).props('flat no-caps').classes(f'cui-menu-item cui-button--{action.intent}')
+                    self.mobile_buttons[action.key] = button
+                    with button:
+                        if action.icon: _icon(ui,action.icon,size='xs')
+                        ui.label(action.label)
+            async def clear_mobile(e=None): await _invoke(self.table.deselect_all)
+            clear=ui.button(on_click=clear_mobile).props('flat round aria-label="Clear selection"').classes('cui-icon-button')
+            with clear: _icon(ui, 'close', label='Clear selection')
+            self._mobile_menu_open=False
+            self.mobile_menu.set_visibility(False)
+        self.mobile_host.set_visibility(False)
+
+    async def _run_action(self, action: BulkAction, *, close_menu: bool = False) -> None:
+        """Run a bulk action through the same fail-closed policy used by every surface."""
+        if self.table is None:
+            return
+        rows=await self.table.selected_rows()
+        policy = resolve_bulk_action_state(action, rows)
+        if not policy.visible or not policy.enabled:
+            return
+        await _invoke(action.on_action, rows)
+        if close_menu and self.mobile_menu is not None:
+            self._mobile_menu_open=False
+            self.mobile_menu.set_visibility(False)
+            if self.mobile_trigger is not None:
+                self.mobile_trigger.props('aria-expanded="false"')
+
     def update_count(self, count:int, rows: Sequence[Mapping[str, Any]] = ()) -> None:
         if self.count_label is not None:
             self.count_label.set_text(f'{count} selected')
+        if self.mobile_count_label is not None:
+            self.mobile_count_label.set_text(f'{count} selected')
         if self.element is not None:
             self.element.set_visibility(count>0)
+        any_visible = False
         for action in self.actions:
             policy = resolve_bulk_action_state(action, rows)
-            button = self.buttons.get(action.key)
-            if button is None:
-                continue
-            button.set_visibility(policy.visible)
-            if policy.enabled:
-                enable = getattr(button, 'enable', None)
-                if callable(enable):
-                    enable()
-            else:
-                disable = getattr(button, 'disable', None)
-                if callable(disable):
-                    disable()
-            try:
-                reason = policy.disabled_reason or ''
-                button.props(f'aria-disabled="{str(not policy.enabled).lower()}" title="{html.escape(reason, quote=True)}"')
-            except Exception:
-                return
+            any_visible = any_visible or policy.visible
+            for button in (self.buttons.get(action.key), self.mobile_buttons.get(action.key)):
+                if button is None:
+                    continue
+                button.set_visibility(policy.visible)
+                if policy.enabled:
+                    enable = getattr(button, 'enable', None)
+                    if callable(enable): enable()
+                else:
+                    disable = getattr(button, 'disable', None)
+                    if callable(disable): disable()
+                try:
+                    reason = policy.disabled_reason or ''
+                    button.props(f'aria-disabled="{str(not policy.enabled).lower()}" title="{html.escape(reason, quote=True)}"')
+                except Exception:
+                    continue
+        if self.mobile_host is not None:
+            self.mobile_host.set_visibility(count > 0 and any_visible)
 
 
 class TableRowActions:
@@ -614,7 +678,7 @@ class TableContextMenu(TableRowActions):
                     with button:
                         if action.icon: _icon(ui,action.icon,size='xs')
                         ui.label(action.label)
-    def open_for(self,row:Mapping[str,Any]):
+    def open_for(self,row:Mapping[str,Any], *, open_menu: bool = False):
         # ui.context_menu is opened client-side at the actual pointer position;
         # the AG Grid event only supplies the row payload used by its actions.
         self.row=row
@@ -637,6 +701,8 @@ class TableContextMenu(TableRowActions):
                 button.props(f'aria-disabled="{str(not policy.enabled).lower()}" title="{html.escape(reason, quote=True)}"')
             except Exception:
                 pass
+        if open_menu and self.menu is not None:
+            self.menu.open()
 
 
 
@@ -678,7 +744,10 @@ class DataTable:
             self.state = TableState.from_persisted(None, spec.columns, default_density=spec.density, default_page_size=spec.page_size)
         self.spec=spec; self.bulk_actions=tuple(bulk_actions); self.row_actions=tuple(row_actions)
         self._preset_selector: TablePresetSelector | None = None
-        self._active_view_name = 'Default'
+        persisted_view = payload.get('active_view') if isinstance(payload, Mapping) else None
+        self._active_view_name = str(persisted_view).strip() if persisted_view else 'Default'
+        self._applying_view = False
+        self._view_apply_until = 0.0
         self.rows=list(rows or []); self._selected_rows_cache: tuple[dict[str, Any], ...] = (); self._selection_restore_until = 0.0; self._selection_restore_pending = False; self.on_select=on_select; self.on_view_changed=on_view_changed; self.on_refresh=on_refresh; self.search=self.state.search; self.displayed_count=len(self.rows)
         self._persist_task: asyncio.Task[None] | None = None
         self._lifecycle = LifecycleScope()
@@ -700,29 +769,12 @@ class DataTable:
             self.selection_bar=TableSelectionBar(self.bulk_actions, table=self) if self.bulk_actions else None
             self.context_menu=TableContextMenu(self.row_actions) if self.row_actions else None
             col_defs=[_column_def(c) for c in spec.columns]
-            for action in self.row_actions:
-                icon_html=render_icon_svg(action.icon or 'more', size='xs', label=None)
-                safe_label=html.escape(action.label, quote=True)
-                action_html=f'<span class="cui-table-row-action" role="button" aria-label="{safe_label}"><span class="cui-table-row-action__icon">{icon_html}</span><span>{safe_label}</span></span>'
-                disabled_html=f'<span class="cui-table-row-action is-disabled" role="button" aria-label="{safe_label}" aria-disabled="true"><span class="cui-table-row-action__icon">{icon_html}</span><span>{safe_label}</span></span>'
-                action_states = {}
-                for row in self.rows:
-                    resolved = resolve_row_action_state(action, row)
-                    action_states[str(row.get(spec.row_key))] = {
-                        'visible': resolved.visible,
-                        'enabled': resolved.enabled,
-                        'reason': resolved.disabled_reason or '',
-                    }
-                renderer = (
-                    f"params => {{ const state={_js_literal(action_states)}[String(params.data?.[{_js_literal(spec.row_key)}])] || {{visible:true,enabled:true,reason:''}}; "
-                    f"if (!state.visible) return ''; const html=state.enabled ? {_js_literal(action_html)} : {_js_literal(disabled_html)}; "
-                    "return html.replace('aria-disabled=\"true\"', `aria-disabled=\"${state.enabled ? 'false' : 'true'}\" title=\"${String(state.reason || '').replace(/\"/g, '&quot;')}\"`); }"
-                )
+            if self.row_actions:
                 col_defs.append({
-                    'colId': f'__action_{action.key}', 'headerName':'', 'sortable':False, 'filter':False,
-                    'resizable':False, 'width': max(72, min(124, len(action.label)*8+42)), 'pinned':'right',
-                    'suppressHeaderMenuButton':True, 'suppressMovable':True,
-                    'cellClass':'cui-table-action-cell', ':cellRenderer': renderer,
+                    'colId': '__actions', 'headerName': 'Actions', 'sortable': False, 'filter': False,
+                    'resizable': False, 'width': 116 if len(self.row_actions) > 1 else 112, 'pinned': 'right',
+                    'suppressHeaderMenuButton': True, 'suppressMovable': True,
+                    'cellClass': 'cui-table-action-cell', ':cellRenderer': self._action_cell_renderer(),
                 })
             row_selection = None
             if spec.selection is SelectionMode.MULTIPLE: row_selection={'mode':'multiRow'}
@@ -730,6 +782,7 @@ class DataTable:
             options={
                 'columnDefs': col_defs,
                 'rowData': self.rows,
+                'context': {'cuiActionStates': self._action_state_payload()},
                 # AG Grid's identity contract is a string even when the application
                 # uses an integer row ordinal internally for edit/undo bookkeeping.
                 ':getRowId': f"params => String(params.data[{_js_literal(spec.row_key)}])",
@@ -775,6 +828,8 @@ class DataTable:
                 self.footer_label=ui.label(self._footer_text()).classes('cui-table-footer-label').props('aria-live=polite')
                 ui.element('div').classes('cui-table-footer__spacer')
                 self.footer_density_label=ui.label(self._density_text()).classes('cui-table-footer-density')
+            if self.selection_bar is not None:
+                self.selection_bar.mount_mobile_menu()
         # AG Grid event objects contain circular references (the grid API points
         # back to its bean context). Emit only the normalized payload needed by
         # the framework callbacks so selection/actions never create a browser
@@ -788,6 +843,10 @@ class DataTable:
         self.element.on(
             'cellClicked', self._handle_cell_clicked,
             js_handler="e => emit({colId: e.colId || e.column?.getColId?.() || '', data: e.data || {}})",
+        )
+        self.element.on(
+            'cellKeyDown', self._handle_cell_keydown,
+            js_handler="e => emit({key: e.event?.key || '', colId: e.colId || e.column?.getColId?.() || '', data: e.data || {}})",
         )
         self.element.on('cellContextMenu', self._handle_context_menu,
                         js_handler='e => emit({data: e.data || {}})')
@@ -817,6 +876,66 @@ class DataTable:
             )
         _register_client_delete(ui,self.aclose)
         _ACTIVE_TABLES.add(self)
+
+    def _action_state_payload(self) -> dict[str, Any]:
+        """Return current normalized policy state for the one Actions column.
+
+        The payload is refreshed after every framework-owned row mutation.  A
+        missing row/action is deliberately fail-closed instead of inheriting a
+        permissive renderer default.
+        """
+        payload: dict[str, Any] = {}
+        for row in self.rows:
+            actions: dict[str, Any] = {}
+            for action in self.row_actions:
+                resolved = resolve_row_action_state(action, row)
+                actions[action.key] = {
+                    'visible': resolved.visible,
+                    'enabled': resolved.enabled,
+                    'reason': resolved.disabled_reason or '',
+                }
+            payload[str(row.get(self.spec.row_key))] = {
+                'visible': any(item['visible'] for item in actions.values()),
+                'actions': actions,
+            }
+        return payload
+
+    def _action_cell_renderer(self) -> str:
+        """Render one direct action or one accessible overflow trigger."""
+        key_literal = _js_literal(self.row_actions[0].key) if len(self.row_actions) == 1 else 'null'
+        if len(self.row_actions) == 1:
+            action = self.row_actions[0]
+            icon_html = render_icon_svg(action.icon or 'more', size='xs', label=None)
+            safe_label = html.escape(action.label, quote=True)
+            enabled_html = f'<span class="cui-table-row-action" role="button" aria-label="{safe_label}"><span class="cui-table-row-action__icon">{icon_html}</span><span>{safe_label}</span></span>'
+            disabled_html = f'<span class="cui-table-row-action is-disabled" role="button" aria-label="{safe_label}" aria-disabled="true"><span class="cui-table-row-action__icon">{icon_html}</span><span>{safe_label}</span></span>'
+            return (
+                f"params => {{ const row=(params.context?.cuiActionStates || {{}})[String(params.data?.[{_js_literal(self.spec.row_key)}])] || {{visible:false,actions:{{}}}}; "
+                f"const state=row.actions?.[{key_literal}]; if (!state?.visible) return ''; "
+                f"const html=state.enabled ? {_js_literal(enabled_html)} : {_js_literal(disabled_html)}; "
+                "return html.replace('aria-disabled=\"true\"', `aria-disabled=\"${state.enabled ? 'false' : 'true'}\" title=\"${String(state.reason || '').replace(/\"/g, '&quot;')}\"`); }"
+            )
+        overflow_html = '<span class="cui-table-row-actions-trigger" role="button" tabindex="0" aria-haspopup="menu" aria-label="Actions"><span aria-hidden="true">⋯</span><span>Actions</span></span>'
+        return (
+            f"params => {{ const row=(params.context?.cuiActionStates || {{}})[String(params.data?.[{_js_literal(self.spec.row_key)}])] || {{visible:false}}; "
+            f"return row.visible ? {_js_literal(overflow_html)} : ''; }}"
+        )
+
+    async def _refresh_action_policy(self) -> None:
+        """Refresh action-cell policy without replacing the mounted table."""
+        # Some backwards-compatible EditableTable test doubles and lightweight
+        # integrations construct the instance through ``__new__``.  Treat their
+        # absent optional action fields as an empty policy surface rather than
+        # making an unrelated edit path fail after the row update succeeds.
+        if not getattr(self, 'row_actions', ()) or getattr(self, '_closed', False):
+            return
+        try:
+            await self.element.run_grid_method('setGridOption', 'context', {'cuiActionStates': self._action_state_payload()})
+            await self.element.run_grid_method('refreshCells', {'force': True, 'columns': ['__actions']})
+        except Exception:
+            # The normalized server-side handlers remain authoritative if a
+            # lightweight grid host cannot refresh the renderer context.
+            return
 
     def _validate_row_identities(self, rows: Sequence[Mapping[str, Any]]) -> None:
         if self.spec.selection is SelectionMode.NONE:
@@ -936,13 +1055,25 @@ class DataTable:
 
     async def _handle_cell_clicked(self, event):
         args=getattr(event,'args',{}) or {}; col=args.get('colId') or args.get('column',{}).get('colId')
-        if not col or not str(col).startswith('__action_'): return
-        key=str(col)[len('__action_'):]; row=args.get('data') or {}
-        action=next((a for a in self.row_actions if a.key==key),None)
-        if action:
+        if col != '__actions': return
+        row=args.get('data') or {}
+        await self._activate_row_actions(row)
+
+    async def _handle_cell_keydown(self, event):
+        args=getattr(event,'args',{}) or {}
+        if args.get('colId') != '__actions' or args.get('key') not in {'Enter', ' '}:
+            return
+        await self._activate_row_actions(args.get('data') or {})
+
+    async def _activate_row_actions(self, row: Mapping[str, Any]) -> None:
+        if len(self.row_actions) == 1:
+            action = self.row_actions[0]
             policy = resolve_row_action_state(action, row)
             if policy.visible and policy.enabled:
-                await _invoke(action.on_action,row)
+                await _invoke(action.on_action, row)
+            return
+        if self.context_menu is not None:
+            self.context_menu.open_for(row, open_menu=True)
 
     async def _handle_context_menu(self,event):
         if not self.context_menu:return
@@ -1020,7 +1151,7 @@ class DataTable:
     async def set_column_visible(self, key:str, visible:bool):
         result=await self.element.run_grid_method('setColumnsVisible',[key],visible)
         if self.toolbar is not None and self.toolbar.column_manager is not None:
-            self.toolbar.column_manager.set_visible(key,visible)
+            await self.toolbar.column_manager.set_visible(key,visible)
         self._schedule_persist_state()
         return result
 
@@ -1059,6 +1190,7 @@ class DataTable:
     async def reset_layout(self):
         """Restore every live control to the immutable declared table defaults."""
         declared = self.default_spec
+        self._view_apply_until = time.monotonic() + 2.0
         state = []
         for index, column in enumerate(declared.columns):
             state.append({
@@ -1074,6 +1206,7 @@ class DataTable:
         await self.element.run_grid_method('setFilterModel', {})
         self.search = ''
         self.spec = declared
+        self._active_view_name = 'Default'
         self.state = TableState.from_persisted(None, declared.columns, default_density=declared.density, default_page_size=declared.page_size)
         await self.element.run_grid_method('setGridOption', 'quickFilterText', '')
         await self.element.run_grid_method('setGridOption', 'paginationPageSize', declared.page_size)
@@ -1083,6 +1216,7 @@ class DataTable:
         await self.element.run_grid_method('refreshHeader')
         if declared.pagination.value == 'client':
             await self.element.run_grid_method('paginationGoToFirstPage')
+        await self.element.run_grid_method('ensureIndexVisible', 0, 'top')
         self.state.selected_keys.clear()
         self._selected_rows_cache = ()
         self._selection_restore_pending = False
@@ -1096,11 +1230,114 @@ class DataTable:
                 self.toolbar.density_selector.set_value(declared.density)
             if self.toolbar.column_manager is not None:
                 for column in declared.columns:
-                    self.toolbar.column_manager.set_visible(column.key, column.visible)
+                    await self.toolbar.column_manager.set_visible(column.key, column.visible)
         if self._preset_selector is not None:
             self._preset_selector.reset()
         await self._sync_displayed_count()
         await self.persist_state()
+
+    async def apply_view_state(self, target: TableState, *, name: str = 'Default') -> None:
+        """Apply one complete deterministic view state without remounting the grid."""
+        declared = self.default_spec
+        page_size = target.page_size if target.page_size in declared.page_size_options else declared.page_size
+        known = {column.key for column in declared.columns}
+        order = [key for key in target.column_order if key in known]
+        order.extend(column.key for column in declared.columns if column.key not in order)
+        visible = list(dict.fromkeys(key for key in target.visible_columns if key in known))
+        target = TableState(
+            density=target.density,
+            search=target.search,
+            selected_keys=set(),
+            expanded_keys=set(),
+            visible_columns=visible,
+            column_order=order,
+            column_widths={key: width for key, width in target.column_widths.items() if key in known},
+            pinned_left=[key for key in target.pinned_left if key in known],
+            pinned_right=[key for key in target.pinned_right if key in known and key not in target.pinned_left],
+            sorts=[item for item in target.sorts if item.key in known],
+            filters=list(target.filters),
+            page=max(1, target.page),
+            page_size=page_size,
+            scroll_row_index=max(0, target.scroll_row_index),
+        )
+        self._view_apply_until = time.monotonic() + 4.0
+        self._applying_view = True
+        try:
+            self.spec = _stateful_table_spec(declared, target)
+            sort_map = {item.key: (item.direction.value, index) for index, item in enumerate(target.sorts)}
+            left = set(target.pinned_left); right = set(target.pinned_right)
+            column_state = []
+            for key in target.column_order:
+                column = next(item for item in declared.columns if item.key == key)
+                sort, sort_index = sort_map.get(key, (None, None))
+                column_state.append({
+                    'colId': key,
+                    'hide': key not in target.visible_columns,
+                    'pinned': 'left' if key in left else 'right' if key in right else None,
+                    'width': target.column_widths.get(key, column.width),
+                    'sort': sort,
+                    'sortIndex': sort_index,
+                })
+            await self.element.run_grid_method('applyColumnState', {'state': column_state, 'applyOrder': True})
+            await self.element.run_grid_method('setFilterModel', _filter_model_from_specs(target.filters))
+            await self.element.run_grid_method('setGridOption', 'quickFilterText', target.search)
+            await self.element.run_grid_method('setGridOption', 'paginationPageSize', page_size)
+            await self.set_density(target.density)
+            # The NiceGUI AG Grid bridge may preserve column visibility/filter
+            # state while applying a composite state containing widths, pinning
+            # and ordering.  Synchronize these two user-facing controls through
+            # their normalized APIs after the composite operation, rather than
+            # relying on renderer-specific ordering details.
+            await self.element.run_grid_method('applyColumnState', {
+                'state': [
+                    {'colId': column.key, 'hide': column.key not in target.visible_columns}
+                    for column in declared.columns
+                ],
+                'applyOrder': False,
+            })
+            await self.element.run_grid_method('setFilterModel', _filter_model_from_specs(target.filters))
+            # Re-apply sorting after the filter/density lifecycle events settle.
+            # This keeps preset transitions deterministic, including a preset
+            # whose authored state deliberately contains no sorting.
+            await self.element.run_grid_method('applyColumnState', {
+                'state': [
+                    {
+                        'colId': column.key,
+                        'sort': sort_map.get(column.key, (None, None))[0],
+                        'sortIndex': sort_map.get(column.key, (None, None))[1],
+                    }
+                    for column in declared.columns
+                ],
+                'applyOrder': False,
+            })
+            if self.spec.pagination.value == 'client':
+                await self.element.run_grid_method('paginationGoToPage', max(0, target.page - 1))
+            if target.scroll_row_index:
+                await self.element.run_grid_method('ensureIndexVisible', target.scroll_row_index, 'top')
+            else:
+                await self.element.run_grid_method('ensureIndexVisible', 0, 'top')
+            self.state = target
+            self.search = target.search
+            self._active_view_name = name.strip() or 'Default'
+            self.state.selected_keys.clear()
+            self._selected_rows_cache = ()
+            await self.element.run_grid_method('deselectAll')
+            if self.toolbar is not None:
+                if self.toolbar.search_input is not None:
+                    if target.search:
+                        self.toolbar.search_input.props(f'value="{html.escape(target.search, quote=True)}"')
+                    else:
+                        await self.toolbar.clear_search_input()
+                if self.toolbar.column_manager is not None:
+                    for column in declared.columns:
+                        await self.toolbar.column_manager.set_visible(column.key, column.key in target.visible_columns)
+            if self._preset_selector is not None:
+                self._preset_selector.set_active_label(self._active_view_name)
+            await self._refresh_action_policy()
+            await self._sync_displayed_count()
+            await self.persist_state()
+        finally:
+            self._applying_view = False
 
     async def set_search(self, value:str):
         self.search=value or ''
@@ -1138,6 +1375,7 @@ class DataTable:
         finally:
             self._suppress_callbacks = False
         self._sync_selection_bar()
+        await self._refresh_action_policy()
         await self._sync_displayed_count()
         self._schedule_persist_state()
 
@@ -1167,10 +1405,10 @@ class DataTable:
         next_rows.extend(row for row in add_rows if row.get(key_name) not in remove_set)
         self._validate_row_identities(next_rows)
         if update_rows and not add_rows and not remove_set:
-            # Updating a row through its normalized RowNode.setData contract
-            # preserves AG Grid selection, focus and scroll. Update individual
-            # governed fields so AG Grid does not replace the selected RowNode.
-            # Full rowData
+            # Updating a single row through its normalized RowNode.setData
+            # contract preserves AG Grid selection, focus and scroll. Bulk
+            # updates use one framework-owned transaction instead of issuing a
+            # websocket round trip for every selected row. Full rowData
             # replacement is reserved for add/remove transactions where the
             # client row set really changes.
             original_rows = {row.get(key_name): row for row in self.rows}
@@ -1183,19 +1421,27 @@ class DataTable:
                 self._selection_restore_pending = True
             self._suppress_callbacks = True
             try:
-                for row in update_rows:
+                if len(update_rows) == 1:
+                    row = update_rows[0]
                     key = row.get(key_name)
                     if key in current:
                         original = original_rows.get(key, {})
                         for field, value in current[key].items():
                             if field != key_name and original.get(field) != value:
                                 await self.element.run_row_method(str(key), 'setDataValue', field, value)
+                else:
+                    # AG Grid's transaction API updates existing RowNodes in
+                    # place, preserving selection/focus/scroll while keeping a
+                    # large bulk action bounded to one client call.
+                    self.element.run_grid_method('applyTransaction', {'update': update_rows})
+                    await self.element.run_grid_method('refreshCells', {'force': False})
                 self.state.selected_keys = preserved_selection
                 self._selected_rows_cache = tuple(dict(row) for row in self.rows if row.get(key_name) in preserved_selection)
                 await self._restore_selection()
             finally:
                 self._suppress_callbacks = False
             self._sync_selection_bar()
+            await self._refresh_action_policy()
             self.element.options['rowData'] = self.rows
             await self._sync_displayed_count()
             self._schedule_persist_state()
@@ -1231,6 +1477,7 @@ class DataTable:
         finally:
             self._suppress_callbacks = False
         self._sync_selection_bar()
+        await self._refresh_action_policy()
         self.element.options['rowData'] = self.rows
         await self._sync_displayed_count()
         self._schedule_persist_state()
@@ -1261,6 +1508,8 @@ class DataTable:
     def _schedule_persist_state(self, event=None) -> None:
         if self._closed or self._restoring_state or not self.spec.persist_state or self.preferences is None or not self.spec.persist_key:
             return
+        if time.monotonic() < getattr(self, '_view_apply_until', 0.0):
+            return
         if self._persist_task is not None and not self._persist_task.done():
             self._persist_task.cancel()
         try:
@@ -1271,6 +1520,27 @@ class DataTable:
     async def _persist_state_after_delay(self) -> None:
         try:
             await asyncio.sleep(.12)
+            # Grid lifecycle events can arrive after a named view has been
+            # applied (for example after AG Grid finishes restoring its
+            # column/filter model).  Compare the settled live state with the
+            # saved view before changing its identity to Custom.  This keeps a
+            # personal view stable across reloads while still marking it Custom
+            # after a genuine user edit.
+            if self._active_view_name not in {'Default', 'Custom'} and self.preferences is not None and self.spec.persist_key:
+                saved = self.preferences.load().filter_views.get(self._saved_view_key(self._active_view_name))
+                if isinstance(saved, Mapping) and isinstance(saved.get('state'), Mapping):
+                    current = await self.capture_state()
+                    current_payload = current.to_persisted(self.default_spec.columns)
+                    saved_payload = dict(saved['state'])
+                    # Selection is a transient interaction, not part of the
+                    # named view identity; all authored layout/query/paging
+                    # fields remain compared and persisted.
+                    current_payload.pop('selected_keys', None)
+                    saved_payload.pop('selected_keys', None)
+                    if current_payload != saved_payload:
+                        self._active_view_name = 'Custom'
+                        if self._preset_selector is not None:
+                            self._preset_selector.set_active_label('Custom')
             await self.persist_state()
         except asyncio.CancelledError:
             return
@@ -1335,7 +1605,9 @@ class DataTable:
     async def persist_state(self) -> TableState:
         state=await self.capture_state()
         if self.preferences is not None and self.spec.persist_key:
-            self.preferences.save_table_state(self.spec.persist_key,state.to_persisted(self.spec.columns))
+            payload = state.to_persisted(self.spec.columns)
+            payload['active_view'] = self._active_view_name
+            self.preferences.save_table_state(self.spec.persist_key, payload)
         return state
 
     def _saved_view_key(self, name: str) -> str:
@@ -1372,30 +1644,7 @@ class DataTable:
         if not isinstance(payload, Mapping) or not isinstance(payload.get('state'), Mapping):
             raise KeyError(name)
         target = TableState.from_persisted(payload['state'], self.default_spec.columns, default_density=self.default_spec.density, default_page_size=self.default_spec.page_size)
-        self.spec = _stateful_table_spec(self.default_spec, target)
-        state = []
-        sort_map = {item.key: (item.direction.value, index) for index, item in enumerate(target.sorts)}
-        for index, column in enumerate(self.default_spec.columns):
-            state.append({
-                'colId': column.key,
-                'hide': column.key not in target.visible_columns,
-                'pinned': 'left' if column.key in target.pinned_left else 'right' if column.key in target.pinned_right else None,
-                'width': target.column_widths.get(column.key, column.width),
-                'sort': sort_map.get(column.key, (None, None))[0],
-                'sortIndex': sort_map.get(column.key, (None, None))[1],
-            })
-        await self.element.run_grid_method('applyColumnState', {'state': state, 'applyOrder': True})
-        self.state = target
-        await self.set_density(target.density)
-        self.search = target.search
-        await self.element.run_grid_method('setGridOption', 'quickFilterText', self.search)
-        await self.element.run_grid_method('setGridOption', 'paginationPageSize', target.page_size)
-        await self.element.run_grid_method('setFilterModel', _filter_model_from_specs(target.filters))
-        await self._sync_displayed_count()
-        self._active_view_name = str(name).strip()
-        if self._preset_selector is not None:
-            self._preset_selector.set_active_label(self._active_view_name)
-        await self.persist_state()
+        await self.apply_view_state(target, name=str(name))
 
     def delete_named_view(self, name: str) -> None:
         if self.preferences is None:
@@ -1403,6 +1652,9 @@ class DataTable:
         self.preferences.delete_filter_view(self._saved_view_key(name))
         if self._active_view_name == str(name).strip():
             self._active_view_name = 'Default'
+            if self._preset_selector is not None:
+                self._preset_selector.set_active_label('Default')
+            self._schedule_persist_state()
 
     async def _restore_selection(self) -> None:
         if self.spec.selection is SelectionMode.NONE or not self.state.selected_keys:
@@ -1502,13 +1754,14 @@ class ServerDataTable(DataTable):
         self.element.on('filterChanged', self._grid_query_changed, js_handler='() => emit()')
         ui=_ui()
         with self.footer:
-            self.page_label=ui.label('Page 1').classes('cui-table-page-label')
-            prev=ui.button(on_click=self.previous_page).props('flat round aria-label="Previous page"').classes('cui-icon-button')
-            with prev: _icon(ui,'arrow-left',label='Previous page')
-            nxt=ui.button(on_click=self.next_page).props('flat round aria-label="Next page"').classes('cui-icon-button')
-            with nxt: _icon(ui,'arrow-right',label='Next page')
-            last=ui.button(on_click=self.last_page).props('flat round aria-label="Last page"').classes('cui-icon-button')
-            with last: _icon(ui,'arrow-right',label='Last page')
+            with ui.element('div').classes('cui-table-footer__pagination'):
+                self.page_label=ui.label('Page 1').classes('cui-table-page-label')
+                prev=ui.button(on_click=self.previous_page).props('flat round aria-label="Previous page"').classes('cui-icon-button')
+                with prev: _icon(ui,'arrow-left',label='Previous page')
+                nxt=ui.button(on_click=self.next_page).props('flat round aria-label="Next page"').classes('cui-icon-button')
+                with nxt: _icon(ui,'arrow-right',label='Next page')
+                last=ui.button(on_click=self.last_page).props('flat round aria-label="Last page"').classes('cui-icon-button')
+                with last: _icon(ui,'arrow-right',label='Last page')
         _schedule_scope_task(
             self._lifecycle,
             _deferred_lifecycle_call(self.refresh),
@@ -1754,6 +2007,7 @@ class EditableTable(DataTable):
     async def _set_grid_row(self, row: Mapping[str,Any]) -> None:
         row_id=row.get(self.spec.row_key)
         await self.element.run_row_method(str(row_id),'setData',dict(row))
+        await self._refresh_action_policy()
 
     async def _restore_edit_focus(self, row_index: int | None, key: str) -> None:
         if not self.spec.restore_focus_on_error or row_index is None: return
@@ -1824,16 +2078,23 @@ class TablePresetSelector:
         self.presets=tuple(presets); self.table=table; self.element=None; self.label=None; self.active:TablePreset | None=None
         if table is not None and self.presets:
             table._preset_selector = self
-            ui=_ui(); self.active=self.presets[0]
+            ui=_ui()
+            active_name = table._active_view_name if table._active_view_name else 'Default'
+            self.active = next((preset for preset in self.presets if preset.name == active_name), None)
             button=ui.button().props('flat no-caps aria-label="Table view"').classes('cui-table-tool-button cui-table-view-button')
             with button:
                 _icon(ui,'grid',size='xs')
-                self.label=ui.label(self.active.name).classes('cui-table-tool-button__label')
-                with ui.menu().classes('cui-menu cui-table-view-menu cui-overlay-surface cui-overlay-surface--popover'):
+                self.label=ui.label(active_name).classes('cui-table-tool-button__label')
+                view_menu = ui.menu().props('auto-close=false').classes('cui-menu cui-table-view-menu cui-overlay-surface cui-overlay-surface--popover')
+                with view_menu:
                     ui.label('Saved views').classes('cui-menu-heading')
                     for preset in self.presets:
-                        async def choose(e=None, p=preset):
-                            await self.apply(p); await _invoke(on_select,p)
+                        def choose(e=None, p=preset):
+                            async def apply_selected():
+                                await self.apply(p)
+                                await _invoke(on_select, p)
+                                view_menu.close()
+                            _schedule_scope_task(table._lifecycle, apply_selected(), name=f'table-view-{p.name}')
                         with ui.button(on_click=choose).props('flat no-caps').classes('cui-menu-item cui-table-view-option'):
                             ui.label(preset.name)
                             ui.label(preset.density.value.title()).classes('cui-table-view-option__meta')
@@ -1867,27 +2128,29 @@ class TablePresetSelector:
 
     async def apply(self,preset:TablePreset):
         if self.table is None:return
+        declared = self.table.default_spec
+        declared_keys = tuple(column.key for column in declared.columns)
+        order = tuple(key for key in (preset.column_order or declared_keys) if key in declared_keys)
+        order += tuple(key for key in declared_keys if key not in order)
+        visible = tuple(preset.visible_columns or tuple(column.key for column in declared.columns if column.visible))
+        default_left = tuple(column.key for column in declared.columns if column.pinned is PinPosition.LEFT)
+        default_right = tuple(column.key for column in declared.columns if column.pinned is PinPosition.RIGHT)
+        target = TableState(
+            density=preset.density,
+            search=preset.search,
+            visible_columns=list(visible),
+            column_order=list(order),
+            column_widths={column.key: int(preset.column_widths.get(column.key, column.width)) for column in declared.columns if preset.column_widths.get(column.key, column.width) is not None},
+            pinned_left=list(preset.pinned_left or default_left),
+            pinned_right=list(preset.pinned_right or default_right),
+            sorts=list(preset.sorts),
+            filters=list(preset.filters),
+            page=preset.page,
+            page_size=preset.page_size or declared.page_size,
+            scroll_row_index=preset.scroll_row_index,
+        )
         self.active=preset
-        self.table._active_view_name = preset.name
-        if self.label is not None:self.label.set_text(preset.name)
-        await self.table.set_density(preset.density)
-        visible=set(preset.visible_columns)
-        if visible:
-            for c in self.table.spec.columns: await self.table.set_column_visible(c.key,c.key in visible)
-        # Pinning/sort state are applied in one Grid API transaction so view changes do not jiggle columns.
-        sort_map={item.key:item.direction.value for item in preset.sorts}
-        state=[]
-        for c in self.table.spec.columns:
-            item={'colId':c.key}
-            if c.key in preset.pinned_left:item['pinned']='left'
-            elif c.key in preset.pinned_right:item['pinned']='right'
-            else:item['pinned']=None
-            if c.key in sort_map:item['sort']=sort_map[c.key]
-            elif preset.sorts:item['sort']=None
-            state.append(item)
-        await self.table.element.run_grid_method('applyColumnState',{'state':state,'applyOrder':False})
-        await self.table.set_search('')
-        await self.table.set_filters(preset.filters)
+        await self.table.apply_view_state(target, name=preset.name)
 
 
 __all__=[

@@ -160,3 +160,59 @@ def test_data_lab_exposes_truthful_saved_view_and_quality_mapping_contracts() ->
     assert "'measurement_field'" in lab or "Measurement field" in lab
     assert 'Show missing' in dock and 'Show duplicates' in dock and 'Profile column' in dock
     assert 'stage_text' in lab and 'commit_stage' in lab and 'discard_stage' in lab
+
+
+def test_presets_are_complete_and_absent_sorting_clears_previous_sort() -> None:
+    from pathlib import Path
+    from nicegui_base.data_table import TablePreset, TableDensity, SortDirection, SortSpec
+
+    preset = TablePreset(
+        'Quality review',
+        visible_columns=('id',),
+        column_order=('id', 'status'),
+        column_widths={'id': 140},
+        pinned_left=('id',),
+        density=TableDensity.DENSE,
+        sorts=(SortSpec('status', SortDirection.ASC),),
+        search='OOS',
+        page=2,
+        page_size=25,
+        scroll_row_index=8,
+    )
+    assert preset.column_order == ('id', 'status')
+    assert preset.column_widths == {'id': 140}
+    assert preset.search == 'OOS' and preset.page_size == 25 and preset.scroll_row_index == 8
+    source = (Path(__file__).resolve().parents[1] / 'nicegui_base/integrations/nicegui_data_table.py').read_text(encoding='utf-8')
+    selector = source[source.index('class TablePresetSelector'):]
+    assert 'self.active=self.presets[0]' not in selector
+    assert 'sort_map = {item.key' in source or 'sort_map={item.key' in source
+    assert "'sort': sort" in source
+
+
+def test_row_actions_use_one_dynamic_fail_closed_actions_column() -> None:
+    from pathlib import Path
+
+    source = (Path(__file__).resolve().parents[1] / 'nicegui_base/integrations/nicegui_data_table.py').read_text(encoding='utf-8')
+    assert "'colId': '__actions'" in source
+    assert "f'__action_{action.key}'" not in source
+    assert 'cuiActionStates' in source
+    assert 'cellKeyDown' in source
+
+
+def test_visual_metric_contract_keeps_units_roles_and_metric_aware_limits() -> None:
+    from pathlib import Path
+    from nicegui_base.workbench.data_table_lab import VISUAL_METRICS, visual_metric
+
+    assert visual_metric('measurement_nm').unit == 'nm'
+    assert visual_metric('yield_pct').unit == '%'
+    assert visual_metric('delta_nm').unit == 'nm'
+    assert {'trend', 'scatter', 'spc'} <= set(visual_metric('yield_pct').valid_roles)
+    assert visual_metric('measurement_nm').spec_lower == 49.4
+    assert visual_metric('yield_pct').spec_lower == 90.0
+    assert visual_metric('delta_nm').target == 0.0
+    assert set(VISUAL_METRICS) == {'measurement_nm', 'yield_pct', 'delta_nm', 'target_nm'}
+
+    source = (Path(__file__).resolve().parents[1] / 'nicegui_base/workbench/data_table_lab.py').read_text(encoding='utf-8')
+    assert "AxisSpec('Timestamp'" in source
+    assert 'metric.spec_lower' in source and 'metric.spec_upper' in source
+    assert 'unit=metric.unit' in source

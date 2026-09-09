@@ -45,6 +45,32 @@ LABS = (
 )
 
 
+@dataclass(frozen=True, slots=True)
+class VisualMetricSpec:
+    key: str
+    label: str
+    unit: str
+    valid_roles: tuple[str, ...]
+    target: float | None = None
+    spec_lower: float | None = None
+    spec_upper: float | None = None
+
+
+VISUAL_METRICS: dict[str, VisualMetricSpec] = {
+    'measurement_nm': VisualMetricSpec('measurement_nm', 'Measurement', 'nm', ('trend', 'distribution', 'scatter', 'spc', 'wafer'), 50.0, 49.4, 50.6),
+    'yield_pct': VisualMetricSpec('yield_pct', 'Yield', '%', ('trend', 'distribution', 'scatter', 'spc'), 95.0, 90.0, 100.0),
+    'delta_nm': VisualMetricSpec('delta_nm', 'Delta', 'nm', ('trend', 'distribution', 'scatter', 'spc', 'wafer'), 0.0, -0.6, 0.6),
+    'target_nm': VisualMetricSpec('target_nm', 'Target', 'nm', ('trend', 'distribution', 'scatter', 'spc', 'wafer'), 50.0, 49.4, 50.6),
+}
+
+
+def visual_metric(key: str) -> VisualMetricSpec:
+    try:
+        return VISUAL_METRICS[key]
+    except KeyError as exc:
+        raise ValueError(f'No governed visual metric exists for {key!r}.') from exc
+
+
 def _fixture_row(index: int) -> dict[str, Any]:
     tool = ('ETCH-021', 'CVD-014', 'LITHO-008', 'CMP-006')[index % 4]
     chamber = f'CH-{(index % 4) + 1}'
@@ -441,6 +467,26 @@ def _summary_strip(parts, session: DataLabSession, rows: Sequence[Mapping[str, A
     return update
 
 
+def _visual_summary(parts, rows: Sequence[Mapping[str, Any]], metric_key: str) -> None:
+    """Render statistics using the selected metric's unit and population."""
+    ui = parts['ui']; metric = visual_metric(metric_key)
+    values = [float(row[metric.key]) for row in rows if isinstance(row.get(metric.key), (int, float)) and math.isfinite(float(row[metric.key]))]
+    mean = sum(values) / len(values) if values else 0.0
+    variance = sum((value - mean) ** 2 for value in values) / len(values) if values else 0.0
+    unit = f' {metric.unit}' if metric.unit else ''
+    with ui.element('div').classes('cui-data-lab-summary cui-data-lab-summary--visual').props('aria-label="Visual metric summary" data-visual-metric="' + metric.key + '"'):
+        for key, label, value in (
+            ('count', 'Records', f'{len(rows):,}'),
+            ('mean', f'Mean {metric.label}', f'{mean:.3f}{unit}'),
+            ('min', f'Min {metric.label}', f'{min(values):.3f}{unit}' if values else '—'),
+            ('max', f'Max {metric.label}', f'{max(values):.3f}{unit}' if values else '—'),
+            ('stddev', f'Std dev {metric.label}', f'{math.sqrt(variance):.3f}{unit}' if values else '—'),
+        ):
+            with ui.element('div').classes('cui-workbench-kpi').props(f'data-visual-stat="{key}"'):
+                ui.label(value).classes('text-h6')
+                ui.label(label)
+
+
 def _make_table(parts, session: DataLabSession, *, table_cls, rows: Sequence[Mapping[str, Any]], columns=None, spec=None, **kwargs):
     columns = tuple(columns or fixture_columns())
     return table_cls(rows, columns, spec=spec, **kwargs)
@@ -558,6 +604,14 @@ def _render_actions(parts, session: DataLabSession) -> None:
         await update_rows({'owner': 'M. Chen'}, rows)
         status.set_text(f'Assigned {len(rows)} record(s) to M. Chen.')
 
+    async def hold_one(row):
+        await update_rows({'status': 'Hold', 'disposition': 'Hold'}, (row,))
+        status.set_text(f'Held {row.get("record_id")} through the row action menu.')
+
+    async def release_one(row):
+        await update_rows({'status': 'Nominal', 'disposition': 'Released'}, (row,))
+        status.set_text(f'Released {row.get("record_id")} through the row action menu.')
+
     async def export_selected(rows):
         if not rows:
             status.set_text('Select at least one record before exporting.')
@@ -604,7 +658,15 @@ def _render_actions(parts, session: DataLabSession) -> None:
             BulkAction('export', 'Export selected', icon='download', on_action=export_selected),
             BulkAction('delete', 'Delete selected', icon='delete', intent='danger', on_action=delete),
         ), on_select=selected, on_view_changed=lambda snapshot: summary_update(snapshot.visible_rows),
-        row_actions=(RowAction('inspect', 'View details', icon='info', on_action=lambda row: _open_detail(parts, row)),),
+        row_actions=(
+            RowAction('inspect', 'View details', icon='info', on_action=lambda row: _open_detail(parts, row)),
+            RowAction('hold-row', 'Hold row', icon='pause', intent='warning', on_action=hold_one,
+                      enabled_when=lambda row: row.get('status') != 'Hold',
+                      disabled_reason=lambda row: 'This record is already on Hold.'),
+            RowAction('release-row', 'Release row', icon='check-circle', on_action=release_one,
+                      enabled_when=lambda row: row.get('status') in {'Hold', 'OOS', 'Watch'},
+                      disabled_reason=lambda row: 'Only Watch, OOS or Hold records can be released.'),
+        ),
     )
     with ui.element('div').classes('cui-data-lab-table-frame').props('data-table-lab="actions"'):
         ui.label('Select a row or use the header checkbox. Right-click also exposes the same row actions, while View details remains available through the keyboard-accessible action cell.').classes('cui-workbench-note')
@@ -758,35 +820,40 @@ EditableTable(records, columns, spec=EditableTableSpec(
 
 def _chart(parts, rows: Sequence[Mapping[str, Any]], *, kind: str = 'trend', measurement_key: str = 'measurement_nm', x_key: str = 'timestamp', y_key: str = 'yield_pct'):
     ChartPanel = parts['ChartPanel']; AxisSpec = parts['AxisSpec']; AxisType = parts['AxisType']; ChartKind = parts['ChartKind']; ChartPanelSpec = parts['ChartPanelSpec']; ChartSize = parts['ChartSize']; SeriesSpec = parts['SeriesSpec']; SpecLimits = parts['SpecLimits']
-    labels = [str(row.get(x_key) or row.get('record_id')) for row in rows]
-    measurement_label = next((column.label for column in fixture_columns() if column.key == measurement_key), measurement_key.replace('_', ' ').title())
-    values = [float(row.get(measurement_key)) for row in rows if isinstance(row.get(measurement_key), (int, float)) and math.isfinite(float(row.get(measurement_key)))]
+    metric = visual_metric(measurement_key)
+    labels = [str(row.get('timestamp') or row.get('record_id')) for row in rows]
+    values = [float(row.get(metric.key)) for row in rows if isinstance(row.get(metric.key), (int, float)) and math.isfinite(float(row.get(metric.key)))]
+    metric_axis = f'{metric.label} ({metric.unit})'
+    limits = SpecLimits(lower=metric.spec_lower, upper=metric.spec_upper, target=metric.target) if metric.spec_lower is not None and metric.spec_upper is not None else None
     if kind == 'distribution':
         lo = min(values) if values else 0.0
         hi = max(values) if values else 1.0
         span = max((hi - lo) / 4, .001)
         bins = tuple(f'{lo + index * span:.2f}–{lo + (index + 1) * span:.2f}' for index in range(4))
         counts = [sum(lo + bucket * span <= value < (lo + (bucket + 1) * span if bucket < 3 else hi + .001) for value in values) for bucket in range(4)]
-        spec = ChartPanelSpec(f'{measurement_label} distribution', 'Filtered records by measurement band.', kind=ChartKind.BAR, size=ChartSize.STANDARD, x_axis=AxisSpec(f'{measurement_label} band', AxisType.CATEGORY, categories=bins), y_axis=AxisSpec('Records', AxisType.VALUE))
-        series = (SeriesSpec('distribution', 'Records', counts, kind=ChartKind.BAR),)
-        return ChartPanel(series, spec=spec)
+        spec = ChartPanelSpec(f'{metric.label} distribution ({metric.unit})', 'Filtered records by the selected metric.', kind=ChartKind.BAR, size=ChartSize.STANDARD, x_axis=AxisSpec(metric_axis, AxisType.CATEGORY, categories=bins), y_axis=AxisSpec('Records', AxisType.VALUE))
+        return ChartPanel((SeriesSpec('distribution', 'Records', counts, kind=ChartKind.BAR),), spec=spec, spec_limits=limits)
     if kind == 'scatter':
-        data = [{'x': float(row.get(x_key)), 'y': float(row.get(y_key))} for row in rows if isinstance(row.get(x_key), (int, float)) and isinstance(row.get(y_key), (int, float)) and math.isfinite(float(row.get(x_key))) and math.isfinite(float(row.get(y_key)))]
-        x_label = next((column.label for column in fixture_columns() if column.key == x_key), x_key.replace('_', ' ').title())
-        y_label = next((column.label for column in fixture_columns() if column.key == y_key), y_key.replace('_', ' ').title())
-        spec = ChartPanelSpec(f'{x_label} vs {y_label}', 'Selected and filtered records stay in the same engineering population.', kind=ChartKind.SCATTER, size=ChartSize.STANDARD, x_axis=AxisSpec(x_label, AxisType.VALUE), y_axis=AxisSpec(y_label, AxisType.VALUE))
-        return ChartPanel((SeriesSpec('records', 'Records', data, kind=ChartKind.SCATTER, x_key='x', y_key='y'),), spec=spec)
+        x_metric = VISUAL_METRICS.get(x_key)
+        y_metric = VISUAL_METRICS.get(y_key, metric)
+        x_label = f'{x_metric.label} ({x_metric.unit})' if x_metric else x_key.replace('_', ' ').title()
+        y_label = f'{y_metric.label} ({y_metric.unit})'
+        data = [{'x': float(row.get(x_key)), 'y': float(row.get(y_metric.key))} for row in rows if isinstance(row.get(x_key), (int, float)) and isinstance(row.get(y_metric.key), (int, float)) and math.isfinite(float(row.get(x_key))) and math.isfinite(float(row.get(y_metric.key)))]
+        spec = ChartPanelSpec(f'{x_label} vs {y_label}', 'Selected and filtered records stay in the same engineering population.', kind=ChartKind.SCATTER, size=ChartSize.STANDARD, x_axis=AxisSpec(x_label, AxisType.VALUE, unit=x_metric.unit if x_metric else None), y_axis=AxisSpec(y_label, AxisType.VALUE, unit=y_metric.unit))
+        scatter_limits = SpecLimits(lower=y_metric.spec_lower, upper=y_metric.spec_upper, target=y_metric.target) if y_metric.spec_lower is not None and y_metric.spec_upper is not None else None
+        return ChartPanel((SeriesSpec('records', 'Records', data, kind=ChartKind.SCATTER, x_key='x', y_key='y'),), spec=spec, spec_limits=scatter_limits)
     if kind == 'spc':
-        center = sum(values) / len(values) if values else 50.0
-        spread = max(.12, (max(values) - min(values)) * .75) if values else .3
-        spec = ChartPanelSpec(f'SPC {measurement_label} trend', 'Mean and control limits are reference fixture semantics, not a production conclusion.', kind=ChartKind.CONTROL, size=ChartSize.STANDARD, x_axis=AxisSpec('Record', AxisType.CATEGORY, categories=labels), y_axis=AxisSpec(measurement_label, AxisType.VALUE, unit='nm'))
-        return ChartPanel((SeriesSpec('measurement', measurement_label, values, kind=ChartKind.CONTROL, semantic_color='accent'),), spec=spec, spec_limits=SpecLimits(lower=center - spread, upper=center + spread, target=center), thresholds=(parts['ThresholdSpec'](center, 'Center'), parts['ThresholdSpec'](center + spread, 'UCL'), parts['ThresholdSpec'](center - spread, 'LCL')))
+        center = metric.target if metric.target is not None else (sum(values) / len(values) if values else 0.0)
+        spread = max(.12 if metric.unit == 'nm' else .5, (max(values) - min(values)) * .75) if values else (.3 if metric.unit == 'nm' else 1.0)
+        control_limits = SpecLimits(lower=metric.spec_lower if metric.spec_lower is not None else center - spread, upper=metric.spec_upper if metric.spec_upper is not None else center + spread, target=metric.target)
+        spec = ChartPanelSpec(f'SPC {metric_axis}', 'Metric-aware center, specification and control semantics.', kind=ChartKind.CONTROL, size=ChartSize.STANDARD, x_axis=AxisSpec('Timestamp', AxisType.CATEGORY, categories=labels), y_axis=AxisSpec(metric_axis, AxisType.VALUE, unit=metric.unit))
+        return ChartPanel((SeriesSpec(metric.key, metric.label, values, kind=ChartKind.CONTROL, semantic_color='accent'),), spec=spec, spec_limits=control_limits, thresholds=(parts['ThresholdSpec'](center, 'Target'), parts['ThresholdSpec'](control_limits.upper, 'USL'), parts['ThresholdSpec'](control_limits.lower, 'LSL')))
     if kind == 'wafer':
-        points = [((index % 7) - 3, (index // 7) - 3, float(row.get(measurement_key) or 0)) for index, row in enumerate(rows[:49])]
-        spec = ChartPanelSpec(f'Wafer {measurement_label} map', 'The same filtered engineering records mapped to bounded wafer coordinates.', kind=ChartKind.WAFER, size=ChartSize.STANDARD, x_axis=AxisSpec('Die X', AxisType.VALUE), y_axis=AxisSpec('Die Y', AxisType.VALUE))
-        return ChartPanel((SeriesSpec('wafer', measurement_label, points, kind=ChartKind.WAFER),), spec=spec)
-    spec = ChartPanelSpec(f'{measurement_label} trend', 'Filtering the table changes this governed series.', kind=ChartKind.LINE, size=ChartSize.STANDARD, x_axis=AxisSpec(x_key.replace('_', ' ').title(), AxisType.CATEGORY, categories=labels), y_axis=AxisSpec(measurement_label, AxisType.VALUE, unit='nm'))
-    return ChartPanel((SeriesSpec('measurement', measurement_label, values, kind=ChartKind.LINE, x_key=None, y_key=None),), spec=spec, spec_limits=SpecLimits(lower=49.4, upper=50.6, target=50.0))
+        points = [((index % 7) - 3, (index // 7) - 3, float(row.get(metric.key) or 0)) for index, row in enumerate(rows[:49])]
+        spec = ChartPanelSpec(f'Wafer {metric_axis} map', 'The same filtered engineering records mapped to bounded wafer coordinates.', kind=ChartKind.WAFER, size=ChartSize.STANDARD, x_axis=AxisSpec('Die X', AxisType.VALUE), y_axis=AxisSpec(metric_axis, AxisType.VALUE, unit=metric.unit))
+        return ChartPanel((SeriesSpec('wafer', metric.label, points, kind=ChartKind.WAFER),), spec=spec, spec_limits=limits)
+    spec = ChartPanelSpec(f'{metric_axis} trend', 'Trend X uses timestamp/record order; the selected metric owns the Y axis and limits.', kind=ChartKind.LINE, size=ChartSize.STANDARD, x_axis=AxisSpec('Timestamp', AxisType.CATEGORY, categories=labels), y_axis=AxisSpec(metric_axis, AxisType.VALUE, unit=metric.unit))
+    return ChartPanel((SeriesSpec(metric.key, metric.label, values, kind=ChartKind.LINE, x_key=None, y_key=None),), spec=spec, spec_limits=limits)
 
 
 def _render_visualize(parts, session: DataLabSession) -> None:
@@ -796,16 +863,28 @@ def _render_visualize(parts, session: DataLabSession) -> None:
     chart_host = None
     status = None
 
+    def active_metric_key() -> str:
+        return state['y_field'] if state['chart'] == 'scatter' else state['measurement_field']
+
     def set_summary(rows: Sequence[Mapping[str, Any]]) -> None:
         summary_host.clear()
         with summary_host:
-            _summary_strip(parts, session, rows, prefix='Filtered ')
+            _visual_summary(parts, rows, active_metric_key())
 
     def set_chart(rows: Sequence[Mapping[str, Any]]) -> None:
         chart_host.clear()
         with chart_host:
             chart_rows = tuple(row for row in rows if not state['selected'] or row.get('record_id') in state['selected'])
-            ui.label(f"Chart uses {'selected' if state['selected'] else 'filtered'} population · {len(chart_rows)} records").classes('cui-workbench-section-title')
+            metric = visual_metric(active_metric_key())
+            if state['chart'] == 'scatter':
+                x_metric = visual_metric(state['x_field'])
+                y_metric = visual_metric(state['y_field'])
+                mapping = f"X: {x_metric.label} ({x_metric.unit}) · Y: {y_metric.label} ({y_metric.unit})"
+            else:
+                mapping = f"X: Timestamp / record order · Y: {metric.label} ({metric.unit})"
+            ui.label(
+                f"Chart uses {'selected' if state['selected'] else 'filtered'} population · {len(chart_rows)} records · {mapping}"
+            ).classes('cui-workbench-section-title').props('data-visual-contract role="status"')
             _chart(parts, chart_rows, kind=state['chart'], measurement_key=state['measurement_field'], x_key=state['x_field'], y_key=state['y_field'])
         status.set_text(f"Filtered records: {len(rows)} · Selected records: {len(state['selected'])} · Chart uses {'selected' if state['selected'] else 'filtered'} population")
 
@@ -821,34 +900,47 @@ def _render_visualize(parts, session: DataLabSession) -> None:
         set_chart(state['population'])
 
     initial_rows = session.filtered()
-    with ui.element('div').classes('cui-data-lab-toolbar'):
+    with ui.element('div').classes('cui-data-lab-visual-controls'):
         async def search_changed(event) -> None:
             state['search'] = str(getattr(event, 'value', '') or '')
             state['selected'].clear()
             await table.replace_rows(session.filtered(search=state['search']))
             state['population'] = tuple(table.rows)
             set_summary(state['population']); set_chart(state['population'])
-        SearchInput('Search linked records', placeholder='Lot, tool, chamber, status…', debounce_ms=180, on_change=search_changed)
-        field_options = {'measurement_nm': 'Measurement (nm)', 'target_nm': 'Target (nm)', 'delta_nm': 'Delta (nm)', 'yield_pct': 'Yield (%)'}
+        field_options = {key: f'{metric.label} ({metric.unit})' for key, metric in VISUAL_METRICS.items()}
         async def measurement_changed(event) -> None:
             state['measurement_field'] = str(getattr(event, 'value', 'measurement_nm') or 'measurement_nm')
+            # The metric selection changes both the analytical Y contract and
+            # the KPI units.  Keep the summary and the chart as one governed
+            # semantic update, so a Yield selection cannot retain nm stats.
+            set_summary(state['population'])
             set_chart(state['population'])
         async def x_changed(event) -> None:
             state['x_field'] = str(getattr(event, 'value', 'measurement_nm') or 'measurement_nm')
             set_chart(state['population'])
         async def y_changed(event) -> None:
             state['y_field'] = str(getattr(event, 'value', 'yield_pct') or 'yield_pct')
+            if state['chart'] == 'scatter':
+                set_summary(state['population'])
             set_chart(state['population'])
-        ui.label('Field mapping').classes('cui-workbench-card__meta')
         Select = parts['Select']
-        Select('Measurement / Y', field_options, value='measurement_nm', clearable=False, on_change=measurement_changed)
-        Select('X (scatter)', field_options, value='measurement_nm', clearable=False, on_change=x_changed)
-        Select('Y (scatter)', field_options, value='yield_pct', clearable=False, on_change=y_changed)
-        with ui.element('div').classes('cui-data-lab-chart-switcher'):
-            async def chart_changed(event) -> None:
-                state['chart'] = str(getattr(event, 'value', 'trend') or 'trend')
-                set_chart(state['population'])
-            SegmentedControl({'trend': 'Trend', 'distribution': 'Distribution', 'scatter': 'Scatter', 'spc': 'SPC', 'wafer': 'Wafer'}, value='trend', on_change=chart_changed)
+        with ui.element('div').classes('cui-data-lab-visual-control-group cui-data-lab-visual-search'):
+            ui.label('Search').classes('cui-workbench-card__meta')
+            SearchInput('Search linked records', placeholder='Lot, tool, chamber, status…', debounce_ms=180, on_change=search_changed)
+        with ui.element('div').classes('cui-data-lab-visual-control-group cui-data-lab-visual-mapping'):
+            ui.label('Field mapping').classes('cui-workbench-card__meta')
+            with ui.element('div').classes('cui-data-lab-visual-mapping-controls'):
+                Select('Measurement / Y', field_options, value='measurement_nm', clearable=False, on_change=measurement_changed)
+                Select('X (scatter)', field_options, value='measurement_nm', clearable=False, on_change=x_changed)
+                Select('Y (scatter)', field_options, value='yield_pct', clearable=False, on_change=y_changed)
+        with ui.element('div').classes('cui-data-lab-visual-control-group cui-data-lab-visual-mode'):
+            ui.label('Chart mode').classes('cui-workbench-card__meta')
+            with ui.element('div').classes('cui-data-lab-chart-switcher'):
+                async def chart_changed(event) -> None:
+                    state['chart'] = str(getattr(event, 'value', 'trend') or 'trend')
+                    set_summary(state['population'])
+                    set_chart(state['population'])
+                SegmentedControl({'trend': 'Trend', 'distribution': 'Distribution', 'scatter': 'Scatter', 'spc': 'SPC', 'wafer': 'Wafer'}, value='trend', on_change=chart_changed)
     with ui.element('div').classes('cui-data-lab-visual-host'):
         summary_host = ui.element('div').classes('cui-data-lab-linked-summary')
         with ui.element('div').classes('cui-data-lab-visual-grid'):
@@ -1012,7 +1104,8 @@ def _render_states(parts, session: DataLabSession) -> None:
             if value == 'restricted':
                 ui.label('Restricted policy: export, delete, owner assignment and destructive actions are unavailable for this role.').classes('cui-workbench-note').props('data-restricted-policy')
             table.element
-    SegmentedControl(choices, value='populated', on_change=lambda event: (state.__setitem__('value', str(getattr(event, 'value', 'populated'))), render()))
+    with ui.element('div').classes('cui-data-lab-state-selector').props('aria-label="Table state selector"'):
+        SegmentedControl(choices, value='populated', on_change=lambda event: (state.__setitem__('value', str(getattr(event, 'value', 'populated'))), render()))
     render()
     _api_disclosure(parts, """from nicegui_base import DataTable, EmptyState, ErrorState, PermissionDeniedState
 

@@ -258,11 +258,27 @@ class TableViewSnapshot:
 class TablePreset:
     name: str
     visible_columns: tuple[str, ...] = ()
+    column_order: tuple[str, ...] = ()
+    column_widths: Mapping[str, int] = field(default_factory=dict)
     pinned_left: tuple[str, ...] = ()
     pinned_right: tuple[str, ...] = ()
     density: TableDensity = TableDensity.COMPACT
     sorts: tuple[SortSpec, ...] = ()
     filters: tuple[FilterExpression, ...] = ()
+    search: str = ''
+    page: int = 1
+    page_size: int | None = None
+    scroll_row_index: int = 0
+
+    def __post_init__(self) -> None:
+        if not self.name.strip():
+            raise ValueError('TablePreset requires a non-empty name')
+        if self.page < 1:
+            raise ValueError('TablePreset page must be >= 1')
+        if self.page_size is not None and self.page_size < 1:
+            raise ValueError('TablePreset page_size must be >= 1')
+        if self.scroll_row_index < 0:
+            raise ValueError('TablePreset scroll_row_index must be >= 0')
 
 @dataclass(slots=True)
 class TableState:

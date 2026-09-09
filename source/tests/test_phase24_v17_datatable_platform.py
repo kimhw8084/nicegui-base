@@ -105,8 +105,11 @@ def test_phase24_low_priority_header_and_saved_view_paths_are_real():
     assert "'headerClass': header_class" in SOURCE
     preset = SOURCE[SOURCE.index('class TablePresetSelector'):SOURCE.index('__all__=')]
     assert "classes('cui-table-tool-button cui-table-view-button')" in preset
-    assert "run_grid_method('applyColumnState'" in preset
-    assert 'await self.table.set_filters(preset.filters)' in preset
+    # Presets now delegate one complete deterministic state transition to the
+    # canonical DataTable authority, which also clears omitted sorting/filter
+    # state and synchronizes persistence/UI controls without remounting.
+    assert 'await self.table.apply_view_state(target, name=preset.name)' in preset
+    assert 'sorts=list(preset.sorts)' in preset
     assert 'ui.select(' not in preset
 
 
