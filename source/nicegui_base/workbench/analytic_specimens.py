@@ -51,7 +51,7 @@ _CONTRACTS = (
     _c('wafer_comparison', 'paired_wafer_map', 'wafer x', 'wafer y', 'Shared measurement scale', 'Control and affected wafers remain spatially aligned on one governed scale', ('x', 'y', 'control', 'affected'), panels=('control', 'affected')),
     _c('lot_wafer_strip', 'wafer_strip', 'wafer sequence', 'spatial measurement', 'Shared measurement scale', 'Lot-level wafer-to-wafer spatial evolution', ('wafer', 'x', 'y', 'measurement')),
     _c('wafer_small_multiples', 'wafer_small_multiples', 'wafer', 'spatial measurement', 'Shared measurement scale', 'Synchronized small multiples compare signatures without changing color meaning', ('wafer', 'x', 'y', 'measurement')),
-    _c('wafer_contour', 'wafer_contour', 'wafer x', 'wafer y', 'Smoothed field', 'A smooth spatial field is used only for sufficiently sampled continuous data', ('x', 'y', 'measurement'), options=('circular_clip', 'contour_isolines')),
+    _c('wafer_contour', 'wafer_contour', 'wafer x', 'wafer y', 'Data-derived field', 'A binned spatial field is rendered only where complete source cells support data-derived contour segments', ('x', 'y', 'measurement'), options=('circular_clip', 'contour_isolines')),
     _c('wafer_radial', 'radial_profile', 'normalized radius', 'mean measurement', 'Affected; Control', 'Center-to-edge profile reveals radial process signatures', ('radius', 'population', 'measurement')),
     _c('wafer_center_edge', 'region_comparison', 'wafer region', 'mean measurement', 'Region', 'Center, middle, edge, and outer-edge summaries quantify spatial shift', ('region', 'measurement')),
     _c('wafer_ring', 'ring_profile', 'ring', 'mean residual', 'Ring', 'Concentric summaries expose ring-shaped signatures', ('ring', 'measurement')),

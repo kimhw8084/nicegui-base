@@ -17,6 +17,7 @@ from nicegui_base.visualization import (
     ScaleMode, SeriesSpec, SpatialPoint, SpecLimits, ThresholdSpec, WaferPoint, build_echarts_options, chart_theme, stable_series_color,
     format_visual_number, javascript_visual_number_formatter,
 )
+from nicegui_base.semiconductor.spatial import WaferSample, contour_isolines
 
 
 def _ui():
@@ -844,7 +845,7 @@ class WaferMap(_SpatialSvgPanel):
 
 
 class _WaferContourPlot(_SpatialSvgPanel):
-    """Clipped continuous wafer field with data-derived contour isolines."""
+    """Clipped continuous wafer field with data-derived contour segments."""
 
     renderer_type='wafer_contour'
 
@@ -853,33 +854,40 @@ class _WaferContourPlot(_SpatialSvgPanel):
         if len(pts)<4 or len(values)<4 or len(set(values))<2: raise ValueError('Wafer contour reference requires at least four measured spatial samples')
         super().__init__(title,description=description or 'Data-derived continuous wafer field · isolines are clipped to governed wafer geometry',size=size)
         low,high=min(values),max(values); clip_id=f'{self.viewport_id}-contour-clip'
-        # Build isolines from the actual spatial samples.  Each level follows
-        # the angular envelope of samples above the level; unlike the former
-        # decorative paths, changing x/y/measurement changes every path.
+        # The canonical spatial authority extracts segments only from complete
+        # measured grid cells. Sparse fields therefore expose unavailable
+        # levels instead of receiving a fabricated closed polygon.
+        source_points=tuple(WaferSample(float(p.x),float(p.y),float(p.value)) for p in pts if p.value is not None)
+        isolines=contour_isolines(source_points,cells=min(8,max(4,int(len(source_points) ** .5))))
+        levels=tuple(isoline.level for isoline in isolines)
         cx,cy,r=220.0,200.0,168.0; span=max(max(abs(float(p.x)) for p in pts),max(abs(float(p.y)) for p in pts),1.0)
-        points_xy=[(cx+float(p.x)/span*r*.9,cy-float(p.y)/span*r*.9,float(p.value)) for p in pts if p.value is not None]
-        center_x=sum(p[0] for p in points_xy)/len(points_xy);center_y=sum(p[1] for p in points_xy)/len(points_xy)
-        levels=tuple(low+(high-low)*fraction for fraction in (.2,.4,.6,.8))
-        paths=[]
-        from math import atan2
-        for level in levels:
-            selected=[(x,y) for x,y,value in points_xy if value >= level]
-            if len(selected)<3:
-                selected=[(x,y) for x,y,_value in sorted(points_xy,key=lambda item: abs(item[0]-center_x)+abs(item[1]-center_y))[:max(3,min(8,len(points_xy)))]]
-            selected.sort(key=lambda item: atan2(item[1]-center_y,item[0]-center_x))
-            paths.append('M '+' L '.join(f'{x:.2f},{y:.2f}' for x,y in selected)+' Z')
+        def project(point:tuple[float,float])->tuple[float,float]:
+            return cx+point[0]/span*r*.9,cy-point[1]/span*r*.9
         parts=[f'<svg viewBox="0 0 560 400" role="img" aria-label="{html.escape(title)}" xmlns="http://www.w3.org/2000/svg">']
         parts.append(f'<defs><clipPath id="{clip_id}"><circle cx="220" cy="200" r="168"/></clipPath></defs>')
         parts.append(f'<g clip-path="url(#{clip_id})">')
         parts.append('<circle class="cui-spatial-bin-1" cx="220" cy="200" r="168"/>')
-        for index,path in enumerate(paths):
-            parts.append(f'<path class="cui-spatial-bin-{min(6,index+2)} cui-wafer-contour-band" d="{path}"/>')
-            parts.append(f'<path class="cui-wafer-contour-line" d="{path}" fill="none"><title>Contour {values[index]:.2f}</title></path>')
+        for index,isoline in enumerate(isolines):
+            for segment in isoline.segments:
+                start=project(segment[0]);end=project(segment[1])
+                path=f'M {start[0]:.2f},{start[1]:.2f} L {end[0]:.2f},{end[1]:.2f}'
+                level_label=format_visual_number(isoline.level)
+                level_value=round(isoline.level,6)
+                parts.append(f'<path class="cui-spatial-bin-{min(6,index+2)} cui-wafer-contour-line" d="{path}" fill="none" data-contour-level="{level_value}" data-contour-label="{html.escape(level_label)}" data-contour-source-cells="{isoline.source_cells}"><title>Contour {html.escape(level_label)}</title></path>')
         parts.append('</g><circle class="cui-wafer-boundary" cx="220" cy="200" r="168"/><path class="cui-wafer-notch" d="M211 365 L220 374 L229 365"/>')
-        parts.append(_spatial_svg_legend(low,high,x=430,y=92,height=190,title='Smoothed field'))
+        parts.append(_spatial_svg_legend(low,high,x=430,y=92,height=190,title='Data-derived field'))
         parts.append('<text class="cui-spatial-annotation" x="220" y="22" text-anchor="middle">CLIPPED DATA-DERIVED CONTOUR ISOLINES</text>')
         self.svg=''.join(parts) + '</svg>'
-        self._render(self.svg);self.container.props(f'data-contour-samples="{len(points_xy)}" data-contour-levels={json.dumps([round(value,6) for value in levels])}')
+        available_levels=tuple(isoline.level for isoline in isolines if isoline.available)
+        unavailable_levels=tuple(isoline.level for isoline in isolines if not isoline.available)
+        self.contour_isolines=isolines
+        self.contour_levels=levels
+        self.contour_available_levels=available_levels
+        self.contour_unavailable_levels=unavailable_levels
+        requested_json=json.dumps([round(value,6) for value in levels],separators=(',',':'))
+        available_json=json.dumps([round(value,6) for value in available_levels],separators=(',',':'))
+        unavailable_json=json.dumps([round(value,6) for value in unavailable_levels],separators=(',',':'))
+        self._render(self.svg);self.container.props(f'data-contour-samples="{len(source_points)}" data-contour-levels="{requested_json}" data-contour-available-levels="{available_json}" data-contour-unavailable-levels="{unavailable_json}" data-contour-smoothing="none"')
 
 
 class SpatialMap(_SpatialSvgPanel):

@@ -7,6 +7,7 @@ to or terminates an existing development server.
 from __future__ import annotations
 
 import argparse
+import html
 import hashlib
 import json
 import os
@@ -72,6 +73,101 @@ def _source_state(repo: Path) -> dict[str, Any]:
         'origin_main': git('rev-parse', 'origin/main'),
         'status': git('status', '--short'),
         'candidate': 'NGB-20260907-G2.6',
+    }
+
+
+def _focused_browser_proof(page: Page, *, port: int) -> dict[str, Any]:
+    """Exercise the repaired serializers and live contour DOM in a browser."""
+    page.goto(f'http://127.0.0.1:{port}/analytics/wafer_contour', wait_until='domcontentloaded', timeout=45000)
+    _settle(page)
+    contour = page.locator('[data-renderer-type="wafer_contour"]').first
+    live = page.evaluate("""() => {
+        const root=document.querySelector('[data-renderer-type="wafer_contour"]');
+        if (!root) return null;
+        const requested=JSON.parse(root.getAttribute('data-contour-levels') || '[]');
+        const available=JSON.parse(root.getAttribute('data-contour-available-levels') || '[]');
+        const unavailable=JSON.parse(root.getAttribute('data-contour-unavailable-levels') || '[]');
+        const paths=[...root.querySelectorAll('path[data-contour-level]')].map(el => ({
+            level:Number(el.getAttribute('data-contour-level')),
+            label:el.getAttribute('data-contour-label'),
+            title:el.querySelector('title')?.textContent || '',
+            closed:(el.getAttribute('d') || '').trim().endsWith('Z'),
+        }));
+        return {requested,available,unavailable,paths,smoothing:root.getAttribute('data-contour-smoothing')};
+    }""")
+    if not live or live['smoothing'] != 'none':
+        raise AssertionError(f'live contour metadata missing or claims smoothing: {live}')
+    rendered_levels={item['level'] for item in live['paths']}
+    if (
+        not live['requested']
+        or set(live['requested']) != set(live['available']) | set(live['unavailable'])
+        or not rendered_levels.issubset(set(live['available']))
+        or any(item['closed'] or item['label'] != item['title'].removeprefix('Contour ') for item in live['paths'])
+    ):
+        raise AssertionError(f'live contour threshold proof failed: {live}')
+
+    from execute_visualization_examples import _fake_nicegui
+    from nicegui_base import AxisSpec, AxisType, ChartKind, ChartPanel, ChartPanelSpec, SeriesSpec, WaferContourPlot, WaferMap, WaferPoint, WaterfallDiagram, format_visual_number
+
+    with _fake_nicegui():
+        chart = ChartPanel(
+            (SeriesSpec('trace', 'Trace', ({'time': 10, 'value': 100}, {'time': 100, 'value': 1200}), kind=ChartKind.LINE, x_key='time', y_key='value'),),
+            spec=ChartPanelSpec('Trace', x_axis=AxisSpec(kind=AxisType.VALUE), y_axis=AxisSpec(kind=AxisType.VALUE)),
+        )
+        csv_text=chart.export.csv_text()
+        chart.dispose()
+        sparse=WaferContourPlot('Sparse contour', (
+            WaferPoint(0, 0, 10), WaferPoint(1, 0, 0),
+            WaferPoint(0, 1, 0), WaferPoint(10, 10, 0),
+        ))
+        legend_panel=WaferMap('Measurement', (WaferPoint(0, 0, 0), WaferPoint(1, 0, 100)))
+        waterfall_panel=WaterfallDiagram('Waterfall', ('Gain','Loss'), (10,-20))
+        legend=legend_panel.svg
+        waterfall=waterfall_panel.chart_options
+        legend_panel.dispose(); waterfall_panel.dispose()
+    rendered_values=tuple(format_visual_number(value) for value in (10,100,1200))
+    waterfall_labels=tuple(item['deltaLabel'] for series in waterfall['series'] for item in series['data'])
+    page.set_content(f'''<main>
+      <div id="values">{''.join(f'<span data-value="{value}">{value}</span>' for value in rendered_values)}</div>
+      <pre id="csv">{html.escape(csv_text)}</pre>
+      <div id="legend">{legend}</div>
+      <div id="waterfall">{''.join(f'<span data-delta-label="{html.escape(label)}">{html.escape(label)}</span>' for label in waterfall_labels)}</div>
+      <section id="sparse" data-contour-levels="{html.escape(json.dumps([round(value,6) for value in sparse.contour_levels]))}"
+               data-contour-available-levels="{html.escape(json.dumps([round(value,6) for value in sparse.contour_available_levels]))}"
+               data-contour-unavailable-levels="{html.escape(json.dumps([round(value,6) for value in sparse.contour_unavailable_levels]))}">{sparse.svg}</section>
+    </main>''')
+    static=page.evaluate("""() => {
+        const valueTexts=[...document.querySelectorAll('#values [data-value]')].map(el => el.textContent);
+        const csv=document.querySelector('#csv')?.textContent || '';
+        const legend=[...document.querySelectorAll('#legend .cui-spatial-legend-label')].map(el => el.textContent.trim());
+        const waterfall=[...document.querySelectorAll('#waterfall [data-delta-label]')].map(el => el.textContent);
+        const sparse=document.querySelector('#sparse');
+        const requested=JSON.parse(sparse?.getAttribute('data-contour-levels') || '[]');
+        const available=JSON.parse(sparse?.getAttribute('data-contour-available-levels') || '[]');
+        const unavailable=JSON.parse(sparse?.getAttribute('data-contour-unavailable-levels') || '[]');
+        const paths=sparse?.querySelectorAll('path[data-contour-level]').length || 0;
+        return {valueTexts,csv,legend,waterfall,requested,available,unavailable,paths};
+    }""")
+    if (
+        static['valueTexts'] != ['10','100','1200']
+        or 'Trace,0,10,100,100' not in static['csv']
+        or 'Trace,1,100,1200,1200' not in static['csv']
+        or static['legend'][-2:] != ['100','0']
+        or not {'10','-20','-10'}.issubset(static['waterfall'])
+        or not static['requested']
+        or static['available']
+        or set(static['requested']) != set(static['unavailable'])
+        or static['paths'] != 0
+    ):
+        raise AssertionError(f'focused serializer/sparse browser proof failed: {static}')
+    return {
+        'passed': True,
+        'live_contour': live,
+        'numeric_rendered_values': list(rendered_values),
+        'csv_rows': ['Trace,0,10,100,100', 'Trace,1,100,1200,1200'],
+        'spatial_legend': ['0', '100'],
+        'waterfall_labels': list(waterfall_labels),
+        'sparse_contour': {'requested': static['requested'], 'available': static['available'], 'unavailable': static['unavailable'], 'rendered_paths': static['paths']},
     }
 
 
@@ -221,6 +317,31 @@ def _semantic_findings(page: Page, surface: str) -> list[dict[str, Any]]:
         waterfall = page.locator('[data-renderer-type="waterfall"]').first
         if waterfall.get_attribute('data-waterfall-signed') != 'true':
             findings.append({'kind': 'waterfall-signed-contract-missing'})
+        if waterfall.get_attribute('data-waterfall-number-format') != 'bounded':
+            findings.append({'kind': 'waterfall-number-format-contract-missing'})
+    if surface == 'wafer_contour':
+        contour = page.locator('[data-renderer-type="wafer_contour"]').first
+        if contour.get_attribute('data-contour-smoothing') != 'none':
+            findings.append({'kind': 'contour-smoothing-claim-mismatch'})
+        try:
+            requested = set(json.loads(contour.get_attribute('data-contour-levels') or '[]'))
+            available = set(json.loads(contour.get_attribute('data-contour-available-levels') or '[]'))
+            unavailable = set(json.loads(contour.get_attribute('data-contour-unavailable-levels') or '[]'))
+        except (TypeError, ValueError, json.JSONDecodeError):
+            requested, available, unavailable = set(), set(), set()
+            findings.append({'kind': 'contour-level-metadata-invalid'})
+        rendered = contour.locator('path[data-contour-level]:visible').evaluate_all(
+            "els => els.map(el => ({level:Number(el.getAttribute('data-contour-level')), label:el.getAttribute('data-contour-label'), title:el.querySelector('title')?.textContent || ''})).filter(item => Number.isFinite(item.level))"
+        )
+        rendered_levels = {item['level'] for item in rendered}
+        if not requested or requested != available | unavailable or not rendered_levels.issubset(available) or rendered_levels & unavailable:
+            findings.append({'kind': 'contour-level-geometry-mismatch', 'requested': sorted(requested), 'available': sorted(available), 'unavailable': sorted(unavailable), 'rendered': rendered})
+        if any(item['label'] != item['title'].removeprefix('Contour ') for item in rendered):
+            findings.append({'kind': 'contour-level-label-mismatch', 'rendered': rendered})
+        if contour.locator('path[data-contour-level]:visible').evaluate_all("els => els.some(el => (el.getAttribute('d') || '').trim().endsWith('Z'))"):
+            findings.append({'kind': 'contour-fabricated-closed-polygon'})
+        if 'Smoothed field' in contour.inner_text():
+            findings.append({'kind': 'contour-false-smoothing-copy'})
     if surface == 'rca_sankey' and page.viewport_size and page.viewport_size['width'] <= 520:
         if page.locator('[data-sankey-stage-key]:visible').count() != 1:
             findings.append({'kind': 'sankey-mobile-stage-key-missing'})
@@ -404,6 +525,10 @@ def main() -> int:
             page.on('pageerror', lambda exc: page_errors.append({'surface': current['surface'], 'error': str(exc)}))
             page.on('console', lambda message: console_errors.append({'surface': current['surface'], 'text': message.text}) if message.type == 'error' else None)
             try:
+                current['surface'] = 'repair_focused_browser_proof'
+                focused_proof = _focused_browser_proof(page, port=port)
+                interactions.append({'surface': 'repair_focused_browser_proof', **focused_proof})
+                current['surface'] = 'spc_i_mr'
                 page.goto(f'http://127.0.0.1:{port}/analytics/spc_i_mr', wait_until='domcontentloaded'); _settle(page)
                 panel = page.locator('[data-analytic-key="spc_i_mr"] [data-chart-kind]').first
                 labels = panel.locator('button[aria-label]').evaluate_all("els => els.map(el => el.getAttribute('aria-label'))")
@@ -509,6 +634,7 @@ def main() -> int:
         result = {
             'status': 'PASS' if not failures and not page_errors and not console_errors and not visual_findings and example_pass else 'FAIL',
             'candidate': 'NGB-20260907-G2.6', 'source_sha': source_state['sha'], 'port': port, 'server_pid': process.pid,
+            'source_state': source_state,
             'surface_count': len(matrix), 'desktop_surface_checks': len(matrix),
             'responsive_checks': len(REPRESENTATIVES) * len(VIEWPORTS) * 2,
             'checks': checks, 'interactions': interactions, 'failures': failures,
@@ -541,6 +667,8 @@ def main() -> int:
 - Status: **{result['status']}**
 - Candidate: `{result['candidate']}`
 - Source SHA: `{source_state['sha']}`
+- origin/main at audit: `{source_state['origin_main']}`
+- Worktree status at audit: `{source_state['status'] or 'clean'}`
 - Fresh owned server: PID `{process.pid}` on ephemeral port `{port}`
 - Registered surfaces: **{len(matrix)}**
 - Desktop light surface smoke: **{len(matrix)}/{len(matrix)}**
@@ -559,7 +687,8 @@ def main() -> int:
         archive_hash = _sha256(archive)
         manifest_payload = {
             'evidence_zip': str(archive), 'evidence_sha256': archive_hash,
-            'source_sha': source_state['sha'], 'candidate': result['candidate'],
+            'source_sha': source_state['sha'], 'origin_main': source_state['origin_main'],
+            'worktree_status': source_state['status'], 'candidate': result['candidate'],
             'self_hash_embedded': False,
             'note': 'audit.json intentionally carries evidence_sha256=null because embedding the archive hash changes the archive. This sibling manifest is the final hash authority.',
             'human_visual_review': 'PENDING_HUMAN_VISUAL_REVIEW',

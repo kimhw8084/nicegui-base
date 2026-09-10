@@ -4102,7 +4102,7 @@
         "purpose": "Contour/surface wafer map",
         "spatial": true,
         "use_when": [
-          "smooth spatial field interpretation"
+          "data-derived spatial field interpretation"
         ]
       },
       {

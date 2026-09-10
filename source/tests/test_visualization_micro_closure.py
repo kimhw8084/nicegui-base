@@ -2,12 +2,13 @@
 from __future__ import annotations
 
 import sys
+import re
 from pathlib import Path
 
 import pytest
 
 from nicegui_base.visualization import AxisSpec, AxisType, ChartKind, ChartPanelSpec, ScaleMode, SeriesSpec, build_echarts_options
-from nicegui_base.visualization.formatting import format_visual_number
+from nicegui_base.visualization.formatting import format_visual_number, javascript_visual_number_formatter
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -18,6 +19,30 @@ def test_visual_number_formatter_bounds_binary_float_noise_and_keeps_units_separ
     assert format_visual_number(-3.2000000000000006) == '-3.2'
     assert format_visual_number(42.287749160134375) == '42.29'
     assert format_visual_number(0.0) == '0'
+
+
+@pytest.mark.parametrize(
+    ('value', 'expected'),
+    (
+        (0, '0'), (1, '1'), (10, '10'), (20, '20'), (100, '100'),
+        (1000, '1000'), (1010, '1010'), (1200, '1200'), (-10, '-10'),
+        (-200, '-200'), (1.0, '1'), (10.0, '10'), (10.5000, '10.5'),
+        (0.0100, '0.01'), (0.00001, '1e-5'),
+        (3.3000000000000003, '3.3'), (-3.2000000000000006, '-3.2'),
+        (42.287749160134375, '42.29'),
+    ),
+)
+def test_visual_number_formatter_trims_only_fractional_zeroes(value, expected):
+    assert format_visual_number(value) == expected
+
+
+def test_javascript_visual_formatter_uses_the_same_magnitude_policy():
+    formatter = javascript_visual_number_formatter()
+    assert 'Math.abs(n) >= 1e4' in formatter
+    assert 'Math.abs(n) < 1e-4' in formatter
+    assert 'toExponential(3)' in formatter
+    assert "toFixed(4)" in formatter
+    assert "replace(/(\\.\\d*?[1-9])0+$|\\.0+$/,'$1')" in formatter
 
 
 def test_chart_data_view_formats_xy_values_without_mapping_repr():
@@ -35,6 +60,45 @@ def test_chart_data_view_formats_xy_values_without_mapping_repr():
         panel.dispose()
     assert rows[0]['value'] == 0.30000000000000004
     assert '0.3' in csv_text and "{'time'" not in csv_text
+
+
+def test_chart_data_view_and_csv_preserve_integer_like_coordinates_and_values():
+    sys.path.insert(0, str(ROOT / 'tools'))
+    import execute_visualization_examples as support
+    from nicegui_base import ChartPanel, ChartPanelSpec
+    from nicegui_base.integrations.nicegui_visualization import _format_chart_cell
+
+    with support._fake_nicegui():
+        panel = ChartPanel(
+            (SeriesSpec(
+                'trace', 'Trace',
+                ({'time': 10, 'value': 100}, {'time': 100, 'value': 1200}),
+                kind=ChartKind.LINE, x_key='time', y_key='value',
+            ),),
+            spec=ChartPanelSpec('Trace', x_axis=AxisSpec(kind=AxisType.VALUE), y_axis=AxisSpec(kind=AxisType.VALUE)),
+        )
+        rows = panel.data_view.rows()
+        csv_text = panel.export.csv_text()
+        panel.dispose()
+    assert [(row['x'], row['y'], row['value']) for row in rows] == [(10, 100, 100), (100, 1200, 1200)]
+    csv_rows = {line.strip() for line in csv_text.splitlines()[1:]}
+    assert 'Trace,0,10,100,100' in csv_rows
+    assert 'Trace,1,100,1200,1200' in csv_rows
+    assert [_format_chart_cell(value) for value in (10, 100, 1200)] == ['10', '100', '1200']
+
+
+def test_spatial_legend_and_waterfall_labels_preserve_integer_magnitude():
+    from nicegui_base.integrations.nicegui_visualization import _WaterfallDiagram, _spatial_svg_legend
+
+    legend = _spatial_svg_legend(0, 100, x=10, y=10, height=100, title='Measurement')
+    assert '>100<' in legend and '>0<' in legend
+
+    options = _WaterfallDiagram.build_options(('Gain', 'Loss'), (10, -20))
+    bars = {item['name']: item for series in options['series'] for item in series['data']}
+    assert bars['Gain']['deltaLabel'] == '10'
+    assert bars['Loss']['deltaLabel'] == '-20'
+    assert bars['Net']['deltaLabel'] == '-10'
+    assert bars['Net']['value'][2] == pytest.approx(-10)
 
 
 def test_waterfall_uses_signed_start_end_geometry_and_reconciles_net():
@@ -123,3 +187,73 @@ def test_small_multiple_workbench_uses_compact_shared_scale_children():
     assert 'cui-workbench-mini-grid--wafer-multiples' in app
     assert 'size=ChartSize.COMPACT' in app
     assert 'scale_min=shared_low, scale_max=shared_high' in app
+
+
+def test_contour_isolines_are_deterministic_data_derived_and_truthfully_sparse():
+    from nicegui_base.semiconductor.spatial import WaferSample, contour_isolines
+
+    samples = tuple(
+        WaferSample(x, y, 40 + x * 0.7 + y * 0.3)
+        for y in range(-3, 4)
+        for x in range(-3, 4)
+    )
+    first = contour_isolines(samples, cells=4)
+    second = contour_isolines(samples, cells=4)
+    assert first == second
+    assert first and all(isoline.level > 0 for isoline in first)
+    assert all(segment[0] != segment[1] for isoline in first for segment in isoline.segments)
+
+    changed = tuple(WaferSample(sample.x, sample.y, (sample.value or 0) + (4 if sample.x > 0 else 0)) for sample in samples)
+    assert contour_isolines(changed, cells=4) != first
+
+    # With no complete four-corner source cell, the level is unavailable;
+    # no below-threshold nearest samples are injected to manufacture a path.
+    sparse = (
+        WaferSample(0, 0, 10), WaferSample(1, 0, 0),
+        WaferSample(0, 1, 0), WaferSample(10, 10, 0),
+    )
+    sparse_levels = contour_isolines(sparse, cells=6, levels=(9,))
+    assert len(sparse_levels) == 1
+    assert sparse_levels[0].available is False
+    assert sparse_levels[0].segments == ()
+
+
+def test_contour_renderer_labels_real_levels_and_makes_no_smoothing_claim():
+    sys.path.insert(0, str(ROOT / 'tools'))
+    import execute_visualization_examples as support
+    from nicegui_base import WaferContourPlot, WaferPoint
+
+    points = tuple(
+        WaferPoint(x, y, 40 + x * 0.7 + y * 0.3)
+        for y in range(-3, 4)
+        for x in range(-3, 4)
+    )
+    with support._fake_nicegui():
+        panel = WaferContourPlot('Contour', points)
+    labels = re.findall(r'<title>Contour ([^<]+)</title>', panel.svg)
+    expected = {format_visual_number(isoline.level) for isoline in panel.contour_isolines if isoline.available}
+    assert 'Smoothed field' not in panel.svg
+    assert 'Data-derived field' in panel.svg
+    assert 'clipPath' in panel.svg and 'clip-path=' in panel.svg
+    assert labels
+    assert expected and set(labels) <= expected
+    assert all(label == format_visual_number(float(label)) for label in labels)
+
+
+def test_contour_renderer_omits_unavailable_sparse_levels_without_fabricating_paths():
+    sys.path.insert(0, str(ROOT / 'tools'))
+    import execute_visualization_examples as support
+    from nicegui_base import WaferContourPlot, WaferPoint
+
+    sparse = (
+        WaferPoint(0, 0, 10), WaferPoint(1, 0, 0),
+        WaferPoint(0, 1, 0), WaferPoint(10, 10, 0),
+    )
+    with support._fake_nicegui():
+        panel = WaferContourPlot('Sparse contour', sparse)
+    assert panel.contour_levels
+    assert panel.contour_available_levels == ()
+    assert panel.contour_unavailable_levels == panel.contour_levels
+    assert 'data-contour-level=' not in panel.svg
+    assert '<title>Contour ' not in panel.svg
+    assert not re.findall(r'<path[^>]+ d="[^"]*Z', panel.svg)
