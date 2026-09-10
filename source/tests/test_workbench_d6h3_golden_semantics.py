@@ -105,7 +105,12 @@ def test_ecdf_and_network_renderers_expose_real_option_contracts():
 
     waterfall = _WaterfallDiagram.build_options(('A', 'B', 'C'), (2.0, -0.5, 1.0))
     assert [series['stack'] for series in waterfall['series']] == ['bridge', 'bridge', 'bridge']
-    assert waterfall['series'][0]['itemStyle']['color'] == 'transparent'
+    assert [series['type'] for series in waterfall['series']] == ['custom', 'custom', 'custom']
+    bars = {item['name']: item for series in waterfall['series'] for item in series['data']}
+    assert bars['A']['value'][1:3] == [0.0, 2.0]
+    assert bars['B']['value'][1:3] == [2.0, 1.5]
+    assert bars['B']['deltaLabel'] == '-0.5'
+    assert bars['Net']['value'][1:3] == [0.0, 2.5]
 
 
 def test_layout_and_agent_references_expose_each_governed_visual_contract():

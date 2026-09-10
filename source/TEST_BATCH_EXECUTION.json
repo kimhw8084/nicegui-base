@@ -1,10 +1,10 @@
 {
   "status": "PASS",
   "python": "3.13.13",
-  "test_files": 167,
+  "test_files": 169,
   "batches_requested": 6,
   "batches_executed": 6,
-  "duration_ms": 71291.4,
+  "duration_ms": 107069.5,
   "results": [
     {
       "batch": 1,
@@ -36,15 +36,15 @@
         "tests/test_phase11_docs.py",
         "tests/test_phase11_validator.py",
         "tests/test_phase12_certification.py",
-        "tests/test_phase12_combinatorial.py"
+        "tests/test_phase12_combinatorial.py",
+        "tests/test_phase12_integrated_adapters.py"
       ],
       "returncode": 0,
-      "duration_ms": 16987.7
+      "duration_ms": 19883.4
     },
     {
       "batch": 2,
       "files": [
-        "tests/test_phase12_integrated_adapters.py",
         "tests/test_phase13_convenience.py",
         "tests/test_phase13_final_contract.py",
         "tests/test_phase13_integration.py",
@@ -71,16 +71,16 @@
         "tests/test_phase32_v200_foundations.py",
         "tests/test_phase33_v200_typography_motion_governance.py",
         "tests/test_phase34_v200_release_sync.py",
-        "tests/test_phase35_v200_single_token_authority.py"
+        "tests/test_phase35_v200_single_token_authority.py",
+        "tests/test_phase37_v200rc4_datatable_page_performance.py",
+        "tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py"
       ],
       "returncode": 0,
-      "duration_ms": 10867.3
+      "duration_ms": 14236.4
     },
     {
       "batch": 3,
       "files": [
-        "tests/test_phase37_v200rc4_datatable_page_performance.py",
-        "tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py",
         "tests/test_phase39_v3_runtime_kernel.py",
         "tests/test_phase40_v3_unified_data_engine.py",
         "tests/test_phase41_v3_workspace_layout_engine.py",
@@ -106,17 +106,17 @@
         "tests/test_phase56_v300a8_edge_seated_switch_endpoints.py",
         "tests/test_phase57_v300a8_switch_endpoint_correction.py",
         "tests/test_phase58_v300a8_correctness_lifecycle_trust.py",
-        "tests/test_phase59_v300a8_production_data_platform.py"
+        "tests/test_phase59_v300a8_production_data_platform.py",
+        "tests/test_phase5_adapter_contract.py",
+        "tests/test_phase5_table_css.py",
+        "tests/test_phase5_table_engine.py"
       ],
       "returncode": 0,
-      "duration_ms": 10045.1
+      "duration_ms": 9774.8
     },
     {
       "batch": 4,
       "files": [
-        "tests/test_phase5_adapter_contract.py",
-        "tests/test_phase5_table_css.py",
-        "tests/test_phase5_table_engine.py",
         "tests/test_phase5_table_models.py",
         "tests/test_phase5_table_registry.py",
         "tests/test_phase60_v300a8_unified_analysis_platform.py",
@@ -141,18 +141,18 @@
         "tests/test_phase73_v300a8_sustained_operations_incident_rollback_audit.py",
         "tests/test_phase74_v300a8_operations_evidence_renewal_continuity.py",
         "tests/test_phase75_v300a8_operational_assurance_renewal_ledger.py",
-        "tests/test_phase76_v300a8_longitudinal_assurance_review_exception_governance.py"
+        "tests/test_phase76_v300a8_longitudinal_assurance_review_exception_governance.py",
+        "tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+        "tests/test_phase7_adapter_contract.py",
+        "tests/test_phase7_assets.py",
+        "tests/test_phase7_keys.py"
       ],
       "returncode": 0,
-      "duration_ms": 20321.6
+      "duration_ms": 33564.2
     },
     {
       "batch": 5,
       "files": [
-        "tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
-        "tests/test_phase7_adapter_contract.py",
-        "tests/test_phase7_assets.py",
-        "tests/test_phase7_keys.py",
         "tests/test_phase7_manifest.py",
         "tests/test_phase7_packaging.py",
         "tests/test_phase7_public_api.py",
@@ -176,17 +176,19 @@
         "tests/test_showcase_phase2.py",
         "tests/test_showcase_phase3.py",
         "tests/test_showcase_phase4.py",
-        "tests/test_showcase_phase5.py"
+        "tests/test_showcase_phase5.py",
+        "tests/test_tokens.py",
+        "tests/test_visualization_final_integrity.py",
+        "tests/test_visualization_micro_closure.py",
+        "tests/test_workbench_d6b_reorientation.py",
+        "tests/test_workbench_d6d_catalog_contracts.py"
       ],
       "returncode": 0,
-      "duration_ms": 2688.5
+      "duration_ms": 5276.8
     },
     {
       "batch": 6,
       "files": [
-        "tests/test_tokens.py",
-        "tests/test_workbench_d6b_reorientation.py",
-        "tests/test_workbench_d6d_catalog_contracts.py",
         "tests/test_workbench_d6e_patterns_recipes.py",
         "tests/test_workbench_d6h1_visual_closure.py",
         "tests/test_workbench_d6h2_visual_closure.py",
@@ -213,7 +215,7 @@
         "tests/test_workbench_iteration2_9.py"
       ],
       "returncode": 0,
-      "duration_ms": 10377.7
+      "duration_ms": 24328.5
     }
   ]
 }

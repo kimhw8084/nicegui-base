@@ -4,9 +4,10 @@ from nicegui_base.design.tokens import FONT_SIZES, FONT_WEIGHTS, MOTION_DURATION
 
 from typing import Any, Sequence
 
-from .models import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec, LegendPosition, SeriesSpec, SpecLimits, ThresholdSpec
+from .models import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec, LegendPosition, ScaleMode, SeriesSpec, SpecLimits, ThresholdSpec
 from .palette import CATEGORICAL, stable_series_color
 from .theme import ChartTheme, chart_theme
+from .formatting import javascript_visual_number_formatter
 
 
 HEATMAP_SCALE = ('#E9F2FF','#A9CFFF','#5B9EFF','#246DCE','#183E76')
@@ -32,8 +33,8 @@ def _axis(axis: AxisSpec, theme: ChartTheme) -> dict[str, Any]:
     }
     if axis.kind is AxisType.CATEGORY and axis.categories:
         d['data'] = list(axis.categories)
-    if axis.unit:
-        d['axisLabel']['formatter'] = '{value} ' + axis.unit
+    if axis.kind in (AxisType.VALUE, AxisType.TIME, AxisType.LOG):
+        d['axisLabel'][':formatter'] = javascript_visual_number_formatter(axis.unit)
     if axis.min_value is not None:
         d['min'] = axis.min_value
     if axis.max_value is not None:
@@ -209,13 +210,29 @@ def build_echarts_options(spec: ChartPanelSpec, series: Sequence[SeriesSpec], *,
         options['yAxis'] = [_axis(spec.y_axis, theme), _axis(AxisSpec(label='Cumulative',kind=AxisType.VALUE,unit='%',min_value=0,max_value=100),theme)]
     if spec.kind is ChartKind.HEATMAP:
         values = _spatial_values(series)
+        if spec.scale_mode is ScaleMode.DIVERGING:
+            magnitude = max(
+                abs(float(spec.color_min)) if spec.color_min is not None else 0.0,
+                abs(float(spec.color_max)) if spec.color_max is not None else 0.0,
+                max((abs(value) for value in values), default=0.0),
+                1e-12,
+            )
+            color_min = float(spec.color_min) if spec.color_min is not None else -magnitude
+            color_max = float(spec.color_max) if spec.color_max is not None else magnitude
+            if not color_min < 0 < color_max:
+                raise ValueError('diverging heatmap scale must cross zero')
+            palette = DIVERGING_SCALE
+        else:
+            color_min = float(spec.color_min) if spec.color_min is not None else (min(values) if values else 0.0)
+            color_max = float(spec.color_max) if spec.color_max is not None else (max(values) if values else 1.0)
+            palette = HEATMAP_SCALE
         # Color mapping remains inside ECharts, but NiceGUI Base owns the visible scale band below the plot.
         # This prevents the floating visualMap from colliding with axis tooltips/cursors.
         options['visualMap'] = {
             'show': False,
-            'min': min(values) if values else 0, 'max': max(values) if values else 1,
+            'min': color_min, 'max': color_max,
             'calculable': False,
-            'inRange': {'color': list(HEATMAP_SCALE)},
+            'inRange': {'color': list(palette)},
         }
         options['legend'] = {'show': False}
         options['grid'].update({'top':24,'bottom':28})

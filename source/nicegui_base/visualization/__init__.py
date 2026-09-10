@@ -5,6 +5,7 @@ from .options import build_echarts_options
 from .css import build_visualization_css
 from .registry import VISUALIZATION_REGISTRY, VisualizationDefinition, get_visualization
 from .theme import ChartTheme, chart_theme
+from .formatting import format_visual_number, javascript_visual_number_formatter
 
 __all__=[name for name in globals() if not name.startswith('_')]
 from .semantic import SemanticVisualData, SemanticVisualPlan, SemanticVisualSpec, SemanticVisualizationPlanner, VisualIntent

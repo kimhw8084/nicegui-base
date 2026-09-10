@@ -1,6 +1,6 @@
 {
-  "automated_tests": 1881,
-  "combined_css_bytes": 282769,
+  "automated_tests": 1900,
+  "combined_css_bytes": 283713,
   "framework_version": "3.0.0a8",
   "hotfix_release": "v3.0.0a8 source-complete governed application platform",
   "live_lab": {
@@ -3076,7 +3076,7 @@
     }
   },
   "phase_32_v2_release_candidate": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "canonical_viewport_widths": [
       390,
       430,
@@ -3092,7 +3092,7 @@
     "runtime_status": "PENDING in build sandbox"
   },
   "phase_35_v2_source_completion": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "governance": "0 errors / 0 warnings",
     "release_sync_embedded_version_regression": true,
     "runtime_browser_human_target_gates": "PENDING",
@@ -3102,7 +3102,7 @@
   },
   "phase_38_v200rc5_p0_hardening": {
     "async_accessibility_announcements": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "browser_performance_probe": true,
     "chart_accessibility_and_cleanup": true,
     "chart_visibility_aware_update_coalescing": true,
@@ -3125,7 +3125,7 @@
     "adaptive_workspace_grid_engine": true,
     "application_and_workspace_snapshot_restore": true,
     "application_runtime_kernel": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "governed_extension_registry": true,
     "json_snapshot_persistence": true,
     "lazy_equality_membership_indexes": true,
@@ -3151,7 +3151,7 @@
     "supported_browser_matrix_and_human_baseline": "PENDING"
   },
   "phase_48_v300a2_coding_agent_platform": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "canonical_golden_examples": 4,
     "fail_closed_agent_preflight": true,
     "main_cli_agent_commands": [
@@ -3169,7 +3169,7 @@
     "versioned_agent_workspace_scaffold": true
   },
   "phase_49_v300a3_sidebar_utility_hardening": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "browser_checker_covers_sidebar_utility_actions": true,
     "browser_native_full_checks": "52/52",
     "browser_native_full_constitution": "PENDING",
@@ -3183,7 +3183,7 @@
     "target_nicegui_browser_human_gates": "PENDING"
   },
   "phase_50_v300a3_agent_application_factory": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "generic_live_gate_desktop_mobile_accessibility_overflow_performance": true,
     "governed_application_factory": true,
     "live_gate_checks_compact_sidebar_utility_contract": true,
@@ -3218,7 +3218,7 @@
     "task_context_recommends_starter_template": true
   },
   "phase_51_v300a3_single_file_deployment_entrypoint": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "bundled_source_precedence": true,
     "default_bind": "0.0.0.0:8080",
     "publisher_host_port_environment_compatibility": [
@@ -3235,7 +3235,7 @@
     "target_runtime_browser_human_gates": "PENDING"
   },
   "phase_52_v300a4_publisher_prefix_and_clean_smoke_shutdown": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "cancelled_error_keyboard_interrupt_shutdown_noise_removed": true,
     "golden_route_authority_exactly_21_routes": true,
     "nicegui_root_path_forwarded_to_existing_runtime": true,
@@ -3254,7 +3254,7 @@
   },
   "phase_53_v300a5_product_facing_quality_cleanup": {
     "agent_facing_release_gate_rhetoric_removed": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "live_product_reference_routes": 21,
     "quality_navigation_contains_states_and_performance_only": true,
     "renderer_or_data_contract_changes": false,
@@ -3272,7 +3272,7 @@
     "visible_certification_route_removed": true
   },
   "phase_54_v300a6_switch_perceptual_integrity": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "browser_native_checks": "52/52",
     "browser_native_uiux_constitution": "PENDING",
     "renderer_or_data_contract_changes": false,
@@ -3292,7 +3292,7 @@
     "switch_travel_px": 20
   },
   "phase_55_v300a7_native_quality_switch_proportions": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "browser_native_checks": "52/52",
     "browser_native_uiux_constitution": "PENDING",
     "renderer_or_data_contract_changes": false,
@@ -3311,7 +3311,7 @@
     "switch_visual_separation_source": "track containment plus subtle shadow"
   },
   "phase_56_v300a8_edge_seated_switch_endpoints": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "renderer_or_data_contract_changes": false,
     "superseded": true,
     "switch_endpoint_contract": "historical edge-seated experiment; superseded by phase 57",
@@ -3330,7 +3330,7 @@
     "switch_vertical_inset_px": 2
   },
   "phase_57_v300a8_switch_endpoint_correction": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "disabled_geometry_matches_enabled_endpoints": true,
     "raw_nicegui_switch_validator_guard": true,
     "single_css_authority": true,
@@ -3351,7 +3351,7 @@
   },
   "phase_58_v300a8_correctness_lifecycle_trust": {
     "application_validator_errors": 0,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "chart_annotations_and_record_series_mapping": true,
     "collection_filter_operand_validation": true,
     "compound_table_filter_ast": true,
@@ -3376,7 +3376,7 @@
   "phase_59_v300a8_production_data_platform": {
     "aggregation_and_distinct_pushdown": true,
     "application_runtime_source_registry": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "data_source_registry_lifecycle": true,
     "dbapi_provider": true,
     "dependency_free_csv_provider": true,
@@ -3403,7 +3403,7 @@
     "analysis_context_transactional_shared_state": true,
     "analysis_registry_and_agent_catalog": true,
     "analytical_panel_state_contract": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "compound_table_filter_semantics_preserved": true,
     "datasource_table_query_bridge": true,
     "full_workspace_analysis_selection_interaction_persistence": true,
@@ -3420,7 +3420,7 @@
     "workspace_move_resize_collapse_hide_lock_dock_split_duplicate_reset_undo_redo": true
   },
   "phase_61_v300a8_semiconductor_semantic_analytics": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "canonical_semiconductor_entity_model": true,
     "capability_indices": [
       "Cp",
@@ -3456,7 +3456,7 @@
   },
   "phase_62_v300a8_semiconductor_application_recipe_factory": {
     "agent_catalog_and_cli_recipe_discovery": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "collision_free_responsive_recipe_layouts": true,
     "generated_recipe_starters_execute": true,
     "heavy_mandatory_dependency_added": false,
@@ -3483,7 +3483,7 @@
   "phase_63_v300a8_semiconductor_recipe_production_runtime": {
     "agent_catalog_variant_recommendation": true,
     "ambiguous_binding_fails_closed": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "bounded_context_aware_records": true,
     "explicit_binding_override_precedence": true,
     "generated_data_adapter_and_recipe_config": true,
@@ -3502,7 +3502,7 @@
     "wave62_recipe_authority_reused": true
   },
   "phase_64_v300a8_semiconductor_production_adapter_runtime_hardening": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "bounded_runtime_pushdown_performance_probe": true,
     "capability_claims_audited_via_query_stats": true,
     "generated_recipe_setup_and_conformance_hooks": true,
@@ -3522,7 +3522,7 @@
     "wave63_onboarding_variant_runtime_authority_reused": true
   },
   "phase_65_v300a8_semiconductor_provider_sdk_onboarding_rc": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "bounded_development_and_production_fixture_suites": true,
     "diagnostic_remediation_guidance": true,
     "generated_provider_fixture_and_release_evidence_helpers": true,
@@ -3545,7 +3545,7 @@
   },
   "phase_66_v300a8_semiconductor_target_certification_operational_readiness": {
     "artifact_sha256_integrity": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "deterministic_qualification_identity": true,
     "evidence_freshness_and_future_clock_detection": true,
     "evidence_freshness_policies": 1,
@@ -3569,7 +3569,7 @@
   },
   "phase_67_v300a8_semiconductor_stable_promotion_candidate_enterprise_evidence": {
     "actionable_promotion_gap_diagnostics": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "candidate_archive_entry_sanitization": true,
     "candidate_package_includes_only_current_hash_verified_artifact_bytes": true,
     "deterministic_candidate_zip_and_sha256_manifest": true,
@@ -3588,7 +3588,7 @@
     "wave66_provider_qualification_and_promotion_authority_reused": true
   },
   "phase_68_v300a8_enterprise_target_execution_intake_stable_promotion_operationalization": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "candidate_archive_independent_reverification": true,
     "canonical_runbook_bound_operation_evidence": true,
     "company_deployment_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3608,7 +3608,7 @@
     "wave65_67_evidence_and_promotion_authorities_reused": true
   },
   "phase_69_v300a8_enterprise_promotion_execution_adapter_qualification_release_audit_closure": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "candidate_and_handoff_independent_reverification": true,
     "company_deployment_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "execution_adapter_artifact_sha256_integrity": true,
@@ -3629,7 +3629,7 @@
   },
   "phase_70_v300a8_enterprise_stable_release_evidence_acceptance_promotion_closure": {
     "acceptance_framework_and_exact_nicegui_identity_fail_closed": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "company_deployment_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "deterministic_self_contained_closure_package": true,
     "external_acceptance_artifact_sha256_integrity": true,
@@ -3654,7 +3654,7 @@
     "wave66_promotion_wave67_candidate_wave69_audit_authorities_reused": true
   },
   "phase_71_v300a8_enterprise_release_publication_evidence_post_promotion_verification": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "closure_manifest_and_nested_wave69_audit_sha256_integrity": true,
     "company_deployment_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "continuous_post_release_monitoring": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3680,7 +3680,7 @@
     "wave70_closure_archive_independent_reverification": true
   },
   "phase_72_v300a8_enterprise_post_release_stability_rollback_readiness_verification": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_incident_response": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_rollback_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3713,7 +3713,7 @@
     "wave71_post_promotion_archive_independent_reverification": true
   },
   "phase_73_v300a8_enterprise_sustained_operations_incident_rollback_audit_closure": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_incident_response": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_rollback_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3745,7 +3745,7 @@
     "wave72_rollback_readiness_archive_independent_reverification": true
   },
   "phase_74_v300a8_enterprise_sustained_operations_evidence_renewal_operational_assurance_continuity": {
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_incident_response": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_rollback_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3777,7 +3777,7 @@
   },
   "phase_75_v300a8_enterprise_operational_assurance_renewal_ledger_longitudinal_evidence_governance": {
     "artifact_tampering_and_unsafe_archives_fail_closed": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_incident_response": "NOT PERFORMED BY GENERIC FRAMEWORK",
     "company_rollback_execution": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3802,7 +3802,7 @@
   },
   "phase_76_v300a8_enterprise_longitudinal_assurance_review_evidence_exception_governance": {
     "accepted_exception_does_not_create_synthetic_evidence_pass": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "blocked_or_contradictory_evidence_not_waivable_by_default": true,
     "bounded_exception_policy": true,
     "company_deployment_or_publication": "NOT PERFORMED BY GENERIC FRAMEWORK",
@@ -3827,7 +3827,7 @@
   },
   "phase_77_v300a8_final_release_candidate_consolidation_authority_audit_stable_qualification_handoff": {
     "authority_chain_ownership_audit": true,
-    "automated_tests": 1881,
+    "automated_tests": 1900,
     "certification_phase_floor_derived_from_release_authority": true,
     "deterministic_archive_builder_preserves_executable_modes": true,
     "deterministic_source_checksum_tooling": true,

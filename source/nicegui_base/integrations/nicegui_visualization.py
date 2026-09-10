@@ -10,11 +10,12 @@ import uuid
 from collections.abc import Callable, Mapping, Sequence
 from typing import Any
 
-from nicegui_base.design.tokens import FONT_SIZES, MOTION_DURATIONS_MS
+from nicegui_base.design.tokens import FONT_SIZES, FONT_WEIGHTS, MOTION_DURATIONS_MS
 from nicegui_base.visual import render_icon_svg
 from nicegui_base.visualization import (
     AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec, ChartSize, CrossFilterEngine, LegendPosition, LineStyle, SelectionMode,
     ScaleMode, SeriesSpec, SpatialPoint, SpecLimits, ThresholdSpec, WaferPoint, build_echarts_options, chart_theme, stable_series_color,
+    format_visual_number, javascript_visual_number_formatter,
 )
 
 
@@ -201,6 +202,21 @@ class ChartBrush:
         return self.panel.element.run_chart_method('dispatchAction', {'type': 'brush', 'areas': []})
 
 
+def _format_chart_cell(value: Any) -> str:
+    """Format data-view cells without leaking Python reprs or float noise."""
+    if isinstance(value, bool):
+        return 'true' if value else 'false'
+    if isinstance(value, (int, float)):
+        return format_visual_number(value)
+    if value is None:
+        return ''
+    if isinstance(value, Mapping):
+        return ', '.join(f'{key}={_format_chart_cell(value[key])}' for key in sorted(value, key=str))
+    if isinstance(value, (tuple, list)):
+        return ', '.join(_format_chart_cell(item) for item in value)
+    return str(value)
+
+
 class ChartDataView:
     """Framework-owned, accessible data representation for a chart."""
     def __init__(self, panel: 'ChartPanel'): self.panel = panel
@@ -220,8 +236,10 @@ class ChartDataView:
                 if x_key is not None and isinstance(value, Mapping):
                     row['x'] = value.get(x_key)
                     row['y'] = value.get(y_key or '')
+                    row['value'] = row['y']
                 elif isinstance(value, (tuple, list)) and len(value) >= 2:
                     row['x'], row['y'] = value[0], value[1]
+                    row['value'] = row['y']
                 result.append(row)
         return result
 
@@ -247,7 +265,7 @@ class ChartDataView:
                                 for row in self.rows():
                                     with ui.element('tr'):
                                         for value in (row['series'], row['index'], row.get('x', ''), row.get('y', ''), row['value']):
-                                            with ui.element('td'): ui.label(str(value))
+                                            with ui.element('td'): ui.label(_format_chart_cell(value))
                 with ui.element('div').classes('cui-dialog__footer'):
                     ui.element('div').classes('cui-dialog__footer-spacer')
                     ui.button('Close', on_click=dialog.close).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
@@ -293,7 +311,7 @@ class ChartExport:
         headers=['series','index'] + (['x','y'] if has_xy else []) + ['value']
         writer.writerow(headers)
         for row in rows:
-            writer.writerow([row['series'],row['index']] + ([row.get('x',''),row.get('y','')] if has_xy else []) + [row['value']])
+            writer.writerow([row['series'],row['index']] + ([_format_chart_cell(row.get('x','')),_format_chart_cell(row.get('y',''))] if has_xy else []) + [_format_chart_cell(row['value'])])
         return buffer.getvalue()
 
     def download_csv(self, filename: str | None = None):
@@ -393,15 +411,18 @@ def _numeric_spatial_values(series: Sequence[SeriesSpec]) -> list[float]:
     return values
 
 
-def _render_heatmap_scale(ui, series: Sequence[SeriesSpec]):
-    values=_numeric_spatial_values(series); low=min(values) if values else 0.0; high=max(values) if values else 1.0
+def _render_heatmap_scale(ui, series: Sequence[SeriesSpec], spec: ChartPanelSpec):
+    values=_numeric_spatial_values(series)
+    low=spec.color_min if spec.color_min is not None else (min(values) if values else 0.0)
+    high=spec.color_max if spec.color_max is not None else (max(values) if values else 1.0)
     label=next((s.label for s in series if s.visible),'Intensity')
-    with ui.element('div').classes('cui-chart-scale-band').props(f'role="group" aria-label={json.dumps(label+" color scale")}') as band:
+    band_class='cui-chart-scale-band cui-chart-scale-band--diverging' if spec.scale_mode is ScaleMode.DIVERGING else 'cui-chart-scale-band'
+    with ui.element('div').classes(band_class).props(f'role="group" aria-label={json.dumps(label+" color scale")} data-scale-mode={json.dumps(spec.scale_mode.value if spec.scale_mode else "continuous")}') as band:
         ui.label(label).classes('cui-chart-scale-band__title')
         with ui.element('div').classes('cui-chart-scale-band__scale'):
-            ui.label(f'{low:.3g}').classes('cui-chart-scale-band__value')
+            ui.label(format_visual_number(low)).classes('cui-chart-scale-band__value')
             ui.element('div').classes('cui-chart-scale-band__gradient').props('aria-hidden="true"')
-            ui.label(f'{high:.3g}').classes('cui-chart-scale-band__value')
+            ui.label(format_visual_number(high)).classes('cui-chart-scale-band__value')
     return band
 
 
@@ -442,7 +463,7 @@ def _render_chart_accessibility_data(ui, spec: ChartPanelSpec, series: Sequence[
                     for label,index,value in rows:
                         with ui.element('tr'):
                             for cell in (label,index,value):
-                                with ui.element('td'): ui.label(str(cell))
+                                with ui.element('td'): ui.label(_format_chart_cell(cell))
 
 
 class ChartPanel:
@@ -460,6 +481,9 @@ class ChartPanel:
             f'data-series-labels={json.dumps("|".join(item.label for item in series))} '
             f'data-chart-x={json.dumps(spec.x_axis.label or "")} data-chart-y={json.dumps(spec.y_axis.label or "")} '
             f'data-series-kinds={json.dumps("|".join(item.kind.value for item in series))} '
+            f'data-chart-scale-mode={json.dumps(spec.scale_mode.value if spec.scale_mode else "")} '
+            f'data-chart-color-min={json.dumps(spec.color_min if spec.color_min is not None else "")} '
+            f'data-chart-color-max={json.dumps(spec.color_max if spec.color_max is not None else "")} '
             f'data-chart-theme="{self.theme_mode}" data-chart-range-x="0,100" data-chart-range-y="0,100"'
         ) as self.container:
             with ui.element('div').classes('cui-chart-panel__header'):
@@ -473,7 +497,7 @@ class ChartPanel:
                 # NiceGUI Base renders its own semantic-icon toolbar instead.
                 if 'toolbox' in options: options['toolbox']['show']=False
                 self.element=ui.echart(options).classes('cui-chart-canvas w-full').props(f'aria-label={json.dumps(spec.title)}')
-                self.scale_band=_render_heatmap_scale(ui,self.series) if spec.kind is ChartKind.HEATMAP else None
+                self.scale_band=_render_heatmap_scale(ui,self.series,self.spec) if spec.kind is ChartKind.HEATMAP else None
                 _render_chart_accessibility_data(ui,spec,self.series,summary_id=self.summary_id)
         self.legend=ChartLegend(self); self.tooltip=ChartTooltip(self); self.selection=ChartSelection(self)
         self.zoom=ChartZoom(self); self.brush=ChartBrush(self); self.data_view=ChartDataView(self)
@@ -569,9 +593,13 @@ class _TypedChart(ChartPanel):
     KIND=ChartKind.LINE
     def __init__(self, title: str, series: Sequence[SeriesSpec], *, description: str|None=None,
                  size: ChartSize=ChartSize.STANDARD, x_axis: AxisSpec|None=None, y_axis: AxisSpec|None=None,
-                 thresholds: Sequence[ThresholdSpec]=(), spec_limits: SpecLimits|None=None, **kwargs):
+                 thresholds: Sequence[ThresholdSpec]=(), spec_limits: SpecLimits|None=None,
+                 scale_mode: ScaleMode | str | None = None, color_min: float | None = None,
+                 color_max: float | None = None, **kwargs):
         spec=ChartPanelSpec(title=title,description=description,kind=self.KIND,size=size,
-                            x_axis=x_axis or AxisSpec(kind=AxisType.CATEGORY),y_axis=y_axis or AxisSpec())
+                            x_axis=x_axis or AxisSpec(kind=AxisType.CATEGORY),y_axis=y_axis or AxisSpec(),
+                            scale_mode=ScaleMode(scale_mode) if scale_mode is not None else None,
+                            color_min=color_min, color_max=color_max)
         normalized=tuple(SeriesSpec(s.key,s.label,s.data,kind=self.KIND,x_key=s.x_key,y_key=s.y_key,stack=s.stack,
                                     smooth=s.smooth,marker=s.marker,line_style=s.line_style,semantic_color=s.semantic_color,
                                     visible=s.visible,y_axis_index=s.y_axis_index) for s in series)
@@ -637,13 +665,20 @@ class _QQProbabilityPlot(ChartPanel):
     @staticmethod
     def build_options(title: str, points: Sequence[tuple[float,float]], *, theme_mode: str='light') -> dict[str,Any]:
         series=_QQProbabilityPlot.build_series(points)
-        spec=ChartPanelSpec(title=title,kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed measurement',kind=AxisType.VALUE))
+        observed=tuple(float(point[1]) for point in points)
+        low,high=(min(observed),max(observed)) if observed else (0.0,1.0)
+        pad=max((high-low)*.08,.1)
+        spec=ChartPanelSpec(title=title,kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed measurement',kind=AxisType.VALUE,min_value=low-pad,max_value=high+pad))
         return build_echarts_options(spec,series,theme=chart_theme(theme_mode))
 
     def __init__(self,title:str,points:Sequence[tuple[float,float]],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,theme_mode:str|None=None):
         series=self.build_series(points)
-        super().__init__(series,spec=ChartPanelSpec(title=title,description=description or 'Observed points against a fitted location/scale normal reference line.',kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed measurement',kind=AxisType.VALUE),selection=SelectionMode.BRUSH),theme_mode=theme_mode)
-        self.container.props('data-visual-semantic="qq_probability" data-qq-reference="location-scale"')
+        observed = tuple(float(point[1]) for point in points)
+        low, high = (min(observed), max(observed)) if observed else (0.0, 1.0)
+        pad = max((high - low) * .08, .1)
+        y_min, y_max = low - pad, high + pad
+        super().__init__(series,spec=ChartPanelSpec(title=title,description=description or 'Observed points against a fitted location/scale normal reference line.',kind=ChartKind.SCATTER,x_axis=AxisSpec(label='Theoretical quantile',kind=AxisType.VALUE),y_axis=AxisSpec(label='Observed measurement',kind=AxisType.VALUE,min_value=y_min,max_value=y_max),selection=SelectionMode.BRUSH),theme_mode=theme_mode)
+        self.container.props(f'data-visual-semantic="qq_probability" data-qq-reference="location-scale" data-qq-y-min="{y_min:.6g}" data-qq-y-max="{y_max:.6g}"')
 
 
 class _CapabilityHistogram(ChartPanel):
@@ -756,7 +791,7 @@ class _SpatialSvgPanel:
 
 class WaferMap(_SpatialSvgPanel):
     renderer_type='wafer_map'
-    def __init__(self,title:str,points:Sequence[WaferPoint],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,legend_title:str='Measurement',legend_labels:Sequence[str]=(),scale_mode:ScaleMode|str=ScaleMode.CONTINUOUS,scale_min:float|None=None,scale_max:float|None=None,category_key:str='status',**kwargs):
+    def __init__(self,title:str,points:Sequence[WaferPoint],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,legend_title:str='Measurement',legend_labels:Sequence[str]=(),scale_mode:ScaleMode|str=ScaleMode.CONTINUOUS,scale_min:float|None=None,scale_max:float|None=None,category_key:str='status',status_key:str|None=None,**kwargs):
         super().__init__(title,description=description or 'Die-level wafer signature · wheel/drag to inspect spatial structure',size=size)
         pts=tuple(points);mode=ScaleMode(scale_mode);self.scale_mode=mode;values=[float(p.value) for p in pts if isinstance(p.value,(int,float))]; low=float(scale_min) if scale_min is not None else (min(values) if values else 0); high=float(scale_max) if scale_max is not None else (max(values) if values else 1)
         if mode is ScaleMode.DIVERGING:
@@ -771,18 +806,31 @@ class WaferMap(_SpatialSvgPanel):
         parts.append(f'<defs><clipPath id="{clip_id}"><circle cx="220" cy="200" r="168"/></clipPath></defs>')
         parts.append('<g class="cui-wafer-guides" aria-hidden="true"><circle cx="220" cy="200" r="168"/><circle cx="220" cy="200" r="112"/><circle cx="220" cy="200" r="56"/><path d="M220 32V368M52 200H388"/></g>')
         parts.append(f'<g class="cui-wafer-dies" clip-path="url(#{clip_id})">')
+        def alert_value(point: WaferPoint) -> str:
+            if status_key:
+                return str(point.metadata.get(status_key) or '')
+            # Category labels are data classes, not operational severity. Only
+            # continuous/delta maps inherit the explicit point status.
+            return '' if mode is ScaleMode.CATEGORICAL else str(point.status or '')
+
+        def is_alert(value: str) -> bool:
+            return value.strip().lower() in {'watch', 'warning', 'oos', 'hold', 'alarm', 'defect', 'error', 'fail', 'failed', 'out of spec'}
+
         for p in pts:
-            x=cx+(float(p.x)/span)*r*.9; y=cy-(float(p.y)/span)*r*.9; status=html.escape(str(getattr(p,'status','') or ''))
+            x=cx+(float(p.x)/span)*r*.9; y=cy-(float(p.y)/span)*r*.9; status=html.escape(alert_value(p))
+            category_label = html.escape(str((p.metadata.get(category_key) if p.metadata.get(category_key) is not None else p.status) or 'Unknown'))
             if p.value is None:
-                cls='cui-spatial-missing'+(' is-watch' if status.lower() not in {'','normal','ok'} else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · no measurement · {status or "normal"}')
+                display_state = category_label if mode is ScaleMode.CATEGORICAL else (status or 'normal')
+                cls='cui-spatial-missing'+(' is-watch' if is_alert(status) else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · no measurement · {display_state}')
             else:
                 if mode is ScaleMode.CATEGORICAL:
-                    category=str((p.metadata.get(category_key) if p.metadata.get(category_key) is not None else p.status) or 'Unknown'); cls=category_colors.setdefault(category,f'cui-spatial-bin-{len(category_colors) % 7}')
+                    category=category_label; cls=category_colors.setdefault(category,f'cui-spatial-bin-{len(category_colors) % 7}')
                 elif mode is ScaleMode.DIVERGING:
                     ratio=(float(p.value)-low)/(high-low); cls=f'cui-spatial-bin-{min(6,max(0,int(ratio*7)))}'
                 else:
                     cls=f'cui-spatial-bin-{_spatial_bin(float(p.value),low,high)}'
-                cls += (' is-watch' if status.lower() not in {'','normal','ok'} else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · {float(p.value):.3f} · {status or "normal"}')
+                display_state = category_label if mode is ScaleMode.CATEGORICAL else (status or 'normal')
+                cls += (' is-watch' if is_alert(status) else ''); tooltip=html.escape(f'Die ({p.x}, {p.y}) · {format_visual_number(p.value)} · {display_state}')
             parts.append(f'<rect class="cui-wafer-die {cls}" x="{x-die/2:.2f}" y="{y-die/2:.2f}" width="{die:.2f}" height="{die:.2f}" rx="3"><title>{tooltip}</title></rect>')
         parts.append('</g><circle class="cui-wafer-boundary" cx="220" cy="200" r="168"/><path class="cui-wafer-notch" d="M211 365 L220 374 L229 365"/>')
         if mode is ScaleMode.CATEGORICAL:
@@ -792,7 +840,7 @@ class WaferMap(_SpatialSvgPanel):
             parts.append(_spatial_svg_legend(low,high,x=430,y=92,height=190,title=legend_title))
         parts.append('<text class="cui-spatial-annotation" x="220" y="22" text-anchor="middle">CENTER ↔ EDGE SIGNATURE</text>')
         self.scale_bounds=(low,high); self.legend_mapping=dict(category_colors); self.svg=''.join(parts) + '</svg>'
-        self._render(self.svg);self.container.props(f'data-wafer-scale-mode="{mode.value}" data-wafer-scale-min="{low:.6g}" data-wafer-scale-max="{high:.6g}" data-wafer-legend-mapping={json.dumps(category_colors)}')
+        self._render(self.svg);self.container.props(f'data-wafer-scale-mode="{mode.value}" data-wafer-scale-min="{low:.6g}" data-wafer-scale-max="{high:.6g}" data-wafer-status-key={json.dumps(status_key or "")} data-wafer-legend-mapping={json.dumps(category_colors)}')
 
 
 class _WaferContourPlot(_SpatialSvgPanel):
@@ -998,8 +1046,8 @@ class RadialProfilePlot(_SpatialSvgPanel):
 def _spatial_svg_legend(low:float,high:float,*,x:int,y:int,height:int,title:str)->str:
     step=height/7;parts=[f'<text class="cui-spatial-legend-title" x="{x}" y="{y-18}">{html.escape(title)}</text>']
     for i in range(7):parts.append(f'<rect class="cui-spatial-bin-{6-i}" x="{x}" y="{y+i*step:.2f}" width="12" height="{step+1:.2f}"/>')
-    parts.append(f'<text class="cui-spatial-legend-label" x="{x+20}" y="{y+8}">{high:.3g}</text>')
-    parts.append(f'<text class="cui-spatial-legend-label" x="{x+20}" y="{y+height}">{low:.3g}</text>')
+    parts.append(f'<text class="cui-spatial-legend-label" x="{x+20}" y="{y+8}">{format_visual_number(high)}</text>')
+    parts.append(f'<text class="cui-spatial-legend-label" x="{x+20}" y="{y+height}">{format_visual_number(low)}</text>')
     return ''.join(parts)
 
 
@@ -1052,6 +1100,7 @@ class _SemanticOptionDiagram:
     """Company-owned shell for ECharts geometries outside the Cartesian registry."""
 
     renderer_type = 'diagram'
+    chart_renderer = None
 
     def __init__(self, title: str, options: dict[str, Any], *, description: str | None = None,
                  size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None) -> None:
@@ -1074,7 +1123,7 @@ class _SemanticOptionDiagram:
                     if description:
                         ui.label(description).classes('cui-chart-panel__description')
             with ui.element('div').classes('cui-chart-panel__body'):
-                self.element = ui.echart(options).classes('cui-chart-canvas w-full')
+                self.element = (ui.echart(options, renderer=self.chart_renderer) if self.chart_renderer else ui.echart(options)).classes('cui-chart-canvas w-full')
             ui.label(self.accessibility_summary(options)).props(f'id="{summary_id}"').classes('cui-visually-hidden')
         _register_theme_renderer(self)
 
@@ -1101,6 +1150,9 @@ class _SankeyDiagram(_SemanticOptionDiagram):
     """Quantity-weighted process-flow bands backed by an ECharts Sankey series."""
 
     renderer_type = 'sankey'
+    # SVG keeps node labels inside the governed chart surface so the compact
+    # phone layout can be inspected and clipped deterministically.
+    chart_renderer = 'svg'
 
     @staticmethod
     def build_options(nodes: Sequence[str], links: Sequence[tuple[str, str, float]], *, theme_mode: str = 'light') -> dict[str, Any]:
@@ -1113,6 +1165,11 @@ class _SankeyDiagram(_SemanticOptionDiagram):
             raise ValueError('Every Sankey link endpoint must name a registered node')
         if any(value <= 0 for _source, _target, value in valid_links):
             raise ValueError('Sankey link quantities must be positive')
+        # Keep intermediary labels on the upstream side of their node.  This
+        # prevents a long process/chamber label from colliding with the next
+        # stage on compact canvases while terminal stages remain easy to scan.
+        sources = {source for source, _target, _value in valid_links}
+        terminal_nodes = set(node_names) - sources
         return {
             'animationDuration': MOTION_DURATIONS_MS['section'],
             'tooltip': {'trigger': 'item'},
@@ -1120,17 +1177,31 @@ class _SankeyDiagram(_SemanticOptionDiagram):
             'series': [{
                 'name': 'Process flow',
                 'type': 'sankey',
-                'left': 24,
-                'right': 32,
+                'left': 60,
+                'right': 100,
                 'top': 18,
                 'bottom': 18,
                 'nodeAlign': 'justify',
                 'layoutIterations': 32,
-                'data': [{'name': name, 'itemStyle': {'color': stable_series_color(name)}} for name in node_names],
+                'data': [
+                    {
+                        'name': name,
+                        'itemStyle': {'color': stable_series_color(name)},
+                        'label': {'position': 'right' if name in terminal_nodes else 'left'},
+                    }
+                    for name in node_names
+                ],
                 'links': [{'source': source, 'target': target, 'value': value} for source, target, value in valid_links],
                 'lineStyle': {'color': 'source', 'curveness': .5, 'opacity': .42},
-                'label': {'color': theme.text_primary, 'fontSize': FONT_SIZES['12']},
+                'label': {'color': theme.text_primary, 'fontSize': FONT_SIZES['12'], 'textBorderColor': theme.surface_elevated, 'textBorderWidth': 2, 'overflow': 'truncate', 'width': 112},
                 'emphasis': {'focus': 'adjacency'},
+            }],
+            'media': [{
+                'query': {'maxWidth': 520},
+                # The flow remains the primary visual on a phone.  Move the
+                # complete stage naming to the governed stage key below so
+                # labels cannot collide when ECharts packs terminal bands.
+                'option': {'series': [{'left': 10, 'right': 96, 'nodeGap': 10, 'label': {'show': False}}]},
             }],
         }
 
@@ -1139,6 +1210,11 @@ class _SankeyDiagram(_SemanticOptionDiagram):
         theme_mode=_resolve_theme_mode(theme_mode)
         self._theme_builder=lambda mode:self.build_options(nodes,links,theme_mode=mode)
         super().__init__(title, self.build_options(nodes, links, theme_mode=theme_mode), description=description, size=size, theme_mode=theme_mode)
+        ui = _ui()
+        with self.container:
+            ui.label('Stages: ' + ' · '.join(dict.fromkeys(str(node) for node in nodes))).classes('cui-chart-panel__stage-key').props(
+                'data-sankey-stage-key'
+            )
 
 
 class _RelationshipGraph(_SemanticOptionDiagram):
@@ -1188,27 +1264,36 @@ class _FaultTreeDiagram(_SemanticOptionDiagram):
     """Hierarchical fault decomposition with explicit AND/OR gate nodes."""
 
     renderer_type = 'fault_tree'
+    chart_renderer = 'svg'
 
     @staticmethod
     def build_options(tree: dict[str, Any], *, theme_mode: str = 'light') -> dict[str, Any]:
         theme = chart_theme(theme_mode)
         if not str(tree.get('name', '')).strip():
             raise ValueError('FaultTreeDiagram requires a named root')
+        leaf_number = 0
 
-        def normalize(node: dict[str, Any]) -> dict[str, Any]:
+        def normalize(node: dict[str, Any], *, is_root: bool = False) -> dict[str, Any]:
+            nonlocal leaf_number
             gate = str(node.get('gate', '')).upper()
             name = str(node['name'])
             result: dict[str, Any] = {
                 'name': f'{gate} gate' if gate in {'AND', 'OR'} and name.upper() == gate else name,
                 'gate': gate or None,
                 'symbol': 'diamond' if gate in {'AND', 'OR'} else 'roundRect',
-                'symbolSize': (72, 40) if gate in {'AND', 'OR'} else (108, 42),
+                # Keep three horizontal hierarchy levels inside compact
+                # canvases.  Labels have their own governed measure below;
+                # the node geometry should never be used as a text box.
+                'symbolSize': (48, 32) if gate in {'AND', 'OR'} else ((56, 30) if is_root else (40, 28)),
                 'itemStyle': {'color': theme.warning if gate in {'AND', 'OR'} else theme.accent},
-                'label': {'color': theme.text_primary, 'fontSize': FONT_SIZES['11']},
+                'label': {'position': 'inside', 'color': theme.text_primary, 'fontSize': FONT_SIZES['11'], 'textBorderColor': theme.surface_elevated, 'textBorderWidth': 2},
             }
             children = tuple(node.get('children', ()))
             if children:
                 result['children'] = [normalize(dict(child)) for child in children]
+            else:
+                leaf_number += 1
+                result['leafKey'] = f'L{leaf_number}'
             return result
 
         return {
@@ -1216,18 +1301,36 @@ class _FaultTreeDiagram(_SemanticOptionDiagram):
             'tooltip': {'trigger': 'item', 'triggerOn': 'mousemove'},
             'series': [{
                 'type': 'tree',
-                'data': [normalize(dict(tree))],
-                'top': 16,
+                'data': [normalize(dict(tree), is_root=True)],
+                'top': 18,
                 'left': 24,
-                'bottom': 24,
-                'right': 24,
-                'orient': 'TB',
+                'bottom': 18,
+                'right': 104,
+                # Horizontal hierarchy preserves a distinct vertical slot for
+                # each leaf on narrow canvases.
+                'orient': 'LR',
+                'layout': 'orthogonal',
+                'nodeGap': 22,
+                'layerPadding': 34,
+                'leaves': {'label': {'position': 'right', 'align': 'left', 'color': theme.text_primary, 'fontSize': FONT_SIZES['11'], 'width': 108, 'overflow': 'break', 'lineHeight': 14}},
                 'edgeShape': 'polyline',
                 'edgeForkPosition': '55%',
                 'lineStyle': {'color': theme.text_secondary, 'width': 2},
                 'expandAndCollapse': False,
                 'initialTreeDepth': -1,
                 'emphasis': {'focus': 'descendant'},
+            }],
+            'media': [{
+                'query': {'maxWidth': 520},
+                'option': {'series': [{
+                    'left': 8, 'right': 8, 'top': 14, 'bottom': 46,
+                    'orient': 'TB', 'nodeGap': 20, 'layerPadding': 34,
+                    'leaves': {'label': {
+                        'show': True, 'position': 'inside', 'align': 'center', 'color': theme.text_primary,
+                        'fontSize': FONT_SIZES['11'], 'overflow': 'truncate', 'width': 36,
+                        ':formatter': "(params) => params.data.leafKey || ''",
+                    }},
+                }]},
             }],
         }
 
@@ -1242,12 +1345,28 @@ class _FaultTreeDiagram(_SemanticOptionDiagram):
                  size: ChartSize = ChartSize.STANDARD, theme_mode: str|None = None, renderer_type: str = 'fault_tree') -> None:
         theme_mode=_resolve_theme_mode(theme_mode)
         self.renderer_type = renderer_type
+        if renderer_type == 'cause_tree':
+            self.chart_renderer = 'svg'
         self._theme_builder=lambda mode:self.build_options(tree,theme_mode=mode)
         super().__init__(title, self.build_options(tree, theme_mode=theme_mode), description=description, size=size, theme_mode=theme_mode)
+        leaves: list[tuple[str, str]] = []
+        def collect(node: dict[str, Any]) -> None:
+            children = tuple(node.get('children', ()))
+            if children:
+                for child in children:
+                    collect(dict(child))
+            else:
+                leaves.append((f'L{len(leaves) + 1}', str(node.get('name', ''))))
+        collect(tree)
+        ui = _ui()
+        with self.container:
+            ui.label('Leaf conditions: ' + ' · '.join(f'{key} {name}' for key, name in leaves)).classes('cui-chart-panel__leaf-key').props(
+                'data-fault-tree-leaf-key'
+            )
 
 
 class _WaterfallDiagram(_SemanticOptionDiagram):
-    """Signed cumulative bridge; transparent bases preserve true waterfall geometry."""
+    """Signed cumulative bridge with bars spanning each true start/end pair."""
 
     renderer_type = 'waterfall'
 
@@ -1256,32 +1375,55 @@ class _WaterfallDiagram(_SemanticOptionDiagram):
         names=tuple(str(name) for name in categories); values=tuple(float(value) for value in deltas)
         if len(names)!=len(values) or not names:
             raise ValueError('Waterfall categories and deltas must be non-empty and aligned')
-        theme=chart_theme(theme_mode); bases=[]; increases=[]; decreases=[]; total=0.0
-        for value in values:
-            next_total=total+value; bases.append(min(total,next_total)); increases.append(value if value>=0 else '-'); decreases.append(-value if value<0 else '-'); total=next_total
-        labels=names+('Net',); bases.append(0.0); increases.append(total if total>=0 else '-'); decreases.append(-total if total<0 else '-')
+        theme=chart_theme(theme_mode)
+        running=0.0; steps=[]
+        for name, value in zip(names, values, strict=True):
+            start=running; running += value
+            steps.append({'name':name,'start':start,'end':running,'delta':value,'deltaLabel':format_visual_number(value)})
+        steps.append({'name':'Net','start':0.0,'end':running,'delta':running,'deltaLabel':format_visual_number(running),'net':True})
+        extent=[float(item['start']) for item in steps]+[float(item['end']) for item in steps]+[0.0]
+        low,high=min(extent),max(extent); padding=max((high-low)*.12,.1)
+        waterfall_label_font = f"{FONT_WEIGHTS['600']} {FONT_SIZES['11']}px sans-serif"
+        render_item = (
+            "(params, api) => { const d=params.data || {}; const i=Number(api.value(0)); "
+            "const start=Number(api.value(1)); const end=Number(api.value(2)); "
+            "const a=api.coord([i,start]); const b=api.coord([i,end]); "
+            "const width=Math.max(12, api.size([1,0])[0]*.58); const x=a[0]-width/2; "
+            "const y=Math.min(a[1],b[1]); const height=Math.max(1,Math.abs(a[1]-b[1])); "
+            "const labelY=end>=start ? y-9 : y+height+12; "
+            "return {type:'group',children:[{type:'rect',shape:{x:x,y:y,width:width,height:height},style:api.style()},"
+            "{type:'text',style:{x:a[0],y:labelY,text:d.deltaLabel||'',textAlign:'center',textVerticalAlign:'middle',"
+            + "fill:'" + theme.text_primary + "',stroke:'" + theme.surface_elevated + "',lineWidth:3,font:'" + waterfall_label_font + "'}}]}; }"
+        )
+        series_data=[
+            {'name':item['name'],'value':[index,item['start'],item['end'],item['delta']], 'delta':item['delta'], 'deltaLabel':item['deltaLabel'],
+             'itemStyle':{'color':theme.success if item['delta'] >= 0 else theme.danger, 'opacity':.92}}
+            for index,item in enumerate(steps)
+        ]
         return {
             'animationDuration':MOTION_DURATIONS_MS['section'],
             'tooltip':{'trigger':'axis','axisPointer':{'type':'shadow'}},
-            'legend':{'data':['Increase','Decrease'],'textStyle':{'color':theme.text_secondary}},
+            'legend':{'data':['Increase','Decrease','Net'],'textStyle':{'color':theme.text_secondary}},
             'grid':{'left':52,'right':24,'top':44,'bottom':52,'containLabel':True},
-            'xAxis':{'type':'category','name':'Contribution','data':list(labels),'axisLabel':{'color':theme.text_secondary}},
-            'yAxis':{'type':'value','name':'Cumulative delta','axisLabel':{'color':theme.text_secondary}},
+            'xAxis':{'type':'category','name':'Contribution','data':[item['name'] for item in steps],'axisLabel':{'color':theme.text_secondary}},
+            'yAxis':{'type':'value','name':'Cumulative delta','min':low-padding,'max':high+padding,'axisLabel':{'color':theme.text_secondary,':formatter':javascript_visual_number_formatter()}},
             'series':[
-                {'name':'Base','type':'bar','stack':'bridge','silent':True,'itemStyle':{'color':'transparent','borderColor':'transparent'},'data':bases},
-                {'name':'Increase','type':'bar','stack':'bridge','itemStyle':{'color':theme.success},'label':{'show':True,'position':'top'},'data':increases},
-                {'name':'Decrease','type':'bar','stack':'bridge','itemStyle':{'color':theme.danger},'label':{'show':True,'position':'bottom','formatter':'-{c}'},'data':decreases},
+                {'name':'Increase','type':'custom','stack':'bridge','itemStyle':{'color':theme.success},'data':[item for item in series_data if item['delta'] >= 0 and not item.get('name') == 'Net'],':renderItem':render_item,'encode':{'x':0,'y':[1,2]}},
+                {'name':'Decrease','type':'custom','stack':'bridge','itemStyle':{'color':theme.danger},'data':[item for item in series_data if item['delta'] < 0 and not item.get('name') == 'Net'],':renderItem':render_item,'encode':{'x':0,'y':[1,2]}},
+                {'name':'Net','type':'custom','stack':'bridge','itemStyle':{'color':theme.info},'data':[item for item in series_data if item.get('name') == 'Net'],':renderItem':render_item,'encode':{'x':0,'y':[1,2]},'markLine':{'symbol':['none','none'],'silent':True,'data':[{'yAxis':0,'name':'Zero','lineStyle':{'color':theme.text_secondary,'width':1.2},'label':{'formatter':'Zero','color':theme.text_secondary}}]}},
             ],
         }
 
     def accessibility_summary(self, options: dict[str, Any]) -> str:
         bars = len(options.get('xAxis', {}).get('data', ()))
-        return f'Waterfall with {bars} cumulative bars; green increases and red decreases reconcile to Net.'
+        return f'Waterfall with {bars} cumulative bars; positive and negative signed contributions reconcile to Net.'
 
     def __init__(self,title:str,categories:Sequence[str],deltas:Sequence[float],*,description:str|None=None,size:ChartSize=ChartSize.STANDARD,theme_mode:str|None=None) -> None:
         theme_mode=_resolve_theme_mode(theme_mode)
         self._theme_builder=lambda mode:self.build_options(categories,deltas,theme_mode=mode)
         super().__init__(title,self.build_options(categories,deltas,theme_mode=theme_mode),description=description,size=size,theme_mode=theme_mode)
+        values=tuple(float(value) for value in deltas)
+        self.container.props(f'data-waterfall-net="{sum(values):.6g}" data-waterfall-signed="true" data-waterfall-number-format="bounded"')
 
 
 class DistributionPanel:

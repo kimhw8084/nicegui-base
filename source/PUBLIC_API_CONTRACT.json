@@ -1,9 +1,9 @@
 {
-  "export_count": 1549,
+  "export_count": 1550,
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "1dbb184e2829abbae5de9b52091209c4df4d6a509c75721292bd274ba2117b71",
+  "sha256": "e95e39216927ff2040cedcdf9e27d2e1ef25e4a100b7cc87c8ceaead24f12d36",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -3057,6 +3057,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -4191,6 +4218,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -4713,6 +4767,33 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "spec_limits"
+          },
+          {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
           },
           {
             "annotation": "",
@@ -6399,6 +6480,33 @@
             },
             "kind": "POSITIONAL_OR_KEYWORD",
             "name": "responsive"
+          },
+          {
+            "annotation": "'ScaleMode | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "color_max"
           }
         ],
         "return": "None"
@@ -8637,6 +8745,33 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "spec_limits"
+          },
+          {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
           },
           {
             "annotation": "",
@@ -12175,6 +12310,33 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "spec_limits"
+          },
+          {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
           },
           {
             "annotation": "",
@@ -16926,6 +17088,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -17608,6 +17797,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -17693,6 +17909,33 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "spec_limits"
+          },
+          {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
           },
           {
             "annotation": "",
@@ -19860,6 +20103,33 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "spec_limits"
+          },
+          {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
           },
           {
             "annotation": "",
@@ -32986,6 +33256,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -39645,6 +39942,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -43787,6 +44111,33 @@
             "name": "spec_limits"
           },
           {
+            "annotation": "'ScaleMode | str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "scale_mode"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_min"
+          },
+          {
+            "annotation": "'float | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "color_max"
+          },
+          {
             "annotation": "",
             "default": {
               "present": false
@@ -45273,6 +45624,15 @@
             },
             "kind": "KEYWORD_ONLY",
             "name": "category_key"
+          },
+          {
+            "annotation": "'str | None'",
+            "default": {
+              "present": true,
+              "value": null
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "status_key"
           },
           {
             "annotation": "",
@@ -50992,6 +51352,32 @@
       },
       "kind": "function",
       "module": "nicegui_base.data_table.engine"
+    },
+    "format_visual_number": {
+      "callable": {
+        "parameters": [
+          {
+            "annotation": "'Any'",
+            "default": {
+              "present": false
+            },
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "name": "value"
+          },
+          {
+            "annotation": "'int'",
+            "default": {
+              "present": true,
+              "value": 4
+            },
+            "kind": "KEYWORD_ONLY",
+            "name": "significant"
+          }
+        ],
+        "return": "'str'"
+      },
+      "kind": "function",
+      "module": "nicegui_base.visualization.formatting"
     },
     "forms": {
       "kind": "module",

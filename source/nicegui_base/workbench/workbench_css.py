@@ -538,6 +538,16 @@ body.body--dark .cui-explorer-preview__image,.q-dark .cui-explorer-preview__imag
 }
 @media(max-width:900px){.cui-settings-grid{grid-template-columns:1fr}.cui-settings-card:first-child{grid-column:auto}.cui-unified-patterns{grid-template-columns:1fr}.cui-unified-pattern-rail{position:static;display:flex;overflow-x:auto;scrollbar-width:thin}.cui-unified-pattern-option{min-width:max-content}}
 @media(max-width:680px){.cui-explorer-refine{display:block}.cui-explorer-refine>summary{display:flex;align-items:center;min-height:var(--cui-control-height);padding:0 var(--cui-gap-control-content);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-control);background:var(--cui-surface);cursor:pointer}.cui-explorer-refine__body{display:none;padding-top:var(--cui-gap-control-content)}.cui-explorer-refine[open] .cui-explorer-refine__body{display:grid}.cui-explorer-controls{display:block}.cui-explorer-controls>.cui-explorer-controls__hint{display:none}.cui-settings-row{align-items:flex-start;flex-direction:column}.cui-settings-row__value{text-align:start}.cui-d6c-token-list{grid-template-columns:minmax(88px,.6fr) minmax(150px,1.3fr) minmax(80px,.5fr)}}
+
+/* Analytical summaries use metric anatomy, not five full-width chips. */
+.cui-analytics-metric-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--cui-gap-control-content);width:100%;margin-top:var(--cui-gap-control-content)}
+.cui-analytics-metric{display:grid;gap:var(--cui-space-1);min-width:0;padding:var(--cui-gap-control-content) var(--cui-gap-stack);border:1px solid var(--cui-border-subtle);border-radius:var(--cui-radius-control);background:var(--cui-surface-secondary)}
+.cui-analytics-metric__label{font-size:var(--cui-font-size-11);font-weight:var(--cui-font-weight-650);color:var(--cui-text-secondary);letter-spacing:.03em}
+.cui-analytics-metric__value{font-size:var(--cui-font-size-16);font-weight:var(--cui-font-weight-720);color:var(--cui-text-primary);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cui-workbench-mini-grid--wafer-multiples{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--cui-gap-control-content)}
+.cui-workbench-mini-grid--wafer-multiples .cui-workbench-mini-panel{min-width:0}
+@media(max-width:1100px){.cui-analytics-metric-strip{grid-template-columns:repeat(3,minmax(0,1fr))}.cui-workbench-mini-grid--wafer-multiples{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.cui-analytics-metric-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.cui-workbench-mini-grid--wafer-multiples{grid-template-columns:1fr}}
 '''
 
 

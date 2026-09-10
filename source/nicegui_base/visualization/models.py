@@ -190,10 +190,18 @@ class ChartPanelSpec:
     error_message: str = 'Unable to load visualization'
     animate: bool = True
     responsive: bool = True
+    scale_mode: ScaleMode | None = None
+    color_min: float | None = None
+    color_max: float | None = None
 
     def __post_init__(self) -> None:
         if not self.title.strip():
             raise ValueError('chart title is required')
+        if self.color_min is not None and self.color_max is not None and self.color_min >= self.color_max:
+            raise ValueError('color_min must be less than color_max')
+        if self.scale_mode is ScaleMode.DIVERGING and self.color_min is not None and self.color_max is not None:
+            if not self.color_min < 0 < self.color_max:
+                raise ValueError('diverging color scales must cross zero')
 
     @property
     def classes(self) -> str:

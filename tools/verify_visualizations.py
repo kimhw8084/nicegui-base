@@ -27,9 +27,9 @@ VIEWPORTS = {
     'phone': (390, 844),
 }
 REPRESENTATIVES = (
-    'spc_i_mr', 'spc_p', 'spc_ewma', 'capability_histogram', 'ecdf', 'violin_distribution',
+    'spc_i_mr', 'spc_p', 'spc_ewma', 'spc_cusum', 'capability_histogram', 'qq_probability', 'ecdf', 'violin_distribution',
     'ridge_distribution', 'wafer_continuous', 'wafer_categorical', 'wafer_delta',
-    'wafer_contour', 'wafer_small_multiples', 'fdc_recipe_step_trace', 'fdc_golden_envelope',
+    'wafer_defect', 'wafer_contour', 'wafer_small_multiples', 'fdc_recipe_step_trace', 'fdc_golden_envelope',
     'fdc_multi_sensor', 'fdc_chamber_fingerprint', 'fdc_pca_scores', 'fdc_pca_loadings',
     'fdc_hotelling_t2', 'fdc_spe_q', 'rca_affected_control', 'rca_commonality_matrix',
     'rca_contribution_waterfall', 'rca_correlation_matrix', 'rca_genealogy_graph',
@@ -37,14 +37,16 @@ REPRESENTATIVES = (
     'doe_main_effects', 'doe_interactions', 'doe_response_surface',
 )
 SCREENSHOT_SURFACES = (
-    'spc_i_mr', 'spc_p', 'spc_ewma', 'capability_histogram', 'qq_probability',
+    'spc_i_mr', 'spc_p', 'spc_ewma', 'spc_cusum', 'capability_histogram', 'qq_probability',
     'ecdf', 'violin_distribution', 'ridge_distribution', 'wafer_categorical',
-    'wafer_delta', 'wafer_contour', 'wafer_small_multiples', 'fdc_golden_envelope',
+    'wafer_defect', 'wafer_delta', 'wafer_contour', 'wafer_small_multiples', 'fdc_golden_envelope',
     'fdc_multi_sensor', 'fdc_pca_scores', 'fdc_pca_loadings', 'rca_commonality_matrix',
     'rca_contribution_waterfall', 'rca_correlation_matrix', 'rca_genealogy_graph',
     'rca_fault_tree', 'rca_sankey', 'yield_pareto', 'yield_waterfall',
     'weibull_reliability', 'doe_interactions', 'doe_response_surface',
 )
+
+FOCUSED_SURFACES = frozenset(SCREENSHOT_SURFACES)
 
 
 def _free_port() -> int:
@@ -116,16 +118,47 @@ def _set_real_theme(page: Page, theme: str) -> dict[str, Any]:
 def _geometry(page: Page) -> dict[str, Any]:
     return page.evaluate("""() => {
         const visible = el => { const s=getComputedStyle(el), r=el.getBoundingClientRect();
-          return s.display !== 'none' && s.visibility !== 'hidden' && r.width > 0 && r.height > 0; };
+          return s.display !== 'none' && s.visibility !== 'hidden' && r.width > 0 && r.height > 0
+            && !el.closest('.cui-visually-hidden,[aria-hidden="true"],details:not([open]),.cui-chart-data-disclosure'); };
         const main = document.querySelector('main,[role=main]');
         const roots = [...document.querySelectorAll('[data-analytic-key] canvas,[data-analytic-key] svg,.cui-chart-panel,.cui-spatial-panel')].filter(visible);
         const bounds = roots.map(el => { const r=el.getBoundingClientRect(); return {tag:el.tagName,w:r.width,h:r.height,x:r.x,y:r.y}; });
+        const visibleText = [...document.querySelectorAll('[data-analytic-key] *')].filter(visible).map(el => {
+          const text=[...el.childNodes].filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent || '').join(' ').trim();
+          const r=el.getBoundingClientRect(); return {text, x:r.x, y:r.y, w:r.width, h:r.height};
+        }).filter(item => item.text);
+        const longDecimals = visibleText.filter(item => /[0-9]+[.][0-9]{7,}/.test(item.text));
+        const analytic = document.querySelector('[data-analytic-key]');
+        const faultRoot = analytic?.querySelector('[data-renderer-type="fault_tree"]');
+        const sankeyRoot = analytic?.querySelector('[data-renderer-type="sankey"]');
+        const nodeBoxes = root => [...(root?.querySelectorAll('svg path,svg rect') || [])].filter(el => {
+          const s=getComputedStyle(el), r=el.getBoundingClientRect();
+          return visible(el) && r.width > 20 && r.height > 16 && s.fill !== 'none' && s.fill !== 'transparent';
+        }).map(el => { const r=el.getBoundingClientRect(); return {x:r.x,y:r.y,w:r.width,h:r.height}; });
+        const overlaps = boxes => boxes.flatMap((a,i) => boxes.slice(i+1).map(b => {
+          const ix=Math.max(0, Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x));
+          const iy=Math.max(0, Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
+          return ix > 1 && iy > 1 ? {a,b,area:ix*iy} : null;
+        }).filter(Boolean));
+        const labelBounds = root => [...(root?.querySelectorAll('svg text') || [])].filter(visible).map(el => {
+          const r=el.getBoundingClientRect(); return {text:(el.textContent || '').trim(), x:r.x,y:r.y,w:r.width,h:r.height};
+        }).filter(item => item.text);
+        const faultNodes=nodeBoxes(faultRoot), sankeyLabels=labelBounds(sankeyRoot);
+        const faultPanel=faultRoot?.getBoundingClientRect(), sankeyPanel=sankeyRoot?.getBoundingClientRect();
+        const outside=(items,panel) => panel ? items.filter(item => item.x < panel.x-1 || item.x+item.w > panel.x+panel.width+1 || item.y < panel.y-1 || item.y+item.h > panel.y+panel.height+1) : [];
+        const qq = analytic?.querySelector('[data-qq-y-min]');
+        const qqExtent = qq ? {min:Number(qq.getAttribute('data-qq-y-min')), max:Number(qq.getAttribute('data-qq-y-max'))} : null;
+        const multiples = [...document.querySelectorAll('.cui-workbench-mini-grid--wafer-multiples .cui-spatial-viewport')].filter(visible).map(el => {
+          const r=el.getBoundingClientRect(); return {w:r.width,h:r.height,ratio:r.height/Math.max(1,r.width)};
+        });
         return {viewport: innerWidth, scrollWidth: document.documentElement.scrollWidth,
           overflow: document.documentElement.scrollWidth > innerWidth + 1,
           mainWidth: main?.getBoundingClientRect().width || 0, chartRoots: bounds,
           bodyDark: document.body.classList.contains('body--dark'),
           titleWrap: [...document.querySelectorAll('[data-analytic-key] h1,[data-analytic-key] h2,.cui-chart-panel__title')]
             .filter(visible).map(el => ({text:el.textContent, width:el.getBoundingClientRect().width, height:el.getBoundingClientRect().height})),
+          longDecimals, faultTree: {nodes:faultNodes, overlaps:overlaps(faultNodes), outsideLabels:outside(labelBounds(faultRoot),faultPanel)},
+          sankey: {labels:sankeyLabels, outsideLabels:outside(sankeyLabels,sankeyPanel)}, qqExtent, smallMultiples:multiples,
         };
     }""")
 
@@ -144,6 +177,53 @@ def _visual_findings(geometry: dict[str, Any]) -> list[dict[str, Any]]:
         text = title.get('text') or ''
         if len(text) > 8 and title['height'] > 48 and title['width'] < 180:
             findings.append({'kind': 'collapsed-title-container', 'text': text, 'geometry': title})
+    if geometry.get('longDecimals'):
+        findings.append({'kind': 'pathological-numeric-label', 'examples': geometry['longDecimals'][:5], 'count': len(geometry['longDecimals'])})
+    fault = geometry.get('faultTree') or {}
+    if fault.get('overlaps'):
+        findings.append({'kind': 'fault-tree-node-overlap', 'count': len(fault['overlaps']), 'examples': fault['overlaps'][:3]})
+    if fault.get('outsideLabels'):
+        findings.append({'kind': 'fault-tree-label-outside', 'count': len(fault['outsideLabels']), 'examples': fault['outsideLabels'][:3]})
+    sankey = geometry.get('sankey') or {}
+    if sankey.get('outsideLabels'):
+        findings.append({'kind': 'sankey-label-outside', 'count': len(sankey['outsideLabels']), 'examples': sankey['outsideLabels'][:3]})
+    qq = geometry.get('qqExtent')
+    if qq and qq['min'] <= 0 < qq['max']:
+        findings.append({'kind': 'qq-zero-baseline-flattened', 'extent': qq})
+    multiples = geometry.get('smallMultiples') or []
+    if multiples and any(item['ratio'] > 1.65 for item in multiples):
+        findings.append({'kind': 'small-multiple-vertical-waste', 'examples': multiples})
+    return findings
+
+
+def _semantic_findings(page: Page, surface: str) -> list[dict[str, Any]]:
+    """Assert the high-risk semantic contracts that v2's geometry pass missed."""
+    findings: list[dict[str, Any]] = []
+    if surface == 'rca_correlation_matrix':
+        panel = page.locator('[data-chart-kind]').first
+        mode = panel.get_attribute('data-chart-scale-mode')
+        low = panel.get_attribute('data-chart-color-min')
+        high = panel.get_attribute('data-chart-color-max')
+        try:
+            valid_scale = mode == 'diverging' and float(low) < 0 < float(high)
+        except (TypeError, ValueError):
+            valid_scale = False
+        if not valid_scale:
+            findings.append({'kind': 'correlation-scale-not-diverging', 'mode': mode, 'min': low, 'max': high})
+    if surface == 'wafer_categorical':
+        wafer = page.locator('[data-renderer-type="wafer_map"]').first
+        if wafer.get_attribute('data-wafer-scale-mode') != 'categorical':
+            findings.append({'kind': 'categorical-wafer-scale-mismatch'})
+        alert_count = wafer.locator('.cui-wafer-die.is-watch').count()
+        if alert_count:
+            findings.append({'kind': 'categorical-wafer-category-alert-coupling', 'alert_count': alert_count})
+    if surface in {'rca_contribution_waterfall', 'yield_waterfall'}:
+        waterfall = page.locator('[data-renderer-type="waterfall"]').first
+        if waterfall.get_attribute('data-waterfall-signed') != 'true':
+            findings.append({'kind': 'waterfall-signed-contract-missing'})
+    if surface == 'rca_sankey' and page.viewport_size and page.viewport_size['width'] <= 520:
+        if page.locator('[data-sankey-stage-key]:visible').count() != 1:
+            findings.append({'kind': 'sankey-mobile-stage-key-missing'})
     return findings
 
 
@@ -201,13 +281,14 @@ def _surface_check(page: Page, *, port: int, surface: str, viewport: str, theme:
     if screenshot is not None:
         screenshot.parent.mkdir(parents=True, exist_ok=True)
         page.screenshot(path=str(screenshot), full_page=True)
+    semantic_findings = _semantic_findings(page, surface)
     return {
         'surface': surface, 'viewport': viewport, 'theme': theme, 'passed': True,
         'geometry': geometry, 'theme_values': theme_values, 'semantic_marker_count': semantic_count,
         'theme_nodes': page.locator(f'[data-analytic-key="{surface}"] [data-chart-theme]').evaluate_all(
             "els => els.map(el => el.getAttribute('data-chart-theme'))"
         ),
-    }, _visual_findings(geometry)
+    }, _visual_findings(geometry) + semantic_findings
 
 
 def _contact_sheet(paths: list[Path], output: Path) -> None:
@@ -238,8 +319,9 @@ def _contact_sheet(paths: list[Path], output: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--repo', type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument('--output', type=Path, default=Path('/private/tmp/ngb_visualization_audit_v2'))
-    parser.add_argument('--archive', type=Path, default=Path('/private/tmp/ngb_visualization_audit_v2.zip'))
+    parser.add_argument('--output', type=Path, default=Path('/private/tmp/ngb_visualization_audit_v3'))
+    parser.add_argument('--archive', type=Path, default=Path('/private/tmp/ngb_visualization_audit_v3.zip'))
+    parser.add_argument('--manifest', type=Path, default=None, help='External archive hash manifest path')
     parser.add_argument('--port', type=int, default=0)
     args = parser.parse_args()
     repo, output = args.repo.resolve(), args.output.resolve(); output.mkdir(parents=True, exist_ok=True)
@@ -302,7 +384,7 @@ def main() -> int:
                     for surface in surfaces:
                         current['surface'] = surface
                         try:
-                            capture = output / 'screenshots' / f'{surface}_{viewport_name}_{theme}.png' if surface in SCREENSHOT_SURFACES else None
+                            capture = output / 'screenshots' / f'{surface}_{viewport_name}_{theme}.png' if surface in FOCUSED_SURFACES else None
                             check, findings = _surface_check(page, port=port, surface=surface, viewport=viewport_name, theme=theme, screenshot=capture)
                             checks.append(check)
                             visual_findings.extend([{'surface': surface, 'viewport': viewport_name, 'theme': theme, **finding} for finding in findings])
@@ -365,6 +447,7 @@ def main() -> int:
                 page.keyboard.press('Escape'); page.wait_for_timeout(300)
 
                 panel.locator('button[aria-label="Export chart"]').first.click()
+                page.wait_for_timeout(500)
                 export_menu = page.locator('.cui-chart-export-menu:visible')
                 export_text = export_menu.inner_text() if export_menu.count() else ''
                 export_labels = export_menu.locator('button').evaluate_all(
@@ -421,6 +504,8 @@ def main() -> int:
         if process.poll() is None:
             process.terminate(); process.wait(timeout=8); server_state['termination'] = 'owned_process_terminated'
         (output / 'server_state.json').write_text(json.dumps(server_state, indent=2) + '\n', encoding='utf-8')
+        archive = args.archive.resolve()
+        manifest = (args.manifest.resolve() if args.manifest else archive.with_suffix('.manifest.json'))
         result = {
             'status': 'PASS' if not failures and not page_errors and not console_errors and not visual_findings and example_pass else 'FAIL',
             'candidate': 'NGB-20260907-G2.6', 'source_sha': source_state['sha'], 'port': port, 'server_pid': process.pid,
@@ -430,11 +515,27 @@ def main() -> int:
             'page_errors': page_errors, 'console_errors': console_errors, 'visual_findings': visual_findings,
             'raw_finding_count': len(visual_findings), 'example_execution': example_payload,
             'screenshots': [str(path) for path in screenshots], 'unsupported': [],
+            # The archive cannot contain its own final SHA-256 without a
+            # self-hash paradox.  The sibling manifest is the hash authority.
+            'evidence_zip': str(archive), 'evidence_sha256': None,
+            'evidence_hash_note': 'Final archive SHA-256 is recorded in the external sibling manifest.',
+            'human_visual_review': 'PENDING_HUMAN_VISUAL_REVIEW',
         }
         (output / 'audit.json').write_text(json.dumps(result, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         (output / 'issues.json').write_text(json.dumps({'root_findings': visual_findings, 'failures': failures, 'page_errors': page_errors, 'console_errors': console_errors}, indent=2) + '\n', encoding='utf-8')
         (output / 'browser_errors.json').write_text(json.dumps({'page_errors': page_errors, 'console_errors': console_errors}, indent=2) + '\n', encoding='utf-8')
         _contact_sheet(screenshots, output / 'contact_sheets' / 'representative.png')
+        family_groups = {
+            'spc': ('spc_',),
+            'distribution': ('capability_', 'ecdf_', 'violin_', 'ridge_'),
+            'wafer': ('wafer_',),
+            'fdc': ('fdc_',),
+            'rca': ('rca_',),
+            'yield_reliability_doe': ('yield_', 'weibull_', 'doe_'),
+        }
+        for family, prefixes in family_groups.items():
+            family_paths = [path for path in screenshots if path.name.startswith(prefixes)]
+            _contact_sheet(family_paths, output / 'contact_sheets' / f'{family}.png')
         summary = f"""# Visualization audit
 
 - Status: **{result['status']}**
@@ -448,15 +549,23 @@ def main() -> int:
 - Root visual findings: **{len(visual_findings)}**
 - Console errors: **{len(console_errors)}**
 - Page errors: **{len(page_errors)}**
-- Human visual review: **PENDING**
+- Archive hash: recorded in external sibling manifest `{manifest}` (self-hash intentionally not embedded)
+- Human visual review: **PENDING_HUMAN_VISUAL_REVIEW**
 """
         (output / 'SUMMARY.md').write_text(summary, encoding='utf-8')
-        archive = args.archive.resolve()
         with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as bundle:
             for path in output.rglob('*'):
                 if path.is_file(): bundle.write(path, path.relative_to(output.parent))
-        result['evidence_zip'] = str(archive); result['evidence_sha256'] = _sha256(archive)
-        (output / 'audit.json').write_text(json.dumps(result, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+        archive_hash = _sha256(archive)
+        manifest_payload = {
+            'evidence_zip': str(archive), 'evidence_sha256': archive_hash,
+            'source_sha': source_state['sha'], 'candidate': result['candidate'],
+            'self_hash_embedded': False,
+            'note': 'audit.json intentionally carries evidence_sha256=null because embedding the archive hash changes the archive. This sibling manifest is the final hash authority.',
+            'human_visual_review': 'PENDING_HUMAN_VISUAL_REVIEW',
+        }
+        manifest.write_text(json.dumps(manifest_payload, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+        result['evidence_sha256'] = archive_hash
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if result['status'] == 'PASS' else 1
     finally:

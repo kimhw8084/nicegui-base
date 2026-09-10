@@ -35,7 +35,10 @@ def build_visualization_css() -> str:
 .cui-chart-scale-band__title { font-size:var(--cui-font-size-10); line-height:var(--cui-line-height-16); font-weight:var(--cui-font-weight-650); white-space:nowrap; }
 .cui-chart-scale-band__scale { display:grid; grid-template-columns:auto minmax(96px,210px) auto; align-items:center; justify-content:end; gap:8px; }
 .cui-chart-scale-band__gradient { height:8px; border-radius:var(--cui-radius-pill); background:linear-gradient(90deg,#E9F2FF 0%,#A9CFFF 25%,#5B9EFF 50%,#246DCE 75%,#183E76 100%); box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cui-border-default) 58%,transparent); }
+.cui-chart-scale-band--diverging .cui-chart-scale-band__gradient { background:linear-gradient(90deg,var(--cui-info) 0%,color-mix(in srgb,var(--cui-surface-secondary) 76%,var(--cui-text-secondary)) 50%,var(--cui-danger) 100%); }
 .cui-chart-scale-band__value { font:var(--cui-font-weight-600) var(--cui-font-size-10)/var(--cui-line-height-14) ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--cui-text-tertiary); font-variant-numeric:tabular-nums; }
+.cui-chart-panel__stage-key { display:none; color:var(--cui-text-secondary); font-size:var(--cui-font-size-11); line-height:var(--cui-line-height-16); margin:var(--cui-space-2) var(--cui-space-4) var(--cui-space-4); }
+.cui-chart-panel__leaf-key { display:none; color:var(--cui-text-secondary); font-size:var(--cui-font-size-11); line-height:var(--cui-line-height-18); margin:var(--cui-space-2) var(--cui-space-4) var(--cui-space-4); }
 .cui-chart-data-dialog { width:min(820px,92vw); max-height:82vh; }
 .cui-chart-data-table-wrap { max-height:58vh; overflow:auto; border:1px solid var(--cui-border-subtle); border-radius:var(--cui-radius-md); }
 .cui-chart-data-table { width:100%; border-collapse:collapse; font-size:var(--cui-type-body-size); }
@@ -55,6 +58,8 @@ def build_visualization_css() -> str:
   .cui-chart-panel--workspace .cui-chart-canvas { height:58vh; min-height:320px; }
   .cui-chart-scale-band { grid-template-columns:1fr; gap:3px; margin-inline:6px; }
   .cui-chart-scale-band__scale { justify-content:stretch; grid-template-columns:auto 1fr auto; }
+  .cui-chart-panel__stage-key { display:block; }
+  .cui-chart-panel__leaf-key { display:block; }
 }
 '''.strip() + '\n'
 

@@ -303,6 +303,7 @@ html[data-sidebar='compact'] .cui-app-main--with-sidebar{
 /* Spatial visualization frame should fit the actual custom renderer. */
 .cui-spatial-panel,.cui-wafer-map,.cui-spatial-map{min-width:0!important;overflow:hidden!important;}
 .cui-spatial-viewport{width:100%!important;max-width:100%!important;border-radius:var(--cui-radius-surface)!important;overflow:hidden!important;}
+.cui-spatial-panel.cui-chart-panel--compact .cui-spatial-viewport,.cui-spatial-panel.cui-chart-panel--compact .cui-spatial-svg-host{min-height:280px!important;height:280px!important;}
 
 
 

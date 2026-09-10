@@ -177,10 +177,13 @@ def test_all_58_preview_dispatch_paths_construct_with_bounded_ui_stubs(monkeypat
     models.AxisSpec = Value
     models.AxisType = SimpleNamespace(CATEGORY='category', VALUE='value')
     models.ChartAnnotation = Value
+    models.ChartSize = SimpleNamespace(COMPACT='compact', LARGE='large')
     models.LineStyle = SimpleNamespace(DASHED='dashed')
+    models.ScaleMode = SimpleNamespace(DIVERGING='diverging')
     models.SeriesSpec = Value
     models.SpecLimits = Value
     models.WaferPoint = Value
+    models.format_visual_number = lambda value: str(value)
     monkeypatch.setitem(sys.modules, 'nicegui_base.integrations.nicegui_visualization', viz)
     monkeypatch.setitem(sys.modules, 'nicegui_base.visualization', models)
     monkeypatch.setattr(workbench_app, '_imports', lambda: (FakeUI(), None, None, None, None, None, None))

@@ -78,7 +78,7 @@ def test_wave77_audit_preserves_legacy_module_exports_without_removing_them():
     # this additive, backwards-compatible surface.
     # Visualization closure promotes the governed specialized renderers and
     # explicit scale/mixed-series factories through the root API.
-    assert audit.public_api_entries == 1549
+    assert audit.public_api_entries == 1550
 
 
 def test_wave77_handoff_is_truthful_pending_not_stable_pass():
@@ -258,7 +258,7 @@ def test_wave77_release_artifact_helpers_add_no_runtime_dependency():
 
 def test_wave77_public_api_has_no_unreviewed_root_exports_before_freeze():
     import nicegui_base
-    assert len(set(nicegui_base.__all__)) == 1549
+    assert len(set(nicegui_base.__all__)) == 1550
     assert 'TableViewSnapshot' in nicegui_base.__all__
     assert {'EmpiricalCDFChart', 'ViolinPlot', 'RidgePlot', 'WaferContourPlot', 'SankeyDiagram', 'RelationshipGraph', 'FaultTreeDiagram', 'WaterfallDiagram', 'QQProbabilityPlot', 'CapabilityHistogram', 'WeibullPlot'} <= set(nicegui_base.__all__)
     assert 'audit_final_release_candidate' not in nicegui_base.__all__

@@ -142,7 +142,7 @@ from nicegui_base.visualization import (
     LegendPosition, LineStyle, MarkerShape, ScaleMode, SelectionMode as ChartSelectionMode, SEQUENTIAL_BLUE, SeriesSpec,
     SpatialPoint, SpecLimits, ThresholdSpec, VISUALIZATION_REGISTRY, WaferPoint, box_summary, build_echarts_options,
     build_visualization_css, chart_theme, get_visualization, histogram, pareto, series_rows, spatial_bounds, stable_series_color,
-    wafer_bounds,
+    wafer_bounds, format_visual_number,
 )
 from nicegui_base.integrations.nicegui_visualization import (
     AreaChart, BarChart, BoxPlot, ChartBrush, ChartCrossFilter, ChartDataView, ChartExport, ChartFullscreen,

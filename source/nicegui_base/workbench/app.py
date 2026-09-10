@@ -982,7 +982,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     CapabilityHistogram = renderer('CapabilityHistogram', '_CapabilityHistogram')
     QQProbabilityPlot = renderer('QQProbabilityPlot', '_QQProbabilityPlot')
     WeibullPlot = renderer('WeibullPlot', '_WeibullPlot')
-    from nicegui_base.visualization import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, LineStyle, SeriesSpec, SpecLimits, WaferPoint
+    from nicegui_base.visualization import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, ChartSize, LineStyle, ScaleMode, SeriesSpec, SpecLimits, WaferPoint, format_visual_number
     from .analytic_specimens import canonical_fixture_for_surface
     from nicegui_base.semiconductor import fdc, rca, spc, yield_doe
 
@@ -1150,7 +1150,9 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
                 ('Cp', capability.cp), ('Cpk', capability.cpk),
                 ('Pp', capability.pp), ('Ppk', capability.ppk), ('n', capability.count),
             ):
-                ui.label(f'{label} {value:.3f}' if isinstance(value, float) else f'{label} {value}').classes('cui-workbench-chip')
+                with ui.element('div').classes('cui-analytics-metric'):
+                    ui.label(label).classes('cui-analytics-metric__label')
+                    ui.label(format_visual_number(value) if isinstance(value, float) else str(value)).classes('cui-analytics-metric__value')
         mark_semantic(panel, 'data-visual-semantic="capability_histogram" data-chart-semantics="distribution-with-spec-context" data-spec-lines="LSL Target USL"')
         return
     if surface_key == 'qq_probability':
@@ -1205,7 +1207,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     if surface_key == 'wafer_categorical':
         WaferMap(
             title,
-            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, status=str(row['category']), metadata={'category': row['category']}) for row in canonical_rows),
+            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, metadata={'category': row['category']}) for row in canonical_rows),
             legend_title='Category', legend_labels=('Nominal','Watch','Review','Other'),
             scale_mode='categorical', category_key='category',
         )
@@ -1213,17 +1215,17 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
     if surface_key == 'wafer_defect':
         WaferMap(
             title,
-            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, status=str(row['defect_state'])) for row in canonical_rows),
+            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, metadata={'defect_state': row['defect_state']}) for row in canonical_rows),
             legend_title='Defect state', legend_labels=('No defect','Defect'),
-            scale_mode='categorical', category_key='status',
+            scale_mode='categorical', category_key='defect_state',
         )
         return
     if surface_key == 'wafer_defect_clusters':
         WaferMap(
             title,
-            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, status=str(row['cluster'])) for row in canonical_rows),
+            tuple(WaferPoint(float(row['x']), float(row['y']), 1.0, metadata={'cluster': row['cluster']}) for row in canonical_rows),
             legend_title='Defect state', legend_labels=('No defect','Clustered defect'),
-            scale_mode='categorical', category_key='status',
+            scale_mode='categorical', category_key='cluster',
         )
         return
     if surface_key == 'wafer_delta':
@@ -1251,10 +1253,10 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         ui.label(title).classes('cui-workbench-preview-title')
         shared_values=[float(row['measurement']) for row in canonical_rows]
         shared_low,shared_high=min(shared_values),max(shared_values)
-        with ui.element('div').classes('cui-workbench-mini-grid'):
+        with ui.element('div').classes('cui-workbench-mini-grid cui-workbench-mini-grid--wafer-multiples'):
             for index, wafer in enumerate(tuple(dict.fromkeys(str(row['wafer']) for row in canonical_rows)), start=1):
                 with ui.element('div').classes('cui-workbench-mini-panel'):
-                    WaferMap(f'Wafer {wafer}', tuple(WaferPoint(float(row['x']), float(row['y']), float(row['measurement']), metadata={'wafer': wafer}) for row in canonical_rows if str(row['wafer']) == wafer), scale_min=shared_low, scale_max=shared_high)
+                    WaferMap(f'Wafer {wafer}', tuple(WaferPoint(float(row['x']), float(row['y']), float(row['measurement']), metadata={'wafer': wafer}) for row in canonical_rows if str(row['wafer']) == wafer), size=ChartSize.COMPACT, scale_min=shared_low, scale_max=shared_high)
         return
     if surface_key == 'wafer_contour':
         panel = WaferContourPlot(title, fixture_wafer_points())
@@ -1371,7 +1373,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         CommonalityMatrix(title, rows, columns, matrix)
         return
     if surface_key == 'rca_contribution_waterfall':
-        panel = WaterfallDiagram(title, tuple(str(row['factor']) for row in canonical_rows), tuple(float(row['contribution']) for row in canonical_rows), description='Transparent bases preserve the cumulative bridge from each signed contribution to the reconciled net shift.')
+        panel = WaterfallDiagram(title, tuple(str(row['factor']) for row in canonical_rows), tuple(float(row['contribution']) for row in canonical_rows), description='Signed bars span each contribution from its prior cumulative total to the reconciled net shift.')
         mark_semantic(panel, 'data-visual-semantic="rca_contribution_waterfall" data-chart-semantics="cumulative-signed-bridge"')
         return
     if surface_key == 'rca_correlation_matrix':
@@ -1381,8 +1383,8 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
         ]))
         known = {(str(row['x_variable']), str(row['y_variable'])): float(row['correlation']) for row in canonical_rows}
         cells = tuple((x, y, 1.0 if variables[x] == variables[y] else known.get((variables[x], variables[y]), known.get((variables[y], variables[x]))) ) for x in range(len(variables)) for y in range(len(variables)) if variables[x] == variables[y] or (variables[x], variables[y]) in known or (variables[y], variables[x]) in known)
-        panel = Heatmap(title, (SeriesSpec('corr','Correlation',cells),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'))
-        mark_semantic(panel, 'data-visual-semantic="rca_correlation_matrix" data-chart-semantics="symmetric-correlation-matrix"')
+        panel = Heatmap(title, (SeriesSpec('corr','Correlation',cells),), x_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'), y_axis=AxisSpec(kind=AxisType.CATEGORY,categories=variables,label='Variable'), scale_mode=ScaleMode.DIVERGING, color_min=-1.0, color_max=1.0)
+        mark_semantic(panel, 'data-visual-semantic="rca_correlation_matrix" data-chart-semantics="symmetric-correlation-matrix" data-correlation-scale="diverging" data-correlation-zero="neutral" data-correlation-missing="not-zero"')
         return
     if surface_key == 'rca_evidence_matrix':
         rows = tuple(str(row['hypothesis']) for row in canonical_rows)
@@ -1415,6 +1417,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
                 ),
             },
             description='Hierarchical candidate decomposition; candidates remain hypotheses until evidence corroborates them.',
+            size=ChartSize.LARGE,
             renderer_type='cause_tree',
         )
         mark_semantic(panel, 'data-visual-semantic="rca_cause_tree" data-chart-semantics="hierarchical-causal-candidates"')
@@ -1430,6 +1433,7 @@ def _render_surface_preview(surface_key: str, category: str, *, compact: bool = 
                 ),
             },
             description='AND/OR logic is explicit and remains separate from evidence confidence.',
+            size=ChartSize.LARGE,
         )
         mark_semantic(panel, 'data-visual-semantic="rca_fault_tree" data-chart-semantics="hierarchy-connectors-and-or-gates"')
         return
