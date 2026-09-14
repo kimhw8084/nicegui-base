@@ -1,9 +1,9 @@
 from __future__ import annotations
 import json, statistics, time
 from pathlib import Path
-from company_ui import TableQuery, SortSpec, SortDirection, FilterSpec, FilterOperator, TableQueryEngine
-from company_ui.data_table.engine import apply_query
-from company_ui.integrations.nicegui_theme import build_framework_css
+from nicegui_base import TableQuery, SortSpec, SortDirection, FilterSpec, FilterOperator, TableQueryEngine
+from nicegui_base.data_table.engine import apply_query
+from nicegui_base.integrations.nicegui_theme import build_framework_css
 
 N=100_000
 ROWS=tuple({'id':i,'tool':f'TOOL-{i%250:03d}','status':'Critical' if i%31==0 else ('Watch' if i%13==0 else 'Normal'),'value':None if i%997==0 else (i%10000)/100} for i in range(N))

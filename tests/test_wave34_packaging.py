@@ -14,10 +14,10 @@ def test_wave34_setuptools_uses_source_layout():
     finder = setuptools["packages"]["find"]
     assert finder["where"] == ["source"]
     assert "nicegui_base*" in finder["include"]
-    assert "company_ui" in finder["include"]
+    assert finder["include"] == ["nicegui_base*"]
 
 
 def test_wave34_source_layout_contains_both_packages():
     assert (ROOT / "source/nicegui_base/__init__.py").is_file()
-    assert (ROOT / "source/company_ui/__init__.py").is_file()
+    assert not (ROOT / "source/company_ui").exists()
     assert (ROOT / "source/nicegui_base/release_authority.json").is_file()

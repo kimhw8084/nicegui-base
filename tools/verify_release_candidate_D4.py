@@ -23,7 +23,7 @@ BUNDLE_RUNTIME_EXCLUDES = ('.venv', '.nicegui')
 def _env() -> dict[str, str]:
     env = dict(os.environ)
     for key in tuple(env):
-        if key in {'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'} or key.startswith(('NICEGUI_', 'COMPANY_UI_')):
+        if key in {'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'} or key.startswith('NICEGUI_'):
             env.pop(key, None)
     env.update(PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1', PYTHONUNBUFFERED='1')
     return env

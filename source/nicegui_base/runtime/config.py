@@ -7,20 +7,8 @@ from pathlib import Path
 from typing import Mapping
 
 
-def _legacy_env_name(name: str) -> str | None:
-    if name.startswith('NICEGUI_BASE_'):
-        return 'COMPANY_UI_' + name[len('NICEGUI_BASE_'):]
-    return None
-
-
 def _env_get(env: Mapping[str, str], name: str, default: str | None = None) -> str | None:
-    value = env.get(name)
-    if value is not None:
-        return value
-    legacy = _legacy_env_name(name)
-    if legacy is not None and legacy in env:
-        return env.get(legacy)
-    return default
+    return env.get(name, default)
 
 
 class RuntimeEnvironment(str, Enum):

@@ -757,9 +757,9 @@ class _SpatialSvgPanel:
             with b:_icon(ui,icon,label=label)
             from nicegui_base.integrations.nicegui_interactions import Tooltip
             Tooltip(label).attach(b)
-        button('add','Zoom in',f"window.CompanyUISpatial.zoom('{self.viewport_id}',1.18)")
-        button('minus','Zoom out',f"window.CompanyUISpatial.zoom('{self.viewport_id}',0.84)")
-        button('refresh','Reset spatial view',f"window.CompanyUISpatial.reset('{self.viewport_id}')")
+        button('add','Zoom in',f"window.NiceGUIBaseSpatial.zoom('{self.viewport_id}',1.18)")
+        button('minus','Zoom out',f"window.NiceGUIBaseSpatial.zoom('{self.viewport_id}',0.84)")
+        button('refresh','Reset spatial view',f"window.NiceGUIBaseSpatial.reset('{self.viewport_id}')")
 
     def _render(self,svg:str):
         ui=_ui()
@@ -776,7 +776,7 @@ class _SpatialSvgPanel:
             with ui.element('div').classes('cui-chart-panel__body'):
                 with ui.element('div').classes('cui-spatial-viewport').props(f'id={json.dumps(self.viewport_id)} tabindex="0" aria-label={json.dumps(self.title)}'):
                     self.element=ui.html(svg,sanitize=False).classes('cui-spatial-svg-host')
-        ui.run_javascript(f"window.CompanyUISpatial && window.CompanyUISpatial.attach('{self.viewport_id}')")
+        ui.run_javascript(f"window.NiceGUIBaseSpatial && window.NiceGUIBaseSpatial.attach('{self.viewport_id}')")
         _register_theme_renderer(self)
         _register_client_delete(ui, self.dispose)
 
