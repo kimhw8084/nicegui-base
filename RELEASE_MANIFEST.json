@@ -23,7 +23,7 @@
   "generated_at": "2026-08-30T23:37:14Z",
   "identity_refactor": {
     "distribution": "nicegui-base",
-    "legacy_aliases": "DEPRECATED_MIGRATION_ONLY",
+    "legacy_aliases": "REMOVED_PROVENANCE_ONLY",
     "primary_cli": "nicegui-base",
     "python_package": "nicegui_base",
     "status": "PASS"

@@ -5,5 +5,5 @@
 - Public root API: 1,525 entries, unchanged from Wave 76/77 before the identity refactor.
 - Waves 59–76 remain the canonical data, analysis, semiconductor, certification, promotion, operations, longitudinal, and review authorities.
 - Wave 77 remains consolidation-only; the identity refactor adds no evidence authority and no public root API.
-- Deprecated compatibility: root `company_ui` import, former `company-ui*` console scripts, and legacy `COMPANY_UI_*` env fallback.
+- Former product-name aliases are removed from the supported surface; historical evidence may retain their names for provenance only.
 - Internal `cui-*` CSS/DOM/test-hook tokens are intentionally retained as a stable compatibility namespace, not product branding.

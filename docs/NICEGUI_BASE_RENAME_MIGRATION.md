@@ -1,6 +1,6 @@
-# NiceGUI Base identity migration
+# NiceGUI Base identity
 
-The golden NiceGUI template/framework formerly shipped under the **Company UI** identity. Its current identity is:
+The NiceGUI template/framework now ships under one supported identity:
 
 - Display name: **NiceGUI Base**
 - Distribution: `nicegui-base`
@@ -8,11 +8,11 @@ The golden NiceGUI template/framework formerly shipped under the **Company UI** 
 - Primary CLI: `nicegui-base`
 - Primary environment prefix: `NICEGUI_BASE_`
 
-## Compatibility window
+## Former identity removal
 
-The `company_ui` root import is a deprecated compatibility alias. Former `company-ui*` console scripts remain deprecated aliases to the new implementation. Runtime configuration accepts legacy `COMPANY_UI_*` variables as a fallback when the corresponding `NICEGUI_BASE_*` value is absent. New generated applications use only the NiceGUI Base identity.
+There is no compatibility window for the former product identity. The root import, former console-script names, and former environment-variable prefix are removed. New and existing applications must use only the NiceGUI Base identity.
 
-Deep private imports such as `company_ui.runtime.config` are not part of the compatibility guarantee; migrate them to `nicegui_base.runtime.config`.
+Deep private imports are not part of the compatibility guarantee; use the corresponding `nicegui_base.*` module instead.
 
 ## Stable internal selectors
 
@@ -20,4 +20,4 @@ Existing `cui-*` CSS classes, DOM markers, test hooks, and related internal sele
 
 ## Historical evidence
 
-Historical reports and archived evidence may retain the former identity. They are provenance records and are not rewritten to imply they were produced under the new name. Current release authorities, package metadata, generated starters, docs, examples, and certification output use NiceGUI Base.
+Historical reports and archived evidence may retain former naming when rewriting would falsify provenance. Those records are not current guidance or release authority. Current release authorities, package metadata, generated starters, docs, examples, and certification output use NiceGUI Base.

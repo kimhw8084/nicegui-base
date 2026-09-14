@@ -58,7 +58,7 @@ def install_framework_css(ui) -> None:
     ui.add_css(build_framework_css(), shared=True)
     ui.add_head_html('<meta name="darkreader-lock">', shared=True)
     ui.add_head_html(r'''<script>
-window.CompanyUISpatial=window.CompanyUISpatial||{
+window.NiceGUIBaseSpatial=window.NiceGUIBaseSpatial||{
  state:new Map(),
  get(id){const host=document.getElementById(id);if(!host)return null;const inner=host.querySelector('.cui-spatial-svg-host');if(!inner)return null;let s=this.state.get(id);if(!s){s={scale:1,x:0,y:0};this.state.set(id,s);}return {host,inner,s};},
  clamp(id){const x=this.get(id);if(!x)return null;const maxX=Math.max(0,(x.s.scale-1)*x.host.clientWidth/2),maxY=Math.max(0,(x.s.scale-1)*x.host.clientHeight/2);x.s.x=Math.max(-maxX,Math.min(maxX,x.s.x));x.s.y=Math.max(-maxY,Math.min(maxY,x.s.y));return x;},

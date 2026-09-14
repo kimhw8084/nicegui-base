@@ -242,8 +242,9 @@ def validate_generated_code(code: str) -> tuple[str, ...]:
             imports.append(node.module)
     if not any(name == 'nicegui_base' or name.startswith('nicegui_base.') for name in imports):
         findings.append('missing_nicegui_base_import')
+    # Negative guard: the removed root import must never enter generated code.
     if any(name == 'company_ui' or name.startswith('company_ui.') for name in imports):
-        findings.append('deprecated_company_ui_import')
+        findings.append('unsupported_legacy_root_import')
     if 'ui.' in code and 'nicegui import ui' in code:
         findings.append('raw_nicegui_primary_api')
     return tuple(findings)
