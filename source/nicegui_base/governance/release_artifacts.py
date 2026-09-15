@@ -155,7 +155,9 @@ def sha256_file(path: str | Path) -> str:
 
 def _is_transient(path: Path, root: Path) -> bool:
     rel = path.relative_to(root)
-    if any(part in _TRANSIENT_DIRS or part.endswith('.egg-info') for part in rel.parts[:-1]):
+    if any(part in _TRANSIENT_DIRS for part in rel.parts):
+        return True
+    if any(part.endswith('.egg-info') for part in rel.parts[:-1]):
         return True
     return path.suffix in _TRANSIENT_SUFFIXES
 

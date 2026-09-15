@@ -19,8 +19,8 @@
   "requires_dist": [
     "nicegui==3.15.0"
   ],
-  "sha256": "a826c62a581783a5d003d8fd25fcadb89b61718298448e1e507bb2a6242435b1",
-  "size_bytes": 2438022,
+  "sha256": "14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da",
+  "size_bytes": 2438023,
   "source_representation_compared_files": 688,
   "source_representation_status": "PASS",
   "status": "PASS",
