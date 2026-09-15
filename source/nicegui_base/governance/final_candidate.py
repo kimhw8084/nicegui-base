@@ -12,7 +12,7 @@ from typing import Any, Iterable
 
 from nicegui_base.ai.scaffold import GUIDE_NAMES
 from .public_api import export_digest, public_api_snapshot
-from .release_artifacts import sha256_file, verify_wheel, verify_wheel_source_representation
+from .release_artifacts import sha256_file, verify_wheel, verify_wheel_public_api, verify_wheel_source_representation
 from .release_identity import ReleaseIdentity, load_release_identity
 
 
@@ -198,6 +198,57 @@ def _check_current_evidence_portability(root: Path, findings: list[FinalAuditFin
         if root_text in text or '/mnt/data/' in text:
             findings.append(FinalAuditFinding('current_evidence_build_path_leak', 'error', f'{rel} contains a build-machine absolute path.', 'Normalize evidence roots to portable relative labels before package freeze.', (rel,)))
 
+
+def _check_api_release_authorities(
+    root: Path,
+    identity: ReleaseIdentity,
+    contract: dict[str, Any],
+    api_entries: int,
+    api_sha256: str,
+    wheel_sha256: str,
+    wheel_api: Any,
+    findings: list[FinalAuditFinding],
+) -> None:
+    compat_path = root / f'PUBLIC_API_COMPATIBILITY_WAVE{identity.current_wave}.json'
+    if compat_path.is_file():
+        compat = _load_json(compat_path)
+        expected = {
+            'current_public_root_api_entries': api_entries,
+            'current_contract_sha256': api_sha256,
+        }
+        for key, value in expected.items():
+            if compat.get(key) != value:
+                findings.append(FinalAuditFinding('api_compatibility_authority_drift', 'error', f'{compat_path.name} {key} does not bind the current source contract.', 'Regenerate Wave compatibility authority from PUBLIC_API_CONTRACT.json.', (compat_path.name,)))
+        migration = compat.get('identity_refactor') or compat.get('namespace_migration')
+        if not isinstance(migration, dict) or migration.get('root_export_names_changed') not in (0, False) or migration.get('frozen_callable_signatures_changed') not in (0, False):
+            findings.append(FinalAuditFinding('api_identity_compatibility_drift', 'error', f'{compat_path.name} does not prove that CHG-12 changed no root exports or frozen signatures.', 'Keep identity migration deltas separate from the inherited current API surface.', (compat_path.name,)))
+
+    for wheel_authority_name in ('WHEEL_INTEGRITY.json', f'WHEEL_VERIFICATION_WAVE{identity.current_wave}.json'):
+        wheel_integrity_path = root / wheel_authority_name
+        if not wheel_integrity_path.is_file():
+            continue
+        wheel_integrity = _load_json(wheel_integrity_path)
+        expected = {
+            'sha256': wheel_sha256,
+            'isolated_root_api_entries': api_entries,
+            'isolated_root_api_sha256': api_sha256,
+        }
+        for key, value in expected.items():
+            if wheel_integrity.get(key) != value:
+                findings.append(FinalAuditFinding('wheel_api_authority_drift', 'error', f'{wheel_authority_name} {key} does not bind the rebuilt wheel and current API.', 'Regenerate wheel integrity and verification authorities from the isolated installed-wheel probe.', (wheel_authority_name,)))
+
+    manifest_path = root / 'RELEASE_MANIFEST.json'
+    if manifest_path.is_file():
+        manifest = _load_json(manifest_path)
+        if manifest.get('public_root_api_entries') != api_entries or manifest.get('public_root_api_sha256') != api_sha256:
+            findings.append(FinalAuditFinding('release_manifest_api_drift', 'error', 'RELEASE_MANIFEST.json does not bind the current public API contract.', 'Regenerate the release manifest from the current source contract.', ('RELEASE_MANIFEST.json',)))
+        final_wheel = manifest.get('final_wheel')
+        if not isinstance(final_wheel, dict) or final_wheel.get('sha256') != wheel_sha256 or final_wheel.get('public_api_entries') != api_entries or final_wheel.get('public_api_sha256') != api_sha256:
+            findings.append(FinalAuditFinding('release_manifest_wheel_drift', 'error', 'RELEASE_MANIFEST.json does not bind the exact rebuilt wheel/API pair.', 'Regenerate the release manifest after the wheel/API probe passes.', ('RELEASE_MANIFEST.json',)))
+
+    if wheel_api.export_count != api_entries or wheel_api.export_sha256 != api_sha256:
+        findings.append(FinalAuditFinding('installed_wheel_public_api_drift', 'error', 'The isolated installed wheel exposes a different root API than the source contract.', 'Rebuild from the authoritative source package and rerun the isolated API probe.', ('PUBLIC_API_CONTRACT.json', 'WHEEL_INTEGRITY.json', 'RELEASE_MANIFEST.json')))
+
 def audit_final_release_candidate(root: str | Path = '.', *, require_final_artifacts: bool = True) -> FinalReleaseCandidateAudit:
     root = Path(root).resolve(); identity = load_release_identity(root); findings = _authority_chain_findings()
     contract = _load_json(root / 'PUBLIC_API_CONTRACT.json'); snapshot = public_api_snapshot(); api_digest = export_digest(snapshot)
@@ -247,6 +298,11 @@ def audit_final_release_candidate(root: str | Path = '.', *, require_final_artif
             if not representation.passed:
                 paths = tuple((*representation.mismatches[:12], *representation.missing_from_wheel[:12], *representation.missing_from_source[:12]))
                 findings.append(FinalAuditFinding('wheel_source_representation_drift', 'error', f'Final wheel does not represent the synchronized source/package data ({len(representation.mismatches)} changed, {len(representation.missing_from_wheel)} missing from wheel, {len(representation.missing_from_source)} missing from source).', 'Rebuild the wheel only after all source certification, documentation and release-sync mutations are complete.', paths))
+            try:
+                wheel_api = verify_wheel_public_api(existing[0])
+                _check_api_release_authorities(root, identity, contract, len(snapshot), api_digest, wheel_sha, wheel_api, findings)
+            except Exception as exc:
+                findings.append(FinalAuditFinding('installed_wheel_public_api_probe_failed', 'error', f'Installed-wheel public API probe failed: {exc}', 'Run the isolated no-deps wheel install/import probe in the supported environment.', ('WHEEL_INTEGRITY.json',)))
 
     errors = [item for item in findings if item.severity == 'error']
     status = 'PASS' if not errors else 'BLOCKED'

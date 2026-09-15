@@ -10,11 +10,13 @@
   "design_constitution": "Wave 77 is consolidation-only over Waves 59\u201376. It creates no parallel data, runtime, evidence, promotion, publication, stability, renewal, longitudinal, or review truth authority. It audits and hardens the deterministic release path and prepares a truthful stable-qualification handoff.",
   "final_wheel": {
     "file": "nicegui_base-3.0.0a8-py3-none-any.whl",
+    "public_api_entries": 1550,
+    "public_api_sha256": "2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb",
     "record_hashes_verified": 692,
     "record_mismatches": 0,
     "record_rows": 693,
-    "sha256": "5a3541ef1369daf56e71358402f14613f047fdfccf598aeb831fc2e86fa97ab8",
-    "size_bytes": 2435606,
+    "sha256": "76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc",
+    "size_bytes": 2437686,
     "source_representation": "PASS"
   },
   "framework": "nicegui-base",
@@ -35,7 +37,8 @@
     "nicegui==3.15.0"
   ],
   "promotion_target": "3.0.0",
-  "public_root_api_entries": 1525,
+  "public_root_api_entries": 1550,
+  "public_root_api_sha256": "2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb",
   "release_kind": "v3-alpha-wave77-final-release-candidate-consolidation-nicegui-base-identity-refactor",
   "release_status": "ALPHA",
   "source_zero_regression": {
@@ -297,7 +300,8 @@
     "fresh_process_batches": 9,
     "new_evidence_authority": false,
     "new_root_public_apis": 0,
-    "public_root_api_entries": 1525,
+    "public_root_api_entries": 1550,
+    "public_root_api_sha256": "2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb",
     "source_complete_does_not_equal_stable_publication": true,
     "source_release_candidate_status": "SOURCE_COMPLETE",
     "stable_publication_status": "NOT_PERFORMED",

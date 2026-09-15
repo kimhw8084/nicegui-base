@@ -117,7 +117,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `ButtonSpec` | class | `nicegui_base.components.models` | `(label: "'str'", intent: "'ButtonIntent'" = 'secondary', size: "'ComponentSize'" = 'medium', icon: "'str \| None'" = None, disabled: "'bool'" = False, loading: "'bool'" = False, full_width: "'bool'" = False, aria_label: "'str \| None'" = None) -> 'None'` |
 | `CANONICAL_VIEWPORTS` | constant | `builtins` | `` |
 | `CATEGORICAL` | constant | `builtins` | `` |
-| `COMPATIBILITY_PATH` | constant | `pathlib._local` | `` |
+| `COMPATIBILITY_PATH` | constant | `pathlib` | `` |
 | `COMPONENT_REGISTRY` | constant | `builtins` | `` |
 | `CONTENT_REGISTRY` | constant | `builtins` | `` |
 | `CONTROL_HEIGHTS` | constant | `builtins` | `` |
@@ -304,7 +304,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `EntityHeader` | class | `nicegui_base.integrations.nicegui_content` | `(title: "'str'", subtitle: "'str \| None'" = None, entity_type: "'str \| None'" = None, status: "'str \| None'" = None, status_intent: "'StatusIntent'" = 'neutral', icon: "'str \| None'" = None, metadata: "'Sequence[KeyValueItem]'" = ())` |
 | `EntityHeaderSpec` | class | `nicegui_base.content.models` | `(title: "'str'", subtitle: "'str \| None'" = None, entity_type: "'str \| None'" = None, status: "'str \| None'" = None, status_intent: "'StatusIntent'" = 'neutral', icon: "'str \| None'" = None, metadata: "'Sequence[KeyValueItem]'" = <factory>) -> 'None'` |
 | `EntityRef` | class | `nicegui_base.semiconductor.entities` | `(kind: "'SemiconductorEntityKind'", identifier: "'str'", label: "'str \| None'" = None) -> 'None'` |
-| `Enum` | class | `enum` | `(new_class_name, names, module = None, qualname = None, type = None, start = 1, boundary = None)` |
+| `Enum` | class | `enum` | `(*values)` |
 | `EnvironmentBadge` | class | `nicegui_base.integrations.nicegui_layout` | `(environment: "'str'")` |
 | `EquipmentEvent` | class | `nicegui_base.semiconductor.entities` | `(identifier: "'str'", name: "'str \| None'" = None, metadata: "'Mapping[str, Any]'" = <factory>, tool_id: "'str'" = '', chamber_id: "'str \| None'" = None, event_type: "'str'" = '', timestamp: "'datetime \| None'" = None) -> 'None'` |
 | `ErrorService` | class | `nicegui_base.services.operations` | `(logger: "'LoggingService \| None'" = None, prefix: "'str'" = 'UI')` |
@@ -1027,7 +1027,7 @@ Generated from `PUBLIC_API_CONTRACT.json`. The JSON contract—not this rendered
 | `UserMenu` | class | `nicegui_base.integrations.nicegui_layout` | `(initials: "'str'" = 'U', user_name: "'str \| None'" = None, greeting: "'str \| None'" = None, role: "'str'" = 'Member', department: "'str'" = 'Department unavailable', on_preferences: "'Callable[[], None] \| None'" = None, on_about: "'Callable[[], None] \| None'" = None, on_logout: "'Callable[[], None] \| None'" = None)` |
 | `UserPreferences` | class | `nicegui_base.state.models` | `(theme: "'str'" = 'system', density: "'str'" = 'compact', sidebar: "'SidebarPreference'" = 'expanded', table_states: "'Mapping[str, Mapping[str, Any]]'" = <factory>, filter_views: "'Mapping[str, Mapping[str, Any]]'" = <factory>, favorites: "'tuple[str, ...]'" = (), recent_entities: "'tuple[str, ...]'" = ()) -> 'None'` |
 | `VISUALIZATION_REGISTRY` | constant | `builtins` | `` |
-| `VISUAL_ROOT` | constant | `pathlib._local` | `` |
+| `VISUAL_ROOT` | constant | `pathlib` | `` |
 | `ValidationIssue` | class | `nicegui_base.forms.models` | `(field: "'str'", message: "'str'", severity: "'ValidationSeverity'" = 'error', code: "'str \| None'" = None) -> 'None'` |
 | `ValidationMessage` | class | `nicegui_base.integrations.nicegui_interactions` | `(message: "'str'")` |
 | `ValidationSeverity` | class | `nicegui_base.forms.models` | `(*values)` |
