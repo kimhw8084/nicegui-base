@@ -1,5 +1,7 @@
 # NiceGUI Base Workbench — Iteration 1 Implementation Report
 
+> Evidence classification: `HISTORICAL_PROVENANCE_ONLY`. This report records the pre-CHG-12 Workbench migration state; its former-name compatibility statements are not current product/package support.
+
 ## Baseline
 
 - Repository: `kimhw8084/nicegui-base`

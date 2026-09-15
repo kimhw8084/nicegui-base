@@ -1,7 +1,7 @@
 {
   "current_phase": 77,
   "current_wave": 77,
-  "design_constitution": "v1.6/v2 rendering and design contracts preserved; v3 application platform + Waves 58\u201376 canonical data/analysis/semiconductor/certification/promotion/operations/longitudinal/review authorities. Wave 77 is consolidation-only: it audits authority ownership, release metadata, generated-project guidance, wheel/source/package representation and stable-qualification handoff boundaries without creating a parallel evidence authority or manufacturing company target PASS. The final Wave 77 identity refactor renames the distributable/template to NiceGUI Base while retaining only bounded deprecated compatibility aliases and stable internal cui-* selectors.",
+  "design_constitution": "v1.6/v2 rendering and design contracts preserved; v3 application platform + Waves 58\u201376 canonical data/analysis/semiconductor/certification/promotion/operations/longitudinal/review authorities. Wave 77 is consolidation-only: it audits authority ownership, release metadata, generated-project guidance, wheel/source/package representation and stable-qualification handoff boundaries without creating a parallel evidence authority or manufacturing company target PASS. The final Wave 77 identity refactor establishes NiceGUI Base as the sole current product identity, removes former product-name compatibility aliases, and retains only stable internal cui-* selectors.",
   "framework_display_name": "NiceGUI Base",
   "framework_name": "nicegui-base",
   "framework_version": "3.0.0a8",
@@ -11,7 +11,7 @@
     "legacy_cli": "REMOVED",
     "legacy_environment_prefix": "REMOVED",
     "legacy_root_import": "REMOVED",
-    "status": "COMPLETE_PENDING_FINAL_PACKAGE_VERIFICATION",
+    "status": "COMPLETE",
     "to": "nicegui-base / nicegui_base / NiceGUI Base"
   },
   "nicegui_version": "3.15.0",

@@ -1,20 +1,22 @@
 {
-  "automated_tests": 1587,
-  "batches_executed": 10,
-  "batches_requested": 10,
-  "duration_ms": 96495,
-  "evidence_note": "NiceGUI Base identity-refactor definitive regression: ten independently completed fresh-process batches cover the exact sorted 138-file estate after package/import/CLI/environment/generated-app identity migration. Interrupted grouped wrappers and pre-fix attempts are excluded.",
-  "python": "3.13.5",
+  "status": "PASS",
+  "python": "3.13.13",
+  "test_files": 169,
+  "batches_requested": 6,
+  "batches_executed": 6,
+  "duration_ms": 71537.5,
   "results": [
     {
       "batch": 1,
-      "duration_ms": 2527,
       "files": [
+        "tests/test_ai_d6f_contract.py",
         "tests/test_component_css.py",
         "tests/test_component_models.py",
         "tests/test_component_registry.py",
         "tests/test_contrast.py",
         "tests/test_css.py",
+        "tests/test_data_table_final_integrity.py",
+        "tests/test_design_system_d6c.py",
         "tests/test_layout_css.py",
         "tests/test_layout_models.py",
         "tests/test_navigation.py",
@@ -23,14 +25,7 @@
         "tests/test_nicegui_component_adapter.py",
         "tests/test_nicegui_interaction_adapter.py",
         "tests/test_patterns.py",
-        "tests/test_phase10_adapter_contract.py"
-      ],
-      "returncode": 0
-    },
-    {
-      "batch": 2,
-      "duration_ms": 3662,
-      "files": [
+        "tests/test_phase10_adapter_contract.py",
         "tests/test_phase10_diagnostics.py",
         "tests/test_phase10_doctor_registry.py",
         "tests/test_phase10_runtime.py",
@@ -42,16 +37,16 @@
         "tests/test_phase11_validator.py",
         "tests/test_phase12_certification.py",
         "tests/test_phase12_combinatorial.py",
-        "tests/test_phase12_integrated_adapters.py",
-        "tests/test_phase13_convenience.py",
-        "tests/test_phase13_final_contract.py"
+        "tests/test_phase12_integrated_adapters.py"
       ],
-      "returncode": 0
+      "returncode": 0,
+      "duration_ms": 16986.1
     },
     {
-      "batch": 3,
-      "duration_ms": 5049,
+      "batch": 2,
       "files": [
+        "tests/test_phase13_convenience.py",
+        "tests/test_phase13_final_contract.py",
         "tests/test_phase13_integration.py",
         "tests/test_phase13_performance.py",
         "tests/test_phase13_tables.py",
@@ -65,14 +60,7 @@
         "tests/test_phase21_v17_phase1_shell_constitution.py",
         "tests/test_phase22_v17_core_interaction_system.py",
         "tests/test_phase23_v17_overlay_architecture.py",
-        "tests/test_phase24_v17_datatable_platform.py"
-      ],
-      "returncode": 0
-    },
-    {
-      "batch": 4,
-      "duration_ms": 7143,
-      "files": [
+        "tests/test_phase24_v17_datatable_platform.py",
         "tests/test_phase25_v17_phase5_analytical_visualization.py",
         "tests/test_phase26_v17_phase6_content_workflow_rca.py",
         "tests/test_phase27_v17_reference_applications.py",
@@ -85,15 +73,15 @@
         "tests/test_phase34_v200_release_sync.py",
         "tests/test_phase35_v200_single_token_authority.py",
         "tests/test_phase37_v200rc4_datatable_page_performance.py",
-        "tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py",
-        "tests/test_phase39_v3_runtime_kernel.py"
+        "tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py"
       ],
-      "returncode": 0
+      "returncode": 0,
+      "duration_ms": 9310.2
     },
     {
-      "batch": 5,
-      "duration_ms": 6693,
+      "batch": 3,
       "files": [
+        "tests/test_phase39_v3_runtime_kernel.py",
         "tests/test_phase40_v3_unified_data_engine.py",
         "tests/test_phase41_v3_workspace_layout_engine.py",
         "tests/test_phase42_v3_workspace_runtime_persistence.py",
@@ -107,14 +95,7 @@
         "tests/test_phase4_feedback.py",
         "tests/test_phase4_filters.py",
         "tests/test_phase4_forms.py",
-        "tests/test_phase4_overlays.py"
-      ],
-      "returncode": 0
-    },
-    {
-      "batch": 6,
-      "duration_ms": 20135,
-      "files": [
+        "tests/test_phase4_overlays.py",
         "tests/test_phase4_registry.py",
         "tests/test_phase50_v300a3_agent_application_factory.py",
         "tests/test_phase51_v300a3_single_file_deployment_entrypoint.py",
@@ -130,11 +111,11 @@
         "tests/test_phase5_table_css.py",
         "tests/test_phase5_table_engine.py"
       ],
-      "returncode": 0
+      "returncode": 0,
+      "duration_ms": 7887.5
     },
     {
-      "batch": 7,
-      "duration_ms": 14699,
+      "batch": 4,
       "files": [
         "tests/test_phase5_table_models.py",
         "tests/test_phase5_table_registry.py",
@@ -149,14 +130,7 @@
         "tests/test_phase68_v300a8_enterprise_target_execution_operationalization.py",
         "tests/test_phase69_v300a8_promotion_execution_adapter_release_audit.py",
         "tests/test_phase6_adapter_contract.py",
-        "tests/test_phase6_engine.py"
-      ],
-      "returncode": 0
-    },
-    {
-      "batch": 8,
-      "duration_ms": 31665,
-      "files": [
+        "tests/test_phase6_engine.py",
         "tests/test_phase6_models.py",
         "tests/test_phase6_options.py",
         "tests/test_phase6_registry_css.py",
@@ -170,15 +144,15 @@
         "tests/test_phase76_v300a8_longitudinal_assurance_review_exception_governance.py",
         "tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
         "tests/test_phase7_adapter_contract.py",
-        "tests/test_phase7_assets.py"
+        "tests/test_phase7_assets.py",
+        "tests/test_phase7_keys.py"
       ],
-      "returncode": 0
+      "returncode": 0,
+      "duration_ms": 25457.7
     },
     {
-      "batch": 9,
-      "duration_ms": 2312,
+      "batch": 5,
       "files": [
-        "tests/test_phase7_keys.py",
         "tests/test_phase7_manifest.py",
         "tests/test_phase7_packaging.py",
         "tests/test_phase7_public_api.py",
@@ -190,14 +164,7 @@
         "tests/test_phase8_services.py",
         "tests/test_phase8_state.py",
         "tests/test_phase9_adapter_contract.py",
-        "tests/test_phase9_analytics.py"
-      ],
-      "returncode": 0
-    },
-    {
-      "batch": 10,
-      "duration_ms": 2610,
-      "files": [
+        "tests/test_phase9_analytics.py",
         "tests/test_phase9_compositions.py",
         "tests/test_phase9_models.py",
         "tests/test_phase9_registry_css.py",
@@ -210,11 +177,45 @@
         "tests/test_showcase_phase3.py",
         "tests/test_showcase_phase4.py",
         "tests/test_showcase_phase5.py",
-        "tests/test_tokens.py"
+        "tests/test_tokens.py",
+        "tests/test_visualization_final_integrity.py",
+        "tests/test_visualization_micro_closure.py",
+        "tests/test_workbench_d6b_reorientation.py",
+        "tests/test_workbench_d6d_catalog_contracts.py"
       ],
-      "returncode": 0
+      "returncode": 0,
+      "duration_ms": 3548.0
+    },
+    {
+      "batch": 6,
+      "files": [
+        "tests/test_workbench_d6e_patterns_recipes.py",
+        "tests/test_workbench_d6h1_visual_closure.py",
+        "tests/test_workbench_d6h2_visual_closure.py",
+        "tests/test_workbench_d6h3_golden_semantics.py",
+        "tests/test_workbench_d6h_visual_reference.py",
+        "tests/test_workbench_data_table_lab.py",
+        "tests/test_workbench_development_d3.py",
+        "tests/test_workbench_development_d3_update.py",
+        "tests/test_workbench_g21_explorer.py",
+        "tests/test_workbench_g26_reconstruction.py",
+        "tests/test_workbench_identity_and_shell_reconstruction.py",
+        "tests/test_workbench_iteration1.py",
+        "tests/test_workbench_iteration2.py",
+        "tests/test_workbench_iteration2_1.py",
+        "tests/test_workbench_iteration2_10.py",
+        "tests/test_workbench_iteration2_11.py",
+        "tests/test_workbench_iteration2_2.py",
+        "tests/test_workbench_iteration2_3.py",
+        "tests/test_workbench_iteration2_4.py",
+        "tests/test_workbench_iteration2_5.py",
+        "tests/test_workbench_iteration2_6.py",
+        "tests/test_workbench_iteration2_7.py",
+        "tests/test_workbench_iteration2_8.py",
+        "tests/test_workbench_iteration2_9.py"
+      ],
+      "returncode": 0,
+      "duration_ms": 8345.6
     }
-  ],
-  "status": "PASS",
-  "test_files": 138
+  ]
 }
