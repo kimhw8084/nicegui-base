@@ -1,0 +1,696 @@
+{
+  "accepted_at": "2026-09-15T22:41:26Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('source/TEST_BATCH_EXECUTION.json')\nd=json.loads(p.read_text())\nprint(json.dumps({k:d[k] for k in ('status','batches_requested','batches_executed','python')}, sort_keys=True))\nprint('test_files', len(d.get('test_files',[])))\nprint('results', [(x.get('batch'),x.get('status'),x.get('returncode'),x.get('duration_ms')) for x in d.get('results',[])])\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('TEST_BATCH_EXECUTION.json')\nd=json.loads(p.read_text())\nprint(json.dumps({k:d[k] for k in ('status','batches_requested','batches_executed','python')}, sort_keys=True))\nprint('test_files', len(d.get('test_files',[])))\nprint('results', [(x.get('batch'),x.get('status'),x.get('returncode'),x.get('duration_ms')) for x in d.get('results',[])])\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /private/tmp/nicegui_base_chg59_py313_venv/bin/python -m nicegui_base.governance.source_evidence --root . --pytest-report TEST_BATCH_EXECUTION.json'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 300,
+        "output_sha256": "bb12944e79f2580cc81131ddee506054f67872061f06993dd21c70ea49893edc",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nfor name in ['CERTIFICATION_REPORT.json','TEST_REPORT.json','LIVE_CERTIFICATION_READINESS.json','LIVE_COMPONENT_COVERAGE.json','TEST_BATCH_EXECUTION.json']:\n    a=Path(name).read_bytes() if Path(name).exists() else None\n    b=Path('source',name).read_bytes() if Path('source',name).exists() else None\n    print(name, 'root', a is not None, 'source', b is not None, 'equal', a==b)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp source/CERTIFICATION_REPORT.json CERTIFICATION_REPORT.json\nrtk cp source/TEST_REPORT.json TEST_REPORT.json\nrtk cp source/LIVE_CERTIFICATION_READINESS.json LIVE_CERTIFICATION_READINESS.json\nrtk cp source/TEST_BATCH_EXECUTION.json TEST_BATCH_EXECUTION.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python tools/build_release_candidate_D4.py --skip-qualification --output /private/tmp/ngb_d4_chg59_candidate3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk cp /private/tmp/ngb_d4_chg59_candidate3/bundle/wheel/nicegui_base-3.0.0a8-py3-none-any.whl wheel/nicegui_base-3.0.0a8-py3-none-any.whl\nrtk cp /private/tmp/ngb_d4_chg59_candidate3/bundle/wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\nrtk cp /private/tmp/ngb_d4_chg59_candidate3/bundle/wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\nrtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport hashlib\npaths=[Path('wheel/nicegui_base-3.0.0a8-py3-none-any.whl'),Path('source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl'),Path('source/dist/nicegui_base-3.0.0a8-py3-none-any.whl')]\nfor p in paths:\n    b=p.read_bytes(); print(p, len(b), hashlib.sha256(b).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['WHEEL_INTEGRITY.json','WHEEL_VERIFICATION_WAVE77.json','RELEASE_MANIFEST.json','FINAL_RELEASE_CANDIDATE_AUDIT.json','FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json','STABLE_QUALIFICATION_HANDOFF.json']:\n print('\\\\n==',name)\n d=json.loads(Path(name).read_text())\n print('keys',list(d)[:20])\n for k in ['wheel_sha256','wheel_path','status','audit_wheel_sha256','source_release_candidate_status','stable_qualification_status','stable_publication_status','package_sha256','source_sha256']:\n  if k in d: print(k,repr(d[k]))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"verify_wheel|write_wheel|WHEEL_INTEGRITY|WHEEL_VERIFICATION|RELEASE_MANIFEST|audit_final_release_candidate|STABLE_QUALIFICATION_HANDOFF\" tools source/nicegui_base | head -200'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,430p' source/nicegui_base/governance/release_artifacts.py\nrtk sed -n '1,430p' source/nicegui_base/governance/final_candidate.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def .*manifest|write.*authority|final_wheel|WHEEL_INTEGRITY|PUBLIC_API_COMPATIBILITY|RELEASE_MANIFEST\\\" source/nicegui_base/governance source/tests tools | head -240\nrtk sed -n '1,240p' source/nicegui_base/governance/release_sync.py\nrtk sed -n '240,420p' source/nicegui_base/governance/release_sync.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '220,315p' tools/build_release_candidate_D4.py\nrtk sed -n '1,220p' tools/build_release_candidate_D4.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nnames=['WHEEL_INTEGRITY.json','WHEEL_VERIFICATION_WAVE77.json','RELEASE_MANIFEST.json','FINAL_RELEASE_CANDIDATE_AUDIT.json','STABLE_QUALIFICATION_HANDOFF.json']\nfor name in names:\n d=json.loads(Path(name).read_text())\n print('\\\\n==',name)\n print(json.dumps(d, indent=2, sort_keys=True)[:12000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor n in ['CERTIFICATION_REPORT.json','TEST_REPORT.json','LIVE_CERTIFICATION_READINESS.json','nicegui_base/certification/certification_manifest.json','TEST_BATCH_EXECUTION.json']:\n d=json.loads((Path('source')/n).read_text())\n print('\\\\n',n)\n for k in ['status','test_count','tests','automated_tests','python','batches_requested','batches_executed','source_certification','target_runtime_status','pytest','governance','static_certification','visual_coverage','generated_at','source_state']:\n  if k in d: print(k, repr(d[k]))\n print('keys', list(d)[:30])\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 45862,
+        "output_sha256": "6252f1f73c666a4b18cedc23d4f7dc7017f6dc99e2cda44a0161df0901e9e556",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor n in ['WHEEL_INTEGRITY.json','WHEEL_VERIFICATION_WAVE77.json','RELEASE_MANIFEST.json']:\n print(n)\n for p in [Path(n),Path('source')/n]:\n  d=json.loads(p.read_text())\n  print(' ',p, {k:d.get(k) for k in ['file','path','root','wheel','sha256','size_bytes','record_rows','record_hashes_verified','source_representation_compared_files','source_representation_status','generated_at']})\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('RELEASE_MANIFEST.json').read_text())\nprint(json.dumps(p['final_wheel'], indent=2, sort_keys=True))\nprint(json.dumps(p['source_zero_regression'], indent=2, sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfrom datetime import datetime, timezone\nfrom nicegui_base.governance.public_api import export_digest, public_api_snapshot\nfrom nicegui_base.governance.release_artifacts import verify_wheel, verify_wheel_public_api, verify_wheel_source_representation\n\nrepo = Path('.').resolve()\nsource = repo / 'source'\nwheel_rel = Path('wheel/nicegui_base-3.0.0a8-py3-none-any.whl')\nroot_wheel = repo / wheel_rel\nsource_wheel = source / wheel_rel\nreport = verify_wheel(root_wheel)\napi = verify_wheel_public_api(root_wheel)\nsource_rep = verify_wheel_source_representation(source, source_wheel)\nassert report.passed and api.passed and source_rep.passed\napi_count = len(public_api_snapshot())\napi_sha = export_digest()\nassert api.export_count == api_count and api.export_sha256 == api_sha\nassert report.sha256 == '14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da'\nassert source_rep.compared_files == 688\n\ndef load(path):\n    return json.loads(path.read_text(encoding='utf-8'))\ndef write(path, payload):\n    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + '\\\\n', encoding='utf-8')\n\nfor base in (repo, source):\n    wi_path = base / 'WHEEL_INTEGRITY.json'\n    wi = load(wi_path)\n    wi.update({\n        'sha256': report.sha256, 'size_bytes': report.size_bytes,\n        'record_rows': report.record_rows, 'record_hashes_verified': report.record_hashes_verified,\n        'record_mismatches': report.record_mismatches,\n        'metadata_name': report.metadata_name, 'metadata_version': report.metadata_version,\n        'requires_dist': list(item for item in report.requires_dist if 'extra ==' not in item),\n        'isolated_root_api_entries': api.export_count, 'isolated_root_api_sha256': api.export_sha256,\n        'isolated_no_deps_install_import': 'PASS' if api.installed_import else 'FAIL',\n        'source_representation_compared_files': source_rep.compared_files,\n        'source_representation_status': 'PASS' if source_rep.passed else 'FAIL',\n        'status': 'PASS' if report.passed and api.passed and source_rep.passed else 'FAIL',\n    })\n    write(wi_path, wi)\n\n    wv_path = base / 'WHEEL_VERIFICATION_WAVE77.json'\n    wv = load(wv_path)\n    wv.update({\n        'sha256': report.sha256, 'size_bytes': report.size_bytes,\n        'record_rows': report.record_rows, 'record_hashes_verified': report.record_hashes_verified,\n        'record_mismatches': report.record_mismatches,\n        'metadata_name': report.metadata_name, 'metadata_version': report.metadata_version,\n        'requires_dist': list(report.requires_dist),\n        'production_requires_dist': list(item for item in report.requires_dist if 'extra ==' not in item),\n        'isolated_root_api_entries': api.export_count, 'isolated_root_api_sha256': api.export_sha256,\n        'isolated_no_deps_import': 'PASS' if api.installed_import else 'FAIL',\n        'source_representation': {\n            'compared_files': source_rep.compared_files,\n            'mismatches': list(source_rep.mismatches),\n            'missing_from_source': list(source_rep.missing_from_source),\n            'missing_from_wheel': list(source_rep.missing_from_wheel),\n            'root': '.', 'wheel': 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl',\n            'status': 'PASS' if source_rep.passed else 'FAIL',\n        },\n        'status': 'PASS' if report.passed and api.passed and source_rep.passed else 'FAIL',\n    })\n    write(wv_path, wv)\n\nmanifest_path = repo / 'RELEASE_MANIFEST.json'\nmanifest = load(manifest_path)\nmanifest['generated_at'] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')\nmanifest['public_root_api_entries'] = api_count\nmanifest['public_root_api_sha256'] = api_sha\nmanifest['final_wheel'] = {\n    'file': 'nicegui_base-3.0.0a8-py3-none-any.whl',\n    'public_api_entries': api.export_count,\n    'public_api_sha256': api.export_sha256,\n    'record_hashes_verified': report.record_hashes_verified,\n    'record_mismatches': report.record_mismatches,\n    'record_rows': report.record_rows,\n    'sha256': report.sha256,\n    'size_bytes': report.size_bytes,\n    'source_representation': 'PASS' if source_rep.passed else 'FAIL',\n}\nmanifest['source_zero_regression']['automated_tests'] = 1930\nmanifest['source_zero_regression']['fresh_process_batches'] = '6/6 PASS'\nmanifest['source_zero_regression']['test_files'] = 169\nmanifest['source_zero_regression']['wave77_behavioral_tests'] = 43\nwrite(manifest_path, manifest)\n(repo / 'source/RELEASE_MANIFEST.json').write_bytes(manifest_path.read_bytes())\nprint(json.dumps({\n    'wheel_sha256': report.sha256, 'wheel_size_bytes': report.size_bytes,\n    'record_rows': report.record_rows, 'record_hashes_verified': report.record_hashes_verified,\n    'source_representation_compared_files': source_rep.compared_files,\n    'public_api_entries': api.export_count, 'public_api_sha256': api.export_sha256,\n    'release_manifest_generated_at': manifest['generated_at'],\n    'automated_tests': manifest['source_zero_regression']['automated_tests'],\n    'wave77_behavioral_tests': manifest['source_zero_regression']['wave77_behavioral_tests'],\n}, indent=2, sort_keys=True))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfrom datetime import datetime, timezone\nfrom nicegui_base.governance.public_api import export_digest, public_api_snapshot\nfrom nicegui_base.governance.release_artifacts import verify_wheel, verify_wheel_public_api, verify_wheel_source_representation\n\nrepo = Path('.').resolve()\nsource = repo / 'source'\nwheel_rel = Path('wheel/nicegui_base-3.0.0a8-py3-none-any.whl')\nroot_wheel = repo / wheel_rel\nsource_wheel = source / wheel_rel\nreport = verify_wheel(root_wheel)\napi = verify_wheel_public_api(root_wheel)\nsource_rep = verify_wheel_source_representation(source, source_wheel)\nassert report.passed and api.passed and source_rep.passed\napi_count = len(public_api_snapshot())\napi_sha = export_digest()\nassert api.export_count == api_count and api.export_sha256 == api_sha\nassert report.sha256 == '14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da'\nassert source_rep.compared_files == 688\n\ndef load(path):\n    return json.loads(path.read_text(encoding='utf-8'))\ndef write(path, payload):\n    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + '\\\\n', encoding='utf-8')\n\nfor base in (repo, source):\n    wi_path = base / 'WHEEL_INTEGRITY.json'\n    wi = load(wi_path)\n    wi.update({\n        'sha256': report.sha256, 'size_bytes': report.size_bytes,\n        'record_rows': report.record_rows, 'record_hashes_verified': report.record_hashes_verified,\n        'record_mismatches': report.record_mismatches,\n        'metadata_name': report.metadata_name, 'metadata_version': report.metadata_version,\n        'requires_dist': list(item for item in report.requires_dist if 'extra ==' not in item),\n        'isolated_root_api_entries': api.export_count, 'isolated_root_api_sha256': api.export_sha256,\n        'isolated_no_deps_install_import': 'PASS' if api.installed_import else 'FAIL',\n        'source_representation_compared_files': source_rep.compared_files,\n        'source_representation_status': 'PASS' if source_rep.passed else 'FAIL',\n        'status': 'PASS' if report.passed and api.passed and source_rep.passed else 'FAIL',\n    })\n    write(wi_path, wi)\n\n    wv_path = base / 'WHEEL_VERIFICATION_WAVE77.json'\n    wv = load(wv_path)\n    wv.update({\n        'sha256': report.sha256, 'size_bytes': report.size_bytes,\n        'record_rows': report.record_rows, 'record_hashes_verified': report.record_hashes_verified,\n        'record_mismatches': report.record_mismatches,\n        'metadata_name': report.metadata_name, 'metadata_version': report.metadata_version,\n        'requires_dist': list(report.requires_dist),\n        'production_requires_dist': list(item for item in report.requires_dist if 'extra ==' not in item),\n        'isolated_root_api_entries': api.export_count, 'isolated_root_api_sha256': api.export_sha256,\n        'isolated_no_deps_import': 'PASS' if api.installed_import else 'FAIL',\n        'source_representation': {\n            'compared_files': source_rep.compared_files,\n            'mismatches': list(source_rep.mismatches),\n            'missing_from_source': list(source_rep.missing_from_source),\n            'missing_from_wheel': list(source_rep.missing_from_wheel),\n            'root': '.', 'wheel': 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl',\n            'status': 'PASS' if source_rep.passed else 'FAIL',\n        },\n        'status': 'PASS' if report.passed and api.passed and source_rep.passed else 'FAIL',\n    })\n    write(wv_path, wv)\n\nmanifest_path = repo / 'RELEASE_MANIFEST.json'\nmanifest = load(manifest_path)\nmanifest['generated_at'] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')\nmanifest['public_root_api_entries'] = api_count\nmanifest['public_root_api_sha256'] = api_sha\nmanifest['final_wheel'] = {\n    'file': 'nicegui_base-3.0.0a8-py3-none-any.whl',\n    'public_api_entries': api.export_count,\n    'public_api_sha256': api.export_sha256,\n    'record_hashes_verified': report.record_hashes_verified,\n    'record_mismatches': report.record_mismatches,\n    'record_rows': report.record_rows,\n    'sha256': report.sha256,\n    'size_bytes': report.size_bytes,\n    'source_representation': 'PASS' if source_rep.passed else 'FAIL',\n}\nmanifest['source_zero_regression']['automated_tests'] = 1930\nmanifest['source_zero_regression']['fresh_process_batches'] = '6/6 PASS'\nmanifest['source_zero_regression']['test_files'] = 169\nmanifest['source_zero_regression']['wave77_behavioral_tests'] = 43\nwrite(manifest_path, manifest)\n(repo / 'source/RELEASE_MANIFEST.json').write_bytes(manifest_path.read_bytes())\nprint(json.dumps({\n    'wheel_sha256': report.sha256, 'wheel_size_bytes': report.size_bytes,\n    'record_rows': report.record_rows, 'record_hashes_verified': report.record_hashes_verified,\n    'source_representation_compared_files': source_rep.compared_files,\n    'public_api_entries': api.export_count, 'public_api_sha256': api.export_sha256,\n    'release_manifest_generated_at': manifest['generated_at'],\n    'automated_tests': manifest['source_zero_regression']['automated_tests'],\n    'wave77_behavioral_tests': manifest['source_zero_regression']['wave77_behavioral_tests'],\n}, indent=2, sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport shutil\nfrom nicegui_base.governance.final_candidate import (\n    audit_final_release_candidate,\n    build_stable_qualification_handoff,\n    write_final_release_candidate_audit,\n    write_stable_qualification_handoff,\n)\nroot = Path('.').resolve() / 'source'\naudit = audit_final_release_candidate(root, require_final_artifacts=True)\nassert audit.status == 'PASS', audit.to_dict()\nwrite_final_release_candidate_audit(root / 'FINAL_RELEASE_CANDIDATE_AUDIT.json', audit)\nwrite_final_release_candidate_audit(root / 'FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json', audit)\nhandoff = build_stable_qualification_handoff(root, audit)\nwrite_stable_qualification_handoff(root / 'STABLE_QUALIFICATION_HANDOFF.json', handoff)\nfor name in ('FINAL_RELEASE_CANDIDATE_AUDIT.json','FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json','STABLE_QUALIFICATION_HANDOFF.json'):\n    shutil.copyfile(root / name, Path(name))\nprint({\n    'audit_status': audit.status,\n    'errors': len(audit.errors),\n    'warnings': len(audit.warnings),\n    'wheel_sha256': audit.wheel_sha256,\n    'public_api_entries': audit.public_api_entries,\n    'public_api_sha256': audit.public_api_sha256,\n    'source_complete': audit.source_complete,\n    'target_qualification_status': audit.target_qualification_status,\n    'stable_publication_status': audit.stable_publication_status,\n    'handoff_status': handoff['stable_qualification_status'],\n})\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport shutil\nfrom nicegui_base.governance.final_candidate import (\n    audit_final_release_candidate,\n    build_stable_qualification_handoff,\n    write_final_release_candidate_audit,\n    write_stable_qualification_handoff,\n)\nroot = Path('.').resolve()\naudit = audit_final_release_candidate(root, require_final_artifacts=True)\nassert audit.status == 'PASS', audit.to_dict()\nwrite_final_release_candidate_audit(root / 'FINAL_RELEASE_CANDIDATE_AUDIT.json', audit)\nwrite_final_release_candidate_audit(root / 'FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json', audit)\nhandoff = build_stable_qualification_handoff(root, audit)\nwrite_stable_qualification_handoff(root / 'STABLE_QUALIFICATION_HANDOFF.json', handoff)\nfor name in ('FINAL_RELEASE_CANDIDATE_AUDIT.json','FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json','STABLE_QUALIFICATION_HANDOFF.json'):\n    shutil.copyfile(root / name, root.parent / name)\nprint({\n    'audit_status': audit.status,\n    'errors': len(audit.errors),\n    'warnings': len(audit.warnings),\n    'wheel_sha256': audit.wheel_sha256,\n    'public_api_entries': audit.public_api_entries,\n    'public_api_sha256': audit.public_api_sha256,\n    'source_complete': audit.source_complete,\n    'target_qualification_status': audit.target_qualification_status,\n    'stable_publication_status': audit.stable_publication_status,\n    'handoff_status': handoff['stable_qualification_status'],\n})\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nfrom nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest, iter_release_files\nrepo = Path('.').resolve()\nsource = repo / 'source'\nsrc_path = write_sha256_manifest(source, 'SHA256SUMS.txt')\npkg_path = write_sha256_manifest(repo, 'PACKAGE_SHA256SUMS.txt')\nsrc_check = verify_sha256_manifest(source, 'SHA256SUMS.txt', require_exact_coverage=True)\npkg_check = verify_sha256_manifest(repo, 'PACKAGE_SHA256SUMS.txt', require_exact_coverage=True)\nassert src_check.passed, src_check\nassert pkg_check.passed, pkg_check\npkg_entries = [line.split('  ', 1)[1] for line in pkg_path.read_text().splitlines() if line.strip()]\nprint({\n    'source_manifest': str(src_path), 'source_entries': src_check.expected,\n    'package_manifest': str(pkg_path), 'package_entries': pkg_check.expected,\n    'source_status': src_check.to_dict(), 'package_status': pkg_check.to_dict(),\n    'package_git_entries': [item for item in pkg_entries if item == '.git' or item.startswith('.git/')],\n    'root_git_representation': 'directory' if (repo/'.git').is_dir() else 'file' if (repo/'.git').is_file() else 'absent',\n    'release_file_count': len(iter_release_files(repo)),\n})\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nfrom nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest, iter_release_files\nrepo = Path('.').resolve()\nsource = repo / 'source'\nsrc_path = write_sha256_manifest(source, 'SHA256SUMS.txt')\npkg_path = write_sha256_manifest(repo, 'PACKAGE_SHA256SUMS.txt')\nsrc_check = verify_sha256_manifest(source, 'SHA256SUMS.txt', require_exact_coverage=True)\npkg_check = verify_sha256_manifest(repo, 'PACKAGE_SHA256SUMS.txt', require_exact_coverage=True)\nassert src_check.passed, src_check\nassert pkg_check.passed, pkg_check\npkg_entries = [line.split('  ', 1)[1] for line in pkg_path.read_text().splitlines() if line.strip()]\nprint({\n    'source_manifest': str(src_path), 'source_entries': src_check.expected,\n    'package_manifest': str(pkg_path), 'package_entries': pkg_check.expected,\n    'source_status': src_check.to_dict(), 'package_status': pkg_check.to_dict(),\n    'package_git_entries': [item for item in pkg_entries if item == '.git' or item.startswith('.git/')],\n    'root_git_representation': 'directory' if (repo/'.git').is_dir() else 'file' if (repo/'.git').is_file() else 'absent',\n    'release_file_count': len(iter_release_files(repo)),\n})\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport hashlib\nimport os\nimport shutil\nimport subprocess\nimport tempfile\nrepo = Path('.').resolve()\nmanifest = repo / 'PACKAGE_SHA256SUMS.txt'\nentries = []\nfor line in manifest.read_text(encoding='utf-8').splitlines():\n    if line.strip():\n        digest, rel = line.split('  ', 1)\n        entries.append((digest, rel))\nwith tempfile.TemporaryDirectory(prefix='nicegui-base-chg59-clean-') as temp:\n    staging = Path(temp)\n    for _digest, rel in entries:\n        source = repo / rel\n        target = staging / rel\n        target.parent.mkdir(parents=True, exist_ok=True)\n        shutil.copy2(source, target)\n    shutil.copy2(manifest, staging / manifest.name)\n    results = {}\n    for label, directory in [('worktree', repo), ('clean_staging', staging)]:\n        for tool, args in [('shasum', ['-a','256','-c','PACKAGE_SHA256SUMS.txt']), ('sha256sum', ['-c','PACKAGE_SHA256SUMS.txt'])]:\n            found = shutil.which(tool)\n            if not found:\n                results[f'{label}:{tool}'] = {'status':'NOT_AVAILABLE'}\n                continue\n            completed = subprocess.run([found, *args], cwd=directory, text=True, capture_output=True, check=False)\n            results[f'{label}:{tool}'] = {'returncode': completed.returncode, 'checked_lines': len([line for line in completed.stdout.splitlines() if line.endswith(': OK')]), 'stderr': completed.stderr.strip()}\n    print({'manifest_entries': len(entries), 'clean_staging_has_git': (staging/'.git').exists(), 'results': results})\n    assert not (staging/'.git').exists()\n    assert all(item.get('returncode') == 0 for item in results.values() if 'returncode' in item)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests/test_wave34_packaging.py tests/test_wave34_integrity.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "83a1593c5b5783693fe3006d1f6597bcb4f3a5968f23b59481ee09a0477f910a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_phase7_public_api.py source/tests/test_public_api_phase9.py source/tests/test_phase34_v200_release_sync.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "7040371af15613c02e821ec0eecc1d1330f691ace4cef93a41bfa358822c4103",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 513,
+        "output_sha256": "f6abbba8507c78db72f626432929072d9b894197cdec5960c2cfb573b5b2c478",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-contract --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-smoke --output /private/tmp/nicegui_base_chg59_runtime_smoke_final --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"socketio|AsyncClient|live_lab|live.*server|_nicegui_ws\" source tools | head -200\nrtk rg -n \"def .*smoke|runtime-smoke|live\" source/nicegui_base/cli.py source/nicegui_base/governance source/nicegui_base/workbench | head -200'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/nicegui_base/certification/live_lab_cli.py\nrtk sed -n '1,220p' source/nicegui_base/certification/runtime_smoke.py\nrtk rg -n \\\"client_id|socket.io|socketio|connect\\\" source/nicegui_base/certification source/nicegui_base/workbench | head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source /opt/anaconda3/bin/python - <<'PY'\nimport os, subprocess, tempfile, time, urllib.request, re, signal\nport=61359\nwith tempfile.TemporaryDirectory(prefix='nicegui-base-socketio-inspect-') as cwd:\n    env=os.environ.copy(); env['PYTHONPATH']='/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source'; env['PYTHONUNBUFFERED']='1'\n    p=subprocess.Popen(['/opt/anaconda3/bin/python','-m','nicegui_base.certification.live_lab_cli','--host','127.0.0.1','--port',str(port)],cwd=cwd,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)\n    try:\n        for _ in range(100):\n            try:\n                with urllib.request.urlopen(f'http://127.0.0.1:{port}/healthz',timeout=.5) as r:\n                    if r.status==200: break\n            except Exception: time.sleep(.15)\n        with urllib.request.urlopen(f'http://127.0.0.1:{port}/',timeout=5) as r: html=r.read().decode('utf-8','replace')\n        print('html_length',len(html))\n        for pattern in [r'client[_-]?id.{0,120}', r'\\\"id\\\":\\\"[\"'^\"]+\"'\"', r'/_nicegui_ws/socket.io[\"'^\" ]*'\"', r'NiceGUI']:\n            matches=re.findall(pattern,html,re.I)\n            print(pattern, matches[:5])\n        print(html[:1200])\n    finally:\n        p.send_signal(signal.SIGTERM); p.wait(timeout=10)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"implicit_handshake|next_message_id|client_id\" /opt/anaconda3/lib/python3.11/site-packages/nicegui /opt/anaconda3/lib/python3.11/site-packages/nicegui 2>/dev/null | head -100\nrtk rg -n \"socketio_path|_nicegui_ws|socket.io\" /opt/anaconda3/lib/python3.11/site-packages/nicegui 2>/dev/null | head -100'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '170,260p' /opt/anaconda3/lib/python3.11/site-packages/nicegui/nicegui.py\nrtk sed -n '390,490p' /opt/anaconda3/lib/python3.11/site-packages/nicegui/static/nicegui.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source /opt/anaconda3/bin/python - <<'PY'\nimport asyncio, os, re, signal, subprocess, tempfile, time, urllib.parse, urllib.request, uuid\nfrom pathlib import Path\nimport socketio\n\nPORT = 61360\nSOURCE = '/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source'\nwith tempfile.TemporaryDirectory(prefix='nicegui-base-chg59-socketio-final-') as temp:\n    log_path = Path(temp) / 'live_lab.log'\n    env = os.environ.copy(); env['PYTHONPATH'] = SOURCE; env['PYTHONUNBUFFERED'] = '1'\n    with log_path.open('w', encoding='utf-8') as log:\n        process = subprocess.Popen(['/opt/anaconda3/bin/python','-m','nicegui_base.certification.live_lab_cli','--host','127.0.0.1','--port',str(PORT)], cwd=temp, env=env, stdout=log, stderr=subprocess.STDOUT, text=True)\n    try:\n        for _ in range(200):\n            try:\n                with urllib.request.urlopen(f'http://127.0.0.1:{PORT}/healthz', timeout=.5) as response:\n                    if response.status == 200: break\n            except Exception:\n                time.sleep(.1)\n        else:\n            raise RuntimeError('live lab did not become ready')\n        with urllib.request.urlopen(f'http://127.0.0.1:{PORT}/', timeout=8) as response:\n            html = response.read().decode('utf-8', 'replace')\n        client_match = re.search(r\\\"client_id': '([0-9a-f-]+)'\\\", html)\n        next_match = re.search(r\\\"next_message_id': (\\\\d+)\\\", html)\n        if not client_match or not next_match:\n            raise RuntimeError('page did not expose NiceGUI client query')\n        client_id = client_match.group(1)\n        next_message_id = int(next_match.group(1))\n        document_id = str(uuid.uuid4())\n        tab_id = str(uuid.uuid4())\n        query = urllib.parse.urlencode({'client_id': client_id, 'next_message_id': next_message_id})\n        client = socketio.AsyncClient(logger=False, engineio_logger=False)\n        connected = False\n        transport = None\n        handshake_ack = None\n        async def exchange():\n            nonlocal connected, transport, handshake_ack\n            await client.connect(f'http://127.0.0.1:{PORT}?{query}', socketio_path='_nicegui_ws/socket.io', transports=['websocket'], wait_timeout=8)\n            connected = client.connected\n            transport = client.transport()\n            handshake_ack = await client.call('handshake', {'client_id': client_id, 'document_id': document_id, 'tab_id': tab_id, 'next_message_id': next_message_id}, timeout=8)\n            await client.disconnect()\n        asyncio.run(exchange())\n        time.sleep(.25)\n        log_text = log_path.read_text(encoding='utf-8', errors='replace')\n        markers = [marker for marker in ('Traceback (most recent call last):','Exception in ASGI application','ERROR:','TypeError:','RuntimeError:') if marker in log_text]\n        print({'status':'PASS' if connected and transport == 'websocket' and handshake_ack is True and not markers else 'FAIL', 'port':PORT, 'client_id_present':bool(client_id), 'socketio_connected':connected, 'engineio_transport':transport, 'handshake_ack':handshake_ack, 'server_error_markers':markers})\n        assert connected and transport == 'websocket' and handshake_ack is True and not markers\n    finally:\n        if process.poll() is None:\n            process.send_signal(signal.SIGTERM)\n            process.wait(timeout=10)\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source /opt/anaconda3/bin/python - <<'PY'\nimport asyncio, os, re, signal, subprocess, tempfile, time, urllib.parse, urllib.request, uuid\nfrom pathlib import Path\nimport socketio\n\nPORT = 61360\nSOURCE = '/Users/haewonkim/.codex-fabric/worktrees/CF-08b87d25a04c9bf94821e4bb/source'\nwith tempfile.TemporaryDirectory(prefix='nicegui-base-chg59-socketio-final-') as temp:\n    log_path = Path(temp) / 'live_lab.log'\n    env = os.environ.copy(); env['PYTHONPATH'] = SOURCE; env['PYTHONUNBUFFERED'] = '1'\n    with log_path.open('w', encoding='utf-8') as log:\n        process = subprocess.Popen(['/opt/anaconda3/bin/python','-m','nicegui_base.certification.live_lab_cli','--host','127.0.0.1','--port',str(PORT)], cwd=temp, env=env, stdout=log, stderr=subprocess.STDOUT, text=True)\n    try:\n        for _ in range(200):\n            try:\n                with urllib.request.urlopen(f'http://127.0.0.1:{PORT}/healthz', timeout=.5) as response:\n                    if response.status == 200: break\n            except Exception:\n                time.sleep(.1)\n        else:\n            raise RuntimeError('live lab did not become ready')\n        with urllib.request.urlopen(f'http://127.0.0.1:{PORT}/', timeout=8) as response:\n            html = response.read().decode('utf-8', 'replace')\n        client_match = re.search(r\\\"client_id': '([0-9a-f-]+)'\\\", html)\n        next_match = re.search(r\\\"next_message_id': (\\\\d+)\\\", html)\n        if not client_match or not next_match:\n            raise RuntimeError('page did not expose NiceGUI client query')\n        client_id = client_match.group(1)\n        next_message_id = int(next_match.group(1))\n        document_id = str(uuid.uuid4())\n        tab_id = str(uuid.uuid4())\n        query = urllib.parse.urlencode({'client_id': client_id, 'next_message_id': next_message_id})\n        client = socketio.AsyncClient(logger=False, engineio_logger=False)\n        state = {'connected': False, 'transport': None, 'handshake_ack': None}\n        async def exchange():\n            await client.connect(f'http://127.0.0.1:{PORT}?{query}', socketio_path='_nicegui_ws/socket.io', transports=['websocket'], wait_timeout=8)\n            state['connected'] = client.connected\n            state['transport'] = client.transport()\n            state['handshake_ack'] = await client.call('handshake', {'client_id': client_id, 'document_id': document_id, 'tab_id': tab_id, 'next_message_id': next_message_id}, timeout=8)\n            await client.disconnect()\n        asyncio.run(exchange())\n        time.sleep(.25)\n        log_text = log_path.read_text(encoding='utf-8', errors='replace')\n        markers = [marker for marker in ('Traceback (most recent call last):','Exception in ASGI application','ERROR:','TypeError:','RuntimeError:') if marker in log_text]\n        result = {'status':'PASS' if state['connected'] and state['transport'] == 'websocket' and state['handshake_ack'] is True and not markers else 'FAIL', 'port':PORT, 'client_id_present':bool(client_id), 'socketio_connected':state['connected'], 'engineio_transport':state['transport'], 'handshake_ack':state['handshake_ack'], 'server_error_markers':markers}\n        print(result)\n        assert result['status'] == 'PASS', result\n    finally:\n        if process.poll() is None:\n            process.send_signal(signal.SIGTERM)\n            process.wait(timeout=10)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' tools/verify_release_candidate_D4.py\nrtk sed -n '1,200p' source/nicegui_base/governance/cli.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli final-audit --root source --format text\nrtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli stable-qualification-handoff --root source --output /private/tmp/nicegui_base_chg59_handoff_check.json --format text'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python -m nicegui_base.governance.cli --root . --json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli gate . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, hashlib\nfrom nicegui_base.governance.public_api import export_digest, public_api_snapshot\nfrom nicegui_base.governance.release_artifacts import verify_sha256_manifest, verify_wheel, verify_wheel_public_api, verify_wheel_source_representation\nfrom nicegui_base.governance.final_candidate import audit_final_release_candidate\nrepo=Path('.').resolve(); source=repo/'source'; wheel=repo/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl'\nsha=hashlib.sha256(wheel.read_bytes()).hexdigest()\nwr=verify_wheel(wheel); wa=verify_wheel_public_api(wheel); ws=verify_wheel_source_representation(source, source/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl')\nsm=verify_sha256_manifest(source,'SHA256SUMS.txt',require_exact_coverage=True); pm=verify_sha256_manifest(repo,'PACKAGE_SHA256SUMS.txt',require_exact_coverage=True)\naudit=audit_final_release_candidate(source,require_final_artifacts=True)\nassert all((wr.passed, wa.passed, ws.passed, sm.passed, pm.passed, audit.status=='PASS'))\nassert sha=='14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da'\nassert wa.export_count==len(public_api_snapshot())==1550 and wa.export_sha256==export_digest()=='2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb'\nassert not any(line.endswith('  .git') or '  .git/' in line for line in (repo/'PACKAGE_SHA256SUMS.txt').read_text().splitlines())\nfor name in ['CERTIFICATION_REPORT.json','TEST_REPORT.json','LIVE_CERTIFICATION_READINESS.json','TEST_BATCH_EXECUTION.json','WHEEL_INTEGRITY.json','WHEEL_VERIFICATION_WAVE77.json','RELEASE_MANIFEST.json','FINAL_RELEASE_CANDIDATE_AUDIT.json','FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json','STABLE_QUALIFICATION_HANDOFF.json']:\n    assert (repo/name).read_bytes()==(source/name).read_bytes(), name\nprint(json.dumps({\n 'wheel': {'sha256':sha,'size_bytes':wr.size_bytes,'record_rows':wr.record_rows,'record_hashes_verified':wr.record_hashes_verified,'record_mismatches':wr.record_mismatches,'metadata':f'{wr.metadata_name} {wr.metadata_version}','requires_dist':list(wr.requires_dist)},\n 'wheel_source': {'status':'PASS','compared_files':ws.compared_files},\n 'public_api': {'entries':wa.export_count,'sha256':wa.export_sha256,'installed_import':wa.installed_import},\n 'source_manifest': sm.to_dict(), 'package_manifest': pm.to_dict(),\n 'final_audit': {'status':audit.status,'errors':len(audit.errors),'warnings':len(audit.warnings),'wheel_sha256':audit.wheel_sha256,'target_qualification_status':audit.target_qualification_status,'stable_publication_status':audit.stable_publication_status},\n 'mirrors': 'PASS', 'package_git_entry': 'ABSENT',\n}, indent=2, sort_keys=True))\nPY\nrtk git diff --check\nrtk git diff --stat\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- source/nicegui_base/governance/release_artifacts.py source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py\nrtk git diff -- CERTIFICATION_REPORT.json TEST_REPORT.json LIVE_CERTIFICATION_READINESS.json TEST_BATCH_EXECUTION.json RELEASE_MANIFEST.json WHEEL_INTEGRITY.json WHEEL_VERIFICATION_WAVE77.json FINAL_RELEASE_CANDIDATE_AUDIT.json STABLE_QUALIFICATION_HANDOFF.json | head -260\nrtk git diff --numstat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"pytest_report|TEST_BATCH_EXECUTION|automated_tests|batches\\\" source/nicegui_base/governance/source_evidence.py\nrtk sed -n '820,980p' source/nicegui_base/governance/source_evidence.py\nrtk git show HEAD:TEST_BATCH_EXECUTION.json | head -50\nrtk git show HEAD:source/TEST_BATCH_EXECUTION.json | head -50\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 3550,
+        "output_sha256": "837d47c5d7c426a92902acc30aa5a542ca072f6a6c71947942cba7f05326a53e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk test -x .venv/bin/python\nrtk test -x source/../.venv/bin/python\nrtk test -x /opt/anaconda3/bin/python3.12\nrtk test -x /Users/haewonkim/.local/bin/python3.13'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy test -x .venv/bin/python'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nfrom nicegui_base.governance.release_artifacts import _TRANSIENT_DIRS\nrepo=Path('.').resolve(); pointer=repo/'.git'; rel=pointer.relative_to(repo)\nold_logic=any(part in _TRANSIENT_DIRS or part.endswith('.egg-info') for part in rel.parts[:-1])\nnew_logic=any(part in _TRANSIENT_DIRS for part in rel.parts) or any(part.endswith('.egg-info') for part in rel.parts[:-1])\nprint({'root_git_is_file':pointer.is_file(),'relative_parts':rel.parts,'old_logic_would_include_root_pointer':not old_logic,'new_logic_excludes_root_pointer':new_logic,'reserved_component_rule':'.git' in rel.parts})\nPY\nrtk rg -n \\\"\"'^def test_wave77_\" source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py | wc -l\nrtk rg -n \"''^def test_wave77_\" source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add -- CERTIFICATION_REPORT.json FINAL_RELEASE_CANDIDATE_AUDIT.json FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json LIVE_CERTIFICATION_READINESS.json PACKAGE_SHA256SUMS.txt RELEASE_MANIFEST.json STABLE_QUALIFICATION_HANDOFF.json TEST_BATCH_EXECUTION.json TEST_REPORT.json WHEEL_INTEGRITY.json WHEEL_VERIFICATION_WAVE77.json source/CERTIFICATION_REPORT.json source/FINAL_RELEASE_CANDIDATE_AUDIT.json source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json source/LIVE_CERTIFICATION_READINESS.json source/RELEASE_MANIFEST.json source/SHA256SUMS.txt source/STABLE_QUALIFICATION_HANDOFF.json source/TEST_BATCH_EXECUTION.json source/TEST_REPORT.json source/WHEEL_INTEGRITY.json source/WHEEL_VERIFICATION_WAVE77.json source/dist/nicegui_base-3.0.0a8-py3-none-any.whl source/nicegui_base/certification/certification_manifest.json source/nicegui_base/governance/release_artifacts.py source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl wheel/nicegui_base-3.0.0a8-py3-none-any.whl\nrtk git diff --cached --check\nrtk git diff --cached --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"Fix release manifest VCS metadata portability\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch\nrtk git rev-parse HEAD\nrtk git rev-parse HEAD''^\nrtk git rev-parse HEAD''^{tree}\nrtk git merge-base --is-ancestor 000298562d6bcbf6df304edbd41b98b30fe4bfcf HEAD\nrtk git rev-parse origin/main\nrtk git rev-parse main\nrtk git show -s --format='\"'%H%n%P%n%s' HEAD\nrtk git diff 000298562d6bcbf6df304edbd41b98b30fe4bfcf..HEAD --name-only\nrtk git diff 000298562d6bcbf6df304edbd41b98b30fe4bfcf..HEAD --stat\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 357,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.62,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 12779264,
+      "fresh_input_tokens": 446726,
+      "input_tokens": 13225990,
+      "non_reasoning_output_tokens": 43675,
+      "output_tokens": 81668,
+      "reasoning_output_tokens": 37993,
+      "total_processed_tokens": 13307658
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-15T23:18:28Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-runtime-server-fix-1",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-runtime-server-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-08b87d25a04c9bf94821e4bb",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-runtime-server-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-runtime-server-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "ac9bd8dedb364d22fc9c0fc6a50334cbf5b7f53a5a0602aa17553d680a87690e"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-runtime-server-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-15T22:41:27Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2221,
+    "queue_seconds": 1,
+    "total_seconds": 2222
+  },
+  "transport": {
+    "bytes": 8487,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8160,
+    "prompt_sha256": "4313770035bc85d1ca59f9226c58c089b000a56343fa4a7904ec1bf72794b029",
+    "sha256": "08b87d25a04c9bf94821e4bbe43f7259a8318ea234b952690f54e131d2a35166"
+  }
+}
