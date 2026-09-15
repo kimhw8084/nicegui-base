@@ -8,6 +8,9 @@ import json
 import os
 import re
 import stat
+import subprocess
+import sys
+import tempfile
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
@@ -86,6 +89,27 @@ class WheelSourceVerification:
             'root': str(self.root), 'wheel': str(self.wheel), 'compared_files': self.compared_files,
             'mismatches': list(self.mismatches), 'missing_from_source': list(self.missing_from_source),
             'missing_from_wheel': list(self.missing_from_wheel), 'status': 'PASS' if self.passed else 'FAIL',
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class WheelPublicApiVerification:
+    path: Path
+    export_count: int
+    export_sha256: str
+    installed_import: bool
+
+    @property
+    def passed(self) -> bool:
+        return self.installed_import
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            'path': str(self.path),
+            'export_count': self.export_count,
+            'export_sha256': self.export_sha256,
+            'installed_import': self.installed_import,
+            'status': 'PASS' if self.passed else 'FAIL',
         }
 
 
@@ -263,6 +287,59 @@ def verify_wheel_source_representation(root: str | Path, wheel_path: str | Path)
     return WheelSourceVerification(root, wheel_path, compared, tuple(mismatches), tuple(sorted(missing_source)), tuple(missing_wheel))
 
 
+def verify_wheel_public_api(path: str | Path, *, python_executable: str | Path | None = None) -> WheelPublicApiVerification:
+    """Measure the root API from a real temporary no-deps wheel installation.
+
+    The probe imports the same ``nicegui_base.governance.public_api`` authority
+    used for source contract generation.  It deliberately removes repository
+    path variables and asserts that the imported package comes from the
+    temporary install, preventing a checkout import from masking packaging
+    drift.
+    """
+    path = Path(path).resolve()
+    python = str(python_executable or sys.executable)
+    clean_env = dict(os.environ)
+    for key in ('PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'):
+        clean_env.pop(key, None)
+    clean_env.update(PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1', PYTHONUNBUFFERED='1')
+    probe = (
+        'import json, sys; '
+        'from pathlib import Path; '
+        'root = Path(sys.argv[1]).resolve(); sys.path.insert(0, str(root)); '
+        'import nicegui_base; '
+        'from nicegui_base.governance.public_api import export_digest, export_names; '
+        'package = Path(nicegui_base.__file__).resolve(); '
+        'print(json.dumps({"package": str(package), "root": str(root), '
+        '"export_count": len(export_names()), "export_sha256": export_digest()}))'
+    )
+    with tempfile.TemporaryDirectory(prefix='nicegui-base-wheel-api-') as directory:
+        target = Path(directory) / 'install'
+        target.mkdir()
+        install = subprocess.run(
+            [python, '-m', 'pip', 'install', '--disable-pip-version-check', '--no-index', '--no-deps', '--target', str(target), str(path)],
+            capture_output=True, text=True, env=clean_env, check=False,
+        )
+        if install.returncode:
+            raise RuntimeError(f'isolated wheel installation failed: {install.stdout}\n{install.stderr}')
+        result = subprocess.run(
+            [python, '-I', '-c', probe, str(target)],
+            capture_output=True, text=True, env=clean_env, check=False,
+        )
+        if result.returncode:
+            raise RuntimeError(f'isolated wheel import failed: {result.stdout}\n{result.stderr}')
+        payload = json.loads(result.stdout)
+        package = Path(str(payload.get('package', ''))).resolve()
+        installed_import = package.is_relative_to(target.resolve())
+        if not installed_import:
+            raise RuntimeError(f'isolated wheel import escaped temporary install: {package}')
+        return WheelPublicApiVerification(
+            path=path,
+            export_count=int(payload['export_count']),
+            export_sha256=str(payload['export_sha256']),
+            installed_import=True,
+        )
+
+
 def _safe_archive_name(name: str) -> bool:
     posix = PurePosixPath(name)
     return bool(name) and not posix.is_absolute() and '..' not in posix.parts and '\\' not in name
@@ -324,7 +401,7 @@ def verify_release_archive(path: str | Path, *, manifest_name: str = 'SHA256SUMS
 
 
 __all__ = [
-    'ManifestVerification', 'WheelVerification', 'WheelSourceVerification', 'ArchiveVerification', 'sha256_file',
-    'iter_release_files', 'write_sha256_manifest', 'verify_sha256_manifest', 'verify_wheel', 'verify_wheel_source_representation',
+    'ManifestVerification', 'WheelVerification', 'WheelSourceVerification', 'WheelPublicApiVerification', 'ArchiveVerification', 'sha256_file',
+    'iter_release_files', 'write_sha256_manifest', 'verify_sha256_manifest', 'verify_wheel', 'verify_wheel_source_representation', 'verify_wheel_public_api',
     'build_deterministic_zip', 'verify_release_archive',
 ]

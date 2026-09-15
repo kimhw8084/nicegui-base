@@ -1,4 +1,5 @@
 {
+  "evidence_classification": "HISTORICAL_PROVENANCE_ONLY",
   "artifact": {
     "name": "nicegui_base-3.0.0a8-py3-none-any.whl",
     "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",

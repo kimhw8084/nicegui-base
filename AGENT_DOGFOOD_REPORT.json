@@ -1,4 +1,5 @@
 {
+  "evidence_classification": "HISTORICAL_PROVENANCE_ONLY",
   "framework_version": "3.0.0a8",
   "passed": true,
   "status": "PASS",

@@ -48,6 +48,19 @@ def _stable_default(value: Any) -> Any:
 
 
 def _callable_contract(value: Any) -> dict[str, Any]:
+    # Enum class signatures vary across supported Python minors: Python 3.11
+    # exposes EnumType.__call__, while Python 3.12/3.13 expose ``*values``.
+    # The latter is the stable public construction contract for an enum class.
+    if inspect.isclass(value) and issubclass(value, enum.Enum):
+        return {
+            'parameters': [{
+                'name': 'values',
+                'kind': 'VAR_POSITIONAL',
+                'annotation': '',
+                'default': {'present': False},
+            }],
+            'return': '',
+        }
     try:
         signature = inspect.signature(value)
     except (TypeError, ValueError):
@@ -75,6 +88,10 @@ def _symbol_contract(name: str) -> dict[str, Any]:
     else:
         kind = 'constant'
     module = getattr(value, '__module__', type(value).__module__ if value is not None else '')
+    # pathlib moved its concrete implementation to a private module on some
+    # supported Python minors; the public owning module remains pathlib.
+    if module.startswith('pathlib.'):
+        module = 'pathlib'
     contract: dict[str, Any] = {'kind': kind, 'module': module}
     if kind in {'class', 'function'}:
         contract['callable'] = _callable_contract(value)

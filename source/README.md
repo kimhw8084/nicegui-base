@@ -3,13 +3,13 @@
 NiceGUI Base is the company-standard NiceGUI base template and application framework for rapidly building production-quality internal web applications. It provides the golden starting point, reusable UI/data/application primitives, engineering examples, validation, packaging, and release guardrails so teams can focus on their application logic instead of rebuilding infrastructure. `3.0.0a8` is the first v3 architecture line: it keeps the certified v2 rendering/design contracts as the compatibility floor while adding governed application runtime, data, workspace, interaction and extension layers above them.
 
 
-## NiceGUI Base identity refactor status
+## NiceGUI Base identity status
 
-The active framework identity is fully refactored to **NiceGUI Base**. The distribution and wheel are `nicegui-base`, Python imports are `nicegui_base`, primary commands are `nicegui-base*`, generated apps use the `.nicegui_base` metadata directory and `NICEGUI_BASE_*` variables, and current release/certification authorities use the new identity. Compatibility aliases exist only for migration and are explicitly deprecated.
+NiceGUI Base is the sole supported current identity. The distribution and wheel are `nicegui-base`, Python imports are `nicegui_base`, primary commands are `nicegui-base*`, generated apps use the `.nicegui_base` metadata directory and `NICEGUI_BASE_*` variables, and current release/certification authorities use this identity. Former product-name aliases are removed.
 
-## Rename from Company UI
+## Identity guidance
 
-The project identity is now **NiceGUI Base**. New code uses the `nicegui_base` Python package, the `nicegui-base` distribution, `nicegui-base ...` CLI commands, and `NICEGUI_BASE_*` environment variables. A deprecated `company_ui` root import, former `company-ui*` console-script aliases, and `COMPANY_UI_*` environment-variable fallback remain only for migration. Historical release evidence keeps the former name when necessary to preserve provenance. Internal `cui-*` CSS/DOM tokens are intentionally retained as a stable compatibility namespace and are not user-facing branding.
+Use the `nicegui_base` Python package, the `nicegui-base` distribution, `nicegui-base ...` CLI commands, and `NICEGUI_BASE_*` environment variables. Historical release evidence may retain former naming when necessary to preserve provenance. Internal `cui-*` CSS/DOM tokens are intentionally retained as a stable internal namespace and are not user-facing branding.
 
 ## Release status
 

@@ -1,4 +1,5 @@
 {
+  "evidence_classification": "HISTORICAL_PROVENANCE_ONLY",
   "checks_total": 3,
   "chromium": "/usr/bin/chromium",
   "failed_checks": 0,

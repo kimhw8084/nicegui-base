@@ -131,7 +131,7 @@ def test_spatial_views_are_custom_svg_renderers_not_generic_scatter_aliases():
     assert 'class WaferMap(_SpatialSvgPanel)' in source
     assert 'class SpatialMap(_SpatialSvgPanel)' in source
     assert 'cui-wafer-boundary' in source and 'cui-wafer-notch' in source and 'cui-spatial-cell' in source
-    assert "window.CompanyUISpatial.zoom" in source and "window.CompanyUISpatial.reset" in source
+    assert "window.NiceGUIBaseSpatial.zoom" in source and "window.NiceGUIBaseSpatial.reset" in source
 
 
 def test_shell_header_owns_title_subtitle_greeting_settings_and_user_region():

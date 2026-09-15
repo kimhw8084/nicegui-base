@@ -22,6 +22,7 @@ from nicegui_base.governance.release_artifacts import (
     verify_release_archive,
     verify_sha256_manifest,
     verify_wheel,
+    verify_wheel_public_api,
     verify_wheel_source_representation,
     write_sha256_manifest,
 )
@@ -250,6 +251,14 @@ def test_wave77_current_release_wheel_is_record_and_dependency_clean():
     assert tuple(item for item in wheel.requires_dist if 'extra ==' not in item) == ('nicegui==3.15.0',)
 
 
+def test_wave77_current_release_wheel_reproduces_source_public_api():
+    contract = json.loads((ROOT / 'PUBLIC_API_CONTRACT.json').read_text(encoding='utf-8'))
+    wheel = verify_wheel_public_api(ROOT / 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl')
+    assert wheel.passed
+    assert wheel.export_count == contract['export_count'] == 1550
+    assert wheel.export_sha256 == contract['sha256'] == '2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb'
+
+
 def test_wave77_release_artifact_helpers_add_no_runtime_dependency():
     text = (ROOT / 'nicegui_base/governance/release_artifacts.py').read_text(encoding='utf-8')
     for forbidden in ('requests', 'pandas', 'numpy', 'yaml'):
@@ -258,7 +267,11 @@ def test_wave77_release_artifact_helpers_add_no_runtime_dependency():
 
 def test_wave77_public_api_has_no_unreviewed_root_exports_before_freeze():
     import nicegui_base
+    from nicegui_base.governance.public_api import export_digest, public_api_snapshot
     assert len(set(nicegui_base.__all__)) == 1550
+    assert export_digest(public_api_snapshot()) == json.loads((ROOT / 'PUBLIC_API_CONTRACT.json').read_text(encoding='utf-8'))['sha256']
+    assert public_api_snapshot()['ThemeMode']['callable']['parameters'][0]['kind'] == 'VAR_POSITIONAL'
+    assert public_api_snapshot()['VISUAL_ROOT']['module'] == 'pathlib'
     assert 'TableViewSnapshot' in nicegui_base.__all__
     assert {'EmpiricalCDFChart', 'ViolinPlot', 'RidgePlot', 'WaferContourPlot', 'SankeyDiagram', 'RelationshipGraph', 'FaultTreeDiagram', 'WaterfallDiagram', 'QQProbabilityPlot', 'CapabilityHistogram', 'WeibullPlot'} <= set(nicegui_base.__all__)
     assert 'audit_final_release_candidate' not in nicegui_base.__all__

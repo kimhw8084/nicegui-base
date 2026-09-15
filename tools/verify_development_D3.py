@@ -79,7 +79,7 @@ def _run(command: list[str | Path], *, cwd: Path, env: dict[str, str] | None, lo
 def _clean_env(*, source: Path | None = None) -> dict[str, str]:
     environment = os.environ.copy()
     for key in tuple(environment):
-        if key in {'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'} or key.startswith(('NICEGUI_', 'COMPANY_UI_')):
+        if key in {'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'} or key.startswith('NICEGUI_'):
             environment.pop(key, None)
     environment.update(PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1', PYTHONUNBUFFERED='1')
     if source is not None:

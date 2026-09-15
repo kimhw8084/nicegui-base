@@ -1,10 +1,10 @@
 {
   "compatibility": {
-    "console_scripts": "deprecated_aliases",
+    "console_scripts": "removed",
     "cui_dom_css_tokens": "retained_stable_internal_namespace",
     "deep_private_imports": "not_guaranteed",
-    "environment_variables": "fallback_only",
-    "root_import": "deprecated_alias"
+    "environment_variables": "not_supported",
+    "root_import": "removed"
   },
   "current": {
     "cli": "nicegui-base",
@@ -14,12 +14,6 @@
     "python_package": "nicegui_base"
   },
   "historical_evidence": "preserved_when_rewriting_would_falsify_provenance",
-  "legacy": {
-    "cli": "company-ui",
-    "display_name": "Company UI",
-    "distribution": "company-ui",
-    "environment_prefix": "COMPANY_UI_",
-    "python_package": "company_ui"
-  },
-  "schema_version": 1
+  "former_identity": "historical_provenance_only",
+  "schema_version": 2
 }

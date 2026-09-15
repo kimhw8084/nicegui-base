@@ -3,7 +3,7 @@
   "framework_version": "3.0.0a8",
   "policy": "Removal or incompatible signature change requires a major-version decision; additions require explicit contract regeneration.",
   "schema_version": 3,
-  "sha256": "e95e39216927ff2040cedcdf9e27d2e1ef25e4a100b7cc87c8ceaead24f12d36",
+  "sha256": "2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb",
   "stability": "frozen-for-2.0",
   "symbols": {
     "AI_CONSTRUCTION_REGISTRY": {
@@ -5450,7 +5450,7 @@
     },
     "COMPATIBILITY_PATH": {
       "kind": "constant",
-      "module": "pathlib._local"
+      "module": "pathlib"
     },
     "COMPONENT_REGISTRY": {
       "kind": "constant",
@@ -13854,61 +13854,8 @@
             "default": {
               "present": false
             },
-            "kind": "POSITIONAL_ONLY",
-            "name": "new_class_name"
-          },
-          {
-            "annotation": "",
-            "default": {
-              "present": false
-            },
-            "kind": "POSITIONAL_OR_KEYWORD",
-            "name": "names"
-          },
-          {
-            "annotation": "",
-            "default": {
-              "present": true,
-              "value": null
-            },
-            "kind": "KEYWORD_ONLY",
-            "name": "module"
-          },
-          {
-            "annotation": "",
-            "default": {
-              "present": true,
-              "value": null
-            },
-            "kind": "KEYWORD_ONLY",
-            "name": "qualname"
-          },
-          {
-            "annotation": "",
-            "default": {
-              "present": true,
-              "value": null
-            },
-            "kind": "KEYWORD_ONLY",
-            "name": "type"
-          },
-          {
-            "annotation": "",
-            "default": {
-              "present": true,
-              "value": 1
-            },
-            "kind": "KEYWORD_ONLY",
-            "name": "start"
-          },
-          {
-            "annotation": "",
-            "default": {
-              "present": true,
-              "value": null
-            },
-            "kind": "KEYWORD_ONLY",
-            "name": "boundary"
+            "kind": "VAR_POSITIONAL",
+            "name": "values"
           }
         ],
         "return": ""
@@ -45060,7 +45007,7 @@
     },
     "VISUAL_ROOT": {
       "kind": "constant",
-      "module": "pathlib._local"
+      "module": "pathlib"
     },
     "ValidationIssue": {
       "callable": {

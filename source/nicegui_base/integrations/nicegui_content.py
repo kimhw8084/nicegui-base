@@ -197,15 +197,15 @@ class ImageViewer:
                     ui.label('Wheel to zoom · drag to pan · double-click to fit').classes('cui-image-viewer__hint')
                 with ui.element('div').classes('cui-image-viewer__actions'):
                     ui.label('100%').classes('cui-image-viewer__zoom cui-tabular').props(f'id={json.dumps(self.zoom_id)} aria-live="polite"')
-                    self._tool(ui,'minus','Zoom out',f"window.CompanyUISpatial&&window.CompanyUISpatial.zoom('{self.viewport_id}',0.84)")
-                    self._tool(ui,'add','Zoom in',f"window.CompanyUISpatial&&window.CompanyUISpatial.zoom('{self.viewport_id}',1.18)")
-                    self._tool(ui,'refresh','Fit image',f"window.CompanyUISpatial&&window.CompanyUISpatial.reset('{self.viewport_id}')")
+                    self._tool(ui,'minus','Zoom out',f"window.NiceGUIBaseSpatial&&window.NiceGUIBaseSpatial.zoom('{self.viewport_id}',0.84)")
+                    self._tool(ui,'add','Zoom in',f"window.NiceGUIBaseSpatial&&window.NiceGUIBaseSpatial.zoom('{self.viewport_id}',1.18)")
+                    self._tool(ui,'refresh','Fit image',f"window.NiceGUIBaseSpatial&&window.NiceGUIBaseSpatial.reset('{self.viewport_id}')")
             with ui.element('div').classes('cui-image-viewer__viewport cui-spatial-viewport').props(
                 f'id={json.dumps(self.viewport_id)} tabindex="0" aria-label={json.dumps(alt)} data-cui-spatial-scale="1.000"'
             ):
                 self.image=ui.image(source).props(f'alt={json.dumps(alt)} draggable=false').classes('cui-image-viewer__image cui-spatial-svg-host')
                 ui.label('FIT').classes('cui-image-viewer__mode').props('aria-hidden="true"')
-        ui.run_javascript(f"""(() => {{ const id={json.dumps(self.viewport_id)}, zoomId={json.dumps(self.zoom_id)}; const host=document.getElementById(id); if(!host||!window.CompanyUISpatial)return; window.CompanyUISpatial.attach(id); const sync=e=>{{const s=e?.detail?.scale ?? window.CompanyUISpatial.stateOf(id)?.scale ?? 1; const out=document.getElementById(zoomId); if(out)out.textContent=`${{Math.round(s*100)}}%`; const mode=host.querySelector('.cui-image-viewer__mode'); if(mode)mode.textContent=s<=1.001?'FIT':'INSPECT';}}; host.addEventListener('cui-spatial-change',sync); sync(); }})()""")
+        ui.run_javascript(f"""(() => {{ const id={json.dumps(self.viewport_id)}, zoomId={json.dumps(self.zoom_id)}; const host=document.getElementById(id); if(!host||!window.NiceGUIBaseSpatial)return; window.NiceGUIBaseSpatial.attach(id); const sync=e=>{{const s=e?.detail?.scale ?? window.NiceGUIBaseSpatial.stateOf(id)?.scale ?? 1; const out=document.getElementById(zoomId); if(out)out.textContent=`${{Math.round(s*100)}}%`; const mode=host.querySelector('.cui-image-viewer__mode'); if(mode)mode.textContent=s<=1.001?'FIT':'INSPECT';}}; host.addEventListener('cui-spatial-change',sync); sync(); }})()""")
 
     @staticmethod
     def _tool(ui, icon:str, label:str, js:str):
