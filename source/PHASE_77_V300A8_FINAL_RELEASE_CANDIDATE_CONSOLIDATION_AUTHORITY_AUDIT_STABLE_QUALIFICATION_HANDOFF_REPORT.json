@@ -1,4 +1,5 @@
 {
+  "evidence_classification": "HISTORICAL_PROVENANCE_ONLY",
   "baseline": "Wave 77 source-complete candidate before NiceGUI Base identity refactor",
   "certification_boundary": "Wave 77 consolidates and audits the existing Waves 59\u201376 authority stack. It creates no new evidence authority and cannot manufacture installed target-runtime, browser, provider/data, human, reviewer, deployment, publication, monitoring, incident, or rollback evidence. Source completion is not stable 3.0.0 publication.",
   "continuation": "No additional source-only feature wave is planned. Proceed to real local/company target qualification on Wave 77; reopen development only for defects or approved major changes found by target testing.",

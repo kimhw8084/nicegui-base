@@ -432,7 +432,7 @@
   "findings": [
     {
       "code": "legacy_module_reexports_preserved",
-      "message": "79 legacy root module re-exports remain frozen for compatibility; Wave 77 does not remove them.",
+      "message": "80 legacy root module re-exports remain frozen for compatibility; Wave 77 does not remove them.",
       "paths": [
         "ai",
         "analysis",
@@ -456,8 +456,8 @@
         "data_engine",
         "data_sources",
         "data_table",
-        "design",
-        "diagnostics"
+        "debug_runtime",
+        "design"
       ],
       "remediation": "Consider deprecation only in a future major-version decision.",
       "severity": "info"
@@ -473,8 +473,8 @@
     "release_kind": "v3-alpha-wave77-final-release-candidate-consolidation-nicegui-base-identity-refactor",
     "release_status": "ALPHA"
   },
-  "public_api_entries": 1525,
-  "public_api_sha256": "0693fd41e7e8f628b2ff65431094a420bf085d53a56b7fb62d8c48fa4433a1a6",
+  "public_api_entries": 1550,
+  "public_api_sha256": "e95e39216927ff2040cedcdf9e27d2e1ef25e4a100b7cc87c8ceaead24f12d36",
   "schema_version": 1,
   "source_complete": true,
   "stable_publication_status": "NOT_PERFORMED",
@@ -484,5 +484,5 @@
     "warnings": 0
   },
   "target_qualification_status": "PENDING",
-  "wheel_sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15"
+  "wheel_sha256": "e3ad252013ac2d164e10de6508132109c23eaa8035363b40be864ef83a749317"
 }
