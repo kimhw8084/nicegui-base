@@ -1,9 +1,8 @@
 {
-  "scope": "source/static evidence only; target runtime, browser and human evidence are recorded separately",
   "browser_matrix": "PENDING",
   "browser_native_uiux_constitution": "PENDING",
   "framework_version": "3.0.0a8",
-  "generated_at": "2026-09-09T02:15:47Z",
+  "generated_at": "2026-09-15T18:23:26Z",
   "human_visual_baseline": "PENDING",
   "nicegui_version": "3.15.0",
   "note": "Source PASS does not certify the final release. Target runtime/browser/human gates remain mandatory.",
@@ -12,8 +11,9 @@
   "release_status": "ALPHA",
   "runtime_contract": "PENDING",
   "runtime_smoke_21_routes": "PENDING",
+  "scope": "source/static evidence only; target runtime, browser and human evidence are recorded separately",
   "source_validation": {
-    "automated_tests": 1880,
+    "automated_tests": 1927,
     "compileall": "PASS",
     "governance": {
       "errors": 0,

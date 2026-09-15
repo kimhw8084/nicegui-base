@@ -121,6 +121,32 @@ def test_wave77_evidence_index_classifies_gold_historical_and_browser_pending():
     assert 'TARGET_RUNTIME_GATE_ATTEMPT.json' in pending
 
 
+def test_wave77_historical_release_authority_is_not_routed_as_current():
+    audit = audit_final_release_candidate(ROOT, require_final_artifacts=False)
+    phase_report = 'PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json'
+    current = {item['path'] for item in audit.evidence_index['current']}
+    historical = {item['path']: item['classification'] for item in audit.evidence_index['historical']}
+    assert phase_report not in current
+    assert historical[phase_report] == 'HISTORICAL_PROVENANCE_ONLY'
+
+
+def test_wave77_self_classified_historical_artifact_cannot_reenter_current_route(tmp_path: Path):
+    import shutil
+
+    work = tmp_path / 'source'
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns('.pytest_cache', '__pycache__', '*.pyc'))
+    path = work / 'PUBLIC_API_COMPATIBILITY_WAVE77.json'
+    payload = json.loads(path.read_text(encoding='utf-8'))
+    payload['evidence_classification'] = 'HISTORICAL_PROVENANCE_ONLY'
+    path.write_text(json.dumps(payload, indent=2) + '\n', encoding='utf-8')
+
+    audit = audit_final_release_candidate(work, require_final_artifacts=False)
+    current = {item['path'] for item in audit.evidence_index['current']}
+    historical = {item['path']: item['classification'] for item in audit.evidence_index['historical']}
+    assert 'PUBLIC_API_COMPATIBILITY_WAVE77.json' not in current
+    assert historical['PUBLIC_API_COMPATIBILITY_WAVE77.json'] == 'HISTORICAL_PROVENANCE_ONLY'
+
+
 def test_wave77_generated_guide_is_installed_but_framework_release_commands_are_not_misrouted_into_apps():
     from nicegui_base.ai.scaffold import GUIDE_NAMES
     assert 'FINAL_RELEASE_CANDIDATE_STABLE_QUALIFICATION_HANDOFF.md' in GUIDE_NAMES

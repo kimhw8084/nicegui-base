@@ -15,14 +15,14 @@
     "record_hashes_verified": 692,
     "record_mismatches": 0,
     "record_rows": 693,
-    "sha256": "76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc",
-    "size_bytes": 2437686,
+    "sha256": "a826c62a581783a5d003d8fd25fcadb89b61718298448e1e507bb2a6242435b1",
+    "size_bytes": 2438022,
     "source_representation": "PASS"
   },
   "framework": "nicegui-base",
   "framework_display_name": "NiceGUI Base",
   "framework_version": "3.0.0a8",
-  "generated_at": "2026-08-30T23:37:14Z",
+  "generated_at": "2026-09-15T18:27:37Z",
   "identity_refactor": {
     "distribution": "nicegui-base",
     "legacy_aliases": "REMOVED_PROVENANCE_ONLY",
@@ -42,8 +42,8 @@
   "release_kind": "v3-alpha-wave77-final-release-candidate-consolidation-nicegui-base-identity-refactor",
   "release_status": "ALPHA",
   "source_zero_regression": {
-    "automated_tests": 1587,
-    "fresh_process_batches": "10/10 PASS",
+    "automated_tests": 1927,
+    "fresh_process_batches": "6/6 PASS",
     "governance_errors": 0,
     "governance_warnings": 0,
     "nicegui_base_identity_tests": 6,
@@ -51,9 +51,9 @@
     "shipped_example_warnings": 0,
     "shipped_examples": 41,
     "status": "PASS",
-    "test_files": 138,
-    "visual_integration_coverage": "183/183",
-    "wave77_behavioral_tests": 36
+    "test_files": 169,
+    "visual_integration_coverage": "185/185",
+    "wave77_behavioral_tests": 40
   },
   "target_runtime": "PENDING (requires exact installed nicegui==3.15.0 target execution)",
   "wave61": {
@@ -297,7 +297,7 @@
     "api_removals": 0,
     "changed_frozen_signatures": 0,
     "final_release_candidate_audit": "PASS",
-    "fresh_process_batches": 9,
+    "fresh_process_batches": 6,
     "new_evidence_authority": false,
     "new_root_public_apis": 0,
     "public_root_api_entries": 1550,
