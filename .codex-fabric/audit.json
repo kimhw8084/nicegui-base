@@ -1,0 +1,949 @@
+{
+  "accepted_at": "2026-09-15T02:05:51Z",
+  "changed_files": [
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 11,
+      "path": "IDENTITY_MIGRATION.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 442,
+      "deletions": 163,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "PUBLIC_API_COMPATIBILITY_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 72,
+      "deletions": 71,
+      "path": "PYTEST_BATCH_REPORT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 11,
+      "path": "app.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "context/20_ARCHITECTURE_STATE.md",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 30,
+      "path": "pyproject.toml",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 11,
+      "path": "source/IDENTITY_MIGRATION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "source/PUBLIC_API_COMPATIBILITY_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 72,
+      "deletions": 71,
+      "path": "source/PYTEST_BATCH_REPORT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/README.md",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 304,
+      "deletions": 134,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 0,
+      "deletions": 3,
+      "path": "source/company_ui/MIGRATION.md",
+      "status": "D"
+    },
+    {
+      "additions": 0,
+      "deletions": 16,
+      "path": "source/company_ui/__init__.py",
+      "status": "D"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "source/docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/ai/guides/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 11,
+      "path": "source/nicegui_base/identity_migration.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/nicegui_base/integrations/nicegui_content.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 11,
+      "path": "source/nicegui_base/integrations/nicegui_interactions.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/nicegui_base/integrations/nicegui_layout.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/nicegui_theme.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/nicegui_base/integrations/nicegui_visualization.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 13,
+      "path": "source/nicegui_base/release_authority.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 13,
+      "path": "source/nicegui_base/runtime/config.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/codegen.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/runtime_bundle.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 31,
+      "path": "source/pyproject.toml",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 26,
+      "path": "source/tests/test_nicegui_base_identity_migration.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/tests/test_phase18_design_reconstruction.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/tests/test_phase23_v17_overlay_architecture.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "source/tools_phase13_benchmark.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "tests/test_wave34_packaging.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "tools/apply_development_D3.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "tools/build_release_candidate_D4.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "tools/verify_development_D3.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "tools/verify_release_candidate_D4.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "tools_phase13_benchmark.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -c 'from nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest; write_sha256_manifest(\\\".\\\", \\\"PACKAGE_SHA256SUMS.txt\\\"); r=verify_sha256_manifest(\\\".\\\", \\\"PACKAGE_SHA256SUMS.txt\\\"); print(f\\\"package SHA256SUMS: {r.passed} expected={r.expected} verified={r.verified} mismatches={len(r.mismatches)} extras={len(r.extras)}\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfrom nicegui_base.governance.release_artifacts import verify_wheel, verify_wheel_source_representation, verify_sha256_manifest\nroot = Path('.').resolve()\npaths = [root/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl', root/'source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl', root/'source/dist/nicegui_base-3.0.0a8-py3-none-any.whl']\nchecks = [verify_wheel(p) for p in paths]\nprint('wheel mirrors:', all(c.passed for c in checks), sorted({c.sha256 for c in checks}), sorted({c.size_bytes for c in checks}))\nfor p, c in zip(paths, checks): print(p.relative_to(root), c.passed, c.metadata_name, c.metadata_version, c.record_rows, c.record_hashes_verified, c.sha256)\nrep = verify_wheel_source_representation(root/'source', paths[1].relative_to(root/'source'))\nprint('source representation:', rep.passed, len(rep.compared), len(rep.mismatches), len(rep.missing_from_source), len(rep.missing_from_wheel))\nfor rel in ('WHEEL_INTEGRITY.json','RELEASE_MANIFEST.json'):\n    source = json.loads((root/'source'/rel).read_text())\n    mirror = json.loads((root/rel).read_text())\n    print(rel, source == mirror)\nprint('release wheel:', json.loads((root/'source/RELEASE_MANIFEST.json').read_text())['final_wheel'])\nprint('source manifest:', verify_sha256_manifest(root/'source').passed)\nprint('package manifest:', verify_sha256_manifest(root, 'PACKAGE_SHA256SUMS.txt').passed)\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '35,80p' source/nicegui_base/governance/release_artifacts.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfrom nicegui_base.governance.release_artifacts import verify_wheel, verify_wheel_source_representation, verify_sha256_manifest\nroot = Path('.').resolve()\npaths = [root/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl', root/'source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl', root/'source/dist/nicegui_base-3.0.0a8-py3-none-any.whl']\nchecks = [verify_wheel(p) for p in paths]\nprint('wheel mirrors:', all(c.passed for c in checks), sorted({c.sha256 for c in checks}), sorted({c.size_bytes for c in checks}))\nfor p, c in zip(paths, checks): print(p.relative_to(root), c.passed, c.metadata_name, c.metadata_version, c.record_rows, c.record_hashes_verified, c.sha256)\nrep = verify_wheel_source_representation(root/'source', Path('wheel/nicegui_base-3.0.0a8-py3-none-any.whl'))\nprint('source representation:', rep.passed, rep.compared_files, len(rep.mismatches), len(rep.missing_from_source), len(rep.missing_from_wheel))\nfor rel in ('WHEEL_INTEGRITY.json','RELEASE_MANIFEST.json'):\n    source = json.loads((root/'source'/rel).read_text())\n    mirror = json.loads((root/rel).read_text())\n    print(rel, source == mirror)\nprint('release wheel:', json.loads((root/'source/RELEASE_MANIFEST.json').read_text())['final_wheel'])\nprint('source manifest:', verify_sha256_manifest(root/'source').passed)\nprint('package manifest:', verify_sha256_manifest(root, 'PACKAGE_SHA256SUMS.txt').passed)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf source/build source/nicegui_base.egg-info && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' source/nicegui_base source/docs source/examples 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -i 'company' source/nicegui_base/design/constitution_css.py source/nicegui_base/workbench/codegen.py source/nicegui_base/workbench/generated_smoke.py | head -80; rtk git grep -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' -- source/nicegui_base/design/constitution_css.py source/nicegui_base/workbench/codegen.py source/nicegui_base/workbench/generated_smoke.py | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -i -E 'company[ _-]?ui|companyui|COMPANY_UI' source/nicegui_base || true; rtk rg -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' source/nicegui_base/design source/nicegui_base/workbench | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -i 'company[ _-]?ui|companyui|company_ui' source/nicegui_base || true; rtk rg -n -i 'company[ _-]?ui|companyui|company_ui' source/nicegui_base/design source/nicegui_base/workbench | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git grep -Il -i 'company[ _-]?ui\\\\|companyui\\\\|company_ui' -- ':\"'!*.whl'\"' | sort | sed 's/\"'^/  /'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git grep -n -i -E 'company[ _-]?ui|companyui|company_ui' -- source/nicegui_base/design source/nicegui_base/workbench | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -c 'from nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest; write_sha256_manifest(\\\".\\\"); r=verify_sha256_manifest(\\\".\\\"); print(f\\\"source SHA256SUMS: {r.passed} expected={r.expected} verified={r.verified} mismatches={len(r.mismatches)} extras={len(r.extras)}\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -c 'from nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest; write_sha256_manifest(\\\".\\\", \\\"PACKAGE_SHA256SUMS.txt\\\"); r=verify_sha256_manifest(\\\".\\\", \\\"PACKAGE_SHA256SUMS.txt\\\"); print(f\\\"package SHA256SUMS: {r.passed} expected={r.expected} verified={r.verified} mismatches={len(r.mismatches)} extras={len(r.extras)}\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m pytest -q -p pytest_asyncio.plugin tests/test_phase32_v200_foundations.py tests/test_nicegui_base_identity_migration.py tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_workbench_development_d3_update.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 582,
+        "output_sha256": "5f26e71b3b5199331dbf82b7dd5cb34b741ea71fed9b5d76ade9d3c3c6daa85d",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli catalog-audit --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli runtime-smoke --port 0'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' source/certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk sed -n '1,220p' source/nicegui_base/governance/runtime_smoke.py 2>/dev/null || true && rtk rg -n \\\"runtime-smoke|RUNTIME_SMOKE_SERVER\\\" source/nicegui_base -g '*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m pip install --force-reinstall --no-deps source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli runtime-smoke --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.validate .'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git diff --stat && rtk git diff -- source/nicegui_base/release_authority.json tools/apply_development_D3.py WHEEL_VERIFICATION_WAVE77.json NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json | head -240'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf source/certification_output && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{automated_tests,phase,live_lab,phase_77: .phase_77_v300a8_final_release_candidate_consolidation_authority_audit_stable_qualification_handoff}' source/nicegui_base/certification/certification_manifest.json && rtk jq '{automated_tests,test_files,batches_executed,batches_requested,python,status}' source/TEST_BATCH_EXECUTION.json && rtk jq '{automated_tests,test_files,fresh_process_batches,public_root_api_entries,final_wheel,source_zero_regression}' source/RELEASE_MANIFEST.json && rtk jq '{automated_tests,test_files,fresh_processes,public_root_api_entries,wheel_record,wheel_sha256}' source/NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git grep -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' -- ':\"'!*.whl'\"' | awk -F: '{files[\"'$1]++; lines++} END {printf(\"files=%d lines=%d'\"\\\\n\\\", length(files), lines); for (f in files) print files[f], f}' | sort -k2\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,100p' apply_iteration1.py && rtk sed -n '1,110p' apply_iteration2.py && rtk sed -n '1,100p' WORKBENCH_ITERATION1_REPORT.md && rtk sed -n '1,80p' PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json && rtk sed -n '1,80p' source/tests/test_nicegui_base_identity_migration.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{baseline,identity_refactor,validation}' PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json | head -140 && rtk jq '{evidence_classification,baseline,identity_refactor,validation}' NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json | head -100 && rtk sed -n '1,80p' source/FINAL_RELEASE_CANDIDATE_AUDIT.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli final-audit --root . --output FINAL_RELEASE_CANDIDATE_AUDIT.json --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m nicegui_base.cli stable-qualification-handoff --root . --output STABLE_QUALIFICATION_HANDOFF.json --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp source/FINAL_RELEASE_CANDIDATE_AUDIT.json FINAL_RELEASE_CANDIDATE_AUDIT.json && rtk cp source/STABLE_QUALIFICATION_HANDOFF.json STABLE_QUALIFICATION_HANDOFF.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -c 'from nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest; write_sha256_manifest(\\\".\\\"); r=verify_sha256_manifest(\\\".\\\"); print(f\\\"source SHA256SUMS: {r.passed} expected={r.expected} verified={r.verified} mismatches={len(r.mismatches)} extras={len(r.extras)}\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -c 'from nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest; write_sha256_manifest(\\\".\\\", \\\"PACKAGE_SHA256SUMS.txt\\\"); r=verify_sha256_manifest(\\\".\\\", \\\"PACKAGE_SHA256SUMS.txt\\\"); print(f\\\"package SHA256SUMS: {r.passed} expected={r.expected} verified={r.verified} mismatches={len(r.mismatches)} extras={len(r.extras)}\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk git diff --numstat && rtk git diff -- source/CERTIFICATION_REPORT.json source/LIVE_CERTIFICATION_READINESS.json source/TEST_REPORT.json source/nicegui_base/certification/certification_manifest.json source/TEST_BATCH_EXECUTION.json | head -260'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{current_public_root_api_entries,current_contract_sha256,baseline_public_root_api_entries,baseline_contract_sha256,added_exports,removed_exports,changed_exports,additions,removals}' source/PUBLIC_API_COMPATIBILITY_WAVE77.json && rtk jq '{public_root_api_entries,isolated_root_api_entries}' source/WHEEL_INTEGRITY.json source/RELEASE_MANIFEST.json && rtk jq '{public_root_api_entries,contract_sha256,export_count,sha256}' source/PUBLIC_API_CONTRACT.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git grep -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' -- source/nicegui_base source/tests tests/test_wave34_packaging.py | head -180 && rtk git grep -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' -- PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json PUBLIC_API_COMPATIBILITY_WAVE77.json NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json WHEEL_VERIFICATION_WAVE77.json | head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, re\nroot = Path('.').resolve()\nchanged = []\nfor line in __import__('subprocess').check_output(['git','diff','--name-only'], text=True).splitlines():\n    path = root/line\n    if path.suffix == '.json':\n        json.loads(path.read_text())\n        changed.append(line)\nprint('changed JSON parse:', len(changed), 'PASS')\nfor rel in ('source/nicegui_base/release_authority.json','source/WHEEL_INTEGRITY.json','source/RELEASE_MANIFEST.json'):\n    assert (root/rel).is_file()\na = json.loads((root/'source/nicegui_base/release_authority.json').read_text())\nassert a['identity_refactor']['status'] == 'COMPLETE'\nassert a['identity_refactor']['legacy_cli'] == 'REMOVED'\nassert a['identity_refactor']['legacy_environment_prefix'] == 'REMOVED'\nassert a['identity_refactor']['legacy_root_import'] == 'REMOVED'\nassert 'deprecated compatibility aliases' not in a['design_constitution']\nprint('identity authority:', 'PASS')\nwi = json.loads((root/'source/WHEEL_INTEGRITY.json').read_text())\nrm = json.loads((root/'source/RELEASE_MANIFEST.json').read_text())['final_wheel']\nassert wi['sha256'] == rm['sha256'] == 'e3ad252013ac2d164e10de6508132109c23eaa8035363b40be864ef83a749317'\nassert wi['size_bytes'] == rm['size_bytes'] == 2435606\nassert wi['record_rows'] == rm['record_rows'] == 693\nassert wi['record_hashes_verified'] == rm['record_hashes_verified'] == 692\nprint('release artifact authority:', 'PASS')\nallowed = {\n    'source/nicegui_base/workbench/codegen.py',\n    'source/nicegui_base/workbench/generated_smoke.py',\n    'source/nicegui_base/design/constitution_css.py',\n    'source/nicegui_base/design/hardening_css.py',\n    'source/tests/test_nicegui_base_identity_migration.py',\n    'source/tests/test_phase21_v17_phase1_shell_constitution.py',\n    'source/tests/test_workbench_iteration2.py',\n    'source/tests/test_workbench_iteration2_2.py',\n    'tests/test_wave34_packaging.py',\n}\nactive_roots = ('source/nicegui_base','source/examples','source/showcase','source/linux_bundle','source/mac_bundle')\nfound=[]\nfor base in active_roots:\n    p=root/base\n    if not p.exists(): continue\n    for path in p.rglob('*'):\n        if not path.is_file() or path.suffix in {'.pyc','.whl'}: continue\n        try: txt=path.read_text(encoding='utf-8')\n        except UnicodeDecodeError: continue\n        if re.search(r'company[ _-]?ui|companyui|COMPANY_UI',txt,re.I): found.append(str(path.relative_to(root)))\nassert set(found) <= allowed, sorted(set(found)-allowed)\nprint('active tree former-name guard:', 'PASS', sorted(set(found)))\nprint('legacy package dir absent:', not (root/'source/company_ui').exists())\nPY\nrtk git diff --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add -u && rtk git diff --cached --check && rtk git status --short --branch && rtk git diff --cached --stat && rtk git log --oneline --decorate -3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"CHG-12 fix identity authority and release artifacts\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^ && rtk git show --stat --oneline --decorate HEAD && rtk git diff --check b9963f0cb2581afe6badda548888a01f5e8ae533..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, hashlib, re\nfrom nicegui_base.governance.release_artifacts import verify_wheel, verify_wheel_source_representation, verify_sha256_manifest\nroot=Path('.').resolve()\npaths=[root/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl',root/'source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl',root/'source/dist/nicegui_base-3.0.0a8-py3-none-any.whl']\nchecks=[verify_wheel(p) for p in paths]\naudit=json.loads((root/'source/FINAL_RELEASE_CANDIDATE_AUDIT.json').read_text())\nhandoff=json.loads((root/'source/STABLE_QUALIFICATION_HANDOFF.json').read_text())\nwi=json.loads((root/'source/WHEEL_INTEGRITY.json').read_text())\nrm=json.loads((root/'source/RELEASE_MANIFEST.json').read_text())['final_wheel']\nprint('head artifact audit:', audit['status'], audit['source_complete'], audit['wheel_sha256'])\nprint('handoff:', handoff['source_release_candidate_status'], handoff['stable_qualification_status'], handoff['stable_publication_status'], handoff['diagnostic_only'])\nprint('wheel:', all(c.passed for c in checks), len(set(c.sha256 for c in checks)), checks[0].sha256, checks[0].size_bytes, checks[0].record_rows, checks[0].record_hashes_verified)\nrep=verify_wheel_source_representation(root/'source',Path('wheel/nicegui_base-3.0.0a8-py3-none-any.whl'))\nprint('source representation:', rep.passed, rep.compared_files, len(rep.mismatches), len(rep.missing_from_source), len(rep.missing_from_wheel))\nprint('authority fields:', wi['sha256']==rm['sha256']==checks[0].sha256, wi['size_bytes']==rm['size_bytes']==checks[0].size_bytes, wi['record_rows']==rm['record_rows']==checks[0].record_rows, wi['record_hashes_verified']==rm['record_hashes_verified']==checks[0].record_hashes_verified)\nprint('checksums:', verify_sha256_manifest(root/'source').passed, verify_sha256_manifest(root,'PACKAGE_SHA256SUMS.txt').passed)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git diff --stat 715f911f62fb1504769e8b0285f7fea023cf2f51 && rtk git grep -n -i -E 'company[ _-]?ui|companyui|COMPANY_UI' -- source/nicegui_base/release_authority.json source/WHEEL_INTEGRITY.json source/RELEASE_MANIFEST.json source/WHEEL_VERIFICATION_WAVE77.json FINAL_RELEASE_CANDIDATE_AUDIT.json STABLE_QUALIFICATION_HANDOFF.json || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat b9963f0cb2581afe6badda548888a01f5e8ae533..HEAD && rtk git diff --name-only b9963f0cb2581afe6badda548888a01f5e8ae533..HEAD | wc -l && rtk git diff --name-only 4173259ebcc4d880101eafade6cf6fabec470859..HEAD | wc -l'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-status 4173259ebcc4d880101eafade6cf6fabec470859..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/tmp.7BKyhleR9H/py313-venv/bin/python -m pytest --collect-only -q -p pytest_asyncio.plugin tests/test_phase32_v200_foundations.py tests/test_nicegui_base_identity_migration.py tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_workbench_development_d3_update.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 213,
+        "output_sha256": "40c18eb601ce9c2a9c319dfaebd333b1a5310c16adaee169f417f8e549c135ed",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 433,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.36,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 18804224,
+      "fresh_input_tokens": 509313,
+      "input_tokens": 19313537,
+      "non_reasoning_output_tokens": 44042,
+      "output_tokens": 92980,
+      "reasoning_output_tokens": 48938,
+      "total_processed_tokens": 19406517
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "715f911f62fb1504769e8b0285f7fea023cf2f51",
+      "subject": "CHG-12 fix identity authority and release artifacts"
+    },
+    {
+      "sha": "4173259ebcc4d880101eafade6cf6fabec470859",
+      "subject": "CHG-12 remove legacy Company UI identity"
+    }
+  ],
+  "diff": {
+    "additions": 1121,
+    "changed_files": 64,
+    "commit_count": 2,
+    "deletions": 788
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 35,
+    "items": [
+      {
+        "bytes": 14900,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "ea3c5dfb16d6fca615ecb4c113f96904b3d312c1bd690b2e28a5c1ef01f034ea"
+      },
+      {
+        "bytes": 599,
+        "path": "IDENTITY_MIGRATION.json",
+        "sha256": "b29dc4a08259d368220d3d7135d9faca5596f340398f5453004cbee7eae9bfc4"
+      },
+      {
+        "bytes": 1338,
+        "path": "NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+        "sha256": "7b8c9c5e0cc7f323375f78875420970d0ec5f0ad8935a66bde35f8215b6f8ac0"
+      },
+      {
+        "bytes": 3246,
+        "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+        "sha256": "370edac24238e1ca128c33c72d0df55aea6f4eaefbcd04220b15251adf7c1ac4"
+      },
+      {
+        "bytes": 1100,
+        "path": "PUBLIC_API_COMPATIBILITY_WAVE77.json",
+        "sha256": "e2c2d65741581a5e34fc1601a405f743ab45e16d22e01d6cfd9e51c9150495ba"
+      },
+      {
+        "bytes": 9741,
+        "path": "PYTEST_BATCH_REPORT_WAVE77.json",
+        "sha256": "9c6b0b7fd8f13f3472f7228d095b4caec4903c3150f5febeb2c0313c8b77b09d"
+      },
+      {
+        "bytes": 18720,
+        "path": "README.md",
+        "sha256": "9b9c3b436298ec313d761cf9409c7efbc22d40aea6ae368e51bc82572ce92cb0"
+      },
+      {
+        "bytes": 14496,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "27b728622725a5cf63311a5ffa0b259af992f05cf7e86c2c3028beb0bf850801"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "c57a80cdea927c1e77bb2465d48a11a8e57f961c535c095df8c805365bf59dbf"
+      },
+      {
+        "bytes": 1028,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "e02b3ae9546ac584aa6f1c5dcd1587c7d3d0014fdaad52f907f31b613c42d8d8"
+      },
+      {
+        "bytes": 1217,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "14820a515547893f2f13f73c5a3a89a18c25d5285050726ad2d9904cdd1dc9fe"
+      },
+      {
+        "bytes": 872,
+        "path": "context/20_ARCHITECTURE_STATE.md",
+        "sha256": "cce3b01bfa5b077586e8cb19b1ce0bbdf380659554ca4cfcac283a52839b6df5"
+      },
+      {
+        "bytes": 1246,
+        "path": "docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+        "sha256": "87fe4c9d5da9c099d14a9888eaf40ca07ee417b856b1fabafa8a92539edc4a92"
+      },
+      {
+        "bytes": 1855,
+        "path": "docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+        "sha256": "f0b7021c8b41248e265fdbc99ed2e8db5ef41b0be4a20a332e61d8b1458babd0"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "6464c4dbf147e9a4ba9a220b40e323d2d292891b31e492d265a929e10623e74e"
+      },
+      {
+        "bytes": 14900,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "ea3c5dfb16d6fca615ecb4c113f96904b3d312c1bd690b2e28a5c1ef01f034ea"
+      },
+      {
+        "bytes": 599,
+        "path": "source/IDENTITY_MIGRATION.json",
+        "sha256": "b29dc4a08259d368220d3d7135d9faca5596f340398f5453004cbee7eae9bfc4"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "923003c4623a955fe63691ac762c2e044f174fbf79f5a8c10631c54b4a01fa02"
+      },
+      {
+        "bytes": 1338,
+        "path": "source/NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+        "sha256": "7b8c9c5e0cc7f323375f78875420970d0ec5f0ad8935a66bde35f8215b6f8ac0"
+      },
+      {
+        "bytes": 3246,
+        "path": "source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+        "sha256": "370edac24238e1ca128c33c72d0df55aea6f4eaefbcd04220b15251adf7c1ac4"
+      },
+      {
+        "bytes": 1100,
+        "path": "source/PUBLIC_API_COMPATIBILITY_WAVE77.json",
+        "sha256": "e2c2d65741581a5e34fc1601a405f743ab45e16d22e01d6cfd9e51c9150495ba"
+      },
+      {
+        "bytes": 9741,
+        "path": "source/PYTEST_BATCH_REPORT_WAVE77.json",
+        "sha256": "9c6b0b7fd8f13f3472f7228d095b4caec4903c3150f5febeb2c0313c8b77b09d"
+      },
+      {
+        "bytes": 18705,
+        "path": "source/README.md",
+        "sha256": "dde82e481ada5f9ae7bad6f60892ece54f481b57f98d21ba8618bbeea3c781ca"
+      },
+      {
+        "bytes": 14496,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "27b728622725a5cf63311a5ffa0b259af992f05cf7e86c2c3028beb0bf850801"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "c57a80cdea927c1e77bb2465d48a11a8e57f961c535c095df8c805365bf59dbf"
+      },
+      {
+        "bytes": 9741,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "d83fad4c7c498da5dc6fdc73631c828094ff7d163f147e123cb6b7ff2804befe"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "48efb64c19c7ad0af700d86bda3baa6c03ce2726021610dd572b283596f10bb3"
+      },
+      {
+        "bytes": 1028,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "e02b3ae9546ac584aa6f1c5dcd1587c7d3d0014fdaad52f907f31b613c42d8d8"
+      },
+      {
+        "bytes": 1217,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "14820a515547893f2f13f73c5a3a89a18c25d5285050726ad2d9904cdd1dc9fe"
+      },
+      {
+        "bytes": 1246,
+        "path": "source/docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+        "sha256": "87fe4c9d5da9c099d14a9888eaf40ca07ee417b856b1fabafa8a92539edc4a92"
+      },
+      {
+        "bytes": 1855,
+        "path": "source/docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+        "sha256": "f0b7021c8b41248e265fdbc99ed2e8db5ef41b0be4a20a332e61d8b1458babd0"
+      },
+      {
+        "bytes": 1855,
+        "path": "source/nicegui_base/ai/guides/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+        "sha256": "f0b7021c8b41248e265fdbc99ed2e8db5ef41b0be4a20a332e61d8b1458babd0"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "de1554f8d1048a2c712fd1d028e75ac89d4f2496dab34abafa22fe92f13f2c55"
+      },
+      {
+        "bytes": 599,
+        "path": "source/nicegui_base/identity_migration.json",
+        "sha256": "b29dc4a08259d368220d3d7135d9faca5596f340398f5453004cbee7eae9bfc4"
+      },
+      {
+        "bytes": 1696,
+        "path": "source/nicegui_base/release_authority.json",
+        "sha256": "b8eb59f918cd89b0ff57c38c6f610d9c58e0639258b05ca1f10e5bedb873edea"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-15T02:49:25Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "b9963f0cb2581afe6badda548888a01f5e8ae533",
+    "branch": "work/chg-12-remove-company-ui-identity-fix-2",
+    "head_sha": "715f911f62fb1504769e8b0285f7fea023cf2f51",
+    "remote_exact_head": true,
+    "remote_head_sha": "715f911f62fb1504769e8b0285f7fea023cf2f51",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "b9963f0cb2581afe6badda548888a01f5e8ae533",
+    "work_branch": "work/chg-12-remove-company-ui-identity-fix-2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-1c72e89599036d011b97c77d",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/nicegui-base-chg12-fix-2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/nicegui-base-chg12-fix-2"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "3778fba0755dd2f6b00268f73b7a589f93317203cc0603df2feff4e6d9c759f6",
+    "registry_sha256": "17d7db01a654a693b57af2b6fce2f676b1f883ea97564a690894b5f96df49aaa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "nicegui-base-chg12-fix-2",
+  "schema_version": 1,
+  "started_at": "2026-09-15T02:05:52Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2613,
+    "queue_seconds": 1,
+    "total_seconds": 2614
+  },
+  "transport": {
+    "bytes": 6567,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6247,
+    "prompt_sha256": "ee967c18c5bc693dd77723afe9b6cf3232b761a75db8b3be9badc20a95544964",
+    "sha256": "1c72e89599036d011b97c77ddcfca468e2d37ee60780444c9463e65b26021316"
+  }
+}
