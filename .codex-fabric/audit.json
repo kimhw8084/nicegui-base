@@ -1,0 +1,1213 @@
+{
+  "accepted_at": "2026-09-15T12:58:29Z",
+  "changed_files": [
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "AGENT_DOGFOOD_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "BROWSER_UIUX_GATE.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "BUILD_PROVENANCE.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 11,
+      "path": "IDENTITY_MIGRATION.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 455,
+      "deletions": 176,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 20,
+      "deletions": 4,
+      "path": "PUBLIC_API_COMPATIBILITY_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 58,
+      "path": "PUBLIC_API_CONTRACT.json",
+      "status": "M"
+    },
+    {
+      "additions": 72,
+      "deletions": 71,
+      "path": "PYTEST_BATCH_REPORT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 7,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "SIDEBAR_COMPACT_UIUX_GATE.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 8,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 6,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "WORKBENCH_ITERATION1_REPORT.md",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 11,
+      "path": "app.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "context/20_ARCHITECTURE_STATE.md",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "docs/PUBLIC_API_INDEX.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 30,
+      "path": "pyproject.toml",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/AGENT_DOGFOOD_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/BROWSER_UIUX_GATE.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/BUILD_PROVENANCE.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 11,
+      "path": "source/IDENTITY_MIGRATION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 20,
+      "deletions": 4,
+      "path": "source/PUBLIC_API_COMPATIBILITY_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 58,
+      "path": "source/PUBLIC_API_CONTRACT.json",
+      "status": "M"
+    },
+    {
+      "additions": 72,
+      "deletions": 71,
+      "path": "source/PYTEST_BATCH_REPORT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/README.md",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 7,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 311,
+      "deletions": 141,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/SIDEBAR_COMPACT_UIUX_GATE.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 8,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 6,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 0,
+      "deletions": 3,
+      "path": "source/company_ui/MIGRATION.md",
+      "status": "D"
+    },
+    {
+      "additions": 0,
+      "deletions": 16,
+      "path": "source/company_ui/__init__.py",
+      "status": "D"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "source/docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "source/docs/PUBLIC_API_INDEX.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "source/nicegui_base/ai/guides/PUBLIC_API_INDEX.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/ai/guides/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 57,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/final_candidate.py",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 0,
+      "path": "source/nicegui_base/governance/public_api.py",
+      "status": "M"
+    },
+    {
+      "additions": 79,
+      "deletions": 2,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 11,
+      "path": "source/nicegui_base/identity_migration.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/nicegui_base/integrations/nicegui_content.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 11,
+      "path": "source/nicegui_base/integrations/nicegui_interactions.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/nicegui_base/integrations/nicegui_layout.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/nicegui_theme.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "source/nicegui_base/integrations/nicegui_visualization.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 13,
+      "path": "source/nicegui_base/release_authority.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 13,
+      "path": "source/nicegui_base/runtime/config.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/codegen.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/runtime_bundle.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 31,
+      "path": "source/pyproject.toml",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 26,
+      "path": "source/tests/test_nicegui_base_identity_migration.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/tests/test_phase18_design_reconstruction.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/tests/test_phase23_v17_overlay_architecture.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 0,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "source/tools_phase13_benchmark.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "tests/test_wave34_packaging.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "tools/apply_development_D3.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "tools/build_release_candidate_D4.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "tools/verify_development_D3.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "tools/verify_release_candidate_D4.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "tools_phase13_benchmark.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source python - <<'PY'\nfrom nicegui_base.governance.release_artifacts import write_sha256_manifest\nwrite_sha256_manifest('source')\nwrite_sha256_manifest('.')\nPY\nPYTHONPATH=source python - <<'PY'\nfrom nicegui_base.governance.release_artifacts import verify_sha256_manifest\nfor root in ('.', 'source'):\n    result = verify_sha256_manifest(root)\n    print(result.to_dict())\n    if not result.passed:\n        raise SystemExit(1)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short | head -80; ls -l SHA256SUMS.txt PACKAGE_SHA256SUMS.txt source/SHA256SUMS.txt 2>/dev/null; head -3 PACKAGE_SHA256SUMS.txt; head -3 SHA256SUMS.txt 2>/dev/null'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rm -rf source/build source/nicegui_base.egg-info && rtk rm -f SHA256SUMS.txt && PYTHONPATH=source python - <<'PY'\nfrom nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest\nwrite_sha256_manifest('.', 'PACKAGE_SHA256SUMS.txt')\nfor root, manifest in (('.', 'PACKAGE_SHA256SUMS.txt'), ('source', 'SHA256SUMS.txt')):\n    result = verify_sha256_manifest(root, manifest)\n    print(result.to_dict())\n    if not result.passed:\n        raise SystemExit(1)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m pytest -q source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py source/tests/test_phase32_v200_foundations.py source/tests/test_phase34_v200_release_sync.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase6.py source/tests/test_public_api_phase7.py source/tests/test_public_api_phase8.py source/tests/test_public_api_phase9.py source/tests/test_wave34_packaging.py'",
+      "exit_code": 4,
+      "test_result": {
+        "exit_code": 4,
+        "framework": "pytest",
+        "outcome": "usage_error",
+        "output_bytes": 77,
+        "output_sha256": "466f5c959a895f44f8b80c2d7438a5535fa4704571a770367fd57fc910dc06bd",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg --files source/tests | rg 'public_api|phase(32|34|77)|wave34'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m pytest -q source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py source/tests/test_phase32_v200_foundations.py source/tests/test_phase34_v200_release_sync.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py source/tests/test_wave34_packaging.py'",
+      "exit_code": 4,
+      "test_result": {
+        "exit_code": 4,
+        "framework": "pytest",
+        "outcome": "usage_error",
+        "output_bytes": 76,
+        "output_sha256": "8399b9af8ecfecb026d37fe0e28f80a13167f362e4640dec0415f24153561c5c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg --files source/tests | rg 'packag|wave34' | head -30\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m pytest -q source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py source/tests/test_phase32_v200_foundations.py source/tests/test_phase34_v200_release_sync.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py source/tests/test_phase7_packaging.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_phase7_packaging.py::test_theme_adapter_installs_visual_css"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 2222,
+        "output_sha256": "48c83396d10a27d4be7742f935f1cf59b39261e3b43df9ecfaf7fb91319e691c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=. python -m pytest -q tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_phase32_v200_foundations.py tests/test_phase34_v200_release_sync.py tests/test_public_api_phase2.py tests/test_public_api_phase3.py tests/test_public_api_phase4.py tests/test_public_api_phase5.py tests/test_public_api_phase9.py tests/test_phase7_public_api.py tests/test_phase7_packaging.py'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 33,
+        "output_sha256": "5e4e795afaf7b2ac3694348801079911c9a51af17a801a9a9ee5368403a2d58a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy python -m pytest -q tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_phase32_v200_foundations.py tests/test_phase34_v200_release_sync.py tests/test_public_api_phase2.py tests/test_public_api_phase3.py tests/test_public_api_phase4.py tests/test_public_api_phase5.py tests/test_public_api_phase9.py tests/test_phase7_public_api.py tests/test_phase7_packaging.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 79,
+        "output_sha256": "eb6c6844da8a14fe95d0750005d636238fb9cca16ca557b2fcb50d7876eade9f",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk which python; rtk pwd; rtk ls -l /opt/anaconda3/bin/python /Users/haewonkim/.local/bin/python3.11 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_phase32_v200_foundations.py tests/test_phase34_v200_release_sync.py tests/test_public_api_phase2.py tests/test_public_api_phase3.py tests/test_public_api_phase4.py tests/test_public_api_phase5.py tests/test_public_api_phase9.py tests/test_phase7_public_api.py tests/test_phase7_packaging.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 513,
+        "output_sha256": "c278fac753ccfc1e6fc060a3cb9c8df831f9874006729ddf90b2043ea0ece88e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -c 'from nicegui_base.ai_cli import check_main; raise SystemExit(check_main([\\\".\\\"]))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -c 'from nicegui_base.ai_cli import gate_main; raise SystemExit(gate_main([\\\".\\\"]))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -m nicegui_base.cli runtime-contract --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'smoke_dir=$(mktemp -d /tmp/ngb-runtime-smoke.XXXXXX) && PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -m nicegui_base.cli runtime-smoke --port 0 --output \"$smoke_dir\" --format json; code=$?; printf '\"'SMOKE_OUTPUT=%s\\\\n' \\\"\"'$smoke_dir\"; exit $code'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,160p' /tmp/ngb-runtime-smoke.xz2wNP/RUNTIME_SMOKE_SERVER.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'smoke_dir=$(mktemp -d /tmp/ngb-runtime-smoke.XXXXXX) && PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-b0f999c92572089b6627cdcf/source rtk proxy /opt/anaconda3/bin/python -m nicegui_base.cli runtime-smoke --port 0 --output \"$smoke_dir\" --format json; code=$?; printf '\"'SMOKE_OUTPUT=%s\\\\n' \\\"\"'$smoke_dir\"; exit $code'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n '\"'^def (verify|load|build|audit).*'\"' source/nicegui_base/governance/release_artifacts.py source/nicegui_base/governance/final_candidate.py | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom nicegui_base.governance.public_api import public_api_snapshot\nfrom nicegui_base.governance.release_artifacts import (\n    verify_sha256_manifest, verify_wheel, verify_wheel_public_api,\n    verify_wheel_source_representation,\n)\nroot = Path('.').resolve()\nsource = root / 'source'\ncontract = json.loads((source / 'PUBLIC_API_CONTRACT.json').read_text())\nsnapshot = public_api_snapshot(source)\nprint('SOURCE_API', snapshot.export_count, snapshot.sha256)\nassert snapshot.export_count == contract['export_count'] == 1550\nassert snapshot.sha256 == contract['sha256'] == '2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb'\ncompat = json.loads((source / 'PUBLIC_API_COMPATIBILITY_WAVE77.json').read_text())\nassert compat['current_contract_sha256'] == snapshot.sha256\nassert compat['current_public_root_api_entries'] == snapshot.export_count\nwheel = root / 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl'\nfor path in (wheel, source / 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl', source / 'dist/nicegui_base-3.0.0a8-py3-none-any.whl'):\n    print('WHEEL', path.relative_to(root), verify_wheel(path).to_dict())\n    assert verify_wheel_public_api(path).passed\n    assert verify_wheel_source_representation(source, path).passed\n    assert verify_wheel(path).sha256 == 'bbfb46a6c570de22e6184984aeb18bf542564564a3a951988e78a1c6e7db7ac0'\nfor manifest in (root / 'PACKAGE_SHA256SUMS.txt', source / 'SHA256SUMS.txt'):\n    result = verify_sha256_manifest(manifest.parent, manifest.name)\n    print('MANIFEST', result.to_dict())\n    assert result.passed\nfor name in ('WHEEL_INTEGRITY.json', 'WHEEL_VERIFICATION_WAVE77.json'):\n    data = json.loads((source / name).read_text())\n    assert data['sha256'] == 'bbfb46a6c570de22e6184984aeb18bf542564564a3a951988e78a1c6e7db7ac0'\n    assert data['isolated_root_api_entries'] == 1550\n    assert data['isolated_root_api_sha256'] == snapshot.sha256\nrelease = json.loads((source / 'RELEASE_MANIFEST.json').read_text())\nassert release['public_root_api_entries'] == 1550\nassert release['public_root_api_sha256'] == snapshot.sha256\nassert release['final_wheel']['sha256'] == 'bbfb46a6c570de22e6184984aeb18bf542564564a3a951988e78a1c6e7db7ac0'\naudit = json.loads((source / 'FINAL_RELEASE_CANDIDATE_AUDIT.json').read_text())\nprint('AUDIT', audit['status'], audit.get('errors'), audit.get('warnings'))\nassert audit['status'] == 'PASS'\nprint('COHERENCE PASS')\nPY\nrtk git diff --check\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n '\"'^def public_api_snapshot|''^def .*snapshot|PUBLIC_API_SOURCE_ROOT'\"' source/nicegui_base/governance/public_api.py | head -30; sed -n '1,120p' source/nicegui_base/governance/public_api.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom nicegui_base.governance.public_api import public_api_snapshot, export_digest\nfrom nicegui_base.governance.release_artifacts import verify_sha256_manifest, verify_wheel, verify_wheel_public_api, verify_wheel_source_representation\nroot = Path('.').resolve(); source = root / 'source'\nsymbols = public_api_snapshot(); digest = export_digest(symbols)\ncontract = json.loads((source / 'PUBLIC_API_CONTRACT.json').read_text())\nprint('SOURCE_API', len(symbols), digest)\nassert len(symbols) == contract['export_count'] == 1550\nassert digest == contract['sha256'] == '2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb'\ncompat = json.loads((source / 'PUBLIC_API_COMPATIBILITY_WAVE77.json').read_text())\nassert compat['current_contract_sha256'] == digest and compat['current_public_root_api_entries'] == len(symbols)\nwheel = root / 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl'\nfor path in (wheel, source / 'wheel/nicegui_base-3.0.0a8-py3-none-any.whl', source / 'dist/nicegui_base-3.0.0a8-py3-none-any.whl'):\n    integrity = verify_wheel(path); api = verify_wheel_public_api(path); representation = verify_wheel_source_representation(source, path)\n    print('WHEEL', path.relative_to(root), integrity.to_dict(), api.to_dict(), representation.to_dict())\n    assert integrity.passed and api.passed and representation.passed\n    assert integrity.sha256 == 'bbfb46a6c570de22e6184984aeb18bf542564564a3a951988e78a1c6e7db7ac0'\nfor manifest in (root / 'PACKAGE_SHA256SUMS.txt', source / 'SHA256SUMS.txt'):\n    result = verify_sha256_manifest(manifest.parent, manifest.name); print('MANIFEST', result.to_dict()); assert result.passed\nfor name in ('WHEEL_INTEGRITY.json', 'WHEEL_VERIFICATION_WAVE77.json'):\n    data = json.loads((source / name).read_text()); assert data['sha256'] == 'bbfb46a6c570de22e6184984aeb18bf542564564a3a951988e78a1c6e7db7ac0'; assert data['isolated_root_api_entries'] == 1550; assert data['isolated_root_api_sha256'] == digest\nrelease = json.loads((source / 'RELEASE_MANIFEST.json').read_text()); assert release['public_root_api_entries'] == 1550; assert release['public_root_api_sha256'] == digest; assert release['final_wheel']['sha256'] == 'bbfb46a6c570de22e6184984aeb18bf542564564a3a951988e78a1c6e7db7ac0'\naudit = json.loads((source / 'FINAL_RELEASE_CANDIDATE_AUDIT.json').read_text()); print('AUDIT', audit['status'], audit.get('errors'), audit.get('warnings')); assert audit['status'] == 'PASS'\nprint('COHERENCE PASS')\nPY\nrtk git diff --check\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- source/nicegui_base/governance/public_api.py source/nicegui_base/governance/release_artifacts.py source/nicegui_base/governance/final_candidate.py source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py | sed -n '1,280p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '230,320p' source/nicegui_base/governance/final_candidate.py && sed -n '1,90p' source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n 'WHEEL_VERIFICATION|wheel_api|WHEEL_INTEGRITY|RELEASE_MANIFEST' source/nicegui_base/governance/final_candidate.py source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'build_dir=$(mktemp -d /tmp/ngb-chg12-wheel-final.XXXXXX) && rtk proxy python -m pip wheel --disable-pip-version-check --no-deps ./source --wheel-dir \"$build_dir\" && wheel_path=$(find \"$build_dir\" -maxdepth 1 -type f -name '\"'*.whl' -print -quit) && sha256=\"'$(shasum -a 256 \"$wheel_path\" | awk '\"'{print \"'$1}'\"') && size=\"'$(stat -f '\"'%z' \\\"\"'$wheel_path\") && printf '\"'WHEEL_PATH=%s\\\\nSHA256=%s\\\\nSIZE=%s\\\\n' \\\"\"'$wheel_path\" \"$sha256\" \"$size\" && rtk cp \"$wheel_path\" source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl && rtk cp \"$wheel_path\" source/dist/nicegui_base-3.0.0a8-py3-none-any.whl && rtk cp \"$wheel_path\" wheel/nicegui_base-3.0.0a8-py3-none-any.whl'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -c 'from nicegui_base.governance.final_candidate import audit_main; raise SystemExit(audit_main([\\\"--root\\\",\\\"source\\\",\\\"--output\\\",\\\"source/FINAL_RELEASE_CANDIDATE_AUDIT.json\\\",\\\"--format\\\",\\\"text\\\"]))'\nPYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -c 'from nicegui_base.governance.final_candidate import handoff_main; raise SystemExit(handoff_main([\\\"--root\\\",\\\"source\\\",\\\"--output\\\",\\\"source/STABLE_QUALIFICATION_HANDOFF.json\\\",\\\"--format\\\",\\\"text\\\"]))'\nrtk cp source/FINAL_RELEASE_CANDIDATE_AUDIT.json FINAL_RELEASE_CANDIDATE_AUDIT.json\nrtk cp source/STABLE_QUALIFICATION_HANDOFF.json STABLE_QUALIFICATION_HANDOFF.json\nrtk rm -rf source/build source/nicegui_base.egg-info\nPYTHONPATH=source rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom nicegui_base.governance.release_artifacts import write_sha256_manifest, verify_sha256_manifest\nwrite_sha256_manifest('source')\nwrite_sha256_manifest('.', 'PACKAGE_SHA256SUMS.txt')\nfor root, manifest in (('.', 'PACKAGE_SHA256SUMS.txt'), ('source', 'SHA256SUMS.txt')):\n    result = verify_sha256_manifest(root, manifest)\n    print(result.to_dict())\n    if not result.passed:\n        raise SystemExit(1)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_phase32_v200_foundations.py tests/test_phase34_v200_release_sync.py tests/test_public_api_phase2.py tests/test_public_api_phase3.py tests/test_public_api_phase4.py tests/test_public_api_phase5.py tests/test_public_api_phase9.py tests/test_phase7_public_api.py tests/test_phase7_packaging.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 513,
+        "output_sha256": "c278fac753ccfc1e6fc060a3cb9c8df831f9874006729ddf90b2043ea0ece88e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-b0f999c92572089b6627cdcf/source rtk proxy /opt/anaconda3/bin/python -m nicegui_base.cli agent-benchmark agent_tasks/manifest.json --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short && rtk git diff --check && rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"for pair in 'PUBLIC_API_CONTRACT.json source/PUBLIC_API_CONTRACT.json' 'PUBLIC_API_COMPATIBILITY_WAVE77.json source/PUBLIC_API_COMPATIBILITY_WAVE77.json' 'RELEASE_MANIFEST.json source/RELEASE_MANIFEST.json' 'WHEEL_INTEGRITY.json source/WHEEL_INTEGRITY.json' 'WHEEL_VERIFICATION_WAVE77.json source/WHEEL_VERIFICATION_WAVE77.json' 'FINAL_RELEASE_CANDIDATE_AUDIT.json source/FINAL_RELEASE_CANDIDATE_AUDIT.json' 'STABLE_QUALIFICATION_HANDOFF.json source/STABLE_QUALIFICATION_HANDOFF.json'; do set -- \"'$pair; cmp -s \"$1\" \"$2\" && echo \"MATCH $1\" || echo \"MISMATCH $1\"; done\nshasum -a 256 wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\nPYTHONPATH=source rtk proxy /opt/anaconda3/bin/python - <<'\"'PY'\nimport json\nfrom pathlib import Path\nfrom nicegui_base.governance.public_api import public_api_snapshot, export_digest\nfor runtime in ('source',):\n    symbols = public_api_snapshot(); print(len(symbols), export_digest(symbols))\nfor name in ('PUBLIC_API_CONTRACT.json','PUBLIC_API_COMPATIBILITY_WAVE77.json','WHEEL_INTEGRITY.json','WHEEL_VERIFICATION_WAVE77.json','RELEASE_MANIFEST.json','FINAL_RELEASE_CANDIDATE_AUDIT.json'):\n    print(name, json.loads((Path('source')/name).read_text()).get('status', 'n/a'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"for pair in 'PUBLIC_API_CONTRACT.json source/PUBLIC_API_CONTRACT.json' 'PUBLIC_API_COMPATIBILITY_WAVE77.json source/PUBLIC_API_COMPATIBILITY_WAVE77.json' 'RELEASE_MANIFEST.json source/RELEASE_MANIFEST.json' 'WHEEL_INTEGRITY.json source/WHEEL_INTEGRITY.json' 'WHEEL_VERIFICATION_WAVE77.json source/WHEEL_VERIFICATION_WAVE77.json' 'FINAL_RELEASE_CANDIDATE_AUDIT.json source/FINAL_RELEASE_CANDIDATE_AUDIT.json' 'STABLE_QUALIFICATION_HANDOFF.json source/STABLE_QUALIFICATION_HANDOFF.json'; do set -- \"'$pair; echo \"--- $1\"; diff -u \"$1\" \"$2\" | head -40; done'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'diff -u PUBLIC_API_CONTRACT.json source/PUBLIC_API_CONTRACT.json | head -80; diff -u RELEASE_MANIFEST.json source/RELEASE_MANIFEST.json | head -80'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 PUBLIC_API_CONTRACT.json source/PUBLIC_API_CONTRACT.json RELEASE_MANIFEST.json source/RELEASE_MANIFEST.json FINAL_RELEASE_CANDIDATE_AUDIT.json source/FINAL_RELEASE_CANDIDATE_AUDIT.json; rtk cmp PUBLIC_API_CONTRACT.json source/PUBLIC_API_CONTRACT.json; echo cmp_contract=$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\npairs = (\n('PUBLIC_API_CONTRACT.json','source/PUBLIC_API_CONTRACT.json'),\n('PUBLIC_API_COMPATIBILITY_WAVE77.json','source/PUBLIC_API_COMPATIBILITY_WAVE77.json'),\n('RELEASE_MANIFEST.json','source/RELEASE_MANIFEST.json'),\n('WHEEL_INTEGRITY.json','source/WHEEL_INTEGRITY.json'),\n('WHEEL_VERIFICATION_WAVE77.json','source/WHEEL_VERIFICATION_WAVE77.json'),\n('FINAL_RELEASE_CANDIDATE_AUDIT.json','source/FINAL_RELEASE_CANDIDATE_AUDIT.json'),\n('STABLE_QUALIFICATION_HANDOFF.json','source/STABLE_QUALIFICATION_HANDOFF.json'),\n)\nfor left, right in pairs:\n    print('MATCH' if Path(left).read_bytes() == Path(right).read_bytes() else 'MISMATCH', left)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk which python3.12; rtk which python3.13; rtk ls -l /Users/haewonkim/.local/bin/python3.12 /Users/haewonkim/.local/bin/python3.13 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'for py in /opt/anaconda3/bin/python /opt/homebrew/bin/python3.12 /Users/haewonkim/.local/bin/python3.13; do PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-b0f999c92572089b6627cdcf/source rtk proxy \"$py\" -c '\"'import platform; from nicegui_base.governance.public_api import public_api_snapshot, export_digest; s=public_api_snapshot(); print(platform.python_version(), len(s), export_digest(s))' || exit \"'$?; done'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk pgrep -af 'source_evidence|pytest' | head -20\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 42,
+        "output_sha256": "a3119fadd86732ff8b800ec7acdb1f168260a403254f735c3be765c90f9c40d4",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -o pid=,ppid=,stat=,command= -p 91139,91142,91143,91206,92136,92683,92685'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -o pid=,ppid=,stat=,etime=,command= -p 91139,91142,91143,91206,92136,92683,92685'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set +e\nPYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -c 'from nicegui_base.governance.source_evidence import main; raise SystemExit(main([\\\"--root\\\",\\\"source\\\"]))'\ncode=\"'$?\nrtk git restore --source=HEAD -- source/TEST_BATCH_EXECUTION.json\nprintf '\"'SOURCE_CERT_EXIT=%s\\\\n' \\\"\"'$code\"\nexit 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -o pid=,ppid=,stat=,etime=,command= -p 91139,91142,91143,91206,92136,92683,92685'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short | head -50; jq '{status,completed_batches,failed_tests,passed_tests}' source/TEST_BATCH_EXECUTION.json 2>/dev/null || true; jq '.automated_tests' source/nicegui_base/certification/certification_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport json, hashlib\nfrom pathlib import Path\nfrom nicegui_base.governance.public_api import public_api_snapshot, export_digest\nfrom nicegui_base.governance.release_artifacts import verify_wheel_public_api, verify_wheel, verify_sha256_manifest\nroot=Path('.'); source=root/'source'; symbols=public_api_snapshot(); digest=export_digest(symbols)\ncontract=json.loads((source/'PUBLIC_API_CONTRACT.json').read_text())\ncompat=json.loads((source/'PUBLIC_API_COMPATIBILITY_WAVE77.json').read_text())\nintegrity=json.loads((source/'WHEEL_INTEGRITY.json').read_text())\nrelease=json.loads((source/'RELEASE_MANIFEST.json').read_text())\naudit=json.loads((source/'FINAL_RELEASE_CANDIDATE_AUDIT.json').read_text())\nwheel=verify_wheel(root/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl'); api=verify_wheel_public_api(root/'wheel/nicegui_base-3.0.0a8-py3-none-any.whl')\nprint(json.dumps({'api_count':len(symbols),'api_sha256':digest,'contract_sha256':contract['sha256'],'compat_count':compat['current_public_root_api_entries'],'compat_sha256':compat['current_contract_sha256'],'wheel_sha256':wheel.sha256,'wheel_size':wheel.size_bytes,'wheel_api_count':api.export_count,'wheel_api_sha256':api.export_sha256,'audit_status':audit['status'],'target_qualification':audit['target_qualification_status'],'stable_publication':audit['stable_publication_status'],'package_manifest':verify_sha256_manifest(root,'PACKAGE_SHA256SUMS.txt').passed,'source_manifest':verify_sha256_manifest(source,'SHA256SUMS.txt').passed}, indent=2))\nassert len(symbols)==1550 and digest=='2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb'\nassert wheel.sha256=='76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc' and api.passed\nassert audit['status']=='PASS'\nPY\nrtk git diff --check\nrtk git status --porcelain=v1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set +e; PYTHONPATH=source rtk proxy /opt/anaconda3/bin/python -c 'from nicegui_base.governance.source_evidence import main; raise SystemExit(main([\\\"--root\\\",\\\"source\\\"]))' > /tmp/ngb-chg12-source-cert.log 2>&1; code=\"'$?; rtk git restore --source=HEAD -- source/TEST_BATCH_EXECUTION.json; printf '\"'SOURCE_CERT_EXIT=%s\\\\n' \\\"\"'$code\" >> /tmp/ngb-chg12-source-cert.log; exit 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -60 /tmp/ngb-chg12-source-cert.log; rtk git status --short | tail -10; jq '.automated_tests' source/nicegui_base/certification/certification_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add FINAL_RELEASE_CANDIDATE_AUDIT.json PACKAGE_SHA256SUMS.txt PUBLIC_API_COMPATIBILITY_WAVE77.json PUBLIC_API_CONTRACT.json RELEASE_MANIFEST.json STABLE_QUALIFICATION_HANDOFF.json WHEEL_INTEGRITY.json WHEEL_VERIFICATION_WAVE77.json docs/PUBLIC_API_INDEX.md source/FINAL_RELEASE_CANDIDATE_AUDIT.json source/PUBLIC_API_COMPATIBILITY_WAVE77.json source/PUBLIC_API_CONTRACT.json source/RELEASE_MANIFEST.json source/SHA256SUMS.txt source/STABLE_QUALIFICATION_HANDOFF.json source/WHEEL_INTEGRITY.json source/WHEEL_VERIFICATION_WAVE77.json source/dist/nicegui_base-3.0.0a8-py3-none-any.whl source/docs/PUBLIC_API_INDEX.md source/nicegui_base/ai/guides/PUBLIC_API_INDEX.md source/nicegui_base/certification/certification_manifest.json source/nicegui_base/governance/final_candidate.py source/nicegui_base/governance/public_api.py source/nicegui_base/governance/release_artifacts.py source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl wheel/nicegui_base-3.0.0a8-py3-none-any.whl && rtk git commit -m \"Fix CHG-12 public API release consistency\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && printf 'HEAD=' && rtk git rev-parse HEAD && rtk git show -s --format='PARENTS=%P%nSUBJECT=%s' HEAD && rtk git merge-base --is-ancestor a3c6027467553cfa62e091008bca012ea621e159 HEAD && echo 'R3_ANCESTOR=PASS' && rtk git merge-base --is-ancestor b9963f0cb2581afe6badda548888a01f5e8ae533 HEAD && echo 'MAIN_ANCESTOR=PASS' && rtk git log --graph --oneline --decorate -4\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"jq '{current_contract_sha256,current_public_root_api_entries,added_exports,removed_exports,changed_exports,changed_frozen_signatures,removals,namespace_migration,identity_refactor,pre_chg12_current_source,historical_wave76_baseline}' source/PUBLIC_API_COMPATIBILITY_WAVE77.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='%H%n%P' 419a9d701c0db8211496e13ec7eb5abd1ad33ff3; rtk git status --porcelain=v1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 408,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.98,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 20293632,
+      "fresh_input_tokens": 417493,
+      "input_tokens": 20711125,
+      "non_reasoning_output_tokens": 48028,
+      "output_tokens": 86959,
+      "reasoning_output_tokens": 38931,
+      "total_processed_tokens": 20798084
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "46a846a21e7c7812acac40a1d3409e52528cf1b6",
+      "subject": "Fix CHG-12 public API release consistency"
+    },
+    {
+      "sha": "419a9d701c0db8211496e13ec7eb5abd1ad33ff3",
+      "subject": "Merge commit 'a3c6027467553cfa62e091008bca012ea621e159' into codex/nicegui-base-chg12-fix-4"
+    },
+    {
+      "sha": "a3c6027467553cfa62e091008bca012ea621e159",
+      "subject": "fix: reconcile CHG-12 release identity authorities"
+    },
+    {
+      "sha": "4889c7f8b0c6daed571d391f879c3768eb26c4af",
+      "subject": "CHG-12 remove legacy Company UI identity"
+    }
+  ],
+  "diff": {
+    "additions": 1392,
+    "changed_files": 84,
+    "commit_count": 4,
+    "deletions": 946
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 52,
+    "items": [
+      {
+        "bytes": 1845,
+        "path": "AGENT_DOGFOOD_REPORT.json",
+        "sha256": "d0a23e382ec037113289828c7ef0bafcbffe1ab31fa813e7fea74c69f4248cf4"
+      },
+      {
+        "bytes": 9856,
+        "path": "BROWSER_UIUX_GATE.json",
+        "sha256": "628a903550caafa9286957b3c9db98cd65be35d2d0feb645ae3f29c6bf10e0e2"
+      },
+      {
+        "bytes": 500,
+        "path": "BUILD_PROVENANCE.json",
+        "sha256": "1c9605cca176a825d791b4dc852bfb8fb731e35834af66824179d8f03ab888c7"
+      },
+      {
+        "bytes": 14900,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "4c1eb51d3ade0c682d250aa21a7c5548a8f9d2f8b77144bd9e22f5087d41b367"
+      },
+      {
+        "bytes": 14957,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "9c929a70fcd6be36fac46814673774451eb55e0dd2768d36cfd2320f7f10271b"
+      },
+      {
+        "bytes": 599,
+        "path": "IDENTITY_MIGRATION.json",
+        "sha256": "b29dc4a08259d368220d3d7135d9faca5596f340398f5453004cbee7eae9bfc4"
+      },
+      {
+        "bytes": 1338,
+        "path": "NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+        "sha256": "7b8c9c5e0cc7f323375f78875420970d0ec5f0ad8935a66bde35f8215b6f8ac0"
+      },
+      {
+        "bytes": 3246,
+        "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+        "sha256": "370edac24238e1ca128c33c72d0df55aea6f4eaefbcd04220b15251adf7c1ac4"
+      },
+      {
+        "bytes": 1959,
+        "path": "PUBLIC_API_COMPATIBILITY_WAVE77.json",
+        "sha256": "f2b03216d0bab5e17121a344fceecc9f5dd040aa91c0666124e952a58100ebb8"
+      },
+      {
+        "bytes": 1555368,
+        "path": "PUBLIC_API_CONTRACT.json",
+        "sha256": "b767a1ad8ecafd170ea5172c503a64e2a652b7155fdebfb85a494e252958f119"
+      },
+      {
+        "bytes": 9740,
+        "path": "PYTEST_BATCH_REPORT_WAVE77.json",
+        "sha256": "879e228938ca9a958d4476115b79dbbb1955d0665fc31f2ae04aa1b296cab025"
+      },
+      {
+        "bytes": 18720,
+        "path": "README.md",
+        "sha256": "9b9c3b436298ec313d761cf9409c7efbc22d40aea6ae368e51bc82572ce92cb0"
+      },
+      {
+        "bytes": 14815,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "3d2213b06c73e481210484ea68c6cae649c25ddd13219d23be2753bdf2d8a9d2"
+      },
+      {
+        "bytes": 1169,
+        "path": "SIDEBAR_COMPACT_UIUX_GATE.json",
+        "sha256": "974cce2775e0141fdf9a26bbf53e0b7be530a9edb9c10d68afb7e24d3853c295"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "e077e83102b9623b50a6e7eec6f73ec75c422f610db3482faa92df603645c3f7"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "8ed845a04b50f36cda134049cb39c021c02460f71366d74c88671be3631114f4"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "42279f61dbdf5bbae4b753a3fb0cb3af5c6acda750d0c2c3ad7a85142a7a02f6"
+      },
+      {
+        "bytes": 12284,
+        "path": "WORKBENCH_ITERATION1_REPORT.md",
+        "sha256": "951972c6e94dcbfa57b58d4761b5e5bce3ff833db757a7e0237c4a7d8cebafa3"
+      },
+      {
+        "bytes": 872,
+        "path": "context/20_ARCHITECTURE_STATE.md",
+        "sha256": "cce3b01bfa5b077586e8cb19b1ce0bbdf380659554ca4cfcac283a52839b6df5"
+      },
+      {
+        "bytes": 1246,
+        "path": "docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+        "sha256": "87fe4c9d5da9c099d14a9888eaf40ca07ee417b856b1fabafa8a92539edc4a92"
+      },
+      {
+        "bytes": 327600,
+        "path": "docs/PUBLIC_API_INDEX.md",
+        "sha256": "1fc12fab8eab64667da3599c4bee2dbaa6d131a8fbd09ff6e065dc75893feb87"
+      },
+      {
+        "bytes": 1855,
+        "path": "docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+        "sha256": "f0b7021c8b41248e265fdbc99ed2e8db5ef41b0be4a20a332e61d8b1458babd0"
+      },
+      {
+        "bytes": 1845,
+        "path": "source/AGENT_DOGFOOD_REPORT.json",
+        "sha256": "d0a23e382ec037113289828c7ef0bafcbffe1ab31fa813e7fea74c69f4248cf4"
+      },
+      {
+        "bytes": 9856,
+        "path": "source/BROWSER_UIUX_GATE.json",
+        "sha256": "628a903550caafa9286957b3c9db98cd65be35d2d0feb645ae3f29c6bf10e0e2"
+      },
+      {
+        "bytes": 500,
+        "path": "source/BUILD_PROVENANCE.json",
+        "sha256": "1c9605cca176a825d791b4dc852bfb8fb731e35834af66824179d8f03ab888c7"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "9c3d6a5c5de5114e99f3940f4e438202f6ea8d2435dfd52b9e39f43fa6558acf"
+      },
+      {
+        "bytes": 14900,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "4c1eb51d3ade0c682d250aa21a7c5548a8f9d2f8b77144bd9e22f5087d41b367"
+      },
+      {
+        "bytes": 14957,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "9c929a70fcd6be36fac46814673774451eb55e0dd2768d36cfd2320f7f10271b"
+      },
+      {
+        "bytes": 599,
+        "path": "source/IDENTITY_MIGRATION.json",
+        "sha256": "b29dc4a08259d368220d3d7135d9faca5596f340398f5453004cbee7eae9bfc4"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "76d2280cb37903ecc243c4ec36225a1f7defa4b6ad5582b3e5ac9a436a047fc2"
+      },
+      {
+        "bytes": 1338,
+        "path": "source/NICEGUI_BASE_IDENTITY_REFACTOR_REPORT.json",
+        "sha256": "7b8c9c5e0cc7f323375f78875420970d0ec5f0ad8935a66bde35f8215b6f8ac0"
+      },
+      {
+        "bytes": 3246,
+        "path": "source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json",
+        "sha256": "370edac24238e1ca128c33c72d0df55aea6f4eaefbcd04220b15251adf7c1ac4"
+      },
+      {
+        "bytes": 1959,
+        "path": "source/PUBLIC_API_COMPATIBILITY_WAVE77.json",
+        "sha256": "f2b03216d0bab5e17121a344fceecc9f5dd040aa91c0666124e952a58100ebb8"
+      },
+      {
+        "bytes": 1555368,
+        "path": "source/PUBLIC_API_CONTRACT.json",
+        "sha256": "b767a1ad8ecafd170ea5172c503a64e2a652b7155fdebfb85a494e252958f119"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/PYTEST_BATCH_REPORT_WAVE77.json",
+        "sha256": "879e228938ca9a958d4476115b79dbbb1955d0665fc31f2ae04aa1b296cab025"
+      },
+      {
+        "bytes": 18705,
+        "path": "source/README.md",
+        "sha256": "dde82e481ada5f9ae7bad6f60892ece54f481b57f98d21ba8618bbeea3c781ca"
+      },
+      {
+        "bytes": 14815,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "3d2213b06c73e481210484ea68c6cae649c25ddd13219d23be2753bdf2d8a9d2"
+      },
+      {
+        "bytes": 1169,
+        "path": "source/SIDEBAR_COMPACT_UIUX_GATE.json",
+        "sha256": "974cce2775e0141fdf9a26bbf53e0b7be530a9edb9c10d68afb7e24d3853c295"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "e077e83102b9623b50a6e7eec6f73ec75c422f610db3482faa92df603645c3f7"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "879e228938ca9a958d4476115b79dbbb1955d0665fc31f2ae04aa1b296cab025"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "310e6a35341b68b37e0cfda143441a54caa17dfd85cde2594b1088b6e2146a9f"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "8ed845a04b50f36cda134049cb39c021c02460f71366d74c88671be3631114f4"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "42279f61dbdf5bbae4b753a3fb0cb3af5c6acda750d0c2c3ad7a85142a7a02f6"
+      },
+      {
+        "bytes": 1246,
+        "path": "source/docs/NICEGUI_BASE_RENAME_MIGRATION.md",
+        "sha256": "87fe4c9d5da9c099d14a9888eaf40ca07ee417b856b1fabafa8a92539edc4a92"
+      },
+      {
+        "bytes": 327600,
+        "path": "source/docs/PUBLIC_API_INDEX.md",
+        "sha256": "1fc12fab8eab64667da3599c4bee2dbaa6d131a8fbd09ff6e065dc75893feb87"
+      },
+      {
+        "bytes": 1855,
+        "path": "source/docs/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+        "sha256": "f0b7021c8b41248e265fdbc99ed2e8db5ef41b0be4a20a332e61d8b1458babd0"
+      },
+      {
+        "bytes": 327600,
+        "path": "source/nicegui_base/ai/guides/PUBLIC_API_INDEX.md",
+        "sha256": "1fc12fab8eab64667da3599c4bee2dbaa6d131a8fbd09ff6e065dc75893feb87"
+      },
+      {
+        "bytes": 1855,
+        "path": "source/nicegui_base/ai/guides/V17_PHASE6_CONTENT_WORKFLOW_RCA.md",
+        "sha256": "f0b7021c8b41248e265fdbc99ed2e8db5ef41b0be4a20a332e61d8b1458babd0"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "1b7a9bb28183ae5e82eb70957884188bfb9d6d86ff7ca3702cfa354489af7e46"
+      },
+      {
+        "bytes": 17977,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "cb8384120c9e7a33479be0d773ef3f5ad2c23590f11a90727da2c54488d5716d"
+      },
+      {
+        "bytes": 599,
+        "path": "source/nicegui_base/identity_migration.json",
+        "sha256": "b29dc4a08259d368220d3d7135d9faca5596f340398f5453004cbee7eae9bfc4"
+      },
+      {
+        "bytes": 1696,
+        "path": "source/nicegui_base/release_authority.json",
+        "sha256": "b8eb59f918cd89b0ff57c38c6f610d9c58e0639258b05ca1f10e5bedb873edea"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-15T13:34:33Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "b9963f0cb2581afe6badda548888a01f5e8ae533",
+    "branch": "codex/nicegui-base-chg12-fix-4",
+    "head_sha": "46a846a21e7c7812acac40a1d3409e52528cf1b6",
+    "remote_exact_head": true,
+    "remote_head_sha": "46a846a21e7c7812acac40a1d3409e52528cf1b6",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "b9963f0cb2581afe6badda548888a01f5e8ae533",
+    "work_branch": "codex/nicegui-base-chg12-fix-4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-b0f999c92572089b6627cdcf",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/nicegui-base-chg12-fix-4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/nicegui-base-chg12-fix-4"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "3778fba0755dd2f6b00268f73b7a589f93317203cc0603df2feff4e6d9c759f6",
+    "registry_sha256": "17d7db01a654a693b57af2b6fce2f676b1f883ea97564a690894b5f96df49aaa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "nicegui-base-chg12-fix-4",
+  "schema_version": 1,
+  "started_at": "2026-09-15T12:58:29Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2164,
+    "queue_seconds": 0,
+    "total_seconds": 2164
+  },
+  "transport": {
+    "bytes": 5382,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 5076,
+    "prompt_sha256": "1b14ac9c8f1833b5088a66ca474f26d8900e9966e2f8d34885e7b33d626465c9",
+    "sha256": "b0f999c92572089b6627cdcf2098e3ed94a219147d562d72864351837c226764"
+  }
+}
