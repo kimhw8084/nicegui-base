@@ -1,0 +1,550 @@
+{
+  "accepted_at": "2026-09-15T16:29:34Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; from pathlib import Path; from nicegui_base.governance.release_artifacts import verify_sha256_manifest, verify_wheel, verify_wheel_source_representation, verify_wheel_public_api, sha256_file; from nicegui_base.governance.public_api import public_api_snapshot, export_digest, scan_public_api_contract; root=Path(\\\"source\\\"); out={}; out[\\\"source_manifest\\\"]=verify_sha256_manifest(root).to_dict(); out[\\\"wheel_root\\\"]=verify_wheel(Path(\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\")).to_dict(); out[\\\"wheel_source_copy\\\"]=verify_wheel(root/\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\").to_dict(); out[\\\"root_source_representation\\\"]=verify_wheel_source_representation(root,Path(\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\")).to_dict(); out[\\\"source_wheel_source_representation\\\"]=verify_wheel_source_representation(root,root/\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\").to_dict(); out[\\\"wheel_api\\\"]=verify_wheel_public_api(Path(\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\")).to_dict(); snap=public_api_snapshot(); out[\\\"source_api\\\"]={\\\"export_count\\\":len(snap),\\\"sha256\\\":export_digest(snap),\\\"contract_findings\\\":[f.__dict__ for f in scan_public_api_contract(root)]}; print(json.dumps(out,indent=2,sort_keys=True))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"''^def run_governance|''^def .*govern|class Governance\" source/nicegui_base/governance && PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c '\"'from pathlib import Path; from nicegui_base.certification.engine import run_certification; from nicegui_base.governance.engine import run_governance; import json; root=Path(\\\"source\\\"); c=run_certification(root, require_nicegui=False); g=run_governance(root); print(json.dumps({\\\"certification\\\":{\\\"passed\\\":c.passed,\\\"summary\\\":c.summary,\\\"failures\\\":[x.__dict__ for x in c.failures],\\\"warnings\\\":[x.__dict__ for x in c.warnings]},\\\"governance\\\":{\\\"passed\\\":g.passed,\\\"summary\\\":g.summary,\\\"errors\\\":[x.__dict__ for x in g.errors],\\\"warnings\\\":[x.__dict__ for x in g.warnings]}},indent=2,default=str))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; from pathlib import Path; root=Path(\\\"source\\\"); names=[\\\"FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json\\\",\\\"FINAL_RELEASE_CANDIDATE_AUDIT.json\\\",\\\"PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\\\",\\\"PUBLIC_API_COMPATIBILITY_WAVE77.json\\\",\\\"WHEEL_VERIFICATION_WAVE77.json\\\",\\\"WHEEL_INTEGRITY.json\\\",\\\"RELEASE_MANIFEST.json\\\",\\\"GOVERNANCE_REPORT.json\\\",\\\"CERTIFICATION_REPORT.json\\\",\\\"PYTEST_BATCH_REPORT_WAVE77.json\\\",\\\"STABLE_QUALIFICATION_HANDOFF.json\\\"]; keys=(\\\"status\\\",\\\"source_complete\\\",\\\"public_api_entries\\\",\\\"public_api_sha256\\\",\\\"wheel_sha256\\\",\\\"sha256\\\",\\\"export_count\\\",\\\"isolated_root_api_entries\\\",\\\"isolated_root_api_sha256\\\",\\\"record_rows\\\",\\\"record_hashes_verified\\\",\\\"record_mismatches\\\",\\\"source_representation_status\\\",\\\"source_release_candidate_status\\\",\\\"stable_qualification_status\\\",\\\"stable_publication_status\\\",\\\"target_qualification_status\\\",\\\"framework_version\\\",\\\"nicegui_version\\\",\\\"release_status\\\",\\\"current_wave\\\",\\\"current_phase\\\",\\\"identity_refactor\\\",\\\"claim_boundary\\\",\\\"generated_at\\\",\\\"automated_tests\\\",\\\"test_files\\\",\\\"pytest\\\"); out={};\nfor n in names:\n p=root/n\n if not p.exists(): out[n]=\\\"MISSING\\\"; continue\n d=json.loads(p.read_text()); out[n]={k:d[k] for k in keys if k in d};\nprint(json.dumps(out,indent=2,sort_keys=True))'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 3771,
+        "output_sha256": "bc3010836b3f0136f893eda9b73c6f3e39d0d99cc2817bd4c2d9a3ddf02d8e63",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"former|Company UI|company_ui|cui-|NICEGUI_BASE_|NICEGUI_BASE|nicegui-base|nicegui_base|NiceGUI Base|legacy_root|legacy_cli|legacy_environment|identity_refactor\\\" source/nicegui_base/release_authority.json source/PUBLIC_API_COMPATIBILITY_WAVE77.json source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json source/tests/test_nicegui_base_identity_migration.py source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py | sed -n '1,360p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,140p' source/nicegui_base/certification/models.py && rtk sed -n '1,120p' source/nicegui_base/governance/models.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from nicegui_base.certification.engine import run_certification; from nicegui_base.governance.engine import run_governance; import json, importlib.util; root=Path(\\\"source\\\"); c=run_certification(root, require_nicegui=False); g=run_governance(root); print(json.dumps({\\\"nicegui_available\\\":bool(importlib.util.find_spec(\\\"nicegui\\\")),\\\"certification\\\":c.to_dict(),\\\"governance\\\":g.to_dict()},indent=2,default=str))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests -p no:cacheprovider'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from nicegui_base.certification.engine import run_certification; from nicegui_base.governance.engine import run_governance; import json, importlib.util; root=Path(\\\"source\\\"); c=run_certification(root, require_nicegui=False); g=run_governance(root); print(json.dumps({\\\"nicegui_available\\\":bool(importlib.util.find_spec(\\\"nicegui\\\")),\\\"certification\\\":{\\\"passed\\\":c.passed,\\\"summary\\\":c.summary,\\\"failures\\\":[{\\\"key\\\":x.key,\\\"detail\\\":x.detail,\\\"category\\\":x.category} for x in c.failures],\\\"warnings\\\":[{\\\"key\\\":x.key,\\\"detail\\\":x.detail,\\\"category\\\":x.category} for x in c.warnings]},\\\"governance\\\":g.to_dict()},indent=2,default=str))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q tests/test_phase77_v300a8_final_release_candidate_consolidation.py tests/test_nicegui_base_identity_migration.py -p no:cacheprovider'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 513,
+        "output_sha256": "d0ce0d2e18eb1b4526831b402090e948236fc6a34690cd808743ad275b71077f",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q -p no:cacheprovider'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page",
+          "tests/test_phase74_v300a8_operations_evidence_renewal_continuity.py::test_wave74_continuity_package_is_deterministic"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 23970,
+        "output_sha256": "e1d81650deda77aad6085a6dda8d214eeca72137d0131d5a36bd1678579fbb5c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; from pathlib import Path; p=Path(\\\"source/PYTEST_BATCH_REPORT_WAVE77.json\\\"); d=json.loads(p.read_text()); print(json.dumps({k:d.get(k) for k in (\\\"status\\\",\\\"generated_at\\\",\\\"framework_version\\\",\\\"nicegui_version\\\",\\\"test_files\\\",\\\"automated_tests\\\",\\\"passed\\\",\\\"failed\\\",\\\"results\\\",\\\"command\\\",\\\"scope\\\") if k in d},indent=2,sort_keys=True,default=str))' | sed -n '1,360p'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 9640,
+        "output_sha256": "57a0cbe967953be757f272502de229ab00c3469313be00a55f1e789d7dd96d83",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '260,330p' source/tests/test_phase74_v300a8_operations_evidence_renewal_continuity.py && rtk rg -n \\\"package_operational_assurance_continuity_dossier|deterministic|timestamp|datetime|ZipInfo|date_time|generated_at\\\" source/nicegui_base/certification/semiconductor_continuity.py source/nicegui_base/certification/semiconductor_continuity_cli.py | sed -n '1,280p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,280p' source/nicegui_base/runtime/kernel.py && rtk sed -n '1,180p' source/tests/test_phase39_v3_runtime_kernel.py && rtk sed -n '1,120p' source/tests/test_phase44_v3_runtime_undo_redo.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,320p' source/nicegui_base/governance/_pytest_batch_runner.py && PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -m nicegui_base.governance._pytest_batch_runner --help\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 305,
+        "output_sha256": "f2b43aa38905f7570590bb4c9891872ca7366ea074e8de17ddcd13a6eef91607",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json,sys; from nicegui_base import StateKey; print(json.dumps({\\\"python\\\":sys.version,\\\"statekey_class\\\":str(StateKey),\\\"attempt\\\":\\\"begin\\\"})); key=StateKey[int](\\\"count\\\"); print(key)' ; PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; d=json.load(open(\\\"source/PYTEST_BATCH_REPORT_WAVE77.json\\\")); print(json.dumps({k:d.get(k) for k in (\\\"python\\\",\\\"status\\\",\\\"test_files\\\",\\\"batches_requested\\\",\\\"batches_executed\\\",\\\"duration_ms\\\")},indent=2))'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 619,
+        "output_sha256": "a56e9439cf19a018810a665b5c71a0745fa8b2830a8838d0d12fb1489ff96b1a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk command -v python3.13 || true; rtk command -v python3.12 || true; rtk command -v python3.11 || true; rtk ls -l /opt/anaconda3/bin/python* /usr/local/bin/python* /Library/Frameworks/Python.framework/Versions/*/bin/python* 2>/dev/null | sed -n '1,160p'; rtk find /Users/haewonkim -maxdepth 5 -type f \\\\( -name 'python3.13' -o -name 'python3.12' \\\\) -perm -111 2>/dev/null | sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /Users/haewonkim/.local/bin/python3.13 --version; rtk /Users/haewonkim/.local/bin/python3.13 -m pytest --version; PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 /Users/haewonkim/.local/bin/python3.13 -c 'import importlib.util, json, sys; print(json.dumps({\\\"python\\\":sys.version,\\\"pytest\\\":bool(importlib.util.find_spec(\\\"pytest\\\")),\\\"nicegui\\\":bool(importlib.util.find_spec(\\\"nicegui\\\"))}))'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 103,
+        "output_sha256": "03b26068a63861151390feaa591aa20d0b8f36a46fa51ac3ccad94a99556e64a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /opt/homebrew/bin/python3.12 --version; rtk /opt/homebrew/bin/python3.12 -m pytest --version; PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.12 -c 'import importlib.util, json, sys; print(json.dumps({\\\"python\\\":sys.version,\\\"pytest\\\":bool(importlib.util.find_spec(\\\"pytest\\\")),\\\"nicegui\\\":bool(importlib.util.find_spec(\\\"nicegui\\\"))}))'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 190,
+        "output_sha256": "bbeed3b85c413ecd5872e5c55823f9b0931e7458f01c63b704c240bf0f4a0d9b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; from shutil import copytree, ignore_patterns; import json, traceback; from nicegui_base.governance.source_evidence import generate_source_evidence; source=Path(\\\"source\\\").resolve(); target=Path(mkdtemp(prefix=\\\"nicegui-base-chg41-source-cert-\\\")); copytree(source,target,ignore=ignore_patterns(\\\".pytest_cache\\\",\\\"__pycache__\\\",\\\"*.pyc\\\")); print(json.dumps({\\\"isolated_root\\\":str(target)}));\ntry:\n evidence=generate_source_evidence(target,run_tests=True); print(json.dumps({\\\"status\\\":\\\"PASS\\\",\\\"test_report\\\":evidence[\\\"test_report\\\"]},indent=2,default=str))\nexcept Exception as exc:\n print(json.dumps({\\\"status\\\":\\\"FAIL\\\",\\\"error\\\":f\\\"{type(exc).__name__}: {exc}\\\"},indent=2)); traceback.print_exc(); raise'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 345,
+        "output_sha256": "8f9058c56e405b7ee5d5798e16c4eff80ee744f1474fc720e4616347665079a1",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.12 -c 'from nicegui_base import StateKey; print(StateKey[int](\\\"count\\\"))'; PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 /Users/haewonkim/.local/bin/python3.13 -c 'from nicegui_base import StateKey; print(StateKey[int](\\\"count\\\"))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; from shutil import copytree, ignore_patterns; import json, traceback; from nicegui_base.governance.source_evidence import generate_source_evidence; source=Path(\\\"source\\\").resolve(); target=Path(mkdtemp(prefix=\\\"nicegui-base-chg41-source-cert-\\\")); copytree(source,target,ignore=ignore_patterns(\\\".pytest_cache\\\",\\\"__pycache__\\\",\\\"*.pyc\\\")); print(json.dumps({\\\"isolated_root\\\":str(target)}));\ntry:\n evidence=generate_source_evidence(target,run_tests=True); print(json.dumps({\\\"status\\\":\\\"PASS\\\",\\\"test_report\\\":evidence[\\\"test_report\\\"]},indent=2,default=str))\nexcept Exception as exc:\n print(json.dumps({\\\"status\\\":\\\"FAIL\\\",\\\"error\\\":f\\\"{type(exc).__name__}: {exc}\\\"},indent=2)); traceback.print_exc(); raise'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 590,
+        "output_sha256": "6d65f88528d03b765aaebd1b43f815428e3ef3f0a1945374208efe2c825aa9ae",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -axo pid,etime,command | rg 'nicegui-base-chg41-source-cert|source_evidence|pytest' | rg -v 'rg ' | sed -n '1,80p'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; from shutil import copytree, ignore_patterns; import json, traceback; from nicegui_base.governance.source_evidence import generate_source_evidence; source=Path(\\\"source\\\").resolve(); target=Path(mkdtemp(prefix=\\\"nicegui-base-chg41-source-cert-\\\"))/\\\"source\\\"; copytree(source,target,ignore=ignore_patterns(\\\".pytest_cache\\\",\\\"__pycache__\\\",\\\"*.pyc\\\")); print(json.dumps({\\\"isolated_root\\\":str(target)}));\ntry:\n evidence=generate_source_evidence(target,run_tests=True); print(json.dumps({\\\"status\\\":\\\"PASS\\\",\\\"test_report\\\":evidence[\\\"test_report\\\"]},indent=2,default=str))\nexcept Exception as exc:\n print(json.dumps({\\\"status\\\":\\\"FAIL\\\",\\\"error\\\":f\\\"{type(exc).__name__}: {exc}\\\"},indent=2)); traceback.print_exc(); raise'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_ai_d6f_contract.py::test_agent_benchmark_manifest_has_ten_short_authority_cases",
+          "tests/test_ai_d6f_contract.py::test_agent_contract_is_concise_and_installs_the_same_discovery_workflow",
+          "tests/test_ai_d6f_contract.py::test_agent_benchmark_scores_all_cases_and_preserves_five_acceptance_dimensions",
+          "tests/test_ai_d6f_contract.py::test_cli_exposes_machine_readable_discovery_commands"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 10827,
+        "output_sha256": "df35856b578399eb150283a22592efea1052115bc74224385f6cf52d5f1c7efd",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; from shutil import copytree, ignore_patterns; import json; from nicegui_base.governance.source_evidence import generate_source_evidence; source=Path(\\\"source\\\").resolve(); target=Path(mkdtemp(prefix=\\\"nicegui-base-chg41-source-cert-\\\"))/\\\"source\\\"; copytree(source,target,ignore=ignore_patterns(\\\".pytest_cache\\\",\\\"__pycache__\\\",\\\"*.pyc\\\")); print(json.dumps({\\\"isolated_root\\\":str(target)}),flush=True); evidence=generate_source_evidence(target,run_tests=True); print(json.dumps({\\\"status\\\":\\\"PASS\\\",\\\"test_report\\\":evidence[\\\"test_report\\\"]},indent=2,default=str),flush=True)'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_ai_d6f_contract.py::test_agent_benchmark_manifest_has_ten_short_authority_cases",
+          "tests/test_ai_d6f_contract.py::test_agent_contract_is_concise_and_installs_the_same_discovery_workflow",
+          "tests/test_ai_d6f_contract.py::test_agent_benchmark_scores_all_cases_and_preserves_five_acceptance_dimensions",
+          "tests/test_ai_d6f_contract.py::test_cli_exposes_machine_readable_discovery_commands"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 10329,
+        "output_sha256": "616b4886f1dcb79905b1c1db485f5f59a6de67c16053dfb067cee8567d4199ca",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la source/agent_tasks source/AGENTS.md agent_tasks 2>&1; rtk rg --files | rg '(\"'^|/)agent_tasks/|AGENTS.md$'\"' | sed -n '1,120p'; rtk git status --short --untracked-files=all\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,130p' source/tests/test_ai_d6f_contract.py && rtk sed -n '1,90p' source/tests/test_phase11_docs.py && rtk sed -n '1,80p' source/tests/test_phase11_ai_scaffold.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '120,230p' source/nicegui_base/cli.py && rtk rg -n \\\"def (gate|agent_check)|gate_main|agent_check\\\" source/nicegui_base/ai_cli.py source/nicegui_base/cli.py source/nicegui_base/workbench/project_audit.py | sed -n '1,180p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import TemporaryDirectory; import subprocess,sys,json; wheel=str(Path(\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\").resolve()); code=\\\"import sys; sys.path.insert(0, sys.argv[1]); from nicegui_base import StateKey; print(StateKey[int](\\\\\\\\\\\\\\\"count\\\\\\\\\\\\\\\"))\\\";\\\\nwith TemporaryDirectory(prefix=\\\"nicegui-base-chg41-wheel-install-\\\") as target:\\\\n install=subprocess.run([sys.executable,\\\"-m\\\",\\\"pip\\\",\\\"install\\\",\\\"--disable-pip-version-check\\\",\\\"--no-index\\\",\\\"--no-deps\\\",\\\"--target\\\",target,wheel],capture_output=True,text=True); print(json.dumps({\\\"pip_returncode\\\":install.returncode,\\\"target\\\":target}));\\\\n if install.returncode==0:\\\\n  probe=subprocess.run([sys.executable,\\\"-I\\\",\\\"-c\\\",code,target],capture_output=True,text=True); print(json.dumps({\\\"probe_returncode\\\":probe.returncode,\\\"stdout\\\":probe.stdout,\\\"stderr\\\":probe.stderr}))\\\\n  raise SystemExit(probe.returncode)'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git log --oneline --follow -- source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json source/FINAL_RELEASE_CANDIDATE_AUDIT.json source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json source/PYTEST_BATCH_REPORT_WAVE77.json | sed -n '1,120p'; rtk git log -1 --format='%H %ci %s' -- source/FINAL_RELEASE_CANDIDATE_AUDIT.json source/PYTEST_BATCH_REPORT_WAVE77.json source/PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 156,
+        "output_sha256": "0e6cf7ac0573ab5f08c247994a1bd1c10180014f7de2deaf5a649358818d1241",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77|FINAL_RELEASE_CANDIDATE_AUDIT\\\\.json|PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE|WHEEL_VERIFICATION_WAVE77|PUBLIC_API_COMPATIBILITY_WAVE77\\\" --glob '\"'!*.pyc'\"' . | sed -n '1,320p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -m nicegui_base.cli runtime-contract --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; import subprocess,sys,json; wheel=str(Path(\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\").resolve()); target=mkdtemp(prefix=\\\"nicegui-base-chg41-wheel-install-\\\"); install=subprocess.run([sys.executable,\\\"-m\\\",\\\"pip\\\",\\\"install\\\",\\\"--disable-pip-version-check\\\",\\\"--no-index\\\",\\\"--no-deps\\\",\\\"--target\\\",target,wheel],capture_output=True,text=True); print(json.dumps({\\\"pip_returncode\\\":install.returncode,\\\"target\\\":target})); code=\\\"import sys; sys.path.insert(0, sys.argv[1]); from nicegui_base import StateKey; print(StateKey[int](\\\\\\\"count\\\\\\\"))\\\"; probe=subprocess.run([sys.executable,\\\"-I\\\",\\\"-c\\\",code,target],capture_output=True,text=True); print(json.dumps({\\\"probe_returncode\\\":probe.returncode,\\\"stdout\\\":probe.stdout,\\\"stderr\\\":probe.stderr})); raise SystemExit(probe.returncode)'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; from shutil import copytree, ignore_patterns; import os, subprocess, sys, json; root=Path(mkdtemp(prefix=\\\"nicegui-base-chg41-authority-cert-\\\")); copytree(Path(\\\".\\\"),root,ignore=ignore_patterns(\\\".git\\\",\\\".pytest_cache\\\",\\\"__pycache__\\\",\\\"*.pyc\\\")); env=dict(os.environ); env[\\\"PYTHONPATH\\\"]=str(root/\\\"source\\\"); print(json.dumps({\\\"isolated_repo\\\":str(root)}),flush=True); result=subprocess.run([sys.executable,\\\"-m\\\",\\\"nicegui_base.governance.source_evidence\\\",\\\"--root\\\",str(root/\\\"source\\\")],cwd=root/\\\"source\\\",env=env,text=True,capture_output=False); print(json.dumps({\\\"returncode\\\":result.returncode}),flush=True); raise SystemExit(result.returncode)'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 593,
+        "output_sha256": "3193d93ff1904a2a40ecd3b5e74902406c5e800aadf8af1d8e8e92c869d8a77c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from tempfile import mkdtemp; from shutil import copytree, ignore_patterns; import os, subprocess, sys, json; root=Path(mkdtemp(prefix=\\\"nicegui-base-chg41-authority-cert-\\\"))/\\\"repo\\\"; copytree(Path(\\\".\\\"),root,ignore=ignore_patterns(\\\".git\\\",\\\".pytest_cache\\\",\\\"__pycache__\\\",\\\"*.pyc\\\")); env=dict(os.environ); env[\\\"PYTHONPATH\\\"]=str(root/\\\"source\\\"); print(json.dumps({\\\"isolated_repo\\\":str(root)}),flush=True); result=subprocess.run([sys.executable,\\\"-m\\\",\\\"nicegui_base.governance.source_evidence\\\",\\\"--root\\\",str(root/\\\"source\\\")],cwd=root/\\\"source\\\",env=env,text=True,capture_output=False); print(json.dumps({\\\"returncode\\\":result.returncode}),flush=True); raise SystemExit(result.returncode)'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 20064,
+        "output_sha256": "f90016ccb5dd394580fb69c47288cf673b46911f3b793eb6fa7caec63c9f3cc5",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; from pathlib import Path; root=Path(\\\"source\\\"); names=[\\\"FINAL_RELEASE_CANDIDATE_AUDIT.json\\\",\\\"FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json\\\",\\\"PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\\\",\\\"PUBLIC_API_COMPATIBILITY_WAVE77.json\\\",\\\"WHEEL_INTEGRITY.json\\\",\\\"WHEEL_VERIFICATION_WAVE77.json\\\",\\\"RELEASE_MANIFEST.json\\\",\\\"STABLE_QUALIFICATION_HANDOFF.json\\\",\\\"EVIDENCE_INDEX_WAVE77.json\\\"]; keys=(\\\"status\\\",\\\"generated_at\\\",\\\"baseline\\\",\\\"evidence_classification\\\",\\\"public_api_entries\\\",\\\"public_api_sha256\\\",\\\"wheel_sha256\\\",\\\"sha256\\\",\\\"isolated_root_api_entries\\\",\\\"isolated_root_api_sha256\\\",\\\"source_release_candidate_status\\\",\\\"stable_qualification_status\\\",\\\"stable_publication_status\\\",\\\"target_qualification_status\\\",\\\"identity_refactor\\\",\\\"wheel\\\",\\\"wave77\\\"); out={};\nfor n in names:\n d=json.loads((root/n).read_text()); selected={k:d[k] for k in keys if k in d};\n if n==\\\"PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\\\": selected[\\\"api_related\\\"]={k:d.get(k) for k in (\\\"public_root_api_entries\\\",\\\"public_root_api_sha256\\\",\\\"wheel_sha256\\\",\\\"wheel\\\") if k in d};\n out[n]=selected\nprint(json.dumps(out,indent=2,sort_keys=True,default=str))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; from pathlib import Path; a=json.load(open(\\\"source/FINAL_RELEASE_CANDIDATE_AUDIT.json\\\")); b=json.load(open(\\\"/tmp/chg41-final-audit.json\\\")); print(json.dumps({\\\"checked_in_equals_live\\\":a==b,\\\"checked_in\\\":{\\\"status\\\":a.get(\\\"status\\\"),\\\"errors\\\":a.get(\\\"summary\\\",{}).get(\\\"errors\\\"),\\\"warnings\\\":a.get(\\\"summary\\\",{}).get(\\\"warnings\\\"),\\\"api\\\":a.get(\\\"public_api_entries\\\"),\\\"api_sha\\\":a.get(\\\"public_api_sha256\\\"),\\\"wheel_sha\\\":a.get(\\\"wheel_sha256\\\")},\\\"live\\\":{\\\"status\\\":b.get(\\\"status\\\"),\\\"errors\\\":b.get(\\\"summary\\\",{}).get(\\\"errors\\\"),\\\"warnings\\\":b.get(\\\"summary\\\",{}).get(\\\"warnings\\\"),\\\"api\\\":b.get(\\\"public_api_entries\\\"),\\\"api_sha\\\":b.get(\\\"public_api_sha256\\\"),\\\"wheel_sha\\\":b.get(\\\"wheel_sha256\\\")}},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json, os; from pathlib import Path; from importlib.machinery import PathFinder; import nicegui_base; from nicegui_base.governance.public_api import public_api_snapshot,export_digest; source=Path(\\\"source\\\"); comp=json.load(open(source/\\\"PUBLIC_API_COMPATIBILITY_WAVE77.json\\\")); auth=json.load(open(source/\\\"nicegui_base/release_authority.json\\\")); print(json.dumps({\\\"root_all_count\\\":len(set(nicegui_base.__all__)),\\\"root_api_sha256\\\":export_digest(public_api_snapshot()),\\\"compatibility\\\":{k:comp.get(k) for k in (\\\"current_public_root_api_entries\\\",\\\"current_contract_sha256\\\",\\\"wave76_public_root_api_entries\\\",\\\"identity_refactor_added_exports\\\",\\\"identity_refactor_removed_exports\\\",\\\"identity_refactor_changed_frozen_signatures\\\",\\\"status\\\")},\\\"identity_authority\\\":auth[\\\"identity_refactor\\\"],\\\"former_root_import_spec\\\":PathFinder.find_spec(\\\"company_ui\\\",[str(source)]) is not None,\\\"former_root_dir_exists\\\":(source/\\\"company_ui\\\").exists(),\\\"pyproject_identity_checks\\\":{ \\\"project_name\\\":\\\"nicegui-base\\\" in Path(\\\"pyproject.toml\\\").read_text(), \\\"python_package\\\":\\\"nicegui_base\\\" in Path(\\\"pyproject.toml\\\").read_text(), \\\"legacy_company_ui_absent\\\":\\\"company_ui\\\" not in Path(\\\"pyproject.toml\\\").read_text()}},indent=2,sort_keys=True,default=str))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'from pathlib import Path; from nicegui_base.governance.release_artifacts import verify_sha256_manifest,sha256_file; import json; root=Path(\\\".\\\"); out={\\\"package_manifest\\\":verify_sha256_manifest(root,\\\"PACKAGE_SHA256SUMS.txt\\\").to_dict(),\\\"root_wheel_sha256\\\":sha256_file(root/\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\"),\\\"source_wheel_sha256\\\":sha256_file(root/\\\"source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\"),\\\"root_source_wheel_bytes_equal\\\":(root/\\\"wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\").read_bytes()==(root/\\\"source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\\\").read_bytes(),\\\"source_dist_exists\\\":(root/\\\"source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\\\").is_file(),\\\"root_dist_exists\\\":(root/\\\"dist/nicegui_base-3.0.0a8-py3-none-any.whl\\\").is_file()}; print(json.dumps(out,indent=2,sort_keys=True))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"(''^|  )'\"\\\\.git\"'$|PACKAGE_SHA256SUMS|SHA256SUMS\" README.md README_PACKAGE.md 00_READ_ME_FIRST.md source/README.md source/README_PACKAGE.md docs source/docs | sed -n '\"'1,240p'; rtk sed -n '1,80p' PACKAGE_SHA256SUMS.txt; rtk sed -n '1,80p' source/SHA256SUMS.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' source/EVIDENCE_INDEX_WAVE77.json && rtk sed -n '1,240p' source/PUBLIC_API_COMPATIBILITY_WAVE77.json && rtk sed -n '1,240p' source/RELEASE_MANIFEST.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; from pathlib import Path; root=Path(\\\"source\\\"); idx=json.load(open(root/\\\"EVIDENCE_INDEX_WAVE77.json\\\")); current={x[\\\"path\\\"]:x[\\\"classification\\\"] for x in idx.get(\\\"current\\\",[])}; hist={x[\\\"path\\\"]:x[\\\"classification\\\"] for x in idx.get(\\\"historical\\\",[])}; print(json.dumps({\\\"index_current_phase_report\\\":current.get(\\\"PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\\\"),\\\"phase_report_embedded_classification\\\":json.load(open(root/\\\"PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\\\")).get(\\\"evidence_classification\\\"),\\\"phase_report_baseline\\\":json.load(open(root/\\\"PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json\\\")).get(\\\"baseline\\\"),\\\"historical_index_wave76\\\":hist.get(\\\"PHASE_76_V300A8_ENTERPRISE_LONGITUDINAL_ASSURANCE_REVIEW_EVIDENCE_EXCEPTION_GOVERNANCE_REPORT.json\\\"),\\\"stale_wave77_report\\\":{\\\"classification\\\":json.load(open(root/\\\"FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json\\\")).get(\\\"evidence_classification\\\"),\\\"api\\\":json.load(open(root/\\\"FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json\\\")).get(\\\"public_api_entries\\\"),\\\"wheel\\\":json.load(open(root/\\\"FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json\\\")).get(\\\"wheel_sha256\\\")}},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current; rtk git rev-parse HEAD; rtk git rev-parse HEAD''^{tree}; rtk git rev-parse origin/main; rtk git rev-parse origin/main''^{tree}; rtk git diff --stat origin/main HEAD; rtk git diff --name-status origin/main HEAD; rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -m nicegui_base.cli agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -m nicegui_base.cli stable-qualification-handoff --root source --output /tmp/chg41-stable-handoff.json --format json; rc=$?; printf '\"'exit=%s\\\\n' \\\"\"'$rc\"; PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c '\"'import json; p=json.load(open(\\\"/tmp/chg41-stable-handoff.json\\\")); print(json.dumps({k:p.get(k) for k in (\\\"source_release_candidate_status\\\",\\\"stable_qualification_status\\\",\\\"stable_publication_status\\\",\\\"audit_public_api_entries\\\",\\\"audit_public_api_sha256\\\",\\\"audit_wheel_sha256\\\",\\\"pending_external_qualification\\\",\\\"claim_boundary\\\")},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git diff --quiet HEAD --; rc=$?; printf '\"'worktree_diff_exit=%s\\\\n' \\\"\"'$rc\"; rtk git diff --quiet origin/main...HEAD -- source; rc=$?; printf '\"'source_diff_vs_origin_main_exit=%s\\\\n' \\\"\"'$rc\"; rtk git show-ref --verify refs/heads/main; rtk git show-ref --verify refs/remotes/origin/main; rtk git rev-parse --verify b4a1c602fe7d1b5dbcd5ea9951aaea23661badf0''^{tree}; rtk git rev-parse --verify b4a1c602fe7d1b5dbcd5ea9951aaea23661badf0''^2''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nfrom tempfile import mkdtemp\nfrom shutil import copytree, ignore_patterns\nimport hashlib, json, subprocess, sys\nroot = Path('.').resolve()\nresults = []\nfor index in (1, 2):\n    temp_root = Path(mkdtemp(prefix=f'nicegui-base-chg41-wheel-build-{index}-')) / 'repo'\n    copytree(root, temp_root, ignore=ignore_patterns('.git', '.pytest_cache', '__pycache__', '*.pyc', 'build', 'dist', '*.egg-info'))\n    out = temp_root / 'wheel-out'\n    completed = subprocess.run([sys.executable, '-m', 'pip', 'wheel', '--disable-pip-version-check', '--no-deps', '--no-build-isolation', '--wheel-dir', str(out), str(temp_root)], capture_output=True, text=True)\n    wheels = sorted(out.glob('nicegui_base-3.0.0a8-*.whl'))\n    payload = {'build': index, 'returncode': completed.returncode, 'wheels': [str(p) for p in wheels]}\n    if completed.returncode == 0 and len(wheels) == 1:\n        payload['sha256'] = hashlib.sha256(wheels[0].read_bytes()).hexdigest()\n        payload['size_bytes'] = wheels[0].stat().st_size\n    else:\n        payload['stderr_tail'] = completed.stderr[-2000:]\n    results.append(payload)\nprint(json.dumps({'builds': results, 'byte_reproducible': len(results) == 2 and results[0].get('sha256') == results[1].get('sha256'), 'checked_in_sha256': '76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc', 'matches_checked_in': all(item.get('sha256') == '76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc' for item in results)}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 867,
+        "output_sha256": "59c27a240397d9fef2c1ef242b0e569e6f3b1a21bd22eb58a6ce69c00d47ab4c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /opt/anaconda3/bin/python -c 'from pathlib import Path; import zipfile,hashlib,json; a=Path(\\\"/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/nicegui-base-chg41-wheel-build-1-sieumhmr/repo/wheel-out/nicegui_base-3.0.0a8-py3-none-any.whl\\\"); b=Path(\\\"/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/nicegui-base-chg41-wheel-build-2-j6fxk2ee/repo/wheel-out/nicegui_base-3.0.0a8-py3-none-any.whl\\\");\nwith zipfile.ZipFile(a) as za,zipfile.ZipFile(b) as zb:\n names=sorted(set(za.namelist())|set(zb.namelist())); diffs=[]\n for n in names:\n  xa=za.read(n) if n in za.namelist() else None; xb=zb.read(n) if n in zb.namelist() else None\n  if xa\"'!=xb: diffs.append({\"name\":n,\"a_len\":len(xa) if xa is not None else None,\"b_len\":len(xb) if xb is not None else None,\"a_text\":xa.decode(\"utf-8\",\"replace\")[:1000] if xa is not None and n.endswith((\".json\",\"RECORD\",\"METADATA\",\"WHEEL\")) else None,\"b_text\":xb.decode(\"utf-8\",\"replace\")[:1000] if xb is not None and n.endswith((\".json\",\"RECORD\",\"METADATA\",\"WHEEL\")) else None})\n print(json.dumps({\"entry_count_a\":len(za.namelist()),\"entry_count_b\":len(zb.namelist()),\"different_entries\":diffs},indent=2))'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /opt/anaconda3/bin/python -c 'from pathlib import Path; import zipfile,json; a=Path(\\\"/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/nicegui-base-chg41-wheel-build-1-sieumhmr/repo/wheel-out/nicegui_base-3.0.0a8-py3-none-any.whl\\\"); b=Path(\\\"/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/nicegui-base-chg41-wheel-build-2-j6fxk2ee/repo/wheel-out/nicegui_base-3.0.0a8-py3-none-any.whl\\\");\nwith zipfile.ZipFile(a) as za,zipfile.ZipFile(b) as zb:\n diffs=[]\n for ia,ib in zip(za.infolist(),zb.infolist()):\n  fields=(\\\"date_time\\\",\\\"compress_type\\\",\\\"compress_size\\\",\\\"file_size\\\",\\\"CRC\\\",\\\"external_attr\\\",\\\"create_system\\\",\\\"create_version\\\",\\\"extract_version\\\",\\\"flag_bits\\\",\\\"extra\\\",\\\"comment\\\")\n  changed={f:[getattr(ia,f),getattr(ib,f)] for f in fields if getattr(ia,f)\"'!=getattr(ib,f)}\n  if changed: diffs.append({\"name\":ia.filename,\"changed\":changed})\n print(json.dumps(diffs[:8],indent=2,default=str)); print(\"metadata_different_entries\",len(diffs))'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python -c 'import json; p=json.load(open(\\\"source/PUBLIC_API_COMPATIBILITY_WAVE77.json\\\")); print(json.dumps({\\\"current_public_root_api_entries\\\":p[\\\"current_public_root_api_entries\\\"],\\\"current_contract_sha256\\\":p[\\\"current_contract_sha256\\\"],\\\"additions\\\":p[\\\"additions\\\"],\\\"removals\\\":p[\\\"removals\\\"],\\\"changed_frozen_signatures\\\":p[\\\"changed_frozen_signatures\\\"],\\\"added_exports\\\":p[\\\"added_exports\\\"],\\\"removed_exports\\\":p[\\\"removed_exports\\\"],\\\"changed_exports\\\":p[\\\"changed_exports\\\"],\\\"namespace_migration\\\":p[\\\"namespace_migration\\\"],\\\"historical_wave76_baseline\\\":p[\\\"historical_wave76_baseline\\\"]},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch; rtk git diff --quiet HEAD --; rc=$?; printf '\"'worktree_diff_exit=%s\\\\n' \\\"\"'$rc\"; rtk git rev-parse HEAD; rtk git rev-parse HEAD''^{tree}; rtk git rev-parse origin/main; rtk git rev-parse origin/main''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 178,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.08,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 7024384,
+      "fresh_input_tokens": 211253,
+      "input_tokens": 7235637,
+      "non_reasoning_output_tokens": 19993,
+      "output_tokens": 43880,
+      "reasoning_output_tokens": 23887,
+      "total_processed_tokens": 7279517
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-15T17:01:03Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "b4a1c602fe7d1b5dbcd5ea9951aaea23661badf0",
+    "branch": "codex/nicegui-base-stable3-freeze-verify-1",
+    "head_sha": "b4a1c602fe7d1b5dbcd5ea9951aaea23661badf0",
+    "remote_exact_head": true,
+    "remote_head_sha": "b4a1c602fe7d1b5dbcd5ea9951aaea23661badf0",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "b4a1c602fe7d1b5dbcd5ea9951aaea23661badf0",
+    "work_branch": "codex/nicegui-base-stable3-freeze-verify-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-5399396e43d94fa569680bac",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-freeze-verify-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-freeze-verify-1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "3778fba0755dd2f6b00268f73b7a589f93317203cc0603df2feff4e6d9c759f6",
+    "registry_sha256": "17d7db01a654a693b57af2b6fce2f676b1f883ea97564a690894b5f96df49aaa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-freeze-verify-1",
+  "schema_version": 1,
+  "started_at": "2026-09-15T16:45:01Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 962,
+    "queue_seconds": 927,
+    "total_seconds": 1889
+  },
+  "transport": {
+    "bytes": 4815,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 4495,
+    "prompt_sha256": "d816113dcc767cdfea77308f04b5b491616423c8c1a67dfd9f1d52ce7ac997e5",
+    "sha256": "5399396e43d94fa569680bacc4b982b531ee8ed26ed2869df741a2144fa64aee"
+  }
+}
