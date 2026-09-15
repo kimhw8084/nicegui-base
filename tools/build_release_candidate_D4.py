@@ -57,7 +57,7 @@ def write_json(path: Path, value: Any) -> None:
 
 def source_files(source: Path) -> tuple[Path, ...]:
     files: list[Path] = []
-    for package in ('nicegui_base', 'company_ui'):
+    for package in ('nicegui_base',):
         root = source / package
         if not root.is_dir():
             continue
@@ -142,7 +142,7 @@ def run_logged(command: list[str | Path], *, cwd: Path, log: Path, env: dict[str
 def clean_env() -> dict[str, str]:
     env = dict(os.environ)
     for key in tuple(env):
-        if key in {'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'} or key.startswith(('NICEGUI_', 'COMPANY_UI_')):
+        if key in {'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'VIRTUAL_ENV'} or key.startswith('NICEGUI_'):
             env.pop(key, None)
     env.update(PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1', PYTHONUNBUFFERED='1')
     return env

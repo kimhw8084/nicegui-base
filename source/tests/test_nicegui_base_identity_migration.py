@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 import json
-import subprocess
-import sys
-import warnings
 from pathlib import Path
+from importlib.machinery import PathFinder
 
 import nicegui_base
 from nicegui_base.runtime.config import RuntimeConfig
@@ -20,28 +18,22 @@ def test_primary_identity_is_nicegui_base() -> None:
     assert authority["primary_cli"] == "nicegui-base"
 
 
-def test_legacy_root_import_is_deprecated_alias() -> None:
-    sys.modules.pop("company_ui", None)
-    with warnings.catch_warnings(record=True) as captured:
-        warnings.simplefilter("always")
-        import company_ui  # noqa: F401
-    assert any(issubclass(item.category, DeprecationWarning) for item in captured)
-    import company_ui
-    assert company_ui.RuntimeConfig is nicegui_base.RuntimeConfig
-    assert company_ui.SemiconductorRecipeRuntime is nicegui_base.SemiconductorRecipeRuntime
+def test_legacy_root_import_is_removed() -> None:
+    source_root = Path(__file__).resolve().parents[1]
+    assert PathFinder.find_spec("company_ui", [str(source_root)]) is None
+    assert not (source_root / "company_ui").exists()
 
 
-def test_legacy_environment_prefix_is_fallback_only() -> None:
+def test_legacy_environment_prefix_is_ignored() -> None:
     cfg = RuntimeConfig.from_env(
         "demo",
         environ={
             "COMPANY_UI_HOST": "127.0.0.7",
             "COMPANY_UI_PORT": "8123",
-            "NICEGUI_BASE_HOST": "127.0.0.8",
         },
     )
-    assert cfg.host == "127.0.0.8"
-    assert cfg.port == 8123
+    assert cfg.host == "0.0.0.0"
+    assert cfg.port == 8080
 
 
 def test_generated_application_uses_only_new_identity(tmp_path: Path) -> None:
@@ -60,25 +52,24 @@ def test_generated_application_uses_only_new_identity(tmp_path: Path) -> None:
     assert "COMPANY_UI_" not in text
 
 
-def test_project_metadata_has_new_primary_and_deprecated_aliases() -> None:
+def test_project_metadata_has_only_the_new_identity() -> None:
     text = Path("pyproject.toml").read_text(encoding="utf-8")
     assert 'name = "nicegui-base"' in text
     assert 'nicegui-base = "nicegui_base.cli:main"' in text
-    assert 'company-ui = "nicegui_base.cli:main"' in text
-    assert 'include = ["nicegui_base*", "company_ui"]' in text
+    assert 'company-ui' not in text
+    assert 'include = ["nicegui_base*"]' in text
 
 
 def test_current_active_framework_tree_has_no_unapproved_old_brand_refs() -> None:
     allowed = {
-        Path("nicegui_base/runtime/config.py"),
-        Path("nicegui_base/release_authority.json"),
-        Path("nicegui_base/identity_migration.json"),
-        # These references are deliberate migration/compatibility guardrails,
-        # not generated-application branding.
-        Path("nicegui_base/design/hardening_css.py"),
-        Path("nicegui_base/workbench/runtime_bundle.py"),
+        # These references are deliberate negative guards that reject legacy
+        # imports in generated applications; they are not compatibility APIs.
         Path("nicegui_base/workbench/generated_smoke.py"),
         Path("nicegui_base/workbench/codegen.py"),
+        # Versioned CSS constitution headings preserve historical provenance;
+        # the selectors and rendered behavior remain the stable internal API.
+        Path("nicegui_base/design/constitution_css.py"),
+        Path("nicegui_base/design/hardening_css.py"),
     }
     offenders: list[str] = []
     for root in (Path("nicegui_base"), Path("examples"), Path("showcase"), Path("linux_bundle"), Path("mac_bundle")):

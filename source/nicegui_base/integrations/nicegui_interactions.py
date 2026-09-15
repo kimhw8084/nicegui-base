@@ -76,7 +76,7 @@ def _overlay_client_event(ui: Any, kind: str, opened: bool, overlay_id: str) -> 
     payload = json.dumps({'kind': kind, 'id': overlay_id})
     return ui.run_javascript(
         """
-        window.__companyUiOverlayManager ||= (() => {
+        window.__niceguiBaseOverlayManager ||= (() => {
           const stack = [];
           const origins = new Map();
           const lockOwners = new Set();
@@ -134,7 +134,7 @@ def _overlay_client_event(ui: Any, kind: str, opened: bool, overlay_id: str) -> 
           }, {once:true});
           return {stack, lockOwners, syncScrollLock};
         })();
-        window.__companyUiTooltip?.hide?.();
+        window.__niceguiBaseTooltip?.hide?.();
         """
         f"document.dispatchEvent(new CustomEvent('cui:overlay-{action}', {{detail: {payload}}}));"
     )
@@ -296,9 +296,9 @@ class DirtyStateGuard:
         dirty = 'true' if self._dirty else 'false'
         ui.add_body_html(f'''<script>
 (() => {{
-  window.__companyUiDirtyGuards = window.__companyUiDirtyGuards || {{}};
+  window.__niceguiBaseDirtyGuards = window.__niceguiBaseDirtyGuards || {{}};
   const id = {gid};
-  if (window.__companyUiDirtyGuards[id]) return;
+  if (window.__niceguiBaseDirtyGuards[id]) return;
   const state = {{dirty:{dirty}, message:{message}, bypass:false}};
   const beforeUnload = (e) => {{
     if (!state.dirty || state.bypass) return;
@@ -318,12 +318,12 @@ class DirtyStateGuard:
     window.removeEventListener('beforeunload', beforeUnload);
     document.removeEventListener('click', clickCapture, true);
     window.removeEventListener('pagehide', cleanup);
-    delete window.__companyUiDirtyGuards[id];
+    delete window.__niceguiBaseDirtyGuards[id];
   }};
   window.addEventListener('beforeunload', beforeUnload);
   document.addEventListener('click', clickCapture, true);
   window.addEventListener('pagehide', cleanup, {{once:true}});
-  window.__companyUiDirtyGuards[id] = {{state, beforeUnload, clickCapture, cleanup}};
+  window.__niceguiBaseDirtyGuards[id] = {{state, beforeUnload, clickCapture, cleanup}};
 }})();
 </script>''')
 
@@ -332,7 +332,7 @@ class DirtyStateGuard:
         if not self.spec.enabled:
             return
         ui = _ui(); gid = json.dumps(self.guard_id); value = 'true' if self._dirty else 'false'
-        ui.run_javascript(f'window.__companyUiDirtyGuards?.[{gid}] && (window.__companyUiDirtyGuards[{gid}].state.dirty={value})')
+        ui.run_javascript(f'window.__niceguiBaseDirtyGuards?.[{gid}] && (window.__niceguiBaseDirtyGuards[{gid}].state.dirty={value})')
 
     def mark_clean(self) -> None:
         self.set_dirty(False)
@@ -343,12 +343,12 @@ class DirtyStateGuard:
         self._removed = True
         ui = _ui(); gid = json.dumps(self.guard_id)
         ui.run_javascript(f'''(() => {{
-          const g=window.__companyUiDirtyGuards?.[{gid}]; if(!g) return;
+          const g=window.__niceguiBaseDirtyGuards?.[{gid}]; if(!g) return;
           if (typeof g.cleanup === 'function') g.cleanup();
           else {{
             window.removeEventListener('beforeunload', g.beforeUnload);
             document.removeEventListener('click', g.clickCapture, true);
-            delete window.__companyUiDirtyGuards[{gid}];
+            delete window.__niceguiBaseDirtyGuards[{gid}];
           }}
         }})()''')
 
@@ -570,7 +570,7 @@ class Tooltip:
             const target = document.querySelector('.{token}');
             if (!target || target.dataset.cuiTooltipBound === '1') return;
             target.dataset.cuiTooltipBound = '1';
-            window.__companyUiTooltip = window.__companyUiTooltip || (() => {{
+            window.__niceguiBaseTooltip = window.__niceguiBaseTooltip || (() => {{
               let node = null, timer = null, targetEl = null;
               const hide = () => {{
                 if (timer) {{ clearTimeout(timer); timer = null; }}
@@ -603,7 +603,7 @@ class Tooltip:
               document.addEventListener('cui:overlay-open', hide);
               return {{show, hide}};
             }})();
-            const manager = window.__companyUiTooltip;
+            const manager = window.__niceguiBaseTooltip;
             target.addEventListener('mouseenter', () => manager.show(target, {text}, {delay}, {max_width}));
             target.addEventListener('mouseleave', manager.hide);
             target.addEventListener('focusin', () => manager.show(target, {text}, Math.min({delay}, 180), {max_width}));

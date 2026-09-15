@@ -50,7 +50,7 @@ def test_all_framework_tooltips_use_company_transient_manager():
             offenders.append(path.name)
     assert offenders == []
     source = (ROOT / 'nicegui_base/integrations/nicegui_interactions.py').read_text(encoding='utf-8')
-    assert 'window.__companyUiTooltip' in source
+    assert 'window.__niceguiBaseTooltip' in source
     assert "document.addEventListener('cui:overlay-open', hide)" in source
     assert "addEventListener('scroll', hide" in source
     assert "target.addEventListener('mouseleave', manager.hide)" in source

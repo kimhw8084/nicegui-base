@@ -42,7 +42,7 @@ def framework_snapshot() -> tuple[bytes, dict]:
     import nicegui_base
     root = Path(nicegui_base.__file__).resolve().parent
     entries: dict[str, bytes] = {}
-    for package in (root, root.parent / 'company_ui'):
+    for package in (root,):
         if not package.is_dir():
             continue
         for path in sorted(package.rglob('*')):

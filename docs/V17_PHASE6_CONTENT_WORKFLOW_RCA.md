@@ -8,7 +8,7 @@ Phase 6 turns content/workflow/RCA surfaces into deliberate investigation tools 
 
 ## Evidence Image Viewer
 
-`ImageViewer` is an inspection workspace, not a decorative image container. It exposes observable pan/zoom state through `data-cui-spatial-*` attributes and a visible percentage readout. Wheel zoom, button zoom, drag pan, double-click/reset, and Fit all share `CompanyUISpatial` state. The live lab uses a deterministic local wafer-residual SVG with a wafer clip path so the image is immediately testable without external assets.
+`ImageViewer` is an inspection workspace, not a decorative image container. It exposes observable pan/zoom state through `data-cui-spatial-*` attributes and a visible percentage readout. Wheel zoom, button zoom, drag pan, double-click/reset, and Fit all share `NiceGUIBaseSpatial` state. The live lab uses a deterministic local wafer-residual SVG with a wafer clip path so the image is immediately testable without external assets.
 
 ## RCA identity and containment
 

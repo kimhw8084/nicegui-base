@@ -10,11 +10,11 @@
   "design_constitution": "Wave 77 is consolidation-only over Waves 59\u201376. It creates no parallel data, runtime, evidence, promotion, publication, stability, renewal, longitudinal, or review truth authority. It audits and hardens the deterministic release path and prepares a truthful stable-qualification handoff.",
   "final_wheel": {
     "file": "nicegui_base-3.0.0a8-py3-none-any.whl",
-    "record_hashes_verified": 497,
+    "record_hashes_verified": 692,
     "record_mismatches": 0,
-    "record_rows": 498,
-    "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
-    "size_bytes": 984338,
+    "record_rows": 693,
+    "sha256": "5a3541ef1369daf56e71358402f14613f047fdfccf598aeb831fc2e86fa97ab8",
+    "size_bytes": 2435606,
     "source_representation": "PASS"
   },
   "framework": "nicegui-base",
@@ -23,7 +23,7 @@
   "generated_at": "2026-08-30T23:37:14Z",
   "identity_refactor": {
     "distribution": "nicegui-base",
-    "legacy_aliases": "DEPRECATED_MIGRATION_ONLY",
+    "legacy_aliases": "REMOVED_PROVENANCE_ONLY",
     "primary_cli": "nicegui-base",
     "python_package": "nicegui_base",
     "status": "PASS"
@@ -306,6 +306,8 @@
     "title": "Final Release-Candidate Consolidation, Authority Audit & Stable Qualification Handoff"
   },
   "wheel": {
+    "current_candidate": false,
+    "evidence_classification": "HISTORICAL_PROVENANCE_ONLY",
     "file": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
     "isolated_no_deps_install_import": "PASS",
     "metadata_version": "3.0.0a8",

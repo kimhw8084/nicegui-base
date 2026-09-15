@@ -26,20 +26,13 @@ if _SOURCE_ROOT.is_dir():
 from nicegui_base.certification.live_lab import run_live_lab
 
 
-def _legacy_env_name(name: str) -> str | None:
-    if name.startswith("NICEGUI_BASE_"):
-        return "COMPANY_UI_" + name[len("NICEGUI_BASE_"):]
-    return None
-
-
 def _env(name: str, fallback: str, default: str) -> str:
-    """Resolve NiceGUI Base, then deprecated legacy, then platform settings."""
-    legacy = _legacy_env_name(name)
-    return os.environ.get(name) or (os.environ.get(legacy) if legacy else None) or os.environ.get(fallback) or default
+    """Resolve NiceGUI Base settings, then platform settings."""
+    return os.environ.get(name) or os.environ.get(fallback) or default
 
 
 def _root_path() -> str:
-    """Resolve an optional reverse-proxy mount path used by company publishers.
+    """Resolve an optional reverse-proxy mount path used by publishers.
 
     The explicit NiceGUI Base variable wins. Common platform variables are
     accepted so a publisher can mount the app below e.g. ``/my-app`` without
@@ -47,7 +40,6 @@ def _root_path() -> str:
     """
     raw = (
         os.environ.get("NICEGUI_BASE_ROOT_PATH")
-        or os.environ.get("COMPANY_UI_ROOT_PATH")
         or os.environ.get("ROOT_PATH")
         or os.environ.get("SCRIPT_NAME")
         or os.environ.get("APPLICATION_ROOT")

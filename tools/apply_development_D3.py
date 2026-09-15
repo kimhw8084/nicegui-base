@@ -32,11 +32,11 @@ TARGETS = (
 # fully explicit below so an accidental broad replacement cannot pass the guard.
 D2_SHA256 = {
     TARGETS[0]: 'c0887109ffab5482092d5295f3e8fea55772ae0ee96d468574c0ea767144279b',
-    TARGETS[1]: '5c02a4599b763fde910e4ac0558901ea1c92509cccd1090d0484e4413921e3f2',
+    TARGETS[1]: '55f28f856e9eb1035fbc30d8743d210afcd512d19cec5ffda5cdd60f89b6a219',
 }
 D3_SHA256 = {
     TARGETS[0]: '7ae000a5399b0ed8a47564abe17f21c745009d8a9b3187ea6fba6ab2161d4cff',
-    TARGETS[1]: '7c99bdd2602d73e77cbf9c3bcf725813616797ad3a7d37afebec071f07f21a13',
+    TARGETS[1]: 'f4a6d357cf1b85ba9225bec15ef23476a16a69f8f38744f704cd074ed1a5e8e4',
 }
 D3_IDENTITY = b"\"\"\"Identity of the applied development candidate, not a stable release promotion.\"\"\"\nBUILD_ID = 'NGB-20260905-D3'\nBUILD_LABEL = 'Development update D3'\n"
 

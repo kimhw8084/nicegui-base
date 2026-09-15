@@ -209,7 +209,7 @@ async def test_server_table_source_uses_client_delete_not_reconnect_disconnect_f
 async def test_overlay_client_manager_owns_focus_scroll_lock_and_escape_priority():
     text = (ROOT / 'nicegui_base/integrations/nicegui_interactions.py').read_text(encoding='utf-8')
     for token in (
-        'window.__companyUiOverlayManager',
+        'window.__niceguiBaseOverlayManager',
         'const lockOwners = new Set()',
         "document.body.style.overflow = 'hidden'",
         "origin.focus({preventScroll:true})",

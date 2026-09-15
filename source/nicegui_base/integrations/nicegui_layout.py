@@ -21,7 +21,7 @@ _LAYOUT_IDS = count(1)
 
 _MOBILE_NAV_A11Y_RUNTIME = r'''<script>(()=>{
   const root=document.documentElement;
-  if(window.CompanyUIMobileNavObserver)return;
+  if(window.NiceGUIBaseMobileNavObserver)return;
   const focusables=drawer=>[...drawer.querySelectorAll('button,a[href],input,select,textarea,[contenteditable="true"],[tabindex]:not([tabindex="-1"])')]
     .filter(el=>!el.disabled&&el.getAttribute('aria-hidden')!=='true'&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden'&&el.getClientRects().length>0);
   const state={open:root.dataset.mobileNav==='open',opener:null};
@@ -65,7 +65,7 @@ _MOBILE_NAV_A11Y_RUNTIME = r'''<script>(()=>{
     if(event.shiftKey&&(active===first||!d.contains(active))){event.preventDefault();last.focus();}
     else if(!event.shiftKey&&(active===last||!d.contains(active))){event.preventDefault();first.focus();}
   },true);
-  window.CompanyUIMobileNavObserver={sync};
+  window.NiceGUIBaseMobileNavObserver={sync};
   syncSemantics(state.open);
 })();</script>'''
 
@@ -80,7 +80,7 @@ def _ui():
     try:
         from nicegui import ui
     except ImportError as exc:  # pragma: no cover
-        raise RuntimeError('NiceGUI is required to render the company UI shell.') from exc
+        raise RuntimeError('NiceGUI is required to render the NiceGUI Base shell.') from exc
     return ui
 
 
@@ -596,7 +596,7 @@ class AppInfoDialog:
                 ui.button('Close', on_click=self.close, color=None).props('flat no-caps').classes('cui-button cui-button--secondary cui-control--medium')
     def open(self) -> None:
         self.dialog.open()
-        _ui().run_javascript("window.__companyUiTooltip?.hide?.();document.dispatchEvent(new CustomEvent('cui:overlay-open',{detail:{kind:'dialog'}}));")
+        _ui().run_javascript("window.__niceguiBaseTooltip?.hide?.();document.dispatchEvent(new CustomEvent('cui:overlay-open',{detail:{kind:'dialog'}}));")
     def close(self) -> None:
         self.dialog.close()
 

@@ -2,7 +2,7 @@
   "identity": {
     "display_name": "NiceGUI Base",
     "distribution": "nicegui-base",
-    "legacy_root_alias": "company_ui",
+    "legacy_root_alias_status": "REMOVED_PROVENANCE_ONLY",
     "python_package": "nicegui_base"
   },
   "isolated_no_deps_import": "PASS",
@@ -13,9 +13,9 @@
   "production_requires_dist": [
     "nicegui==3.15.0"
   ],
-  "record_hashes_verified": 497,
+  "record_hashes_verified": 692,
   "record_mismatches": 0,
-  "record_rows": 498,
+  "record_rows": 693,
   "requires_dist": [
     "nicegui==3.15.0",
     "playwright==1.62.0; extra == \"live-cert\"",
@@ -25,10 +25,10 @@
     "pytest<9,>=8; extra == \"test\"",
     "pytest-asyncio<1,>=0.25; extra == \"test\""
   ],
-  "sha256": "d0c3a870654d3fb75f70a95cd993834b9c96e5bc211227364336e6c1c7e65b15",
-  "size_bytes": 984338,
+  "sha256": "5a3541ef1369daf56e71358402f14613f047fdfccf598aeb831fc2e86fa97ab8",
+  "size_bytes": 2435606,
   "source_representation": {
-    "compared_files": 492,
+    "compared_files": 688,
     "mismatches": [],
     "missing_from_source": [],
     "missing_from_wheel": [],

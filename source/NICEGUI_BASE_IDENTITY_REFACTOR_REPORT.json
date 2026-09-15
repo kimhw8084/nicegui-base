@@ -1,4 +1,5 @@
 {
+  "evidence_classification": "HISTORICAL_PROVENANCE_ONLY",
   "automated_tests": 1587,
   "compatibility": {
     "COMPANY_UI_environment": "FALLBACK_ONLY",
