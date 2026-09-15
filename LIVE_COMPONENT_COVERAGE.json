@@ -1,12 +1,12 @@
 {
   "by_kind": {
     "composite": 28,
-    "direct": 155,
+    "direct": 157,
     "uncovered": 0
   },
   "by_route": {
     "/": 8,
-    "/charts": 33,
+    "/charts": 35,
     "/content": 16,
     "/controls": 38,
     "/data": 15,
@@ -22,8 +22,8 @@
     "/states": 9
   },
   "composite_visual_components": 28,
-  "covered_visual_components": 183,
-  "direct_visual_components": 155,
+  "covered_visual_components": 185,
+  "direct_visual_components": 157,
   "framework_version": "3.0.0a8",
   "ledger": [
     {
@@ -1123,6 +1123,14 @@
       "via": null
     },
     {
+      "component": "RidgePlot",
+      "coverage_kind": "direct",
+      "evidence": "AST-observed constructor/function call in live route builder.",
+      "module": "nicegui_base.integrations.nicegui_visualization",
+      "route": "/charts",
+      "via": null
+    },
+    {
       "component": "SavedFilterView",
       "coverage_kind": "direct",
       "evidence": "AST-observed constructor/function call in live route builder.",
@@ -1467,6 +1475,14 @@
       "via": null
     },
     {
+      "component": "ViolinPlot",
+      "coverage_kind": "direct",
+      "evidence": "AST-observed constructor/function call in live route builder.",
+      "module": "nicegui_base.integrations.nicegui_visualization",
+      "route": "/charts",
+      "via": null
+    },
+    {
       "component": "WaferComparisonMap",
       "coverage_kind": "direct",
       "evidence": "AST-observed constructor/function call in live route builder.",
@@ -1491,6 +1507,6 @@
       "via": null
     }
   ],
-  "required_visual_components": 183,
+  "required_visual_components": 185,
   "uncovered": []
 }

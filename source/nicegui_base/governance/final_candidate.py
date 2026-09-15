@@ -46,6 +46,7 @@ HISTORICAL_OR_EXTERNAL_EVIDENCE = (
     'GOLD_PROMOTION_READINESS.json', 'BROWSER_UIUX_GATE.json', 'CLEAN_INSTALL_CERTIFICATION.json',
     'TARGET_RUNTIME_GATE_ATTEMPT.json',
 )
+HISTORICAL_EVIDENCE_CLASSIFICATION_PREFIX = 'HISTORICAL'
 RELEASE_MIRROR_PAIRS = (
     ('FRAMEWORK_CATALOG.json', 'nicegui_base/ai/framework_catalog.json'),
     ('AI_CONSTRUCTION_MANIFEST.json', 'nicegui_base/ai/construction_manifest.json'),
@@ -119,6 +120,25 @@ def _authority_chain_findings() -> list[FinalAuditFinding]:
     return findings
 
 
+def _declared_evidence_classification(root: Path, rel: str) -> str | None:
+    """Read an artifact's own classification before routing it as current.
+
+    Release-authority filenames are only candidate routes.  The artifact's
+    explicit provenance classification remains authoritative when it says that
+    the record is historical, including for a current-phase filename retained
+    for provenance.
+    """
+    path = root / rel
+    if path.suffix != '.json' or not path.is_file():
+        return None
+    classification = _load_json(path).get('evidence_classification')
+    return classification if isinstance(classification, str) else None
+
+
+def _is_historical_evidence(classification: str | None) -> bool:
+    return bool(classification and classification.startswith(HISTORICAL_EVIDENCE_CLASSIFICATION_PREFIX))
+
+
 def _evidence_index(root: Path, identity: ReleaseIdentity) -> dict[str, Any]:
     current: list[dict[str, str]] = []
     historical: list[dict[str, str]] = []
@@ -132,15 +152,22 @@ def _evidence_index(root: Path, identity: ReleaseIdentity) -> dict[str, Any]:
         f'WHEEL_VERIFICATION_WAVE{identity.current_wave}.json',
     )
     for rel in latest:
-        if (root / rel).is_file(): current.append({'path': rel, 'classification': 'CURRENT_RELEASE_AUTHORITY'})
+        if not (root / rel).is_file():
+            continue
+        declared = _declared_evidence_classification(root, rel)
+        if _is_historical_evidence(declared):
+            historical.append({'path': rel, 'classification': declared})
+        else:
+            current.append({'path': rel, 'classification': 'CURRENT_RELEASE_AUTHORITY'})
     for rel in HISTORICAL_OR_EXTERNAL_EVIDENCE:
         if not (root / rel).is_file(): continue
         if rel in {'BROWSER_UIUX_GATE.json', 'CLEAN_INSTALL_CERTIFICATION.json', 'TARGET_RUNTIME_GATE_ATTEMPT.json'}:
             pending_external.append({'path': rel, 'classification': 'PENDING_OR_STALE_EXTERNAL_ENVIRONMENT'})
         else:
             historical.append({'path': rel, 'classification': 'HISTORICAL_ONLY'})
+    indexed_paths = {item['path'] for item in (*current, *historical, *pending_external)}
     for path in sorted(root.glob('PHASE_*_REPORT.json')):
-        if path.name.startswith(f'PHASE_{identity.current_phase}_'): continue
+        if path.name in indexed_paths: continue
         historical.append({'path': path.name, 'classification': 'HISTORICAL_PHASE_EVIDENCE'})
     return {'current': current, 'pending_external': pending_external, 'historical': historical}
 

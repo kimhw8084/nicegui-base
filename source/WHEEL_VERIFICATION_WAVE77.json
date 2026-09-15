@@ -27,8 +27,8 @@
     "pytest<9,>=8; extra == \"test\"",
     "pytest-asyncio<1,>=0.25; extra == \"test\""
   ],
-  "sha256": "76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc",
-  "size_bytes": 2437686,
+  "sha256": "a826c62a581783a5d003d8fd25fcadb89b61718298448e1e507bb2a6242435b1",
+  "size_bytes": 2438022,
   "source_representation": {
     "compared_files": 688,
     "mismatches": [],

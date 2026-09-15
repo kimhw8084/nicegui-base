@@ -181,10 +181,6 @@
       },
       {
         "classification": "CURRENT_RELEASE_AUTHORITY",
-        "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json"
-      },
-      {
-        "classification": "CURRENT_RELEASE_AUTHORITY",
         "path": "PUBLIC_API_COMPATIBILITY_WAVE77.json"
       },
       {
@@ -197,6 +193,10 @@
       }
     ],
     "historical": [
+      {
+        "classification": "HISTORICAL_PROVENANCE_ONLY",
+        "path": "PHASE_77_V300A8_FINAL_RELEASE_CANDIDATE_CONSOLIDATION_AUTHORITY_AUDIT_STABLE_QUALIFICATION_HANDOFF_REPORT.json"
+      },
       {
         "classification": "HISTORICAL_ONLY",
         "path": "GOLD_PROMOTION_READINESS.json"
@@ -484,5 +484,5 @@
     "warnings": 0
   },
   "target_qualification_status": "PENDING",
-  "wheel_sha256": "76db13e6766135e35dbe5542e652bb4b7a4047301a5eaf32cea93310a48de2fc"
+  "wheel_sha256": "a826c62a581783a5d003d8fd25fcadb89b61718298448e1e507bb2a6242435b1"
 }
