@@ -1,0 +1,498 @@
+{
+  "accepted_at": "2026-09-16T12:21:47Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && git status --short --branch && git branch --show-current && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,240p' /Users/haewonkim/.codex/law.md && sed -n '1,240p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git rev-parse 358ead108ab907af72e56c039491ba4cdfc77f61''^{tree} && rtk git rev-parse main && rtk git status --short && rtk git merge --ff-only 358ead108ab907af72e56c039491ba4cdfc77f61 && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d /tmp/chg59-nicegui-base.XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git archive --format=tar --output=/tmp/chg59-nicegui-base.BVZjJH/candidate.tar 358ead108ab907af72e56c039491ba4cdfc77f61 && rtk tar -xf /tmp/chg59-nicegui-base.BVZjJH/candidate.tar -C /tmp/chg59-nicegui-base.BVZjJH && rtk rm /tmp/chg59-nicegui-base.BVZjJH/candidate.tar && rtk find /tmp/chg59-nicegui-base.BVZjJH -name .git -o -name .gitignore'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /tmp/chg59-nicegui-base.BVZjJH -name .git'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' /tmp/chg59-nicegui-base.BVZjJH/source/SHA256SUMS.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/chg59-nicegui-base.BVZjJH -name '*.whl'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' /tmp/chg59-nicegui-base.BVZjJH/PACKAGE_SHA256SUMS.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy find /tmp/chg59-nicegui-base.BVZjJH -name .git -print'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /tmp/chg59-nicegui-base.BVZjJH -name '*.whl' -print\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy shasum -a 256 /tmp/chg59-nicegui-base.BVZjJH/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl /tmp/chg59-nicegui-base.BVZjJH/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl /tmp/chg59-nicegui-base.BVZjJH/wheel/nicegui_base-3.0.0a8-py3-none-any.whl'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy shasum -a 256 -c /tmp/chg59-nicegui-base.BVZjJH/source/SHA256SUMS.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy shasum -a 256 -c /tmp/chg59-nicegui-base.BVZjJH/PACKAGE_SHA256SUMS.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' /tmp/chg59-nicegui-base.BVZjJH/setup_mac.sh\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' /tmp/chg59-nicegui-base.BVZjJH/pyproject.toml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' /tmp/chg59-nicegui-base.BVZjJH/docs/COMPANY_ENVIRONMENT.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'set -o pipefail; { python3 -m pip config debug 2>&1; python3 -m pip config list 2>&1; env | awk -F= '\\\\''/\"'^PIP_[A-Za-z0-9_]*=/{print $1\"=[REDACTED_ENV_VALUE]\"}'\"'\\\\'' | sort; } | python3 -c '\\\\''import re,sys,urllib.parse\nfor raw in sys.stdin:\n    line=raw.rstrip(\\\"\\\\\\\\n\\\")\n    def safe(match):\n        value=match.group(0)\n        try:\n            parts=urllib.parse.urlsplit(value.rstrip(\\\"\\\\\\\\\\\\\\\"'\\\"))\n            host=parts.hostname or \\\"[invalid-host]\\\"\n            port=f\\\":{parts.port}\\\" if parts.port else \\\"\\\"\n            return f\\\"{parts.scheme}://{host}{port}[REDACTED_URL]\\\"\n        except Exception:\n            return \\\"[REDACTED_URL]\\\"\n    line=re.sub(r\\\"https?://[\"'^'\"\\\\\\\\s\\\\\\\\\\\\\\\"'']+\\\", safe, line, flags=re.I)\n    line=re.sub(r\\\"(?i)(password|passwd|token|secret|api[_-]?key)(\\\\\\\\s*[=:]\\\\\\\\s*)[\"'^'\"\\\\\\\\s]+\\\", r\\\"\\\\\\\\1\\\\\\\\2[REDACTED]\\\", line)\n    print(line)\n'\\\\''\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport os\nimport re\nimport subprocess\nimport urllib.parse\n\ncommands = [[\\\"python3\\\", \\\"-m\\\", \\\"pip\\\", \\\"config\\\", \\\"debug\\\"], [\\\"python3\\\", \\\"-m\\\", \\\"pip\\\", \\\"config\\\", \\\"list\\\"]]\nparts = []\nfor command in commands:\n    result = subprocess.run(command, text=True, capture_output=True)\n    parts.extend([result.stdout, result.stderr])\nparts.append(\\\"\\\\n\\\".join(f\\\"{key}=[REDACTED_ENV_VALUE]\\\" for key in sorted(os.environ) if key.startswith(\\\"PIP_\\\")))\noutput = \\\"\\\\n\\\".join(parts)\n\ndef safe_url(match):\n    value = match.group(0).rstrip(\\\",;)]}\\\").replace(chr(39), \\\"\\\").replace(chr(34), \\\"\\\")\n    parsed = urllib.parse.urlsplit(value)\n    host = parsed.hostname or \\\"[invalid-host]\\\"\n    port = f\\\":{parsed.port}\\\" if parsed.port else \\\"\\\"\n    return f\\\"{parsed.scheme}://{host}{port}[REDACTED_URL]\\\"\n\noutput = re.sub(r\\\"https?://[\"'^'\"\\\\s]+\\\", safe_url, output, flags=re.I)\noutput = re.sub(r\\\"(?i)(password|passwd|token|secret|api[_-]?key)(\\\\s*[=:]\\\\s*)[\"'^'\"\\\\s]+\\\", r\\\"\\\\1\\\\2[REDACTED]\\\", output)\nprint(output)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport shutil\nimport subprocess\n\ndef probe(command):\n    try:\n        result = subprocess.run(command, text=True, capture_output=True, timeout=10)\n        return result.returncode, (result.stdout or result.stderr).strip()\n    except FileNotFoundError:\n        return None, 'command not found'\n    except subprocess.TimeoutExpired:\n        return None, 'timed out after 10s'\n\ndocker_code, docker_output = probe(['docker', 'info', '--format', '{{.ServerVersion}}|{{.OSType}}|{{.Architecture}}'])\nif docker_code == 0:\n    print('LINUX_EXECUTOR_SELECTION=DOCKER_RESPONSIVE')\n    print(f'DOCKER_INFO={docker_output}')\nelse:\n    print(f'DOCKER_PROBE=UNAVAILABLE: {docker_output}')\n    if shutil.which('orb'):\n        orb_code, orb_output = probe(['orb', 'status'])\n        if orb_code == 0:\n            print('LINUX_EXECUTOR_SELECTION=ORB_RESPONSIVE')\n            print(f'ORB_STATUS={orb_output}')\n        else:\n            print(f'LINUX_EXECUTOR_SELECTION=BLOCKED_LINUX_EXECUTOR: Orb probe {orb_output}')\n    else:\n        print('LINUX_EXECUTOR_SELECTION=BLOCKED_LINUX_EXECUTOR: neither responsive Docker nor Orb is available')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git rev-parse main && rtk git diff-index --quiet HEAD --; echo worktree_diff_exit=$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 49,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 89.87,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 543232,
+      "fresh_input_tokens": 61254,
+      "input_tokens": 604486,
+      "non_reasoning_output_tokens": 4789,
+      "output_tokens": 18230,
+      "reasoning_output_tokens": 13441,
+      "total_processed_tokens": 622716
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T12:29:11Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-runtime-server-verify-4",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-runtime-server-verify-4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-bf55ceeea414c8cef6d90cec",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-4"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-runtime-server-verify-4",
+  "schema_version": 1,
+  "started_at": "2026-09-16T12:21:47Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 444,
+    "queue_seconds": 0,
+    "total_seconds": 444
+  },
+  "transport": {
+    "bytes": 6719,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6383,
+    "prompt_sha256": "1713363eca8ba9976ee449edd96a5c9a9f859c161cb357a56f332df553d046c3",
+    "sha256": "bf55ceeea414c8cef6d90cecc3182df03fa0a622433941f6da17e2db77463c66"
+  }
+}
