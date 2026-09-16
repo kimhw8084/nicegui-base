@@ -1,0 +1,443 @@
+{
+  "accepted_at": "2026-09-16T13:54:13Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && printf '%s\\\\n' '--- branch/status ---' && git branch --show-current && git status --short --branch && printf '%s\\\\n' '--- refs ---' && git rev-parse HEAD && git rev-parse HEAD\"'^{tree} && printf '\"'%s\\\\n' '--- instructions ---' && cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md && printf '%s\\\\n' '--- manifest ---' && cat source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git merge --ff-only 358ead108ab907af72e56c039491ba4cdfc77f61 && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-files | rg '(\"'^|/)(PACKAGE_SHA256SUMS'\"\\\\.txt|SHA256SUMS\\\\.txt|nicegui_base-3\\\\.0\\\\.0a8-py3-none-any\\\\.whl)\"'$'\"' && printf '%s\\\\n' '--- PACKAGE_SHA256SUMS.txt ---' && rtk sed -n '1,120p' PACKAGE_SHA256SUMS.txt && printf '%s\\\\n' '--- source/SHA256SUMS.txt ---' && rtk sed -n '1,120p' source/SHA256SUMS.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'set -eu\nstaging=$(mktemp -d /tmp/nicegui-base-verify6-XXXXXX)\nrtk git archive --format=tar 358ead108ab907af72e56c039491ba4cdfc77f61 | tar -xf - -C \"$staging\"\nprintf '\"'STAGING=%s\\\\n' \\\"\"'$staging\"\nprintf '\"'%s\\\\n' '--- metadata check ---'\nif find \\\"\"'$staging\" -name .git -o -name .git'\"\\\\* | rg .; then\n  printf '%s\\\\n' 'GIT_METADATA_PRESENT'\n  exit 1\nelse\n  printf '%s\\\\n' 'NO_GIT_METADATA'\nfi\nprintf '%s\\\\n' '--- package manifest ---'\n(cd \\\"\"'$staging\" && rtk sha256sum -c PACKAGE_SHA256SUMS.txt)\nprintf '\"'%s\\\\n' '--- source manifest ---'\n(cd \\\"\"'$staging/source\" && rtk sha256sum -c SHA256SUMS.txt)\nprintf '\"'%s\\\\n' '--- wheel hashes ---'\nfor wheel in \\\"\"'$staging/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\"; do\n  rtk sha256sum \"$wheel\"\ndone\nexpected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\nactual_count=$(for wheel in \"$staging/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\"; do rtk sha256sum \"$wheel\"; done | awk -v e=\"$expected\" '\"'\"'$1==e {n++} END{print n+0}'\"')\nif [ \\\"\"'$actual_count\" -ne 3 ]; then\n  printf '\"'WHEEL_HASH_MISMATCH count=%s\\\\n' \\\"\"'$actual_count\"\n  exit 1\nfi\nprintf '\"'ALL_THREE_WHEELS_MATCH=%s\\\\n' \\\"\"'$expected\"'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set -eu\nstaging=/tmp/nicegui-base-verify6-qsN1cw\nprintf 'STAGING=%s\\\\n' \\\"\"'$staging\"\nprintf '\"'%s\\\\n' '--- metadata check ---'\nmetadata=\"'$(find \"$staging\" '\"\\\\( -type d -name .git -o -type f -path '*/.git/*' \\\\) -print)\nif [ -n \\\"\"'$metadata\" ]; then\n  printf '\"'%s\\\\n' \\\"\"'$metadata\"\n  printf '\"'%s\\\\n' 'GIT_METADATA_PRESENT'\n  exit 1\nelse\n  printf '%s\\\\n' 'NO_GIT_METADATA'\nfi\nprintf '%s\\\\n' '--- package manifest ---'\n(cd \\\"\"'$staging\" && rtk sha256sum -c PACKAGE_SHA256SUMS.txt)\nprintf '\"'%s\\\\n' '--- source manifest ---'\n(cd \\\"\"'$staging/source\" && rtk sha256sum -c SHA256SUMS.txt)\nprintf '\"'%s\\\\n' '--- wheel hashes ---'\nfor wheel in \\\"\"'$staging/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\"; do\n  rtk sha256sum \"$wheel\"\ndone\nexpected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\nactual_count=$(for wheel in \"$staging/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$staging/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\"; do rtk sha256sum \"$wheel\"; done | awk -v e=\"$expected\" '\"'\"'$1==e {n++} END{print n+0}'\"')\nif [ \\\"\"'$actual_count\" -ne 3 ]; then\n  printf '\"'WHEEL_HASH_MISMATCH count=%s\\\\n' \\\"\"'$actual_count\"\n  exit 1\nfi\nprintf '\"'ALL_THREE_WHEELS_MATCH=%s\\\\n' \\\"\"'$expected\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' setup_mac.sh && printf '%s\\\\n' '--- setup_linux.sh ---' && rtk sed -n '1,240p' setup_linux.sh && printf '%s\\\\n' '--- requirements ---' && rtk sed -n '1,160p' requirements.txt && rtk sed -n '1,160p' requirements-certification.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -i \"company.*index|approved.*index|PIP_INDEX_URL|index-url|extra-index-url|BLOCKED_INDEX\" docs *.sh requirements*.txt source | head -200'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set +e\nrtk python3 - <<'PY'\nimport os\nimport re\nimport subprocess\nimport sys\nfrom urllib.parse import urlsplit, urlunsplit\n\nPUBLIC_HOSTS = {\n    'pypi.org', 'pypi.python.org', 'files.pythonhosted.org', 'pythonhosted.org',\n    'test.pypi.org', 'pypi.io',\n}\n\ndef redact(value, key=''):\n    value = str(value)\n    upper = key.upper()\n    if any(word in upper for word in ('PASSWORD', 'PASSWD', 'TOKEN', 'SECRET', 'CREDENTIAL', 'AUTH')):\n        return '<redacted>'\n    if '://' in value:\n        try:\n            parts = urlsplit(value)\n            host = parts.hostname or ''\n            if parts.port:\n                host = f'{host}:{parts.port}'\n            netloc = host\n            if parts.username is not None or parts.password is not None:\n                netloc = '<redacted>@' + host\n            return urlunsplit((parts.scheme, netloc, parts.path, parts.query, parts.fragment))\n        except Exception:\n            return '<redacted-url>'\n    return re.sub(r'(?i)(token|password|passwd|secret|api[_-]?key)=([\"'^&'\"\\\\s]+)', r'\\\\1=<redacted>', value)\n\ndef nonempty(value):\n    if value is None:\n        return False\n    if isinstance(value, (list, tuple)):\n        return any(nonempty(v) for v in value)\n    return bool(str(value).strip())\n\ndef values_from_pip_config():\n    try:\n        from pip._internal.configuration import Configuration\n        cfg = Configuration(isolated=False)\n        cfg.load()\n        return dict(cfg.items()), None\n    except Exception as exc:\n        return {}, type(exc).__name__\n\ndef public_source(value):\n    try:\n        host = (urlsplit(str(value)).hostname or '').lower().rstrip('.')\n    except Exception:\n        return False\n    return host in PUBLIC_HOSTS or host.endswith('.pypi.org') or host.endswith('.pythonhosted.org')\n\nenv = {k: v for k, v in os.environ.items() if k.startswith('PIP_')}\nconfig_values, config_error = values_from_pip_config()\nprint('INDEX_EVALUATION=single-bounded')\nprint('PIP_CONFIG_LOAD_ERROR=' + (config_error or 'none'))\nprint('PIP_ENVIRONMENT_REDACTED:')\nfor key in sorted(env):\n    print(f'  {key}={redact(env[key], key)}')\nprint('PIP_CONFIG_RELEVANT_REDACTED:')\nfor key in sorted(config_values):\n    low = key.lower()\n    if any(term in low for term in ('index-url', 'extra-index', 'find-links', 'no-index')):\n        print(f'  {key}={redact(config_values[key], key)}')\n\n# PIP_INDEX_URL is the highest-precedence explicit primary. Otherwise use the\n# most specific configured install/global index-url value.\nprimary = env.get('PIP_INDEX_URL', '').strip()\nprimary_origin = 'env:PIP_INDEX_URL' if primary else ''\nif not primary:\n    for key in ('install.index-url', 'global.index-url', ':env:.index-url'):\n        value = config_values.get(key)\n        if nonempty(value):\n            primary = str(value).strip()\n            primary_origin = 'pip-config:' + key\n            break\n\nextra_sources = []\nfor key, value in env.items():\n    if key in {'PIP_EXTRA_INDEX_URL', 'PIP_FIND_LINKS'} and nonempty(value):\n        extra_sources.append(key)\nfor key, value in config_values.items():\n    low = key.lower()\n    if ('extra-index-url' in low or 'find-links' in low) and nonempty(value):\n        extra_sources.append('pip-config:' + key)\nextra_sources = sorted(set(extra_sources))\n\nprint('EFFECTIVE_PRIMARY=' + (redact(primary, 'INDEX_URL') if primary else '<none>'))\nprint('EFFECTIVE_PRIMARY_ORIGIN=' + (primary_origin or '<none>'))\nprint('EXTRA_OR_FALLBACK_SOURCES=' + (','.join(extra_sources) if extra_sources else '<none>'))\n\nif not primary:\n    classification = 41\n    label = 'BLOCKED_INDEX_NOT_CONFIGURED'\nelif public_source(primary):\n    classification = 45\n    label = 'BLOCKED_INDEX_PUBLIC_PRIMARY'\nelif extra_sources:\n    classification = 46\n    label = 'BLOCKED_INDEX_FALLBACK'\nelse:\n    print('APPROVED_PRIMARY_PROBE=running')\n    probe_env = os.environ.copy()\n    probe_env['PIP_NO_INPUT'] = '1'\n    # Uses pip's already effective configured primary; no public fallback is added.\n    probe = subprocess.run(\n        [sys.executable, '-m', 'pip', 'index', 'versions', 'nicegui',\n         '--disable-pip-version-check', '--no-cache-dir', '--timeout', '15', '--retries', '0'],\n        env=probe_env, capture_output=True, text=True, timeout=45,\n    )\n    combined = (probe.stdout or '') + '\\\\n' + (probe.stderr or '')\n    has_required = bool(re.search(r'(?<\"'![0-9])3'\"\\\\.15\\\\.0(?\"'![0-9])'\"', combined))\n    print(f'APPROVED_PRIMARY_PROBE_RC={probe.returncode}')\n    print(f'APPROVED_PRIMARY_PROBE_RESOLVED_NICEGUI_3_15_0={str(has_required).lower()}')\n    if probe.returncode == 0 and has_required:\n        classification = 0\n        label = 'PASS'\n    else:\n        classification = 47\n        label = 'BLOCKED_INDEX_ACCESS'\n\nprint(f'PREREQUISITE_CLASSIFICATION={label}')\nprint(f'PREREQUISITE_CODE={classification}')\nraise SystemExit(classification)\nPY\nclassification_rc=\"'$?\nset -e\nprintf '\"'CLASSIFICATION_COMMAND=rtk sh -c exit %s\\\\n' \\\"\"'$classification_rc\"\nrtk sh -c \"exit $classification_rc\"\n'",
+      "exit_code": 41,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set -eu\nrtk rm -rf /tmp/nicegui-base-verify6-qsN1cw\nprintf '%s\\\\n' '--- final git identity ---'\nprintf 'BRANCH=%s\\\\n' \\\"\"'$(rtk git branch --show-current)\"\nprintf '\"'HEAD=%s\\\\n' \\\"\"'$(rtk git rev-parse HEAD)\"\nprintf '\"'TREE=%s\\\\n' \\\"\"'$(rtk git rev-parse HEAD''^{tree})\"\nprintf '\"'MAIN_REF=%s\\\\n' \\\"\"'$(rtk git rev-parse refs/heads/main 2>/dev/null || printf '\"'<unavailable>')\\\"\nprintf '%s\\\\n' '--- final tracked status ---'\nrtk git status --short --branch\nprintf '%s\\\\n' '--- candidate wheel hashes in worktree ---'\nrtk sha256sum source/dist/nicegui_base-3.0.0a8-py3-none-any.whl source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl wheel/nicegui_base-3.0.0a8-py3-none-any.whl\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 25,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 84.4,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 375552,
+      "fresh_input_tokens": 69441,
+      "input_tokens": 444993,
+      "non_reasoning_output_tokens": 4681,
+      "output_tokens": 15041,
+      "reasoning_output_tokens": 10360,
+      "total_processed_tokens": 460034
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T14:00:35Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-runtime-server-verify-6",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-runtime-server-verify-6",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-71c326b5dc4059e3d295e07e",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-6",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-6"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-runtime-server-verify-6",
+  "schema_version": 1,
+  "started_at": "2026-09-16T13:54:13Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 382,
+    "queue_seconds": 0,
+    "total_seconds": 382
+  },
+  "transport": {
+    "bytes": 7363,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7027,
+    "prompt_sha256": "daf22124494ecbf4a4225063c811fb0873fc28fef03ef71269ee2351974cbec6",
+    "sha256": "71c326b5dc4059e3d295e07e26d205feb3bed04c36ffa7daa9e34a3b67cb4713"
+  }
+}
