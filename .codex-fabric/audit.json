@@ -1,0 +1,458 @@
+{
+  "accepted_at": "2026-09-16T21:06:22Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && git status --short --branch && git branch --show-current && git show -s --format='%H%n%T%n%D' HEAD && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,260p' /Users/haewonkim/.codex/law.md && sed -n '1,260p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse 358ead108ab907af72e56c039491ba4cdfc77f61''^{commit} && rtk git show -s --format='\"'%H%n%T%n%P' 358ead108ab907af72e56c039491ba4cdfc77f61 && rtk git branch --list 'codex/nicegui-base-stable3-runtime-server-verify-7' --verbose --no-abbrev && rtk git merge --ff-only 358ead108ab907af72e56c039491ba4cdfc77f61 && rtk git status --short --branch && rtk git show -s --format='%H%n%T%n%D' HEAD && sed -n '261,999p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk --version && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git diff --quiet 358ead108ab907af72e56c039491ba4cdfc77f61 -- && rtk git status --porcelain=v1 && rtk bash -lc '\"'verify_stage=\"'$(mktemp -d /tmp/nicegui-base-verify-XXXXXX); rtk git archive 358ead108ab907af72e56c039491ba4cdfc77f61 | rtk tar -x -C \"$verify_stage\"; printf \"STAGING=%s'\"\\\\n\\\" \\\"\"'$verify_stage\"; test -z \"$(rtk find \"$verify_stage\" -type d -name .git -o -type f -name .git'\"\\\\*)\\\"; printf \\\"NO_GIT_METADATA\\\\n\\\"; rtk git -C \\\"\"'$verify_stage\" status --porcelain 2>&1 || true; printf \"PACKAGE_MANIFEST_HEAD'\"\\\\n\\\"; rtk sed -n \\\"1,12p\\\" \\\"\"'$verify_stage/PACKAGE_SHA256SUMS.txt\"; printf \"SOURCE_MANIFEST_HEAD'\"\\\\n\\\"; rtk sed -n \\\"1,12p\\\" \\\"\"'$verify_stage/source/SHA256SUMS.txt\"; printf \"PACKAGE_VERIFY'\"\\\\n\\\"; (cd \\\"\"'$verify_stage\" && rtk sha256sum -c PACKAGE_SHA256SUMS.txt); printf \"SOURCE_VERIFY'\"\\\\n\\\"; (cd \\\"\"'$verify_stage/source\" && rtk sha256sum -c SHA256SUMS.txt); printf \"WHEEL_HASHES'\"\\\\n\\\"; rtk sha256sum \\\"\"'$verify_stage/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\"; printf \"WHEEL_EXPECTED_MATCHES'\"\\\\n\\\"; for wheel in \\\"\"'$verify_stage/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\"; do rtk sha256sum \"$wheel\" | rtk awk -v expected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da \"'\"\\\\\"'$1==expected {ok++} END {exit ok!=1}\"; done; printf \"ALL_THREE_WHEELS_MATCH_EXPECTED'\"\\\\n\\\"; printf \\\"TREE_VERIFY\\\\n\\\"; rtk git -C \\\"\"'$verify_stage\" rev-parse HEAD 2>/dev/null || true'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'verify_stage=/tmp/nicegui-base-verify-Vk04zc; test -d \\\"\"'$verify_stage\"; metadata=$(/usr/bin/find \"$verify_stage\" '\"\\\\( -name .git -o -name .gitmodules -o -name .gitignore \\\\) -print); test -z \\\"\"'$metadata\" || { printf \"UNEXPECTED_GIT_METADATA_OR_GITIGNORE'\"\\\\n%s\\\\n\\\" \\\"\"'$metadata\"; exit 1; }; printf \"STAGING=%s'\"\\\\nNO_GIT_METADATA=PASS\\\\n\\\" \\\"\"'$verify_stage\"; (cd \"$verify_stage\" && rtk sha256sum -c PACKAGE_SHA256SUMS.txt >/dev/null); printf \"PACKAGE_SHA256SUMS=PASS'\"\\\\n\\\"; (cd \\\"\"'$verify_stage/source\" && rtk sha256sum -c SHA256SUMS.txt >/dev/null); printf \"SOURCE_SHA256SUMS=PASS'\"\\\\n\\\"; rtk sha256sum \\\"\"'$verify_stage/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\" | rtk awk -v expected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da '\"'\\\\''{print \"'$1, $2; if ($1 != expected) bad=1} END {exit bad}'\"'\\\\''; printf \\\"ALL_THREE_WHEELS=PASS EXPECTED_SHA256=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\\\\n\\\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'verify_stage=/tmp/nicegui-base-verify-Vk04zc; test -d \\\"\"'$verify_stage\"; metadata=$(/usr/bin/find \"$verify_stage\" '\"\\\\( -name .git -o -name .gitmodules \\\\) -print); test -z \\\"\"'$metadata\" || { printf \"UNEXPECTED_GIT_METADATA'\"\\\\n%s\\\\n\\\" \\\"\"'$metadata\"; exit 1; }; printf \"STAGING=%s'\"\\\\nNO_GIT_METADATA=PASS\\\\n\\\" \\\"\"'$verify_stage\"; (cd \"$verify_stage\" && rtk sha256sum -c PACKAGE_SHA256SUMS.txt >/dev/null); printf \"PACKAGE_SHA256SUMS=PASS'\"\\\\n\\\"; (cd \\\"\"'$verify_stage/source\" && rtk sha256sum -c SHA256SUMS.txt >/dev/null); printf \"SOURCE_SHA256SUMS=PASS'\"\\\\n\\\"; rtk sha256sum \\\"\"'$verify_stage/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$verify_stage/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\" | rtk awk -v expected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da '\"'\\\\''{print \"'$1, $2; if ($1 != expected) bad=1} END {exit bad}'\"'\\\\''; printf \\\"ALL_THREE_WHEELS=PASS EXPECTED_SHA256=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\\\\n\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'python3 - <<'\\\"'\\\"'PY'\\\"'\\\"'\nimport json\nimport os\nimport subprocess\nimport sys\nimport tempfile\nfrom urllib.parse import urlsplit\n\nCODE_PASS = 0\nCODE_NO_PRIMARY = 41\nCODE_PUBLIC_PRIMARY = 45\nCODE_FALLBACK = 46\nCODE_ACCESS = 47\n\n# One effective-state read: pip configuration is queried once, while relevant\n# environment variables are read from the inherited process environment.\npip_cfg = subprocess.run(\n    [sys.executable, \\\"-m\\\", \\\"pip\\\", \\\"config\\\", \\\"list\\\", \\\"--format=json\\\"],\n    stdin=subprocess.DEVNULL,\n    capture_output=True,\n    text=True,\n    timeout=15,\n    check=False,\n)\ntry:\n    config = json.loads(pip_cfg.stdout) if pip_cfg.returncode == 0 and pip_cfg.stdout.strip() else {}\nexcept json.JSONDecodeError:\n    config = {}\n\nnormalized = {str(k).lower().replace(\\\"_\\\", \\\"-\\\"): v for k, v in config.items()}\nenv = {key: os.environ.get(key, \\\"\\\").strip() for key in (\n    \\\"PIP_INDEX_URL\\\", \\\"PIP_EXTRA_INDEX_URL\\\", \\\"PIP_FIND_LINKS\\\", \\\"PIP_NO_INDEX\\\"\n)}\n\nprimary_keys = (\\\"install.index-url\\\", \\\"global.index-url\\\")\nprimary = \\\"\\\"\nprimary_origin = \\\"\\\"\nif env[\\\"PIP_INDEX_URL\\\"]:\n    primary = env[\\\"PIP_INDEX_URL\\\"]\n    primary_origin = \\\"env:PIP_INDEX_URL\\\"\nelse:\n    for key in primary_keys:\n        value = normalized.get(key)\n        if isinstance(value, str) and value.strip():\n            primary = value.strip()\n            primary_origin = \\\"config:\\\" + key\n            break\n\nprint(\\\"INDEX_EVALUATION=ONE_SHOT\\\")\nprint(\\\"PIP_CONFIG_LIST_EXIT=\\\" + str(pip_cfg.returncode))\nprint(\\\"PRIMARY_CONFIGURED=\\\" + (\\\"yes\\\" if primary else \\\"no\\\"))\nprint(\\\"PRIMARY_ORIGIN=\\\" + (primary_origin or \\\"none\\\"))\nif primary:\n    print(\\\"PRIMARY_VALUE=REDACTED\\\")\n\nif not primary:\n    print(\\\"CLASSIFICATION=BLOCKED_INDEX_NOT_CONFIGURED\\\")\n    print(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 41\\\")\n    raise SystemExit(CODE_NO_PRIMARY)\n\nparts = urlsplit(primary)\nhost = (parts.hostname or \\\"\\\").lower().rstrip(\\\".\\\")\npublic_hosts = {\n    \\\"pypi.org\\\", \\\"www.pypi.org\\\", \\\"pypi.python.org\\\", \\\"www.pypi.python.org\\\",\n    \\\"test.pypi.org\\\", \\\"www.test.pypi.org\\\", \\\"files.pythonhosted.org\\\",\n    \\\"pypi.pythonhosted.org\\\", \\\"pythonhosted.org\\\", \\\"www.pythonhosted.org\\\",\n}\nif host in public_hosts or host.endswith(\\\".pypi.org\\\") or host.endswith(\\\".pythonhosted.org\\\"):\n    print(\\\"PRIMARY_PUBLIC=yes\\\")\n    print(\\\"CLASSIFICATION=BLOCKED_INDEX_PUBLIC_PRIMARY\\\")\n    print(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 45\\\")\n    raise SystemExit(CODE_PUBLIC_PRIMARY)\nprint(\\\"PRIMARY_PUBLIC=no\\\")\n\nextra_config = []\nfor key in (\\\"install.extra-index-url\\\", \\\"global.extra-index-url\\\", \\\"install.find-links\\\", \\\"global.find-links\\\"):\n    value = normalized.get(key)\n    if isinstance(value, list):\n        if any(str(item).strip() for item in value):\n            extra_config.append(key)\n    elif isinstance(value, str) and value.strip():\n        extra_config.append(key)\nextra_env = [key for key in (\\\"PIP_EXTRA_INDEX_URL\\\", \\\"PIP_FIND_LINKS\\\") if env[key]]\nif extra_config or extra_env:\n    print(\\\"FALLBACK_CONFIG_KEYS=\\\" + (\\\",\\\".join(extra_config) or \\\"none\\\"))\n    print(\\\"FALLBACK_ENV_KEYS=\\\" + (\\\",\\\".join(extra_env) or \\\"none\\\"))\n    print(\\\"CLASSIFICATION=BLOCKED_INDEX_FALLBACK\\\")\n    print(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 46\\\")\n    raise SystemExit(CODE_FALLBACK)\n\n# Non-public primary: one bounded resolution/access probe, downloading only to\n# a disposable temp directory and never installing into the candidate env.\nprobe_env = os.environ.copy()\nprobe_env[\\\"PIP_INDEX_URL\\\"] = primary\nprobe_env[\\\"PIP_CONFIG_FILE\\\"] = os.devnull\nprobe_env[\\\"PIP_DISABLE_PIP_VERSION_CHECK\\\"] = \\\"1\\\"\nprobe_env.pop(\\\"PIP_EXTRA_INDEX_URL\\\", None)\nprobe_env.pop(\\\"PIP_FIND_LINKS\\\", None)\nprobe_env.pop(\\\"PIP_NO_INDEX\\\", None)\ntry:\n    with tempfile.TemporaryDirectory(prefix=\\\"nicegui-base-index-probe-\\\") as probe_dir:\n        probe = subprocess.run(\n            [sys.executable, \\\"-m\\\", \\\"pip\\\", \\\"download\\\", \\\"--disable-pip-version-check\\\",\n             \\\"--no-cache-dir\\\", \\\"--no-deps\\\", \\\"--only-binary=:all:\\\", \\\"--timeout\\\", \\\"15\\\",\n             \\\"--retries\\\", \\\"0\\\", \\\"--dest\\\", probe_dir, \\\"nicegui==3.15.0\\\"],\n            stdin=subprocess.DEVNULL,\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n            text=True,\n            env=probe_env,\n            timeout=30,\n            check=False,\n        )\n        probe_rc = probe.returncode\nexcept subprocess.TimeoutExpired:\n    probe_rc = 124\nexcept OSError:\n    probe_rc = 125\n\nprint(\\\"PRIMARY_ACCESS_RESOLUTION_PROBE=bounded_download_no_install\\\")\nprint(\\\"PRIMARY_ACCESS_RESOLUTION_EXIT=\\\" + str(probe_rc))\nif probe_rc \"'!= 0:\n    print(\"CLASSIFICATION=BLOCKED_INDEX_ACCESS\")\n    print(\"DURABLE_CLASSIFICATION_COMMAND=exit 47\")\n    raise SystemExit(CODE_ACCESS)\nprint(\"CLASSIFICATION=PASS\")\nprint(\"DURABLE_CLASSIFICATION_COMMAND=exit 0\")\nraise SystemExit(CODE_PASS)\nPY'\"'\"",
+      "exit_code": 41,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'verify_stage=/tmp/nicegui-base-verify-Vk04zc; case \\\"\"'$verify_stage\" in /tmp/nicegui-base-verify-*) test -d \"$verify_stage\" && rtk rm -rf \"$verify_stage\" && test ! -e \"$verify_stage\" && printf \"TEMP_ARCHIVE_STAGING_REMOVED=PASS'\"\\\\n\\\" ;; *) printf \\\"REFUSED_UNSAFE_TEMP_PATH\\\\n\\\"; exit 1 ;; esac; printf \\\"BRANCH=%s\\\\n\\\" \\\"\"'$(rtk git branch --show-current)\"; printf \"HEAD=%s'\"\\\\n\\\" \\\"\"'$(rtk git rev-parse HEAD)\"; printf \"TREE=%s'\"\\\\n\\\" \\\"\"'$(rtk git rev-parse HEAD''^{tree})\"; test \"$(rtk git rev-parse HEAD)\" = 358ead108ab907af72e56c039491ba4cdfc77f61; test \"$(rtk git rev-parse HEAD''^{tree})\" = 46b42c18abca22c14f7b4d9c440b06398f11bac5; printf \"EXACT_PREDECESSOR_IDENTITY=PASS'\"\\\\n\\\"; rtk git diff --quiet 358ead108ab907af72e56c039491ba4cdfc77f61 --; printf \\\"TRACKED_SOURCE_BYTES_UNCHANGED=PASS\\\\n\\\"; rtk git status --short --branch; printf \\\"ORIGIN_MAIN=%s\\\\n\\\" \\\"\"'$(rtk git rev-parse origin/main)\"; rtk git diff --quiet --no-ext-diff --exit-code; printf \"WORKTREE_CLEAN=PASS'\"\\\\n\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'exit 41'\"",
+      "exit_code": 41,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m pip config --help'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'python3 - <<'\\\"'\\\"'PY'\\\"'\\\"'\nimport os\nimport re\nimport subprocess\nimport sys\nfrom urllib.parse import urlsplit\n\nCODE_NO_PRIMARY = 41\nCODE_PUBLIC_PRIMARY = 45\nCODE_FALLBACK = 46\nCODE_ACCESS = 47\n\ncfg = subprocess.run(\n    [sys.executable, \\\"-m\\\", \\\"pip\\\", \\\"config\\\", \\\"list\\\"],\n    stdin=subprocess.DEVNULL,\n    capture_output=True,\n    text=True,\n    timeout=15,\n    check=False,\n)\nconfig = {}\nfor line in cfg.stdout.splitlines():\n    match = re.match(r\\\"\"'^([''^='\"\\\\s]+)\\\\s*=\\\\s*(.*)\"'$\", line.strip())\n    if not match:\n        continue\n    key, value = match.groups()\n    value = value.strip()\n    if len(value) >= 2 and value[0] == value[-1] and value[0] in \"'\"'\\\\\\\"\\\":\n        value = value[1:-1]\n    config[key.lower().replace(\\\"_\\\", \\\"-\\\")] = value\n\nenv_keys = (\\\"PIP_INDEX_URL\\\", \\\"PIP_EXTRA_INDEX_URL\\\", \\\"PIP_FIND_LINKS\\\", \\\"PIP_NO_INDEX\\\")\nenv = {key: os.environ.get(key, \\\"\\\").strip() for key in env_keys}\nprimary = env[\\\"PIP_INDEX_URL\\\"]\norigin = \\\"env:PIP_INDEX_URL\\\" if primary else \\\"\\\"\nif not primary:\n    for key in (\\\"install.index-url\\\", \\\"global.index-url\\\", \\\":env:.index-url\\\"):\n        value = config.get(key, \\\"\\\")\n        if value:\n            primary = value\n            origin = \\\"config:\\\" + key\n            break\n\nprint(\\\"INDEX_EVALUATION=CORRECTED_ONE_SHOT\\\")\nprint(\\\"PIP_CONFIG_LIST_EXIT=\\\" + str(cfg.returncode))\nprint(\\\"PRIMARY_CONFIGURED=\\\" + (\\\"yes\\\" if primary else \\\"no\\\"))\nprint(\\\"PRIMARY_ORIGIN=\\\" + (origin or \\\"none\\\"))\nif not primary:\n    print(\\\"CLASSIFICATION=BLOCKED_INDEX_NOT_CONFIGURED\\\")\n    print(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 41\\\")\n    raise SystemExit(CODE_NO_PRIMARY)\n\nhost = (urlsplit(primary).hostname or \\\"\\\").lower().rstrip(\\\".\\\")\npublic_hosts = {\n    \\\"pypi.org\\\", \\\"www.pypi.org\\\", \\\"pypi.python.org\\\", \\\"www.pypi.python.org\\\",\n    \\\"test.pypi.org\\\", \\\"www.test.pypi.org\\\", \\\"files.pythonhosted.org\\\",\n    \\\"pypi.pythonhosted.org\\\", \\\"pythonhosted.org\\\", \\\"www.pythonhosted.org\\\",\n}\nif host in public_hosts or host.endswith(\\\".pypi.org\\\") or host.endswith(\\\".pythonhosted.org\\\"):\n    print(\\\"PRIMARY_PUBLIC=yes\\\")\n    print(\\\"CLASSIFICATION=BLOCKED_INDEX_PUBLIC_PRIMARY\\\")\n    print(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 45\\\")\n    raise SystemExit(CODE_PUBLIC_PRIMARY)\nprint(\\\"PRIMARY_PUBLIC=no\\\")\n\nfallback_keys = [key for key in config if key in {\n    \\\"install.extra-index-url\\\", \\\"global.extra-index-url\\\", \\\"install.find-links\\\", \\\"global.find-links\\\"\n} and config[key]]\nfallback_env = [key for key in (\\\"PIP_EXTRA_INDEX_URL\\\", \\\"PIP_FIND_LINKS\\\") if env[key]]\nif fallback_keys or fallback_env:\n    print(\\\"FALLBACK_CONFIG_KEYS=\\\" + (\\\",\\\".join(fallback_keys) or \\\"none\\\"))\n    print(\\\"FALLBACK_ENV_KEYS=\\\" + (\\\",\\\".join(fallback_env) or \\\"none\\\"))\n    print(\\\"CLASSIFICATION=BLOCKED_INDEX_FALLBACK\\\")\n    print(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 46\\\")\n    raise SystemExit(CODE_FALLBACK)\n\n# This branch is intentionally not reached for the observed state. Any future\n# approved private primary would use one bounded no-install download probe.\nprint(\\\"CLASSIFICATION=BLOCKED_INDEX_ACCESS\\\")\nprint(\\\"PRIMARY_ACCESS_RESOLUTION_PROBE=NOT_REACHED_IN_THIS_STATE_READ\\\")\nprint(\\\"DURABLE_CLASSIFICATION_COMMAND=exit 47\\\")\nraise SystemExit(CODE_ACCESS)\nPY'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'python3 - <<'\\\"'\\\"'PY'\\\"'\\\"'\nimport os\nimport re\nimport subprocess\nimport sys\nfrom urllib.parse import urlsplit\n\nCODE_NO_PRIMARY = 41\nCODE_PUBLIC_PRIMARY = 45\nCODE_FALLBACK = 46\nCODE_ACCESS = 47\n\ncfg = subprocess.run(\n    [sys.executable, \\\"-m\\\", \\\"pip\\\", \\\"config\\\", \\\"list\\\"],\n    stdin=subprocess.DEVNULL,\n    capture_output=True,\n    text=True,\n    timeout=15,\n    check=False,\n)\nconfig = {}\nfor line in cfg.stdout.splitlines():\n    match = re.match(r\\\"\"'^([''^='\"\\\\\\\\s]+)\\\\\\\\s*=\\\\\\\\s*(.*)\"'$\", line.strip())\n    if not match:\n        continue\n    key, value = match.groups()\n    value = value.strip()\n    if len(value) >= 2 and value[0] == value[-1] and value[0] in (chr(34), chr(39)):\n        value = value[1:-1]\n    config[key.lower().replace(\"_\", \"-\")] = value\n\nenv_keys = (\"PIP_INDEX_URL\", \"PIP_EXTRA_INDEX_URL\", \"PIP_FIND_LINKS\", \"PIP_NO_INDEX\")\nenv = {key: os.environ.get(key, \"\").strip() for key in env_keys}\nprimary = env[\"PIP_INDEX_URL\"]\norigin = \"env:PIP_INDEX_URL\" if primary else \"\"\nif not primary:\n    for key in (\"install.index-url\", \"global.index-url\", \":env:.index-url\"):\n        value = config.get(key, \"\")\n        if value:\n            primary = value\n            origin = \"config:\" + key\n            break\n\nprint(\"INDEX_EVALUATION=CORRECTED_ONE_SHOT\")\nprint(\"PIP_CONFIG_LIST_EXIT=\" + str(cfg.returncode))\nprint(\"PRIMARY_CONFIGURED=\" + (\"yes\" if primary else \"no\"))\nprint(\"PRIMARY_ORIGIN=\" + (origin or \"none\"))\nif not primary:\n    print(\"CLASSIFICATION=BLOCKED_INDEX_NOT_CONFIGURED\")\n    print(\"DURABLE_CLASSIFICATION_COMMAND=exit 41\")\n    raise SystemExit(CODE_NO_PRIMARY)\n\nhost = (urlsplit(primary).hostname or \"\").lower().rstrip(\".\")\npublic_hosts = {\n    \"pypi.org\", \"www.pypi.org\", \"pypi.python.org\", \"www.pypi.python.org\",\n    \"test.pypi.org\", \"www.test.pypi.org\", \"files.pythonhosted.org\",\n    \"pypi.pythonhosted.org\", \"pythonhosted.org\", \"www.pythonhosted.org\",\n}\nif host in public_hosts or host.endswith(\".pypi.org\") or host.endswith(\".pythonhosted.org\"):\n    print(\"PRIMARY_PUBLIC=yes\")\n    print(\"CLASSIFICATION=BLOCKED_INDEX_PUBLIC_PRIMARY\")\n    print(\"DURABLE_CLASSIFICATION_COMMAND=exit 45\")\n    raise SystemExit(CODE_PUBLIC_PRIMARY)\nprint(\"PRIMARY_PUBLIC=no\")\n\nfallback_keys = [key for key in config if key in {\n    \"install.extra-index-url\", \"global.extra-index-url\", \"install.find-links\", \"global.find-links\"\n} and config[key]]\nfallback_env = [key for key in (\"PIP_EXTRA_INDEX_URL\", \"PIP_FIND_LINKS\") if env[key]]\nif fallback_keys or fallback_env:\n    print(\"FALLBACK_CONFIG_KEYS=\" + (\",\".join(fallback_keys) or \"none\"))\n    print(\"FALLBACK_ENV_KEYS=\" + (\",\".join(fallback_env) or \"none\"))\n    print(\"CLASSIFICATION=BLOCKED_INDEX_FALLBACK\")\n    print(\"DURABLE_CLASSIFICATION_COMMAND=exit 46\")\n    raise SystemExit(CODE_FALLBACK)\n\nprint(\"CLASSIFICATION=BLOCKED_INDEX_ACCESS\")\nprint(\"PRIMARY_ACCESS_RESOLUTION_PROBE=NOT_REACHED_IN_THIS_STATE_READ\")\nprint(\"DURABLE_CLASSIFICATION_COMMAND=exit 47\")\nraise SystemExit(CODE_ACCESS)\nPY'\"'\"",
+      "exit_code": 41,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk bash -lc 'exit 41'\"",
+      "exit_code": 41,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 37,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 90.18,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 521984,
+      "fresh_input_tokens": 56836,
+      "input_tokens": 578820,
+      "non_reasoning_output_tokens": 7447,
+      "output_tokens": 18489,
+      "reasoning_output_tokens": 11042,
+      "total_processed_tokens": 597309
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T21:12:26Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-runtime-server-verify-7",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-runtime-server-verify-7",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-95e1baa8bdd55855fc788f03",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-7",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-7"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-runtime-server-verify-7",
+  "schema_version": 1,
+  "started_at": "2026-09-16T21:06:22Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 364,
+    "queue_seconds": 0,
+    "total_seconds": 364
+  },
+  "transport": {
+    "bytes": 7177,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6841,
+    "prompt_sha256": "fd9ba5ddf62c6206bcf7575717173f2a1cc81566d990f7ad854ff9f5f67ef190",
+    "sha256": "95e1baa8bdd55855fc788f031cfb2013aa199d92d31d73623d40da8745554c83"
+  }
+}
