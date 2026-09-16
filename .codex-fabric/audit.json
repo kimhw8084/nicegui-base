@@ -1,0 +1,463 @@
+{
+  "accepted_at": "2026-09-16T13:23:25Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'pwd && cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md && cat source/nicegui_base/ai/construction_manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-context \"Qualify target runtime and server behavior for stable 3.0 candidate\" --format json'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git log -1 --oneline --decorate'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"command -v rtk || true; git cat-file -t 358ead108ab907af72e56c039491ba4cdfc77f61; git show -s --format='%H %T %P %s' 358ead108ab907af72e56c039491ba4cdfc77f61; git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk --version; rtk gain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git reset --hard 358ead108ab907af72e56c039491ba4cdfc77f61 && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r --name-only HEAD | rtk grep -E '(PACKAGE_SHA256SUMS|SHA256SUMS|\\\\.whl\"'$|setup_(mac|linux)'\"\\\\.sh\"'$)'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show HEAD:PACKAGE_SHA256SUMS.txt && rtk git show HEAD:source/SHA256SUMS.txt && for f in source/dist/nicegui_base-3.0.0a8-py3-none-any.whl source/mac_bundle/setup_mac.sh source/linux_bundle/setup_linux.sh; do :; done'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'set -eu\nstage=/tmp/nicegui-base-verify-5-candidate\nrm -rf \\\"\"'$stage\"\nmkdir -p \"$stage\"\n git archive --format=tar 358ead108ab907af72e56c039491ba4cdfc77f61 | tar -xf - -C \"$stage\"\n[ ! -e \"$stage/.git\" ]\n[ -f \"$stage/PACKAGE_SHA256SUMS.txt\" ]\n[ -f \"$stage/source/SHA256SUMS.txt\" ]\n(cd \"$stage\" && shasum -a 256 -c PACKAGE_SHA256SUMS.txt >/tmp/verify5-package-sums.out)\n(cd \"$stage/source\" && shasum -a 256 -c SHA256SUMS.txt >/tmp/verify5-source-sums.out)\nexpected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\nfor f in \"$stage/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$stage/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$stage/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\"; do\n  [ \"$(shasum -a 256 \"$f\" | awk \"{print '\"\\\\\\\\\"'$1}\")\" = \"$expected\" ]\ndone\nprintf \"STAGE=%s'\"\\\\\\\\nNO_GIT=PASS\\\\\\\\nPACKAGE_SUMS=PASS\\\\\\\\nSOURCE_SUMS=PASS\\\\\\\\nWHEELS=PASS\\\\\\\\n\\\" \\\"\"'$stage\"'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'set -eu\nstage=/tmp/nicegui-base-verify-5-candidate\nrm -rf \\\"\"'$stage\"\nmkdir -p \"$stage\"\ngit archive --format=tar 358ead108ab907af72e56c039491ba4cdfc77f61 | tar -xf - -C \"$stage\"\n[ ! -e \"$stage/.git\" ]\n[ -f \"$stage/PACKAGE_SHA256SUMS.txt\" ]\n[ -f \"$stage/source/SHA256SUMS.txt\" ]\n(cd \"$stage\" && shasum -a 256 -c PACKAGE_SHA256SUMS.txt >/tmp/verify5-package-sums.out)\n(cd \"$stage/source\" && shasum -a 256 -c SHA256SUMS.txt >/tmp/verify5-source-sums.out)\nexpected=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\nfor f in \"$stage/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$stage/source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl\" \"$stage/source/dist/nicegui_base-3.0.0a8-py3-none-any.whl\"; do\n  actual=$(shasum -a 256 \"$f\" | cut -d\" \" -f1)\n  [ \"$actual\" = \"$expected\" ]\ndone\nprintf \"STAGE=%s'\"\\\\\\\\nNO_GIT=PASS\\\\\\\\nPACKAGE_SUMS=PASS\\\\\\\\nSOURCE_SUMS=PASS\\\\\\\\nWHEELS=PASS\\\\\\\\n\\\" \\\"\"'$stage\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport configparser\nimport os\nimport re\nimport subprocess\nimport sys\nfrom pathlib import Path\nfrom urllib.parse import urlparse\n\nPUBLIC = {\n    'pypi.org', 'www.pypi.org', 'files.pythonhosted.org', 'pypi.python.org'\n}\n\ndef parse_host(value):\n    try:\n        parsed = urlparse(value.strip().strip(\\\"'\\\\\\\"\\\"))\n        return (parsed.hostname or '').lower()\n    except Exception:\n        return ''\n\ndef clean_value(value):\n    return value.strip().strip(\\\"'\\\\\\\"\\\")\n\nprimary = []\nextras = []\n# Environment variables are part of effective pip configuration.\nif os.environ.get('PIP_INDEX_URL', '').strip():\n    primary.append(('env:PIP_INDEX_URL', os.environ['PIP_INDEX_URL']))\nif os.environ.get('PIP_EXTRA_INDEX_URL', '').strip():\n    extras.extend(('env:PIP_EXTRA_INDEX_URL', x) for x in os.environ['PIP_EXTRA_INDEX_URL'].split())\n\n# Include effective config output, but never print captured values.\nproc = subprocess.run([sys.executable, '-m', 'pip', 'config', 'list'], text=True,\n                      stdout=subprocess.PIPE, stderr=subprocess.PIPE)\nfor line in proc.stdout.splitlines():\n    if '=' not in line:\n        continue\n    key, value = line.split('=', 1)\n    key = key.strip().lower()\n    value = clean_value(value)\n    if key.endswith('index-url') and not key.endswith('extra-index-url'):\n        primary.append((key, value))\n    elif key.endswith('extra-index-url'):\n        extras.extend((key, x) for x in value.split())\n\n# Effective precedence: environment value wins over file values.\nexplicit_primary = primary[0][1] if primary else ''\nsource = primary[0][0] if primary else ''\nhost = parse_host(explicit_primary)\npublic_primary = host in PUBLIC\npublic_extra = any(parse_host(value) in PUBLIC for _, value in extras)\nany_extra = bool(extras)\n# Approved/company source is represented by an explicit non-public HTTPS/HTTP index;\n# public PyPI and any extra-index fallback are disallowed by this policy.\napproved = bool(explicit_primary) and bool(host) and not public_primary and not any_extra and not public_extra and proc.returncode == 0\nprint(f'PIP_POLICY_PRIMARY_CONFIGURED={\\\"YES\\\" if explicit_primary else \\\"NO\\\"}')\nprint(f'PIP_POLICY_PRIMARY_SOURCE={source or \\\"none\\\"}')\nprint(f'PIP_POLICY_PRIMARY_HOST={host or \\\"none\\\"}')\nprint(f'PIP_POLICY_PUBLIC_PRIMARY={\\\"YES\\\" if public_primary else \\\"NO\\\"}')\nprint(f'PIP_POLICY_EXTRA_INDEX_PRESENT={\\\"YES\\\" if any_extra else \\\"NO\\\"}')\nprint(f'PIP_POLICY_PUBLIC_EXTRA_INDEX={\\\"YES\\\" if public_extra else \\\"NO\\\"}')\nprint(f'PIP_POLICY_APPROVED_COMPANY_INDEX={\\\"PASS\\\" if approved else \\\"BLOCKED\\\"}')\nif not approved:\n    raise SystemExit(41)\nPY\"",
+      "exit_code": 41,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'set -eu\nrm -rf /tmp/nicegui-base-verify-5-candidate /tmp/verify5-package-sums.out /tmp/verify5-source-sums.out\nbranch=\"'$(git branch --show-current)\nhead=$(git rev-parse HEAD)\ntree=$(git rev-parse HEAD''^{tree})\nwheel=$(shasum -a 256 wheel/nicegui_base-3.0.0a8-py3-none-any.whl | cut -d\" \" -f1)\n[ \"$branch\" = \"codex/nicegui-base-stable3-runtime-server-verify-5\" ]\n[ \"$head\" = \"358ead108ab907af72e56c039491ba4cdfc77f61\" ]\n[ \"$tree\" = \"46b42c18abca22c14f7b4d9c440b06398f11bac5\" ]\n[ \"$wheel\" = \"14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\" ]\n[ -z \"$(git status --short)\" ]\nprintf \"BRANCH=%s'\"\\\\\\\\nHEAD=%s\\\\\\\\nTREE=%s\\\\\\\\nWHEEL_SHA256=%s\\\\\\\\nWORKTREE=clean\\\\\\\\n\\\" \\\"\"'$branch\" \"$head\" \"$tree\" \"$wheel\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 34,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 86.56,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 391424,
+      "fresh_input_tokens": 60789,
+      "input_tokens": 452213,
+      "non_reasoning_output_tokens": 3859,
+      "output_tokens": 10050,
+      "reasoning_output_tokens": 6191,
+      "total_processed_tokens": 462263
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T13:26:56Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-runtime-server-verify-5",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-runtime-server-verify-5",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-cf9504dcd71406973c567404",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-5",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-5"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-runtime-server-verify-5",
+  "schema_version": 1,
+  "started_at": "2026-09-16T13:23:25Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 211,
+    "queue_seconds": 0,
+    "total_seconds": 211
+  },
+  "transport": {
+    "bytes": 7242,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6906,
+    "prompt_sha256": "560b9e5c03cddabb007903d3fda61303ea780811640204844c5be14dfae2872f",
+    "sha256": "cf9504dcd71406973c567404ba6c8f8da1211ff9ac285f0a88df5f195d3953fa"
+  }
+}
