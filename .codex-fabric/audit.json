@@ -1,0 +1,648 @@
+{
+  "accepted_at": "2026-09-16T03:22:46Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk wc -l source/nicegui_base/ai/construction_manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-context \"Qualify target runtime and server behavior for stable 3.0 candidate; execute clean-wheel macOS development and Linux production/server Python 3.11, 3.12, 3.13 cells with installed runtime contract, doctor, smoke, and Socket.IO/WebSocket evidence\" --format json'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l setup_mac.sh setup_linux.sh run_nicegui_base.py && rtk file setup_mac.sh setup_linux.sh run_nicegui_base.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '221,398p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk which nicegui-base; rtk command -v nicegui-base; rtk ls -la .venv/bin/nicegui-base /Users/haewonkim/.codex/skills 2>/dev/null'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' setup_linux.sh\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' setup_mac.sh\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"nicegui-base|runtime-only|runtime-smoke|runtime-contract|doctor|setup_mac|setup_linux|Socket.IO|socket.io\\\" --glob '\"'!source/dist/*.whl'\"' --glob '\"'!source/wheel/*.whl'\"' --glob '\"'!wheel/*.whl'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD''^{commit} HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'env | LC_ALL=C grep -E \\\"\"'^(PIP|UV|POETRY|PYTHON|INDEX|ARTIFACTORY|NEXUS|PACKAGE|COMPANY)\" | sed -E \"s#(https?://)[''^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([''^=]*(TOKEN|PASSWORD|PASS|SECRET|KEY|CREDENTIAL)[''^=]*)=.*#'\"\\\\1=[REDACTED]#I\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'printf \\\"host=\\\"; uname -s; printf \\\"kernel=\\\"; uname -sr; printf \\\"arch=\\\"; uname -m; printf \\\"macos=\\\"; sw_vers -productVersion 2>/dev/null || true; for c in python3.11 python3.12 python3.13 python3 docker podman orb; do if command -v \\\"\"'$c\" >/dev/null 2>&1; then printf \"%s=\" \"$c\"; \"$c\" --version 2>&1 | head -1; else printf \"%s=UNAVAILABLE'\"\\\\n\\\" \\\"\"'$c\"; fi; done'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'python3 -m pip config list --verbose 2>&1 | sed -E \\\"s#(https?://)[\"'^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#(PIP[\"'^ =]*|UV[''^ =]*|TOKEN[''^ =]*|PASSWORD[''^ =]*)[ =].*#'\"\\\\1=[REDACTED]#I\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'python3 -m pip config debug 2>&1 | sed -E \\\"s#(https?://)[\"'^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#(PIP[\"'^ =]*|UV[''^ =]*|TOKEN[''^ =]*|PASSWORD[''^ =]*)[ =].*#'\"\\\\1=[REDACTED]#I\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'for f in /etc/pip.conf /etc/xdg/pip/pip.conf; do if [[ -f \\\"\"'$f\" ]]; then echo \"--- $f\"; sed -E \"s#(https?://)[''^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([[:space:]]*[[:alnum:]_.-]*(token|password|pass|secret|credential|key)[[:alnum:]_.-]*[[:space:]]*=).*#'\"\\\\1[REDACTED]#I\\\" \\\"\"'$f\"; fi; done'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'for f in /Library/Application\\\\ Support/pip/pip.conf /Users/haewonkim/.pip/pip.conf /Users/haewonkim/.config/pip/pip.conf; do if [[ -f \\\"\"'$f\" ]]; then echo \"--- $f\"; sed -E \"s#(https?://)[''^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([[:space:]]*[[:alnum:]_.-]*(token|password|pass|secret|credential|key)[[:alnum:]_.-]*[[:space:]]*=).*#'\"\\\\1[REDACTED]#I\\\" \\\"\"'$f\"; fi; done'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'python3 -m pip config debug 2>&1 | sed -E \\\"s#(https?://)[\"'^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([[:alnum:]_.-]*(token|password|pass|secret|credential|key)[[:alnum:]_.-]*)[[:space:]]*(=|:)[[:space:]]*.*#'\"\\\\1=\\\\[REDACTED\\\\]#I\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'python3 -m pip config list --verbose 2>&1 | sed -E \\\"s#(https?://)[\"'^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([[:alnum:]_.-]*(token|password|pass|secret|credential|key)[[:alnum:]_.-]*)[[:space:]]*(=|:)[[:space:]]*.*#'\"\\\\1=\\\\[REDACTED\\\\]#I\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc '\nset -euo pipefail\nCANDIDATE=358ead108ab907af72e56c039491ba4cdfc77f61\nEXPECTED=14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da\nROOT_STAGE=\"'$(mktemp -d /tmp/nicegui-base-chg59-verify.XXXXXX)\nmkdir -p \"$ROOT_STAGE\"\nprintf \"%s'\"\\\\n\\\" \\\"staging_root=\"'$ROOT_STAGE\"\nfor CELL in macos-py311 macos-py312 macos-py313 linux-py311 linux-py312 linux-py313; do\n  STAGE=\"$ROOT_STAGE/$CELL\"\n  mkdir -p \"$STAGE\"\n  git archive --format=tar \"$CANDIDATE\" | tar -x -C \"$STAGE\"\n  test ! -e \"$STAGE/.git\"\n  PKG_LOG=\"$ROOT_STAGE/$CELL-package-manifest.log\"\n  SRC_LOG=\"$ROOT_STAGE/$CELL-source-manifest.log\"\n  (cd \"$STAGE\" && /usr/bin/shasum -a 256 -c PACKAGE_SHA256SUMS.txt > \"$PKG_LOG\")\n  (cd \"$STAGE/source\" && /usr/bin/shasum -a 256 -c SHA256SUMS.txt > \"$SRC_LOG\")\n  WHEEL_STATUS=PASS\n  for REL in wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/dist/nicegui_base-3.0.0a8-py3-none-any.whl; do\n    HASH=$(/usr/bin/shasum -a 256 \"$STAGE/$REL\" | awk \"{print '\"\\\\\"'$1}\")\n    printf \"%s %s'\"\\\\n\\\" \\\"\"'$REL\" \"$HASH\" >> \"$ROOT_STAGE/$CELL-wheel-hashes.txt\"\n    if [[ \"$HASH\" != \"$EXPECTED\" ]]; then WHEEL_STATUS=FAIL; fi\n  done\n  PKG_PASS=$(awk \"/OK$/{n++} END{print n+0}\" \"$PKG_LOG\")\n  PKG_FAIL=$(awk \"/FAILED$/{n++} END{print n+0}\" \"$PKG_LOG\")\n  SRC_PASS=$(awk \"/OK$/{n++} END{print n+0}\" \"$SRC_LOG\")\n  SRC_FAIL=$(awk \"/FAILED$/{n++} END{print n+0}\" \"$SRC_LOG\")\n  printf \"%s package_ok=%s package_failed=%s source_ok=%s source_failed=%s wheels=%s mode_setup_mac=%s mode_setup_linux=%s'\"\\\\n\\\" \\\"\"'$CELL\" \"$PKG_PASS\" \"$PKG_FAIL\" \"$SRC_PASS\" \"$SRC_FAIL\" \"$WHEEL_STATUS\" \"$(stat -f %Lp \"$STAGE/setup_mac.sh\")\" \"$(stat -f %Lp \"$STAGE/setup_linux.sh\")\"\ndone\nprintf \"%s'\"\\\\n\\\" \\\"HEAD=\"'$(git rev-parse HEAD''^{commit})\"\nprintf \"%s'\"\\\\n\\\" \\\"TREE=\"'$(git rev-parse HEAD''^{tree})\"\n'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' requirements.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /tmp/nicegui-base-chg59-verify.jGJmmi/macos-py311-wheel-hashes.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git diff --stat && rtk git diff --name-only'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl source/dist/nicegui_base-3.0.0a8-py3-none-any.whl'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'for c in python3.11 python3.12 python3.13; do printf \\\"%s=\\\" \\\"\"'$c\"; \"$c\" -c \"import platform,sys; print(platform.platform(), platform.machine(), sys.executable, sys.version.replace(chr(10), \" \"))\"; done'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse --abbrev-ref HEAD HEAD''^{commit} HEAD''^{tree} && rtk git diff --quiet; printf '\"'git_diff_rc=%s\\\\n' \\\"\"'$?\" && rtk git diff --cached --quiet; printf '\"'git_cached_diff_rc=%s\\\\n' \\\"\"'$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'set +e; timeout 5 docker version --format \\\"client={{.Client.Version}} server={{.Server.Version}}\\\"; RC=\"'$?; printf \"docker_version_rc=%s'\"\\\\n\\\" \\\"\"'$RC\"; timeout 5 docker ps -a --format \"{{.Names}}'\"\\\\t{{.Image}}\\\\t{{.Status}}\\\" | head -30; printf \\\"docker_ps_rc=%s\\\\n\\\" \\\"\"'$?\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'unzip -p wheel/nicegui_base-3.0.0a8-py3-none-any.whl \\\"*/METADATA\\\" | sed -n \\\"1,12p\\\"; unzip -p wheel/nicegui_base-3.0.0a8-py3-none-any.whl \\\"*/WHEEL\\\" | sed -n \\\"1,12p\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -i \\\"python[[:space:]_-]*(3\\\\.11|3\\\\.12|3\\\\.13)|supported.{0,40}python|python.{0,40}supported|runtime.{0,40}matrix|platform.{0,40}matrix\\\" release_authority.json RELEASE_MANIFEST.json STABLE_QUALIFICATION_HANDOFF.json docs source/nicegui_base --glob '*.json' --glob '*.md' --glob '*.py'\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'for c in python3.11 python3.12 python3.13; do printf \\\"%s=\\\" \\\"\"'$c\"; \"$c\" -c \"import platform,sys; print(platform.platform(), platform.machine(), sys.executable, sys.version.split()[0])\"; done'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'set -o pipefail; timeout 5 docker ps -a --format \\\"{{.Names}}\\\\t{{.Image}}\\\\t{{.Status}}\\\"; rc=\"'$?; printf \"docker_ps_rc=%s'\"\\\\n\\\" \\\"\"'$rc\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files | rtk rg 'release_authority|RELEASE_AUTHORITY'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"agent-context|agent_context|def main\\\" source/nicegui_base --glob '*.py' | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'for c in orb orbctl lima colima; do if command -v \\\"\"'$c\" >/dev/null 2>&1; then printf \"%s=\" \"$c\"; \"$c\" version 2>&1 | head -1; else printf \"%s=UNAVAILABLE'\"\\\\n\\\" \\\"\"'$c\"; fi; done'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk PYTHONPATH=source python3.13 -m nicegui_base agent-context \"Qualify target runtime and server behavior for stable 3.0 candidate\" --format json'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/nicegui_base/release_authority.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' docs/LIVE_CERTIFICATION_GUIDE.md && rtk sed -n '1,120p' docs/MAC_LIVE_CERTIFICATION_GUIDE.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'set +e; timeout 5 orb status 2>&1; printf \\\"orb_status_rc=%s\\\\n\\\" \\\"\"'$?\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'set +e; timeout 5 orb list 2>&1; printf \\\"orb_list_rc=%s\\\\n\\\" \\\"\"'$?\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'PYTHONPATH=source python3.13 -m nicegui_base agent-context \\\"Qualify target runtime and server behavior for stable 3.0 candidate\\\" --format json'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,115p' source/nicegui_base/cli.py && rtk sed -n '1,80p' source/nicegui_base/ai_cli.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'PYTHONPATH=source python3.13 -c \\\"import sys; from nicegui_base.cli import main; sys.argv=[\\\\\\\"nicegui-base\\\\\\\", \\\\\\\"agent-context\\\\\\\", \\\\\\\"Qualify target runtime and server behavior for stable 3.0 candidate\\\\\\\", \\\\\\\"--format\\\\\\\", \\\\\\\"json\\\\\\\"]; raise SystemExit(main())\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk orb run --help | head -160'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk orb list --help | head -120'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk orb --help | head -120'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse origin/main refs/heads/codex/nicegui-base-stable3-runtime-server-verify-3 refs/heads/main && rtk git merge-base --is-ancestor 000298562d6bcbf6df304edbd41b98b30fe4bfcf 358ead108ab907af72e56c039491ba4cdfc77f61; printf 'base_ancestor_rc=%s\\\\n' \\\"\"'$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk orb sh -lc 'python3 -m pip config debug 2>&1 | sed -E \\\"s#(https?://)[\"'^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([[:alnum:]_.-]*(token|password|pass|secret|credential|key)[[:alnum:]_.-]*)[[:space:]]*(=|:)[[:space:]]*.*#'\"\\\\1=\\\\[REDACTED\\\\]#I\\\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk orb sh -lc 'python3 -m pip config list --verbose 2>&1 | sed -E \\\"s#(https?://)[\"'^/@[:space:]]+@#'\"\\\\1[REDACTED]@#g; s#\"'^([[:alnum:]_.-]*(token|password|pass|secret|credential|key)[[:alnum:]_.-]*)[[:space:]]*(=|:)[[:space:]]*.*#'\"\\\\1=\\\\[REDACTED\\\\]#I\\\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk orb uname -a && rtk orb cat /etc/os-release && rtk orb arch && rtk orb sh -lc 'for c in python3.11 python3.12 python3.13 python3; do if command -v \\\"\"'$c\" >/dev/null 2>&1; then printf \"%s=\" \"$c\"; \"$c\" --version; else printf \"%s=UNAVAILABLE'\"\\\\n\\\" \\\"\"'$c\"; fi; done'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk orb list --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc '\nset -euo pipefail\nprintf \\\"branch=%s\\\\n\\\" \\\"\"'$(git rev-parse --abbrev-ref HEAD)\"\nprintf \"head=%s'\"\\\\n\\\" \\\"\"'$(git rev-parse HEAD''^{commit})\"\nprintf \"tree=%s'\"\\\\n\\\" \\\"\"'$(git rev-parse HEAD''^{tree})\"\nprintf \"candidate_parent=%s'\"\\\\n\\\" \\\"\"'$(git rev-list --parents -n 1 358ead108ab907af72e56c039491ba4cdfc77f61 | awk \"{print '\"\\\\\"'$2}\")\"\nprintf \"origin_main=%s'\"\\\\n\\\" \\\"\"'$(git rev-parse origin/main)\"\nprintf \"local_main=%s'\"\\\\n\\\" \\\"\"'$(git rev-parse refs/heads/main)\"\ngit diff --quiet\ngit diff --cached --quiet\ntest -z \"$(git status --porcelain)\"\nprintf \"worktree=clean'\"\\\\n\\\"\nfor CELL in macos-py311 macos-py312 macos-py313 linux-py311 linux-py312 linux-py313; do\n  STAGE=\\\"/tmp/nicegui-base-chg59-verify.jGJmmi/\"'$CELL\"\n  test -d \"$STAGE\"\n  test ! -e \"$STAGE/.git\"\n  printf \"%s staging=%s package_log=%s source_log=%s wheel_log=%s'\"\\\\n\\\" \\\"\"'$CELL\" \"$STAGE\" \"$STAGE-package-manifest.log\" \"$STAGE-source-manifest.log\" \"$STAGE-wheel-hashes.txt\"\ndone\n'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 131,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 92.79,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 1103104,
+      "fresh_input_tokens": 85765,
+      "input_tokens": 1188869,
+      "non_reasoning_output_tokens": 10290,
+      "output_tokens": 23382,
+      "reasoning_output_tokens": 13092,
+      "total_processed_tokens": 1212251
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T03:33:37Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-runtime-server-verify-3",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-runtime-server-verify-3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-305016dd89dbb36f6a340637",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-runtime-server-verify-3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-runtime-server-verify-3",
+  "schema_version": 1,
+  "started_at": "2026-09-16T03:22:47Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 650,
+    "queue_seconds": 1,
+    "total_seconds": 651
+  },
+  "transport": {
+    "bytes": 8715,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8379,
+    "prompt_sha256": "8ad7778918b598f19eb965ae66d0dddd3ca55c2b48568c4df7248c4d47d60f54",
+    "sha256": "305016dd89dbb36f6a340637524109964201ed758efa93aa02090a6f65c9d3eb"
+  }
+}
