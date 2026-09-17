@@ -4,7 +4,7 @@
   "test_files": 169,
   "batches_requested": 6,
   "batches_executed": 6,
-  "duration_ms": 61472.9,
+  "duration_ms": 65860.0,
   "results": [
     {
       "batch": 1,
@@ -40,7 +40,7 @@
         "tests/test_phase12_integrated_adapters.py"
       ],
       "returncode": 0,
-      "duration_ms": 13465.4
+      "duration_ms": 14330.5
     },
     {
       "batch": 2,
@@ -76,7 +76,7 @@
         "tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py"
       ],
       "returncode": 0,
-      "duration_ms": 9241.8
+      "duration_ms": 9366.5
     },
     {
       "batch": 3,
@@ -112,7 +112,7 @@
         "tests/test_phase5_table_engine.py"
       ],
       "returncode": 0,
-      "duration_ms": 6359.6
+      "duration_ms": 7142.4
     },
     {
       "batch": 4,
@@ -148,7 +148,7 @@
         "tests/test_phase7_keys.py"
       ],
       "returncode": 0,
-      "duration_ms": 20628.9
+      "duration_ms": 22932.5
     },
     {
       "batch": 5,
@@ -184,7 +184,7 @@
         "tests/test_workbench_d6d_catalog_contracts.py"
       ],
       "returncode": 0,
-      "duration_ms": 3423.0
+      "duration_ms": 3767.1
     },
     {
       "batch": 6,
@@ -215,7 +215,7 @@
         "tests/test_workbench_iteration2_9.py"
       ],
       "returncode": 0,
-      "duration_ms": 8352.3
+      "duration_ms": 8318.6
     }
   ]
 }
