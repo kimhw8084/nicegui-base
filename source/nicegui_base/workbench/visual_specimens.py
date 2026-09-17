@@ -171,7 +171,15 @@ def preview_table_data(rows):
     return [{**row,row_key:index} for index,row in enumerate(rows)], row_key
 
 
-def render_table(key: str, *, title: str, rows, options=None, on_event=None):
+def render_table(
+    key: str,
+    *,
+    title: str,
+    rows,
+    options=None,
+    on_event=None,
+    on_select: Callable[[Sequence[Mapping[str, Any]]], Any] | None = None,
+):
     from nicegui_base.integrations.nicegui_data_table import DataTable, EditableTable, ServerDataTable, MasterDetailTable, TableToolbar, TableSelectionBar
     from nicegui_base.integrations.nicegui_content import PropertyGrid
     from nicegui_base.content import KeyValueItem
@@ -201,7 +209,19 @@ def render_table(key: str, *, title: str, rows, options=None, on_event=None):
         def details(row):
             PropertyGrid(tuple(KeyValueItem(str(k),str(k),str(v)) for k,v in row.items() if k!=row_key))
         return MasterDetailTable(data,columns,detail_renderer=details,**common)
-    table=DataTable(data,columns,show_toolbar=key!='table_toolbar',on_select=_event(on_event,'Table selection changed'),**common)
+    def selection_changed(selected_rows: Sequence[Mapping[str, Any]]):
+        if on_event:
+            on_event('Table selection changed')
+        if on_select:
+            # ``row_key`` is an internal positional key used only to keep the
+            # preview rows uniquely selectable.  Specimen callers receive the
+            # authored row data, preserving the generic event contract above.
+            return on_select(tuple(
+                {name: value for name, value in row.items() if name != row_key}
+                for row in selected_rows
+            ))
+
+    table=DataTable(data,columns,show_toolbar=key!='table_toolbar',on_select=selection_changed,**common)
     if key == 'table_toolbar': TableToolbar(table)
     if key == 'selection_bar': TableSelectionBar(table=table)
     return table
