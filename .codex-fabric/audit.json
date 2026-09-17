@@ -1,0 +1,672 @@
+{
+  "accepted_at": "2026-09-17T12:56:12Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 171,
+      "deletions": 22,
+      "path": "source/nicegui_base/workbench/pattern_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 2,
+      "path": "source/nicegui_base/workbench/visual_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": 83,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg103.py",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && git status --short --branch && git branch --show-current && git remote -v && git log -1 --oneline --decorate && sed -n '1,240p' AGENTS.md && printf '\\\\n--- RTK ---\\\\n' && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && printf '\\\\n--- LAW ---\\\\n' && sed -n '1,240p' /Users/haewonkim/.codex/law.md && printf '\\\\n--- manifest ---\\\\n' && sed -n '1,260p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk wc -l source/nicegui_base/ai/construction_manifest.json && rtk sed -n '241,520p' source/nicegui_base/ai/construction_manifest.json && rtk git cat-file -t cb93b74448032d358e84757383c844b2bf435cf8 && rtk git show -s --format='%H%n%T%n%P%n%s' cb93b74448032d358e84757383c844b2bf435cf8 && rtk git status --porcelain=v1 --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge --ff-only cb93b74448032d358e84757383c844b2bf435cf8 && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git status --porcelain=v1 --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-context \"Qualify browser, UI and human acceptance for stable 3.0 candidate; verify Reference Explorer search and Data Explorer selection workflows on exact candidate\" --format json && rtk find source/nicegui_base/workbench -maxdepth 2 -type f -print | sort && rtk rg -n \"Reference Explorer|run_workbench|create_app|launcher|pattern.*search|data_explorer\" source/nicegui_base/workbench docs README.md run_nicegui_base.py | head -240'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk command -v nicegui-base || true\nrtk command -v python\nrtk ls -la\nrtk find . -maxdepth 3 -type f \\\\( -name 'nicegui-base' -o -name 'pyvenv.cfg' -o -name 'run_nicegui_base.py' \\\\) -print\nrtk find . -maxdepth 3 -type d \\\\( -name '.venv' -o -name 'venv' \\\\) -print\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python --version\nrtk python -c 'import sys; print(sys.executable); import nicegui; print(\\\"nicegui\\\", nicegui.__version__); import nicegui_base; print(\\\"nicegui_base\\\", getattr(nicegui_base, \\\"__version__\\\", \\\"unknown\\\"))'\nrtk python run_nicegui_base.py --check\nrtk find source/nicegui_base/workbench -maxdepth 2 -type f -print\nrtk rg -n \\\"Reference Explorer|run_workbench|launcher|pattern.*search|data_explorer\\\" source/nicegui_base/workbench docs README.md run_nicegui_base.py | head -240\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' docs/nicegui_base/REFERENCE_EXPLORER_CONTRACT.md\nrtk sed -n '1,300p' docs/nicegui_base/AGENT_WORKFLOW.md\nrtk sed -n '1,260p' run_nicegui_base.py\nrtk sed -n '1,300p' source/nicegui_base/workbench/launcher.py\nrtk sed -n '1,260p' source/nicegui_base/workbench/browser_contract.py\nrtk sed -n '1,250p' source/nicegui_base/workbench/pattern_specimens.py\nrtk git show --stat --oneline cb93b74448032d358e84757383c844b2bf435cf8 && rtk git show --format=fuller -- source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py source/tests/test_workbench_chg103.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' docs/REFERENCE_EXPLORER_CONTRACT.md\nrtk rg -n \\\"agent-context|def main|__main__|console_scripts|project.scripts\\\" source/nicegui_base pyproject.toml setup.cfg setup.py 2>/dev/null | head -180\nrtk find source/nicegui_base -maxdepth 2 -type f -name '__main__.py'\nrtk sed -n '1,160p' pyproject.toml\nrtk sed -n '1840,2035p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,230p' source/nicegui_base/cli.py\nrtk env PYTHONPATH=source python -m nicegui_base.cli agent-context \\\"Qualify browser, UI and human acceptance for stable 3.0 candidate; verify Reference Explorer search and Data Explorer selection workflows on exact candidate\\\" --format json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find . -maxdepth 3 -type f -name 'framework_catalog.json'\nrtk find . -maxdepth 3 -type f -name 'APP_PATTERNS.md'\nrtk find . -maxdepth 3 -type f -name 'AI_QUICKSTART.md'\nrtk find . -maxdepth 3 -type f -name 'PUBLIC_API_INDEX.md'\nrtk find . -maxdepth 3 -type f -name 'COMPONENT_CATALOG.md'\nrtk sed -n '1,220p' source/nicegui_base/ai/guides/AI_QUICKSTART.md\nrtk sed -n '1,260p' source/nicegui_base/ai/guides/APP_PATTERNS.md\nrtk sed -n '1,180p' source/nicegui_base/ai/guides/PUBLIC_API_INDEX.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli agent-check . --format json\nrtk env PYTHONPATH=source python -m nicegui_base.cli runtime-contract --format json\nrtk git status --porcelain=v1 --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk command -v google-chrome || true\nrtk command -v chromium || true\nrtk command -v chromium-browser || true\nrtk ls -ld /Applications/Google\\\\ Chrome.app /Applications/Google\\\\ Chrome.app/Contents/MacOS/Google\\\\ Chrome /Applications/Chromium.app /Applications/Chromium.app/Contents/MacOS/Chromium 2>/dev/null || true\nrtk env PYTHONPATH=source python -m nicegui_base.cli doctor --port 8092 --format json\nrtk curl -sS -o /dev/null -w 'HTTP / status=%{http_code} url=%{url_effective}\\\\n' http://127.0.0.1:8091/\nrtk curl -sS -o /dev/null -w 'HTTP search status=%{http_code} url=%{url_effective}\\\\n' http://127.0.0.1:8091/studio/pattern%3Asearch\nrtk git status --porcelain=v1 --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' source/nicegui_base/certification/live_certify.py\nrtk sed -n '1,320p' source/nicegui_base/certification/mac_browser.py\nrtk sed -n '1,360p' source/nicegui_base/workbench/browser_acceptance_runner.py\nrtk find tools -maxdepth 2 -type f -name '*browser*' -print\nrtk sed -n '1,360p' tools/browser_acceptance.py 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def run_mac_browser_matrix|def _run|browser_type|launch\\\\(|new_context|add_init_script|screenshot|accessibility|pageerror|requestfailed\\\" source/nicegui_base/certification/mac_browser.py\nrtk sed -n '260,720p' source/nicegui_base/certification/mac_browser.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '720,980p' source/nicegui_base/certification/mac_browser.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d /tmp/chg100-verify-XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /tmp/chg100-verify-CbL3wy -type f | sort | head -40 && rtk du -sh /tmp/chg100-verify-CbL3wy'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport json\nfrom nicegui_base.certification.mac_browser import run_mac_browser_matrix\nroot = Path('/tmp/chg100-verify-CbL3wy/matrix')\nreport = run_mac_browser_matrix(\n    'http://127.0.0.1:8091',\n    output_dir=root,\n    exhaustive=False,\n    include_edge=False,\n    browser_executables={'chrome': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'},\n    report_name='CHG100_CANONICAL_MATRIX.json',\n)\nprint(json.dumps(report.to_dict(), indent=2, sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nbase='http://127.0.0.1:8091'\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    context=browser.new_context(viewport={'width':1440,'height':900}, device_scale_factor=1, color_scheme='light', reduced_motion='reduce')\n    for route in ['/studio/pattern%3Asearch','/studio/pattern%3Adata_explorer']:\n        page=context.new_page(); errors=[]; failed=[]\n        page.on('console', lambda m: errors.append({'type':m.type,'text':m.text}) if m.type=='error' else None)\n        page.on('pageerror', lambda e: errors.append({'type':'pageerror','text':str(e)}))\n        page.on('requestfailed', lambda req: failed.append({'url':req.url,'failure':req.failure}))\n        resp=page.goto(base+route, wait_until='domcontentloaded', timeout=30000)\n        page.wait_for_selector('main,[role=main]', timeout=10000)\n        page.wait_for_timeout(500)\n        snapshot=page.evaluate('''() => ({\n          title:document.title,\n          url:location.href,\n          theme:document.documentElement.dataset.theme,\n          viewport:{w:innerWidth,h:innerHeight,dpr:devicePixelRatio},\n          text:document.body.innerText.slice(0,12000),\n          inputs:[...document.querySelectorAll('input,textarea,select')].map((e,i)=>({i,tag:e.tagName,type:e.type,aria:e.getAttribute('aria-label'),label:e.labels?.[0]?.innerText||'',placeholder:e.placeholder,value:e.value,role:e.getAttribute('role'),classes:e.className.toString().slice(0,180)})),\n          buttons:[...document.querySelectorAll('button,[role=button]')].filter(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>1&&r.height>1&&s.visibility\"'!='\"'hidden'&&s.display\"'!='\"'none'}).map((e,i)=>({i,aria:e.getAttribute('aria-label'),title:e.title,text:(e.innerText||'').trim().slice(0,120),role:e.getAttribute('role'),classes:e.className.toString().slice(0,180)})),\n          tables:[...document.querySelectorAll('table,[role=grid],.cui-data-table')].map(e=>({tag:e.tagName,role:e.getAttribute('role'),text:(e.innerText||'').slice(0,3000),classes:e.className.toString().slice(0,180)})),\n          regions:[...document.querySelectorAll('[role=region],.cui-pattern-slot')].map(e=>({role:e.getAttribute('role'),aria:e.getAttribute('aria-label'),classes:e.className.toString().slice(0,180),text:(e.innerText||'').slice(0,400)}))\n        })''')\n        print(json.dumps({'route':route,'status':resp.status if resp else None,'snapshot':snapshot,'errors':errors,'failed_requests':failed}, indent=2, ensure_ascii=False))\n        page.close()\n    context.close(); browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nwith sync_playwright() as p:\n    b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1)\n    page=c.new_page(); page.goto('http://127.0.0.1:8091/studio/pattern%3Asearch',wait_until='domcontentloaded'); page.wait_for_timeout(300)\n    vals=page.locator('.cui-select').evaluate_all(\\\"els=>els.map(e=>({text:e.innerText,html:e.outerHTML.slice(0,1400)}))\\\")\n    print(json.dumps(vals,indent=2,ensure_ascii=False))\n    b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nwith sync_playwright() as p:\n    b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1)\n    page=c.new_page(); page.goto('http://127.0.0.1:8091/studio/pattern%3Adata_explorer',wait_until='domcontentloaded'); page.wait_for_timeout(400)\n    print(json.dumps(page.locator('.cui-data-table .ag-row').first.evaluate(\\\"e=>({html:e.outerHTML.slice(0,2500),attrs:[...e.attributes].map(a=>[a.name,a.value])})\\\"),indent=2,ensure_ascii=False))\n    b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom __future__ import annotations\nfrom pathlib import Path\nimport hashlib, json, time\nfrom playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError\n\nBASE = 'http://127.0.0.1:8091'\nOUT = Path('/tmp/chg100-verify-CbL3wy/exact')\nSHOT = OUT / 'screenshots'\nSHOT.mkdir(parents=True, exist_ok=True)\n\nclass CheckFailure(Exception):\n    pass\n\ndef must(condition, message):\n    if not condition:\n        raise CheckFailure(message)\n\ndef settle(page):\n    page.wait_for_selector('main,[role=main]', timeout=10000)\n    page.wait_for_timeout(350)\n\ndef wait_body(page, text, timeout=5000):\n    page.wait_for_function('(needle) => document.body.innerText.includes(needle)', arg=text, timeout=timeout)\n\ndef wait_results(page, expected, timeout=5000):\n    page.wait_for_function(\n        '(n) => document.querySelectorAll(\\\\'.cui-search-result\\\\').length === n',\n        arg=expected, timeout=timeout,\n    )\n\ndef search_ids(page):\n    return page.locator('.cui-search-result:visible').evaluate_all(\\\"els => els.map(e => (e.innerText || '').split('\\\\\\\\n')[0].trim())\\\")\n\ndef table_ids(page):\n    return page.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').evaluate_all(\n        \\\"els => els.map(e => e.querySelector('[col-id=\\\\\\\\\\\\\\\"id\\\\\\\\\\\\\\\"]')?.innerText?.trim() || e.innerText.split('\\\\\\\\n')[0].trim())\\\"\n    )\n\ndef select_option(page, label_text, option_text):\n    field = page.locator('.cui-select').filter(has_text=label_text).first.locator('input[role=combobox]')\n    must(field.count() == 1, f'{label_text} select not uniquely found')\n    field.click()\n    option = page.get_by_role('option', name=option_text, exact=True).last\n    must(option.count() == 1, f'option {option_text\"'!r} not found for {label_text!r}'\"')\n    option.click()\n    page.wait_for_timeout(350)\n\ndef detail_text(page):\n    return page.locator('.cui-pattern-slot--details').inner_text()\n\ndef audit(page):\n    return page.evaluate('''() => {\n      const visible = el => { const r=el.getBoundingClientRect(), s=getComputedStyle(el); return r.width>1&&r.height>1&&s.display\"'!=='\"'none'&&s.visibility\"'!=='\"'hidden'; };\n      const named = el => (el.getAttribute('aria-label')||el.getAttribute('aria-labelledby')||el.innerText||el.value||el.title||'').trim();\n      const interactive=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[role=combobox],[tabindex]')].filter(visible);\n      const missing=interactive.filter(el=>el.getAttribute('aria-hidden')\"'!=='\"'true' && \"'!el.disabled && el.tabIndex>=0 && !named(el));\n      const focus = document.activeElement;\n      const fs = focus ? getComputedStyle(focus) : null;\n      const slots=[...document.querySelectorAll('\"'.cui-pattern-slot')].filter(visible).map(el=>{const r=el.getBoundingClientRect();return {aria:el.getAttribute('aria-label'),x:r.x,right:r.right,w:r.width};});\n      const p=document.querySelector('.cui-pattern'); const pr=p?.getBoundingClientRect();\n      return {\n        viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},\n        theme:document.documentElement.dataset.theme||'',\n        reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,\n        horizontalOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,\n        documentScroll:{width:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth},\n        missingAccessibleNames:missing.map(el=>({tag:el.tagName,role:el.getAttribute('role'),aria:el.getAttribute('aria-label'),classes:(el.className||'').toString().slice(0,160)})),\n        codeCopy:[...document.querySelectorAll('.nicegui-code-copy')].filter(visible).map(el=>({aria:el.getAttribute('aria-label'),title:el.title,text:(el.innerText||'').trim()})),\n        internalSelectFocusTargets:[...document.querySelectorAll('.cui-select .q-select__focus-target')].filter(visible).map(el=>({aria:el.getAttribute('aria-label'),label:el.closest('.cui-select')?.querySelector('.q-field__native')?.getAttribute('aria-label'),value:el.value})),\n        slotsWithinPattern:\"'!!(p&&slots.every(s=>s.x>=pr.x-1&&s.right<=pr.right+1)),\n        focus:{tag:focus?.tagName||'\"'',aria:focus?.getAttribute('aria-label')||'',text:(focus?.innerText||focus?.value||'').trim().slice(0,80),visibleRing:\"'!!(fs&&(fs.outlineStyle!=='\"'none'||fs.boxShadow\"'!=='\"'none'))},\n        mobileNavTriggerVisible:\"'!![...document.querySelectorAll('\"'button')].find(el=>visible(el)&&el.getAttribute('aria-label')==='Open navigation'),\n        desktopSidebarVisible:\"'!![...document.querySelectorAll('\"'.cui-app-sidebar:not(.q-drawer)')].find(visible),\n      };\n    }''')\n\ndef focus_trace(page, count=12):\n    trace=[]\n    for _ in range(count):\n        page.keyboard.press('Tab')\n        trace.append(page.evaluate('''() => { const e=document.activeElement; const s=e?getComputedStyle(e):null; return {tag:e?.tagName||'',aria:e?.getAttribute('aria-label')||'',text:(e?.innerText||e?.value||'').trim().slice(0,80),visibleRing:\"'!!(s&&(s.outlineStyle!=='\"'none'||s.boxShadow\"'!=='\"'none'))}; }'''))\n    return trace\n\ndef capture(page, name, manifest):\n    path = SHOT / f'{name}.png'\n    page.screenshot(path=str(path), full_page=True)\n    manifest[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()\n\nreport = {\n    'base_url': BASE,\n    'browser': {'engine':'chromium', 'executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', 'version': None},\n    'scenarios': [],\n    'artifacts': {},\n    'zoom_200_percent': {'status':'BLOCKED', 'detail':'CUA exposed no browser provider/window; Playwright headless has no authentic browser chrome zoom control. CSS/device-scale emulation was not substituted.'},\n}\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    report['browser']['version'] = browser.version\n    scenario_defs = [\n        ('desktop-light', 1440, 900, 'light'),\n        ('mobile-dark', 390, 844, 'dark'),\n    ]\n    for scenario_name, width, height, color_scheme in scenario_defs:\n        context = browser.new_context(\n            viewport={'width': width, 'height': height},\n            device_scale_factor=1,\n            color_scheme=color_scheme,\n            reduced_motion='reduce',\n        )\n        for route_name, route in [('search','/studio/pattern%3Asearch'), ('data_explorer','/studio/pattern%3Adata_explorer')]:\n            page = context.new_page()\n            console_errors=[]; page_errors=[]; failed_requests=[]; bad_responses=[]\n            page.on('console', lambda msg, bag=console_errors: bag.append({'type':msg.type,'text':msg.text}) if msg.type=='error' else None)\n            page.on('pageerror', lambda exc, bag=page_errors: bag.append(str(exc)))\n            page.on('requestfailed', lambda req, bag=failed_requests: bag.append({'url':req.url,'failure':str(req.failure)}))\n            page.on('response', lambda resp, bag=bad_responses: bag.append({'url':resp.url,'status':resp.status,'type':resp.request.resource_type}) if resp.status>=400 and resp.request.resource_type not in {'image','font'} else None)\n            scenario = {'scenario':scenario_name,'route':route,'status':'PASS','observations':{},'audit_initial':None,'audit_final':None,'console_errors':console_errors,'page_errors':page_errors,'failed_requests':failed_requests,'bad_responses':bad_responses}\n            try:\n                response=page.goto(BASE+route, wait_until='domcontentloaded', timeout=30000)\n                settle(page)\n                must(response is not None and response.status==200, f'HTTP expected 200, got {response.status if response else None}')\n                scenario['observations']['http_status']=response.status\n                scenario['observations']['url']=page.url\n                scenario['audit_initial']=audit(page)\n                capture(page, f'{scenario_name}-{route_name}-initial', report['artifacts'])\n                trace = focus_trace(page, 12)\n                scenario['observations']['keyboard_focus_trace']=trace\n                scenario['observations']['keyboard_focus_reachable']=any(item['tag'] not in {'','BODY','HTML'} for item in trace)\n                scenario['observations']['keyboard_focus_visible']=any(item['visibleRing'] for item in trace)\n\n                if route_name == 'search':\n                    q=page.get_by_label('Search lots, tools, or recipes').first\n                    must(q.count()==1, 'search query control missing')\n                    initial_ids=search_ids(page)\n                    initial_summary=page.locator('.cui-pattern-slot--data').inner_text().split('\\\\n')[0]\n                    must(initial_ids==['LOT-240901','LOT-240902','LOT-240903','LOT-240904','LOT-240905','LOT-240906','LOT-240907','LOT-240908'], f'initial ETCH result set mismatch: {initial_ids}')\n                    must(initial_summary=='8 results for “ETCH” · Status: Any status', f'initial summary mismatch: {initial_summary\"'!r}'\"')\n                    scenario['observations']['initial']={'summary':initial_summary,'ids':initial_ids}\n\n                    q.fill('NO_MATCH_987'); page.wait_for_timeout(700)\n                    no_ids=search_ids(page)\n                    no_text=page.locator('.cui-pattern-slot--data').inner_text()\n                    no_state=page.locator('.cui-pattern-slot--data').get_by_text('No matching lots, tools, or recipes', exact=True)\n                    capture(page, f'{scenario_name}-search-no-match', report['artifacts'])\n                    must(no_ids==[], f'NO_MATCH_987 left visible results: {no_ids}')\n                    must(no_state.count()==1 and no_state.is_visible(), 'canonical no-results state not visible')\n                    must('0 results for “NO_MATCH_987” · Status: Any status' in no_text, f'no-match summary missing or inconsistent: {no_text[:500]\"'!r}'\"')\n                    scenario['observations']['no_match']={'visible_result_ids':no_ids,'canonical_no_results':True,'data_text':no_text[:400]}\n\n                    q.fill('ETCH'); page.wait_for_timeout(700)\n                    etch_ids=search_ids(page); etch_text=page.locator('.cui-pattern-slot--data').inner_text()\n                    must(len(etch_ids)==8 and '8 results for “ETCH” · Status: Any status' in etch_text, f'ETCH restore mismatch: ids={etch_ids}, summary={etch_text[:120]\"'!r}'\"')\n                    q.fill('LOT-240904'); page.wait_for_timeout(700)\n                    lot_ids=search_ids(page); lot_text=page.locator('.cui-pattern-slot--data').inner_text()\n                    must(lot_ids==['LOT-240904'] and '1 results for “LOT-240904” · Status: Any status' in lot_text, f'lot-only mismatch: ids={lot_ids}, summary={lot_text[:160]\"'!r}'\"')\n                    scenario['observations']['valid_restore_and_lot']={'etch_ids':etch_ids,'lot_ids':lot_ids,'lot_summary':lot_text.split('\\\\n')[0]}\n\n                    q.fill('ETCH'); page.wait_for_timeout(700)\n                    select_option(page, 'Status facet', 'Alert')\n                    alert_ids=search_ids(page); alert_text=page.locator('.cui-pattern-slot--data').inner_text()\n                    must(alert_ids==['LOT-240904','LOT-240908'], f'ETCH+Alert result mismatch: {alert_ids}')\n                    must('2 results for “ETCH” · Status: Alert' in alert_text, f'ETCH+Alert summary mismatch: {alert_text[:180]\"'!r}'\"')\n                    scenario['observations']['alert_combo']={'ids':alert_ids,'summary':alert_text.split('\\\\n')[0]}\n\n                    selected_result=page.locator('.cui-search-result').filter(has_text='LOT-240904').first\n                    selected_result.click(); page.wait_for_timeout(350)\n                    selected_detail=detail_text(page)\n                    must('LOT-240904' in selected_detail and 'No result selected' not in selected_detail, f'selected search context did not follow LOT-240904: {selected_detail\"'!r}'\"')\n                    q.fill('LOT-240908'); page.wait_for_timeout(700)\n                    hidden_ids=search_ids(page); cleared_detail=detail_text(page)\n                    must(hidden_ids==['LOT-240908'], f'filter-to-908 result mismatch: {hidden_ids}')\n                    must('No result selected' in cleared_detail and 'LOT-240904' not in cleared_detail, f'filtered-out selection did not clear truthfully: {cleared_detail\"'!r}'\"')\n                    scenario['observations']['selection_clear_on_disappear']={'selected_detail':selected_detail,'after_filter_ids':hidden_ids,'after_filter_detail':cleared_detail}\n\n                    q.fill('ETCH'); page.wait_for_timeout(700)\n                    select_option(page, 'Status facet', 'Any status')\n                    restored_ids=search_ids(page)\n                    must(len(restored_ids)==8, f'final search restore failed: {restored_ids}')\n                    scenario['observations']['final_restore_ids']=restored_ids\n                    # Focus restoration on a real select popup: Escape returns focus to the select target.\n                    status_field=page.locator('.cui-select').filter(has_text='Status facet').first.locator('input[role=combobox]')\n                    status_field.click(); page.wait_for_timeout(100); page.keyboard.press('Escape'); page.wait_for_timeout(100)\n                    scenario['observations']['status_focus_restored']=page.evaluate(\\\"() => document.activeElement?.getAttribute('aria-label') === 'Status facet'\\\")\n                else:\n                    q=page.get_by_label('Search lots').first\n                    must(q.count()==1, 'data explorer query control missing')\n                    initial_ids=table_ids(page)\n                    must(len(initial_ids)==8, f'initial data table expected 8 rows, got {initial_ids}')\n                    q.fill('LOT-240904'); page.wait_for_timeout(700)\n                    filtered_ids=table_ids(page)\n                    must(filtered_ids==['LOT-240904'], f'LOT-240904 filter did not leave exactly one visible row: {filtered_ids}')\n                    row=page.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first\n                    must(row.count()==1 and row.is_visible(), 'LOT-240904 visible DataTable row missing')\n                    checkbox=row.locator('input[type=checkbox]').first\n                    must(checkbox.count()==1, 'visible DataTable row selection checkbox missing')\n                    checkbox.check(); page.wait_for_timeout(500)\n                    selected_detail=detail_text(page)\n                    selected_aria=row.get_attribute('aria-selected')\n                    must('Selected lot' in selected_detail and 'LOT-240904' in selected_detail, f'selected lot detail did not show LOT-240904: {selected_detail\"'!r}'\"')\n                    must(selected_aria=='true', f'actual visible row did not become selected, aria-selected={selected_aria\"'!r}'\"')\n                    scenario['observations']['filter_and_select']={'visible_ids':filtered_ids,'row_aria_selected':selected_aria,'detail':selected_detail}\n\n                    q.fill('LOT'); page.wait_for_timeout(700)\n                    remain_ids=table_ids(page); remain_detail=detail_text(page)\n                    must('LOT-240904' in remain_ids and 'Selected lot' in remain_detail and 'LOT-240904' in remain_detail, f'selection/detail lost while selected row remained visible: ids={remain_ids}, detail={remain_detail\"'!r}'\"')\n                    scenario['observations']['transition_remains_visible']={'visible_count':len(remain_ids),'contains_904':'LOT-240904' in remain_ids,'detail':remain_detail}\n\n                    select_option(page, 'Tool', 'ETCH-03')\n                    disappear_ids=table_ids(page); disappear_detail=detail_text(page)\n                    must('LOT-240904' not in disappear_ids, f'ETCH-03 filter still showed LOT-240904: {disappear_ids}')\n                    must('No lot selected' in disappear_detail and 'LOT-240904' not in disappear_detail, f'filtered-out lot detail did not clear: ids={disappear_ids}, detail={disappear_detail\"'!r}'\"')\n                    scenario['observations']['transition_disappears_clears']={'visible_ids':disappear_ids,'detail':disappear_detail}\n\n                    select_option(page, 'Tool', 'All tools')\n                    q.fill('LOT-240904'); page.wait_for_timeout(700)\n                    restore_ids=table_ids(page)\n                    must(restore_ids==['LOT-240904'], f'data explorer restore filter mismatch: {restore_ids}')\n                    row=page.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first\n                    row.locator('input[type=checkbox]').first.check(); page.wait_for_timeout(500)\n                    restored_detail=detail_text(page)\n                    must('Selected lot' in restored_detail and 'LOT-240904' in restored_detail, f'reselection did not recover detail: {restored_detail\"'!r}'\"')\n                    scenario['observations']['restore_and_reselect']={'visible_ids':restore_ids,'detail':restored_detail}\n                    scenario['observations']['status_focus_restored']=None\n\n                # Responsive shell/drawer, clipping/reflow, reduced motion and critical request checks.\n                if width < 900:\n                    trigger=page.get_by_role('button', name='Open navigation').first\n                    must(trigger.count()==1 and trigger.is_visible(), 'mobile Open navigation trigger missing')\n                    trigger.click(); page.wait_for_timeout(250)\n                    drawer=page.locator('.cui-mobile-nav-drawer').first\n                    must(drawer.count()==1 and drawer.is_visible(), 'mobile navigation drawer did not open')\n                    close=page.get_by_role('button', name='Close navigation').first\n                    must(close.count()==1 and close.is_visible(), 'mobile Close navigation control missing')\n                    close.click(); page.wait_for_timeout(250)\n                    scenario['observations']['responsive_shell']={'drawer_opened_and_closed':True,'focus_after_close':page.evaluate(\\\"() => ({aria:document.activeElement?.getAttribute('aria-label')||'',tag:document.activeElement?.tagName||''})\\\")}\n                else:\n                    sidebar=page.locator('.cui-app-sidebar:not(.q-drawer)').first\n                    trigger=page.get_by_role('button', name='Open navigation').first\n                    scenario['observations']['responsive_shell']={'desktop_sidebar_visible':sidebar.count()==1 and sidebar.is_visible(),'mobile_trigger_visible':trigger.count()>0 and trigger.is_visible()}\n                    must(sidebar.count()==1 and sidebar.is_visible(), 'desktop sidebar missing')\n                    must(not (trigger.count()>0 and trigger.is_visible()), 'mobile navigation trigger visible on desktop')\n                scenario['observations']['zoom_media_not_substituted']=True\n                scenario['audit_final']=audit(page)\n                must(not scenario['audit_final']['horizontalOverflow'], 'document horizontal overflow detected')\n                must(scenario['audit_final']['slotsWithinPattern'], 'pattern slot escaped pattern canvas')\n                must(scenario['audit_final']['reducedMotion'], 'reduced-motion media preference not observed')\n                # Critical failures are objective failures; resource failures exclude non-essential image/font probes only above.\n                must(not console_errors, f'critical console errors: {console_errors}')\n                must(not page_errors, f'critical page errors: {page_errors}')\n                must(not failed_requests, f'failed requests: {failed_requests}')\n                must(not bad_responses, f'HTTP >=400 essential responses: {bad_responses}')\n                must(scenario['observations']['keyboard_focus_reachable'], 'keyboard-only traversal did not reach an interactive control')\n                must(scenario['observations']['keyboard_focus_visible'], 'keyboard-only traversal did not expose visible focus')\n            except Exception as exc:\n                scenario['status']='FAIL'\n                scenario['failure']=f'{type(exc).__name__}: {exc}'\n                scenario['audit_final']=audit(page) if page.url.startswith(BASE) else None\n            finally:\n                capture(page, f'{scenario_name}-{route_name}-final', report['artifacts'])\n                page.close()\n            report['scenarios'].append(scenario)\n        context.close()\n    browser.close()\n\nreport['summary']={\n    'pass':sum(item['status']=='PASS' for item in report['scenarios']),\n    'fail':sum(item['status']=='FAIL' for item in report['scenarios']),\n    'scenarios':len(report['scenarios']),\n    'screenshots':len(report['artifacts']),\n}\n(OUT/'CHG100_EXACT_BROWSER_REPORT.json').write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n',encoding='utf-8')\n(OUT/'CHG100_EXACT_SCREENSHOT_MANIFEST.json').write_text(json.dumps(report['artifacts'],indent=2,sort_keys=True)+'\\\\n',encoding='utf-8')\nprint(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom __future__ import annotations\nfrom pathlib import Path\nimport hashlib, json\nfrom playwright.sync_api import sync_playwright\n\nBASE='http://127.0.0.1:8091'\nOUT=Path('/tmp/chg100-verify-CbL3wy/exact2'); SHOT=OUT/'screenshots'; SHOT.mkdir(parents=True,exist_ok=True)\nclass CheckFailure(Exception): pass\ndef must(c,m):\n    if not c: raise CheckFailure(m)\ndef settle(p): p.wait_for_selector('main,[role=main]',timeout=10000); p.wait_for_timeout(350)\ndef wait_body(p,t,timeout=5000): p.wait_for_function('(x)=>document.body.innerText.includes(x)',arg=t,timeout=timeout)\ndef search_ids(p): return p.locator('.cui-search-result:visible').evaluate_all(\\\"els=>els.map(e=>(e.innerText||'').split('\\\\\\\\n')[0].trim())\\\")\ndef table_ids(p): return p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').evaluate_all(\\\"els=>els.map(e=>e.querySelector('[col-id=\\\\\\\\\\\\\\\"id\\\\\\\\\\\\\\\"]')?.innerText?.trim()||'')\\\")\ndef input_by_aria(p,label): return p.locator(f'input[aria-label=\\\"{label}\\\"]').first\ndef select_option(p,label,option_text):\n    field=p.locator('.cui-select').filter(has_text=label).first.locator('input[role=combobox]')\n    must(field.count()==1,f'{label} select input missing')\n    field.click(); p.get_by_role('option',name=option_text,exact=True).last.click(); p.wait_for_timeout(350)\ndef detail(p): return p.locator('.cui-pattern-slot--details').inner_text()\ndef audit(p):\n    return p.evaluate('''() => {\n      const visible=el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return r.width>1&&r.height>1&&s.display\"'!=='\"'none'&&s.visibility\"'!=='\"'hidden'};\n      const named=el=>(el.getAttribute('aria-label')||el.getAttribute('aria-labelledby')||el.innerText||el.value||el.title||'').trim();\n      const interactive=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[role=combobox],[tabindex]')].filter(visible);\n      const missing=interactive.filter(el=>el.getAttribute('aria-hidden')\"'!=='\"'true'&&\"'!el.disabled&&el.tabIndex>=0&&!named(el));\n      const focus=document.activeElement,fs=focus?getComputedStyle(focus):null;\n      const slots=[...document.querySelectorAll('\"'.cui-pattern-slot')].filter(visible).map(el=>{const r=el.getBoundingClientRect();return{x:r.x,right:r.right}}); const pat=document.querySelector('.cui-pattern'),pr=pat?.getBoundingClientRect();\n      return {viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},theme:document.documentElement.dataset.theme||'',reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,horizontalOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,documentScroll:{width:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth},missingAccessibleNames:missing.map(el=>({tag:el.tagName,role:el.getAttribute('role'),classes:(el.className||'').toString().slice(0,160)})),codeCopy:[...document.querySelectorAll('.nicegui-code-copy')].filter(visible).map(el=>({aria:el.getAttribute('aria-label'),title:el.title,text:(el.innerText||'').trim()})),internalSelectFocusTargets:[...document.querySelectorAll('.cui-select .q-select__focus-target')].filter(el=>el.tabIndex>=0).map(el=>({visible:visible(el),aria:el.getAttribute('aria-label'),value:el.value,parentLabel:el.closest('.cui-select')?.querySelector('.q-field__native')?.getAttribute('aria-label')})),slotsWithinPattern:\"'!!(pat&&slots.every(s=>s.x>=pr.x-1&&s.right<=pr.right+1)),focus:{tag:focus?.tagName||'\"'',aria:focus?.getAttribute('aria-label')||'',text:(focus?.innerText||focus?.value||'').trim().slice(0,80),visibleRing:\"'!!(fs&&(fs.outlineStyle!=='\"'none'||fs.boxShadow\"'!=='\"'none'))},mobileNavTriggerVisible:[...document.querySelectorAll('button')].some(el=>visible(el)&&el.getAttribute('aria-label')==='Open navigation'),desktopSidebarVisible:[...document.querySelectorAll('.cui-app-sidebar:not(.q-drawer)')].some(visible)};\n    }''')\ndef focus_trace(p,n=12):\n    out=[]\n    for _ in range(n):\n        p.keyboard.press('Tab'); out.append(p.evaluate('''() => {const e=document.activeElement,s=e?getComputedStyle(e):null;return{tag:e?.tagName||'',aria:e?.getAttribute('aria-label')||'',text:(e?.innerText||e?.value||'').trim().slice(0,80),visibleRing:\"'!!(s&&(s.outlineStyle!=='\"'none'||s.boxShadow\"'!=='\"'none'))}}'''))\n    return out\ndef shot(p,name,manifest):\n    path=SHOT/f'{name}.png'; p.screenshot(path=str(path),full_page=True); manifest[path.name]=hashlib.sha256(path.read_bytes()).hexdigest()\n\nreport={'base_url':BASE,'browser':{'engine':'chromium','executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','version':None},'scenarios':[],'artifacts':{},'zoom_200_percent':{'status':'BLOCKED','detail':'CUA exposed no browser provider/window; Playwright headless has no authentic browser chrome zoom control. CSS/device-scale emulation was not substituted.'}}\nwith sync_playwright() as pw:\n    b=pw.chromium.launch(headless=True,executable_path=report['browser']['executable']); report['browser']['version']=b.version\n    for name,w,h,scheme in [('desktop-light',1440,900,'light'),('mobile-dark',390,844,'dark')]:\n        ctx=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme=scheme,reduced_motion='reduce')\n        for route_name,route in [('search','/studio/pattern%3Asearch'),('data_explorer','/studio/pattern%3Adata_explorer')]:\n            p=ctx.new_page(); ce=[];pe=[];fr=[];br=[]\n            p.on('console',lambda m,bag=ce:bag.append({'type':m.type,'text':m.text}) if m.type=='error' else None)\n            p.on('pageerror',lambda e,bag=pe:bag.append(str(e)))\n            p.on('requestfailed',lambda q,bag=fr:bag.append({'url':q.url,'failure':str(q.failure)}))\n            p.on('response',lambda r,bag=br:bag.append({'url':r.url,'status':r.status,'type':r.request.resource_type}) if r.status>=400 and r.request.resource_type not in {'image','font'} else None)\n            s={'scenario':name,'route':route,'status':'PASS','observations':{},'audit_initial':None,'audit_final':None,'console_errors':ce,'page_errors':pe,'failed_requests':fr,'bad_responses':br}\n            try:\n                resp=p.goto(BASE+route,wait_until='domcontentloaded',timeout=30000); settle(p); must(resp is not None and resp.status==200,f'HTTP expected 200 got {resp.status if resp else None}')\n                s['observations']['http_status']=resp.status; s['observations']['url']=p.url; s['audit_initial']=audit(p); shot(p,f'{name}-{route_name}-initial',report['artifacts'])\n                trace=focus_trace(p); s['observations']['keyboard_focus_trace']=trace; s['observations']['keyboard_focus_reachable']=any(x['tag'] not in {'','BODY','HTML'} for x in trace); s['observations']['keyboard_focus_visible']=any(x['visibleRing'] for x in trace)\n                if route_name=='search':\n                    q=input_by_aria(p,'Search lots, tools, or recipes'); must(q.count()==1,'search input missing')\n                    init=search_ids(p); summary=p.locator('.cui-pattern-slot--data').inner_text().split('\\\\n')[0]; must(init==['LOT-240901','LOT-240902','LOT-240903','LOT-240904','LOT-240905','LOT-240906','LOT-240907','LOT-240908'],f'initial IDs {init}'); must(summary=='8 results for “ETCH” · Status: Any status',f'initial summary {summary\"'!r}'\"'); s['observations']['initial']={'summary':summary,'ids':init}\n                    q.fill('NO_MATCH_987'); p.wait_for_timeout(700); ids=search_ids(p); data=p.locator('.cui-pattern-slot--data'); text=data.inner_text(); state=data.get_by_text('No matching lots, tools, or recipes',exact=True); shot(p,f'{name}-search-no-match',report['artifacts']); must(ids==[],f'NO_MATCH_987 visible IDs {ids}'); must(state.count()==1 and state.is_visible(),'canonical no-results state missing'); must('0 results for “NO_MATCH_987” · Status: Any status' in text,f'no-match summary inconsistent {text[:300]\"'!r}'\"'); s['observations']['no_match']={'visible_result_ids':ids,'canonical_no_results':True,'summary':text.split('\\\\n')[0]}\n                    q.fill('ETCH'); p.wait_for_timeout(700); etch=search_ids(p); must(len(etch)==8,'ETCH restore not 8'); q.fill('LOT-240904'); p.wait_for_timeout(700); lot=search_ids(p); lt=p.locator('.cui-pattern-slot--data').inner_text(); must(lot==['LOT-240904'] and lt.split('\\\\n')[0]=='1 results for “LOT-240904” · Status: Any status',f'lot-only mismatch {lot} {lt[:140]\"'!r}'\"'); s['observations']['valid_restore_and_lot']={'etch_ids':etch,'lot_ids':lot,'lot_summary':lt.split('\\\\n')[0]}\n                    q.fill('ETCH'); p.wait_for_timeout(700); select_option(p,'Status facet','Alert'); alert=search_ids(p); at=p.locator('.cui-pattern-slot--data').inner_text(); must(alert==['LOT-240904','LOT-240908'],f'ETCH+Alert IDs {alert}'); must(at.split('\\\\n')[0]=='2 results for “ETCH” · Status: Alert',f'alert summary {at[:140]\"'!r}'\"'); s['observations']['alert_combo']={'ids':alert,'summary':at.split('\\\\n')[0]}\n                    p.locator('.cui-search-result').filter(has_text='LOT-240904').first.click(); p.wait_for_timeout(350); sd=detail(p); must('LOT-240904' in sd and 'No result selected' not in sd,f'search selection context {sd\"'!r}'\"'); q.fill('LOT-240908'); p.wait_for_timeout(700); after=search_ids(p); cd=detail(p); must(after==['LOT-240908'],f'908 IDs {after}'); must('No result selected' in cd and 'LOT-240904' not in cd,f'filtered selection not cleared {cd\"'!r}'\"'); s['observations']['selection_clear_on_disappear']={'selected_detail':sd,'after_filter_ids':after,'after_filter_detail':cd}\n                    q.fill('ETCH'); p.wait_for_timeout(700); select_option(p,'Status facet','Any status'); must(len(search_ids(p))==8,'search final restore failed'); status_field=p.locator('.cui-select').filter(has_text='Status facet').first.locator('input[role=combobox]'); status_field.click(); p.wait_for_timeout(100); p.keyboard.press('Escape'); p.wait_for_timeout(100); s['observations']['status_focus_restored']=p.evaluate(\\\"()=>document.activeElement?.getAttribute('aria-label')==='Status facet'\\\")\n                else:\n                    q=input_by_aria(p,'Search lots'); must(q.count()==1,'data explorer input missing'); init=table_ids(p); must(len(init)==8,f'initial table IDs {init}')\n                    q.fill('LOT-240904'); p.wait_for_timeout(700); ids=table_ids(p); must(ids==['LOT-240904'],f'filtered table IDs {ids}'); row=p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first; must(row.count()==1 and row.is_visible(),'visible LOT-240904 row missing'); cb=row.locator('input[type=checkbox]').first; must(cb.count()==1,'row checkbox missing'); cb.check(); p.wait_for_timeout(500); sd=detail(p); aria=row.get_attribute('aria-selected'); must('Selected lot' in sd and 'LOT-240904' in sd,f'selected detail {sd\"'!r}'\"'); must(aria=='true',f'row aria-selected={aria\"'!r}'\"'); s['observations']['filter_and_select']={'visible_ids':ids,'row_aria_selected':aria,'detail':sd}\n                    q.fill('LOT'); p.wait_for_timeout(700); remain=table_ids(p); rd=detail(p); must('LOT-240904' in remain and 'Selected lot' in rd and 'LOT-240904' in rd,f'selection lost while visible IDs={remain}, detail={rd\"'!r}'\"'); s['observations']['transition_remains_visible']={'visible_count':len(remain),'contains_904':True,'detail':rd}\n                    select_option(p,'Tool','ETCH-03'); gone=table_ids(p); gd=detail(p); must('LOT-240904' not in gone,f'ETCH-03 still contains 904 {gone}'); must('No lot selected' in gd and 'LOT-240904' not in gd,f'filtered detail not cleared {gd\"'!r}'\"'); s['observations']['transition_disappears_clears']={'visible_ids':gone,'detail':gd}\n                    select_option(p,'Tool','All tools'); q.fill('LOT-240904'); p.wait_for_timeout(700); restore=table_ids(p); must(restore==['LOT-240904'],f'restore IDs {restore}'); row=p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first; row.locator('input[type=checkbox]').first.check(); p.wait_for_timeout(500); rec=detail(p); must('Selected lot' in rec and 'LOT-240904' in rec,f'reselection detail {rec\"'!r}'\"'); s['observations']['restore_and_reselect']={'visible_ids':restore,'detail':rec}\n                if w<900:\n                    trigger=p.get_by_role('button',name='Open navigation').first; must(trigger.count()==1 and trigger.is_visible(),'mobile Open navigation missing'); trigger.click(); p.wait_for_timeout(250); drawer=p.locator('.cui-mobile-nav-drawer').first; must(drawer.count()==1 and drawer.is_visible(),'mobile drawer did not open'); close=p.get_by_role('button',name='Close navigation').first; must(close.count()==1 and close.is_visible(),'mobile close nav missing'); close.click(); p.wait_for_timeout(250); s['observations']['responsive_shell']={'drawer_opened_and_closed':True,'focus_after_close':p.evaluate(\\\"()=>({aria:document.activeElement?.getAttribute('aria-label')||'',tag:document.activeElement?.tagName||''})\\\")}\n                else:\n                    sidebar=p.locator('.cui-app-sidebar:not(.q-drawer)').first; trigger=p.get_by_role('button',name='Open navigation').first; must(sidebar.count()==1 and sidebar.is_visible(),'desktop sidebar missing'); must(not(trigger.count()>0 and trigger.is_visible()),'mobile trigger visible desktop'); s['observations']['responsive_shell']={'desktop_sidebar_visible':True,'mobile_trigger_visible':False}\n                s['audit_final']=audit(p); must(not s['audit_final']['horizontalOverflow'],'horizontal overflow'); must(s['audit_final']['slotsWithinPattern'],'slot escaped pattern'); must(s['audit_final']['reducedMotion'],'reduced motion not observed'); must(s['observations']['keyboard_focus_reachable'],'keyboard did not reach control'); must(s['observations']['keyboard_focus_visible'],'keyboard focus not visible'); must(not ce,f'console errors {ce}'); must(not pe,f'page errors {pe}'); must(not fr,f'failed requests {fr}'); must(not br,f'bad responses {br}')\n            except Exception as e:\n                s['status']='FAIL'; s['failure']=f'{type(e).__name__}: {e}'; s['audit_final']=audit(p) if p.url.startswith(BASE) else None\n            finally:\n                shot(p,f'{name}-{route_name}-final',report['artifacts']); p.close()\n            report['scenarios'].append(s)\n        ctx.close()\n    b.close()\nreport['summary']={'pass':sum(x['status']=='PASS' for x in report['scenarios']),'fail':sum(x['status']=='FAIL' for x in report['scenarios']),'scenarios':len(report['scenarios']),'screenshots':len(report['artifacts'])}\n(OUT/'CHG100_EXACT_BROWSER_REPORT.json').write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n'); (OUT/'CHG100_EXACT_SCREENSHOT_MANIFEST.json').write_text(json.dumps(report['artifacts'],indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n c=b.new_context(viewport={'width':1440,'height':900}); page=c.new_page(); page.goto('http://127.0.0.1:8091/studio/pattern%3Asearch'); page.wait_for_timeout(400)\n sel=page.locator('.cui-select').filter(has_text='Status facet').first\n print('sel',sel.count(),sel.is_visible(),sel.inner_text())\n sel.click(); page.wait_for_timeout(100)\n print('options',page.get_by_role('option').all_text_contents())\n print('body tail',page.locator('body').inner_text()[-300:])\n page.get_by_role('option',name='Alert',exact=True).click(); page.wait_for_timeout(350)\n print('sel after',sel.inner_text())\n print('summary',page.locator('.cui-pattern-slot--data').inner_text().split('\\\\n')[0])\n b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n c=b.new_context(viewport={'width':1440,'height':900}); page=c.new_page(); page.goto('http://127.0.0.1:8091/studio/pattern%3Asearch',wait_until='domcontentloaded',timeout=30000); page.wait_for_timeout(400)\n sel=page.locator('.cui-select').filter(has_text='Status facet').first\n print('sel',sel.count(),sel.is_visible(),sel.inner_text(),flush=True)\n sel.click(); page.wait_for_timeout(100)\n print('options',page.get_by_role('option').all_text_contents(),flush=True)\n print('body tail',page.locator('body').inner_text()[-300:],flush=True)\n page.get_by_role('option',name='Alert',exact=True).click(); page.wait_for_timeout(350)\n print('sel after',sel.inner_text(),flush=True)\n print('summary',page.locator('.cui-pattern-slot--data').inner_text().split('\\\\\\\\n')[0],flush=True)\n b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport hashlib, json\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:8091'; OUT=Path('/tmp/chg100-verify-CbL3wy/exact3'); SHOT=OUT/'screenshots'; SHOT.mkdir(parents=True,exist_ok=True)\nclass Failure(Exception): pass\ndef must(c,m):\n    if not c: raise Failure(m)\ndef settle(p): p.wait_for_selector('main,[role=main]',timeout=10000); p.wait_for_timeout(350)\ndef input_aria(p,label): return p.locator(f'input[aria-label=\\\"{label}\\\"]').first\ndef search_ids(p): return p.locator('.cui-search-result:visible').evaluate_all(\\\"els=>els.map(e=>(e.innerText||'').split('\\\\\\\\n')[0].trim())\\\")\ndef table_ids(p): return p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').evaluate_all(\\\"els=>els.map(e=>e.querySelector('[col-id=\\\\\\\\\\\\\\\"id\\\\\\\\\\\\\\\"]')?.innerText?.trim()||'')\\\")\ndef choose(p,option):\n    sel=p.locator('.cui-select').first; must(sel.count()==1 and sel.is_visible(),'primary specimen select missing'); sel.click(); p.wait_for_timeout(100); opt=p.get_by_role('option',name=option,exact=True).last; must(opt.count()==1 and opt.is_visible(),f'option {option\"'!r} not visible'\"'); opt.click(); p.wait_for_timeout(350)\ndef detail(p): return p.locator('.cui-pattern-slot--details').inner_text()\ndef audit(p):\n    return p.evaluate('''() => {const vis=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>1&&r.height>1&&s.display\"'!='\"'none'&&s.visibility\"'!='\"'hidden'};const nm=e=>(e.getAttribute('aria-label')||e.getAttribute('aria-labelledby')||e.innerText||e.value||e.title||'').trim();const is=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[role=combobox],[tabindex]')].filter(vis);const miss=is.filter(e=>e.getAttribute('aria-hidden')\"'!='\"'true'&&\"'!e.disabled&&e.tabIndex>=0&&!nm(e));const p=document.querySelector('\"'.cui-pattern'),pr=p?.getBoundingClientRect();const slots=[...document.querySelectorAll('.cui-pattern-slot')].filter(vis).map(e=>{const r=e.getBoundingClientRect();return{x:r.x,right:r.right,scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,aria:e.getAttribute('aria-label')}});return {viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},theme:document.documentElement.dataset.theme||'',reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,horizontalOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,documentScroll:{width:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth},missingAccessibleNames:miss.map(e=>({tag:e.tagName,role:e.getAttribute('role'),classes:(e.className||'').toString().slice(0,160)})),codeCopy:[...document.querySelectorAll('.nicegui-code-copy')].filter(vis).map(e=>({aria:e.getAttribute('aria-label'),title:e.title,text:(e.innerText||'').trim()})),internalSelectFocusTargets:[...document.querySelectorAll('.cui-select .q-select__focus-target')].filter(e=>e.tabIndex>=0).map(e=>({aria:e.getAttribute('aria-label'),value:e.value,parentLabel:e.closest('.cui-select')?.querySelector('.q-field__native')?.getAttribute('aria-label'),visible:vis(e)})),slotsWithinPattern:\"'!!(p&&slots.every(s=>s.x>=pr.x-1&&s.right<=pr.right+1)),surfaceOverflow:slots.filter(s=>s.scrollWidth>s.clientWidth+1).map(s=>({aria:s.aria,scrollWidth:s.scrollWidth,clientWidth:s.clientWidth})),mobileNavTriggerVisible:[...document.querySelectorAll('\"'button')].some(e=>vis(e)&&e.getAttribute('aria-label')=='Open navigation'),desktopSidebarVisible:[...document.querySelectorAll('.cui-app-sidebar:not(.q-drawer)')].some(vis)};}''')\ndef focus_trace(p,n=14):\n    a=[]\n    for _ in range(n):\n        p.keyboard.press('Tab'); a.append(p.evaluate(\\\"()=>{const e=document.activeElement,s=e?getComputedStyle(e):null;return{tag:e?.tagName||'',aria:e?.getAttribute('aria-label')||'',text:(e?.innerText||e?.value||'').trim().slice(0,60),ring:\"'!!(s&&(s.outlineStyle!='\"'none'||s.boxShadow\"'!='\"'none'))}}\\\"))\n    return a\ndef shot(p,name,m):\n    f=SHOT/f'{name}.png'; p.screenshot(path=str(f),full_page=True); m[f.name]=hashlib.sha256(f.read_bytes()).hexdigest()\nreport={'base_url':BASE,'browser':{'engine':'chromium','executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','version':None},'scenarios':[],'artifacts':{},'zoom_200_percent':{'status':'BLOCKED','detail':'CUA browser provider/window unavailable; Playwright headless has no authentic browser chrome zoom control, and no CSS/device-scale substitute was used.'}}\nwith sync_playwright() as pw:\n    b=pw.chromium.launch(headless=True,executable_path=report['browser']['executable']); report['browser']['version']=b.version\n    for name,w,h,scheme in [('desktop-light',1440,900,'light'),('mobile-dark',390,844,'dark')]:\n        ctx=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme=scheme,reduced_motion='reduce')\n        for kind,route in [('search','/studio/pattern%3Asearch'),('data_explorer','/studio/pattern%3Adata_explorer')]:\n            p=ctx.new_page(); ce=[];pe=[];fr=[];br=[]\n            p.on('console',lambda m,bag=ce:bag.append({'type':m.type,'text':m.text}) if m.type=='error' else None); p.on('pageerror',lambda e,bag=pe:bag.append(str(e))); p.on('requestfailed',lambda q,bag=fr:bag.append({'url':q.url,'failure':str(q.failure)})); p.on('response',lambda r,bag=br:bag.append({'url':r.url,'status':r.status,'type':r.request.resource_type}) if r.status>=400 and r.request.resource_type not in {'image','font'} else None)\n            s={'scenario':name,'route':route,'status':'PASS','observations':{},'audit_initial':None,'audit_final':None,'console_errors':ce,'page_errors':pe,'failed_requests':fr,'bad_responses':br}\n            try:\n                resp=p.goto(BASE+route,wait_until='domcontentloaded',timeout=30000); settle(p); must(resp is not None and resp.status==200,f'HTTP {resp.status if resp else None}'); s['observations']['http_status']=resp.status; s['observations']['url']=p.url; s['audit_initial']=audit(p); shot(p,f'{name}-{kind}-initial',report['artifacts'])\n                trace=focus_trace(p); s['observations']['keyboard_focus_trace']=trace; s['observations']['keyboard_focus_reachable']=any(x['tag'] not in {'','BODY','HTML'} for x in trace); s['observations']['keyboard_focus_visible']=any(x['ring'] for x in trace)\n                if kind=='search':\n                    q=input_aria(p,'Search lots, tools, or recipes'); must(q.count()==1,'search input missing'); ids=search_ids(p); summary=p.locator('.cui-pattern-slot--data').inner_text().split('\\\\n')[0]; must(len(ids)==8 and summary=='8 results for “ETCH” · Status: Any status',f'initial {ids} {summary\"'!r}'\"'); s['observations']['initial']={'ids':ids,'summary':summary}\n                    q.fill('NO_MATCH_987'); p.wait_for_timeout(700); ids=search_ids(p); text=p.locator('.cui-pattern-slot--data').inner_text(); empty=p.locator('.cui-pattern-slot--data').get_by_text('No matching lots, tools, or recipes',exact=True); shot(p,f'{name}-search-no-match',report['artifacts']); must(ids==[],'NO_MATCH_987 left visible results'); must(empty.count()==1 and empty.is_visible(),'canonical no-results state missing'); must('0 results for “NO_MATCH_987” · Status: Any status' in text,'no-match summary inconsistent'); s['observations']['no_match']={'ids':ids,'canonical_no_results':True,'summary':text.split('\\\\n')[0]}\n                    q.fill('ETCH'); p.wait_for_timeout(700); etch=search_ids(p); must(len(etch)==8,'ETCH did not restore 8'); q.fill('LOT-240904'); p.wait_for_timeout(700); lot=search_ids(p); t=p.locator('.cui-pattern-slot--data').inner_text(); must(lot==['LOT-240904'] and t.split('\\\\n')[0]=='1 results for “LOT-240904” · Status: Any status',f'lot filter {lot} {t[:100]\"'!r}'\"'); s['observations']['valid_restore_and_lot']={'etch_count':len(etch),'lot_ids':lot,'summary':t.split('\\\\n')[0]}\n                    q.fill('ETCH'); p.wait_for_timeout(700); choose(p,'Alert'); ids=search_ids(p); t=p.locator('.cui-pattern-slot--data').inner_text(); must(ids==['LOT-240904','LOT-240908'] and t.split('\\\\n')[0]=='2 results for “ETCH” · Status: Alert',f'alert combo {ids} {t[:100]\"'!r}'\"'); s['observations']['alert_combo']={'ids':ids,'summary':t.split('\\\\n')[0]}\n                    p.locator('.cui-search-result').filter(has_text='LOT-240904').first.click(); p.wait_for_timeout(350); sd=detail(p); must('LOT-240904' in sd and 'No result selected' not in sd,f'selected detail {sd\"'!r}'\"'); q.fill('LOT-240908'); p.wait_for_timeout(700); ids=search_ids(p); cd=detail(p); must(ids==['LOT-240908'] and 'No result selected' in cd and 'LOT-240904' not in cd,f'filtered selection {ids} {cd\"'!r}'\"'); s['observations']['selection_clear_on_disappear']={'selected_detail':sd,'after_filter_ids':ids,'after_filter_detail':cd}\n                    q.fill('ETCH'); p.wait_for_timeout(700); choose(p,'Any status'); must(len(search_ids(p))==8,'final ETCH restore failed'); status_select=p.locator('.cui-select').first; status_select.click(); p.wait_for_timeout(100); p.keyboard.press('Escape'); p.wait_for_timeout(100); s['observations']['focus_after_status_escape']=p.evaluate(\\\"()=>({tag:document.activeElement?.tagName||'',aria:document.activeElement?.getAttribute('aria-label')||'',value:document.activeElement?.value||''})\\\")\n                else:\n                    q=input_aria(p,'Search lots'); must(q.count()==1,'data explorer search missing'); must(len(table_ids(p))==8,'initial table not 8'); q.fill('LOT-240904'); p.wait_for_timeout(700); ids=table_ids(p); must(ids==['LOT-240904'],f'filter ids {ids}'); row=p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first; must(row.count()==1 and row.is_visible(),'visible 904 row missing'); cb=row.locator('input[type=checkbox]').first; must(cb.count()==1,'row selection checkbox missing'); cb.check(); p.wait_for_timeout(500); sd=detail(p); must(row.get_attribute('aria-selected')=='true' and 'Selected lot' in sd and 'LOT-240904' in sd,f'row selection/detail {row.get_attribute(\\\"aria-selected\\\")} {sd\"'!r}'\"'); s['observations']['filter_and_select']={'ids':ids,'row_aria_selected':'true','detail':sd}\n                    q.fill('LOT'); p.wait_for_timeout(700); ids=table_ids(p); rd=detail(p); must('LOT-240904' in ids and 'Selected lot' in rd and 'LOT-240904' in rd,f'remains visible selection {ids} {rd\"'!r}'\"'); s['observations']['transition_remains_visible']={'count':len(ids),'contains_904':True,'detail':rd}\n                    choose(p,'ETCH-03'); ids=table_ids(p); gd=detail(p); must('LOT-240904' not in ids and 'No lot selected' in gd and 'LOT-240904' not in gd,f'disappears clear {ids} {gd\"'!r}'\"'); s['observations']['transition_disappears_clears']={'ids':ids,'detail':gd}\n                    choose(p,'All tools'); q.fill('LOT-240904'); p.wait_for_timeout(700); ids=table_ids(p); must(ids==['LOT-240904'],f'restore ids {ids}'); row=p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first; row.locator('input[type=checkbox]').first.check(); p.wait_for_timeout(500); rd=detail(p); must('Selected lot' in rd and 'LOT-240904' in rd,f'reselect detail {rd\"'!r}'\"'); s['observations']['restore_and_reselect']={'ids':ids,'detail':rd}\n                if w<900:\n                    trigger=p.get_by_role('button',name='Open navigation').first; must(trigger.count()==1 and trigger.is_visible(),'mobile nav trigger missing'); trigger.click(); p.wait_for_timeout(250); drawer=p.locator('.cui-mobile-nav-drawer').first; must(drawer.count()==1 and drawer.is_visible(),'mobile drawer did not open'); close=p.get_by_role('button',name='Close navigation').first; must(close.count()==1 and close.is_visible(),'mobile drawer close missing'); close.click(); p.wait_for_timeout(250); s['observations']['responsive_shell']={'drawer_opened_and_closed':True,'focus_after_close':p.evaluate(\\\"()=>({tag:document.activeElement?.tagName||'',aria:document.activeElement?.getAttribute('aria-label')||''})\\\")}\n                else:\n                    sidebar=p.locator('.cui-app-sidebar:not(.q-drawer)').first; trigger=p.get_by_role('button',name='Open navigation').first; must(sidebar.count()==1 and sidebar.is_visible() and not(trigger.count()>0 and trigger.is_visible()),'desktop shell responsive state incorrect'); s['observations']['responsive_shell']={'desktop_sidebar_visible':True,'mobile_trigger_visible':False}\n                s['audit_final']=audit(p); must(not s['audit_final']['horizontalOverflow'],'document horizontal overflow'); must(s['audit_final']['slotsWithinPattern'],'slot escaped pattern canvas'); must(s['audit_final']['reducedMotion'],'reduced motion not observed'); must(s['observations']['keyboard_focus_reachable'],'keyboard traversal reached no interactive element'); must(s['observations']['keyboard_focus_visible'],'keyboard focus ring not observed'); must(not ce,f'console errors {ce}'); must(not pe,f'page errors {pe}'); must(not fr,f'failed requests {fr}'); must(not br,f'bad responses {br}')\n            except Exception as e: s['status']='FAIL'; s['failure']=f'{type(e).__name__}: {e}'; s['audit_final']=audit(p) if p.url.startswith(BASE) else None\n            finally: shot(p,f'{name}-{kind}-final',report['artifacts']); p.close()\n            report['scenarios'].append(s)\n        ctx.close()\n    b.close()\nreport['summary']={'pass':sum(x['status']=='PASS' for x in report['scenarios']),'fail':sum(x['status']=='FAIL' for x in report['scenarios']),'scenarios':len(report['scenarios']),'screenshots':len(report['artifacts'])}\n(OUT/'CHG100_EXACT_BROWSER_REPORT.json').write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n'); (OUT/'CHG100_EXACT_SCREENSHOT_MANIFEST.json').write_text(json.dumps(report['artifacts'],indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps(report['summary'],indent=2)); print(json.dumps([{'scenario':x['scenario'],'route':x['route'],'status':x['status'],'failure':x.get('failure'),'console_errors':len(x['console_errors']),'page_errors':len(x['page_errors']),'failed_requests':len(x['failed_requests']),'bad_responses':len(x['bad_responses']),'audit_initial':x['audit_initial'],'audit_final':x['audit_final']} for x in report['scenarios']],indent=2,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\ndef ids(p): return p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').evaluate_all(\\\"els=>els.map(e=>({id:e.querySelector('[col-id=\\\\\\\\\\\\\\\"id\\\\\\\\\\\\\\\"]')?.innerText?.trim(),selected:e.getAttribute('aria-selected'),checked:e.querySelector('input[type=checkbox]')?.checked}))\\\")\ndef choose(p,opt):\n s=p.locator('.cui-select').first; print('choose before',s.inner_text(),flush=True); s.click(); p.wait_for_timeout(100); print('opts',p.get_by_role('option').all_text_contents(),flush=True); p.get_by_role('option',name=opt,exact=True).last.click(); p.wait_for_timeout(600); print('choose after',s.inner_text(),flush=True)\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1); p=c.new_page(); p.goto('http://127.0.0.1:8091/studio/pattern%3Adata_explorer',wait_until='domcontentloaded'); p.wait_for_timeout(500)\n q=p.locator('input[aria-label=\\\"Search lots\\\"]').first; print('initial',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n q.fill('LOT-240904'); p.wait_for_timeout(700); row=p.locator('.cui-data-table .ag-row:visible').filter(has_text='LOT-240904').first; row.locator('input[type=checkbox]').check(); p.wait_for_timeout(500); print('selected 904',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n q.fill('LOT'); p.wait_for_timeout(700); print('query LOT',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n choose(p,'ETCH-03'); print('ETCH03',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n choose(p,'All tools'); print('all tools before 904',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n q.fill('LOT-240904'); p.wait_for_timeout(700); print('904 after restore before click',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n row=p.locator('.cui-data-table .ag-row:visible').filter(has_text='LOT-240904').first; cb=row.locator('input[type=checkbox]').first; print('cb count/checked',cb.count(),cb.is_checked(),flush=True); cb.check(); p.wait_for_timeout(700); print('904 after check',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n if not cb.is_checked(): row.click(); p.wait_for_timeout(700); print('904 after row click',ids(p),p.locator('.cui-pattern-slot--details').inner_text(),flush=True)\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:8091'; OUT=Path('/tmp/chg100-verify-CbL3wy/exact4'); SHOT=OUT/'screenshots'; SHOT.mkdir(parents=True,exist_ok=True)\nclass Failure(Exception): pass\ndef must(c,m):\n if not c: raise Failure(m)\ndef settle(p): p.wait_for_selector('main,[role=main]',timeout=10000); p.wait_for_timeout(350)\ndef inp(p,l): return p.locator(f'input[aria-label=\\\"{l}\\\"]').first\ndef sids(p): return p.locator('.cui-search-result:visible').evaluate_all(\\\"els=>els.map(e=>(e.innerText||'').split('\\\\\\\\n')[0].trim())\\\")\ndef tids(p): return p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').evaluate_all(\\\"els=>els.map(e=>e.querySelector('[col-id=\\\\\\\\\\\\\\\"id\\\\\\\\\\\\\\\"]')?.innerText?.trim()||'')\\\")\ndef choose(p,opt):\n sel=p.locator('.cui-select').first; must(sel.count()==1 and sel.is_visible(),'primary select missing'); sel.click(); p.wait_for_timeout(100); o=p.get_by_role('option',name=opt,exact=True).last; must(o.count()==1 and o.is_visible(),f'option {opt} missing'); o.click(); p.wait_for_timeout(350)\ndef detail(p): return p.locator('.cui-pattern-slot--details').inner_text()\ndef audit(p):\n return p.evaluate('''()=>{const vis=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>1&&r.height>1&&s.display\"'!='\"'none'&&s.visibility\"'!='\"'hidden'};const nm=e=>(e.getAttribute('aria-label')||e.getAttribute('aria-labelledby')||e.innerText||e.value||e.title||'').trim();const is=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[role=combobox],[tabindex]')].filter(vis);const miss=is.filter(e=>e.getAttribute('aria-hidden')\"'!='\"'true'&&\"'!e.disabled&&e.tabIndex>=0&&!nm(e));const p=document.querySelector('\"'.cui-pattern'),pr=p?.getBoundingClientRect();const slots=[...document.querySelectorAll('.cui-pattern-slot')].filter(vis).map(e=>{const r=e.getBoundingClientRect();return{x:r.x,right:r.right,scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,aria:e.getAttribute('aria-label')}});return{viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},theme:document.documentElement.dataset.theme||'',reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,horizontalOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,documentScroll:{width:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth},missingAccessibleNames:miss.map(e=>({tag:e.tagName,role:e.getAttribute('role'),classes:(e.className||'').toString().slice(0,160)})),codeCopy:[...document.querySelectorAll('.nicegui-code-copy')].filter(vis).map(e=>({aria:e.getAttribute('aria-label'),title:e.title,text:(e.innerText||'').trim()})),internalSelectFocusTargets:[...document.querySelectorAll('.cui-select .q-select__focus-target')].filter(e=>e.tabIndex>=0).map(e=>({aria:e.getAttribute('aria-label'),value:e.value,parentLabel:e.closest('.cui-select')?.querySelector('.q-field__native')?.getAttribute('aria-label'),visible:vis(e)})),slotsWithinPattern:\"'!!(p&&slots.every(s=>s.x>=pr.x-1&&s.right<=pr.right+1)),surfaceOverflow:slots.filter(s=>s.scrollWidth>s.clientWidth+1),mobileNavTriggerVisible:[...document.querySelectorAll('\"'button')].some(e=>vis(e)&&e.getAttribute('aria-label')=='Open navigation'),desktopSidebarVisible:[...document.querySelectorAll('.cui-app-sidebar:not(.q-drawer)')].some(vis)};}''')\ndef focus_trace(p,n=14):\n a=[]\n for _ in range(n):\n  p.keyboard.press('Tab'); a.append(p.evaluate(\\\"()=>{const e=document.activeElement,s=e?getComputedStyle(e):null;return{tag:e?.tagName||'',aria:e?.getAttribute('aria-label')||'',text:(e?.innerText||e?.value||'').trim().slice(0,60),ring:\"'!!(s&&(s.outlineStyle!='\"'none'||s.boxShadow\"'!='\"'none'))}}\\\"))\n return a\ndef shot(p,n,m):\n f=SHOT/f'{n}.png';p.screenshot(path=str(f),full_page=True);m[f.name]=hashlib.sha256(f.read_bytes()).hexdigest()\nreport={'base_url':BASE,'browser':{'engine':'chromium','executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','version':None},'scenarios':[],'artifacts':{},'zoom_200_percent':{'status':'BLOCKED','detail':'CUA browser provider/window unavailable; Playwright headless has no authentic browser chrome zoom control; CSS/device-scale emulation not substituted.'}}\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path=report['browser']['executable']);report['browser']['version']=b.version\n for name,w,h,scheme in [('desktop-light',1440,900,'light'),('mobile-dark',390,844,'dark')]:\n  ctx=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme=scheme,reduced_motion='reduce')\n  for kind,route in [('search','/studio/pattern%3Asearch'),('data_explorer','/studio/pattern%3Adata_explorer')]:\n   p=ctx.new_page();ce=[];pe=[];fr=[];br=[]\n   p.on('console',lambda m,bag=ce:bag.append({'type':m.type,'text':m.text}) if m.type=='error' else None);p.on('pageerror',lambda e,bag=pe:bag.append(str(e)));p.on('requestfailed',lambda q,bag=fr:bag.append({'url':q.url,'failure':str(q.failure)}));p.on('response',lambda r,bag=br:bag.append({'url':r.url,'status':r.status,'type':r.request.resource_type}) if r.status>=400 and r.request.resource_type not in {'image','font'} else None)\n   s={'scenario':name,'route':route,'status':'PASS','observations':{},'audit_initial':None,'audit_final':None,'console_errors':ce,'page_errors':pe,'failed_requests':fr,'bad_responses':br}\n   try:\n    resp=p.goto(BASE+route,wait_until='domcontentloaded',timeout=30000);settle(p);must(resp is not None and resp.status==200,f'HTTP {resp.status if resp else None}');s['observations']['http_status']=resp.status;s['observations']['url']=p.url;s['audit_initial']=audit(p);shot(p,f'{name}-{kind}-initial',report['artifacts']);tr=focus_trace(p);s['observations']['keyboard_focus_trace']=tr;s['observations']['keyboard_focus_reachable']=any(x['tag'] not in {'','BODY','HTML'} for x in tr);s['observations']['keyboard_focus_visible']=any(x['ring'] for x in tr)\n    if kind=='search':\n     q=inp(p,'Search lots, tools, or recipes');must(q.count()==1,'search input missing');ids=sids(p);t=p.locator('.cui-pattern-slot--data').inner_text();must(len(ids)==8 and t.split('\\\\n')[0]=='8 results for “ETCH” · Status: Any status',f'initial {ids} {t[:80]\"'!r}'\"');s['observations']['initial']={'ids':ids,'summary':t.split('\\\\n')[0]}\n     q.fill('NO_MATCH_987');p.wait_for_timeout(700);ids=sids(p);t=p.locator('.cui-pattern-slot--data').inner_text();empty=p.locator('.cui-pattern-slot--data').get_by_text('No matching lots, tools, or recipes',exact=True);shot(p,f'{name}-search-no-match',report['artifacts']);must(ids==[],'NO_MATCH_987 left visible results');must(empty.count()==1 and empty.is_visible(),'canonical no-results missing');must('0 results for “NO_MATCH_987” · Status: Any status' in t,'no-match summary inconsistent');s['observations']['no_match']={'ids':ids,'canonical_no_results':True,'summary':t.split('\\\\n')[0]}\n     q.fill('ETCH');p.wait_for_timeout(700);etch=sids(p);must(len(etch)==8,'ETCH restore failed');q.fill('LOT-240904');p.wait_for_timeout(700);lot=sids(p);t=p.locator('.cui-pattern-slot--data').inner_text();must(lot==['LOT-240904'] and t.split('\\\\n')[0]=='1 results for “LOT-240904” · Status: Any status',f'lot filter {lot} {t[:100]\"'!r}'\"');s['observations']['valid_restore_and_lot']={'etch_count':len(etch),'lot_ids':lot,'summary':t.split('\\\\n')[0]}\n     q.fill('ETCH');p.wait_for_timeout(700);choose(p,'Alert');ids=sids(p);t=p.locator('.cui-pattern-slot--data').inner_text();must(ids==['LOT-240904','LOT-240908'] and t.split('\\\\n')[0]=='2 results for “ETCH” · Status: Alert',f'alert {ids} {t[:100]\"'!r}'\"');s['observations']['alert_combo']={'ids':ids,'summary':t.split('\\\\n')[0]}\n     p.locator('.cui-search-result').filter(has_text='LOT-240904').first.click();p.wait_for_timeout(350);sd=detail(p);must('LOT-240904' in sd and 'NO RESULT SELECTED' not in sd,f'selected detail {sd\"'!r}'\"');q.fill('LOT-240908');p.wait_for_timeout(700);ids=sids(p);cd=detail(p);must(ids==['LOT-240908'] and 'NO RESULT SELECTED' in cd and 'LOT-240904' not in cd,f'filtered selection {ids} {cd\"'!r}'\"');s['observations']['selection_clear_on_disappear']={'selected_detail':sd,'after_filter_ids':ids,'after_filter_detail':cd}\n     q.fill('ETCH');p.wait_for_timeout(700);choose(p,'Any status');must(len(sids(p))==8,'final search restore failed');sel=p.locator('.cui-select').first;sel.click();p.wait_for_timeout(100);p.keyboard.press('Escape');p.wait_for_timeout(100);s['observations']['focus_after_status_escape']=p.evaluate(\\\"()=>({tag:document.activeElement?.tagName||'',aria:document.activeElement?.getAttribute('aria-label')||'',value:document.activeElement?.value||''})\\\")\n    else:\n     q=inp(p,'Search lots');must(q.count()==1,'data search missing');must(len(tids(p))==8,'initial table not 8');q.fill('LOT-240904');p.wait_for_timeout(700);ids=tids(p);must(ids==['LOT-240904'],f'filter ids {ids}');row=p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first;must(row.count()==1 and row.is_visible(),'visible 904 row missing');cb=row.locator('input[type=checkbox]').first;must(cb.count()==1,'row checkbox missing');cb.check();p.wait_for_timeout(500);sd=detail(p);must(row.get_attribute('aria-selected')=='true' and 'Selected lot' in sd and 'LOT-240904' in sd,f'row selection/detail {row.get_attribute(\\\"aria-selected\\\")} {sd\"'!r}'\"');s['observations']['filter_and_select']={'ids':ids,'row_aria_selected':'true','detail':sd}\n     q.fill('LOT');p.wait_for_timeout(700);ids=tids(p);rd=detail(p);must('LOT-240904' in ids and 'Selected lot' in rd and 'LOT-240904' in rd,f'remains visible {ids} {rd\"'!r}'\"');s['observations']['transition_remains_visible']={'count':len(ids),'contains_904':True,'detail':rd}\n     choose(p,'ETCH-03');ids=tids(p);gd=detail(p);must('LOT-240904' not in ids and 'No lot selected' in gd and 'LOT-240904' not in gd,f'disappears {ids} {gd\"'!r}'\"');s['observations']['transition_disappears_clears']={'ids':ids,'detail':gd}\n     choose(p,'All tools');q.fill('LOT-240904');p.wait_for_timeout(700);ids=tids(p);must(ids==['LOT-240904'],f'restore ids {ids}');row=p.locator('.cui-data-table .ag-center-cols-container .ag-row:visible').filter(has_text='LOT-240904').first;cb=row.locator('input[type=checkbox]').first;must(cb.count()==1,'restore row checkbox missing');\n     if cb.is_checked(): cb.uncheck();p.wait_for_timeout(250)\n     cb.check();p.wait_for_timeout(500);rd=detail(p);must('Selected lot' in rd and 'LOT-240904' in rd,f'reselect detail {rd\"'!r}'\"');s['observations']['restore_and_reselect']={'ids':ids,'detail':rd,'explicit_toggle_after_restore':True}\n    if w<900:\n     trig=p.get_by_role('button',name='Open navigation').first;must(trig.count()==1 and trig.is_visible(),'mobile nav trigger missing');trig.click();p.wait_for_timeout(250);drawer=p.locator('.cui-mobile-nav-drawer').first;must(drawer.count()==1 and drawer.is_visible(),'mobile drawer not open');close=p.get_by_role('button',name='Close navigation').first;must(close.count()==1 and close.is_visible(),'mobile close missing');close.click();p.wait_for_timeout(250);s['observations']['responsive_shell']={'drawer_opened_and_closed':True,'focus_after_close':p.evaluate(\\\"()=>({tag:document.activeElement?.tagName||'',aria:document.activeElement?.getAttribute('aria-label')||''})\\\")}\n    else:\n     side=p.locator('.cui-app-sidebar:not(.q-drawer)').first;trig=p.get_by_role('button',name='Open navigation').first;must(side.count()==1 and side.is_visible() and not(trig.count()>0 and trig.is_visible()),'desktop shell state incorrect');s['observations']['responsive_shell']={'desktop_sidebar_visible':True,'mobile_trigger_visible':False}\n    s['audit_final']=audit(p);must(not s['audit_final']['horizontalOverflow'],'document horizontal overflow');must(s['audit_final']['slotsWithinPattern'],'slot escaped pattern');must(s['audit_final']['reducedMotion'],'reduced motion not observed');must(s['observations']['keyboard_focus_reachable'],'keyboard traversal did not reach interactive control');must(s['observations']['keyboard_focus_visible'],'keyboard focus ring not observed');must(not ce,f'console errors {ce}');must(not pe,f'page errors {pe}');must(not fr,f'failed requests {fr}');must(not br,f'bad responses {br}')\n   except Exception as e:s['status']='FAIL';s['failure']=f'{type(e).__name__}: {e}';s['audit_final']=audit(p) if p.url.startswith(BASE) else None\n   finally:shot(p,f'{name}-{kind}-final',report['artifacts']);p.close()\n   report['scenarios'].append(s)\n  ctx.close()\n b.close()\nreport['summary']={'pass':sum(x['status']=='PASS' for x in report['scenarios']),'fail':sum(x['status']=='FAIL' for x in report['scenarios']),'scenarios':len(report['scenarios']),'screenshots':len(report['artifacts'])}\n(OUT/'CHG100_EXACT_BROWSER_REPORT.json').write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n');(OUT/'CHG100_EXACT_SCREENSHOT_MANIFEST.json').write_text(json.dumps(report['artifacts'],indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps(report['summary'],indent=2));print(json.dumps([{'scenario':x['scenario'],'route':x['route'],'status':x['status'],'failure':x.get('failure'),'console_errors':len(x['console_errors']),'page_errors':len(x['page_errors']),'failed_requests':len(x['failed_requests']),'bad_responses':len(x['bad_responses']),'audit_initial':x['audit_initial'],'audit_final':x['audit_final']} for x in report['scenarios']],indent=2,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('/tmp/chg100-verify-CbL3wy/exact4/CHG100_EXACT_BROWSER_REPORT.json'); d=json.loads(p.read_text())\nfor s in d['scenarios']:\n print('\\\\n',s['scenario'],s['route'],s['status'])\n print('  observed:',json.dumps(s['observations'],ensure_ascii=False,sort_keys=True))\n print('  initial audit:',json.dumps(s['audit_initial'],ensure_ascii=False,sort_keys=True))\n print('  final audit:',json.dumps(s['audit_final'],ensure_ascii=False,sort_keys=True))\nprint('\\\\nsummary',json.dumps(d['summary']))\nprint('zoom',json.dumps(d['zoom_200_percent']))\nprint('artifacts',json.dumps(d['artifacts'],sort_keys=True))\nPY\nrtk sed -n '1,220p' /tmp/chg100-verify-CbL3wy/exact4/CHG100_EXACT_SCREENSHOT_MANIFEST.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' source/nicegui_base/certification/runtime_smoke.py\nrtk sed -n '1,160p' source/nicegui_base/ai/live_gate.py\nrtk rg -n \\\"def gate_main|gate_main\\\" source/nicegui_base/ai_cli.py source/nicegui_base/ai -g '*.py' | head -40\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '220,275p' source/nicegui_base/ai_cli.py\nrtk env PYTHONPATH=source python -m nicegui_base.cli gate . --format json\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli runtime-smoke --port 0 --output /tmp/chg100-verify-CbL3wy/runtime_smoke --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-f754b391e52d687f8303302c/source python -m nicegui_base.cli runtime-smoke --port 0 --output /tmp/chg100-verify-CbL3wy/runtime_smoke_abs --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py --port 8091'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json\nfrom playwright.sync_api import sync_playwright\nOUT=Path('/tmp/chg100-verify-CbL3wy/p2');OUT.mkdir(parents=True,exist_ok=True)\nreport={'route':'/components','browser':{},'scenarios':[],'artifacts':{}}\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');report['browser']={'engine':'chromium','executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','version':b.version}\n for name,w,h,scheme in [('desktop-light',1440,900,'light'),('mobile-dark',390,844,'dark')]:\n  c=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme=scheme,reduced_motion='reduce');p=c.new_page();ce=[];pe=[];fr=[];bad=[]\n  p.on('console',lambda m,bag=ce:bag.append({'type':m.type,'text':m.text}) if m.type=='error' else None);p.on('pageerror',lambda e,bag=pe:bag.append(str(e)));p.on('requestfailed',lambda q,bag=fr:bag.append({'url':q.url,'failure':str(q.failure)}));p.on('response',lambda r,bag=bad:bag.append({'url':r.url,'status':r.status,'type':r.request.resource_type}) if r.status>=400 and r.request.resource_type not in {'image','font'} else None)\n  response=p.goto('http://127.0.0.1:8091/components',wait_until='domcontentloaded',timeout=30000);p.wait_for_selector('main,[role=main]',timeout=10000);p.wait_for_timeout(500)\n  snap=p.evaluate('''()=>{const vis=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>1&&r.height>1&&s.display\"'!='\"'none'&&s.visibility\"'!='\"'hidden'};const inputs=[...document.querySelectorAll('input,textarea')].filter(vis).map(e=>{const r=e.getBoundingClientRect();return{aria:e.getAttribute('aria-label'),placeholder:e.placeholder,value:e.value,x:r.x,y:r.y,right:r.right,bottom:r.bottom,w:r.width,h:r.height,classes:(e.className||'').toString().slice(0,140)}});const search=inputs.filter(e=>e.aria?.toLowerCase().includes('search')||e.placeholder?.toLowerCase().includes('search'));const copy=[...document.querySelectorAll('.nicegui-code-copy')].filter(vis).map(e=>({aria:e.getAttribute('aria-label'),title:e.title,text:(e.innerText||'').trim()}));const selectTargets=[...document.querySelectorAll('.q-select .q-select__focus-target')].filter(e=>e.tabIndex>=0).map(e=>({aria:e.getAttribute('aria-label'),value:e.value,visible:vis(e),parentLabel:e.closest('.q-select')?.querySelector('.q-field__native')?.getAttribute('aria-label')}));return{viewport:{w:innerWidth,h:innerHeight,dpr:devicePixelRatio},theme:document.documentElement.dataset.theme||'',bodyText:document.body.innerText.slice(0,2000),inputs,search,copy,selectTargets,scroll:{w:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}}}''')\n  shot=OUT/f'{name}-components-initial.png';p.screenshot(path=str(shot),full_page=True);report['artifacts'][shot.name]=hashlib.sha256(shot.read_bytes()).hexdigest();report['scenarios'].append({'scenario':name,'status': 'PASS','http_status':response.status if response else None,'snapshot':snap,'console_errors':ce,'page_errors':pe,'failed_requests':fr,'bad_responses':bad});p.close();c.close()\n b.close()\n(OUT/'CHG100_P2_RECHECK.json').write_text(json.dumps(report,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n');(OUT/'CHG100_P2_SCREENSHOT_MANIFEST.json').write_text(json.dumps(report['artifacts'],indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps(report,indent=2,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py --port 8091'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport json,collections\np=Path('/tmp/chg100-verify-CbL3wy/matrix/CHG100_CANONICAL_MATRIX.json');d=json.loads(p.read_text())\nprint('matrix summary',d['summary'])\nprint('browser versions',d['browsers'])\nfor route in ['/patterns/search','/patterns/explorer']:\n rows=[x for x in d['results'] if x['route']==route]\n print(route,[(x['scenario'],x['status'],x['detail']) for x in rows])\ncounts=collections.Counter()\nfor x in d['results']:\n for item in (x.get('audit') or {}).get('geometryViolationSamples',[]): counts['geometry:'+item['kind']]+=1\n for item in (x.get('audit') or {}).get('interactionIssues',[]): counts['interaction:'+item.split(':',1)[0]]+=1\n for item in (x.get('audit') or {}).get('missingAccessibleNames',[]): counts['missing_accessible_name']+=1\nprint('top matrix findings')\nfor k,v in counts.most_common(20): print(v,k)\nfor name in ['CHG100_CANONICAL_MATRIX.json','CHG100_EXACT_BROWSER_REPORT.json','CHG100_EXACT_SCREENSHOT_MANIFEST.json','CHG100_P2_RECHECK.json','CHG100_P2_SCREENSHOT_MANIFEST.json']:\n for root in [Path('/tmp/chg100-verify-CbL3wy/matrix'),Path('/tmp/chg100-verify-CbL3wy/exact4'),Path('/tmp/chg100-verify-CbL3wy/p2')]:\n  f=root/name\n  if f.exists():\n   import hashlib\n   print('sha256',f,hashlib.sha256(f.read_bytes()).hexdigest())\nPY\nrtk git status --porcelain=v1 --branch\nrtk git branch --show-current\nrtk git rev-parse HEAD\nrtk git rev-parse HEAD\"'^{tree}\nrtk git show -s --format='\"'candidate=%H%ntree=%T%nparent=%P%nauthor=%an <%ae>%nsubject=%s' HEAD\nrtk git diff --name-only\nrtk git diff --cached --name-only\nrtk git diff --quiet -- source wheel\nrtk git diff --cached --quiet -- source wheel\nrtk git merge-base --is-ancestor 000298562d6bcbf6df304edbd41b98b30fe4bfcf HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json,collections\nmatrix=json.loads(Path('/tmp/chg100-verify-CbL3wy/matrix/CHG100_CANONICAL_MATRIX.json').read_text())\ncounts=collections.Counter()\nfor x in matrix['results']:\n a=x.get('audit') or {}\n for item in a.get('geometryViolationSamples',[]): counts['geometry:'+item.get('kind','unknown')]+=1\n for item in a.get('interactionIssues',[]): counts['interaction:'+str(item).split(':',1)[0]]+=1\n n=a.get('missingAccessibleNames',0)\n counts['missing_accessible_name'] += (len(n) if isinstance(n,list) else int(n or 0))\nprint('matrix summary',json.dumps(matrix['summary'],sort_keys=True))\nprint('top findings',json.dumps(counts.most_common(15)))\nfor name in ['CHG100_CANONICAL_MATRIX.json']:\n f=Path('/tmp/chg100-verify-CbL3wy/matrix')/name; print('sha256',f,hashlib.sha256(f.read_bytes()).hexdigest())\nfor name in ['CHG100_EXACT_BROWSER_REPORT.json','CHG100_EXACT_SCREENSHOT_MANIFEST.json']:\n f=Path('/tmp/chg100-verify-CbL3wy/exact4')/name; print('sha256',f,hashlib.sha256(f.read_bytes()).hexdigest())\nfor name in ['CHG100_P2_RECHECK.json','CHG100_P2_SCREENSHOT_MANIFEST.json']:\n f=Path('/tmp/chg100-verify-CbL3wy/p2')/name; print('sha256',f,hashlib.sha256(f.read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1 --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet --'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --quiet --'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet -- source wheel'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --quiet -- source wheel'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse --abbrev-ref HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 000298562d6bcbf6df304edbd41b98b30fe4bfcf HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg103.py\nrtk git status --porcelain=v1 --untracked-files=all\nrtk git rev-parse HEAD\nrtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 164,
+        "output_sha256": "f2b4e863a4763e1fa3630f1f52e3761bf69b7f2cc1043277c554b1e2a6f4344b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 127,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.34,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 7079936,
+      "fresh_input_tokens": 268613,
+      "input_tokens": 7348549,
+      "non_reasoning_output_tokens": 30685,
+      "output_tokens": 55935,
+      "reasoning_output_tokens": 25250,
+      "total_processed_tokens": 7404484
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "cb93b74448032d358e84757383c844b2bf435cf8",
+      "subject": "Fix Reference Explorer search and row context"
+    },
+    {
+      "sha": "fc9eb46dcf5ab8f16e56b12b4a9d086cf6fe651d",
+      "subject": "Carry CHG-100 predecessor candidate"
+    },
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 535,
+    "changed_files": 31,
+    "commit_count": 3,
+    "deletions": 214
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T13:19:35Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-verify-2",
+    "head_sha": "cb93b74448032d358e84757383c844b2bf435cf8",
+    "remote_exact_head": true,
+    "remote_head_sha": "cb93b74448032d358e84757383c844b2bf435cf8",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-verify-2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-f754b391e52d687f8303302c",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-2"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-verify-2",
+  "schema_version": 1,
+  "started_at": "2026-09-17T12:56:12Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1403,
+    "queue_seconds": 0,
+    "total_seconds": 1403
+  },
+  "transport": {
+    "bytes": 7989,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7649,
+    "prompt_sha256": "fe658a5d28170e4ad3b426b411daa1fe9325e4a92d07d3606b7b0a9084a24620",
+    "sha256": "f754b391e52d687f8303302ca7b120e43db990d5c68678b21f6fec9edc9fe49d"
+  }
+}
