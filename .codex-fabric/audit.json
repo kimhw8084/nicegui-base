@@ -1,0 +1,523 @@
+{
+  "accepted_at": "2026-09-17T18:34:05Z",
+  "changed_files": [
+    {
+      "additions": 54,
+      "deletions": 5,
+      "path": "source/nicegui_base/integrations/nicegui_components.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "source/nicegui_base/integrations/nicegui_content.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 130,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg108.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli runtime-contract --format json\nrtk env PYTHONPATH=source python -m nicegui_base.cli runtime-smoke --port 0 --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,160p' certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/nicegui_base/certification/runtime_smoke.py\nrtk sed -n '1,180p' source/nicegui_base/certification/live_lab_cli.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-092c8a3f47ca3f7a5bd639cb/source python -m nicegui_base.cli runtime-smoke --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q tests'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=. pytest -q'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 39,
+        "output_sha256": "1dcc90a422292a2f1489f27ae75e33027ade0641331229f3d99835a9e7bb5f9c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=. python -m pytest -q'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 39,
+        "output_sha256": "28654fc6aa0c6fab8b3cc42a589a512a9b6c865c028a201b4ad66c2195fb9170",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase17_mac_live_certification.py::test_all_22_route_builders_construct_under_synthetic_nicegui",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 24281,
+        "output_sha256": "4e511b98684053bd60a47131ad898f084f2c0bc06817bb330ceff95dbd442016",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk git status --short && rtk git diff --stat && rtk git diff -- source/nicegui_base/workbench/explorer_gallery.py source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/integrations/nicegui_components.py source/tests/test_workbench_chg108.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short && rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -n 8 certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log; rtk tail -n 4 certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json | rtk sed -n l'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show HEAD:certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json | rtk tail -c 12 | rtk od -An -t x1; rtk tail -c 12 certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json | rtk od -An -t x1; rtk git show HEAD:certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log | rtk tail -n 10'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore --source=HEAD -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,230p' tests/test_phase17_mac_live_certification.py; rtk rg -n \\\"def run_javascript|run_javascript\\\" source/nicegui_base tests/test_phase17_mac_live_certification.py | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,230p' source/tests/test_phase17_mac_live_certification.py; rtk rg -n \\\"class _FakeUI|run_javascript\\\" source/tests/test_phase17_mac_live_certification.py source/tests/conftest.py source/tests | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q source/tests/test_phase17_mac_live_certification.py::test_all_22_route_builders_construct_under_synthetic_nicegui -vv --tb=long'",
+      "exit_code": 1,
+      "test_result": {
+        "counts": {
+          "failed": 1
+        },
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_phase17_mac_live_certification.py::test_all_22_route_builders_construct_under_synthetic_nicegui"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 2307,
+        "output_sha256": "a30d0a359065bb220c324bfc4f674215db408675d2779e11148e191463dd112e",
+        "summary_detected": true
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /opt/anaconda3/bin/python -c 'import importlib.util,sys,types,traceback; s=importlib.util.spec_from_file_location(\\\"t\\\",\\\"source/tests/test_phase17_mac_live_certification.py\\\"); t=importlib.util.module_from_spec(s); s.loader.exec_module(t); u=t._FakeUI(); a=t._FakeApp(); n=types.ModuleType(\\\"nicegui\\\"); n.ui=u; n.app=a; e=types.ModuleType(\\\"nicegui.events\\\"); e.GenericEventArguments=type(\\\"GenericEventArguments\\\",(),{}); e.KeyEventArguments=type(\\\"KeyEventArguments\\\",(),{}); sys.modules[\\\"nicegui\\\"]=n; sys.modules[\\\"nicegui.events\\\"]=e; import nicegui_base.certification.mac_lab as lab; [(print(\\\"TRY\\\",r.path), r.builder(None)) for r in lab.ROUTES]'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '150,380p' source/nicegui_base/integrations/nicegui_components.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '210,228p' source/nicegui_base/integrations/nicegui_components.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q source/tests/test_phase17_mac_live_certification.py::test_all_22_route_builders_construct_under_synthetic_nicegui'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_phase17_mac_live_certification.py::test_all_22_route_builders_construct_under_synthetic_nicegui"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1764,
+        "output_sha256": "d031613df18286756182313fe320c7fa7bc18fcdd6309822764e15f7d6102a01",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '155,175p' source/nicegui_base/integrations/nicegui_content.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q source/tests/test_phase17_mac_live_certification.py::test_all_22_route_builders_construct_under_synthetic_nicegui'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "423b1d0e014eb1eab96f4420f7b344c2615be505dd574b756ac884826ca74f2d",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q source/tests/test_workbench_chg108.py source/tests/test_workbench_chg103.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_iteration1.py source/tests/test_phase17_mac_live_certification.py source/tests/test_phase19_rendered_product_hardening.py source/tests/test_phase26_v17_phase6_content_workflow_rca.py source/tests/test_phase14_production_completion.py source/tests/test_phase22_v17_core_interaction_system.py source/tests/test_nicegui_component_adapter.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase6.py source/tests/test_public_api_phase7.py source/tests/test_public_api_phase8.py source/tests/test_public_api_phase9.py source/tests/test_public_api_phase10.py'",
+      "exit_code": 4,
+      "test_result": {
+        "exit_code": 4,
+        "framework": "pytest",
+        "outcome": "usage_error",
+        "output_bytes": 77,
+        "output_sha256": "58041e733d386b2f355bd8f2070583b4f655e3e27771cab94d06f78d2bdbd7e9",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/tests | rtk rg 'public_api|api_phase'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q source/tests/test_workbench_chg108.py source/tests/test_workbench_chg103.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_iteration1.py source/tests/test_phase17_mac_live_certification.py source/tests/test_phase19_rendered_product_hardening.py source/tests/test_phase26_v17_phase6_content_workflow_rca.py source/tests/test_phase14_production_completion.py source/tests/test_phase22_v17_core_interaction_system.py source/tests/test_nicegui_component_adapter.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 240,
+        "output_sha256": "50d311a14aa9997f6554fa75c24d607047174ea3bcea99fe19aa538524a8c7f3",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m compileall -q source/nicegui_base source/tests'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli runtime-contract --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli gate . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 22745,
+        "output_sha256": "577c3ae4329ac90dd05a5fa48a713a5ab1054143cc65ca71f7d737b19fed2722",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' source/tests/test_workbench_chg108.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -C 5 \"cui-explorer-refine|cui-explorer-controls\" source/nicegui_base | head -120'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short && rtk git diff --check && rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- source/nicegui_base/integrations/nicegui_components.py source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/workbench/explorer_gallery.py; rtk sed -n '1,240p' source/tests/test_workbench_chg108.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python run_nicegui_base.py --host 127.0.0.1 --port 8099 --no-show'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-092c8a3f47ca3f7a5bd639cb/source python -m nicegui_base.cli runtime-smoke --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore --source=HEAD -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q tests'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\nBASE = 'http://127.0.0.1:8099'\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    page = browser.new_page(viewport={'width': 1440, 'height': 900})\n    page.goto(BASE + '/components', wait_until='domcontentloaded')\n    page.wait_for_selector('[data-explorer-search=\\\"components\\\"]')\n    search = page.locator('[data-explorer-search=\\\"components\\\"]')\n    print('desktop_gallery', {\n        'visible': search.is_visible(),\n        'details_ancestors': search.locator('xpath=ancestor::details').count(),\n        'tabindex': search.get_attribute('tabindex'),\n    })\n    search.focus()\n    print('desktop_active_search', page.evaluate('document.activeElement?.matches(\\\"[data-explorer-search=components]\\\")'))\n    initial = page.locator('.cui-explorer-card').count()\n    search.fill('MultiSelect')\n    page.wait_for_timeout(500)\n    print('desktop_filter', {'initial_cards': initial, 'filtered_cards': page.locator('.cui-explorer-card').count()})\n    page.set_viewport_size({'width': 390, 'height': 844})\n    page.reload(wait_until='domcontentloaded')\n    page.wait_for_selector('[data-explorer-search=\\\"components\\\"]')\n    mobile_search = page.locator('[data-explorer-search=\\\"components\\\"]')\n    summary = page.locator('.cui-explorer-refine > summary')\n    print('mobile_gallery', {'visible': mobile_search.is_visible(), 'details_ancestors': mobile_search.locator('xpath=ancestor::details').count(), 'refine_closed': page.locator('.cui-explorer-refine').get_attribute('open')})\n    summary.focus(); summary.press('Enter')\n    page.wait_for_timeout(100)\n    print('mobile_refinement', {'open': page.locator('.cui-explorer-refine').get_attribute('open') is not None, 'family_visible': page.locator('.cui-explorer-refine .q-select').first.is_visible()})\n\n    page.set_viewport_size({'width': 1440, 'height': 900})\n    page.goto(BASE + '/ai-guide', wait_until='domcontentloaded')\n    copy = page.locator('.nicegui-code-copy').first\n    page.wait_for_selector('.nicegui-code-copy')\n    print('code_viewer', {'count': page.locator('.nicegui-code-copy').count(), 'aria_label': copy.get_attribute('aria-label'), 'tabindex': copy.get_attribute('tabindex')})\n    copy.click(); page.wait_for_timeout(150)\n    print('code_copy_click', {'available': copy.is_visible()})\n\n    page.goto(BASE + '/patterns', wait_until='domcontentloaded')\n    page.wait_for_selector('.q-select__focus-target')\n    target = page.locator('.q-select__focus-target').first\n    target.focus()\n    before = target.get_attribute('aria-label')\n    target.press('Enter'); page.wait_for_timeout(150)\n    options = page.locator('.q-menu .q-item')\n    opened = options.count() > 0\n    if opened:\n        options.first.click(); page.wait_for_timeout(250)\n    target = page.locator('.q-select__focus-target').first\n    target.press('Escape'); page.wait_for_timeout(100)\n    print('select_focus', {'target_count': page.locator('.q-select__focus-target').count(), 'aria_label': before, 'menu_opened': opened, 'active_after_escape': page.evaluate('document.activeElement?.classList.contains(\\\"q-select__focus-target\\\")')})\n    browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n    b=p.chromium.launch(); page=b.new_page(viewport={'width':1440,'height':900}); page.goto('http://127.0.0.1:8099/patterns',wait_until='domcontentloaded'); page.wait_for_selector('.q-select__focus-target'); page.wait_for_timeout(1000)\n    print('targets', page.locator('.q-select__focus-target').count())\n    for i in range(page.locator('.q-select__focus-target').count()):\n        t=page.locator('.q-select__focus-target').nth(i)\n        print(i, t.get_attribute('aria-label'), t.get_attribute('role'), t.get_attribute('class'), t.evaluate('(e)=>e.outerHTML'))\n    print('selects', page.locator('.q-select').count())\n    b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python run_nicegui_base.py --host 127.0.0.1 --port 8099 --no-show'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add source/nicegui_base/workbench/explorer_gallery.py source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/integrations/nicegui_components.py source/tests/test_workbench_chg108.py && rtk git commit -m \"Fix Explorer discoverability and control naming\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git log -1 --format='HEAD %H%nSUBJECT %s%nTREE %T' && rtk git rev-parse HEAD\"'^{tree} && if rtk git merge-base --is-ancestor e0c2032be096083324dd42ab356018017ee3ddb9 HEAD; then rtk echo '\"'ANCESTRY PASS: exact fresh base is ancestor'; else rtk echo 'ANCESTRY FAIL'; fi && rtk git show --stat --oneline --summary HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse e0c2032be096083324dd42ab356018017ee3ddb9''^{tree} && rtk git diff --check HEAD''^ HEAD && rtk git diff --name-status HEAD''^ HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 283,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.73,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 18998272,
+      "fresh_input_tokens": 440951,
+      "input_tokens": 19439223,
+      "non_reasoning_output_tokens": 34674,
+      "output_tokens": 64162,
+      "reasoning_output_tokens": 29488,
+      "total_processed_tokens": 19503385
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "7b243456c9a5941c45ecc5d573e80e390fe42bcf",
+      "subject": "Fix Explorer discoverability and control naming"
+    }
+  ],
+  "diff": {
+    "additions": 189,
+    "changed_files": 4,
+    "commit_count": 1,
+    "deletions": 7
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T19:06:25Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "e0c2032be096083324dd42ab356018017ee3ddb9",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-fix-2",
+    "head_sha": "7b243456c9a5941c45ecc5d573e80e390fe42bcf",
+    "remote_exact_head": true,
+    "remote_head_sha": "7b243456c9a5941c45ecc5d573e80e390fe42bcf",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "e0c2032be096083324dd42ab356018017ee3ddb9",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-fix-2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-092c8a3f47ca3f7a5bd639cb",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-fix-2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-fix-2"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-fix-2",
+  "schema_version": 1,
+  "started_at": "2026-09-17T18:34:05Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1940,
+    "queue_seconds": 0,
+    "total_seconds": 1940
+  },
+  "transport": {
+    "bytes": 8409,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8078,
+    "prompt_sha256": "315286f4dab123bfe5e0b05527f4abed66b2cdd4f307c73b82877578a1ac89e3",
+    "sha256": "092c8a3f47ca3f7a5bd639cbc235da0d206f2953c346c55594ead986472ad9ad"
+  }
+}
