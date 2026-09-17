@@ -167,6 +167,9 @@ class CodeViewer:
     def __init__(self,code:str,*,language:str='text'):
         self.code=code; self.language=language
         self.element=_ui().code(code,language=language).classes('cui-viewer cui-code-viewer')
+        copy_button = getattr(self.element, 'copy_button', None)
+        if callable(getattr(copy_button, 'props', None)):
+            copy_button.props(f'aria-label={json.dumps("Copy code")}')
 
 
 class JsonViewer:

@@ -188,12 +188,12 @@ def render_reference_gallery(entries: Iterable[Any], *, section: str, intro: str
         persist_and_render()
 
     with ui.element('section').classes('cui-explorer-controls').props('aria-label="Explorer filters"'):
+        search = SearchInput('Search', value=state.query, placeholder='Name, intent, data, domain, alias…', debounce_ms=120, on_change=query_changed)
+        search.element.props(f'data-explorer-search="{section}"')
         with ui.element('details').classes('cui-explorer-refine'):
             with ui.element('summary').props('tabindex="0"'):
                 ui.label('Refine references').classes('cui-workbench-card__meta')
             with ui.element('div').classes('cui-explorer-refine__body'):
-                search = SearchInput('Search', value=state.query, placeholder='Name, intent, data, domain, alias…', debounce_ms=120, on_change=query_changed)
-                search.element.props(f'data-explorer-search="{section}"')
                 Select('Family', {'all': 'All families', **{item: item.replace('_', ' ').title() for item in categories}}, value=state.category if state.category in {'all', *categories} else 'all', clearable=False, on_change=category_changed)
                 Button('All references' if state.favorites_only else 'Favorites only', on_click=toggle_favorites)
         ui.label(intro).classes('cui-explorer-controls__hint')
