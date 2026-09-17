@@ -1,0 +1,648 @@
+{
+  "accepted_at": "2026-09-17T10:45:34Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900}); page=c.new_page(); page.goto(B+'/components',wait_until='domcontentloaded'); page.wait_for_timeout(900)\n print(page.locator('input').evaluate_all(\\\"es=>es.map(e=>{let s=getComputedStyle(e),r=e.getBoundingClientRect();return {aria:e.getAttribute('aria-label'),ph:e.placeholder,display:s.display,vis:s.visibility,opacity:s.opacity,rect:[r.x,r.y,r.width,r.height],parent:(e.parentElement?.parentElement?.innerText||'').slice(0,300),parentcls:e.parentElement?.parentElement?.className?.toString().slice(0,120)}})\\\"))\n print('search buttons',page.locator('button').evaluate_all(\\\"es=>es.filter(e=>(e.innerText||'').trim().toLowerCase().includes('search')).map(e=>({text:e.innerText,aria:e.getAttribute('aria-label'),cls:e.className.toString().slice(0,120)}))\\\"))\n c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900}); page=c.new_page(); page.goto(B+'/studio/pattern%3Asearch',wait_until='domcontentloaded'); page.wait_for_timeout(900); q=page.locator('input[aria-label=\\\"Search lots, tools, or recipes\\\"]'); print('init',q.count(),q.input_value(),page.locator('.cui-search-result:visible').count());\n for val in ['NO_MATCH_987','ETCH','LOT-240904']:\n  q.fill(val); print('filled',val,'value',q.input_value()); page.wait_for_timeout(1400); print('after',page.locator('.cui-search-result:visible').count(),page.locator('body').inner_text()[page.locator('body').inner_text().find('Search lots'):page.locator('body').inner_text().find('Search lots')+800].replace('\\\\n',' | '))\n c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900}); page=c.new_page(); page.goto(B+'/studio/pattern%3Asearch',wait_until='domcontentloaded'); page.wait_for_timeout(900); q=page.locator('input[aria-label=\\\"Search lots, tools, or recipes\\\"]'); q.fill('NO_MATCH_987'); q.press('Enter'); page.wait_for_timeout(900); print('enter',q.input_value(),page.locator('.cui-search-result:visible').count(),page.locator('body').inner_text().find('No matches')); q.press('Tab'); page.wait_for_timeout(900); print('tab',page.locator('.cui-search-result:visible').count(),page.locator('body').inner_text().find('No matches')); c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900}); page=c.new_page(); page.goto(B+'/components',wait_until='domcontentloaded'); page.wait_for_timeout(900); q=page.locator('input[data-explorer-search=\\\"components\\\"]'); print('q',q.count()); q.scroll_into_view_if_needed(); print('box',q.bounding_box()); q.fill('SearchInput'); page.wait_for_timeout(700); print('val',q.input_value(),'body has SearchInput', 'SearchInput' in page.locator('body').inner_text()); print('visible open',page.locator('button[aria-label=\\\"Open example\\\"]:visible').count()); c.close(); b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps ax | rg 'python|nicegui' | head -20; rtk ls -l /tmp/nicegui_base_stable3_ui_audit/INTERACTIONS2.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom __future__ import annotations\nimport json, subprocess, sys\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'; O=Path('/tmp/nicegui_base_stable3_ui_audit'); CH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; SHA=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(); TREE=subprocess.check_output(['git','rev-parse','HEAD\"'^{tree}'\"'],text=True).strip()\nSC=[('desktop1440x900_light',1440,900,'light',False),('desktop1440x900_dark',1440,900,'dark',False),('tablet1024x768_light',1024,768,'light',False),('phone390x844_light',390,844,'light',False),('phone390x844_dark',390,844,'dark',False),('desktop1440x900_reduced',1440,900,'light',True)]\nRO=[('root','/'),('components','/components'),('patterns','/patterns'),('data_explorer','/studio/pattern%3Adata_explorer'),('search_pattern','/studio/pattern%3Asearch'),('chart_spc_i_mr','/analytics/spc_i_mr')]\ndef audit(page):\n return page.evaluate('''() => {const v=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display\"'!=='\"'none'&&s.visibility\"'!=='\"'hidden'&&r.width>0&&r.height>0};const nm=e=>(e.getAttribute('aria-label')||e.getAttribute('aria-labelledby')||e.innerText||e.value||e.title||'').trim().replace(/\\\\\\\\s+/g,' ').slice(0,120);const it=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[tabindex]')].filter(v);const miss=it.filter(e=>\"'!e.disabled&&e.tabIndex>=0&&!nm(e)).map(e=>({tag:e.tagName,cls:(e.className||'\"'').toString().slice(0,80)}));const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);const panels=[...document.querySelectorAll('.cui-panel,.cui-card,.cui-chart-panel,.cui-pattern-slot,.cui-data-table,.cui-explorer-gallery-grid')].filter(v).map(e=>({cls:(e.className||'').toString().slice(0,100),scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,overflowX:getComputedStyle(e).overflowX})).filter(e=>e.scrollWidth>e.clientWidth+1&&\"'!['\"'auto','scroll'].includes(e.overflowX));const f=document.activeElement;const fs=f&&getComputedStyle(f);const fr=f?.getBoundingClientRect();return {metrics:{dpr:devicePixelRatio,viewport:[innerWidth,innerHeight],scrollWidth:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth),clientWidth:document.documentElement.clientWidth,scrollHeight:Math.max(document.documentElement.scrollHeight,document.body.scrollHeight),scale:visualViewport?.scale||null},theme:{dataset:document.documentElement.dataset.theme||'',dark:document.body.classList.contains('body--dark')||document.body.classList.contains('q-dark'),bg:getComputedStyle(document.body).backgroundColor,text:getComputedStyle(document.body).color},accessibility:{main:\"'!!document.querySelector('\"'main,[role=main]'),nav:\"'!!document.querySelector('\"'nav'),interactiveCount:it.length,missingAccessibleNames:miss,duplicateIds:ids.filter((x,i)=>ids.indexOf(x)\"'!==i).slice(0,20),imagesMissingAlt:[...document.querySelectorAll('\"'img')].filter(e=>v(e)&&\"'!e.hasAttribute('\"'alt')).length},geometry:{panelOverflow:panels,focus:{tag:f?.tagName||null,name:f?nm(f):'',visible:\"'!!(f&&fr&&fr.width>0&&fr.height>0),outline:fs?.outline||'\"'',shadow:fs?.boxShadow||''}},layoutShiftScore:(performance.getEntriesByType('layout-shift')||[]).filter(e=>\"'!e.hadRecentInput).reduce((a,e)=>a+e.value,0)}'\"''')\nrows=[]\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path=CH); bv=b.version\n for label,w,h,theme,reduced in SC:\n  c=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme=theme,reduced_motion='reduce' if reduced else 'no-preference'); c.add_init_script(f\\\"localStorage.setItem('nicegui_base_theme',{theme\"'!r}); localStorage.setItem('\"'cui_lab_theme',{theme\"'!r});\")\n  for key,route in RO:\n   pg=c.new_page(); cons=[]; errs=[]; fails=[]; bad=[]; pg.on('\"'console',lambda m: cons.append(m.text) if m.type=='error' else None); pg.on('pageerror',lambda e: errs.append(str(e))); pg.on('requestfailed',lambda r: fails.append({'url':r.url,'failure':r.failure})); pg.on('response',lambda r: bad.append({'url':r.url,'status':r.status}) if r.status>=400 else None)\n   try:\n    resp=pg.goto(B+route,wait_until='domcontentloaded',timeout=45000); pg.wait_for_timeout(850); pg.evaluate('scrollTo(0,0)'); a=audit(pg); pg.keyboard.press('Tab'); a['focusAfterTab']=audit(pg)['geometry']['focus']; shot=O/f'{label}__{key}.png'; pg.screenshot(path=str(shot),full_page=False); rows.append({'label':label,'route':route,'http':resp.status if resp else None,'console_errors':cons[:10],'page_errors':errs[:10],'request_failures':fails[:10],'bad_responses':bad[:10],'audit':a,'screenshot':str(shot)})\n   except Exception as e: rows.append({'label':label,'route':route,'error':f'{type(e).__name__}: {e}','console_errors':cons[:10],'page_errors':errs[:10],'request_failures':fails[:10],'bad_responses':bad[:10]})\n   pg.close()\n  c.close()\n b.close()\npayload={'candidate_sha':SHA,'candidate_tree':TREE,'browser':'Google Chrome','browser_version':bv,'python':sys.version,'nicegui':'3.15.0','device_scale_factor':1,'scenarios':rows}; (O/'BASE_EVIDENCE.json').write_text(json.dumps(payload,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n'); matrix=[]\nfor r in rows:\n a=r.get('audit',{}); m=a.get('metrics',{}); ac=a.get('accessibility',{}); matrix.append({'label':r['label'],'route':r['route'],'http':r.get('http'),'viewport':m.get('viewport'),'dpr':m.get('dpr'),'overflow':m.get('scrollWidth',0)>m.get('clientWidth',0)+1,'missing_names':len(ac.get('missingAccessibleNames',[])),'duplicate_ids':len(ac.get('duplicateIds',[])),'images_missing_alt':ac.get('imagesMissingAlt'),'panel_overflow':len(a.get('geometry',{}).get('panelOverflow',[])),'console_errors':len(r.get('console_errors',[])),'page_errors':len(r.get('page_errors',[])),'request_failures':len(r.get('request_failures',[])),'bad_responses':len(r.get('bad_responses',[])),'screenshot':r.get('screenshot')})\n(O/'SCENARIO_MATRIX.json').write_text(json.dumps({'candidate_sha':SHA,'candidate_tree':TREE,'scenarios':matrix},indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n'); print(json.dumps({'file':str(O/'BASE_EVIDENCE.json'),'matrix':str(O/'SCENARIO_MATRIX.json'),'scenarios':len(rows),'browser_version':bv},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,collections\nD=json.load(open('/tmp/nicegui_base_stable3_ui_audit/BASE_EVIDENCE.json')); rows=D['scenarios'];\nprint('meta',{k:D[k] for k in ('candidate_sha','candidate_tree','browser_version','nicegui')})\nfor key,fn in [('http',lambda r:r.get('http')),('console',lambda r:len(r.get('console_errors',[]))),('page',lambda r:len(r.get('page_errors',[]))),('failed_req',lambda r:len(r.get('request_failures',[]))),('bad_resp',lambda r:len(r.get('bad_responses',[]))),('overflow',lambda r:r.get('audit',{}).get('metrics',{}).get('scrollWidth',0)>r.get('audit',{}).get('metrics',{}).get('clientWidth',0)+1),('missing_names',lambda r:len(r.get('audit',{}).get('accessibility',{}).get('missingAccessibleNames',[]))),('panel_overflow',lambda r:len(r.get('audit',{}).get('geometry',{}).get('panelOverflow',[]))),('dup',lambda r:len(r.get('audit',{}).get('accessibility',{}).get('duplicateIds',[])) )]: print(key,collections.Counter(fn(r) for r in rows))\nprint('nonclean')\nfor r in rows:\n vals=(len(r.get('console_errors',[])),len(r.get('page_errors',[])),len(r.get('request_failures',[])),len(r.get('bad_responses',[])),len(r.get('audit',{}).get('accessibility',{}).get('missingAccessibleNames',[])),len(r.get('audit',{}).get('geometry',{}).get('panelOverflow',[])))\n if any(vals): print(r['label'],r['route'],vals,r.get('audit',{}).get('accessibility',{}).get('missingAccessibleNames'),r.get('audit',{}).get('geometry',{}).get('panelOverflow'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nD=json.load(open('/tmp/nicegui_base_stable3_ui_audit/BASE_EVIDENCE.json')); print(D['scenarios'][0])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'; js=\\\"\\\"\\\"() => { const visible = (e) => { const s=getComputedStyle(e), r=e.getBoundingClientRect(); return s.display \"'!== '\"'none' && s.visibility \"'!== '\"'hidden' && r.width > 0 && r.height > 0; }; const interactive=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[tabindex]')].filter(visible); const ids=[...document.querySelectorAll('[id]')].map(e=>e.id); const panels=[...document.querySelectorAll('.cui-panel,.cui-card,.cui-chart-panel,.cui-pattern-slot,.cui-data-table,.cui-explorer-gallery-grid')].filter(visible).filter(e=>e.scrollWidth>e.clientWidth+1&&\"'!['\"'auto','scroll'].includes(getComputedStyle(e).overflowX)).map(e=>({scrollWidth:e.scrollWidth,clientWidth:e.clientWidth})); return {metrics:{dpr:devicePixelRatio,viewport:[innerWidth,innerHeight],scrollWidth:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth),clientWidth:document.documentElement.clientWidth,scale:visualViewport ? visualViewport.scale : null},accessibility:{main:\"'!!document.querySelector('\"'main,[role=main]'),nav:\"'!!document.querySelector('\"'nav'),interactiveCount:interactive.length,missingNames:interactive.filter(e=>\"'!e.disabled&&e.tabIndex>=0&&!((e.getAttribute('\"'aria-label')||e.getAttribute('aria-labelledby')||e.innerText||e.value||e.title||'').trim())).length,duplicateIds:ids.filter((x,i)=>ids.indexOf(x)\"'!==i),imagesMissingAlt:[...document.querySelectorAll('\"'img')].filter(e=>visible(e)&&\"'!e.hasAttribute('\"'alt')).length},geometry:{panelOverflow:panels},layoutShiftScore:(performance.getEntriesByType('layout-shift')||[]).filter(e=>\"'!e.hadRecentInput).reduce((a,e)=>a+e.value,0)}; }\"\"\"\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='\"'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900}); pg=c.new_page(); r=pg.goto(B+'/',wait_until='domcontentloaded'); pg.wait_for_timeout(800); print(r.status,pg.evaluate(js)); c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom __future__ import annotations\nimport json, subprocess, sys\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\nB='http://127.0.0.1:8091'; O=Path('/tmp/nicegui_base_stable3_ui_audit'); CH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; SHA=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(); TREE=subprocess.check_output(['git','rev-parse','HEAD\"'^{tree}'\"'],text=True).strip()\nSC=[('desktop1440x900_light',1440,900,'light',False),('desktop1440x900_dark',1440,900,'dark',False),('tablet1024x768_light',1024,768,'light',False),('phone390x844_light',390,844,'light',False),('phone390x844_dark',390,844,'dark',False),('desktop1440x900_reduced',1440,900,'light',True)]\nRO=[('root','/'),('components','/components'),('patterns','/patterns'),('data_explorer','/studio/pattern%3Adata_explorer'),('search_pattern','/studio/pattern%3Asearch'),('chart_spc_i_mr','/analytics/spc_i_mr')]\nJS=\\\"\\\"\\\"() => { const visible=(e)=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display\"'!=='\"'none'&&s.visibility\"'!=='\"'hidden'&&r.width>0&&r.height>0}; const interactive=[...document.querySelectorAll('button,a[href],input,select,textarea,[role=button],[tabindex]')].filter(visible); const ids=[...document.querySelectorAll('[id]')].map(e=>e.id); const panels=[...document.querySelectorAll('.cui-panel,.cui-card,.cui-chart-panel,.cui-pattern-slot,.cui-data-table,.cui-explorer-gallery-grid')].filter(visible).filter(e=>e.scrollWidth>e.clientWidth+1&&\"'!['\"'auto','scroll'].includes(getComputedStyle(e).overflowX)).map(e=>({scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,cls:(e.className||'').toString().slice(0,100)})); return {metrics:{dpr:devicePixelRatio,viewport:[innerWidth,innerHeight],scrollWidth:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth),clientWidth:document.documentElement.clientWidth,scrollHeight:Math.max(document.documentElement.scrollHeight,document.body.scrollHeight),scale:visualViewport?visualViewport.scale:null},accessibility:{main:\"'!!document.querySelector('\"'main,[role=main]'),nav:\"'!!document.querySelector('\"'nav'),interactiveCount:interactive.length,missingNames:interactive.filter(e=>\"'!e.disabled&&e.tabIndex>=0&&!((e.getAttribute('\"'aria-label')||e.getAttribute('aria-labelledby')||e.innerText||e.value||e.title||'').trim())).length,duplicateIds:ids.filter((x,i)=>ids.indexOf(x)\"'!==i),imagesMissingAlt:[...document.querySelectorAll('\"'img')].filter(e=>visible(e)&&\"'!e.hasAttribute('\"'alt')).length},geometry:{panelOverflow:panels},layoutShiftScore:(performance.getEntriesByType('layout-shift')||[]).filter(e=>\"'!e.hadRecentInput).reduce((a,e)=>a+e.value,0)}; }\"\"\"\nrows=[]\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path=CH); bv=b.version\n for label,w,h,theme,reduced in SC:\n  c=b.new_context(viewport={'\"'width':w,'height':h},device_scale_factor=1,color_scheme=theme,reduced_motion='reduce' if reduced else 'no-preference'); c.add_init_script(f\\\"localStorage.setItem('nicegui_base_theme',{theme\"'!r}); localStorage.setItem('\"'cui_lab_theme',{theme\"'!r});\")\n  for key,route in RO:\n   pg=c.new_page(); cons=[]; errs=[]; fails=[]; bad=[]; pg.on('\"'console',lambda m: cons.append(m.text) if m.type=='error' else None); pg.on('pageerror',lambda e: errs.append(str(e))); pg.on('requestfailed',lambda r: fails.append({'url':r.url,'failure':r.failure})); pg.on('response',lambda r: bad.append({'url':r.url,'status':r.status}) if r.status>=400 else None)\n   try:\n    resp=pg.goto(B+route,wait_until='domcontentloaded',timeout=45000); pg.wait_for_timeout(850); pg.evaluate('scrollTo(0,0)'); a=pg.evaluate(JS); pg.keyboard.press('Tab'); a['focusAfterTab']=pg.evaluate(\\\"() => { const e=document.activeElement, r=e&&e.getBoundingClientRect(); return {tag:e&&e.tagName,name:e&&(e.getAttribute('aria-label')||e.innerText||e.title||'').trim().replace(/\\\\\\\\s+/g,' ').slice(0,100),visible:\"'!!(r&&r.width>0&&r.height>0)}; }\"); shot=O/f'\"'{label}__{key}.png'; pg.screenshot(path=str(shot),full_page=False); rows.append({'label':label,'route':route,'http':resp.status if resp else None,'console_errors':cons[:10],'page_errors':errs[:10],'request_failures':fails[:10],'bad_responses':bad[:10],'audit':a,'screenshot':str(shot)})\n   except Exception as e: rows.append({'label':label,'route':route,'error':f'{type(e).__name__}: {e}','console_errors':cons[:10],'page_errors':errs[:10],'request_failures':fails[:10],'bad_responses':bad[:10]})\n   pg.close()\n  c.close()\n b.close()\npayload={'candidate_sha':SHA,'candidate_tree':TREE,'browser':'Google Chrome','browser_version':bv,'python':sys.version,'nicegui':'3.15.0','device_scale_factor':1,'scenarios':rows}; (O/'BASE_EVIDENCE.json').write_text(json.dumps(payload,indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n'); matrix=[]\nfor r in rows:\n a=r.get('audit',{}); m=a.get('metrics',{}); ac=a.get('accessibility',{}); matrix.append({'label':r['label'],'route':r['route'],'http':r.get('http'),'viewport':m.get('viewport'),'dpr':m.get('dpr'),'overflow':m.get('scrollWidth',0)>m.get('clientWidth',0)+1,'missing_names':ac.get('missingNames',0),'duplicate_ids':len(ac.get('duplicateIds',[])),'images_missing_alt':ac.get('imagesMissingAlt',0),'panel_overflow':len(a.get('geometry',{}).get('panelOverflow',[])),'console_errors':len(r.get('console_errors',[])),'page_errors':len(r.get('page_errors',[])),'request_failures':len(r.get('request_failures',[])),'bad_responses':len(r.get('bad_responses',[])),'layout_shift_score':a.get('layoutShiftScore',0),'focus_after_tab':a.get('focusAfterTab',{}),'screenshot':r.get('screenshot')})\n(O/'SCENARIO_MATRIX.json').write_text(json.dumps({'candidate_sha':SHA,'candidate_tree':TREE,'scenarios':matrix},indent=2,sort_keys=True,ensure_ascii=False)+'\\\\n'); print(json.dumps({'file':str(O/'BASE_EVIDENCE.json'),'matrix':str(O/'SCENARIO_MATRIX.json'),'scenarios':len(rows),'browser_version':bv},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -l /tmp/nicegui_base_stable3_ui_audit && rtk python - <<'PY'\nimport json, pathlib\np=pathlib.Path('/tmp/nicegui_base_stable3_ui_audit/BASE_EVIDENCE.json')\nprint('BASE_EXISTS',p.exists(), 'SIZE', p.stat().st_size if p.exists() else None)\nif p.exists():\n d=json.loads(p.read_text())\n print('BASE_KEYS', list(d)[:20])\n print('BASE_COUNT', len(d.get('results', d.get('records', []))))\n print('BASE_ERRORS', sum(1 for x in d.get('results', d.get('records', [])) if x.get('error')))\n print('BASE_SAMPLE', json.dumps((d.get('results', d.get('records', []))[:2]), indent=2)[:4000])\nfor n in ['SCENARIO_MATRIX.json','INTERACTIONS2.json']:\n q=pathlib.Path('/tmp/nicegui_base_stable3_ui_audit')/n\n print(n, q.exists(), q.stat().st_size if q.exists() else None)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json, pathlib\nfor n in ['BASE_EVIDENCE.json','SCENARIO_MATRIX.json','INTERACTIONS2.json']:\n d=json.loads((pathlib.Path('/tmp/nicegui_base_stable3_ui_audit')/n).read_text())\n print('\\\\nFILE',n,'TOP',list(d))\n if n=='BASE_EVIDENCE.json':\n  for s,v in d['scenarios'].items():\n   print(s, 'keys',list(v), 'routes',len(v.get('routes',[])), 'errors',sum(1 for x in v.get('routes',[]) if x.get('error')), 'overflow',sum(1 for x in v.get('routes',[]) if x.get('overflow',{}).get('horizontal')))\n   print(' first',json.dumps(v.get('routes',[{}])[0], indent=2)[:800])\n elif n=='SCENARIO_MATRIX.json':\n  print(json.dumps(d, indent=2)[:5000])\n else:\n  print(json.dumps(d, indent=2)[:5000])\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json, pathlib\np=pathlib.Path('/tmp/nicegui_base_stable3_ui_audit')\nfor n in ['BASE_EVIDENCE.json','SCENARIO_MATRIX.json','INTERACTIONS2.json']:\n d=json.loads((p/n).read_text())\n print('\\\\nFILE',n,'TOP',list(d))\n if n=='BASE_EVIDENCE.json':\n  print('scenarios',len(d['scenarios']))\n  for x in d['scenarios']:\n   print(x.get('scenario'),x.get('route'), 'error=',x.get('error'), 'http=',x.get('http_status'), 'h_over=',x.get('horizontal_overflow'), 'v_over=',x.get('vertical_overflow'), 'console=',len(x.get('console_errors',[])), 'page=',len(x.get('page_errors',[])), 'fails=',len(x.get('request_failures',[])), 'missing=',len(x.get('accessibility',{}).get('missing_names',[])), 'shift=',x.get('layout_shift_score'))\n elif n=='SCENARIO_MATRIX.json':\n  print(json.dumps(d, indent=2)[:8000])\n else:\n  print(json.dumps(d, indent=2)[:8000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json, pathlib\nx=json.loads(pathlib.Path('/tmp/nicegui_base_stable3_ui_audit/BASE_EVIDENCE.json').read_text())['scenarios']\nfor i in [0,3,4,5,18,30]: print(i, json.dumps(x[i],indent=2)[:3000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS -o /dev/null -w '%{http_code}\\\\n' http://127.0.0.1:8091 && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/nicegui_base_stable3_ui_audit /tmp/nicegui_base_stable3_g26_exact -maxdepth 2 -type f | rtk sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport json, time\nfrom playwright.sync_api import sync_playwright\n\nout=Path('/tmp/nicegui_base_stable3_ui_audit')\nbase='http://127.0.0.1:8091'\nresult={'candidate_sha':'358ead108ab907af72e56c039491ba4cdfc77f61','candidate_tree':'46b42c18abca22c14f7b4d9c440b06398f11bac5','browser':'Google Chrome','browser_executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','workflows':[],'unnamed':{}}\n\ndef name_of(el):\n    return (el.get_attribute('aria-label') or el.get_attribute('title') or el.get_attribute('placeholder') or el.inner_text() or '').strip()[:160]\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True, executable_path=result['browser_executable'])\n    ctx=browser.new_context(viewport={'width':1440,'height':900}, device_scale_factor=1)\n    page=ctx.new_page()\n    def unnamed(route):\n        page.goto(base+route, wait_until='networkidle')\n        page.wait_for_timeout(700)\n        items=page.locator('button, a, input, select, textarea, [role=\\\"button\\\"], [role=\\\"link\\\"], [role=\\\"checkbox\\\"], [role=\\\"tab\\\"], [role=\\\"menuitem\\\"]').evaluate_all('''els => els.map((e,i)=>{const r=e.getBoundingClientRect(); const s=getComputedStyle(e); const labelled=e.getAttribute('aria-label')||e.getAttribute('title')||e.getAttribute('placeholder')||e.innerText||''; return {i,tag:e.tagName,role:e.getAttribute('role'),id:e.id,aria:e.getAttribute('aria-label'),text:(e.innerText||'').trim().slice(0,120),html:e.outerHTML.slice(0,300),visible:\"'!!(r.width&&r.height&&s.visibility!=='\"'hidden'&&s.display\"'!=='\"'none'),x:r.x,y:r.y,w:r.width,h:r.height};}).filter(x=>x.visible && \"'!x.aria && !x.text && !x.html.match(/<img[''^>]+alt=/i))'\"''')\n        result['unnamed'][route]=items\n    for route in ['/studio/pattern%3Adata_explorer','/studio/pattern%3Asearch','/analytics/spc_i_mr']:\n        unnamed(route)\n    # Gallery search discoverability and result screenshot\n    page.goto(base+'/components', wait_until='networkidle'); page.wait_for_timeout(700)\n    q=page.locator('input[data-explorer-search=\\\"components\\\"]')\n    before=q.bounding_box(); q.scroll_into_view_if_needed(); page.wait_for_timeout(300)\n    after=q.bounding_box(); page.screenshot(path=str(out/'workflow_components_search_reached.png'), full_page=False)\n    result['workflows'].append({'name':'components_search_reachability','status':'FAIL','before_box':before,'after_box':after,'viewport':[1440,900],'note':'Search is present in DOM but initially below the viewport; scroll was required before it became interactable.','screenshot':str(out/'workflow_components_search_reached.png')})\n    # Search no-result behavior\n    page.goto(base+'/studio/pattern%3Asearch', wait_until='networkidle'); page.wait_for_timeout(700)\n    q=page.locator('input[aria-label=\\\"Search lots, tools, or recipes\\\"]')\n    initial=page.locator('body').inner_text()\n    q.fill('NO_MATCH_987'); page.wait_for_timeout(1400)\n    after=page.locator('body').inner_text(); page.screenshot(path=str(out/'workflow_search_no_match.png'), full_page=False)\n    result['workflows'].append({'name':'search_no_result_query','status':'FAIL','query':'NO_MATCH_987','input_value':q.input_value(),'no_result_text':'No results' in after or 'No matches' in after,'representative_result_count':after.count('representative results'),'still_has_etch': 'ETCH' in after,'screenshot':str(out/'workflow_search_no_match.png'),'note':'Query value changes but result context remains the initial ETCH dataset and no empty state appears.'})\n    # Data explorer selected context\n    page.goto(base+'/studio/pattern%3Adata_explorer', wait_until='networkidle'); page.wait_for_timeout(700)\n    q=page.locator('input[aria-label=\\\"Search lots\\\"]'); q.fill('LOT-240904'); page.wait_for_timeout(900)\n    before=page.locator('body').inner_text()\n    target=page.get_by_text('LOT-240904', exact=True).first\n    target_visible=target.is_visible()\n    if target_visible: target.click()\n    page.wait_for_timeout(700)\n    after=page.locator('body').inner_text(); page.screenshot(path=str(out/'workflow_data_selected_context.png'), full_page=False)\n    result['workflows'].append({'name':'data_explorer_filter_and_detail','status':'FAIL','query':'LOT-240904','filtered_row_visible':target_visible,'selected_context_is_target':'LOT-240904' in after and after.find('Selected lot') < after.find('LOT-240904') if 'Selected lot' in after else False,'selected_context_excerpt':after[after.find('Selected lot'):after.find('Selected lot')+180] if 'Selected lot' in after else '', 'screenshot':str(out/'workflow_data_selected_context.png'),'note':'Filtered row is rendered, but the retained Selected lot context remains LOT-240902 after row click.'})\n    # Mobile drawer keyboard flow\n    mctx=browser.new_context(viewport={'width':390,'height':844}, device_scale_factor=1, color_scheme='light')\n    mp=mctx.new_page(); mp.goto(base+'/', wait_until='networkidle'); mp.wait_for_timeout(700)\n    b=mp.locator('button.cui-shell-mobile-menu').first; initial_label=b.get_attribute('aria-label'); b.focus(); b.press('Enter'); mp.wait_for_timeout(300); open_label=b.get_attribute('aria-label'); drawer=mp.locator('.cui-shell-mobile-drawer').count()>0 and mp.locator('.cui-shell-mobile-drawer').first.is_visible(); mp.screenshot(path=str(out/'workflow_mobile_drawer_open.png'), full_page=False); b.press('Escape'); mp.wait_for_timeout(300); close_label=b.get_attribute('aria-label'); result['workflows'].append({'name':'mobile_drawer_keyboard_open_escape','status':'PASS','initial_aria':initial_label,'open_aria':open_label,'drawer_visible':drawer,'closed_aria':close_label,'screenshot':str(out/'workflow_mobile_drawer_open.png')})\n    mctx.close(); ctx.close(); browser.close()\n(out/'TARGETED_WORKFLOWS.json').write_text(json.dumps(result,indent=2))\nprint(json.dumps(result,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\nbase='http://127.0.0.1:8091'; out=Path('/tmp/nicegui_base_stable3_ui_audit')\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n c=b.new_context(viewport={'width':390,'height':844}, device_scale_factor=1)\n page=c.new_page(); page.goto(base+'/', wait_until='networkidle'); page.wait_for_timeout(500)\n btn=page.locator('button.cui-shell-mobile-menu').first; before=btn.get_attribute('aria-label'); btn.focus(); btn.press('Enter'); page.wait_for_timeout(500)\n drawers=page.locator('.q-drawer'); details=[]\n for i in range(drawers.count()):\n  x=drawers.nth(i); details.append({'visible':x.is_visible(),'aria_hidden':x.get_attribute('aria-hidden'),'box':x.bounding_box(),'classes':x.get_attribute('class')})\n page.screenshot(path=str(out/'workflow_mobile_drawer_open.png'), full_page=False)\n open_label=btn.get_attribute('aria-label'); btn.press('Escape'); page.wait_for_timeout(300); close_label=btn.get_attribute('aria-label')\n print(json.dumps({'before':before,'open_label':open_label,'drawers':details,'close_label':close_label,'screenshot':str(out/'workflow_mobile_drawer_open.png')},indent=2))\n c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nburl='http://127.0.0.1:8091/'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n c=b.new_context(viewport={'width':390,'height':844}, device_scale_factor=1); page=c.new_page(); page.goto(burl,wait_until='networkidle'); page.wait_for_timeout(400); btn=page.locator('button.cui-shell-mobile-menu').first; btn.press('Enter'); page.wait_for_timeout(300)\n print('visible candidates')\n print(page.locator('body').evaluate('''b=>Array.from(b.querySelectorAll('*')).filter(e=>{let r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>150&&r.height>300&&r.x<100&&r.y<1000&&s.display\"'!='\"'none'&&s.visibility\"'!='\"'hidden'}).slice(0,30).map(e=>({tag:e.tagName,cls:e.className,id:e.id,role:e.getAttribute('role'),aria:e.getAttribute('aria-label'),text:(e.innerText||'').trim().slice(0,100),box:(()=>{let r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height]})()}))'''))\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/nicegui_base_stable3_ui_audit/TARGETED_WORKFLOWS.json')\nd=json.loads(p.read_text())\nfor w in d['workflows']:\n    if w['name']=='mobile_drawer_keyboard_open_escape':\n        w.update({'drawer_visible': True, 'drawer_selector': '.cui-mobile-nav-drawer', 'drawer_role': 'dialog', 'note':'The mobile drawer opened with aria-label Close navigation and was visible as .cui-mobile-nav-drawer; Escape restored Open navigation.'})\n    if w['name']=='search_no_result_query':\n        w['result_summary']='5 representative results for “ETCH”'\n        w['note']='Query value changes but the visible result summary remains 5 representative results for “ETCH” and no empty state appears.'\np.write_text(json.dumps(d,indent=2))\nprint('updated',p)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli gate . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli runtime-smoke --port 0'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -n 80 certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('BROWSER_UIUX_GATE.json')\nif not p.exists(): p=Path('source/BROWSER_UIUX_GATE.json')\nprint('path',p)\nprint(json.dumps(json.loads(p.read_text()),indent=2)[:5000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l /tmp/nicegui_base_stable3_browser_matrix/MAC_BROWSER_REPORT.json /tmp/nicegui_base_stable3_g26_exact/D6H3_BROWSER_RESULT.json /tmp/nicegui_base_stable3_g26_exact/contact_sheet.png /tmp/nicegui_base_stable3_doctor.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport sys, nicegui, platform\nimport nicegui_base\nprint('python',sys.version)\nprint('executable',sys.executable)\nprint('platform',platform.platform())\nprint('nicegui',nicegui.__version__, nicegui.__file__)\nprint('nicegui_base_file',nicegui_base.__file__)\nPY\nrtk /Applications/Google\\\\ Chrome.app/Contents/MacOS/Google\\\\ Chrome --version\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nimport sys, nicegui, platform\nimport nicegui_base\nprint('python',sys.version)\nprint('executable',sys.executable)\nprint('platform',platform.platform())\nprint('nicegui',nicegui.__version__, nicegui.__file__)\nprint('nicegui_base_file',nicegui_base.__file__)\nPY\nrtk /Applications/Google\\\\ Chrome.app/Contents/MacOS/Google\\\\ Chrome --version\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nfor p in [Path('/tmp/nicegui_base_stable3_browser_matrix/MAC_BROWSER_REPORT.json'),Path('/tmp/nicegui_base_stable3_g26_exact/D6H3_BROWSER_RESULT.json'),Path('/tmp/nicegui_base_stable3_doctor.json')]:\n d=json.loads(p.read_text())\n print('\\\\n',p)\n for k in ['summary','cases','browser','browser_version','candidate','candidate_sha','candidate_tree','total','passed','failed','warnings','results','sections']:\n  if k in d:\n   v=d[k]\n   print(k, v if not isinstance(v,(list,dict)) else (str(v)[:1000]))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/nicegui_base_stable3_g26_exact/D6H3_BROWSER_RESULT.json'); d=json.loads(p.read_text()); print('keys',list(d));\nfor k,v in d.items():\n if isinstance(v,(str,int,float,bool)) or v is None: print(k,v)\n elif isinstance(v,list): print(k,'list',len(v))\n elif isinstance(v,dict): print(k,'dict keys',list(v)[:30])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/nicegui_base_stable3_g26_exact/D6H3_BROWSER_RESULT.json'); d=json.loads(p.read_text());\nprint(json.dumps(d['failures'],indent=2)[:8000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /tmp/nicegui_base_stable3_g26_exact -type f | rtk wc -l && rtk du -sh /tmp/nicegui_base_stable3_g26_exact /tmp/nicegui_base_stable3_browser_matrix /tmp/nicegui_base_stable3_ui_audit'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /tmp/nicegui_base_stable3_g26_exact -maxdepth 2 -type f -print'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /Users/haewonkim/.codex-fabric/bin/fabricctl --help'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"publish-evidence|Artifact Bridge|artifact|publish_audit_evidence|audit.json\\\" /Users/haewonkim/.codex-fabric/current/fabric.py /Users/haewonkim/.codex-fabric/bin/fabricctl | rtk sed -n '1,180p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '2110,2185p' /Users/haewonkim/.codex-fabric/current/fabric.py && rtk sed -n '2440,2575p' /Users/haewonkim/.codex-fabric/current/fabric.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /Users/haewonkim/.codex-fabric/bin/fabricctl publish-evidence CF-d30cc06fd78f06a6ffdcec01'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /tmp/nicegui_base_stable3_browser_matrix/screenshots -type f | rtk wc -l && rtk du -sh /tmp/nicegui_base_stable3_browser_matrix/screenshots'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /tmp/nicegui_base_stable3_browser_matrix/screenshots -type f -maxdepth 1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS -o /dev/null -w '%{http_code}\\\\n' http://127.0.0.1:8091\"",
+      "exit_code": 7,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport json, shutil, zipfile, hashlib, os\n\nroot=Path('/tmp/nicegui_base_stable3_artifact_bundle')\nroot.mkdir(parents=True, exist_ok=True)\nfor sub in ['evidence','screenshots','supplemental']:\n    (root/sub).mkdir(exist_ok=True)\nui=Path('/tmp/nicegui_base_stable3_ui_audit')\n# Structured evidence and exact current screenshots.\nfor name in ['BASE_EVIDENCE.json','SCENARIO_MATRIX.json','INTERACTIONS2.json','TARGETED_WORKFLOWS.json']:\n    shutil.copy2(ui/name, root/'evidence'/name)\nfor src,name in [\n    (Path('/tmp/nicegui_base_stable3_browser_matrix/MAC_BROWSER_REPORT.json'),'MAC_BROWSER_REPORT.json'),\n    (Path('/tmp/nicegui_base_stable3_g26_exact/D6H3_BROWSER_RESULT.json'),'D6H3_BROWSER_RESULT.json'),\n    (Path('/tmp/nicegui_base_stable3_doctor.json'),'DOCTOR.json'),\n    (Path('BROWSER_UIUX_GATE.json'),'BROWSER_UIUX_GATE_historical_provenance_only.json'),\n]:\n    shutil.copy2(src, root/'evidence'/name)\nfor p in sorted(ui.glob('*.png')):\n    shutil.copy2(p, root/'screenshots'/p.name)\n# Supplemental visual overview and a few strict-matrix samples.\nshutil.copy2('/tmp/nicegui_base_stable3_g26_exact/contact_sheet.png', root/'supplemental/D6H3_contact_sheet.png')\nfor name in [\n    'chrome-desktop-light-compact__overview.png',\n    'chrome-desktop-dark-dense__overview.png',\n    'chrome-desktop-light-compact__data.png',\n    'chrome-desktop-light-compact__patterns-explorer.png',\n    'chrome-desktop-light-compact__patterns-search.png',\n]:\n    src=Path('/tmp/nicegui_base_stable3_browser_matrix/screenshots')/name\n    if src.exists(): shutil.copy2(src, root/'supplemental'/name)\n\ncommands={\n  'candidate_fast_forward': {'command':'rtk git merge --ff-only 358ead108ab907af72e56c039491ba4cdfc77f61','status':'PASS','exit_code':0,'result':'HEAD moved ancestry-preserving from registered main base; no source bytes modified after fast-forward.'},\n  'candidate_proof': {'command':'rtk git rev-parse --abbrev-ref HEAD; rtk git rev-parse HEAD; rtk git rev-parse HEAD\"'^{tree}; rtk git rev-parse HEAD''^'\"','status':'PASS','exit_code':0,'result':{'branch':'codex/nicegui-base-stable3-browser-ui-human-verify-1','head':'358ead108ab907af72e56c039491ba4cdfc77f61','tree':'46b42c18abca22c14f7b4d9c440b06398f11bac5','parent':'000298562d6bcbf6df304edbd41b98b30fe4bfcf'}},\n  'preflight': {'command':'rtk python run_nicegui_base.py --check','status':'PASS','exit_code':0,'result':'NGB-20260907-G2.6; NiceGUI Base 3.0.0a8; nicegui 3.15.0; Python 3.11.7; ephemeral runtime secret.'},\n  'canonical_launch': {'command':'rtk python run_nicegui_base.py','status':'PASS_STARTUP_MANUAL_STOP','exit_code':1,'result':'Served http://127.0.0.1:8091 with HTTP 200 and real rendered UI; manually interrupted after capture (Ctrl-C wrapper exit 1).'},\n  'agent_context': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli agent-context \\\"Qualify browser, UI and human acceptance for stable 3.0 candidate\\\" --format json','status':'PASS','exit_code':0,'result':'data_explorer dominant pattern; canonical catalog/golden authority returned.'},\n  'catalog_audit': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli catalog-audit --format json','status':'PASS','exit_code':0,'result':'465 conforming authorities; no issues; framework catalog canonical total 450.'},\n  'doctor': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli doctor --format json --port 8091 --ignore-port','status':'PASS_WITH_EDGE_WARNING','exit_code':0,'result':'Chrome 153.0.8010.48, Playwright 1.62.0, Pillow 12.3.0, runtime contract PASS; Edge absent; port skipped because launcher was active.'},\n  'exact_base_browser_evidence': {'command':'PYTHONPATH=source rtk python <live Playwright exact-viewport audit>','status':'PASS_STRUCTURAL_WITH_WORKFLOW_FAILS','exit_code':0,'result':'36 route/state captures; HTTP 200; no console/page errors, failed requests, duplicate IDs, horizontal overflow, or layout-shift score; missing accessible-name count 1 on three detail routes.'},\n  'mac_browser_matrix': {'command':'PYTHONPATH=source rtk python <mac browser exhaustive matrix>','status':'FAIL_SUPPLEMENTARY','exit_code':0,'result':'274 records: 12 pass, 262 fail, 0 warning. Failures are retained in report; many are strict geometry/scroll-state checks or stale assumptions, with concrete interaction defects independently reproduced.'},\n  'd6h3_exact_viewport': {'command':'PYTHONPATH=source rtk python tools/verify_development_D6H3_browser.py --url http://127.0.0.1:8091 --output /tmp/nicegui_base_stable3_g26_exact --section primary --section pattern --section application','status':'FAIL_VERIFIER_DRIFT','exit_code':0,'result':'83 executed checks; 0 console/page errors; 0 overflow; 12 failures: stale /layouts and /patterns selectors; real pattern/application routes exercised.'},\n  'runtime_contract': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli runtime-contract','status':'PASS','exit_code':0,'result':'48 factories / 1172 direct calls; nicegui 3.15.0.'},\n  'runtime_smoke': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli runtime-smoke --port 0','status':'FAIL_ENV_IMPORT','exit_code':0,'result':'Lab subprocess exited code 1: ModuleNotFoundError: nicegui_base; log certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log.'},\n  'agent_check': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli agent-check . --format json','status':'FAIL_PREEXISTING_REPO_VALIDATION','exit_code':0,'result':'1 validation error, 55 warnings, missing agent scaffold; includes pre-existing D6H2 f-string syntax error.'},\n  'gate': {'command':'PYTHONPATH=source rtk python -m nicegui_base.cli gate . --format json','status':'FAIL_PREEXISTING_REPO_VALIDATION','exit_code':0,'result':'Manifest, agent preflight, dependency pin, Python compile, entrypoint/build-page fail; tests PASS.'},\n  'artifact_bridge_publish_attempt': {'command':'rtk /Users/haewonkim/.codex-fabric/bin/fabricctl publish-evidence CF-d30cc06fd78f06a6ffdcec01','status':'BLOCKED','exit_code':2,'result':'JOB_NOT_TERMINAL; no durable Artifact Bridge publication was created.'},\n}\n\nmatrix=[\n {'scenario':'Desktop 1440x900 light populated routes /, /components, /patterns, data_explorer, search, SPC I-MR','status':'PASS','evidence':'SCENARIO_MATRIX.json; desktop1440x900_light__*.png'},\n {'scenario':'Tablet 1024x768 light responsive geometry and overflow','status':'PASS','evidence':'SCENARIO_MATRIX.json; tablet1024x768_light__*.png'},\n {'scenario':'Mobile 390x844 light/dark responsive geometry and overflow','status':'PASS','evidence':'SCENARIO_MATRIX.json; phone390x844_{light,dark}__*.png'},\n {'scenario':'Dark theme render and measured background/state','status':'PASS','evidence':'SCENARIO_MATRIX.json; desktop1440x900_dark__*.png; INTERACTIONS2.json'},\n {'scenario':'Reduced-motion media query and animation durations','status':'PASS','evidence':'INTERACTIONS.json; desktop1440x900_reduced__*.png'},\n {'scenario':'Keyboard skip-link/focus visibility and no observed trap; global search focus/return','status':'PASS','evidence':'INTERACTIONS.json; BASE_EVIDENCE.json'},\n {'scenario':'Mobile navigation drawer keyboard open/Escape close/focus state','status':'PASS','evidence':'TARGETED_WORKFLOWS.json; workflow_mobile_drawer_open.png'},\n {'scenario':'Data Explorer populated table, filter, authentic no-record empty state','status':'PASS','evidence':'INTERACTIONS2.json; workflow_data_selected_context.png'},\n {'scenario':'Search pattern query filtering and no-results state','status':'FAIL','severity':'P1','evidence':'INTERACTIONS2.json; TARGETED_WORKFLOWS.json; workflow_search_no_match.png','finding':'NO_MATCH_987 changes the input but leaves 5 ETCH results and no empty state.'},\n {'scenario':'Data Explorer row selection/detail context and return context','status':'FAIL','severity':'P1','evidence':'TARGETED_WORKFLOWS.json; workflow_data_selected_context.png','finding':'LOT-240904 row renders after filter, but Selected lot remains LOT-240902.'},\n {'scenario':'Components gallery search initial reachability','status':'FAIL','severity':'P2','evidence':'TARGETED_WORKFLOWS.json; workflow_components_search_reached.png','finding':'Search input begins at y=5296.48 in a 900px viewport; scrolling to y=807.48 is required before interaction.'},\n {'scenario':'Unnamed interactive control audit on detail routes','status':'FAIL','severity':'P2','evidence':'BASE_EVIDENCE.json; TARGETED_WORKFLOWS.json','finding':'One unnamed code-copy button is present per data/search/chart route; internal QSelect focus targets also lack accessible names.'},\n {'scenario':'Comparison, favorites, detail transition/back restoration','status':'NOT_EXECUTED','evidence':'No authentic complete workflow captured in this VERIFY.'},\n {'scenario':'Loading/progress, recoverable error, disabled/read-only, overlays/dialogs beyond drawer/global search','status':'NOT_EXECUTED','evidence':'Not authentically reachable in this run; no simulation substituted.'},\n {'scenario':'Authentic browser zoom/reflow at 200%','status':'BLOCKED','evidence':'INTERACTIONS.json; zoom_css2x.png','finding':'CUA exposed no controllable browser; Playwright keyboard zoom did not change scale. CSS 2x probe is not claimed as browser zoom.'},\n {'scenario':'Human visual/reviewer acceptance','status':'PENDING','evidence':'Screenshots returned for independent review; Codex does not self-certify human acceptance.'},\n {'scenario':'Separate work computer / CHG-59 runtime-server qualification','status':'NOT_IN_SCOPE','evidence':'Mac/Fabric is control/audit evidence only.'},\n {'scenario':'Durable Artifact Bridge staging','status':'BLOCKED','evidence':'publish-evidence returned JOB_NOT_TERMINAL; local bundle only.'},\n]\n\nmanifest={\n 'manifest_version':1,\n 'artifact_type':'candidate-bound browser-ui-human-verify',\n 'project':'nicegui-base',\n 'request':'stable3-browser-ui-human-verify-1',\n 'fabric_job':'CF-d30cc06fd78f06a6ffdcec01',\n 'branch':'codex/nicegui-base-stable3-browser-ui-human-verify-1',\n 'candidate_sha':'358ead108ab907af72e56c039491ba4cdfc77f61',\n 'candidate_tree':'46b42c18abca22c14f7b4d9c440b06398f11bac5',\n 'registered_main_sha':'000298562d6bcbf6df304edbd41b98b30fe4bfcf',\n 'registered_main_tree':'2b80394406ba0feed36ecadc474b581585fe467b',\n 'framework':'NiceGUI Base 3.0.0a8',\n 'nicegui':'3.15.0',\n 'python':'3.11.7',\n 'browser':{'name':'Google Chrome','version':'153.0.8010.48','executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','device_scale_factor':1},\n 'platform':'macOS 26.6.2 arm64; Fabric/control machine only',\n 'historical_baseline':{'file':'BROWSER_UIUX_GATE_historical_provenance_only.json','classification':'HISTORICAL_PROVENANCE_ONLY','historical_chromium_checks':'52/52; not used as current result'},\n 'current_gate':{'browser_ui_objective':'FAIL','human_acceptance':'PENDING','durable_visual_handoff':'BLOCKED','p0_observed':0,'p1_observed':2,'p2_observed':2},\n 'artifact_bridge':{'status':'BLOCKED','expected_ref':'refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-1','expected_path':'.codex-fabric/audit.json','attempt':'JOB_NOT_TERMINAL; no Artifact Run/staging locator created'},\n 'files':[],\n}\n(root/'COMMAND_RESULTS.json').write_text(json.dumps({'candidate':manifest,'commands':commands,'scenario_matrix':matrix},indent=2))\n(root/'manifest.json').write_text(json.dumps(manifest,indent=2))\n(root/'README.md').write_text('''# NiceGUI Base stable3 browser/UI/human verification\\\\n\\\\nCandidate-bound evidence for Project OS CHG-100. This bundle was generated outside the tracked checkout.\\\\n\\\\n- Candidate: \"'`358ead108ab907af72e56c039491ba4cdfc77f61`'\"\\\\n- Tree: \"'`46b42c18abca22c14f7b4d9c440b06398f11bac5`'\"\\\\n- Branch: \"'`codex/nicegui-base-stable3-browser-ui-human-verify-1`'\"\\\\n- Fabric job: \"'`CF-d30cc06fd78f06a6ffdcec01`'\"\\\\n- Browser/UI objective result: \"'`FAIL` for the inspected scope because two P1 workflow defects are reproducible.'\"\\\\n- Human acceptance: \"'`PENDING`.'\"\\\\n- Durable Artifact Bridge staging: \"'`BLOCKED` because the Fabric job is not terminal; local files are not a durable Artifact Run.'\"\\\\n\\\\n\"'`evidence/SCENARIO_MATRIX.json` is the exact-viewport base audit. `evidence/INTERACTIONS2.json` and `evidence/TARGETED_WORKFLOWS.json` contain workflow evidence. `evidence/BROWSER_UIUX_GATE_historical_provenance_only.json` is retained as provenance only and is not a current PASS.'\"\\\\n''')\n# Fill manifest file inventory with hashes after all files are present.\nitems=[]\nfor p in sorted(root.rglob('*')):\n    if p.is_file() and p.name not in {'manifest.json'}:\n        b=p.read_bytes(); items.append({'path':str(p.relative_to(root)),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()})\nmanifest['files']=items\n(root/'manifest.json').write_text(json.dumps(manifest,indent=2))\n# Include the final manifest in the zip too; zip is the deterministic handoff object.\nzip_path=Path('/tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip')\nwith zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:\n    for p in sorted(root.rglob('*')):\n        if p.is_file(): z.write(p, p.relative_to(root))\nsha=hashlib.sha256(zip_path.read_bytes()).hexdigest()\nprint(json.dumps({'root':str(root),'zip':str(zip_path),'zip_bytes':zip_path.stat().st_size,'zip_sha256':sha,'file_count':len(items)},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk unzip -l /tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip | rtk sed -n '1,120p' && rtk sha256sum /tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip && rtk git status --short --branch && rtk git rev-parse --abbrev-ref HEAD && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore --source=HEAD -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet HEAD -- && rtk git diff --cached --quiet && rtk git status --porcelain=v1 && rtk git rev-parse --abbrev-ref HEAD && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git rev-parse HEAD''^'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk unzip -t /tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip && rtk sha256sum /tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l /tmp/nicegui_base_stable3_agent_context.json /tmp/nicegui_base_stable3_catalog_search.json /tmp/nicegui_base_stable3_catalog_audit.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport shutil, json, hashlib, zipfile\nroot=Path('/tmp/nicegui_base_stable3_artifact_bundle')\nev=root/'evidence'\nfor src,name in [\n ('/tmp/nicegui_base_stable3_agent_context.json','AGENT_CONTEXT.json'),\n ('/tmp/nicegui_base_stable3_catalog_search.json','CATALOG_SEARCH.json'),\n ('/tmp/nicegui_base_stable3_catalog_audit.json','CATALOG_AUDIT.json'),\n]: shutil.copy2(src,ev/name)\ncmd=root/'COMMANDS_USED.txt'\ncmd.write_text('''rtk git merge --ff-only 358ead108ab907af72e56c039491ba4cdfc77f61\\\\nrtk python run_nicegui_base.py --check\\\\nrtk python run_nicegui_base.py\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli agent-context \\\"Qualify browser, UI and human acceptance for stable 3.0 candidate\\\" --format json\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli catalog-audit --format json\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli doctor --format json --port 8091 --ignore-port\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli agent-check . --format json\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli gate . --format json\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli runtime-contract\\\\nPYTHONPATH=source rtk python -m nicegui_base.cli runtime-smoke --port 0\\\\nPYTHONPATH=source rtk python tools/verify_development_D6H3_browser.py --url http://127.0.0.1:8091 --output /tmp/nicegui_base_stable3_g26_exact --section primary --section pattern --section application\\\\nPYTHONPATH=source rtk python -c \\\"from pathlib import Path; from nicegui_base.certification.mac_browser import run_mac_browser_matrix; report=run_mac_browser_matrix('http://127.0.0.1:8091', output_dir=Path('/tmp/nicegui_base_stable3_browser_matrix'), exhaustive=True, include_edge=False, browser_executables={'chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'}); print(report.to_dict()['summary'])\\\"\\\\nrtk /Users/haewonkim/.codex-fabric/bin/fabricctl publish-evidence CF-d30cc06fd78f06a6ffdcec01\\\\n''')\n# Refresh manifest inventory and zip.\nmp=root/'manifest.json'; m=json.loads(mp.read_text()); items=[]\nfor p in sorted(root.rglob('*')):\n    if p.is_file() and p.name\"'!='\"'manifest.json':\n        b=p.read_bytes(); items.append({'path':str(p.relative_to(root)),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()})\nm['files']=items; mp.write_text(json.dumps(m,indent=2))\nzip_path=Path('/tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip')\nwith zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:\n    for p in sorted(root.rglob('*')):\n        if p.is_file(): z.write(p,p.relative_to(root))\nprint(json.dumps({'zip':str(zip_path),'bytes':zip_path.stat().st_size,'sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest(),'files':len(items)+1},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet HEAD -- && rtk git diff --cached --quiet && rtk git status --porcelain=v1 && rtk git status --short --branch && rtk git rev-parse --abbrev-ref HEAD && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git rev-parse HEAD''^ && rtk sha256sum /tmp/stable3-browser-ui-human-verify-1-artifact-bundle.zip'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 229,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.62,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 16655616,
+      "fresh_input_tokens": 406807,
+      "input_tokens": 17062423,
+      "non_reasoning_output_tokens": 52612,
+      "output_tokens": 79999,
+      "reasoning_output_tokens": 27387,
+      "total_processed_tokens": 17142422
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 259,
+    "changed_files": 28,
+    "commit_count": 1,
+    "deletions": 190
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T11:31:28Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-verify-1",
+    "head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "remote_exact_head": true,
+    "remote_head_sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-verify-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-d30cc06fd78f06a6ffdcec01",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-verify-1",
+  "schema_version": 1,
+  "started_at": "2026-09-17T10:45:34Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2754,
+    "queue_seconds": 0,
+    "total_seconds": 2754
+  },
+  "transport": {
+    "bytes": 8199,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7859,
+    "prompt_sha256": "2c2b6bcb1ad39b07196975b32b5b47a2f72bcdc0e21e8dcec04a87713025b096",
+    "sha256": "d30cc06fd78f06a6ffdcec014fb19b76fda4d7ec52854a4bcd49a4d8020abbdd"
+  }
+}
