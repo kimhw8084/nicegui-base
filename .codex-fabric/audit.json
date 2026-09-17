@@ -1,0 +1,808 @@
+{
+  "accepted_at": "2026-09-17T12:35:16Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 27,
+      "deletions": 28,
+      "path": "PACKAGE_SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 67,
+      "path": "TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/CERTIFICATION_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/LIVE_CERTIFICATION_READINESS.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 5,
+      "path": "source/RELEASE_MANIFEST.json",
+      "status": "M"
+    },
+    {
+      "additions": 15,
+      "deletions": 15,
+      "path": "source/SHA256SUMS.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "source/TEST_BATCH_EXECUTION.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/TEST_REPORT.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_INTEGRITY.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/dist/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": 35,
+      "deletions": 35,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/governance/release_artifacts.py",
+      "status": "M"
+    },
+    {
+      "additions": 171,
+      "deletions": 22,
+      "path": "source/nicegui_base/workbench/pattern_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 2,
+      "path": "source/nicegui_base/workbench/visual_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 1,
+      "path": "source/tests/test_phase77_v300a8_final_release_candidate_consolidation.py",
+      "status": "M"
+    },
+    {
+      "additions": 83,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg103.py",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "source/wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "wheel/nicegui_base-3.0.0a8-py3-none-any.whl",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"ls -l .venv/bin/nicegui-base 2>/dev/null || true\nls -l /Users/haewonkim/.local/bin/nicegui-base 2>/dev/null || true\nrg --files -g 'nicegui-base' -g 'nicegui_base' .venv/bin 2>/dev/null | head -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rg -n \"nicegui-base|agent-context|agent_context\" pyproject.toml setup.cfg setup.py source/nicegui_base 2>/dev/null | head -80\nls -la .venv/bin | head -30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '1,220p' source/nicegui_base/ai_cli.py\nsed -n '1,120p' pyproject.toml\npython --version\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.cli agent-context \"Repair Reference Explorer search filtering/no-results state and Data Explorer selected-row/detail coherence in the canonical Workbench specimens; extend the specimen table wrapper backward-compatibly for selected-row delivery and add focused regressions.\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"git show-ref --heads --tags | rg '358ead|nicegui-base|main|stable3' | head -80\ngit cat-file -t 358ead108ab907af72e56c039491ba4cdfc77f61\ngit show -s --format=fuller 358ead108ab907af72e56c039491ba4cdfc77f61\ngit merge-base 000298562d6bcbf6df304edbd41b98b30fe4bfcf 358ead108ab907af72e56c039491ba4cdfc77f61\ngit diff --stat 000298562d6bcbf6df304edbd41b98b30fe4bfcf 358ead108ab907af72e56c039491ba4cdfc77f61\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git merge --no-ff 358ead108ab907af72e56c039491ba4cdfc77f61 -m \"Carry CHG-100 predecessor candidate\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch\nsed -n '1,260p' docs/nicegui_base/AI_QUICKSTART.md\nsed -n '1,300p' docs/nicegui_base/APP_PATTERNS.md\nsed -n '1,320p' docs/nicegui_base/AI_RULES.md\nsed -n '1,260p' docs/nicegui_base/PUBLIC_API_INDEX.md\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg --files | rg '(pattern_specimens|visual_specimens|data_table|PUBLIC_API_INDEX|framework_catalog|workbench|test.*specimen|specimen.*test)' | head -200\nsed -n '1,360p' source/nicegui_base/workbench/pattern_specimens.py\nsed -n '1,360p' source/nicegui_base/workbench/visual_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"nl -ba source/nicegui_base/workbench/pattern_specimens.py | sed -n '90,290p'\nnl -ba source/nicegui_base/workbench/visual_specimens.py | sed -n '155,290p'\nrg -n \\\"render_pattern|render_table|SearchResult|Data Explorer|Selected lot|Table selection|Search lots\\\" source/tests source/nicegui_base/workbench | head -240\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rg -n -C 3 \"pattern_specimens|visual_specimens|render_table|PATTERN_SEMANTIC|Search lots, tools|data_explorer|primary_table|selected_detail\" source/tests | head -400'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n \\\"class DataTable|def __init__|on_select|selected\\\" source/nicegui_base/integrations/nicegui_data_table.py source/nicegui_base/data_table source/nicegui_base/integrations/nicegui_content.py | head -240\nsed -n '1,360p' source/nicegui_base/integrations/nicegui_data_table.py\nsed -n '1,340p' source/nicegui_base/data_table/models.py\nrg -n \\\"class SearchResults|def __init__.*SearchResults|on_select\\\" source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/content -g '*.py' | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"nl -ba source/nicegui_base/integrations/nicegui_data_table.py | sed -n '700,780p'\nnl -ba source/nicegui_base/integrations/nicegui_data_table.py | sed -n '980,1120p'\nnl -ba source/nicegui_base/integrations/nicegui_data_table.py | sed -n '1200,1490p'\nnl -ba source/nicegui_base/integrations/nicegui_content.py | sed -n '205,240p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n \\\"class SearchInput|class Select|class TextInput\\\" source/nicegui_base/integrations/nicegui_components.py\nnl -ba source/nicegui_base/integrations/nicegui_components.py | sed -n '1,260p'\nnl -ba source/nicegui_base/workbench/catalog_runtime.py | sed -n '80,150p'\nnl -ba source/nicegui_base/workbench/app.py | sed -n '620,680p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"nl -ba source/nicegui_base/integrations/nicegui_components.py | sed -n '270,340p'\nsed -n '1,220p' source/tests/test_workbench_iteration2_9.py\nsed -n '1,240p' source/tests/test_workbench_d6h3_golden_semantics.py\nsed -n '1,260p' source/tests/test_data_table_final_integrity.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\ntry:\n    import nicegui\n    print('nicegui', nicegui.__version__ if hasattr(nicegui, '__version__') else 'imported')\nexcept Exception as exc:\n    print(type(exc).__name__, exc)\ntry:\n    import pytest\n    print('pytest', pytest.__version__)\nexcept Exception as exc:\n    print(type(exc).__name__, exc)\nPY\nfind . -maxdepth 3 -type f -name 'requirements*' -o -name 'uv.lock' -o -name 'poetry.lock' | head -30\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 201,
+        "output_sha256": "3f7414f1c352bf8bb7c6ccaa560bafb5a8a7fce373abeacf521380bfae100dbf",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n \\\"No results|no results|empty state|EmptyState|empty_message|Empty\\\" source/nicegui_base/integrations source/nicegui_base/content source/nicegui_base/components source/nicegui_base/workbench | head -240\nrg -n \\\"cui.*empty|empty\\\" source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/components -g '*.py' | head -200\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"nl -ba source/nicegui_base/integrations/nicegui_interactions.py | sed -n '730,880p'\nsed -n '1,60p' source/nicegui_base/integrations/__init__.py\nrg -n \\\"class NoResultsState|NoResultsState\\\" source/nicegui_base -g '*.py' | head -50\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"git diff --check\npython -m py_compile source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py\nsed -n '45,190p' source/nicegui_base/workbench/pattern_specimens.py\nsed -n '245,390p' source/nicegui_base/workbench/pattern_specimens.py\nsed -n '165,235p' source/nicegui_base/workbench/visual_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"nl -ba source/nicegui_base/workbench/pattern_specimens.py | sed -n '130,300p'\nnl -ba source/nicegui_base/workbench/pattern_specimens.py | sed -n '300,430p'\ngit diff -- source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_workbench_chg103.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_d6h3_golden_semantics.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_iteration2.py source/tests/test_workbench_iteration2_1.py source/tests/test_workbench_iteration2_2.py source/tests/test_workbench_iteration2_3.py source/tests/test_workbench_iteration2_4.py source/tests/test_workbench_iteration2_5.py source/tests/test_workbench_iteration2_6.py source/tests/test_workbench_iteration2_7.py source/tests/test_workbench_iteration2_8.py source/tests/test_workbench_iteration2_9.py source/tests/test_workbench_iteration2_10.py source/tests/test_workbench_iteration2_11.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 160,
+        "output_sha256": "f9ec72206bea32fbfa22f05fb67fd582774e404618f631536048d24fe80cc5c6",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '1,260p' source/nicegui_base/cli.py\nrg -n \\\"def main|agent-check|gate|runtime-contract|runtime-smoke\\\" source/nicegui_base/cli.py source/nicegui_base/certification -g '*.py' | head -180\nrtk git diff --stat && rtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n \\\"def .*select|select.*row|selected_keys|_restore_selection\\\" source/nicegui_base/integrations/nicegui_data_table.py | sed -n '1,180p'\nnl -ba source/nicegui_base/integrations/nicegui_data_table.py | sed -n '1120,1200p'\nnl -ba source/nicegui_base/integrations/nicegui_data_table.py | sed -n '1550,1680p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.cli agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_workbench_chg103.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.validate --help'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.validate . --quiet'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.validate . --format json > /tmp/chg103-validate.json; validation_status=$?; python - <<'\"'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('/tmp/chg103-validate.json').read_text())\nprint('status', p.get('passed'), 'errors', len(p.get('errors', [])), 'warnings', len(p.get('warnings', [])))\nfor key in ('errors','warnings'):\n    print(key)\n    for item in p.get(key, []):\n        text=str(item)\n        if 'pattern_specimens.py' in text or 'visual_specimens.py' in text or 'test_workbench_chg103.py' in text:\n            print(text)\nPY\nexit \"'$validation_status'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '1,80p' /tmp/chg103-validate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('/tmp/chg103-validate.json').read_text())\nissues=p['issues']\nprint('error_count',p['error_count'],'warning_count',sum(i['severity']=='warning' for i in issues))\nfor item in issues:\n    if any(name in item['path'] for name in ('pattern_specimens.py','visual_specimens.py','test_workbench_chg103.py')):\n        print(item)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.cli gate --help'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.cli gate . --format json > /tmp/chg103-gate.json; gate_status=$?; python - <<'\"'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('/tmp/chg103-gate.json').read_text())\nprint(json.dumps(p, indent=2)[:12000])\nPY\nexit \"'$gate_status'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'ls -ld tests source/tests 2>/dev/null || true\nrtk python -m pytest -q tests'",
+      "exit_code": 2,
+      "test_result": {
+        "error_test_ids": [
+          "tests/test_wave34_integrity.py"
+        ],
+        "exit_code": 2,
+        "framework": "pytest",
+        "outcome": "interrupted",
+        "output_bytes": 967,
+        "output_sha256": "12dadfe53f5eee548fe3e86ee3817f50a5d14112168743ce7ba474d03caf8f0f",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m pytest -q tests'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m pytest -q source/tests'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_nicegui_base_identity_migration.py::test_primary_identity_is_nicegui_base",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "source/tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "source/tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "source/tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "source/tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page",
+          "source/tests/test_phase5_adapter_contract.py::test_adapter_uses_aggrid_and_semantic_classes",
+          "source/tests/test_phase5_adapter_contract.py::test_shell_installs_table_css",
+          "source/tests/test_phase5_adapter_contract.py::test_theme_adapter_installs_table_css",
+          "source/tests/test_phase74_v300a8_operations_evidence_renewal_continuity.py::test_wave74_source_certification_phase_floor_is_74",
+          "source/tests/test_phase75_v300a8_operational_assurance_renewal_ledger.py::test_wave75_source_certification_phase_floor_is_75",
+          "source/tests/test_phase76_v300a8_longitudinal_assurance_review_exception_governance.py::test_wave76_source_certification_phase_floor_is_76",
+          "source/tests/test_phase7_adapter_contract.py::test_adapter_uses_local_renderer_only",
+          "source/tests/test_phase7_packaging.py::test_theme_adapter_installs_visual_css",
+          "source/tests/test_phase9_adapter_contract.py::test_adapter_uses_packaged_visual_resources",
+          "source/tests/test_phase9_registry_css.py::test_theme_adapter_installs_engineering_css"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 43129,
+        "output_sha256": "6cdd80857a966fc0e9ba54230c89b2e013a1ce36bc92babb7dd192a2a209d241",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=. rtk python -m pytest -q'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 46,
+        "output_sha256": "6c090b183e1e990e6df7b8391fba17d728ce6bd899c7c9c109979cdbb96b1c9d",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=. /Users/haewonkim/.local/bin/rtk python -m pytest -q'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 46,
+        "output_sha256": "6c090b183e1e990e6df7b8391fba17d728ce6bd899c7c9c109979cdbb96b1c9d",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'pwd\ncommand -v rtk\ncommand -v python\n/Users/haewonkim/.local/bin/rtk --version'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'ls -l python 2>/dev/null || true\nls -l /opt/anaconda3/bin/python\nPATH=/opt/anaconda3/bin:$PATH PYTHONPATH=. /Users/haewonkim/.local/bin/rtk python -m pytest -q'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 22745,
+        "output_sha256": "c8b427eee713ccd8b113c8b1364e8ffdc9ae0ac3d2bf4185c7f6143a7c812a95",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.cli runtime-contract --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python -m nicegui_base.cli runtime-smoke --port 0 --output /tmp/chg103-runtime-smoke --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '1,160p' /tmp/chg103-runtime-smoke/RUNTIME_SMOKE_SERVER.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '1,220p' run_nicegui_base.py\nPYTHONPATH=source python run_nicegui_base.py --help\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source python run_nicegui_base.py --port 8091 --no-show'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --check\nrtk git diff --stat\nrtk git status --short --branch\nrtk git diff -- source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py\nsed -n '1,180p' source/tests/test_workbench_chg103.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git diff --check\nPYTHONPATH=source rtk python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_d6h3_golden_semantics.py source/tests/test_data_table_final_integrity.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "e2289c230135b682d66e48107f8caab30f5b37878e8daf2e9fb92df9aebb1375",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py source/tests/test_workbench_chg103.py\nrtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"Fix Reference Explorer search and row context\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"echo '--- branch/status ---'\ngit branch --show-current\ngit status --short --branch\necho '--- final commit ---'\ngit show -s --format='commit %H%nparent %P%ntree %T%nauthor %an <%ae>%nsubject %s' HEAD\necho '--- carried merge ---'\ngit show -s --format='merge %H%nparents %P%ntree %T%nsubject %s' HEAD\"'^\necho '\"'--- ancestry checks ---'\ngit merge-base --is-ancestor 000298562d6bcbf6df304edbd41b98b30fe4bfcf HEAD && echo 'BASE_ANCESTOR PASS 000298562d6bcbf6df304edbd41b98b30fe4bfcf'\ngit merge-base --is-ancestor 358ead108ab907af72e56c039491ba4cdfc77f61 HEAD && echo 'PREDECESSOR_ANCESTOR PASS 358ead108ab907af72e56c039491ba4cdfc77f61'\necho '--- fix commit files ---'\ngit diff-tree --no-commit-id --name-status -r HEAD\necho '--- refs ---'\ngit rev-parse refs/heads/codex/nicegui-base-stable3-browser-ui-human-fix-1\ngit rev-parse refs/remotes/origin/main\ngit rev-parse refs/heads/main\necho '--- clean check ---'\ntest -z \\\"\"'$(git status --porcelain)\" && echo '\"'WORKTREE_CLEAN PASS'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 131,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.41,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 10702080,
+      "fresh_input_tokens": 285116,
+      "input_tokens": 10987196,
+      "non_reasoning_output_tokens": 14676,
+      "output_tokens": 30720,
+      "reasoning_output_tokens": 16044,
+      "total_processed_tokens": 11017916
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "cb93b74448032d358e84757383c844b2bf435cf8",
+      "subject": "Fix Reference Explorer search and row context"
+    },
+    {
+      "sha": "fc9eb46dcf5ab8f16e56b12b4a9d086cf6fe651d",
+      "subject": "Carry CHG-100 predecessor candidate"
+    },
+    {
+      "sha": "358ead108ab907af72e56c039491ba4cdfc77f61",
+      "subject": "Fix release manifest VCS metadata portability"
+    }
+  ],
+  "diff": {
+    "additions": 535,
+    "changed_files": 31,
+    "commit_count": 3,
+    "deletions": 214
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 22,
+    "items": [
+      {
+        "bytes": 1085,
+        "path": "CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 1085,
+        "path": "source/CERTIFICATION_REPORT.json",
+        "sha256": "7d8ffeaa1d9bbd63c265eb4660c01f9fdfbf3b5666c24dbfadbe5e300f6897fb"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 14901,
+        "path": "source/FINAL_RELEASE_CANDIDATE_AUDIT_WAVE77.json",
+        "sha256": "d3a477428e612a81d9017133b5b3b55dbde81a9c619f4989c5f78366ed40605c"
+      },
+      {
+        "bytes": 853,
+        "path": "source/LIVE_CERTIFICATION_READINESS.json",
+        "sha256": "4c9d871888c3df55b556349999391919b34b113f6cb47cefff864101378362be"
+      },
+      {
+        "bytes": 14813,
+        "path": "source/RELEASE_MANIFEST.json",
+        "sha256": "5d782c6d987708374c7a3a122151c074c179875be5d7d6a9f0dfbd849f2485bc"
+      },
+      {
+        "bytes": 1483,
+        "path": "source/STABLE_QUALIFICATION_HANDOFF.json",
+        "sha256": "53a6c6d66cbca8070dc1bc1d64112d6f928b9bf8fb8d09a4035ad5b1858462b2"
+      },
+      {
+        "bytes": 9740,
+        "path": "source/TEST_BATCH_EXECUTION.json",
+        "sha256": "52fb676fad3d7fdfb8b9d232d4e002db04d928968275a64b2d35ef6bc01a2603"
+      },
+      {
+        "bytes": 767,
+        "path": "source/TEST_REPORT.json",
+        "sha256": "5d4f05283f0facd813d45c7ba7c95a1c96ed7895d45c9c8607860f3da898fa6b"
+      },
+      {
+        "bytes": 1126,
+        "path": "source/WHEEL_INTEGRITY.json",
+        "sha256": "1fde503aadd858a3ae9ff2f10d0f6002b79c7453fb2e8c57ee0c3a1541c97b41"
+      },
+      {
+        "bytes": 1352,
+        "path": "source/WHEEL_VERIFICATION_WAVE77.json",
+        "sha256": "0dc61495369d591afb3ba604e4a687a2a4abda72800ad54b025617cf72e4fb9a"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "158e9a19c664ab385b4f074682f85457f82b073a3c23dd2c7ecdcc9b904bb9fa"
+      },
+      {
+        "bytes": 18029,
+        "path": "source/nicegui_base/governance/release_artifacts.py",
+        "sha256": "067ab8e923ee6117790c613d5f9ff8dfe209510babaa1841be780e5bf40cb3bf"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T12:49:13Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-fix-1",
+    "head_sha": "cb93b74448032d358e84757383c844b2bf435cf8",
+    "remote_exact_head": true,
+    "remote_head_sha": "cb93b74448032d358e84757383c844b2bf435cf8",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "000298562d6bcbf6df304edbd41b98b30fe4bfcf",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-ab20542083af3056ad19f471",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-17T12:35:17Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 836,
+    "queue_seconds": 1,
+    "total_seconds": 837
+  },
+  "transport": {
+    "bytes": 7667,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7336,
+    "prompt_sha256": "7e1e15269c476860db2464078dbc20ccb907a0238d56b994a401c75489291d2e",
+    "sha256": "ab20542083af3056ad19f471f7919bf20edc9edf6d3ef3821e264a3b664dba45"
+  }
+}
