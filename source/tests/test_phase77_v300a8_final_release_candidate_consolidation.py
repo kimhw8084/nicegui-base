@@ -180,8 +180,59 @@ def test_wave77_source_manifest_roundtrip_and_exact_coverage(tmp_path: Path):
     (tmp_path / 'a.txt').write_text('a', encoding='utf-8')
     (tmp_path / 'sub').mkdir(); (tmp_path / 'sub/b.txt').write_text('b', encoding='utf-8')
     write_sha256_manifest(tmp_path)
-    result = verify_sha256_manifest(tmp_path)
+    result = verify_sha256_manifest(tmp_path, require_exact_coverage=True)
     assert result.passed and result.expected == result.verified == 2
+
+
+@pytest.mark.parametrize('root_git_shape', ('pointer', 'directory'))
+def test_wave77_manifest_excludes_vcs_metadata_in_checkout_layouts(tmp_path: Path, root_git_shape: str):
+    stage = tmp_path / root_git_shape
+    stage.mkdir()
+    (stage / 'ordinary.txt').write_text('release', encoding='utf-8')
+    (stage / '.gitignore').write_text('*.tmp\n', encoding='utf-8')
+    (stage / 'artifact.git').write_text('ordinary release file', encoding='utf-8')
+    nested = stage / 'nested'
+    nested.mkdir()
+    (nested / 'ordinary.txt').write_text('nested release', encoding='utf-8')
+    (nested / '.git').mkdir()
+    (nested / '.git' / 'HEAD').write_text('ref: refs/heads/main\n', encoding='utf-8')
+    (nested / '.hg').write_text('nested VCS pointer', encoding='utf-8')
+    if root_git_shape == 'pointer':
+        (stage / '.git').write_text('gitdir: /checkout/.git/worktrees/example\n', encoding='utf-8')
+    else:
+        (stage / '.git').mkdir()
+        (stage / '.git' / 'HEAD').write_text('ref: refs/heads/main\n', encoding='utf-8')
+
+    write_sha256_manifest(stage)
+    entries = {line.split('  ', 1)[1] for line in (stage / 'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines()}
+    assert entries == {'ordinary.txt', '.gitignore', 'artifact.git', 'nested/ordinary.txt'}
+    result = verify_sha256_manifest(stage, require_exact_coverage=True)
+    assert result.passed and result.expected == result.verified == len(entries)
+
+
+def test_wave77_generated_package_manifest_verifies_without_checkout_git_metadata(tmp_path: Path):
+    checkout = tmp_path / 'checkout'
+    checkout.mkdir()
+    (checkout / '.git').write_text('gitdir: /checkout/.git/worktrees/example\n', encoding='utf-8')
+    (checkout / 'package').mkdir()
+    (checkout / 'package' / 'module.py').write_text('VALUE = 1\n', encoding='utf-8')
+    (checkout / 'README.md').write_text('portable release\n', encoding='utf-8')
+
+    write_sha256_manifest(checkout, 'PACKAGE_SHA256SUMS.txt')
+    manifest = checkout / 'PACKAGE_SHA256SUMS.txt'
+    entries = [line.split('  ', 1)[1] for line in manifest.read_text(encoding='utf-8').splitlines()]
+    clean = tmp_path / 'clean-release'
+    clean.mkdir()
+    for relative in entries:
+        source = checkout / relative
+        target = clean / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(source.read_bytes())
+    (clean / manifest.name).write_bytes(manifest.read_bytes())
+
+    assert not (clean / '.git').exists()
+    result = verify_sha256_manifest(clean, 'PACKAGE_SHA256SUMS.txt', require_exact_coverage=True)
+    assert result.passed and result.expected == result.verified == len(entries)
 
 
 def test_wave77_source_manifest_detects_tamper(tmp_path: Path):

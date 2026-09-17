@@ -1,7 +1,7 @@
 {
   "audit_public_api_entries": 1550,
   "audit_public_api_sha256": "2fd2394f571e7b01da15a0750ba16e91491677da8e73262a0cbba0aa431895fb",
-  "audit_wheel_sha256": "a826c62a581783a5d003d8fd25fcadb89b61718298448e1e507bb2a6242435b1",
+  "audit_wheel_sha256": "14b746f28b67fb5debd11d34d94efeb6f9ccc69bf078e1d2de26d05f9c33f4da",
   "claim_boundary": "Wave 77 consolidates and audits the source-complete release candidate only. It cannot turn missing company/runtime/browser/human/reviewer/deployment/publication/operations evidence into PASS and does not publish stable 3.0.0.",
   "diagnostic_only": true,
   "framework": "nicegui-base",

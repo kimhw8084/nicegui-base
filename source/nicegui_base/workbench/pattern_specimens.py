@@ -47,6 +47,51 @@ _PATTERN_ROWS = (
 )
 
 
+_SEARCH_FIELDS = ('id', 'tool', 'chamber', 'recipe', 'status')
+
+
+def _filter_pattern_records(
+    records: Sequence[Mapping[str, Any]],
+    *,
+    query: str = '',
+    status: str = 'all',
+) -> tuple[Mapping[str, Any], ...]:
+    query_text = str(query or '').strip().casefold()
+    status_text = str(status or 'all').strip().casefold() or 'all'
+    return tuple(
+        row for row in records
+        if (not query_text or any(query_text in str(row.get(field, '')).casefold() for field in _SEARCH_FIELDS))
+        and (status_text == 'all' or str(row.get('status', '')).casefold() == status_text)
+    )
+
+
+def _filter_data_explorer_records(
+    records: Sequence[Mapping[str, Any]],
+    *,
+    query: str = '',
+    tool: str = 'all',
+) -> tuple[Mapping[str, Any], ...]:
+    query_text = str(query or '').strip().casefold()
+    tool_text = str(tool or 'all').strip()
+    return tuple(
+        row for row in records
+        if (tool_text == 'all' or str(row.get('tool', '')) == tool_text)
+        and (not query_text or query_text in str(row).casefold())
+    )
+
+
+def _selected_record(records: Sequence[Mapping[str, Any]], selected_id: Any) -> Mapping[str, Any] | None:
+    if selected_id is None:
+        return None
+    return next((row for row in records if row.get('id') == selected_id), None)
+
+
+def _result_summary(*, query: str, status: str, count: int) -> str:
+    query_label = str(query or '').strip() or 'all records'
+    status_label = 'Any status' if str(status or 'all').casefold() == 'all' else str(status).title()
+    return f'{count} results for “{query_label}” · Status: {status_label}'
+
+
 def _records(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     incoming = [dict(row) for row in rows]
     required = {'id', 'tool', 'chamber', 'recipe', 'thickness', 'status'}
@@ -63,7 +108,7 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
         raise KeyError(key)
 
     from nicegui import ui
-    from nicegui_base import patterns
+    from nicegui_base import NoResultsState, patterns
     from nicegui_base.components import ButtonIntent, StatusIntent
     from nicegui_base.content import ComparisonItem, KeyValueItem, SearchResultSpec, StepSpec, StepState, TrendDirection
     from nicegui_base.integrations.nicegui_components import Button, SearchInput, Select, Switch, TextInput
@@ -133,17 +178,44 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
                     render_table('data_table', title='Recent exceptions', rows=[row for row in records if row['status'] != 'Normal'][:4], on_event=on_event)
 
         elif key == 'data_explorer':
-            state = {'query': '', 'tool': 'all'}
+            state = {'query': 'lot', 'tool': 'all', 'selected_id': None}
             host_ref: dict[str, Any] = {}
+            detail_ref: dict[str, Any] = {}
+
+            def visible_records() -> tuple[Mapping[str, Any], ...]:
+                return _filter_data_explorer_records(records, query=state['query'], tool=state['tool'])
+
+            def draw_detail() -> None:
+                detail_host = detail_ref.get('host')
+                if detail_host is None:
+                    return
+                detail_host.clear()
+                selected = _selected_record(visible_records(), state['selected_id'])
+                if selected is None:
+                    state['selected_id'] = None
+                    with detail_host:
+                        ui.label('No lot selected').classes('cui-section-title')
+                        ui.label('Select a visible lot to inspect its properties.').classes('cui-workbench-note')
+                    return
+                with detail_host:
+                    ui.label('Selected lot').classes('cui-section-title')
+                    PropertyGrid(tuple(KeyValueItem(str(name), str(name).replace('_', ' ').title(), value) for name, value in selected.items()))
+
+            def on_rows_selected(selected_rows: Sequence[Mapping[str, Any]]) -> None:
+                state['selected_id'] = selected_rows[0].get('id') if selected_rows else None
+                draw_detail()
 
             def draw_explorer():
                 host = host_ref.get('host')
                 if host is None:
                     return
-                selected = [row for row in records if (state['tool'] == 'all' or row['tool'] == state['tool']) and state['query'] in str(row).casefold()]
+                selected = visible_records()
+                if _selected_record(selected, state['selected_id']) is None:
+                    state['selected_id'] = None
                 host.clear()
                 with host:
-                    render_table('data_table', title=f'Lot records ({len(selected)})', rows=selected, on_event=on_event)
+                    render_table('data_table', title=f'Lot records ({len(selected)})', rows=selected, on_event=on_event, on_select=on_rows_selected)
+                draw_detail()
 
             with page.slot(LayoutSlot.FILTERS):
                 with region('filters'):
@@ -156,8 +228,8 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
                     draw_explorer()
             with page.slot(LayoutSlot.DETAILS):
                 with region('selected_detail'):
-                    ui.label('Selected lot').classes('cui-section-title')
-                    PropertyGrid(tuple(KeyValueItem(str(name), str(name).replace('_', ' ').title(), value) for name, value in records[1].items()))
+                    detail_ref['host'] = ui.element('div').classes('w-full')
+                    draw_detail()
 
         elif key == 'master_detail':
             with page.slot(LayoutSlot.FILTERS):
@@ -252,31 +324,108 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
                     render_table('data_table', title='Affected recent lots', rows=[records[3], records[5], records[7]], on_event=on_event)
 
         elif key == 'search':
-            results = tuple(
-                SearchResultSpec(str(row['id']), str(row['id']), f"{row['tool']} · Chamber {row['chamber']}", f"{row['recipe']} · {row['thickness']} nm · {row['status']}")
-                for row in records[:5]
-            )
+            state = {'query': 'ETCH', 'status': 'all', 'selected_id': None}
+            results_host_ref: dict[str, Any] = {}
+            empty_host_ref: dict[str, Any] = {}
+            context_host_ref: dict[str, Any] = {}
+            controls_ref: dict[str, Any] = {}
+
+            def matching_records() -> tuple[Mapping[str, Any], ...]:
+                return _filter_pattern_records(records, query=state['query'], status=state['status'])
+
+            def draw_selected_context() -> None:
+                context_host = context_host_ref.get('host')
+                if context_host is None:
+                    return
+                context_host.clear()
+                selected = _selected_record(matching_records(), state['selected_id'])
+                if selected is None:
+                    state['selected_id'] = None
+                    with context_host:
+                        ui.label('No result selected').classes('cui-property__label')
+                        ui.label('Select a matching result to inspect its context.').classes('cui-workbench-note')
+                    return
+                with context_host:
+                    PropertyGrid((
+                        KeyValueItem('id', 'Lot', selected['id']),
+                        KeyValueItem('tool', 'Tool', selected['tool']),
+                        KeyValueItem('recipe', 'Recipe', selected['recipe']),
+                        KeyValueItem('status', 'Disposition', selected['status']),
+                    ))
+
+            def on_result_selected(result) -> None:
+                state['selected_id'] = result.key
+                draw_selected_context()
+                emit(f'Selected {result.key}')
+
+            def redraw_search() -> None:
+                matches = matching_records()
+                if _selected_record(matches, state['selected_id']) is None:
+                    state['selected_id'] = None
+                results_host = results_host_ref.get('host')
+                empty_host = empty_host_ref.get('host')
+                if results_host is None or empty_host is None:
+                    return
+                results_host.clear()
+                empty_host.clear()
+                summary = _result_summary(query=state['query'], status=state['status'], count=len(matches))
+                with results_host:
+                    ui.label(summary).classes('cui-section-title')
+                    if matches:
+                        SearchResults(tuple(
+                            SearchResultSpec(
+                                str(row['id']),
+                                str(row['id']),
+                                f"{row['tool']} · Chamber {row['chamber']}",
+                                f"{row['recipe']} · {row['thickness']} nm · {row['status']}",
+                            )
+                            for row in matches
+                        ), on_select=on_result_selected)
+                if not matches:
+                    with empty_host:
+                        NoResultsState(
+                            'No matching lots, tools, or recipes',
+                            message=f'{summary}. Try a different query or clear the status facet.',
+                            on_clear=clear_search,
+                        )
+                draw_selected_context()
+
+            def clear_search() -> None:
+                state.update(query='', status='all', selected_id=None)
+                query_control = controls_ref.get('query')
+                status_control = controls_ref.get('status')
+                if query_control is not None:
+                    query_control.element.set_value('')
+                if status_control is not None:
+                    status_control.element.set_value('all')
+                redraw_search()
+
             with page.slot(LayoutSlot.FILTERS):
                 with region('query'):
-                    SearchInput('Search lots, tools, or recipes', value='ETCH', placeholder='e.g. chamber drift')
+                    controls_ref['query'] = SearchInput(
+                        'Search lots, tools, or recipes',
+                        value='ETCH',
+                        placeholder='e.g. chamber drift',
+                        on_change=lambda event: (state.update(query=str(event.value or '')), redraw_search()),
+                    )
                 with region('facets'):
-                    Select('Status facet', {'all': 'Any status', 'normal': 'Normal', 'review': 'Review', 'alert': 'Alert'}, value='all')
+                    controls_ref['status'] = Select(
+                        'Status facet',
+                        {'all': 'Any status', 'normal': 'Normal', 'review': 'Review', 'alert': 'Alert'},
+                        value='all',
+                        on_change=lambda event: (state.update(status=str(event.value or 'all')), redraw_search()),
+                    )
             with page.slot(LayoutSlot.DATA):
                 with region('results'):
-                    ui.label('5 representative results for “ETCH”').classes('cui-section-title')
-                    SearchResults(results, on_select=lambda result: emit(f'Selected {result.key}'))
+                    results_host_ref['host'] = ui.element('div').classes('w-full')
                 with region('empty_state'):
-                    ui.label('No-result behavior').classes('cui-property__label')
-                    ui.label('A cleared, actionable empty state appears only when a query has no matches.').classes('cui-workbench-note')
+                    empty_host_ref['host'] = ui.element('div').classes('w-full')
+                redraw_search()
             with page.slot(LayoutSlot.DETAILS):
                 with region('selected_context'):
                     ui.label('Selected result context').classes('cui-section-title')
-                    PropertyGrid((
-                        KeyValueItem('id', 'Lot', records[0]['id']),
-                        KeyValueItem('tool', 'Tool', records[0]['tool']),
-                        KeyValueItem('recipe', 'Recipe', records[0]['recipe']),
-                        KeyValueItem('status', 'Disposition', records[0]['status']),
-                    ))
+                    context_host_ref['host'] = ui.element('div').classes('w-full')
+                    draw_selected_context()
 
         elif key == 'settings':
             save_state_ref: dict[str, Any] = {}
