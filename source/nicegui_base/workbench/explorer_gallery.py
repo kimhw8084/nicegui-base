@@ -191,7 +191,7 @@ def render_reference_gallery(entries: Iterable[Any], *, section: str, intro: str
     with ui.element('section').classes('cui-explorer-controls').props('aria-label="Explorer filters"'):
         search = SearchInput('Search', value=state.query, placeholder='Name, intent, data, domain, alias…', debounce_ms=120, on_change=query_changed)
         search.element.props(f'data-explorer-search="{section}"')
-        with ui.element('details').classes('cui-explorer-refine'):
+        with ui.element('details').classes('cui-explorer-refine').props('open'):
             with ui.element('summary').props('tabindex="0"'):
                 ui.label('Refine references').classes('cui-workbench-card__meta')
             with ui.element('div').classes('cui-explorer-refine__body'):
