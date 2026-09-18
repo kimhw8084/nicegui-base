@@ -1,0 +1,529 @@
+{
+  "accepted_at": "2026-09-18T12:26:53Z",
+  "changed_files": [
+    {
+      "additions": 9,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/nicegui_data_table.py",
+      "status": "M"
+    },
+    {
+      "additions": 21,
+      "deletions": 9,
+      "path": "source/nicegui_base/workbench/pattern_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 16,
+      "deletions": 9,
+      "path": "source/nicegui_base/workbench/visual_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 199,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg117.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"agent-context|def agent_context|agent_context\\\" source/nicegui_base pyproject.toml setup.cfg 2>/dev/null | head -120\nrtk ls -la .venv/bin 2>/dev/null | head -80\nrtk rg --files | rg '(\"'^|/)(AGENT_WORKFLOW|framework_catalog|construction_manifest|pattern_specimens|visual_specimens|nicegui_data_table|test.*(explorer|table|workbench)|.*explorer.*test)'\"' | head -200\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,140p' source/nicegui_base/cli.py\nrtk ls source/nicegui_base | head -40\nrtk python --version\nrtk python -m nicegui_base --help 2>&1 | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base --help 2>&1 | head -30\nrtk env PYTHONPATH=source python -m nicegui_base agent-context \"Restore Data Explorer selected-row truth across redraws while preserving stable authored row identity, in-place DataTable updates, and generic render_table compatibility\" --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli agent-context \"Restore Data Explorer selected-row truth across redraws while preserving stable authored row identity, in-place DataTable updates, and generic render_table compatibility\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files docs source/nicegui_base examples tests source/tests 2>/dev/null | rg '(APP_PATTERNS|COMPONENT_CATALOG|PUBLIC_API_INDEX|AI_RULES|golden_data_explorer|framework_catalog|pattern_specimens|visual_specimens|nicegui_data_table|state|accessib|workbench.*table|table.*wrapper|test_workbench_chg103|test_workbench_chg108|test_.*data_table)' | head -240\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -C 5 \"Data Explorer|data_explorer|render_table|replace_rows|apply_row_transaction|selected_id|row_key|preview_table_data|DataTable|table wrapper|table_wrapper|selection\" source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py source/nicegui_base/integrations/nicegui_data_table.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py source/tests/test_workbench_data_table_lab.py source/tests/test_data_table_final_integrity.py | head -1000'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def draw_explorer|def _filter_data_explorer|_PATTERN_ROWS|selected_id|render_table\\\\(\\\" source/nicegui_base/workbench/pattern_specimens.py | head -120\nrtk sed -n '1,260p' source/nicegui_base/workbench/pattern_specimens.py\nrtk sed -n '160,270p' source/nicegui_base/workbench/visual_specimens.py\nrtk sed -n '500,780p' source/nicegui_base/workbench/visual_specimens.py\nrtk sed -n '1,260p' source/tests/test_workbench_chg103.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"''^class DataTable|''^class .*Table|def __init__|def _restore_selection|def _handle_selection|def _sync_displayed_count|selected_keys|row_key\" source/nicegui_base/integrations/nicegui_data_table.py | head -240\nrtk sed -n '\"'760,1125p' source/nicegui_base/integrations/nicegui_data_table.py\nrtk sed -n '1125,1510p' source/nicegui_base/integrations/nicegui_data_table.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '700,850p' source/nicegui_base/integrations/nicegui_data_table.py\nrtk sed -n '930,1115p' source/nicegui_base/integrations/nicegui_data_table.py\nrtk sed -n '1540,1715p' source/nicegui_base/integrations/nicegui_data_table.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"preview_table_data|render_table\\\\(\\\" source tests | head -240\nrtk rg -n \\\"class SearchInput|class Select|on_change|create_task|run.*task|schedule\\\" source/nicegui_base/integrations/nicegui_components.py source/nicegui_base/workbench source/tests | head -300\nrtk rg -n \\\"selected_id|selected_detail|data_explorer|Lot records\\\" source/tests tests | head -300\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"Lot records|records \\\\(|cui-table-title|footer|data_explorer\\\" source/tests tests | head -300\nrtk rg -n \\\"def set_text|class .*Label|title.*DataTable|cui-table-headline|footer_label\\\" source/nicegui_base/integrations/nicegui_data_table.py source/nicegui_base | head -200\nrtk sed -n '250,370p' source/nicegui_base/integrations/nicegui_components.py\nrtk sed -n '120,360p' source/nicegui_base/ai/templates/golden/golden_data_explorer.py\nrtk rg -n 'TABLE_REGISTRY|DataTable|data_explorer|state|accessib|PUBLIC_API' source/nicegui_base/ai/framework_catalog.json docs/nicegui_base/APP_PATTERNS.md docs/nicegui_base/COMPONENT_CATALOG.md docs/nicegui_base/PUBLIC_API_INDEX.md docs/nicegui_base/AI_RULES.md | head -350\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,125p' docs/nicegui_base/APP_PATTERNS.md\nrtk sed -n '1,125p' docs/nicegui_base/AI_RULES.md\nrtk sed -n '100,125p' docs/nicegui_base/COMPONENT_CATALOG.md\nrtk sed -n '155,180p' docs/nicegui_base/COMPONENT_CATALOG.md\nrtk rg -n -C 8 \\\"DataTable|render_table|table wrapper|state_store|accessibility_contract|SearchInput|DataExplorerPage\\\" docs/PUBLIC_API_INDEX.md docs/nicegui_base/PUBLIC_API_INDEX.md source/nicegui_base/ai/framework_catalog.json source/nicegui_base/governance/accessibility_contract.py source/nicegui_base/integrations/nicegui_state.py source/nicegui_base/state/*.py 2>/dev/null | head -700\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"class TableState|def reconcile_selection|class DataTableSpec|class SelectionMode\\\" source/nicegui_base/data_table/models.py source/nicegui_base/data_table/*.py\nrtk sed -n '1,220p' source/nicegui_base/data_table/models.py\nrtk rg -n -C 6 \\\"DataExplorerPage|data_explorer|DataTable\\\" source/nicegui_base/ai/framework_catalog.json | head -240\nrtk rg -n -C 5 \\\"DataTable\\\" docs/PUBLIC_API_INDEX.md | head -160\nrtk sed -n '1,250p' examples/nicegui_base/golden_data_explorer.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '270,355p' source/nicegui_base/data_table/models.py\nrtk sed -n '430,530p' source/nicegui_base/data_table/models.py\nrtk sed -n '120,215p' source/nicegui_base/state/store.py\nrtk sed -n '1,180p' source/nicegui_base/state/store.py\nrtk sed -n '1,180p' source/nicegui_base/integrations/nicegui_state.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"FakeDataTable|replace_rows\\\\(|_handle_selection_changed|_selected_rows_cache|run_grid_method|render_pattern\\\\(\\\" source/tests | head -350\nrtk sed -n '1,180p' source/tests/test_workbench_data_table_lab.py\nrtk sed -n '1,130p' source/tests/test_workbench_chg108.py\nrtk sed -n '1,260p' source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py | tail -140\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py source/tests/test_workbench_data_table_lab.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "c66ef7936b32d2201bf6eb901cf69cbc8e71996669c38afe1f70ad40098e04a3",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m py_compile source/nicegui_base/workbench/visual_specimens.py source/nicegui_base/workbench/pattern_specimens.py\nrtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py source/tests/test_workbench_data_table_lab.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "c66ef7936b32d2201bf6eb901cf69cbc8e71996669c38afe1f70ad40098e04a3",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' source/nicegui_base/integrations/nicegui_data_table.py\nrtk sed -n '1120,1245p' source/nicegui_base/integrations/nicegui_data_table.py\nrtk sed -n '1480,1535p' source/nicegui_base/integrations/nicegui_data_table.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -c \"import nicegui; print(nicegui.__version__)\" 2>&1 || true\nrtk git diff -- source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_workbench_chg117.py::test_data_explorer_redraw_keeps_one_governed_table_and_authored_key"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1406,
+        "output_sha256": "ef65f0b468fcbd91b263fd6a32e4cf2f9ed296144e75fe7dfb75498b663314ac",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "7040371af15613c02e821ec0eecc1d1330f691ace4cef93a41bfa358822c4103",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '155,245p' source/nicegui_base/workbench/visual_specimens.py\nrtk sed -n '175,245p' source/nicegui_base/workbench/pattern_specimens.py\nrtk git diff --check\nrtk git diff --stat\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/tests | rg 'test_(workbench_g21_explorer|phase13_tables|phase24_v17_datatable_platform|data_table_final_integrity|workbench_d6h3_golden_semantics|workbench_d6d_catalog_contracts|phase32_v200_foundations|phase5_(adapter_contract|table_registry|table_models|table_engine|table_css)|patterns)\\\\.py\"'$'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py source/tests/test_workbench_data_table_lab.py source/tests/test_phase13_tables.py source/tests/test_phase24_v17_datatable_platform.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_d6h3_golden_semantics.py source/tests/test_workbench_d6d_catalog_contracts.py source/tests/test_phase32_v200_foundations.py source/tests/test_phase5_adapter_contract.py source/tests/test_phase5_table_registry.py source/tests/test_phase5_table_models.py source/tests/test_phase5_table_engine.py source/tests/test_phase5_table_css.py source/tests/test_patterns.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_phase5_adapter_contract.py::test_adapter_uses_aggrid_and_semantic_classes",
+          "source/tests/test_phase5_adapter_contract.py::test_shell_installs_table_css",
+          "source/tests/test_phase5_adapter_contract.py::test_theme_adapter_installs_table_css"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 5019,
+        "output_sha256": "77a37bb99da0ad9a0adc148bad5b46a296800e7de725b15455ea81d0e8df91b5",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=. python -m pytest -q tests/test_phase5_adapter_contract.py tests/test_phase5_table_registry.py tests/test_phase5_table_models.py tests/test_phase5_table_engine.py tests/test_phase5_table_css.py'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 39,
+        "output_sha256": "28654fc6aa0c6fab8b3cc42a589a512a9b6c865c028a201b4ad66c2195fb9170",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /opt/anaconda3/bin/python -m pytest -q tests/test_phase5_adapter_contract.py tests/test_phase5_table_registry.py tests/test_phase5_table_models.py tests/test_phase5_table_engine.py tests/test_phase5_table_css.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "23814bd54c3f40e10907bbb3fbbf634b818152cf7afb3d0013ebceb07460326b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli gate . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-contract --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-smoke --output /tmp/nicegui-base-chg117-runtime-smoke --port 0 --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' /tmp/nicegui-base-chg117-runtime-smoke/RUNTIME_SMOKE_SERVER.log\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -C 5 \"live_lab_cli|subprocess|env|PYTHONPATH\" source/nicegui_base/certification/runtime_smoke.py source/nicegui_base/certification/live_lab_cli.py | head -240\nrtk env PYTHONPATH=source /opt/anaconda3/bin/python -c \"import nicegui_base; print(nicegui_base.__file__)\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-0faa1ee766715fb8dad26f80/source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-smoke --output /tmp/nicegui-base-chg117-runtime-smoke-absolute --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python run_nicegui_base.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli agent-check . --format json 2>/dev/null | rtk rg -n '\\\"passed\\\"|\\\"validation_errors\\\"|\\\"validation_warnings\\\"|test_workbench_chg117|verify_development_D6H2_browser.py|scaffold_present' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg --files tests source/tests | wc -l\nrtk rg --files tests | head -40\nrtk ls -ld .venv source/.venv 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /opt/anaconda3/bin/python -m pytest -q'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 22745,
+        "output_sha256": "92ed48123c4be717642614ca1cf89ad40ce235fb13698c8f327b88ba31c6608b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --unified=80 -- source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py\nrtk sed -n '1,280p' source/tests/test_workbench_chg117.py\nrtk git diff --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m py_compile source/nicegui_base/workbench/visual_specimens.py source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/integrations/nicegui_data_table.py source/tests/test_workbench_chg117.py\nrtk env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py source/tests/test_workbench_data_table_lab.py source/tests/test_phase13_tables.py source/tests/test_phase24_v17_datatable_platform.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_d6h3_golden_semantics.py source/tests/test_workbench_d6d_catalog_contracts.py source/tests/test_phase32_v200_foundations.py source/tests/test_phase5_table_registry.py source/tests/test_phase5_table_models.py source/tests/test_phase5_table_engine.py source/tests/test_phase5_table_css.py source/tests/test_patterns.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 160,
+        "output_sha256": "bcaf32ccf9c0c6ac37fe4c9e8ce86f4ab7c07f1740903baef91d00a0e408a409",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-contract --format json\nrtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-0faa1ee766715fb8dad26f80/source /opt/anaconda3/bin/python -m nicegui_base.cli runtime-smoke --output /tmp/nicegui-base-chg117-runtime-smoke-final --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /opt/anaconda3/bin/python -m pytest -q'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 22745,
+        "output_sha256": "8687a1c5499c1a0f6385208ac01dc5fbb4fe78b6801eeb0fd2a898220a65581e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli agent-check . --format json 2>/dev/null | rtk rg -n '\\\"passed\\\"|\\\"validation_errors\\\"|\\\"validation_warnings\\\"|test_workbench_chg117|verify_development_D6H2_browser.py|scaffold_present'\nrtk env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.cli gate . --format json\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests\nrtk git diff --check'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 81,
+        "output_sha256": "491abc80d6421302531d67d3134e7e6680d49b5474fc3464dd971dee02144260",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short\nrtk git diff --name-only\nrtk git add source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py source/nicegui_base/integrations/nicegui_data_table.py source/tests/test_workbench_chg117.py\nrtk git diff --cached --check\nrtk git diff --cached --stat\nrtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --unified=5 -- source/nicegui_base/integrations/nicegui_data_table.py source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/visual_specimens.py | head -320'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"fix Data Explorer selection coherence across redraws\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch\nrtk git rev-parse HEAD\nrtk git rev-parse HEAD''^{tree}\nrtk git merge-base be93eb0c724c3a849b688d8c79ff2d8e7a061768 HEAD\nrtk git diff --name-only be93eb0c724c3a849b688d8c79ff2d8e7a061768 HEAD\nrtk git show --no-patch --format='\"'commit=%H%nparent=%P%ntree=%T%nauthor=%an%nsubject=%s' HEAD\nrtk git status --porcelain=v1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 141,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.82,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 11948800,
+      "fresh_input_tokens": 266549,
+      "input_tokens": 12215349,
+      "non_reasoning_output_tokens": 16261,
+      "output_tokens": 37189,
+      "reasoning_output_tokens": 20928,
+      "total_processed_tokens": 12252538
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "de32927ced3c9dbc0b520ee2515fc3ea24940a92",
+      "subject": "fix Data Explorer selection coherence across redraws"
+    }
+  ],
+  "diff": {
+    "additions": 245,
+    "changed_files": 4,
+    "commit_count": 1,
+    "deletions": 19
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-18T12:42:44Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "be93eb0c724c3a849b688d8c79ff2d8e7a061768",
+    "branch": "codex/nicegui-base-stable3-data-explorer-selection-fix-1",
+    "head_sha": "de32927ced3c9dbc0b520ee2515fc3ea24940a92",
+    "remote_exact_head": true,
+    "remote_head_sha": "de32927ced3c9dbc0b520ee2515fc3ea24940a92",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "be93eb0c724c3a849b688d8c79ff2d8e7a061768",
+    "work_branch": "codex/nicegui-base-stable3-data-explorer-selection-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-0faa1ee766715fb8dad26f80",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-data-explorer-selection-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-data-explorer-selection-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-data-explorer-selection-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-18T12:26:53Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 951,
+    "queue_seconds": 0,
+    "total_seconds": 951
+  },
+  "transport": {
+    "bytes": 7965,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7620,
+    "prompt_sha256": "b87976d7235a45e0be0c271ee33c5ded27386564e0d003ee88987be6ac45ca12",
+    "sha256": "0faa1ee766715fb8dad26f80bd9d6d6fadc9d9cb7b9f62206ca3faa802411315"
+  }
+}
