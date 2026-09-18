@@ -185,6 +185,7 @@ def render_reference_gallery(entries: Iterable[Any], *, section: str, intro: str
 
     def toggle_favorites() -> None:
         state.favorites_only = not state.favorites_only
+        refinement_toggle.set_label('All references' if state.favorites_only else 'Favorites only')
         persist_and_render()
 
     with ui.element('section').classes('cui-explorer-controls').props('aria-label="Explorer filters"'):
@@ -195,7 +196,7 @@ def render_reference_gallery(entries: Iterable[Any], *, section: str, intro: str
                 ui.label('Refine references').classes('cui-workbench-card__meta')
             with ui.element('div').classes('cui-explorer-refine__body'):
                 Select('Family', {'all': 'All families', **{item: item.replace('_', ' ').title() for item in categories}}, value=state.category if state.category in {'all', *categories} else 'all', clearable=False, on_change=category_changed)
-                Button('All references' if state.favorites_only else 'Favorites only', on_click=toggle_favorites)
+                refinement_toggle = Button('All references' if state.favorites_only else 'Favorites only', on_click=toggle_favorites)
         ui.label(intro).classes('cui-explorer-controls__hint')
 
     def render() -> None:

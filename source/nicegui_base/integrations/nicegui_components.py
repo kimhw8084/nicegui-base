@@ -3,6 +3,7 @@ from __future__ import annotations
 import inspect
 import json
 from contextlib import AbstractContextManager
+from dataclasses import replace
 from itertools import count
 from typing import Any, Callable, Iterable, Sequence
 
@@ -61,6 +62,15 @@ class Button:
         if disabled:
             self.element.disable()
 
+    def set_label(self, label: str) -> 'Button':
+        self.spec = replace(self.spec, label=label)
+        if self.label_element is None:
+            self.element.set_text(label)
+        else:
+            self.label_element.set_text(label)
+        self.element.props(f'aria-label={json.dumps(label)}')
+        return self
+
 
 class ActionButton(Button):
     def __init__(self, label: str, *, intent: ButtonIntent = ButtonIntent.PRIMARY,
@@ -74,15 +84,22 @@ class ActionButton(Button):
         self.spec = self.action_spec
         ui = _ui()
         self.element = ui.button(on_click=on_click, color=None).props('no-caps unelevated').classes(self.spec.classes)
+        self.label_element = None
         with self.element:
             if loading:
                 ui.element('span').classes('cui-button__spinner').props('aria-hidden="true"')
             elif icon:
                 ui.html(render_icon_svg(icon, size='sm'), sanitize=False).classes('cui-svg-icon-host')
-            ui.label(label).classes('cui-button__label')
+            self.label_element = ui.label(label).classes('cui-button__label')
         self.element.props(f'aria-label={json.dumps(label)}')
         if disabled or loading:
             self.element.disable()
+
+    def set_label(self, label: str) -> 'ActionButton':
+        super().set_label(label)
+        self.action_spec = replace(self.action_spec, label=label)
+        self.spec = self.action_spec
+        return self
 
 
 class IconButton:
