@@ -1,0 +1,477 @@
+{
+  "accepted_at": "2026-09-18T23:16:46Z",
+  "changed_files": [
+    {
+      "additions": 35,
+      "deletions": 0,
+      "path": "source/nicegui_base/workbench/app.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 69,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg106.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '280,320p' source/nicegui_base/integrations/nicegui_interactions.py; rtk sed -n '260,300p' source/nicegui_base/integrations/nicegui_layout.py; rtk sed -n '1920,1935p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'from nicegui_base.ai_cli import context_main; raise SystemExit(context_main([\\\"Fix CHG-106 desktop Reference Explorer secondary Family/Favorites reachability while preserving mobile native disclosure and the existing ExplorerState authority\\\", \\\"--format\\\", \\\"json\\\"]))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -S \"def workbench_reference_shell|def home_page|render_reference_gallery|render_application_gallery|register_workbench_pages\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/*.py | head -160'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -80 source/nicegui_base/ai_cli.py; rtk sed -n '1,80p' source/nicegui_base/__main__.py 2>/dev/null\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' source/nicegui_base/workbench/workbench_css.py; rtk rg -n -S \\\"def install_workbench_css|WORKBENCH_CSS\\\" source/nicegui_base/workbench/workbench_css.py source/nicegui_base/workbench\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk command -v chromium || true; rtk command -v google-chrome || true; rtk command -v playwright || true; rtk python -c 'import sys; print(sys.version); import importlib.util; print(\\\"nicegui\\\", importlib.util.find_spec(\\\"nicegui\\\")); print(\\\"playwright\\\", importlib.util.find_spec(\\\"playwright\\\"))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg108.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "511fb971caf59261241ec2a3919d9d10c7dcb9ec044ee07d50b2db465184f057",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,55p' source/nicegui_base/workbench/app.py; rtk sed -n '1910,1940p' source/nicegui_base/workbench/app.py; rtk tail -12 source/nicegui_base/workbench/workbench_css.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -S \"register_workbench_pages|install_workbench_css|workbench_global|add_head_html\" source/tests | head -160'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- source/nicegui_base/workbench/explorer_gallery.py source/nicegui_base/workbench/app.py; rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/tests/test_workbench_chg106.py; rtk python -m py_compile source/tests/test_workbench_chg106.py source/nicegui_base/workbench/app.py source/nicegui_base/workbench/explorer_gallery.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_workbench_chg106.py::test_workbench_responsive_sync_is_singleton_idempotent_and_focus_safe"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1342,
+        "output_sha256": "ce861e2a6e24a9a2f308ab475ed8787a6d5d3183fc643611fd3842cd1b1b5f38",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "c66ef7936b32d2201bf6eb901cf69cbc8e71996669c38afe1f70ad40098e04a3",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -S \\\"render_reference_gallery|cui-explorer-refine|ExplorerState|SearchInput|Select\\\\(|Button\\\\(|accessib|public API|workbench\\\" source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_workbench_iteration*.py source/tests/test_components*.py source/tests/test_public*.py source/tests/test_access*.py 2>/dev/null | head -260\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find source/tests -maxdepth 1 -type f | sort | rg 'workbench|component|public|access|api|catalog' | head -220\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check; rtk env PYTHONPATH=source python -m compileall -q source/nicegui_base/workbench source/tests/test_workbench_chg106.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -S \\\"render_reference_gallery|cui-explorer-refine|ExplorerState|SearchInput|Select\\\\(|accessib|public API|workbench\\\" source/tests --glob '*.py' | head -320\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_component_css.py source/tests/test_component_models.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py source/tests/test_nicegui_base_identity_migration.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_nicegui_base_identity_migration.py::test_primary_identity_is_nicegui_base"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1982,
+        "output_sha256": "b8f373ca72d38a5e5eaf0922ce4c198d6b02a5ad548a77b461d5e147ae0a1a06",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_component_css.py source/tests/test_component_models.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py source/tests/test_nicegui_base_identity_migration.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_nicegui_base_identity_migration.py::test_primary_identity_is_nicegui_base"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1982,
+        "output_sha256": "b8f373ca72d38a5e5eaf0922ce4c198d6b02a5ad548a77b461d5e147ae0a1a06",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=. python -m pytest -q tests/test_nicegui_base_identity_migration.py'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 39,
+        "output_sha256": "28654fc6aa0c6fab8b3cc42a589a512a9b6c865c028a201b4ad66c2195fb9170",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk command -v node; rtk command -v chromium; rtk python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_component_css.py source/tests/test_component_models.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "325b7cf7b0d6ead544ebb7e833a08009fa10cf90ce29b8f9021e2ede461488f5",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' run_nicegui_base.py; rtk rg -n -S \\\"def main|argparse|port|host\\\" source/nicegui_base/workbench/launcher.py | head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check; rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /opt/anaconda3/bin/python -m pytest -q tests/test_nicegui_base_identity_migration.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "700bc0322b00f8e8db3ce495047983b54ab27ab59ed1fedac05f3aeba47dae24",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env NICEGUI_BASE_PORT=8765 python run_nicegui_base.py --host 127.0.0.1 --port 8765'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import socket; s=socket.socket(); s.bind((\\\"127.0.0.1\\\",0)); print(s.getsockname()[1]); s.close()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\nurl = 'http://127.0.0.1:65143/components'\nwith sync_playwright() as playwright:\n    browser = playwright.chromium.launch(headless=True)\n    context = browser.new_context(viewport={'width': 1440, 'height': 900})\n    page = context.new_page()\n    page.goto(url, wait_until='networkidle')\n    page.wait_for_timeout(500)\n    details = page.locator('.cui-explorer-refine')\n    summary = details.locator(':scope > summary')\n    body = details.locator(':scope > .cui-explorer-refine__body')\n    search = page.locator('[data-explorer-search=\\\"components\\\"]')\n    family = page.locator('.cui-explorer-refine [aria-label=\\\"Family\\\"]')\n    favorites = page.get_by_role('button', name='Favorites only')\n    print('desktop', {\n        'details': details.count(),\n        'open': details.first.get_attribute('open'),\n        'summary_display': summary.evaluate('(el) => getComputedStyle(el).display'),\n        'body_display': body.evaluate('(el) => getComputedStyle(el).display'),\n        'family_visible': family.first.is_visible(),\n        'family_count': family.count(),\n        'favorites_count': favorites.count(),\n        'favorites_visible': favorites.first.is_visible(),\n        'search_count': search.count(),\n        'search_inside_refine': details.locator('[data-explorer-search=\\\"components\\\"]').count(),\n    })\n    favorites.click()\n    page.wait_for_timeout(300)\n    print('favorites_on', {\n        'label': page.get_by_role('button', name='All references').count(),\n        'state_count': page.locator('.cui-explorer-card').count(),\n    })\n    page.get_by_role('button', name='All references').click()\n    page.wait_for_timeout(300)\n    print('favorites_off', {\n        'label': page.get_by_role('button', name='Favorites only').count(),\n        'details_open': details.get_attribute('open'),\n    })\n    context.set_viewport_size({'width': 390, 'height': 844})\n    page.wait_for_timeout(500)\n    print('mobile_after_resize', {\n        'open': details.get_attribute('open'),\n        'summary_visible': summary.is_visible(),\n        'body_visible': body.is_visible(),\n        'family_visible': family.first.is_visible(),\n        'search_visible': search.is_visible(),\n    })\n    summary.click()\n    page.wait_for_timeout(200)\n    print('mobile_open', {\n        'open': details.get_attribute('open'),\n        'body_visible': body.is_visible(),\n        'family_visible': family.first.is_visible(),\n    })\n    summary.click()\n    page.wait_for_timeout(200)\n    print('mobile_closed', {\n        'open': details.get_attribute('open'),\n        'body_visible': body.is_visible(),\n        'family_visible': family.first.is_visible(),\n    })\n    context.set_viewport_size({'width': 1440, 'height': 900})\n    page.wait_for_timeout(500)\n    print('desktop_after_resize', {\n        'open': details.get_attribute('open'),\n        'summary_display': summary.evaluate('(el) => getComputedStyle(el).display'),\n        'body_display': body.evaluate('(el) => getComputedStyle(el).display'),\n        'family_visible': family.first.is_visible(),\n        'favorites_visible': page.get_by_role('button', name='Favorites only').is_visible(),\n    })\n    browser.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\nurl = 'http://127.0.0.1:65143/components'\nwith sync_playwright() as playwright:\n    browser = playwright.chromium.launch(headless=True)\n    context = browser.new_context(viewport={'width': 1440, 'height': 900})\n    page = context.new_page()\n    page.goto(url, wait_until='networkidle')\n    page.wait_for_timeout(500)\n    details = page.locator('.cui-explorer-refine')\n    summary = details.locator(':scope > summary')\n    body = details.locator(':scope > .cui-explorer-refine__body')\n    search = page.locator('[data-explorer-search=\\\"components\\\"]')\n    family_select = details.locator('.q-select')\n    family_labels = details.locator('[aria-label=\\\"Family\\\"]')\n    print('desktop', {\n        'details': details.count(),\n        'open': details.get_attribute('open'),\n        'summary_display': summary.evaluate('(el) => getComputedStyle(el).display'),\n        'body_display': body.evaluate('(el) => getComputedStyle(el).display'),\n        'family_control_count': family_select.count(),\n        'family_visible': family_select.is_visible(),\n        'family_accessible_targets': family_labels.count(),\n        'favorites_count': page.get_by_role('button', name='Favorites only').count(),\n        'favorites_visible': page.get_by_role('button', name='Favorites only').is_visible(),\n        'search_count': search.count(),\n        'search_inside_refine': details.locator('[data-explorer-search=\\\"components\\\"]').count(),\n    })\n    family_select.click()\n    page.wait_for_timeout(150)\n    options = page.locator('.q-menu .q-item')\n    print('family_options', options.all_inner_texts())\n    if options.count() > 1:\n        options.nth(1).click()\n        page.wait_for_timeout(300)\n    print('family_filtered', {\n        'selected_text': family_select.inner_text(),\n        'visible_cards': page.locator('.cui-explorer-card').count(),\n        'details_open': details.get_attribute('open'),\n    })\n    page.get_by_role('button', name='Favorites only').click()\n    page.wait_for_timeout(300)\n    print('favorites_on', {\n        'all_references_label': page.get_by_role('button', name='All references').count(),\n        'details_open': details.get_attribute('open'),\n    })\n    page.get_by_role('button', name='All references').click()\n    page.wait_for_timeout(300)\n    print('favorites_off', {\n        'favorites_only_label': page.get_by_role('button', name='Favorites only').count(),\n        'details_open': details.get_attribute('open'),\n    })\n    page.set_viewport_size({'width': 390, 'height': 844})\n    page.wait_for_timeout(500)\n    print('mobile_after_resize', {\n        'open': details.get_attribute('open'),\n        'summary_visible': summary.is_visible(),\n        'body_visible': body.is_visible(),\n        'family_visible': family_select.is_visible(),\n        'search_visible': search.is_visible(),\n    })\n    summary.click()\n    page.wait_for_timeout(200)\n    print('mobile_open', {\n        'open': details.get_attribute('open'),\n        'body_visible': body.is_visible(),\n        'family_visible': family_select.is_visible(),\n    })\n    summary.click()\n    page.wait_for_timeout(200)\n    print('mobile_closed', {\n        'open': details.get_attribute('open'),\n        'body_visible': body.is_visible(),\n        'family_visible': family_select.is_visible(),\n    })\n    page.set_viewport_size({'width': 1440, 'height': 900})\n    page.wait_for_timeout(500)\n    print('desktop_after_resize', {\n        'open': details.get_attribute('open'),\n        'summary_display': summary.evaluate('(el) => getComputedStyle(el).display'),\n        'body_display': body.evaluate('(el) => getComputedStyle(el).display'),\n        'family_visible': family_select.is_visible(),\n        'favorites_visible': page.get_by_role('button', name='Favorites only').is_visible(),\n    })\n    browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n -S \"def main|ArgumentParser|def runtime|--port|port\" source/nicegui_base/certification/nicegui_runtime_contract.py source/nicegui_base/certification/runtime_smoke.py | head -180; rtk ls -la .nicegui_base source/.nicegui_base 2>/dev/null; rtk git diff --stat; rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'from nicegui_base.ai_cli import check_main; raise SystemExit(check_main([\\\".\\\", \\\"--format\\\", \\\"json\\\"]))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'from nicegui_base.certification.nicegui_runtime_contract import run_installed_runtime_contract; r=run_installed_runtime_contract(); print({\\\"ok\\\": r.ok, \\\"nicegui_version\\\": r.nicegui_version, \\\"factories_checked\\\": r.factories_checked, \\\"calls_checked\\\": r.calls_checked, \\\"source_issues\\\": [i.code for i in r.source_issues], \\\"runtime_issues\\\": [i.code for i in r.runtime_issues]}); raise SystemExit(0 if r.ok else 1)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'from nicegui_base.certification.runtime_smoke import run_runtime_smoke; r=run_runtime_smoke(port=None); print({\\\"ok\\\": r.ok, \\\"port\\\": r.port, \\\"route_count\\\": len(r.routes), \\\"log_error_patterns\\\": r.log_error_patterns, \\\"report\\\": r.log_path}); raise SystemExit(0 if r.ok else 1)'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'from nicegui_base.ai_cli import gate_main; raise SystemExit(gate_main([\\\".\\\", \\\"--format\\\", \\\"json\\\"]))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log; rtk git status --short --untracked-files=all; rtk git check-ignore -v certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log 2>/dev/null || true; rtk find certification_output/runtime_smoke -maxdepth 1 -type f -print 2>/dev/null\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore --source=HEAD -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log; rtk git status --short --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\nwith sync_playwright() as playwright:\n    browser = playwright.chromium.launch(headless=True)\n    context = browser.new_context(viewport={'width': 390, 'height': 844})\n    page = context.new_page()\n    page.goto('http://127.0.0.1:65143/components', wait_until='networkidle')\n    page.wait_for_timeout(500)\n    details = page.locator('.cui-explorer-refine')\n    summary = details.locator(':scope > summary')\n    body = details.locator(':scope > .cui-explorer-refine__body')\n    search = page.locator('[data-explorer-search=\\\"components\\\"] input')\n    print('mobile_fresh', {\n        'details_open': details.get_attribute('open'),\n        'summary_visible': summary.is_visible(),\n        'body_visible': body.is_visible(),\n        'search_visible': search.is_visible(),\n        'search_inside_refine': details.locator('[data-explorer-search=\\\"components\\\"]').count(),\n    })\n    summary.focus()\n    summary.press('Enter')\n    page.wait_for_timeout(150)\n    print('mobile_keyboard_open', {\n        'details_open': details.get_attribute('open'),\n        'body_visible': body.is_visible(),\n        'family_visible': details.locator('.q-select').is_visible(),\n        'favorites_visible': page.get_by_role('button', name='Favorites only').is_visible(),\n    })\n    search.fill('Select')\n    page.wait_for_timeout(450)\n    print('mobile_search', {\n        'search_value': search.input_value(),\n        'visible_cards': page.locator('.cui-explorer-card').count(),\n        'details_open': details.get_attribute('open'),\n    })\n    browser.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\nwith sync_playwright() as playwright:\n    browser = playwright.chromium.launch(headless=True)\n    page = browser.new_page(viewport={'width': 390, 'height': 844})\n    page.goto('http://127.0.0.1:65143/components', wait_until='networkidle')\n    page.wait_for_timeout(500)\n    search = page.locator('[data-explorer-search=\\\"components\\\"]')\n    print('search_wrapper', search.count(), search.is_visible())\n    print(search.evaluate('(el) => el.outerHTML'))\n    print('inputs', page.locator('input').count())\n    for i in range(page.locator('input').count()):\n        item = page.locator('input').nth(i)\n        print(i, item.get_attribute('aria-label'), item.get_attribute('type'), item.is_visible())\n    browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\n\nwith sync_playwright() as playwright:\n    browser = playwright.chromium.launch(headless=True)\n    page = browser.new_page(viewport={'width': 390, 'height': 844})\n    page.goto('http://127.0.0.1:65143/components', wait_until='networkidle')\n    page.wait_for_timeout(500)\n    details = page.locator('.cui-explorer-refine')\n    summary = details.locator(':scope > summary')\n    body = details.locator(':scope > .cui-explorer-refine__body')\n    search = page.locator('[data-explorer-search=\\\"components\\\"]')\n    print('mobile_fresh', {\n        'details_open': details.get_attribute('open'),\n        'summary_visible': summary.is_visible(),\n        'body_visible': body.is_visible(),\n        'search_visible': search.is_visible(),\n        'search_inside_refine': details.locator('[data-explorer-search=\\\"components\\\"]').count(),\n    })\n    summary.focus()\n    summary.press('Enter')\n    page.wait_for_timeout(150)\n    print('mobile_keyboard_open', {\n        'details_open': details.get_attribute('open'),\n        'body_visible': body.is_visible(),\n        'family_visible': details.locator('.q-select').is_visible(),\n        'favorites_visible': page.get_by_role('button', name='Favorites only').is_visible(),\n    })\n    search.fill('Select')\n    page.wait_for_timeout(450)\n    print('mobile_search', {\n        'search_value': search.input_value(),\n        'visible_cards': page.locator('.cui-explorer-card').count(),\n        'details_open': details.get_attribute('open'),\n        'search_inside_refine': details.locator('[data-explorer-search=\\\"components\\\"]').count(),\n    })\n    browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_public_api_phase3.py source/tests/test_workbench_g26_reconstruction.py source/tests/test_workbench_d6d_catalog_contracts.py source/tests/test_workbench_d6b_reorientation.py source/tests/test_workbench_d6h_visual_reference.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "c6ce8518a2cc113cc5560b3731e234ed6d559e746221ae903ce01599dfe7e797",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_iteration1.py source/tests/test_workbench_iteration2.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 160,
+        "output_sha256": "31d4f6ed061187bd4bcaecd24059371e79ed220f567109eaef744423f52fcf35",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -80 source/nicegui_base/validate.py; rtk env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- source/nicegui_base/workbench/app.py source/nicegui_base/workbench/explorer_gallery.py; rtk sed -n '1,180p' source/tests/test_workbench_chg106.py; rtk git status --short --untracked-files=all\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env NICEGUI_BASE_PORT=65143 python run_nicegui_base.py --host 127.0.0.1 --port 65143'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add source/nicegui_base/workbench/app.py source/nicegui_base/workbench/explorer_gallery.py source/tests/test_workbench_chg106.py; rtk git diff --cached --check; rtk git diff --cached --stat; rtk git status --short --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"Fix responsive Explorer secondary refinement reachability\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch; rtk git rev-parse HEAD; rtk git rev-parse HEAD''^{tree}; rtk git rev-parse HEAD''^; rtk git rev-parse origin/main; rtk git show -s --format='\"'%H%n%T%n%P%n%s' HEAD; rtk git merge-base --is-ancestor 2aee03c8983d7e710eccdf8429436430d5fd37d0 HEAD; rtk git rev-list --count 2aee03c8983d7e710eccdf8429436430d5fd37d0..HEAD; rtk git diff --name-status 2aee03c8983d7e710eccdf8429436430d5fd37d0..HEAD; rtk git diff --check HEAD\"'^ HEAD; rtk git status --porcelain=v1 --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse origin/main''^{tree}; rtk rg -n \"_EXPLORER_REFINE_RESPONSIVE_SCRIPT|ui.add_head_html'\"\\\\(_EXPLORER_REFINE_RESPONSIVE_SCRIPT|cui-explorer-refine').props\\\\('open'\\\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/explorer_gallery.py; rtk rg -n '\"'^def test_'\"' source/tests/test_workbench_chg106.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -F '_EXPLORER_REFINE_RESPONSIVE_SCRIPT' source/nicegui_base/workbench/app.py; rtk rg -n -F \\\".classes('cui-explorer-refine').props('open')\\\" source/nicegui_base/workbench/explorer_gallery.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 197,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.0,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 5625088,
+      "fresh_input_tokens": 174114,
+      "input_tokens": 5799202,
+      "non_reasoning_output_tokens": 15844,
+      "output_tokens": 32028,
+      "reasoning_output_tokens": 16184,
+      "total_processed_tokens": 5831230
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "c02c01a2dbd90e600cc836857fb2c19ea7f62e11",
+      "subject": "Fix responsive Explorer secondary refinement reachability"
+    }
+  ],
+  "diff": {
+    "additions": 105,
+    "changed_files": 3,
+    "commit_count": 1,
+    "deletions": 1
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-18T23:28:40Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "2aee03c8983d7e710eccdf8429436430d5fd37d0",
+    "branch": "codex/nicegui-base-stable3-explorer-desktop-refine-fix-1",
+    "detached_verify": false,
+    "head_sha": "c02c01a2dbd90e600cc836857fb2c19ea7f62e11",
+    "remote_exact_head": true,
+    "remote_head_sha": "c02c01a2dbd90e600cc836857fb2c19ea7f62e11",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "2aee03c8983d7e710eccdf8429436430d5fd37d0",
+    "work_branch": "codex/nicegui-base-stable3-explorer-desktop-refine-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-ac426cb60e4403f23844fca5",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-explorer-desktop-refine-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-desktop-refine-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-explorer-desktop-refine-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-18T23:16:46Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 714,
+    "queue_seconds": 0,
+    "total_seconds": 714
+  },
+  "transport": {
+    "bytes": 8420,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8075,
+    "prompt_sha256": "9976b3d3612bc5720ab1c5363231cdd1314161659e2833209103a9b01eadfa1d",
+    "sha256": "ac426cb60e4403f23844fca5ae087dfcc58d978bbf039d1dba8f1706b9432662"
+  }
+}
