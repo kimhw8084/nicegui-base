@@ -756,11 +756,13 @@ class DataTable:
         self._closed=False
         self._validate_row_identities(self.rows)
         ui=_ui()
+        self.title_label = None
         with ui.element('section').classes('cui-table-shell') as self.container:
             if spec.title or spec.description:
                 with ui.element('div').classes('cui-table-headline'):
                     with ui.element('div'):
-                        if spec.title: ui.label(spec.title).classes('cui-table-title')
+                        if spec.title:
+                            self.title_label=ui.label(spec.title).classes('cui-table-title')
                         if spec.description: ui.label(spec.description).classes('cui-table-description')
             if show_toolbar and any((spec.searchable,spec.column_manager,spec.density_control,spec.export_csv,spec.refresh_enabled)):
                 self.toolbar=TableToolbar(self, searchable=spec.searchable, columns=spec.column_manager,
@@ -955,6 +957,12 @@ class DataTable:
     def _footer_text(self) -> str:
         total=len(self.rows); shown=min(self.displayed_count,total)
         return f'{shown:,} of {total:,} records' if self.search or shown != total else f'{total:,} records'
+
+    def set_title(self, title: str | None) -> None:
+        """Update the governed table title without remounting its grid."""
+        self.spec=replace(self.spec, title=title)
+        if self.title_label is not None:
+            self.title_label.set_text(title or '')
 
     def _density_text(self) -> str:
         return f'{self.spec.density.value.title()} · {_DENSITY_ROWS[self.spec.density.value]} px'

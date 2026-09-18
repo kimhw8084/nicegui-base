@@ -181,6 +181,7 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
             state = {'query': 'lot', 'tool': 'all', 'selected_id': None}
             host_ref: dict[str, Any] = {}
             detail_ref: dict[str, Any] = {}
+            table_ref: dict[str, Any] = {}
 
             def visible_records() -> tuple[Mapping[str, Any], ...]:
                 return _filter_data_explorer_records(records, query=state['query'], tool=state['tool'])
@@ -205,27 +206,38 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
                 state['selected_id'] = selected_rows[0].get('id') if selected_rows else None
                 draw_detail()
 
-            def draw_explorer():
-                host = host_ref.get('host')
-                if host is None:
+            async def redraw_explorer() -> None:
+                table = table_ref.get('table')
+                if table is None:
                     return
                 selected = visible_records()
                 if _selected_record(selected, state['selected_id']) is None:
                     state['selected_id'] = None
-                host.clear()
-                with host:
-                    render_table('data_table', title=f'Lot records ({len(selected)})', rows=selected, on_event=on_event, on_select=on_rows_selected)
+                table.set_title(f'Lot records ({len(selected)})')
+                await table.replace_rows(selected)
                 draw_detail()
+
+            async def query_changed(event) -> None:
+                state['query'] = str(event.value or '').casefold()
+                await redraw_explorer()
+
+            async def tool_changed(event) -> None:
+                state['tool'] = str(event.value or 'all')
+                await redraw_explorer()
 
             with page.slot(LayoutSlot.FILTERS):
                 with region('filters'):
                     with ui.row().classes('cui-filter-bar'):
-                        SearchInput('Search lots', value='LOT', on_change=lambda event: (state.update(query=str(event.value or '').casefold()), draw_explorer()))
-                        Select('Tool', {'all': 'All tools', 'ETCH-03': 'ETCH-03', 'ETCH-07': 'ETCH-07', 'ETCH-11': 'ETCH-11'}, value='all', on_change=lambda event: (state.update(tool=str(event.value or 'all')), draw_explorer()))
+                        SearchInput('Search lots', value='LOT', on_change=query_changed)
+                        Select('Tool', {'all': 'All tools', 'ETCH-03': 'ETCH-03', 'ETCH-07': 'ETCH-07', 'ETCH-11': 'ETCH-11'}, value='all', on_change=tool_changed)
             with page.slot(LayoutSlot.DATA):
                 with region('primary_table'):
                     host_ref['host'] = ui.element('div').classes('w-full')
-                    draw_explorer()
+                    with host_ref['host']:
+                        table_ref['table'] = render_table(
+                            'data_table', title=f'Lot records ({len(visible_records())})', rows=visible_records(), row_key='id',
+                            on_event=on_event, on_select=on_rows_selected,
+                        )
             with page.slot(LayoutSlot.DETAILS):
                 with region('selected_detail'):
                     detail_ref['host'] = ui.element('div').classes('w-full')
