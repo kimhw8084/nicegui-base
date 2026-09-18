@@ -1,0 +1,401 @@
+{
+  "accepted_at": "2026-09-18T02:27:27Z",
+  "changed_files": [
+    {
+      "additions": 54,
+      "deletions": 5,
+      "path": "source/nicegui_base/integrations/nicegui_components.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "source/nicegui_base/integrations/nicegui_content.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 130,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg108.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' run_nicegui_base.py; rtk sed -n '1,280p' source/nicegui_base/workbench/launcher.py; rtk sed -n '1,220p' source/tests/test_workbench_chg108.py; rtk sed -n '1,180p' source/tests/test_workbench_chg103.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v google-chrome || true; rtk command -v chromium || true; rtk command -v chromium-browser || true; rtk command -v playwright || true; rtk ls -1 \"$HOME/Library/Application Support/ms-playwright\" 2>/dev/null || true; rtk python - <<'\"'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n    print('playwright_chromium_executable', p.chromium.executable_path)\n    try:\n        b=p.chromium.launch(headless=True)\n        print('launched', b.version)\n        b.close()\n    except Exception as exc:\n        print('launch_error', type(exc).__name__, str(exc))\nPY\nrtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def .*page|ui.page|components_page|ai-guide|pattern_specimens|data_explorer|CodeViewer|Select\\\\(|MultiSelect\\\\(|Autocomplete\\\\(\\\" source/nicegui_base/workbench source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/integrations/nicegui_components.py | head -300; rtk sed -n '1,320p' source/nicegui_base/workbench/explorer_gallery.py; rtk sed -n '1,420p' source/nicegui_base/workbench/pattern_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '160,235p' source/nicegui_base/integrations/nicegui_content.py; rtk sed -n '300,410p' source/nicegui_base/integrations/nicegui_components.py; rtk sed -n '1,260p' source/nicegui_base/workbench/visual_specimens.py; rtk sed -n '1,260p' source/nicegui_base/workbench/component_specimens.py; rtk sed -n '1,220p' source/nicegui_base/workbench/framework_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"class DataTable|q-table|selection|aria-selected|row-key|select\\\" source/nicegui_base/data_table.py source/nicegui_base/integrations source/nicegui_base | head -260; rtk sed -n '1,280p' source/nicegui_base/data_table.py 2>/dev/null; rtk sed -n '1,220p' source/nicegui_base/integrations/nicegui_components.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"class DataTable\\\" source/nicegui_base/integrations/nicegui_data_table.py; rtk sed -n '760,1030p' source/nicegui_base/integrations/nicegui_data_table.py; rtk sed -n '1030,1130p' source/nicegui_base/integrations/nicegui_data_table.py; rtk sed -n '1340,1490p' source/nicegui_base/integrations/nicegui_data_table.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '680,790p' source/nicegui_base/integrations/nicegui_data_table.py; rtk rg -n \\\"def _restore_selection|reconcile_selection\\\" source/nicegui_base/integrations/nicegui_data_table.py source/nicegui_base/state.py source/nicegui_base | head -100; rtk sed -n '1640,1695p' source/nicegui_base/integrations/nicegui_data_table.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"dark|theme|color_scheme|prefers-color-scheme|theme_mode|set_theme|Theme\\\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/workbench_css.py source/nicegui_base/integrations/nicegui_theme.py | head -220; rtk sed -n '1,180p' source/nicegui_base/workbench/app.py; rtk sed -n '180,470p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '120,285p' source/nicegui_base/workbench/explorer_gallery.py; rtk sed -n '180,330p' source/nicegui_base/workbench/catalog_runtime.py; rtk rg -n \\\"component_specimen|render_component_specimen|/components|component:\\\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench | head -180\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '600,820p' source/nicegui_base/workbench/app.py; rtk sed -n '740,815p' source/nicegui_base/workbench/app.py; rtk sed -n '1,160p' source/nicegui_base/workbench/catalog_runtime.py; rtk sed -n '1900,1960p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"supported_options|disabled|Preview|option|canonical\\\" source/nicegui_base/workbench/capability_studio.py | head -200; rtk sed -n '740,1060p' source/nicegui_base/workbench/capability_studio.py; rtk sed -n '1060,1135p' source/nicegui_base/workbench/capability_studio.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def render_state_matrix|required|error|readonly\\\" source/nicegui_base/workbench/capability_studio.py source/nicegui_base/workbench | head -180; rtk sed -n '580,735p' source/nicegui_base/workbench/capability_studio.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,170p' source/nicegui_base/workbench/state_matrix.py; rtk sed -n '1,135p' source/nicegui_base/workbench/capability_studio.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nfrom nicegui_base.workbench.app import reference_entries_for_section\nfrom nicegui_base.workbench.models import WorkbenchKind\nentries=reference_entries_for_section('components')\nprint(len(entries), sorted({e.category for e in entries}))\nfor e in entries:\n    if e.title in {'Select','MultiSelect','Autocomplete'}:\n        print(e.key,e.title,e.category,e.route,e.reference_contract.states)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"checkboxSelection|rowSelection|selection\\\" source/nicegui_base/integrations/nicegui_data_table.py source/nicegui_base/data_table -g '*.py' | head -180; rtk sed -n '120,240p' source/nicegui_base/integrations/nicegui_data_table.py; rtk sed -n '1,130p' source/nicegui_base/workbench/pattern_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"aria-label=.*navigation|drawer|menu|navigation\\\" source/nicegui_base/integrations/nicegui_layout.py | head -180; rtk sed -n '35,180p' source/nicegui_base/integrations/nicegui_layout.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l /tmp/codex_chg100_verify.py; rtk python -m py_compile /tmp/codex_chg100_verify.py; rtk wc -l /tmp/codex_chg100_verify.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' /tmp/chg100-verify-9h4d_0ge/CHG-100-CHG-108-browser-verify.json; rtk tail -80 /tmp/chg100-verify-9h4d_0ge/server.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk pgrep -fl codex_chg100_verify.py || true; rtk pgrep -fl run_nicegui_base.py || true; rtk ls -dt /tmp/chg100-verify-* | head -3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 75106 -o pid=,stat=,etime=,command= 2>/dev/null || true; rtk ps -p 75154 -o pid=,stat=,etime=,command= 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 25; rtk ps -p 75106 -o pid=,stat=,etime=,command= 2>/dev/null || true; rtk ps -p 75154 -o pid=,stat=,etime=,command= 2>/dev/null || true; rtk ls -dt /tmp/chg100-verify-* | head -1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -60 /tmp/chg100-verify-js5byqpm/server.log; rtk ls -1 /tmp/chg100-verify-js5byqpm | head -30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30; rtk ps -p 75106 -o pid=,stat=,etime=,command= 2>/dev/null || true; rtk ls -1 /tmp/chg100-verify-js5byqpm | tail -20'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -l /tmp/chg100-verify-js5byqpm; rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg100-verify-js5byqpm/CHG-100-CHG-108-browser-verify.json')\nprint('exists',p.exists())\nif p.exists():\n d=json.loads(p.read_text())\n print('status',d.get('status'))\n print('failures',len(d.get('scenario_failures',[])))\n for x in d.get('scenario_failures',[]): print(x['scenario'],':',x['message'])\n print('outcomes pass',sum(x.get('status')=='PASS' for x in d.get('outcomes',[])),'fail',sum(x.get('status')=='FAIL' for x in d.get('outcomes',[])))\n print('browser_errors',d.get('browser_errors'))\n print('acceptance',d.get('acceptance'))\n print('cleanup',d.get('cleanup'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '210,320p' source/nicegui_base/integrations/nicegui_components.py; rtk git show --stat --oneline 7b243456; rtk git show 7b243456 -- source/nicegui_base/integrations/nicegui_components.py source/nicegui_base/integrations/nicegui_content.py source/nicegui_base/workbench/explorer_gallery.py | head -300\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '455,490p' source/nicegui_base/workbench/pattern_specimens.py; rtk sed -n '410,445p' source/nicegui_base/workbench/pattern_specimens.py; rtk rg -n \\\"Measurement\\\" source/nicegui_base/workbench/pattern_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg100-verify-jiejov2j/CHG-100-CHG-108-browser-verify.json')\nd=json.loads(p.read_text())\nfor x in d.get('scenario_failures',[]): print(x['scenario'],':',x['message'])\nprint('\\\\nPASS outcomes:')\nfor x in d.get('outcomes',[]):\n if x.get('status')=='PASS': print(x['scenario'])\nprint('browser errors',len(d.get('browser_errors',[])))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PYTHONPATH=source rtk python - <<'PY'\nimport os, socket, subprocess, time, urllib.request, json\nfrom playwright.sync_api import sync_playwright\nrepo=os.getcwd(); s=socket.socket(); s.bind(('127.0.0.1',0)); port=s.getsockname()[1]; s.close()\nenv=os.environ.copy(); env.update(PYTHONPATH='source', NICEGUI_BASE_HOST='127.0.0.1', NICEGUI_BASE_PORT=str(port), NICEGUI_BASE_SHOW='0')\np=subprocess.Popen([os.sys.executable,'run_nicegui_base.py','--host','127.0.0.1','--port',str(port),'--no-show'],cwd=repo,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\ntry:\n  for _ in range(100):\n    try:\n      if urllib.request.urlopen(f'http://127.0.0.1:{port}/',timeout=.2).status==200: break\n    except Exception: time.sleep(.1)\n  with sync_playwright() as pw:\n    b=pw.chromium.launch(headless=True); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,permissions=['clipboard-read','clipboard-write']); page=c.new_page()\n    page.goto(f'http://127.0.0.1:{port}/studio/pattern%3Adata_explorer'); page.wait_for_timeout(900)\n    q=page.locator('input[aria-label=\\\"Search lots\\\"]'); q.fill('LOT-240904'); page.wait_for_timeout(900)\n    row=page.locator('.cui-reference-region[data-pattern-region=\\\"primary_table\\\"] .ag-row:visible').filter(has_text='LOT-240904').first\n    print('row_count',row.count())\n    print('row_class',row.get_attribute('class'),'aria',row.get_attribute('aria-selected'),'rowid',row.get_attribute('row-id'))\n    print('row_html',row.evaluate('(e)=>e.outerHTML'))\n    print('checkbox_counts', {sel:row.locator(sel).count() for sel in ['input[type=\\\"checkbox\\\"]','input.ag-checkbox-input','.ag-selection-checkbox','.ag-checkbox-input-wrapper','[role=\\\"checkbox\\\"]']})\n    for sel in ['input[type=\\\"checkbox\\\"]','input.ag-checkbox-input','.ag-selection-checkbox','.ag-checkbox-input-wrapper','[role=\\\"checkbox\\\"]']:\n      loc=row.locator(sel)\n      if loc.count():\n        print(sel, 'vis',loc.first.is_visible(),'html',loc.first.evaluate('(e)=>e.outerHTML'))\n    # click deepest input, then inspect\n    loc=row.locator('input.ag-checkbox-input')\n    loc.click(force=True)\n    page.wait_for_timeout(800)\n    print('after input click row',row.get_attribute('class'),row.get_attribute('aria-selected'), 'detail', page.locator('[data-pattern-region=\\\"selected_detail\\\"]').inner_text())\n    print('after checked',loc.is_checked() if loc.count() else None)\n    # reset if needed and click wrapper\n    if loc.count() and not loc.is_checked():\n      wrap=row.locator('.ag-checkbox-input-wrapper')\n      wrap.click(force=True); page.wait_for_timeout(800)\n      print('after wrapper click row',row.get_attribute('class'),row.get_attribute('aria-selected'), 'detail', page.locator('[data-pattern-region=\\\"selected_detail\\\"]').inner_text())\n    c.close(); b.close()\nfinally:\n  p.terminate(); p.wait(timeout=8)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg100-verify-rbmn0z3g/CHG-100-CHG-108-browser-verify.json'); d=json.loads(p.read_text())\nfor x in d.get('scenario_failures',[]): print(x['scenario'],':',x['message'])\nprint('passes',sum(x.get('status')=='PASS' for x in d.get('outcomes',[])),'fails',sum(x.get('status')=='FAIL' for x in d.get('outcomes',[])))\nprint('acceptance',d['acceptance'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg100-verify-rbmn0z3g/CHG-100-CHG-108-browser-verify.json';d=json.load(open(p))\nfor x in d['outcomes']:\n if x['scenario'].startswith('functional-') and x['status']=='PASS': print(x['scenario'],x)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '585,655p' /tmp/codex_chg100_verify.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '655,735p' /tmp/codex_chg100_verify.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg100-verify-j3l0g6pn/CHG-100-CHG-108-browser-verify.json';d=json.load(open(p))\nprint('root_results',d.get('root_results'))\nfor x in d.get('scenario_failures',[]): print(x['scenario'],':',x['message'])\nfor x in d.get('outcomes',[]):\n if x['scenario'].startswith('functional-search') or x['scenario'].startswith('functional-data'): print(x)\nprint('browser_errors',d.get('browser_errors'))\nprint('manifest line',open('/tmp/chg100-verify-j3l0g6pn/MANIFEST.sha256').read().strip())\nimport hashlib\nh=hashlib.sha256(open(p,'rb').read()).hexdigest(); print('hash matches',h==open('/tmp/chg100-verify-j3l0g6pn/MANIFEST.sha256').read().split()[0],h)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python /tmp/codex_chg100_verify.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nroot=Path('/tmp/chg100-verify-kf3tps9g'); p=root/'CHG-100-CHG-108-browser-verify.json'; m=root/'MANIFEST.sha256'; d=json.loads(p.read_text())\nprint('status',d['status'])\nprint('root_results',d['root_results'])\nprint('acceptance',d['acceptance'])\nprint('scenario_failures')\nfor item in d['scenario_failures']: print(item['scenario'],':',item['message'])\nprint('browser_errors',d['browser_errors'])\nprint('report_sha256',hashlib.sha256(p.read_bytes()).hexdigest())\nprint('manifest',m.read_text().strip())\nprint('manifest_sha256',hashlib.sha256(m.read_bytes()).hexdigest())\nprint('pass outcomes',sum(o.get('status')=='PASS' for o in d['outcomes']),'fail outcomes',sum(o.get('status')=='FAIL' for o in d['outcomes']))\nPY\nrtk git status --short --branch; rtk git rev-parse HEAD; rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m pytest -q source/tests/test_workbench_chg108.py source/tests/test_workbench_chg103.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "83a1593c5b5783693fe3006d1f6597bcb4f3a5968f23b59481ee09a0477f910a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli agent-check .; PYTHONPATH=source rtk python -m nicegui_base.cli gate .; PYTHONPATH=source rtk python -m nicegui_base.cli runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source rtk python -m nicegui_base.cli runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch; rtk git rev-parse --abbrev-ref HEAD; rtk git rev-parse HEAD; rtk git rev-parse HEAD''^{tree}; rtk git show -s --format='\"'%H%n%T%n%P%n%s' HEAD; rtk git diff --quiet; rtk git diff --cached --quiet; rtk test -z \\\"\"'$(rtk git status --porcelain=v1 --untracked-files=all)\"; rtk python - <<'\"'PY'\nfrom pathlib import Path\nimport hashlib, json\np=Path('/tmp/chg100-verify-kf3tps9g/CHG-100-CHG-108-browser-verify.json')\nm=Path('/tmp/chg100-verify-kf3tps9g/MANIFEST.sha256')\nprint('report_sha256',hashlib.sha256(p.read_bytes()).hexdigest())\nprint('manifest_sha256',hashlib.sha256(m.read_bytes()).hexdigest())\nprint('manifest_matches',m.read_text().split()[0]==hashlib.sha256(p.read_bytes()).hexdigest())\nprint('report_bytes',p.stat().st_size,'manifest_bytes',m.stat().st_size)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport hashlib\nroot=Path('/tmp/chg100-verify-kf3tps9g')\nfor p in sorted(root.iterdir()):\n    if p.is_file(): print(p.name, hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_size)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 144,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.01,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 12809600,
+      "fresh_input_tokens": 260415,
+      "input_tokens": 13070015,
+      "non_reasoning_output_tokens": 27728,
+      "output_tokens": 49554,
+      "reasoning_output_tokens": 21826,
+      "total_processed_tokens": 13119569
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "7b243456c9a5941c45ecc5d573e80e390fe42bcf",
+      "subject": "Fix Explorer discoverability and control naming"
+    }
+  ],
+  "diff": {
+    "additions": 189,
+    "changed_files": 4,
+    "commit_count": 1,
+    "deletions": 7
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-18T02:53:41Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "e0c2032be096083324dd42ab356018017ee3ddb9",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-verify-4",
+    "head_sha": "7b243456c9a5941c45ecc5d573e80e390fe42bcf",
+    "remote_exact_head": true,
+    "remote_head_sha": "7b243456c9a5941c45ecc5d573e80e390fe42bcf",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "e0c2032be096083324dd42ab356018017ee3ddb9",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-verify-4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-af442151e51805489df8638e",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-4"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-verify-4",
+  "schema_version": 1,
+  "started_at": "2026-09-18T02:27:27Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1574,
+    "queue_seconds": 0,
+    "total_seconds": 1574
+  },
+  "transport": {
+    "bytes": 9228,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8888,
+    "prompt_sha256": "8fbcba88d639b55136c6a242425813a0986f64fdf3b18a78cb167f3d45c0c8df",
+    "sha256": "af442151e51805489df8638ed8d1dfe3dd5830805c1406dfbc428a10a106a38d"
+  }
+}
