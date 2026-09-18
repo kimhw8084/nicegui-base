@@ -192,20 +192,68 @@ class _FieldRenderer:
         return container
 
     def _accessibility_props(self, *, suffix: str | None = None) -> str:
+        return ' '.join(f'{name}={json.dumps(value)}' for name, value in self._accessibility_attributes(suffix=suffix).items())
+
+    def _accessibility_attributes(self, *, suffix: str | None = None) -> dict[str, str]:
         label = self.spec.label if suffix is None else f'{self.spec.label} {suffix}'
         desc_ids: list[str] = []
         if getattr(self.spec, 'description', None):
             desc_ids.append(self.description_id)
         if getattr(self.spec, 'error', None):
             desc_ids.append(self.error_id)
-        props = [f'aria-label="{label}"']
+        attributes = {'aria-label': label}
         if desc_ids:
-            props.append(f'aria-describedby="{" ".join(desc_ids)}"')
+            attributes['aria-describedby'] = ' '.join(desc_ids)
         if getattr(self.spec, 'required', False):
-            props.append('aria-required="true"')
+            attributes['aria-required'] = 'true'
         if getattr(self.spec, 'error', None):
-            props.append('aria-invalid="true"')
-        return ' '.join(props)
+            attributes['aria-invalid'] = 'true'
+        return attributes
+
+    def _repair_select_focus_target_accessibility(self, field_container_id: int) -> None:
+        """Mirror governed field semantics onto Quasar's actual combobox target.
+
+        NiceGUI applies Select props to the rendered q-field wrapper, while
+        Quasar's tabbable ``.q-select__focus-target`` is a nested input. Keep
+        the field accessibility authority above and synchronize its semantics
+        onto that target after mount and any target replacement.
+        """
+        if not isinstance(field_container_id, int):
+            return
+        ui = _ui()
+        run_javascript = getattr(ui, 'run_javascript', None)
+        if not callable(run_javascript):
+            return
+        root_id = field_container_id
+        attributes = self._accessibility_attributes()
+        run_javascript(f'''(() => {{
+  const rootId = {json.dumps(root_id)};
+  const attributes = {json.dumps(attributes, sort_keys=True)};
+  const observerKey = '__niceguiBaseSelectFocusTargetObserver';
+  const apply = () => {{
+    const root = getElement(rootId);
+    if (!root) return false;
+    const target = root.querySelector('.q-select__focus-target, .q-field__input[role="combobox"]');
+    if (!target) return false;
+    for (const [name, value] of Object.entries(attributes)) target.setAttribute(name, value);
+    return true;
+  }};
+  const install = () => {{
+    const root = getElement(rootId);
+    if (!root) return false;
+    if (!root[observerKey]) {{
+      const observer = new MutationObserver(apply);
+      observer.observe(root, {{childList: true, subtree: true}});
+      root[observerKey] = observer;
+    }}
+    return apply();
+  }};
+  let attempts = 0;
+  const retry = () => {{
+    if (!install() && attempts++ < 60) window.requestAnimationFrame(retry);
+  }};
+  retry();
+}})()''')
 
     def _end_field(self, container):
         ui = _ui()
@@ -312,6 +360,7 @@ class Select(_FieldRenderer):
         if _multiple:
             self.element.props('use-chips').classes(add='cui-multi-select')
         self._end_field(c)
+        self._repair_select_focus_target_accessibility(c.id)
 
 
 class MultiSelect(Select):
