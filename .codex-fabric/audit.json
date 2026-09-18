@@ -1,0 +1,387 @@
+{
+  "accepted_at": "2026-09-18T20:26:26Z",
+  "changed_files": [
+    {
+      "additions": 18,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/nicegui_components.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 211,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg124.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' source/tests/test_workbench_chg124.py; rtk sed -n '1,220p' source/tests/test_workbench_chg108.py; rtk rg -n 'VERIFY|audit.json|playwright|Favorites only|All references|Refine references|explorer-search' . -g '*.py' -g '*.sh' -g '*.json' | sed -n '1,240p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk lsof -nP -iTCP:39217 -sTCP:LISTEN'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 80885 -o pid=,ppid=,command=,lstart=; rtk lsof -nP -a -p 80885 -d cwd -Fn; rtk lsof -nP -a -p 80885 -iTCP:39217 -sTCP:LISTEN'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /bin/ps -p 80885 -ww -o pid=,ppid=,command='",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n    browser = p.chromium.launch(channel='chrome', headless=True)\n    context = browser.new_context(viewport={'width': 1440, 'height': 900}, device_scale_factor=1, color_scheme='light', reduced_motion='reduce')\n    page = context.new_page()\n    page.goto('http://127.0.0.1:39217/components', wait_until='networkidle')\n    print('title=', page.title())\n    print(page.locator('body').inner_text()[:12000])\n    print('searches=', page.locator('input[data-explorer-search=\\\"components\\\"]').count())\n    print('details=', page.locator('details.cui-explorer-refine').count())\n    print('buttons=', page.get_by_role('button').all_inner_texts()[:80])\n    print('links=', page.get_by_role('link').all_inner_texts()[:40])\n    context.close(); browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n    b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,color_scheme='light',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/components',wait_until='networkidle')\n    d=page.locator('details.cui-explorer-refine'); print('DETAILS', d.evaluate('(e)=>e.outerHTML'))\n    card=page.locator('article.cui-explorer-card').first; print('CARD', card.evaluate('(e)=>e.outerHTML')[:12000])\n    print('visible cards', page.locator('article.cui-explorer-card:visible').count())\n    print('buttons favorite names', page.get_by_role('button', name='☆ Favorite', exact=True).count())\n    c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,color_scheme='dark',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/ai-guide',wait_until='networkidle'); page.wait_for_timeout(500)\n print('buttons', page.get_by_role('button').all_inner_texts()[:30])\n print('button attrs')\n for i in range(min(15,page.get_by_role('button').count())):\n  btt=page.get_by_role('button').nth(i); print(i, btt.get_attribute('aria-label'), repr(btt.inner_text()))\n print('dialogs', page.get_by_role('dialog').count())\n print('visible nav', page.locator('nav:visible').count(), 'drawer', page.locator('.q-drawer:visible').count())\n print(page.locator('body').inner_text()[:2000])\n c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,color_scheme='dark',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/ai-guide',wait_until='networkidle'); page.get_by_role('button',name='Open navigation',exact=True).click(); page.wait_for_timeout(250)\n print('after open drawer',page.locator('.q-drawer:visible').count(), 'buttons', page.get_by_role('button').all_inner_texts()[:20])\n print('nav text', page.locator('.q-drawer:visible').inner_text()[:1000] if page.locator('.q-drawer:visible').count() else 'none')\n print('close candidates')\n for i in range(page.get_by_role('button').count()):\n  btt=page.get_by_role('button').nth(i); al=btt.get_attribute('aria-label');\n  if al: print(i,al,repr(btt.inner_text()))\n c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,color_scheme='dark',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/ai-guide',wait_until='networkidle'); page.get_by_role('button',name='Open navigation',exact=True).click(); page.wait_for_timeout(250)\n for sel in ['aside','nav','[role=\\\"complementary\\\"]','.cui-shell-nav','.q-layout-drawer','.q-drawer','.q-drawer__content']:\n  print(sel, page.locator(sel).count(), page.locator(sel+':visible').count())\n print('close buttons',page.get_by_role('button',name='Close navigation',exact=True).count())\n print('html body snippet',page.locator('body').inner_html()[:5000])\n c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' .git/info/exclude\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse --git-path info/exclude; rtk git rev-parse --git-dir; rtk sed -n '1,120p' \\\"\"'$(git rev-parse --git-path info/exclude)\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l .codex-fabric/verify11_harness.py; rtk python -m py_compile .codex-fabric/verify11_harness.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --untracked-files=all; rtk git check-ignore -v .codex-fabric/verify11_harness.py .codex-fabric/audit.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git check-ignore -v .codex-fabric/verify11_harness.py .codex-fabric/audit.json; rtk git status --short --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py init --root /Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d --audit .codex-fabric/audit.json --server-pid 80885 --port 39217'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' .codex-fabric/audit.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py favorites VERIFY11_FAVORITES_DESKTOP --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json --width 1440 --height 900 --scheme light'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_FAVORITES_DESKTOP/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,240p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py favorites VERIFY11_FAVORITES_DESKTOP --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json --width 1440 --height 900 --scheme light'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_FAVORITES_DESKTOP/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,color_scheme='light',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/components',wait_until='domcontentloaded'); page.wait_for_load_state('networkidle'); page.wait_for_timeout(350)\n d=page.locator('details.cui-explorer-refine'); s=d.locator('summary'); print('d',d.count(),d.is_visible(),d.bounding_box()); print('s',s.count(),s.is_visible(),s.bounding_box()); print('open',d.evaluate('(e)=>e.open')); print('details html', d.evaluate('(e)=>e.outerHTML')[:1000]); print('scroll',page.evaluate('()=>({sy:scrollY,h:innerHeight,sh:document.documentElement.scrollHeight})'))\n c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,color_scheme='light',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/components',wait_until='networkidle'); page.wait_for_timeout(500)\n d=page.locator('details.cui-explorer-refine'); print(page.evaluate(\\\"\\\"\\\"() => { const e=document.querySelector('details.cui-explorer-refine'); let a=[]; for(let n=e;n;n=n.parentElement){ const s=getComputedStyle(n); a.push({tag:n.tagName,id:n.id,cls:n.className,display:s.display,visibility:s.visibility,opacity:s.opacity,rect:(()=>{const r=n.getBoundingClientRect();return [r.x,r.y,r.width,r.height]})()}); if(a.length>12)break;} return a;}\\\"\\\"\\\"))\n print('html around parent', d.evaluate('(e)=>e.parentElement.outerHTML.slice(0,3000)'))\n c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,color_scheme='light',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/components',wait_until='networkidle'); page.wait_for_timeout(350)\n print(page.evaluate(\\\"\\\"\\\"() => {const e=document.querySelector('details.cui-explorer-refine'); const s=e.querySelector('summary'); let r=s.getBoundingClientRect(); let cs=getComputedStyle(s); let b=e.querySelector('button').getBoundingClientRect(); return {summary:{display:cs.display,visibility:cs.visibility,position:cs.position,height:cs.height,width:cs.width,rect:[r.x,r.y,r.width,r.height],text:s.innerText},button:[b.x,b.y,b.width,b.height]}}\\\"\\\"\\\"))\n c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 4 'cui-explorer-refine|summary' source/nicegui_base/workbench source/nicegui_base/workbench/*.py | sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 6 'cui-explorer-refine' source/nicegui_base/workbench -g '*.css' -g '*.py' | sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py favorites VERIFY11_FAVORITES_MOBILE --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json --width 390 --height 844 --scheme dark'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_FAVORITES_MOBILE/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,300p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'wait_for_function' .codex-fabric/verify11_harness.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '264,326p' .codex-fabric/verify11_harness.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py favorites VERIFY11_FAVORITES_MOBILE --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json --width 390 --height 844 --scheme dark'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_FAVORITES_MOBILE/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py envelope VERIFY11_BUTTON_ENVELOPE --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_BUTTON_ENVELOPE/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,360p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py envelope VERIFY11_BUTTON_ENVELOPE --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_BUTTON_ENVELOPE/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,420p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py source VERIFY11_SOURCE_REGRESSION --root /Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d --audit .codex-fabric/audit.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_SOURCE_REGRESSION/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py aggregate VERIFY11_AGGREGATE --audit .codex-fabric/audit.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '/VERIFY11_AGGREGATE/,\"'$p'\"' .codex-fabric/audit.json | sed -n '1,140p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py envelope VERIFY11_BUTTON_ENVELOPE --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env /opt/anaconda3/bin/python - <<'PY'\nimport json\np=json.load(open('.codex-fabric/audit.json'))\ne=p['scenarios']['VERIFY11_BUTTON_ENVELOPE']\nprint('status',e['status'],'exit',e['exit_code'])\nfor k,v in e['details']['routes'].items():\n print(k, 'PASS' if 'error' not in v else 'FAIL', 'overflow', v.get('horizontal_overflow_px'), 'buttons',v.get('visible_button_count'), 'error', (v.get('error') or '')[:140], 'console',len(v['diagnostics']['console_errors']),'req',len(v['diagnostics']['essential_request_failures']))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env /opt/anaconda3/bin/python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(channel='chrome',headless=True); c=b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,color_scheme='dark',reduced_motion='reduce'); page=c.new_page(); page.goto('http://127.0.0.1:39217/ai-guide',wait_until='networkidle'); page.wait_for_timeout(350)\n m=page.locator('button.cui-shell-mobile-menu:visible'); print('before',m.count(),m.get_attribute('aria-label'),m.get_attribute('aria-expanded'),page.locator('aside:visible').count(),page.locator('nav:visible').count())\n m.click(); page.wait_for_timeout(500); print('after',m.count(),m.get_attribute('aria-label'),m.get_attribute('aria-expanded'),page.locator('aside:visible').count(),page.locator('nav:visible').count())\n print('aside', page.locator('aside').count(), page.locator('aside').evaluate_all(\\\"els=>els.map(e=>({cls:e.className,rect:(()=>{let r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height]})(),disp:getComputedStyle(e).display,vis:getComputedStyle(e).visibility}))\\\"))\n print('buttons', [(page.get_by_role('button').nth(i).get_attribute('aria-label'), page.get_by_role('button').nth(i).is_visible()) for i in range(page.get_by_role('button').count()) if page.get_by_role('button').nth(i).get_attribute('aria-label') in ['Open navigation','Close navigation']])\n c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env /opt/anaconda3/bin/python - <<'PY'\nimport json\np=json.load(open('.codex-fabric/audit.json'))\nfor k,v in p['scenarios']['VERIFY11_BUTTON_ENVELOPE']['details']['routes'].items():\n if 'error' in v: print('\\\\n---',k,'---\\\\n',v['error'],'\\\\n',v['traceback'][:1200])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py envelope VERIFY11_BUTTON_ENVELOPE --base-url http://127.0.0.1:39217 --audit .codex-fabric/audit.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env /opt/anaconda3/bin/python - <<'PY'\nimport json\np=json.load(open('.codex-fabric/audit.json'))\ne=p['scenarios']['VERIFY11_BUTTON_ENVELOPE']\nprint('status',e['status'],'exit',e['exit_code'],'routes',len(e['details']['routes']))\nfor k,v in e['details']['routes'].items():\n print(k, 'PASS' if 'error' not in v else 'FAIL', 'overflow', v.get('horizontal_overflow_px'), 'buttons',v.get('visible_button_count'), 'error', (v.get('error') or '')[:100], 'console',len(v['diagnostics']['console_errors']),'req',len(v['diagnostics']['essential_request_failures']))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source NICEGUI_BASE_STORAGE_SECRET=verify11-candidate-a108 /opt/anaconda3/bin/python run_nicegui_base.py --host 127.0.0.1 --port 39217'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py cleanup VERIFY11_SERVER_CLEANUP --audit .codex-fabric/audit.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d/source /opt/anaconda3/bin/python .codex-fabric/verify11_harness.py git-final VERIFY11_GIT_FINAL --root /Users/haewonkim/.codex-fabric/worktrees/CF-d86ab01afa38457fa9725e1d --audit .codex-fabric/audit.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env /opt/anaconda3/bin/python - <<'PY'\nimport json\np=json.load(open('.codex-fabric/audit.json'))\nfor k,v in p['scenarios'].items(): print(k, v['status'], v['exit_code'])\nprint('markers:', sorted(p.get('markers',{})))\nprint('server:', p['environment']['server']['pid'], p['environment']['server']['port'])\nprint('git:', p['scenarios']['VERIFY11_GIT_FINAL']['details'])\nprint('cleanup:', p['scenarios']['VERIFY11_SERVER_CLEANUP']['details'])\nPY\nrtk git status --short --branch\nrtk git status --porcelain --untracked-files=all\nrtk lsof -nP -iTCP:39217 -sTCP:LISTEN\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '220,226p' source/nicegui_base/workbench/workbench_css.py; rtk git diff --name-only; rtk git ls-files --others --exclude-standard; rtk env /opt/anaconda3/bin/python - <<'PY'\nimport json\np=json.load(open('.codex-fabric/audit.json'))\nprint('scenario_statuses')\nfor label in ['VERIFY11_FAVORITES_DESKTOP','VERIFY11_FAVORITES_MOBILE','VERIFY11_BUTTON_ENVELOPE','VERIFY11_SOURCE_REGRESSION','VERIFY11_AGGREGATE','VERIFY11_SERVER_CLEANUP','VERIFY11_GIT_FINAL']:\n e=p['scenarios'][label]\n print(label, e['status'], e['exit_code'])\nprint('envelope_matrix')\nfor key,value in p['scenarios']['VERIFY11_BUTTON_ENVELOPE']['details']['routes'].items():\n print(key, 'PASS' if 'error' not in value else 'FAIL')\nprint('markers', sorted(p['markers']))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 183,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.17,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 7991808,
+      "fresh_input_tokens": 232788,
+      "input_tokens": 8224596,
+      "non_reasoning_output_tokens": 24747,
+      "output_tokens": 45240,
+      "reasoning_output_tokens": 20493,
+      "total_processed_tokens": 8269836
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "a108b2002bd017aca41849314bd80a38339016d7",
+      "subject": "Fix Explorer favorites toggle action state"
+    }
+  ],
+  "diff": {
+    "additions": 231,
+    "changed_files": 3,
+    "commit_count": 1,
+    "deletions": 2
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-18T20:46:39Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "1193125540e1747a69ceabb9b2909f22d50f82fc",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-verify-11",
+    "head_sha": "a108b2002bd017aca41849314bd80a38339016d7",
+    "remote_exact_head": true,
+    "remote_head_sha": "a108b2002bd017aca41849314bd80a38339016d7",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "1193125540e1747a69ceabb9b2909f22d50f82fc",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-verify-11",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-d86ab01afa38457fa9725e1d",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-11",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-11"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-verify-11",
+  "schema_version": 1,
+  "started_at": "2026-09-18T20:26:27Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1212,
+    "queue_seconds": 1,
+    "total_seconds": 1213
+  },
+  "transport": {
+    "bytes": 8721,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8379,
+    "prompt_sha256": "6a67df4d1c3aa5d0edd612c755c1c40aaf7c580bea4f057d68ea4d2df42422c8",
+    "sha256": "d86ab01afa38457fa9725e1d95b758f5a3cf413c29588e9a19f3a3729f1c2383"
+  }
+}
