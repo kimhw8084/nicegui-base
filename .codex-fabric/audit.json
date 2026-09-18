@@ -1,0 +1,396 @@
+{
+  "accepted_at": "2026-09-18T14:42:42Z",
+  "changed_files": [
+    {
+      "additions": 9,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/nicegui_data_table.py",
+      "status": "M"
+    },
+    {
+      "additions": 21,
+      "deletions": 9,
+      "path": "source/nicegui_base/workbench/pattern_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 16,
+      "deletions": 9,
+      "path": "source/nicegui_base/workbench/visual_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 199,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg117.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,260p' /Users/haewonkim/.codex/law.md && sed -n '1,260p' source/nicegui_base/ai/construction_manifest.json && git status --short --branch && git branch --show-current && git rev-parse HEAD && git rev-parse HEAD\"'^{tree} && git rev-parse origin/main && git rev-parse origin/main''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git show-ref --heads --dereference && rtk git show-ref --tags --dereference | tail -40 && rtk git cat-file -t de32927ced3c9dbc0b520ee2515fc3ea24940a92 && rtk git rev-parse de32927ced3c9dbc0b520ee2515fc3ea24940a92''^{tree} && rtk git show -s --format='\"'%H%n%T%n%P%n%D%n%s' de32927ced3c9dbc0b520ee2515fc3ea24940a92 && rtk git diff --stat be93eb0c724c3a849b688d8c79ff2d8e7a061768 de32927ced3c9dbc0b520ee2515fc3ea24940a92 && rtk git diff --name-status be93eb0c724c3a849b688d8c79ff2d8e7a061768 de32927ced3c9dbc0b520ee2515fc3ea24940a92\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git switch --detach de32927ced3c9dbc0b520ee2515fc3ea24940a92 && rtk git branch -f codex/nicegui-base-stable3-browser-ui-human-verify-8 de32927ced3c9dbc0b520ee2515fc3ea24940a92 && rtk git switch codex/nicegui-base-stable3-browser-ui-human-verify-8 && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git rev-parse origin/main && rtk git rev-parse origin/main''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk wc -l source/nicegui_base/ai/construction_manifest.json && rtk nicegui-base agent-context \"VERIFY CHG-117 Data Explorer browser selection/detail restoration on exact candidate; use governed DataTable shell identity, real AG Grid selection controls, and no internal AG Grid object identity\" --format json'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '221,440p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -l .venv/bin/nicegui-base .venv/bin/python 2>/dev/null || true && rtk .venv/bin/python --version && rtk .venv/bin/python -c 'import nicegui, nicegui_base, sys; print(nicegui.__version__); print(nicegui_base.__file__); print(sys.executable)'\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la .venv/bin | head -60'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk command -v nicegui-base || true && rtk command -v python && rtk python --version && rtk python -c 'import nicegui, nicegui_base, sys; print(nicegui.__version__); print(nicegui_base.__file__); print(sys.executable)'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la && rtk rg --files -g 'pyproject.toml' -g 'requirements*.txt' -g 'uv.lock' -g 'setup.cfg' -g 'run_nicegui_base.py' -g 'playwright*' | head -100 && rtk find /Users/haewonkim/.codex-fabric -maxdepth 4 -type f -name nicegui-base -o -name nicegui-base-explorer 2>/dev/null | head -40\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric/worktrees/CF-4f4cbd181ef7f92fad69550e -maxdepth 4 -type f \\\\( -path '*/bin/python' -o -path '*/bin/nicegui-base' -o -path '*/bin/playwright' \\\\) 2>/dev/null | head -100 && rtk sed -n '1,220p' run_nicegui_base.py && rtk sed -n '1,220p' source/pyproject.toml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'import nicegui, nicegui_base, sys, importlib.metadata; print(\\\"python\\\", sys.version); print(\\\"exe\\\", sys.executable); print(\\\"nicegui\\\", importlib.metadata.version(\\\"nicegui\\\")); print(\\\"nicegui_base\\\", nicegui_base.__file__)' && rtk env PYTHONPATH=source python -m nicegui_base.ai_cli context \\\"VERIFY CHG-117 Data Explorer browser selection/detail restoration on exact candidate; use governed DataTable shell identity, real AG Grid selection controls, and no internal AG Grid object identity\\\" --format json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.ai_cli --help && rtk env PYTHONPATH=source python -m nicegui_base.ai_cli agent-context \"VERIFY CHG-117 Data Explorer browser selection/detail restoration on exact candidate; use governed DataTable shell identity, real AG Grid selection controls, and no internal AG Grid object identity\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def (context_main|main)|agent-context|context\\\" source/nicegui_base/ai_cli.py source/nicegui_base/cli.py | head -120 && rtk sed -n '1,220p' source/nicegui_base/ai_cli.py && rtk sed -n '1,180p' source/nicegui_base/cli.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.cli agent-context \"VERIFY CHG-117 Data Explorer browser selection/detail restoration on exact candidate; use governed DataTable shell identity, real AG Grid selection controls, and no internal AG Grid object identity\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files -g 'framework_catalog.json' -g 'golden_data_explorer.py' -g 'APP_PATTERNS.md' -g 'COMPONENT_CATALOG.md' -g 'AI_RULES.md' -g 'PUBLIC_API_INDEX.md' | head -80 && rtk sed -n '1,260p' examples/nicegui_base/golden_data_explorer.py && rtk rg -n \\\"def main|--port|run_workbench|studio\\\" source/nicegui_base/workbench/launcher.py source/nicegui_base/workbench/app.py | head -160 && rtk sed -n '1,220p' source/nicegui_base/workbench/launcher.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' .gitignore && rtk ls -la .codex-fabric 2>/dev/null || true && rtk rg -n \\\"audit.json|VERIFY7|VERIFY8|DATA_EXPLORER\\\" .codex-fabric evidence context tests source 2>/dev/null | head -160 && rtk sed -n '1,260p' source/tests/test_workbench_chg117.py && rtk sed -n '1,180p' source/tests/test_workbench_chg103.py && rtk sed -n '1,180p' source/tests/test_workbench_chg108.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric -maxdepth 4 -type f -name audit.json -print 2>/dev/null | head -80 && rtk env PYTHONPATH=source python -c 'import importlib.metadata, sys; print(\\\"python\\\", sys.version); print(\\\"executable\\\", sys.executable); print(\\\"nicegui\\\", importlib.metadata.version(\\\"nicegui\\\")); import playwright; print(\\\"playwright\\\", playwright.__file__)' && rtk command -v google-chrome || true && rtk command -v chromium || true && rtk command -v chromium-browser || true && rtk command -v open || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric -maxdepth 4 -type f -name audit.json -exec sh -c 'for p do /bin/echo \\\"\"'$p\"; done'\"' sh {} +\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy find /Users/haewonkim/.codex-fabric -maxdepth 4 -type f -name audit.json -print'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/audit.json && rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/worktrees/CF-8a193f56d95ebc8c3deb88f8/.codex-fabric/audit.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.codex-fabric -maxdepth 5 -type f \\\\( -path '*/.verify7/data_explorer.py' -o -path '*/.verify8/*' \\\\) -print 2>/dev/null | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'import socket; p=51773; s=socket.socket(); s.bind((\\\"127.0.0.1\\\",p)); print(f\\\"PORT_FREE {p}\\\"); s.close()' && rtk env PYTHONPATH=source python -c 'import sys, importlib.metadata, nicegui_base; print(sys.version); print(sys.executable); print(importlib.metadata.version(\\\"nicegui\\\")); print(nicegui_base.__file__)' && rtk env PYTHONPATH=source python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); b=p.chromium.launch(headless=True); print(b.version); b.close(); p.stop()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -axo pid=,ppid=,command= | rg 'run_nicegui_base.py|uvicorn|nicegui' | head -20 && rtk lsof -nP -iTCP:51773 -sTCP:LISTEN\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:51773'\nwith sync_playwright() as pw:\n    browser=pw.chromium.launch(headless=True, executable_path='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing')\n    ctx=browser.new_context(viewport={'width':1440,'height':900}, device_scale_factor=1)\n    ctx.set_default_timeout(10000)\n    page=ctx.new_page(); page.emulate_media(reduced_motion='reduce')\n    res=page.goto(BASE+'/studio/pattern%3Adata_explorer', wait_until='domcontentloaded')\n    page.wait_for_timeout(1500)\n    print('url',page.url,'status',res.status if res else None,'title',page.title())\n    for sel in ['input[aria-label=\\\"Search lots\\\"]','input[aria-label=\\\"Tool\\\"]','[data-pattern-region=\\\"selected_detail\\\"]','[data-pattern-region=\\\"primary_table\\\"] section.cui-table-shell','.cui-table-title','.cui-table-footer-label']:\n        loc=page.locator(sel); print(sel,'count',loc.count(),'texts',loc.all_text_contents()[:5])\n    print('shell html',page.locator('[data-pattern-region=\\\"primary_table\\\"] section.cui-table-shell').first.inner_html()[:1500])\n    print('rows',page.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row').count())\n    print('row texts',page.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row').all_text_contents())\n    print('checkboxes',page.locator('[data-pattern-region=\\\"primary_table\\\"] input[type=\\\"checkbox\\\"]').count())\n    print('checkbox details',page.locator('[data-pattern-region=\\\"primary_table\\\"] input[type=\\\"checkbox\\\"]').evaluate_all('(els)=>els.map(e=>({aria:e.getAttribute(\\\"aria-label\\\"),checked:e.checked,outer:e.outerHTML}))'))\n    print('row details',page.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row').evaluate_all('(els)=>els.map(e=>({id:e.getAttribute(\\\"row-id\\\"),aria:e.getAttribute(\\\"aria-selected\\\"),text:e.innerText,html:e.outerHTML.slice(0,500)}))'))\n    browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"key == 'data_explorer'|Search lots|All tools|ETCH-07|Tool|selected_detail|primary_table|_filter_data_explorer\\\" source/nicegui_base/workbench/pattern_specimens.py source/nicegui_base/workbench/app.py source/nicegui_base/workbench/visual_specimens.py | head -180 && rtk sed -n '780,1040p' source/nicegui_base/workbench/pattern_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,290p' source/nicegui_base/workbench/pattern_specimens.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:51773'; CHROME='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path=CHROME); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1); p=c.new_page(); p.emulate_media(reduced_motion='reduce'); p.goto(BASE+'/studio/pattern%3Adata_explorer');\n p.locator('input[aria-label=\\\"Search lots\\\"]').fill('LOT-240904'); p.locator('input[aria-label=\\\"Search lots\\\"]').press('Tab'); p.locator('.cui-table-title').wait_for(state='visible'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (1)'\\\", timeout=10000); print('title',p.locator('.cui-table-title').inner_text(),'footer',p.locator('.cui-table-footer-label').inner_text(),'rows',p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row').count()); print('row',p.locator('[row-id=\\\"LOT-240904\\\"]').inner_text());\n tool=p.locator('input[aria-label=\\\"Tool\\\"]'); print('tool outer',tool.evaluate('(e)=>e.outerHTML')); tool.click(); p.wait_for_timeout(300); print('menus',p.locator('.q-menu').count(),p.locator('.q-item').all_text_contents()); print('all visible texts',p.locator('body').inner_text()[-600:]);\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:51773'; CHROME='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path=CHROME); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1); p=c.new_page(); p.emulate_media(reduced_motion='reduce'); p.goto(BASE+'/studio/pattern%3Adata_explorer'); search=p.locator('input[aria-label=\\\"Search lots\\\"]'); tool=p.locator('input[aria-label=\\\"Tool\\\"]'); detail=p.locator('[data-pattern-region=\\\"selected_detail\\\"]');\n def search_for(q):\n  search.fill(q); search.press('Tab'); p.wait_for_function(\\\"(q)=>document.querySelector('.cui-table-title')?.textContent === \"'`Lot records (${q})`\",str(8 if q=='\"'LOT' else 1))\n def choose_tool(label):\n  tool.click(); p.locator('.q-menu:visible .q-item').filter(has_text=label).last.click(); p.wait_for_timeout(700)\n search.fill('LOT-240904'); search.press('Tab'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (1)'\\\"); row=p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[row-id=\\\"LOT-240904\\\"]'); cb=row.locator('input[type=\\\"checkbox\\\"]'); cb.click(force=True); p.wait_for_function(\\\"document.querySelector('[row-id=\\\\\\\"LOT-240904\\\\\\\"]')?.getAttribute('aria-selected') === 'true'\\\"); p.wait_for_timeout(300); print('selected',row.get_attribute('aria-selected'),cb.is_checked(),detail.inner_text());\n search.fill('LOT'); search.press('Tab'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (8)'\\\"); p.wait_for_timeout(500); row=p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[row-id=\\\"LOT-240904\\\"]'); print('broaden',row.get_attribute('aria-selected'),row.locator('input[type=\\\"checkbox\\\"]').is_checked(),detail.inner_text());\n search.fill('LOT-240905'); search.press('Tab'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (1)'\\\"); print('other',detail.inner_text(),p.locator('[aria-selected=\\\"true\\\"]').count());\n search.fill('LOT-240904'); search.press('Tab'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (1)'\\\"); print('restore',detail.inner_text(),p.locator('[row-id=\\\"LOT-240904\\\"]').get_attribute('aria-selected'));\n row=p.locator('[row-id=\\\"LOT-240904\\\"]'); row.locator('input[type=\\\"checkbox\\\"]').click(force=True); p.wait_for_function(\\\"document.querySelector('[row-id=\\\\\\\"LOT-240904\\\\\\\"]')?.getAttribute('aria-selected') === 'true'\\\"); print('reselect',detail.inner_text());\n choose_tool('ETCH-07'); print('tool7',p.locator('.cui-table-title').inner_text(),p.locator('[row-id=\\\"LOT-240904\\\"]').get_attribute('aria-selected'),detail.inner_text());\n choose_tool('ETCH-03'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (2)'\\\"); print('tool3',p.locator('.cui-table-title').inner_text(),detail.inner_text(),p.locator('[aria-selected=\\\"true\\\"]').count());\n choose_tool('All tools'); p.wait_for_function(\\\"document.querySelector('.cui-table-title')?.textContent === 'Lot records (1)'\\\"); print('toolall',p.locator('.cui-table-title').inner_text(),detail.inner_text());\n b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -u - <<'PY'\nfrom playwright.sync_api import sync_playwright, TimeoutError as PWTimeout\nBASE='http://127.0.0.1:51773'; CHROME='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\ndef wait_title(p,text):\n print('wait title',text,flush=True); p.wait_for_function(\\\"(expected)=>document.querySelector('.cui-table-title')?.textContent === expected\\\",text,timeout=12000); print('got',p.locator('.cui-table-title').inner_text(),flush=True)\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path=CHROME); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1); p=c.new_page(); p.emulate_media(reduced_motion='reduce'); p.goto(BASE+'/studio/pattern%3Adata_explorer'); print('loaded',flush=True); search=p.locator('input[aria-label=\\\"Search lots\\\"]'); tool=p.locator('input[aria-label=\\\"Tool\\\"]'); detail=p.locator('[data-pattern-region=\\\"selected_detail\\\"]');\n search.fill('LOT-240904'); search.press('Tab'); wait_title(p,'Lot records (1)'); row=p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[row-id=\\\"LOT-240904\\\"]'); cb=row.locator('input[type=\\\"checkbox\\\"]'); print('before click',cb.count(),flush=True); cb.click(force=True); print('clicked',flush=True); p.wait_for_function(\\\"document.querySelector('[row-id=\\\\\\\"LOT-240904\\\\\\\"]')?.getAttribute('aria-selected') === 'true'\\\",timeout=12000); p.wait_for_timeout(300); print('selected',row.get_attribute('aria-selected'),cb.is_checked(),detail.inner_text(),flush=True);\n search.fill('LOT'); search.press('Tab'); wait_title(p,'Lot records (8)'); p.wait_for_timeout(500); row=p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[row-id=\\\"LOT-240904\\\"]'); print('broaden',row.get_attribute('aria-selected'),row.locator('input[type=\\\"checkbox\\\"]').is_checked(),detail.inner_text(),flush=True);\n search.fill('LOT-240905'); search.press('Tab'); wait_title(p,'Lot records (1)'); print('other',detail.inner_text(),p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[aria-selected=\\\"true\\\"]').count(),flush=True);\n b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:51773'; CHROME='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\ndef wait_title(p,text):\n print('wait title',text,flush=True); p.wait_for_function(\\\"(expected)=>document.querySelector('.cui-table-title')?.textContent === expected\\\",arg=text,timeout=12000); print('got',p.locator('.cui-table-title').inner_text(),flush=True)\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path=CHROME); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1); p=c.new_page(); p.emulate_media(reduced_motion='reduce'); p.goto(BASE+'/studio/pattern%3Adata_explorer'); print('loaded',flush=True); search=p.locator('input[aria-label=\\\"Search lots\\\"]'); tool=p.locator('input[aria-label=\\\"Tool\\\"]'); detail=p.locator('[data-pattern-region=\\\"selected_detail\\\"]');\n search.fill('LOT-240904'); search.press('Tab'); wait_title(p,'Lot records (1)'); row=p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[row-id=\\\"LOT-240904\\\"]'); cb=row.locator('input[type=\\\"checkbox\\\"]'); print('before click',cb.count(),flush=True); cb.click(force=True); print('clicked',flush=True); p.wait_for_function(\\\"document.querySelector('[row-id=\\\\\\\"LOT-240904\\\\\\\"]')?.getAttribute('aria-selected') === 'true'\\\",timeout=12000); p.wait_for_timeout(300); print('selected',row.get_attribute('aria-selected'),cb.is_checked(),detail.inner_text(),flush=True);\n search.fill('LOT'); search.press('Tab'); wait_title(p,'Lot records (8)'); p.wait_for_timeout(500); row=p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[row-id=\\\"LOT-240904\\\"]'); print('broaden',row.get_attribute('aria-selected'),row.locator('input[type=\\\"checkbox\\\"]').is_checked(),detail.inner_text(),flush=True);\n search.fill('LOT-240905'); search.press('Tab'); wait_title(p,'Lot records (1)'); print('other',detail.inner_text(),p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[aria-selected=\\\"true\\\"]').count(),flush=True);\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nBASE='http://127.0.0.1:51773'; CHROME='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True,executable_path=CHROME); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1); p=c.new_page(); p.emulate_media(reduced_motion='reduce'); p.goto(BASE+'/studio/pattern%3Adata_explorer'); search=p.locator('input[aria-label=\\\"Search lots\\\"]'); detail=p.locator('[data-pattern-region=\\\"selected_detail\\\"]');\n def state(q,ids,detail_contains=None):\n  search.fill(q); search.press('Tab'); p.wait_for_function(\\\"(expected)=>document.querySelector('.cui-table-title')?.textContent === expected.title && document.querySelector('.cui-table-footer-label')?.textContent.trim() === expected.footer && JSON.stringify([...document.querySelectorAll('[data-pattern-region=primary_table] .ag-row')].map(e=>e.getAttribute('row-id'))) === JSON.stringify(expected.ids)\\\",arg={'title':f'Lot records ({len(ids)})','footer':f'{len(ids)} records','ids':ids},timeout=12000); \n  if detail_contains is not None:p.wait_for_function(\\\"(expected)=>document.querySelector('[data-pattern-region=selected_detail]')?.innerText.includes(expected)\\\",arg=detail_contains,timeout=12000)\n  print(q,detail.inner_text(),flush=True)\n state('LOT-240904',['LOT-240904']); row=p.locator('[row-id=\\\"LOT-240904\\\"]'); row.locator('input[type=\\\"checkbox\\\"]').click(force=True); p.wait_for_function(\\\"document.querySelector('[row-id=\\\\\\\"LOT-240904\\\\\\\"]')?.getAttribute('aria-selected') === 'true'\\\"); p.wait_for_function(\\\"document.querySelector('[data-pattern-region=selected_detail]')?.innerText.includes('LOT-240904')\\\"); print('selected',detail.inner_text(),flush=True)\n state('LOT',['LOT-240901','LOT-240902','LOT-240903','LOT-240904','LOT-240905','LOT-240906','LOT-240907','LOT-240908'],'LOT-240904')\n state('LOT-240905',['LOT-240905'],'No lot selected'); print('selected rows',p.locator('[data-pattern-region=\\\"primary_table\\\"] .ag-row[aria-selected=\\\"true\\\"]').count(),flush=True)\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mkdir -p .codex-fabric'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d /tmp/nicegui-base-verify8-XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"VERIFY8_DATA_EXPLORER=1 rtk env VERIFY8_BASE_URL=http://127.0.0.1:51773 VERIFY8_EVIDENCE_ROOT=/tmp/nicegui-base-verify8-2VvoYy VERIFY8_CHROME='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing' PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-4f4cbd181ef7f92fad69550e/source python .codex-fabric/verify8_data_explorer.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'VERIFY8_CHG117_SOURCE_REGRESSION=1 rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-4f4cbd181ef7f92fad69550e/source python -m pytest -q source/tests/test_workbench_chg117.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg108.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "08faea39fd19189f6544839f505d91d76ecb1367e219f5db362cdf22916ef869",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk touch /tmp/nicegui-base-verify8-2VvoYy/PASS_VERIFY8_CHG117_SOURCE_REGRESSION && rtk ls -l /tmp/nicegui-base-verify8-2VvoYy/PASS_VERIFY8_CHG117_SOURCE_REGRESSION /tmp/nicegui-base-verify8-2VvoYy/PASS_VERIFY8_DATA_EXPLORER'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy ps -p 47231 -o pid=,ppid=,command= && rtk lsof -a -p 47231 -d cwd -Fn && rtk lsof -nP -a -p 47231 -iTCP:51773 -sTCP:LISTEN'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"VERIFY8_AGGREGATE=1 rtk env VERIFY8_EVIDENCE_ROOT=/tmp/nicegui-base-verify8-2VvoYy VERIFY8_SERVER_PID=47231 VERIFY8_PORT=51773 python -c 'from pathlib import Path; import os, socket, subprocess; root=Path(os.environ[\\\"VERIFY8_EVIDENCE_ROOT\\\"]); pid=int(os.environ[\\\"VERIFY8_SERVER_PID\\\"]); port=int(os.environ[\\\"VERIFY8_PORT\\\"]); browser=root/\\\"PASS_VERIFY8_DATA_EXPLORER\\\"; source=root/\\\"PASS_VERIFY8_CHG117_SOURCE_REGRESSION\\\"; os.kill(pid,0); proc=subprocess.run([\\\"ps\\\",\\\"-p\\\",str(pid),\\\"-o\\\",\\\"command=\\\"],text=True,capture_output=True,check=True); assert \\\"run_nicegui_base.py\\\" in proc.stdout and f\\\"--port {port}\\\" in proc.stdout, proc.stdout; assert browser.is_file(), browser; assert source.is_file(), source; s=socket.create_connection((\\\"127.0.0.1\\\",port),timeout=2); s.close(); (root/\\\"PASS_VERIFY8_AGGREGATE\\\").write_text(\\\"PASS\\\\n\\\",encoding=\\\"utf-8\\\"); print(f\\\"VERIFY8_AGGREGATE PASS pid={pid} port={port} browser_marker={browser} source_marker={source}\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk shasum -a 256 .codex-fabric/verify8_data_explorer.py && rtk tail -40 /Users/haewonkim/.codex-fabric/audit.json && rtk env PYTHONPATH=source python -c 'import json; p=json.load(open(\\\"/tmp/nicegui-base-verify8-2VvoYy/VERIFY8_DATA_EXPLORER.json\\\")); print(len(p[\\\"transitions\\\"])); print(p[\\\"transitions\\\"][-1])'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'import json; p=\\\"/Users/haewonkim/.codex-fabric/audit.json\\\"; d=json.load(open(p)); print(d[\\\"verify8\\\"][\\\"result\\\"], len(d[\\\"verify8\\\"][\\\"transitions\\\"]), d[\\\"verify8\\\"][\\\"browser_command\\\"][\\\"verifier_sha256\\\"])'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nl -ba /Users/haewonkim/.codex-fabric/audit.json | tail -80'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'import json; p=\\\"/Users/haewonkim/.codex-fabric/audit.json\\\"; d=json.load(open(p)); print(d[\\\"verify8\\\"][\\\"result\\\"], len(d[\\\"verify8\\\"][\\\"transitions\\\"]), d[\\\"verify8\\\"][\\\"browser_command\\\"][\\\"verifier_sha256\\\"])'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"VERIFY8_SERVER_CLEANUP=1 rtk env VERIFY8_SERVER_PID=47231 VERIFY8_PORT=51773 python -c 'import os, signal, socket, time; pid=int(os.environ[\\\"VERIFY8_SERVER_PID\\\"]); port=int(os.environ[\\\"VERIFY8_PORT\\\"]); os.kill(pid, signal.SIGTERM); deadline=time.time()+8; alive=True; while_time=None; while time.time() < deadline: try: os.kill(pid,0); time.sleep(0.1); except OSError: alive=False; break; assert not alive, f\\\"server PID {pid} still alive\\\"; s=socket.socket(); s.settimeout(0.5); open_port=True; try: s.connect((\\\"127.0.0.1\\\",port)); except OSError: open_port=False; finally: s.close(); assert not open_port, f\\\"port {port} still open\\\"; print(f\\\"VERIFY8_SERVER_CLEANUP PASS pid={pid} exited port={port} closed\\\")'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-4f4cbd181ef7f92fad69550e/source NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=51773 NICEGUI_BASE_SHOW=false python run_nicegui_base.py --host 127.0.0.1 --port 51773 --no-show'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"VERIFY8_SERVER_CLEANUP=1 rtk env VERIFY8_SERVER_PID=47231 VERIFY8_PORT=51773 python -c 'exec(\\\"import os, signal, socket, time\\\\npid = int(os.environ[\\\\\\\"VERIFY8_SERVER_PID\\\\\\\"])\\\\nport = int(os.environ[\\\\\\\"VERIFY8_PORT\\\\\\\"])\\\\nos.kill(pid, signal.SIGTERM)\\\\ndeadline = time.time() + 8\\\\nalive = True\\\\nwhile time.time() < deadline:\\\\n    try:\\\\n        os.kill(pid, 0)\\\\n        time.sleep(0.1)\\\\n    except OSError:\\\\n        alive = False\\\\n        break\\\\nassert not alive, f\\\\\\\"server PID {pid} still alive\\\\\\\"\\\\ns = socket.socket()\\\\ns.settimeout(0.5)\\\\nopen_port = True\\\\ntry:\\\\n    s.connect((\\\\\\\"127.0.0.1\\\\\\\", port))\\\\nexcept OSError:\\\\n    open_port = False\\\\nfinally:\\\\n    s.close()\\\\nassert not open_port, f\\\\\\\"port {port} still open\\\\\\\"\\\\nprint(f\\\\\\\"VERIFY8_SERVER_CLEANUP PASS pid={pid} exited port={port} closed\\\\\\\")\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"VERIFY8_GIT_FINAL=1 rtk env VERIFY8_REPO=/Users/haewonkim/.codex-fabric/worktrees/CF-4f4cbd181ef7f92fad69550e python -c 'exec(\\\"import os, subprocess\\\\nroot = os.environ[\\\\\\\"VERIFY8_REPO\\\\\\\"]\\\\ndef git(*args):\\\\n    return subprocess.check_output([\\\\\\\"git\\\\\\\", *args], cwd=root, text=True).strip()\\\\nassert git(\\\\\\\"branch\\\\\\\", \\\\\\\"--show-current\\\\\\\") == \\\\\\\"codex/nicegui-base-stable3-browser-ui-human-verify-8\\\\\\\"\\\\nassert git(\\\\\\\"rev-parse\\\\\\\", \\\\\\\"HEAD\\\\\\\") == \\\\\\\"de32927ced3c9dbc0b520ee2515fc3ea24940a92\\\\\\\"\\\\nassert git(\\\\\\\"rev-parse\\\\\\\", \\\\\\\"HEAD\"'^{tree}'\"\\\\\\\") == \\\\\\\"5181c35921bc6cb6ee00dbf5774f43536e720760\\\\\\\"\\\\nassert git(\\\\\\\"rev-parse\\\\\\\", \\\\\\\"origin/main\\\\\\\") == \\\\\\\"be93eb0c724c3a849b688d8c79ff2d8e7a061768\\\\\\\"\\\\nassert git(\\\\\\\"rev-parse\\\\\\\", \\\\\\\"origin/main\"'^{tree}'\"\\\\\\\") == \\\\\\\"8a1e9eaa22366133190b8997e8d134a8ea625071\\\\\\\"\\\\nstatus = subprocess.check_output([\\\\\\\"git\\\\\\\", \\\\\\\"status\\\\\\\", \\\\\\\"--porcelain=v1\\\\\\\", \\\\\\\"--untracked-files=all\\\\\\\"], cwd=root, text=True)\\\\nassert not status, status\\\\nassert not git(\\\\\\\"diff\\\\\\\", \\\\\\\"--name-only\\\\\\\")\\\\nassert not git(\\\\\\\"diff\\\\\\\", \\\\\\\"--cached\\\\\\\", \\\\\\\"--name-only\\\\\\\")\\\\nprint(\\\\\\\"VERIFY8_GIT_FINAL PASS branch=codex/nicegui-base-stable3-browser-ui-human-verify-8 HEAD=de32927ced3c9dbc0b520ee2515fc3ea24940a92 tree=5181c35921bc6cb6ee00dbf5774f43536e720760 origin/main=be93eb0c724c3a849b688d8c79ff2d8e7a061768 origin_main_tree=8a1e9eaa22366133190b8997e8d134a8ea625071 clean_tracked_untracked=true\\\\\\\")\\\")'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -25 /Users/haewonkim/.codex-fabric/audit.json && rtk git status --short --branch && rtk test -z \"$(rtk git status --porcelain=v1 --untracked-files=all)\"; echo status=$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python -c 'import json; d=json.load(open(\\\"/Users/haewonkim/.codex-fabric/audit.json\\\")); print(d[\\\"verify8\\\"][\\\"result\\\"], d[\\\"server_cleanup\\\"][\\\"status\\\"], d[\\\"git_final\\\"][\\\"status\\\"], d[\\\"git_final\\\"][\\\"worktree_clean_tracked_and_untracked\\\"])' && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git rev-parse origin/main && rtk git rev-parse origin/main''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 119,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.61,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4049152,
+      "fresh_input_tokens": 141969,
+      "input_tokens": 4191121,
+      "non_reasoning_output_tokens": 20639,
+      "output_tokens": 33906,
+      "reasoning_output_tokens": 13267,
+      "total_processed_tokens": 4225027
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "de32927ced3c9dbc0b520ee2515fc3ea24940a92",
+      "subject": "fix Data Explorer selection coherence across redraws"
+    }
+  ],
+  "diff": {
+    "additions": 245,
+    "changed_files": 4,
+    "commit_count": 1,
+    "deletions": 19
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-18T14:56:24Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "be93eb0c724c3a849b688d8c79ff2d8e7a061768",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-verify-8",
+    "head_sha": "de32927ced3c9dbc0b520ee2515fc3ea24940a92",
+    "remote_exact_head": true,
+    "remote_head_sha": "de32927ced3c9dbc0b520ee2515fc3ea24940a92",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "be93eb0c724c3a849b688d8c79ff2d8e7a061768",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-verify-8",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-4f4cbd181ef7f92fad69550e",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-8",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-8"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-verify-8",
+  "schema_version": 1,
+  "started_at": "2026-09-18T14:42:42Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 822,
+    "queue_seconds": 0,
+    "total_seconds": 822
+  },
+  "transport": {
+    "bytes": 8771,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8431,
+    "prompt_sha256": "622ba91fb731e2e23ef4c325c7089f1dca8145407381df4dbd9a3672756e5988",
+    "sha256": "4f4cbd181ef7f92fad69550e91e5403270d2582e1c80efb5dd1505634df00b46"
+  }
+}
