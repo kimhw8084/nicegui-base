@@ -162,8 +162,10 @@ def render_visualization(
     raise AssertionError(f'No renderer for declared chart {key}')
 
 
-def preview_table_data(rows):
-    """Use a private positional key without overwriting a user-supplied field."""
+def preview_table_data(rows, *, row_key: str | None = None):
+    """Use an authored key when supplied, otherwise a private positional key."""
+    if row_key is not None:
+        return [dict(row) for row in rows], row_key
     names={str(name) for row in rows for name in row}
     row_key='__preview_row'
     while row_key in names:
@@ -179,6 +181,7 @@ def render_table(
     options=None,
     on_event=None,
     on_select: Callable[[Sequence[Mapping[str, Any]]], Any] | None = None,
+    row_key: str | None = None,
 ):
     from nicegui_base.integrations.nicegui_data_table import DataTable, EditableTable, ServerDataTable, MasterDetailTable, TableToolbar, TableSelectionBar
     from nicegui_base.integrations.nicegui_content import PropertyGrid
@@ -187,7 +190,9 @@ def render_table(
     if key not in TABLE_KEYS:
         raise KeyError(f'Unsupported table {key}')
     options=dict(options or {})
-    data,row_key=preview_table_data(rows)
+    data, resolved_row_key = preview_table_data(rows, row_key=row_key)
+    generated_row_key = resolved_row_key if row_key is None else None
+    row_key = resolved_row_key
     names=tuple(dict.fromkeys(str(name) for row in rows for name in row))
     columns=tuple(TableColumn(name,name.replace('_',' ').title(), editable=key=='editable_table') for name in names)
     if not columns:
@@ -196,7 +201,10 @@ def render_table(
             'selection':SelectionMode(options.get('selection','multiple' if key=='selection_bar' else 'single'))}
     if key == 'editable_table':
         def saved(row, name, value):
-            data[int(row[row_key])][name]=value
+            if generated_row_key is not None:
+                data[int(row[generated_row_key])][name]=value
+            else:
+                next(item for item in data if item.get(row_key) == row.get(row_key))[name]=value
             if on_event: on_event(f'Edited {name}: {value}')
         return EditableTable(data,columns,save_edit=saved,**common)
     if key == 'server_data_table':
@@ -207,17 +215,16 @@ def render_table(
         return ServerDataTable(columns,fetch=fetch,**common)
     if key == 'master_detail_table':
         def details(row):
-            PropertyGrid(tuple(KeyValueItem(str(k),str(k),str(v)) for k,v in row.items() if k!=row_key))
+            PropertyGrid(tuple(KeyValueItem(str(k),str(k),str(v)) for k,v in row.items() if k!=generated_row_key))
         return MasterDetailTable(data,columns,detail_renderer=details,**common)
     def selection_changed(selected_rows: Sequence[Mapping[str, Any]]):
         if on_event:
             on_event('Table selection changed')
         if on_select:
-            # ``row_key`` is an internal positional key used only to keep the
-            # preview rows uniquely selectable.  Specimen callers receive the
-            # authored row data, preserving the generic event contract above.
+            # Strip only the private preview key.  An explicitly supplied
+            # authored key is part of the row-selection contract.
             return on_select(tuple(
-                {name: value for name, value in row.items() if name != row_key}
+                {name: value for name, value in row.items() if name != generated_row_key}
                 for row in selected_rows
             ))
 
