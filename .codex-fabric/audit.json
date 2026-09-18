@@ -1,0 +1,68 @@
+{
+  "accepted_at": "2026-09-18T12:50:40Z",
+  "changed_files": [],
+  "checks": [],
+  "codex": {
+    "cli_version": null,
+    "configured_model": "gpt-5.6-luna",
+    "event_count": null,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": null,
+    "usage": {},
+    "warnings": []
+  },
+  "commits": [],
+  "diff": null,
+  "error_code": "CODEX_VERSION_UNAVAILABLE",
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": null,
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": "CONTROL_PLANE",
+  "finished_at": "2026-09-18T12:50:41Z",
+  "git": {},
+  "instructions": null,
+  "job_id": "CF-21b1507a3b05c9498e047f2b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-6",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-6"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": false
+  },
+  "request": "stable3-browser-ui-human-verify-6",
+  "schema_version": 1,
+  "started_at": "2026-09-18T12:50:41Z",
+  "status": "FAILED_INFRA",
+  "timing": {
+    "execution_seconds": 0,
+    "queue_seconds": 1,
+    "total_seconds": 1
+  },
+  "transport": {
+    "bytes": 10246,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 9906,
+    "prompt_sha256": "07d1b98bd09aafcb8d02a7caf4bde7be5a7631e143680862ad376eece59b1360",
+    "sha256": "21b1507a3b05c9498e047f2b481f0d94da0633ee5c6898818d6e0fe1e9b91cba"
+  }
+}
