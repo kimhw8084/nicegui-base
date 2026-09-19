@@ -1,3 +1,0 @@
-# NiceGUI Base production runtime — install only from the company-approved Python index.
-# Keep this file minimal: deployment installs exactly these external runtime libraries.
-nicegui==3.15.0

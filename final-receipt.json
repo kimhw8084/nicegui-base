@@ -1,0 +1,21 @@
+{
+  "bundle_sha256": "25232116acb8603a439814f141f80b1648fd27088dda6c761c2814ff23edd86b",
+  "error_code": null,
+  "git_artifact_commit": "3e91c2ed0734e849cabf375f1fcd45b31fdb6ad0",
+  "git_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-1",
+  "git_package_verified": true,
+  "manifest_sha256": "c7981b5dfef08deb645501bda784103c0f49143122badb5ad18bd753723078e5",
+  "ok": true,
+  "operation": "VERIFY",
+  "project": "nicegui-base",
+  "project_os_visual_atlas": 2,
+  "request": "stable3-golden-visual-atlas-capture-1",
+  "review_desktop_sha256": "a539f6091f13fb1a582b34406e82d158a25def2e1ff64328aebdc76f7e4fc7d1",
+  "review_mobile_sha256": "35fb4a1388a335fb9ed50d6070df1f136dfcc59b1642378d225d57a8a53294c6",
+  "screenshot_count": 288,
+  "source_changed": false,
+  "source_sha": "464073a5dafe69758cd12a4abaa08df9657ba8ca",
+  "status": "GIT_PUBLISHED_AWAITING_AUDIT",
+  "surface_count": 144,
+  "tree_sha": "d6ac908f41faeb981bd2ef98bb219f1dfcacf03a"
+}

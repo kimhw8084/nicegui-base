@@ -1,0 +1,78 @@
+{
+  "all_decisive_match": true,
+  "artifact_commit": "3e91c2ed0734e849cabf375f1fcd45b31fdb6ad0",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-1",
+  "file_checks": {
+    "artifact-bundle.zip": {
+      "bytes": 84946521,
+      "local_sha256": "25232116acb8603a439814f141f80b1648fd27088dda6c761c2814ff23edd86b",
+      "match": true,
+      "remote_sha256": "25232116acb8603a439814f141f80b1648fd27088dda6c761c2814ff23edd86b"
+    },
+    "capture-report.json": {
+      "bytes": 101819545,
+      "local_sha256": "a2469b11f67daeafea5cd723b3041c617ff33d80b206fa47ab93b6917bc138f7",
+      "match": true,
+      "remote_sha256": "a2469b11f67daeafea5cd723b3041c617ff33d80b206fa47ab93b6917bc138f7"
+    },
+    "reader-index.json": {
+      "bytes": 171167,
+      "local_sha256": "5c084b8da7b5569785509945bea3933ebafd750d96e7e1095070303958ad6da3",
+      "match": true,
+      "remote_sha256": "5c084b8da7b5569785509945bea3933ebafd750d96e7e1095070303958ad6da3"
+    },
+    "review-desktop.pdf": {
+      "bytes": 19286353,
+      "local_sha256": "a539f6091f13fb1a582b34406e82d158a25def2e1ff64328aebdc76f7e4fc7d1",
+      "match": true,
+      "remote_sha256": "a539f6091f13fb1a582b34406e82d158a25def2e1ff64328aebdc76f7e4fc7d1"
+    },
+    "review-mobile.pdf": {
+      "bytes": 8530631,
+      "local_sha256": "35fb4a1388a335fb9ed50d6070df1f136dfcc59b1642378d225d57a8a53294c6",
+      "match": true,
+      "remote_sha256": "35fb4a1388a335fb9ed50d6070df1f136dfcc59b1642378d225d57a8a53294c6"
+    },
+    "sample_png": {
+      "dimensions": {
+        "height": 900,
+        "width": 1440
+      },
+      "local_sha256": "b055afe6a2d25ce6bcab108589e4a8dfa3dee692b1307ec33f4f04c1a70a6308",
+      "match": true,
+      "path": "visual-atlas/screenshots/workbench-start--desktop-1440x900.png",
+      "sha256": "b055afe6a2d25ce6bcab108589e4a8dfa3dee692b1307ec33f4f04c1a70a6308"
+    },
+    "surface-manifest.json": {
+      "bytes": 357095,
+      "local_sha256": "c7981b5dfef08deb645501bda784103c0f49143122badb5ad18bd753723078e5",
+      "match": true,
+      "remote_sha256": "c7981b5dfef08deb645501bda784103c0f49143122badb5ad18bd753723078e5"
+    }
+  },
+  "parent": "464073a5dafe69758cd12a4abaa08df9657ba8ca",
+  "parent_matches_source": true,
+  "remote_readback_verified": true,
+  "stage_receipt": {
+    "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-1",
+    "bundle_contains_complete_png_corpus": true,
+    "bundle_sha256": "25232116acb8603a439814f141f80b1648fd27088dda6c761c2814ff23edd86b",
+    "candidate_parent": "464073a5dafe69758cd12a4abaa08df9657ba8ca",
+    "canonical_screenshot_count": 288,
+    "capture_report_sha256": "a2469b11f67daeafea5cd723b3041c617ff33d80b206fa47ab93b6917bc138f7",
+    "diagnostic_png_count": 429,
+    "manifest_sha256": "c7981b5dfef08deb645501bda784103c0f49143122badb5ad18bd753723078e5",
+    "operation": "VERIFY",
+    "package_root": "visual-atlas/",
+    "project": "nicegui-base",
+    "reader_index_sha256": "5c084b8da7b5569785509945bea3933ebafd750d96e7e1095070303958ad6da3",
+    "request": "stable3-golden-visual-atlas-capture-1",
+    "review_desktop_sha256": "a539f6091f13fb1a582b34406e82d158a25def2e1ff64328aebdc76f7e4fc7d1",
+    "review_mobile_sha256": "35fb4a1388a335fb9ed50d6070df1f136dfcc59b1642378d225d57a8a53294c6",
+    "schema_version": 2,
+    "source_sha": "464073a5dafe69758cd12a4abaa08df9657ba8ca",
+    "stress_probe_count": 720,
+    "surface_count": 144,
+    "tree_sha": "d6ac908f41faeb981bd2ef98bb219f1dfcacf03a"
+  }
+}
