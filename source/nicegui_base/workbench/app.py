@@ -14,6 +14,40 @@ from .identity import ExplorerIdentity, resolve_explorer_identity
 
 WORKBENCH_TITLE = 'NiceGUI Base Reference Explorer'
 WORKBENCH_SUBTITLE = 'Reference Explorer for the department standard: find the right authority, understand it, and open a governed live example.'
+_EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
+(() => {
+  const key = '__niceguiBaseExplorerRefineResponsive';
+  if (window[key]) {
+    window[key].scan();
+    return;
+  }
+  const media = window.matchMedia('(max-width: 680px)');
+  const mounted = new WeakSet();
+  const state = {
+    media,
+    scan() {
+      document.querySelectorAll('.cui-explorer-refine').forEach((details) => {
+        if (mounted.has(details)) return;
+        mounted.add(details);
+        details.open = !media.matches;
+      });
+    },
+    syncBreakpoint() {
+      document.querySelectorAll('.cui-explorer-refine').forEach((details) => {
+        const focusInside = media.matches && details.contains(document.activeElement);
+        details.open = !media.matches;
+        if (focusInside) details.querySelector(':scope > summary')?.focus();
+      });
+    },
+  };
+  window[key] = state;
+  const changed = () => state.syncBreakpoint();
+  if (media.addEventListener) media.addEventListener('change', changed);
+  else media.addListener(changed);
+  new MutationObserver(() => state.scan()).observe(document.documentElement, {childList: true, subtree: true});
+  state.scan();
+})();
+</script>'''
 
 
 def _imports():
@@ -1918,6 +1952,7 @@ def register_workbench_pages(*, include_reference: bool = True, root_path: str =
     install_framework_css(ui)
     install_workbench_css()
     ui.add_head_html(EXPLORER_BROWSER_STATE_SCRIPT, shared=True)
+    ui.add_head_html(_EXPLORER_REFINE_RESPONSIVE_SCRIPT, shared=True)
     root_prefix = '/' + root_path.strip('/') if root_path.strip('/') else ''
     palette_fallback = f'{root_prefix}/?palette=1'
     ui.add_head_html(f"""<script>(function(){{if(window.__niceguiBaseWorkbenchGlobalKeys)return;window.__niceguiBaseWorkbenchGlobalKeys=true;window.__niceguiBaseWorkbenchHome={json.dumps(palette_fallback)};document.addEventListener('keydown',function(e){{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){{e.preventDefault();const id=window.__niceguiBaseWorkbenchCommandTarget;const target=id?getHtmlElement(id):null;if(target){{target.click();}}else{{window.location.href=window.__niceguiBaseWorkbenchHome;}}}}}});}})();</script>""", shared=True)
