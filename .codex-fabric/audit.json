@@ -1,0 +1,368 @@
+{
+  "accepted_at": "2026-09-19T01:36:36Z",
+  "changed_files": [
+    {
+      "additions": 35,
+      "deletions": 0,
+      "path": "source/nicegui_base/workbench/app.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 69,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg106.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && printf '%s\\\\n' '--- AGENT refs ---' && sed -n '1,240p' AGENTS.md && printf '%s\\\\n' '--- RTK ---' && sed -n '1,260p' /Users/haewonkim/.codex/RTK.md && printf '%s\\\\n' '--- law ---' && sed -n '1,260p' /Users/haewonkim/.codex/law.md && printf '%s\\\\n' '--- manifest ---' && sed -n '1,260p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git rev-parse --abbrev-ref HEAD && rtk git rev-parse HEAD && rtk git show -s --format='%H %T %P' HEAD && rtk git rev-parse origin/main && rtk git show -s --format='%H %T' origin/main && rtk rg --files -g 'audit.json' -g '*VERIFY13*' -g '*VERIFY14*' -g 'playwright*' -g '*verify*' .codex-fabric 2>/dev/null || true && rtk command -v nicegui-base && rtk command -v python && rtk command -v chromium || true && rtk command -v google-chrome || true && rtk command -v playwright || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='candidate=%H tree=%T parent=%P subject=%s' c02c01a2dbd90e600cc836857fb2c19ea7f62e11 && rtk git branch -avv && rtk git worktree list --porcelain && rtk git diff --stat c02c01a2dbd90e600cc836857fb2c19ea7f62e11..HEAD && rtk git diff --stat HEAD..c02c01a2dbd90e600cc836857fb2c19ea7f62e11\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git reset --keep c02c01a2dbd90e600cc836857fb2c19ea7f62e11 && rtk git status --short --branch && rtk git rev-parse --abbrev-ref HEAD && rtk git show -s --format='%H %T %P' HEAD && rtk git show -s --format='%H %T' origin/main\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nicegui-base agent-context \\\"Verify the CHG-106 shared render_reference_gallery responsive refinement envelope on /components, /analytics, and /recipes, and prove /patterns is the intentional unified live-pattern chooser rather than a shared gallery\\\" --format json && printf '%s\\\\n' '--- runtime binaries ---' && rtk ls -l .venv/bin/python python 2>/dev/null || true && rtk .venv/bin/python --version && rtk .venv/bin/python -c 'import sys, nicegui, nicegui_base; print(sys.executable); print(nicegui.__version__); print(nicegui_base.__file__)' && printf '%s\\\\n' '--- workspace audit paths ---' && rtk find .codex-fabric -maxdepth 3 -type f -print 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -ld .venv .venv/bin .venv/bin/* 2>/dev/null | rtk head -80; rtk which python; rtk python --version; rtk find . -maxdepth 3 -type f \\\\( -name 'nicegui-base' -o -name 'playwright*' -o -name 'run_nicegui_base.py' \\\\) -print\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la && printf '%s\\\\n' '--- candidate executables/files ---' && rtk rg --files -g 'run_nicegui_base.py' -g 'nicegui-base' -g 'pyproject.toml' -g 'requirements*.txt' -g 'playwright.config.*' -g 'package.json' -g '.codex-fabric/**' | rtk head -200 && printf '%s\\\\n' '--- python environment ---' && rtk python -c 'import sys,shutil; print(\\\"exe\\\",sys.executable); print(\\\"nicegui-base\\\",shutil.which(\\\"nicegui-base\\\")); import nicegui; print(\\\"nicegui\\\",nicegui.__version__); import nicegui_base; print(\\\"nicegui_base\\\",nicegui_base.__file__)' && printf '%s\\\\n' '--- browser candidates ---' && rtk find /Applications -maxdepth 3 -type f -path '*/Contents/MacOS/*' -print 2>/dev/null | rtk rg -i 'chrome|chromium|playwright' | rtk head -40 || true && rtk find /opt/anaconda3 -maxdepth 5 -type f -iname '*chrom*' -print 2>/dev/null | rtk head -40 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python -m nicegui_base agent-context \"Verify the CHG-106 shared render_reference_gallery responsive refinement envelope on /components, /analytics, and /recipes, and prove /patterns is the intentional unified live-pattern chooser rather than a shared gallery\" --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def main|agent-context|agent_context|argparse|typer|click\\\" source/nicegui_base -g '*.py' | rtk head -200 && rtk rg --files source/nicegui_base | rtk rg 'cli|__main__|command|console' | rtk head -100 && rtk rg -n 'nicegui-base' pyproject.toml source/pyproject.toml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' source/nicegui_base/cli.py && rtk sed -n '1,260p' source/nicegui_base/ai_cli.py && rtk sed -n '1,120p' run_nicegui_base.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python -c 'from nicegui_base.cli import main; raise SystemExit(main())' agent-context \\\"Verify the CHG-106 shared render_reference_gallery responsive refinement envelope on /components, /analytics, and /recipes, and prove /patterns is the intentional unified live-pattern chooser rather than a shared gallery\\\" --format json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import sys,shutil; print(sys.executable); import playwright; print(\\\"playwright\\\",playwright.__file__); from playwright.sync_api import sync_playwright; print(\\\"sync_api=ok\\\"); print(\\\"chrome\\\",shutil.which(\\\"google-chrome\\\")); print(\\\"chromium\\\",shutil.which(\\\"chromium\\\")); print(\\\"chrome-stable\\\",shutil.which(\\\"chrome\\\"))' && rtk python -m playwright install --list 2>&1 || true && rtk test -x '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' && '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --version || true && rtk test -x '/Applications/Chromium.app/Contents/MacOS/Chromium' && '/Applications/Chromium.app/Contents/MacOS/Chromium' --version || true && rtk test -x '/Users/haewonkim/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' && '/Users/haewonkim/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --version || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/Library/Caches/ms-playwright/chromium-1234 -maxdepth 5 -type f -print 2>/dev/null | rtk head -80 && rtk find /Users/haewonkim/Library/Caches/ms-playwright -maxdepth 4 -type f -perm -111 -print 2>/dev/null | rtk rg 'chrome|Chromium|chromium' | rtk head -40\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'codex-fabric|audit|evidence|certification_output' .gitignore && rtk sed -n '1,220p' .gitignore && rtk sed -n '1,220p' source/nicegui_base/workbench/launcher.py && rtk sed -n '1,220p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --ignored --untracked-files=all | rtk head -80; rtk ls -la .codex-fabric 2>/dev/null || true; rtk rg -l 'VERIFY13_SHARED|VERIFY13_REFINEMENT_DESKTOP|CF-68218e25a1c18a1822e5399f' /Users/haewonkim/.codex-fabric 2>/dev/null | rtk head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/verify13-CF-68218e25a1c18a1822e5399f/audit.json && printf '%s\\\\n' '--- prior job summary ---' && rtk sed -n '1,220p' /Users/haewonkim/.codex-fabric/results/CF-68218e25a1c18a1822e5399f/job-summary.json && printf '%s\\\\n' '--- prior result ---' && rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/results/CF-68218e25a1c18a1822e5399f/result.json && printf '%s\\\\n' '--- current job metadata ---' && rtk sed -n '1,220p' /Users/haewonkim/.codex-fabric/jobs/CF-6a7e0c8b0a33e864f9093d4b.running/job.json 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,160p' .git/info/exclude 2>/dev/null || true && rtk git check-ignore -v .codex-fabric/audit.json .codex-fabric 2>/dev/null || true && rtk git ls-files .codex-fabric && rtk git status --porcelain=v1 --untracked-files=all --ignored | rtk rg 'codex-fabric|nicegui/storage' | rtk head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'render_reference_gallery|data-explorer-search|cui-explorer-refine|Favorites|Family|data-unified-pattern-explorer|data-pattern-option|Selected application pattern|patterns_page' source/nicegui_base/workbench/app.py source/nicegui_base/workbench/explorer_gallery.py | rtk head -240 && rtk sed -n '560,900p' source/nicegui_base/workbench/app.py && rtk sed -n '1540,1710p' source/nicegui_base/workbench/app.py && rtk sed -n '1,360p' source/nicegui_base/workbench/explorer_gallery.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk '/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing' --version && rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python -c 'import sys,nicegui,nicegui_base; print(\\\"python\\\",sys.version.replace(\\\"\\\\\\\\n\\\",\\\" \\\")); print(\\\"executable\\\",sys.executable); print(\\\"nicegui\\\",nicegui.__version__); print(\\\"nicegui_base\\\",nicegui_base.__file__)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import socket; s=socket.socket(); s.bind((\\\"127.0.0.1\\\",0)); print(s.getsockname()[1]); s.close()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk mkdir -p /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b && rtk sh -c 'env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=56788 NICEGUI_BASE_SHOW=false NICEGUI_BASE_STORAGE_SECRET=verify14-CF-6a7e0c8b0a33e864f9093d4b /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/run_nicegui_base.py --host 127.0.0.1 --port 56788 --no-show > /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b/server.log 2>&1 & echo \"'$!'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -p 25628 -o pid=,ppid=,stat=,command= && rtk lsof -nP -a -p 25628 -iTCP:56788 -sTCP:LISTEN && rtk curl -fsS http://127.0.0.1:56788/components >/dev/null && echo HTTP_COMPONENTS=PASS && rtk sed -n '1,80p' /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b/server.log\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -p 25628 -o pid=,ppid=,stat=,command= || true; rtk lsof -nP -iTCP:56788 -sTCP:LISTEN || true; rtk curl -fsS http://127.0.0.1:56788/components >/dev/null && echo HTTP_COMPONENTS=PASS || true; rtk sed -n '1,160p' /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b/server.log || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -axo pid=,ppid=,stat=,command= | rtk rg 'run_nicegui_base.py|nicegui_base.workbench' || true; rtk ls -la /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b || true; rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/run_nicegui_base.py --help\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -c 'nohup env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=56788 NICEGUI_BASE_SHOW=false NICEGUI_BASE_STORAGE_SECRET=verify14-CF-6a7e0c8b0a33e864f9093d4b /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/run_nicegui_base.py --host 127.0.0.1 --port 56788 --no-show </dev/null > /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b/server.log 2>&1 & echo \"'$!'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -p 26836 -o pid=,ppid=,stat=,command= || true; rtk lsof -nP -a -p 26836 -iTCP:56788 -sTCP:LISTEN || true; rtk curl -fsS http://127.0.0.1:56788/components >/dev/null && echo HTTP_COMPONENTS=PASS || true; rtk sed -n '1,160p' /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b/server.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -axo pid=,ppid=,stat=,command= | rtk rg 'run_nicegui_base.py' && rtk lsof -nP -iTCP:56788 -sTCP:LISTEN && rtk curl -fsS http://127.0.0.1:56788/components >/dev/null && echo HTTP_COMPONENTS=PASS\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -ef | rtk rg 'nicegui|run_nicegui|56788' || true; rtk lsof -nP -iTCP:56788 -sTCP:LISTEN || true; rtk curl -fsS http://127.0.0.1:56788/components >/dev/null && echo HTTP_COMPONENTS=PASS || true; rtk write_stdin 94214 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 28000 -o pid=,ppid=,stat=,command= || true; rtk lsof -nP -a -p 28000 -iTCP:56788 -sTCP:LISTEN'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py --record-server --pid 28000 --port 56788 --python-executable /opt/anaconda3/bin/python --python-version '3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]' --nicegui 3.15.0 --nicegui-base-import /Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source/nicegui_base/__init__.py --browser-version 'Google Chrome for Testing 151.0.7922.34' --playwright '1.57.0-beta-1764944708000' --command 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=56788 NICEGUI_BASE_SHOW=false NICEGUI_BASE_STORAGE_SECRET=verify14-CF-6a7e0c8b0a33e864f9093d4b /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/run_nicegui_base.py --host 127.0.0.1 --port 56788 --no-show'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_SHARED_GALLERY_ENVELOPE --port 56788 --pid 28000'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -p 28000 -o pid=,ppid=,stat=,command= || true; rtk lsof -nP -iTCP:56788 -sTCP:LISTEN || true; rtk sed -n '1,260p' .codex-fabric/audit.json; rtk ls -l /Users/haewonkim/.codex-fabric/verify14-CF-6a7e0c8b0a33e864f9093d4b/server.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_SHARED_GALLERY_ENVELOPE --port 56788 --pid 28000'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_SHARED_GALLERY_ENVELOPE --port 56788 --pid 28000'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); b=p.chromium.launch(headless=True, executable_path=\\\"/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\\\"); c=b.new_context(viewport={\\\"width\\\":390,\\\"height\\\":844},device_scale_factor=1,reduced_motion=\\\"reduce\\\"); q=c.new_page(); q.goto(\\\"http://127.0.0.1:56788/components\\\",wait_until=\\\"domcontentloaded\\\"); q.wait_for_timeout(900); s=q.locator(\\\"details.cui-explorer-refine > summary\\\"); print(\\\"summary_count\\\",s.count()); print(\\\"summary_visible\\\",s.is_visible()); print(\\\"summary_text\\\",repr(s.inner_text())); print(\\\"summary_html\\\",s.evaluate(\\\"e=>e.outerHTML\\\")); print(\\\"details_html\\\",q.locator(\\\"details.cui-explorer-refine\\\").evaluate(\\\"e=>e.outerHTML.slice(0,1600)\\\")); b.close(); p.stop()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_SHARED_GALLERY_ENVELOPE --port 56788 --pid 28000'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_PATTERNS_ROUTE_IDENTITY --port 56788 --pid 28000'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); b=p.chromium.launch(headless=True, executable_path=\\\"/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\\\"); c=b.new_context(viewport={\\\"width\\\":1440,\\\"height\\\":900},device_scale_factor=1,reduced_motion=\\\"reduce\\\"); q=c.new_page(); q.goto(\\\"http://127.0.0.1:56788/patterns\\\",wait_until=\\\"domcontentloaded\\\"); q.wait_for_timeout(900); print(\\\"label\\\",q.get_by_text(\\\"Selected application pattern\\\",exact=True).count()); print(\\\"qfields\\\",q.locator(\\\".q-field\\\").count()); print(\\\"qselects\\\",q.locator(\\\".q-select\\\").count()); print(\\\"focus\\\",q.locator(\\\".q-select__focus-target\\\").count()); print(\\\"labels\\\",q.locator(\\\".cui-field-label\\\").all_text_contents()); print(\\\"matches\\\",q.locator(\\\".q-field\\\").all_text_contents()[-8:]); print(\\\"outer\\\",q.locator(\\\".q-select\\\").first.evaluate(\\\"e=>e.outerHTML.slice(0,1800)\\\")); b.close(); p.stop()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_PATTERNS_ROUTE_IDENTITY --port 56788 --pid 28000'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_AGGREGATE --port 56788 --pid 28000'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=56788 NICEGUI_BASE_SHOW=false NICEGUI_BASE_STORAGE_SECRET=verify14-CF-6a7e0c8b0a33e864f9093d4b /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/run_nicegui_base.py --host 127.0.0.1 --port 56788 --no-show'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_SERVER_CLEANUP --port 56788 --pid 28000'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-6a7e0c8b0a33e864f9093d4b/source python .codex-fabric/verify14.py VERIFY14_GIT_FINAL --port 56788 --pid 28000'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import json; a=json.load(open(\\\".codex-fabric/audit.json\\\")); print(\\\"SCENARIOS\\\");\nfor k in [\\\"VERIFY14_SHARED_GALLERY_ENVELOPE\\\",\\\"VERIFY14_PATTERNS_ROUTE_IDENTITY\\\",\\\"VERIFY14_AGGREGATE\\\",\\\"VERIFY14_SERVER_CLEANUP\\\",\\\"VERIFY14_GIT_FINAL\\\"]:\n x=a.get(\\\"scenarios\\\",{}).get(k) if k in a.get(\\\"scenarios\\\",{}) else a.get(\\\"aggregate\\\")\n print(k, json.dumps({\\\"status\\\":x.get(\\\"status\\\"),\\\"exit_code\\\":x.get(\\\"exit_code\\\"),\\\"marker\\\":x.get(\\\"marker\\\")},sort_keys=True))\nprint(\\\"HISTORY\\\", [(x[\\\"label\\\"],x[\\\"status\\\"],x[\\\"exit_code\\\"]) for x in a.get(\\\"history\\\",[])])\nprint(\\\"ENV\\\", json.dumps(a[\\\"environment\\\"],sort_keys=True))\nprint(\\\"SERVER\\\", json.dumps(a[\\\"server\\\"],sort_keys=True))\nprint(\\\"DECISION\\\", a.get(\\\"decision\\\"))\nprint(\\\"GAPS\\\", json.dumps(a.get(\\\"remaining_gaps\\\"),sort_keys=True))' && rtk ps -p 28000 -o pid=,ppid=,stat=,command= || true && rtk lsof -nP -iTCP:56788 -sTCP:LISTEN || true && rtk git status --porcelain=v1 --untracked-files=all && rtk git status --short --branch && rtk git rev-parse --abbrev-ref HEAD && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git rev-parse refs/remotes/origin/main && rtk git rev-parse refs/remotes/origin/main''^{tree} && rtk test -f .codex-fabric/audit.json && rtk ls -l .codex-fabric/audit.json .codex-fabric/PASS_VERIFY14_SHARED_GALLERY_ENVELOPE .codex-fabric/PASS_VERIFY14_PATTERNS_ROUTE_IDENTITY .codex-fabric/PASS_VERIFY14_AGGREGATE .codex-fabric/PASS_VERIFY14_SERVER_CLEANUP .codex-fabric/PASS_VERIFY14_GIT_FINAL'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import json; a=json.load(open(\\\".codex-fabric/audit.json\\\")); s=a[\\\"scenarios\\\"][\\\"VERIFY14_SHARED_GALLERY_ENVELOPE\\\"][\\\"evidence\\\"][\\\"viewports\\\"]; print(\\\"SHARED_EVIDENCE\\\");\nfor x in s: print(x[\\\"route\\\"],x[\\\"viewport\\\"],x[\\\"counts\\\"],x[\\\"state\\\"][\\\"document_overflow_px\\\"],x[\\\"state\\\"][\\\"body_overflow_px\\\"])\nprint(\\\"PATTERNS_EVIDENCE\\\");\nfor x in a[\\\"scenarios\\\"][\\\"VERIFY14_PATTERNS_ROUTE_IDENTITY\\\"][\\\"evidence\\\"][\\\"viewports\\\"]: print(x[\\\"viewport\\\"], {k:x[k] for k in [\\\"unified_root_count\\\",\\\"pattern_option_count\\\",\\\"selected_pattern_label_count\\\",\\\"selected_pattern_field_count\\\",\\\"live_or_full_application_control_count\\\",\\\"shared_search_count\\\",\\\"shared_refinement_count\\\"]}, x[\\\"state\\\"][\\\"document_overflow_px\\\"],x[\\\"state\\\"][\\\"body_overflow_px\\\"])' && rtk ls -l .codex-fabric/audit.json .codex-fabric/PASS_VERIFY14_SHARED_GALLERY_ENVELOPE .codex-fabric/PASS_VERIFY14_PATTERNS_ROUTE_IDENTITY .codex-fabric/PASS_VERIFY14_AGGREGATE .codex-fabric/PASS_VERIFY14_SERVER_CLEANUP .codex-fabric/PASS_VERIFY14_GIT_FINAL\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='HEAD=%H TREE=%T PARENT=%P' HEAD && rtk git diff --name-only && rtk git status --porcelain=v1 --untracked-files=all\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 122,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.34,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4055040,
+      "fresh_input_tokens": 154110,
+      "input_tokens": 4209150,
+      "non_reasoning_output_tokens": 20842,
+      "output_tokens": 36297,
+      "reasoning_output_tokens": 15455,
+      "total_processed_tokens": 4245447
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "c02c01a2dbd90e600cc836857fb2c19ea7f62e11",
+      "subject": "Fix responsive Explorer secondary refinement reachability"
+    }
+  ],
+  "diff": {
+    "additions": 105,
+    "changed_files": 3,
+    "commit_count": 1,
+    "deletions": 1
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T01:49:32Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "2aee03c8983d7e710eccdf8429436430d5fd37d0",
+    "branch": "codex/nicegui-base-stable3-browser-ui-human-verify-14",
+    "detached_verify": false,
+    "head_sha": "c02c01a2dbd90e600cc836857fb2c19ea7f62e11",
+    "remote_exact_head": true,
+    "remote_head_sha": "c02c01a2dbd90e600cc836857fb2c19ea7f62e11",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "2aee03c8983d7e710eccdf8429436430d5fd37d0",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-human-verify-14",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-6a7e0c8b0a33e864f9093d4b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-14",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-human-verify-14"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-human-verify-14",
+  "schema_version": 1,
+  "started_at": "2026-09-19T01:36:36Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 776,
+    "queue_seconds": 0,
+    "total_seconds": 776
+  },
+  "transport": {
+    "bytes": 8388,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8046,
+    "prompt_sha256": "0ba47378c7824bdbe32ecb5e13d186072157bfcf2aa90554c44f5007d9f433fd",
+    "sha256": "6a7e0c8b0a33e864f9093d4bbcac2ed97a25769b71c94dbf9892689008c5e697"
+  }
+}
