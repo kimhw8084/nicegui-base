@@ -1266,6 +1266,12 @@ class _RelationshipGraph(_SemanticOptionDiagram):
         theme_mode=_resolve_theme_mode(theme_mode)
         self._theme_builder=lambda mode:self.build_options(nodes,links,theme_mode=mode)
         super().__init__(title, self.build_options(nodes, links, theme_mode=theme_mode), description=description, size=size, theme_mode=theme_mode)
+        # NiceGUI's echart ResizeObserver can see a transient zero-width canvas
+        # while the recipe grid crosses its mobile breakpoint. ECharts' graph
+        # transform assumes a measurable canvas during resize; this non-visual
+        # floor keeps that governed renderer lifecycle safe without changing the
+        # settled responsive width or disabling graph interaction.
+        self.element.classes('cui-chart-canvas--resize-safe')
 
 
 class _FaultTreeDiagram(_SemanticOptionDiagram):

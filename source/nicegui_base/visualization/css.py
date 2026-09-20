@@ -9,6 +9,7 @@ def build_visualization_css() -> str:
 .cui-chart-panel__title { font-size:var(--cui-type-subheading-size); line-height:var(--cui-type-subheading-line); font-weight:var(--cui-type-subheading-weight); }
 .cui-chart-panel__description { margin-top:2px; color:var(--cui-text-tertiary); font-size:var(--cui-type-caption-size); line-height:var(--cui-type-caption-line); }
 .cui-chart-panel__body { min-width:0; padding:0 var(--cui-space-2) var(--cui-space-3); }
+.cui-chart-canvas--resize-safe { min-width:1px; }
 .cui-chart-a11y{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:normal!important;border:0!important}
 .cui-chart-data-disclosure{margin:0 var(--cui-space-3) var(--cui-space-3); border-top:1px solid var(--cui-border-subtle); color:var(--cui-text-secondary); font-size:var(--cui-type-caption-size);}
 .cui-chart-data-disclosure__summary{cursor:pointer; min-height:34px; display:flex; align-items:center; padding:var(--cui-space-2) 0; color:var(--cui-text-secondary); font-weight:var(--cui-font-weight-600);}
