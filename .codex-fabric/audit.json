@@ -1,0 +1,369 @@
+{
+  "accepted_at": "2026-09-20T03:20:14Z",
+  "changed_files": [
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "source/nicegui_base/integrations/nicegui_visualization.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "source/nicegui_base/visualization/css.py",
+      "status": "M"
+    },
+    {
+      "additions": 39,
+      "deletions": 0,
+      "path": "source/tests/test_chg148_recipe_mobile_pageerror.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,240p' /Users/haewonkim/.codex/law.md && printf '\\\\n--- git ---\\\\n' && git status --short --branch && git log -5 --oneline --decorate --all --graph && printf '\\\\n--- manifest ---\\\\n' && sed -n '1,260p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse --verify acff411a1c17dec7fbf14db1d6bd3c043b07e7e6 && rtk git show -s --format='%H%n%P%n%s' acff411a1c17dec7fbf14db1d6bd3c043b07e7e6 && rtk git show --stat --oneline 1b30638 && rtk git diff --stat acff411a1c17dec7fbf14db1d6bd3c043b07e7e6..HEAD && rtk git status --short --ignored | head -80 && rtk git ls-tree -r --name-only HEAD .codex-fabric && rtk git ls-tree -r --name-only acff411a1c17dec7fbf14db1d6bd3c043b07e7e6 .codex-fabric\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r --full-tree --name-only acff411a1c17dec7fbf14db1d6bd3c043b07e7e6 | rg '(\"'^|/)'\"\\\\.codex-fabric|audit\\\\.json|\\\\.gitignore\"'$'\"' || true\nrtk git ls-tree -r --full-tree --name-only 1b30638 | rg '(\"'^|/)'\"\\\\.codex-fabric|audit\\\\.json|\\\\.gitignore\"'$'\"' || true\nrtk sed -n '1,240p' .gitignore\nrtk git status --porcelain=v1 --untracked-files=all\nrtk rg -n \\\"audit\\\\.json|audit evidence|fabric.*audit|VERIFY148\\\" -S .codex-fabric docs tools source tests 2>/dev/null | head -200\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git reset --hard acff411a1c17dec7fbf14db1d6bd3c043b07e7e6 && rtk git status --short --branch && rtk git show -s --format='HEAD=%H%nPARENT=%P%nSUBJECT=%s' HEAD && rtk git merge-base --is-ancestor 464073a5dafe69758cd12a4abaa08df9657ba8ca HEAD && rtk test \"'$(rtk git rev-list --count 464073a5dafe69758cd12a4abaa08df9657ba8ca..HEAD) -eq 1'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' run_nicegui_base.py\nrtk rg -n \\\"def main|argparse|--port|host|run_workbench|uvicorn\\\" source/nicegui_base/workbench/launcher.py source/nicegui_base/workbench/app.py run_nicegui_base.py | head -160\nrtk find . -maxdepth 3 -type f \\\\( -name 'pyproject.toml' -o -name 'requirements*.txt' -o -name 'pytest.ini' \\\\) -print\nrtk command -v python\nrtk python --version\nrtk python -c 'import sys, nicegui, nicegui_base; print(sys.executable); print(nicegui.__version__); print(nicegui_base.__file__)'\nrtk command -v google-chrome || true\nrtk command -v chromium || true\nrtk command -v chromium-browser || true\nrtk command -v playwright || true\nrtk rtk --version\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 167,
+        "output_sha256": "0174150fc9bb4ed5e4cc83dde089259d8de58e0fa86fe5d2c23a40796eb90d0b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python --version\nrtk env PYTHONPATH=source python -c 'import sys, nicegui, nicegui_base; print(\\\"python=\\\"+sys.executable); print(\\\"nicegui=\\\"+getattr(nicegui,\\\"__version__\\\",\\\"unknown\\\")); print(\\\"nicegui_base=\\\"+nicegui_base.__file__)'\nrtk .venv/bin/python --version 2>/dev/null || true\nrtk .venv/bin/python -c 'import sys, nicegui, nicegui_base; print(sys.executable); print(nicegui.__version__); print(nicegui_base.__file__)' 2>/dev/null || true\nrtk python run_nicegui_base.py --check\nrtk playwright --version\nrtk rg -n \\\"chrom|browser|playwright|rca_genealogy_graph|excursion-defense-line|rca-cockpit|panel.*identity|cui-chart-canvas\\\" source/tests/test_chg148_recipe_mobile_pageerror.py source/tests/test_workbench_d6e_patterns_recipes.py source/nicegui_base | head -240\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=source python - <<'PY'\nfrom nicegui_base.certification.live_preflight import discover_browsers\nfor k,v in discover_browsers().items(): print(k, v.executable, v.version)\nPY\nrtk sed -n '1,220p' source/tests/test_chg148_recipe_mobile_pageerror.py\nrtk sed -n '300,470p' source/nicegui_base/semiconductor/recipes.py\nrtk rg -n \\\"recipe.*panel|panel.*recipe|data-.*surface|surface.*id|cui-chart-panel|rca_genealogy_graph|Search|search\\\" source/nicegui_base/workbench/app.py source/nicegui_base/visualization source/nicegui_base/semiconductor | head -260\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk lsof -nP -iTCP:8765 -sTCP:LISTEN || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk lsof -nP -iTCP:48765 -sTCP:LISTEN || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk curl -fsS http://127.0.0.1:48765/healthz && rtk curl -fsS http://127.0.0.1:48765/readyz'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nbase='http://127.0.0.1:48765'\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    context=browser.new_context(viewport={'width':360,'height':800}, device_scale_factor=1, color_scheme='light', reduced_motion='reduce')\n    for route in ['/recipes/excursion-defense-line','/recipes/rca-cockpit']:\n        page=context.new_page(); errors=[]; console=[]; failed=[]\n        page.on('pageerror', lambda e: errors.append(str(e)))\n        page.on('console', lambda m: console.append({'type':m.type,'text':m.text}))\n        page.on('requestfailed', lambda r: failed.append({'url':r.url,'failure':r.failure}))\n        response=page.goto(base+route, wait_until='domcontentloaded', timeout=30000)\n        page.wait_for_timeout(3500)\n        data=page.evaluate('''() => ({\n          title: document.title,\n          url: location.href,\n          bodyText: document.body.innerText.slice(0,1800),\n          overflow: {scrollWidth:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth,bodyScrollWidth:document.body.scrollWidth,bodyClientWidth:document.body.clientWidth},\n          panels:[...document.querySelectorAll('.cui-workbench-recipe-panel')].map(x=>({class:x.className,text:(x.innerText||'').slice(0,120),attrs:[...x.attributes].reduce((a,v)=>(a[v.name]=v.value,a),{})})),\n          contracts:[...document.querySelectorAll('[data-visual-contract]')].map(x=>({contract:x.getAttribute('data-visual-contract'),semantic:x.getAttribute('data-visual-semantic'),class:x.className})),\n          charts:[...document.querySelectorAll('.cui-chart-canvas')].map(x=>({class:x.className,rect:(()=>{let r=x.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})(),echarts:\"'!!x.querySelector('\"'canvas,svg,[_echarts_instance_]'),html:x.innerHTML.slice(0,200)})),\n          graphs:[...document.querySelectorAll('[data-visual-contract=\\\"rca-genealogy\\\"]')].map(x=>({outer:x.outerHTML.slice(0,1000),rect:(()=>{let r=x.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})()})),\n          nav:[...document.querySelectorAll('a,button,input')].slice(0,40).map(x=>({tag:x.tagName,text:(x.innerText||x.getAttribute('aria-label')||x.getAttribute('placeholder')||'').slice(0,80),href:x.getAttribute('href')}))\n        })''')\n        print(json.dumps({'route':route,'status':response.status if response else None,'pageerrors':errors,'console_errors':[c for c in console if c['type'] in ('error','warning')],'failed':failed,'data':data},indent=2))\n        page.close()\n    context.close(); browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nwith sync_playwright() as p:\n    b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    c=b.new_context(viewport={'width':360,'height':800}, device_scale_factor=1, color_scheme='light', reduced_motion='reduce')\n    page=c.new_page(); page.goto('http://127.0.0.1:48765/recipes/rca-cockpit', wait_until='domcontentloaded'); page.wait_for_timeout(3000)\n    print(json.dumps(page.locator('.cui-workbench-recipe-panel').evaluate_all('''els => els.map(x => ({\n      text:(x.innerText||'').slice(0,240),\n      semantic:[...x.querySelectorAll('[data-visual-semantic]')].map(n=>n.getAttribute('data-visual-semantic')),\n      contracts:[...x.querySelectorAll('[data-visual-contract]')].map(n=>n.getAttribute('data-visual-contract')),\n      canvases:x.querySelectorAll('.cui-chart-canvas').length,\n      first:x.innerHTML.slice(0,500)\n    }))'''), indent=2))\n    page.close(); c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nwith sync_playwright() as p:\n  b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n  for w,h in [(390,844),(1440,900)]:\n    c=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme='light',reduced_motion='reduce')\n    page=c.new_page(); page.goto('http://127.0.0.1:48765/recipes/rca-cockpit', wait_until='domcontentloaded'); page.wait_for_timeout(2200)\n    print(json.dumps({'viewport':[w,h],'navs':page.locator('nav').count(),'main':page.locator('#cui-main-content').count(),'search_buttons':page.get_by_role('button',name='Search',exact=True).count(),'search_inputs':page.locator('[data-workbench-search]').count(),'nav_open':page.get_by_role('button',name='Open navigation',exact=True).count(),'nav_collapse':page.get_by_role('button',name='Collapse or expand navigation',exact=True).count(),'visible_links':page.locator('nav a:visible').count(),'visible_search':page.get_by_role('button',name='Search',exact=True).first.is_visible() if page.get_by_role('button',name='Search',exact=True).count() else False}, separators=None))\n    c.close()\n  b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n for w,h in [(390,844),(1440,900)]:\n  c=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme='light',reduced_motion='reduce'); pg=c.new_page();pg.goto('http://127.0.0.1:48765/recipes/rca-cockpit');pg.wait_for_timeout(1800)\n  print(json.dumps({'viewport':[w,h],'buttons':pg.locator('button').evaluate_all(\\\"els=>els.slice(0,25).map(x=>({text:(x.innerText||'').trim(),aria:x.getAttribute('aria-label'),title:x.getAttribute('title'),visible:\"'!!(x.offsetWidth||x.offsetHeight||x.getClientRects().length)}))\"),'\"'inputs':pg.locator('input').evaluate_all(\\\"els=>els.map(x=>({ph:x.placeholder,aria:x.getAttribute('aria-label'),visible:\"'!!(x.offsetWidth||x.offsetHeight||x.getClientRects().length)}))\")},indent=2))\n  c.close()\n b.close()\nPY'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json, sys\nBASE='http://127.0.0.1:48765'\nEXPECTED={\n  '/recipes/excursion-defense-line': ['rca_affected_control','wafer_delta','rca_commonality_ranking','rca_commonality_matrix','rca_genealogy_graph','rca_evidence_matrix','records'],\n  '/recipes/rca-cockpit': ['rca_affected_control','rca_commonality_ranking','rca_commonality_matrix','rca_contribution_waterfall','rca_evidence_matrix','rca_genealogy_graph','rca_fault_tree','rca_sankey','records'],\n}\ndef require(condition, message, facts):\n    if not condition:\n        raise RuntimeError(message + ' | ' + json.dumps(facts, sort_keys=True))\ndef route_check(route):\n    errors=[]; console_errors=[]; failed=[]; bad_responses=[]\n    with sync_playwright() as p:\n        browser=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n        context=browser.new_context(viewport={'width':360,'height':800}, device_scale_factor=1, color_scheme='light', reduced_motion='reduce')\n        page=context.new_page()\n        page.on('pageerror', lambda exc: errors.append(str(exc)))\n        page.on('console', lambda msg: console_errors.append({'type':msg.type,'text':msg.text}) if msg.type=='error' else None)\n        page.on('requestfailed', lambda req: failed.append({'url':req.url,'resource_type':req.resource_type,'failure':req.failure}))\n        page.on('response', lambda resp: bad_responses.append({'url':resp.url,'status':resp.status,'resource_type':resp.request.resource_type}) if resp.status>=400 and resp.request.resource_type in {'document','script','stylesheet','xhr','fetch','websocket'} else None)\n        response=page.goto(BASE+route, wait_until='domcontentloaded', timeout=30000)\n        page.wait_for_selector('#cui-main-content', timeout=30000)\n        page.wait_for_selector('.cui-workbench-recipe-panel', timeout=30000)\n        page.wait_for_timeout(2200)\n        ready=page.request.get(BASE+'/readyz', timeout=10000)\n        ready_json=ready.json()\n        facts={'route':route,'http_status':response.status if response else None,'ready_status':ready.status,'ready':ready_json,'pageerrors':errors,'console_errors':console_errors,'failed_requests':failed,'bad_responses':bad_responses}\n        require(response is not None and response.status==200, 'route HTTP status is not 200', facts)\n        require(ready.status==200 and ready_json.get('ready') is True, 'runtime readiness failed', facts)\n        require(not errors, 'pageerror observed', facts)\n        require(not console_errors, 'decisive console error observed', facts)\n        require(not failed and not bad_responses, 'failed essential request observed', facts)\n        panel_rows=page.locator('.cui-workbench-recipe-panel').evaluate_all('''els => els.map(x => { const meta=x.querySelector('.cui-workbench-card__meta'); const parts=(meta?.innerText||'').split('\\\\\\\\n').map(s=>s.trim().toLowerCase()).filter(s=>s && s\"'!=='\"'•'); return {key:parts.at(-1)||'', unavailable:x.classList.contains('is-unavailable')}; })''')\n        available=[row['key'] for row in panel_rows if not row['unavailable']]\n        facts['panel_rows']=panel_rows; facts['available_panels']=available\n        require(available==EXPECTED[route], 'available recipe panel identities changed', facts)\n        require(not any(row['unavailable'] for row in panel_rows), 'normally available panel became unavailable', facts)\n        graph=page.locator('.cui-workbench-recipe-panel').filter(has_text='RCA_GENEALOGY_GRAPH')\n        require(graph.count()==1, 'relationship graph panel missing or duplicated', facts)\n        canvas=graph.locator('.cui-chart-canvas')\n        require(canvas.count()==1, 'relationship graph EChart container missing or duplicated', facts)\n        rect=canvas.evaluate('''el => { const r=el.getBoundingClientRect(); return {x:r.x,y:r.y,width:r.width,height:r.height,visible:\"'!!(r.width&&r.height)} }'\"''')\n        rendered=canvas.locator('canvas,svg').count()\n        facts['graph']={'rect':rect,'rendered_nodes':rendered,'class':canvas.get_attribute('class'),'semantic':graph.locator('[data-visual-semantic=\\\"rca_genealogy_graph\\\"]').count()}\n        require(rect['width']>1 and rect['height']>1 and rect['visible'], 'relationship graph has no material geometry', facts)\n        require(rendered>0, 'relationship graph is an empty placeholder', facts)\n        require('cui-chart-canvas--resize-safe' in (canvas.get_attribute('class') or ''), 'resize-safe graph class absent', facts)\n        require(graph.locator('[data-visual-semantic=\\\"rca_genealogy_graph\\\"]').count()==1, 'relationship graph semantic surface missing', facts)\n        zoom=graph.get_by_role('button', name='Zoom in', exact=True)\n        if zoom.count():\n            zoom.first.click(timeout=10000); page.wait_for_timeout(250); interaction='graph_zoom_in'\n        else:\n            page.set_viewport_size({'width':359,'height':800}); page.wait_for_timeout(300); page.set_viewport_size({'width':360,'height':800}); page.wait_for_timeout(600); interaction='small_viewport_resize'\n        require(canvas.count()==1 and canvas.locator('canvas,svg').count()>0, 'relationship graph did not survive safe interaction', facts)\n        overflow=page.evaluate('''() => ({document_scroll_width:document.documentElement.scrollWidth,document_client_width:document.documentElement.clientWidth,body_scroll_width:document.body.scrollWidth,body_client_width:document.body.clientWidth,max_overflow:Math.max(document.documentElement.scrollWidth-document.documentElement.clientWidth,document.body.scrollWidth-document.body.clientWidth)})''')\n        facts['overflow']=overflow; facts['interaction']=interaction\n        require(overflow['max_overflow']<=1, 'material horizontal overflow observed', facts)\n        require(page.locator('#cui-main-content').is_visible() and page.get_by_role('button', name='Open global search').is_visible() and page.locator('nav').count()>=1, 'Workbench shell/search is not coherent', facts)\n        context.close(); browser.close()\n        return facts\nresults=[]\ntry:\n    for route in EXPECTED:\n        results.append(route_check(route))\n    print(json.dumps({'scenario':'VERIFY148_BROWSER_360','status':'PASS','viewport':{'width':360,'height':800,'dpr':1,'color_scheme':'light','reduced_motion':'reduce'},'routes':results}, sort_keys=True))\nexcept Exception as exc:\n    print(json.dumps({'scenario':'VERIFY148_BROWSER_360','status':'FAIL','error':str(exc),'routes':results}, sort_keys=True), file=sys.stderr)\n    raise SystemExit(1)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json, sys\nBASE='http://127.0.0.1:48765'\nEXPECTED={\n  '/recipes/excursion-defense-line': ['rca_affected_control','wafer_delta','rca_commonality_ranking','rca_commonality_matrix','rca_genealogy_graph','rca_evidence_matrix','records'],\n  '/recipes/rca-cockpit': ['rca_affected_control','rca_commonality_ranking','rca_commonality_matrix','rca_contribution_waterfall','rca_evidence_matrix','rca_genealogy_graph','rca_fault_tree','rca_sankey','records'],\n}\ndef require(condition, message, facts):\n    if not condition: raise RuntimeError(message + ' | ' + json.dumps(facts, sort_keys=True))\ndef check(page, route, width, height):\n    page_errors=[]; console_errors=[]; failed=[]; bad=[]\n    page.on('pageerror', lambda exc: page_errors.append(str(exc)))\n    page.on('console', lambda msg: console_errors.append({'type':msg.type,'text':msg.text}) if msg.type=='error' else None)\n    page.on('requestfailed', lambda req: failed.append({'url':req.url,'resource_type':req.resource_type,'failure':req.failure}))\n    page.on('response', lambda resp: bad.append({'url':resp.url,'status':resp.status,'resource_type':resp.request.resource_type}) if resp.status>=400 and resp.request.resource_type in {'document','script','stylesheet','xhr','fetch','websocket'} else None)\n    response=page.goto(BASE+route, wait_until='domcontentloaded', timeout=30000)\n    page.wait_for_selector('#cui-main-content', timeout=30000); page.wait_for_selector('.cui-workbench-recipe-panel', timeout=30000); page.wait_for_timeout(2200)\n    ready=page.request.get(BASE+'/readyz', timeout=10000); ready_json=ready.json()\n    facts={'route':route,'viewport':[width,height],'http_status':response.status if response else None,'ready_status':ready.status,'ready':ready_json,'pageerrors':page_errors,'console_errors':console_errors,'failed_requests':failed,'bad_responses':bad}\n    require(response is not None and response.status==200, 'route HTTP status is not 200', facts)\n    require(ready.status==200 and ready_json.get('ready') is True, 'runtime readiness failed', facts)\n    require(not page_errors and not console_errors and not failed and not bad, 'browser/runtime error observed', facts)\n    rows=page.locator('.cui-workbench-recipe-panel').evaluate_all('''els => els.map(x => { const meta=x.querySelector('.cui-workbench-card__meta'); const parts=(meta?.innerText||'').split('\\\\\\\\n').map(s=>s.trim().toLowerCase()).filter(s=>s && s\"'!=='\"'•'); return {key:parts.at(-1)||'', unavailable:x.classList.contains('is-unavailable')}; })''')\n    available=[row['key'] for row in rows if not row['unavailable']]; facts['available_panels']=available\n    require(available==EXPECTED[route] and not any(row['unavailable'] for row in rows), 'canonical panel identities are incomplete', facts)\n    graph=page.locator('.cui-workbench-recipe-panel').filter(has_text='RCA_GENEALOGY_GRAPH'); canvas=graph.locator('.cui-chart-canvas')\n    rect=canvas.evaluate('''el => { const r=el.getBoundingClientRect(); return {width:r.width,height:r.height} }''') if canvas.count()==1 else {'width':0,'height':0}\n    facts['graph']={'panel_count':graph.count(),'canvas_count':canvas.count(),'rect':rect,'rendered_nodes':canvas.locator('canvas,svg').count() if canvas.count()==1 else 0}\n    require(graph.count()==1 and canvas.count()==1 and rect['width']>1 and rect['height']>1 and canvas.locator('canvas,svg').count()>0, 'relationship graph is not materially rendered', facts)\n    overflow=page.evaluate('''() => ({document_scroll_width:document.documentElement.scrollWidth,document_client_width:document.documentElement.clientWidth,body_scroll_width:document.body.scrollWidth,body_client_width:document.body.clientWidth,max_overflow:Math.max(document.documentElement.scrollWidth-document.documentElement.clientWidth,document.body.scrollWidth-document.body.clientWidth)})''')\n    facts['overflow']=overflow\n    require(overflow['max_overflow']<=1, 'material horizontal overflow observed', facts)\n    shell={'main_visible':page.locator('#cui-main-content').is_visible(),'nav_count':page.locator('nav').count(),'search_visible':page.get_by_role('button',name='Open global search').is_visible(),'mobile_nav_visible':page.get_by_role('button',name='Open navigation').is_visible(),'desktop_nav_visible':page.get_by_role('button',name='Collapse or expand navigation').is_visible()}\n    facts['shell']=shell\n    require(shell['main_visible'] and shell['nav_count']>=1 and shell['search_visible'] and (shell['mobile_nav_visible'] or shell['desktop_nav_visible']), 'Search/shell/navigation is not coherent', facts)\n    return facts\nresults=[]\ntry:\n  with sync_playwright() as p:\n    browser=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    for width,height in [(390,844),(1440,900)]:\n      for route in EXPECTED:\n        context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,color_scheme='light',reduced_motion='reduce')\n        page=context.new_page(); results.append(check(page,route,width,height)); context.close()\n    browser.close()\n  print(json.dumps({'scenario':'VERIFY148_BROWSER_CONTROLS','status':'PASS','viewports':[[390,844],[1440,900]],'routes':results},sort_keys=True))\nexcept Exception as exc:\n  print(json.dumps({'scenario':'VERIFY148_BROWSER_CONTROLS','status':'FAIL','error':str(exc),'checks':results},sort_keys=True),file=sys.stderr); raise SystemExit(1)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json, sys\nBASE='http://127.0.0.1:48765'\nROUTES=['/recipes/excursion-defense-line','/recipes/rca-cockpit']\ndef require(condition, message, facts):\n    if not condition: raise RuntimeError(message + ' | ' + json.dumps(facts, sort_keys=True))\ndef check_route(browser, route):\n    context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,color_scheme='light',reduced_motion='reduce')\n    page=context.new_page(); page_errors=[]; console_errors=[]; failed=[]; bad=[]\n    page.on('pageerror', lambda exc: page_errors.append(str(exc)))\n    page.on('console', lambda msg: console_errors.append({'type':msg.type,'text':msg.text}) if msg.type=='error' else None)\n    page.on('requestfailed', lambda req: failed.append({'url':req.url,'resource_type':req.resource_type,'failure':req.failure}))\n    page.on('response', lambda resp: bad.append({'url':resp.url,'status':resp.status,'resource_type':resp.request.resource_type}) if resp.status>=400 and resp.request.resource_type in {'document','script','stylesheet','xhr','fetch','websocket'} else None)\n    page.goto(BASE+route,wait_until='domcontentloaded',timeout=30000); page.wait_for_selector('.cui-workbench-recipe-panel',timeout=30000); page.wait_for_timeout(1800)\n    facts={'route':route,'transitions':[],'pageerrors':page_errors,'console_errors':console_errors,'failed_requests':failed,'bad_responses':bad}\n    for width,height in [(1440,900),(390,844),(360,800),(1440,900)]:\n        page.set_viewport_size({'width':width,'height':height}); page.wait_for_timeout(1800)\n        graph=page.locator('.cui-workbench-recipe-panel').filter(has_text='RCA_GENEALOGY_GRAPH'); canvas=graph.locator('.cui-chart-canvas')\n        rect=canvas.evaluate('''el => { const r=el.getBoundingClientRect(); return {width:r.width,height:r.height} }''') if canvas.count()==1 else {'width':0,'height':0}\n        overflow=page.evaluate('''() => ({document_scroll_width:document.documentElement.scrollWidth,document_client_width:document.documentElement.clientWidth,body_scroll_width:document.body.scrollWidth,body_client_width:document.body.clientWidth,max_overflow:Math.max(document.documentElement.scrollWidth-document.documentElement.clientWidth,document.body.scrollWidth-document.body.clientWidth)})''')\n        item={'viewport':[width,height],'graph_panel_count':graph.count(),'canvas_count':canvas.count(),'renderer_root_count':canvas.locator('canvas,svg').count() if canvas.count()==1 else 0,'graph_rect':rect,'overflow':overflow,'pageerrors_so_far':list(page_errors),'console_errors_so_far':list(console_errors),'failed_requests_so_far':list(failed),'bad_responses_so_far':list(bad)}\n        facts['transitions'].append(item)\n        require(not page_errors and not console_errors and not failed and not bad, 'browser/runtime error during resize lifecycle', facts)\n        require(graph.count()==1 and canvas.count()==1 and canvas.locator('canvas,svg').count()==1 and rect['width']>1 and rect['height']>1, 'relationship graph blank, unmounted, or duplicated after resize', facts)\n        require(overflow['max_overflow']<=1, 'material horizontal overflow after resize', facts)\n    context.close(); return facts\nresults=[]\ntry:\n    with sync_playwright() as p:\n        browser=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n        for route in ROUTES: results.append(check_route(browser,route))\n        browser.close()\n    print(json.dumps({'scenario':'VERIFY148_RESIZE_LIFECYCLE','status':'PASS','transition_order':[[1440,900],[390,844],[360,800],[1440,900]],'routes':results},sort_keys=True))\nexcept Exception as exc:\n    print(json.dumps({'scenario':'VERIFY148_RESIZE_LIFECYCLE','status':'FAIL','error':str(exc),'routes':results},sort_keys=True),file=sys.stderr); raise SystemExit(1)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python -m pytest -q source/tests/test_chg148_recipe_mobile_pageerror.py source/tests/test_workbench_d6e_patterns_recipes.py source/tests/test_phase62_v300a8_semiconductor_recipe_factory.py source/tests/test_phase63_v300a8_recipe_runtime_onboarding.py source/tests/test_visualization_micro_closure.py source/tests/test_workbench_d6h3_golden_semantics.py source/tests/test_phase6_adapter_contract.py source/tests/test_visualization_final_integrity.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 240,
+        "output_sha256": "cfdee3a183e09a4d48b953a0e6668069a3dca9b7dd85a0a056dfffdc3077c3f9",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --unified=3 464073a5dafe69758cd12a4abaa08df9657ba8ca acff411a1c17dec7fbf14db1d6bd3c043b07e7e6 -- source/nicegui_base/integrations/nicegui_visualization.py source/nicegui_base/visualization/css.py source/tests/test_chg148_recipe_mobile_pageerror.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom pathlib import Path\nimport json, subprocess, sys\nROOT=Path.cwd(); BASE='464073a5dafe69758cd12a4abaa08df9657ba8ca'; HEAD='acff411a1c17dec7fbf14db1d6bd3c043b07e7e6'\nEXPECTED={\n 'source/nicegui_base/integrations/nicegui_visualization.py':'M',\n 'source/nicegui_base/visualization/css.py':'M',\n 'source/tests/test_chg148_recipe_mobile_pageerror.py':'A',\n}\ndef git(*args): return subprocess.check_output(['git',*args],cwd=ROOT,text=True,stderr=subprocess.STDOUT).strip()\ndef require(condition,message,facts):\n    if not condition: raise RuntimeError(message+' | '+json.dumps(facts,sort_keys=True))\nfacts={'base':BASE,'head':HEAD,'branch':git('branch','--show-current')}\nrequire(git('rev-parse','HEAD')==HEAD,'HEAD is not exact candidate',facts)\nparents=git('show','-s','--format=%P',HEAD).split(); facts['parents']=parents\nrequire(parents==[BASE],'candidate is not a direct child of base',facts)\nrequire(subprocess.run(['git','merge-base','--is-ancestor',BASE,HEAD],cwd=ROOT).returncode==0,'base is not an ancestor',facts)\nfacts['commits_ahead']=int(git('rev-list','--count',f'{BASE}..{HEAD}'))\nrequire(facts['commits_ahead']==1,'candidate is not exactly one commit ahead',facts)\nname_status=git('diff','--name-status',BASE,HEAD).splitlines(); facts['name_status']=name_status\nparsed={line.split('\\\\t',1)[1]:line.split('\\\\t',1)[0] for line in name_status}\nrequire(parsed==EXPECTED,'candidate diff file set is not exactly intended',facts)\nnumstat=git('diff','--numstat',BASE,HEAD).splitlines(); facts['numstat']=numstat\nrequire(numstat==['6\\\\t0\\\\tsource/nicegui_base/integrations/nicegui_visualization.py','1\\\\t0\\\\tsource/nicegui_base/visualization/css.py','39\\\\t0\\\\tsource/tests/test_chg148_recipe_mobile_pageerror.py'],'candidate diff has unexpected additions/deletions',facts)\ndiff=git('diff','--unified=0',BASE,HEAD)\nremoved=[line for line in diff.splitlines() if line.startswith('-') and not line.startswith('---')]\nadded=[line[1:] for line in diff.splitlines() if line.startswith('+') and not line.startswith('+++')]\nfacts['removed_line_count']=len(removed); facts['added_guard_lines']=[line for line in added if 'resize-safe' in line or 'min-width:1px' in line]\nrequire(not removed,'candidate contains deletions that could hide/remove a panel',facts)\nfor token in ('source/nicegui_base/semiconductor/recipes.py','source/nicegui_base/workbench/app.py','pyproject.toml','setup.py','setup.cfg','package.json','VERSION','__version__','release','display:none','visibility:hidden','is-unavailable','cui-workbench-recipe-panel','/recipes/'):\n    require(token not in diff,f'forbidden recipe/route/release/panel-removal token in candidate diff: {token}',facts)\nrequire(\\\"self.element.classes('cui-chart-canvas--resize-safe')\\\" in diff and '.cui-chart-canvas--resize-safe { min-width:1px; }' in diff,'intended resize guard is absent',facts)\nprint(json.dumps({'scenario':'VERIFY148_DIFF_AUDIT','status':'PASS','facts':facts},sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1b30638:.codex-fabric/audit.json | sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1b30638:.codex-fabric/audit.json | sed -n '220,520p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk lsof -nP -iTCP:48765 -sTCP:LISTEN\nrtk ps -p $(rtk lsof -tiTCP:48765 -sTCP:LISTEN | rtk head -1) -o pid=,ppid=,command=\nrtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python -c '\"'import os,sys,nicegui,nicegui_base; print(\\\"pid=\\\"+str(os.getpid())); print(\\\"cwd=\\\"+os.getcwd()); print(\\\"python=\\\"+sys.executable); print(\\\"python_version=\\\"+sys.version.split()[0]); print(\\\"nicegui=\\\"+nicegui.__version__); print(\\\"nicegui_base=\\\"+nicegui_base.__file__)'\nrtk /Applications/Google\\\\ Chrome.app/Contents/MacOS/Google\\\\ Chrome --version\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la .codex-fabric 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom pathlib import Path\nimport json, socket, subprocess, sys\np=Path('.codex-fabric/audit.json'); payload=json.loads(p.read_text())\nrequired=['VERIFY148_BROWSER_360','VERIFY148_BROWSER_CONTROLS','VERIFY148_RESIZE_LIFECYCLE','VERIFY148_SOURCE_REGRESSION','VERIFY148_DIFF_AUDIT']\nchecks={item['label']:item for item in payload['checks']}\nassert set(required)==set(checks), f'aggregate scenario set mismatch: {sorted(checks)}'\nassert all(checks[label]['status']=='PASS' and checks[label]['exit_code']==0 for label in required), 'aggregate found a failed individual scenario'\nserver=payload['server']; listeners=subprocess.check_output(['lsof','-tiTCP:48765','-sTCP:LISTEN'],text=True).split()\nassert str(server['pid']) in listeners, f'exact job-owned PID {server[\\\"pid\\\"]} does not own port 48765: {listeners}'\nwith socket.create_connection(('127.0.0.1',48765),timeout=2): pass\nassert subprocess.run(['curl','-fsS','http://127.0.0.1:48765/readyz'],check=True,stdout=subprocess.PIPE,text=True).stdout.find('\\\"ready\\\":true')>=0\nprint(json.dumps({'scenario':'VERIFY148_AGGREGATE','status':'PASS','individual_scenarios':{label:{'status':checks[label]['status'],'exit_code':checks[label]['exit_code']} for label in required},'server_port':48765,'owner_pid':server['pid'],'listener_pids':listeners},sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python /Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/run_nicegui_base.py --host 127.0.0.1 --port 48765 --no-show'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nimport json, os, signal, subprocess, sys, time\npid=73375; port=48765\nbefore=subprocess.run(['lsof','-tiTCP:%d'%port,'-sTCP:LISTEN'],text=True,capture_output=True)\nlisteners=before.stdout.split()\nassert str(pid) in listeners, f'exact job-owned server PID {pid} not listening before cleanup: {listeners}'\nos.kill(pid, signal.SIGTERM)\ndeadline=time.time()+10\nwhile time.time()<deadline:\n    now=subprocess.run(['lsof','-tiTCP:%d'%port,'-sTCP:LISTEN'],text=True,capture_output=True).stdout.split()\n    if not now: break\n    time.sleep(0.2)\nelse:\n    raise RuntimeError(f'port {port} still listening after terminating PID {pid}: {now}')\nafter=subprocess.run(['lsof','-tiTCP:%d'%port,'-sTCP:LISTEN'],text=True,capture_output=True).stdout.split()\nassert not after, f'port {port} did not close: {after}'\nprint(json.dumps({'scenario':'VERIFY148_SERVER_CLEANUP','status':'PASS','terminated_pid':pid,'port':port,'listeners_before':listeners,'listeners_after':after},sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,160p' .git/info/exclude 2>/dev/null || true\nrtk git status --porcelain=v1 --untracked-files=all\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l .codex-fabric/audit.json\nrtk git status --short --untracked-files=all\nrtk git check-ignore -v .codex-fabric/audit.json || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom pathlib import Path\nimport json, subprocess, sys\nROOT=Path.cwd(); branch='codex/nicegui-base-stable3-recipe-mobile-pageerror-verify-1'; head='acff411a1c17dec7fbf14db1d6bd3c043b07e7e6'; base='464073a5dafe69758cd12a4abaa08df9657ba8ca'\ndef run(*args): return subprocess.check_output(['git',*args],cwd=ROOT,text=True).strip()\nassert run('branch','--show-current')==branch\nassert run('rev-parse','HEAD')==head\nassert run('rev-parse','origin/main')==base\nassert run('show','-s','--format=%P',head)==base\nassert subprocess.run(['git','merge-base','--is-ancestor',base,head],cwd=ROOT).returncode==0\nassert run('rev-list','--count',f'{base}..{head}')=='1'\ntracked_dirty=subprocess.check_output(['git','diff','--name-only'],cwd=ROOT,text=True).splitlines()\nstaged_dirty=subprocess.check_output(['git','diff','--cached','--name-only'],cwd=ROOT,text=True).splitlines()\nuntracked=subprocess.check_output(['git','ls-files','--others','--exclude-standard'],cwd=ROOT,text=True).splitlines()\nassert not tracked_dirty and not staged_dirty and not untracked, {'tracked_dirty':tracked_dirty,'staged_dirty':staged_dirty,'untracked':untracked}\nprint(json.dumps({'scenario':'VERIFY148_GIT_FINAL','status':'PASS','branch':branch,'head':head,'origin_main':base,'base_is_ancestor':True,'commits_ahead':1,'tracked_dirty':tracked_dirty,'staged_dirty':staged_dirty,'untracked_nonignored':untracked},sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom pathlib import Path\nimport json, subprocess\np=Path('.codex-fabric/audit.json'); a=json.loads(p.read_text())\nrequired=['VERIFY148_BROWSER_360','VERIFY148_BROWSER_CONTROLS','VERIFY148_RESIZE_LIFECYCLE','VERIFY148_SOURCE_REGRESSION','VERIFY148_DIFF_AUDIT']\nassert all(next(x for x in a['checks'] if x['label']==label)['exit_code']==0 for label in required)\nassert a['aggregate']['exit_code']==0 and a['cleanup']['exit_code']==0 and a['git_final']['exit_code']==0\nassert subprocess.check_output(['git','status','--porcelain=v1','--untracked-files=all'],text=True)==''\nprint(json.dumps({'audit_path':str(p.resolve()),'audit_json_valid':True,'required_scenarios_passed':required,'aggregate':a['aggregate']['status'],'cleanup':a['cleanup']['status'],'git_final':a['git_final']['status'],'git_status_clean':True,'decision':a['decision']},sort_keys=True))\nPY\nrtk git status --short --branch\nrtk git rev-parse HEAD\nrtk git rev-parse origin/main\nrtk git diff --name-status 464073a5dafe69758cd12a4abaa08df9657ba8ca HEAD\nrtk lsof -nP -iTCP:48765 -sTCP:LISTEN || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk curl -fsS http://127.0.0.1:48766/healthz && rtk curl -fsS http://127.0.0.1:48766/readyz\nrtk lsof -nP -iTCP:48766 -sTCP:LISTEN'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_browser.py VERIFY148_BROWSER_360'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_browser.py VERIFY148_BROWSER_CONTROLS'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_browser.py VERIFY148_RESIZE_LIFECYCLE'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk shasum -a 256 .codex-fabric/verify148_browser.py\nrtk ps -p 10489 -o pid=,ppid=,command=\nrtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python -c 'import os,sys,nicegui,nicegui_base; print(os.getcwd()); print(sys.executable); print(sys.version.split()[0]); print(nicegui.__version__); print(nicegui_base.__file__)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_checks.py VERIFY148_DIFF_AUDIT'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_checks.py VERIFY148_AGGREGATE'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk lsof -nP -iTCP:48766 -sTCP:LISTEN || true\nrtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python /Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/run_nicegui_base.py --host 127.0.0.1 --port 48766 --no-show'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_checks.py VERIFY148_SERVER_CLEANUP'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python .codex-fabric/verify148_checks.py VERIFY148_GIT_FINAL'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 .codex-fabric/verify148_checks.py .codex-fabric/verify148_browser.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-5acbf12bc292c3b3b964a9ea/source python - <<'PY'\nfrom pathlib import Path\nimport json, subprocess\np=Path('.codex-fabric/audit.json'); a=json.loads(p.read_text())\nassert not any('<inline' in item['command'] or 'PENDING' in item.get('status','') for item in a['checks'])\nassert all(item['exit_code']==0 and item['status']=='PASS' for item in a['checks'])\nassert a['aggregate']['exit_code']==0 and a['aggregate']['status']=='PASS'\nassert a['cleanup']['exit_code']==0 and a['cleanup']['status']=='PASS'\nassert a['git_final']['exit_code']==0 and a['git_final']['status']=='PASS'\nassert subprocess.check_output(['git','status','--porcelain=v1','--untracked-files=all'],text=True)==''\nprint(json.dumps({'audit_json_valid':True,'commands_have_no_placeholders':True,'scenario_statuses':{item['label']:item['status'] for item in a['checks']},'aggregate':a['aggregate']['status'],'cleanup':a['cleanup']['status'],'git_final':a['git_final']['status'],'git_status_clean':True},sort_keys=True))\nPY\nrtk git status --short --branch\nrtk git rev-parse HEAD\nrtk git rev-parse origin/main\nrtk git merge-base --is-ancestor 464073a5dafe69758cd12a4abaa08df9657ba8ca HEAD\nrtk lsof -nP -iTCP:48766 -sTCP:LISTEN || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 111,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.73,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4132864,
+      "fresh_input_tokens": 139670,
+      "input_tokens": 4272534,
+      "non_reasoning_output_tokens": 25227,
+      "output_tokens": 44177,
+      "reasoning_output_tokens": 18950,
+      "total_processed_tokens": 4316711
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "acff411a1c17dec7fbf14db1d6bd3c043b07e7e6",
+      "subject": "Fix CHG-148 RCA recipe graph mobile resize"
+    }
+  ],
+  "diff": {
+    "additions": 46,
+    "changed_files": 3,
+    "commit_count": 1,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-20T03:41:24Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "464073a5dafe69758cd12a4abaa08df9657ba8ca",
+    "branch": "codex/nicegui-base-stable3-recipe-mobile-pageerror-verify-1",
+    "detached_verify": false,
+    "head_sha": "acff411a1c17dec7fbf14db1d6bd3c043b07e7e6",
+    "remote_exact_head": true,
+    "remote_head_sha": "acff411a1c17dec7fbf14db1d6bd3c043b07e7e6",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "464073a5dafe69758cd12a4abaa08df9657ba8ca",
+    "work_branch": "codex/nicegui-base-stable3-recipe-mobile-pageerror-verify-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-5acbf12bc292c3b3b964a9ea",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-recipe-mobile-pageerror-verify-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-recipe-mobile-pageerror-verify-1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-recipe-mobile-pageerror-verify-1",
+  "schema_version": 1,
+  "started_at": "2026-09-20T03:20:14Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1270,
+    "queue_seconds": 0,
+    "total_seconds": 1270
+  },
+  "transport": {
+    "bytes": 8820,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8466,
+    "prompt_sha256": "0bdb146b47818532babfee480afcab552ef142b737aefae3b710bcaa82fac6d3",
+    "sha256": "5acbf12bc292c3b3b964a9ea37fa4ca2b58b49a225b12413a50eba3b69fa145d"
+  }
+}
