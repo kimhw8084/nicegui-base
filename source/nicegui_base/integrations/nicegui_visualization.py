@@ -28,14 +28,16 @@ def _ui():
     return ui
 
 
+_CURRENT_THEME_MODE = 'light'
+
+
 def _resolve_theme_mode(mode: str | None) -> str:
     if mode in {'light', 'dark'}:
         return mode
-    try:
-        value=getattr(_ui().dark_mode(), 'value', False)
-    except Exception:
-        value=False
-    return 'dark' if value is True else 'light'
+    # ``ui.dark_mode()`` constructs a page element in NiceGUI 3.15. It is not
+    # a passive getter, so using it here would install a second controller and
+    # reset the page's selected appearance while a renderer is mounting.
+    return _CURRENT_THEME_MODE
 
 
 def _register_client_delete(ui: Any, callback: Callable[..., Any]) -> bool:
@@ -74,8 +76,10 @@ def _register_theme_renderer(renderer: Any) -> None:
     _ACTIVE_THEME_RENDERERS.add(renderer)
 
 def apply_all_chart_themes(mode: str) -> None:
+    global _CURRENT_THEME_MODE
     if mode not in {'light','dark'}:
         return
+    _CURRENT_THEME_MODE = mode
     failures=[]
     for panel in tuple(_ACTIVE_THEME_RENDERERS):
         try:
