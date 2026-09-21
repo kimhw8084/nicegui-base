@@ -1,0 +1,54 @@
+{
+  "artifact_scope": "targeted-visual-evidence-only",
+  "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+  "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+  "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+  "change": "CHG-163",
+  "files": {
+    "browser-result.json": {
+      "bytes": 33965,
+      "sha256": "ebb1e9f0937d9cd26e31a52a1b3d6c53e29443a2cc76c99c5a1db0ac774f693d"
+    },
+    "canonical-workbench.log": {
+      "bytes": 15688,
+      "sha256": "1c1c62535bd6fcbb7db20123ba92a80845b101e2d7fbb375bdbbbc9e1db0d869"
+    },
+    "data-table-matrix.json": {
+      "bytes": 40013,
+      "sha256": "46a2dbfb4221194280b20f08ca73d8788af05c389c1b0ad7f9aeab1c995d6425"
+    },
+    "validation.md": {
+      "bytes": 1185,
+      "sha256": "a4c24314f3cfcca9f50760c253630a1d1650faa47b759cbd21def08c70f0a7b5"
+    },
+    "visualize-desktop-1440x1000-dark-mount.png": {
+      "bytes": 183014,
+      "sha256": "37a28b3d0123dcbb77e86ade349d5bc8c10b210c7b54c17132c1c8787d9951cb"
+    },
+    "visualize-desktop-1440x1000-dark-roundtrip-final.png": {
+      "bytes": 183391,
+      "sha256": "233b428c5fe43912e110c97c89e3ac100275b12103c0f5ba189654b72fc82a87"
+    },
+    "visualize-phone-390x844-dark-mount.png": {
+      "bytes": 56020,
+      "sha256": "5b93b7f2721fb5c6b4395693d16894a1c1ebdc8727e76db3b332106b2d826159"
+    },
+    "visualize-phone-390x844-dark-roundtrip-final.png": {
+      "bytes": 56416,
+      "sha256": "5fbc5d4574d2f7bc8f7ed853352a5163101481c1f031cf33176f1bbf1c7d2adf"
+    },
+    "visualize-small-tablet-768x900-dark-mount.png": {
+      "bytes": 81628,
+      "sha256": "123d1da6878192c5dfc7c17342aa2042e8c857dd50dc69904f2627694833a521"
+    },
+    "visualize-tablet-1024x900-dark-mount.png": {
+      "bytes": 117130,
+      "sha256": "130256a0f5b3ba2ef7732d08fede27abb43879a6497e0378e76577b93032da30"
+    }
+  },
+  "manifest_version": 1,
+  "operation": "FIX",
+  "project": "nicegui-base",
+  "request": "stable3-visualize-dark-theme-preservation-fix-1",
+  "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+}

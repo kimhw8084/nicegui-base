@@ -1,0 +1,155 @@
+INFO:     Started server process [26827]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:56745 (Press CTRL+C to quit)
+
+====================================================================
+NiceGUI Base Reference Explorer
+Build            : NGB-20260907-G2.6
+Framework        : 3.0.0a8
+NiceGUI          : 3.15.0
+Python           : 3.11.7
+Interpreter      : /opt/anaconda3/bin/python
+URL              : http://127.0.0.1:56745
+Bind             : 127.0.0.1:56745
+Open browser     : no
+Storage secret   : runtime-generated ephemeral
+====================================================================
+
+INFO:     127.0.0.1:56752 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /workbench/data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /_nicegui/3.15.0/static/fonts.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56756 - "GET /_nicegui/3.15.0/static/quasar.unimportant.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/static/vue.esm-browser.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56757 - "GET /_nicegui/3.15.0/static/quasar.important.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /_nicegui/3.15.0/components/573d0129acaebad907d825007cd6fa02/query.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56758 - "GET /_nicegui/3.15.0/static/nicegui.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /_nicegui/3.15.0/components/7416ad0839166372589af103d2dac97f/link.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /_nicegui/3.15.0/components/64c866455daa2383bf6d88c437b23510/input.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56758 - "GET /_nicegui/3.15.0/components/50808f343f9d39efb70f4fe21b9a193b/html.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56757 - "GET /_nicegui/3.15.0/components/b6e72e98507a6256b493148a7e8c8d30/dialog.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56756 - "GET /_nicegui/3.15.0/components/b3fd268d934c6085e7dbfa4ba57f4b4b/dark_mode.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/components/20e90839167eb30dba12722e0d4b24bb/select.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /_nicegui/3.15.0/components/4cd8f5dc71f02312671ee4e68c4ac55f/aggrid.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56758 - "GET /_nicegui/3.15.0/components/ab5d3884c9432c02cbce45d47d75c721/timer.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56757 - "GET /_nicegui/3.15.0/components/fdc553f0ea19b6159d5c8da8a6624ea6/markdown.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /_nicegui/3.15.0/components/7843792148e153c151ce2798c4be76ab/code.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56757 - "GET /_nicegui/3.15.0/static/quasar.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56758 - "GET /_nicegui/3.15.0/static/tailwindcss.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /_nicegui/3.15.0/static/nicegui.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/static/lang/en-US.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /_nicegui/3.15.0/static/socket.io.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56756 - "GET /_nicegui/3.15.0/static/dompurify.mjs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /_nicegui/3.15.0/static/utils/dynamic_properties.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /_nicegui/3.15.0/static/utils/resources.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/esm/ce781217513f674f11796076012a375d/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56757 - "GET /_nicegui/3.15.0/static/fonts/2474057f3040a08c.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56762 - "WebSocket /socket.io/?client_id=2dc64022-2442-445b-8278-84c73ce8b003&next_message_id=0&implicit_handshake=true&document_id=8d1f09b8-eec9-4712-9e2b-31c976fb47e9&tab_id=901decf3-b4ef-4faf-8c8c-a48442286f16&old_tab_id=null&EIO=4&transport=websocket" [accepted]
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/dynamic_resources/codehilite_821444cf7f8b10160cbba208f6dd37d9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/components/6774cd253cf84d08ceae127618292f39/echart.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index-CC_akEuV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /_nicegui/3.15.0/static/fonts/0c19a63c7528cc1a.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /workbench/data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /_nicegui/3.15.0/static/nicegui.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /_nicegui/3.15.0/static/quasar.important.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56776 - "GET /_nicegui/3.15.0/static/vue.esm-browser.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56773 - "GET /_nicegui/3.15.0/static/quasar.unimportant.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /_nicegui/3.15.0/static/fonts.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/components/573d0129acaebad907d825007cd6fa02/query.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /_nicegui/3.15.0/components/50808f343f9d39efb70f4fe21b9a193b/html.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /_nicegui/3.15.0/components/b6e72e98507a6256b493148a7e8c8d30/dialog.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /_nicegui/3.15.0/components/7416ad0839166372589af103d2dac97f/link.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/components/64c866455daa2383bf6d88c437b23510/input.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56776 - "GET /_nicegui/3.15.0/components/20e90839167eb30dba12722e0d4b24bb/select.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56773 - "GET /_nicegui/3.15.0/components/b3fd268d934c6085e7dbfa4ba57f4b4b/dark_mode.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /_nicegui/3.15.0/components/4cd8f5dc71f02312671ee4e68c4ac55f/aggrid.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /_nicegui/3.15.0/components/7843792148e153c151ce2798c4be76ab/code.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /_nicegui/3.15.0/components/fdc553f0ea19b6159d5c8da8a6624ea6/markdown.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/components/ab5d3884c9432c02cbce45d47d75c721/timer.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /_nicegui/3.15.0/static/quasar.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /_nicegui/3.15.0/static/tailwindcss.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /_nicegui/3.15.0/static/nicegui.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/static/socket.io.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56773 - "GET /_nicegui/3.15.0/static/lang/en-US.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56776 - "GET /_nicegui/3.15.0/static/dompurify.mjs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /_nicegui/3.15.0/static/utils/dynamic_properties.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56773 - "GET /_nicegui/3.15.0/static/utils/resources.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/esm/ce781217513f674f11796076012a375d/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /_nicegui/3.15.0/static/fonts/2474057f3040a08c.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56778 - "WebSocket /socket.io/?client_id=4c4b3f0c-65c9-4395-b281-0e8eee016f15&next_message_id=0&implicit_handshake=true&document_id=8e7abc87-9491-41b5-ab6d-44ecab8ce12b&tab_id=d3272325-ad70-4afb-8eb4-cb6d2922bd68&old_tab_id=null&EIO=4&transport=websocket" [accepted]
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/dynamic_resources/codehilite_821444cf7f8b10160cbba208f6dd37d9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/components/6774cd253cf84d08ceae127618292f39/echart.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index-CC_akEuV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56777 - "GET /_nicegui/3.15.0/static/fonts/0c19a63c7528cc1a.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /workbench/data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/static/fonts.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56791 - "GET /_nicegui/3.15.0/static/quasar.important.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56790 - "GET /_nicegui/3.15.0/static/quasar.unimportant.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56792 - "GET /_nicegui/3.15.0/static/nicegui.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56793 - "GET /_nicegui/3.15.0/static/vue.esm-browser.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56794 - "GET /_nicegui/3.15.0/components/573d0129acaebad907d825007cd6fa02/query.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/components/7416ad0839166372589af103d2dac97f/link.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56791 - "GET /_nicegui/3.15.0/components/b6e72e98507a6256b493148a7e8c8d30/dialog.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56792 - "GET /_nicegui/3.15.0/components/50808f343f9d39efb70f4fe21b9a193b/html.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56794 - "GET /_nicegui/3.15.0/components/64c866455daa2383bf6d88c437b23510/input.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56790 - "GET /_nicegui/3.15.0/components/b3fd268d934c6085e7dbfa4ba57f4b4b/dark_mode.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56793 - "GET /_nicegui/3.15.0/components/20e90839167eb30dba12722e0d4b24bb/select.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/components/4cd8f5dc71f02312671ee4e68c4ac55f/aggrid.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56791 - "GET /_nicegui/3.15.0/components/7843792148e153c151ce2798c4be76ab/code.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56792 - "GET /_nicegui/3.15.0/components/fdc553f0ea19b6159d5c8da8a6624ea6/markdown.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56794 - "GET /_nicegui/3.15.0/components/ab5d3884c9432c02cbce45d47d75c721/timer.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56794 - "GET /_nicegui/3.15.0/static/tailwindcss.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56793 - "GET /_nicegui/3.15.0/static/lang/en-US.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56791 - "GET /_nicegui/3.15.0/static/quasar.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56792 - "GET /_nicegui/3.15.0/static/socket.io.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/static/nicegui.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56790 - "GET /_nicegui/3.15.0/static/utils/resources.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56793 - "GET /_nicegui/3.15.0/static/dompurify.mjs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56792 - "GET /_nicegui/3.15.0/static/utils/dynamic_properties.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/esm/ce781217513f674f11796076012a375d/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56791 - "GET /_nicegui/3.15.0/static/fonts/2474057f3040a08c.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56796 - "WebSocket /socket.io/?client_id=6d943625-bc38-4965-8063-8f8fc60b43ce&next_message_id=0&implicit_handshake=true&document_id=5d5dfc84-5f6f-4e3c-b7c5-a90ef50317b8&tab_id=91217fce-4558-4f99-8e91-9d9834d823df&old_tab_id=null&EIO=4&transport=websocket" [accepted]
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/dynamic_resources/codehilite_821444cf7f8b10160cbba208f6dd37d9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/components/6774cd253cf84d08ceae127618292f39/echart.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index-CC_akEuV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56788 - "GET /_nicegui/3.15.0/static/fonts/0c19a63c7528cc1a.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56816 - "GET /workbench/data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56817 - "GET /_nicegui/3.15.0/static/quasar.unimportant.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56818 - "GET /_nicegui/3.15.0/static/quasar.important.prod.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56816 - "GET /_nicegui/3.15.0/static/fonts.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56820 - "GET /_nicegui/3.15.0/static/vue.esm-browser.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56819 - "GET /_nicegui/3.15.0/static/nicegui.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/components/573d0129acaebad907d825007cd6fa02/query.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56818 - "GET /_nicegui/3.15.0/components/7416ad0839166372589af103d2dac97f/link.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56816 - "GET /_nicegui/3.15.0/components/b6e72e98507a6256b493148a7e8c8d30/dialog.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56819 - "GET /_nicegui/3.15.0/components/64c866455daa2383bf6d88c437b23510/input.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/components/50808f343f9d39efb70f4fe21b9a193b/html.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56820 - "GET /_nicegui/3.15.0/components/20e90839167eb30dba12722e0d4b24bb/select.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56817 - "GET /_nicegui/3.15.0/components/b3fd268d934c6085e7dbfa4ba57f4b4b/dark_mode.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56818 - "GET /_nicegui/3.15.0/components/4cd8f5dc71f02312671ee4e68c4ac55f/aggrid.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56819 - "GET /_nicegui/3.15.0/components/fdc553f0ea19b6159d5c8da8a6624ea6/markdown.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56816 - "GET /_nicegui/3.15.0/components/7843792148e153c151ce2798c4be76ab/code.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/components/ab5d3884c9432c02cbce45d47d75c721/timer.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56816 - "GET /_nicegui/3.15.0/static/tailwindcss.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56818 - "GET /_nicegui/3.15.0/static/nicegui.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56819 - "GET /_nicegui/3.15.0/static/quasar.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/static/socket.io.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56817 - "GET /_nicegui/3.15.0/static/lang/en-US.umd.prod.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56820 - "GET /_nicegui/3.15.0/static/dompurify.mjs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56818 - "GET /_nicegui/3.15.0/static/utils/dynamic_properties.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56817 - "GET /_nicegui/3.15.0/static/utils/resources.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/esm/ce781217513f674f11796076012a375d/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56819 - "GET /_nicegui/3.15.0/static/fonts/2474057f3040a08c.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56822 - "WebSocket /socket.io/?client_id=76f85e4d-51f2-406b-8e36-0a2232125faf&next_message_id=0&implicit_handshake=true&document_id=731418f5-74ee-41bd-9b64-9e240f25a036&tab_id=5a455e35-41db-48f5-b103-71ac1d6fc6cd&old_tab_id=null&EIO=4&transport=websocket" [accepted]
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/dynamic_resources/codehilite_821444cf7f8b10160cbba208f6dd37d9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/components/6774cd253cf84d08ceae127618292f39/echart.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/esm/d8eccefb9a5cc5a5d49dd950d3df8d4a/index-CC_akEuV.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56821 - "GET /_nicegui/3.15.0/static/fonts/0c19a63c7528cc1a.woff2 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [26827]

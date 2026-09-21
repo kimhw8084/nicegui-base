@@ -1,0 +1,1083 @@
+{
+  "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+  "browser": "Chromium via Playwright",
+  "browser_capture_launched": true,
+  "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+  "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+  "data_table_matrix": {
+    "accessibility_pass": true,
+    "accessibility_passed": 64,
+    "accessibility_records": 64,
+    "interaction_smoke": {
+      "console_errors": [],
+      "issues": [],
+      "page_errors": [],
+      "passed": true
+    },
+    "pass": true,
+    "passed": 64,
+    "source_report": "data-table-matrix.json",
+    "total": 64
+  },
+  "focused_dark_viewports": [
+    "desktop-1440x1000",
+    "tablet-1024x900",
+    "small-tablet-768x900",
+    "phone-390x844"
+  ],
+  "focused_dark_viewports_passed": [
+    "desktop-1440x1000",
+    "tablet-1024x900",
+    "small-tablet-768x900",
+    "phone-390x844"
+  ],
+  "pass": true,
+  "screenshots": [
+    {
+      "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "console_errors": [],
+      "facts": {
+        "activeLab": "visualize",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 1,
+        "chartReady": true,
+        "chartSurfaces": [
+          {
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(245, 245, 247)",
+            "height": 560,
+            "theme": "dark",
+            "width": 422.171875
+          }
+        ],
+        "chartThemes": [
+          "dark"
+        ],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": true,
+        "themeSynchronized": true,
+        "visibleWhiteSurface": false,
+        "visualizeReady": true
+      },
+      "image_sha256": "37a28b3d0123dcbb77e86ade349d5bc8c10b210c7b54c17132c1c8787d9951cb",
+      "name": "visualize-desktop-1440x1000-dark-mount",
+      "page_error_count": 0,
+      "page_errors": [],
+      "path": "visualize-desktop-1440x1000-dark-mount.png",
+      "readiness": {
+        "document_ready_state": "complete",
+        "no_white_surface_regression": true,
+        "theme_synchronized": true,
+        "visualize_settled": true
+      },
+      "request_failure_count": 0,
+      "request_failures": [],
+      "theme": "dark",
+      "theme_transition_sequence": [
+        "load:/workbench/data:grid",
+        "appearance:dark",
+        "switch:Visualize"
+      ],
+      "viewport": "desktop-1440x1000",
+      "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+    },
+    {
+      "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "console_errors": [],
+      "facts": {
+        "activeLab": "visualize",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 1,
+        "chartReady": true,
+        "chartSurfaces": [
+          {
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(245, 245, 247)",
+            "height": 560,
+            "theme": "dark",
+            "width": 422.171875
+          }
+        ],
+        "chartThemes": [
+          "dark"
+        ],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": true,
+        "themeSynchronized": true,
+        "visibleWhiteSurface": false,
+        "visualizeReady": true
+      },
+      "image_sha256": "233b428c5fe43912e110c97c89e3ac100275b12103c0f5ba189654b72fc82a87",
+      "name": "visualize-desktop-1440x1000-dark-roundtrip-final",
+      "page_error_count": 0,
+      "page_errors": [],
+      "path": "visualize-desktop-1440x1000-dark-roundtrip-final.png",
+      "readiness": {
+        "document_ready_state": "complete",
+        "no_white_surface_regression": true,
+        "theme_synchronized": true,
+        "visualize_settled": true
+      },
+      "request_failure_count": 0,
+      "request_failures": [],
+      "theme": "dark",
+      "theme_transition_sequence": [
+        "load:/workbench/data:grid",
+        "appearance:dark",
+        "switch:Visualize",
+        "switch:Grid",
+        "switch:Visualize",
+        "appearance:dark-to-light",
+        "appearance:light-to-dark"
+      ],
+      "viewport": "desktop-1440x1000",
+      "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+    },
+    {
+      "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "console_errors": [],
+      "facts": {
+        "activeLab": "visualize",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 1,
+        "chartReady": true,
+        "chartSurfaces": [
+          {
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(245, 245, 247)",
+            "height": 495,
+            "theme": "dark",
+            "width": 678
+          }
+        ],
+        "chartThemes": [
+          "dark"
+        ],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": true,
+        "themeSynchronized": true,
+        "visibleWhiteSurface": false,
+        "visualizeReady": true
+      },
+      "image_sha256": "130256a0f5b3ba2ef7732d08fede27abb43879a6497e0378e76577b93032da30",
+      "name": "visualize-tablet-1024x900-dark-mount",
+      "page_error_count": 0,
+      "page_errors": [],
+      "path": "visualize-tablet-1024x900-dark-mount.png",
+      "readiness": {
+        "document_ready_state": "complete",
+        "no_white_surface_regression": true,
+        "theme_synchronized": true,
+        "visualize_settled": true
+      },
+      "request_failure_count": 0,
+      "request_failures": [],
+      "theme": "dark",
+      "theme_transition_sequence": [
+        "load:/workbench/data:grid",
+        "appearance:dark",
+        "switch:Visualize"
+      ],
+      "viewport": "tablet-1024x900",
+      "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+    },
+    {
+      "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "console_errors": [],
+      "facts": {
+        "activeLab": "visualize",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 1,
+        "chartReady": true,
+        "chartSurfaces": [
+          {
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(245, 245, 247)",
+            "height": 455,
+            "theme": "dark",
+            "width": 686
+          }
+        ],
+        "chartThemes": [
+          "dark"
+        ],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": true,
+        "themeSynchronized": true,
+        "visibleWhiteSurface": false,
+        "visualizeReady": true
+      },
+      "image_sha256": "123d1da6878192c5dfc7c17342aa2042e8c857dd50dc69904f2627694833a521",
+      "name": "visualize-small-tablet-768x900-dark-mount",
+      "page_error_count": 0,
+      "page_errors": [],
+      "path": "visualize-small-tablet-768x900-dark-mount.png",
+      "readiness": {
+        "document_ready_state": "complete",
+        "no_white_surface_regression": true,
+        "theme_synchronized": true,
+        "visualize_settled": true
+      },
+      "request_failure_count": 0,
+      "request_failures": [],
+      "theme": "dark",
+      "theme_transition_sequence": [
+        "load:/workbench/data:grid",
+        "appearance:dark",
+        "switch:Visualize"
+      ],
+      "viewport": "small-tablet-768x900",
+      "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+    },
+    {
+      "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "console_errors": [],
+      "facts": {
+        "activeLab": "visualize",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 1,
+        "chartReady": true,
+        "chartSurfaces": [
+          {
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(245, 245, 247)",
+            "height": 470,
+            "theme": "dark",
+            "width": 308
+          }
+        ],
+        "chartThemes": [
+          "dark"
+        ],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": true,
+        "themeSynchronized": true,
+        "visibleWhiteSurface": false,
+        "visualizeReady": true
+      },
+      "image_sha256": "5b93b7f2721fb5c6b4395693d16894a1c1ebdc8727e76db3b332106b2d826159",
+      "name": "visualize-phone-390x844-dark-mount",
+      "page_error_count": 0,
+      "page_errors": [],
+      "path": "visualize-phone-390x844-dark-mount.png",
+      "readiness": {
+        "document_ready_state": "complete",
+        "no_white_surface_regression": true,
+        "theme_synchronized": true,
+        "visualize_settled": true
+      },
+      "request_failure_count": 0,
+      "request_failures": [],
+      "theme": "dark",
+      "theme_transition_sequence": [
+        "load:/workbench/data:grid",
+        "appearance:dark",
+        "switch:Visualize"
+      ],
+      "viewport": "phone-390x844",
+      "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+    },
+    {
+      "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "console_errors": [],
+      "facts": {
+        "activeLab": "visualize",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 1,
+        "chartReady": true,
+        "chartSurfaces": [
+          {
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(245, 245, 247)",
+            "height": 470,
+            "theme": "dark",
+            "width": 308
+          }
+        ],
+        "chartThemes": [
+          "dark"
+        ],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": true,
+        "themeSynchronized": true,
+        "visibleWhiteSurface": false,
+        "visualizeReady": true
+      },
+      "image_sha256": "5fbc5d4574d2f7bc8f7ed853352a5163101481c1f031cf33176f1bbf1c7d2adf",
+      "name": "visualize-phone-390x844-dark-roundtrip-final",
+      "page_error_count": 0,
+      "page_errors": [],
+      "path": "visualize-phone-390x844-dark-roundtrip-final.png",
+      "readiness": {
+        "document_ready_state": "complete",
+        "no_white_surface_regression": true,
+        "theme_synchronized": true,
+        "visualize_settled": true
+      },
+      "request_failure_count": 0,
+      "request_failures": [],
+      "theme": "dark",
+      "theme_transition_sequence": [
+        "load:/workbench/data:grid",
+        "appearance:dark",
+        "switch:Visualize",
+        "switch:Grid",
+        "switch:Visualize",
+        "appearance:dark-to-light",
+        "appearance:light-to-dark"
+      ],
+      "viewport": "phone-390x844",
+      "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+    }
+  ],
+  "target": "/workbench/data",
+  "viewport_checks": [
+    {
+      "away_back_and_roundtrip": [
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 560,
+                "theme": "dark",
+                "width": 422.171875
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "away-back-dark"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": false,
+            "bodyLight": true,
+            "bodyQDark": false,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(255, 255, 255)",
+                "color": "rgb(29, 29, 31)",
+                "height": 560,
+                "theme": "light",
+                "width": 422.171875
+              }
+            ],
+            "chartThemes": [
+              "light"
+            ],
+            "expectedTheme": "light",
+            "noWhiteSurfaceRegression": false,
+            "rootTheme": "light",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": true,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-light"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 560,
+                "theme": "dark",
+                "width": 422.171875
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-final-dark"
+        }
+      ],
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "dark_precondition": {
+        "activeLab": "grid",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 0,
+        "chartReady": false,
+        "chartSurfaces": [],
+        "chartThemes": [],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": false,
+        "themeSynchronized": false,
+        "visibleWhiteSurface": false,
+        "visualizeReady": false
+      },
+      "height": 1000,
+      "initial_grid_ready": true,
+      "mount": {
+        "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+        "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+        "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+        "console_error_count": 0,
+        "console_errors": [],
+        "facts": {
+          "activeLab": "visualize",
+          "bodyDark": true,
+          "bodyLight": false,
+          "bodyQDark": true,
+          "chartCount": 1,
+          "chartReady": true,
+          "chartSurfaces": [
+            {
+              "background": "rgb(24, 24, 27)",
+              "color": "rgb(245, 245, 247)",
+              "height": 560,
+              "theme": "dark",
+              "width": 422.171875
+            }
+          ],
+          "chartThemes": [
+            "dark"
+          ],
+          "expectedTheme": "dark",
+          "noWhiteSurfaceRegression": true,
+          "rootTheme": "dark",
+          "tableReady": true,
+          "themeSynchronized": true,
+          "visibleWhiteSurface": false,
+          "visualizeReady": true
+        },
+        "image_sha256": "37a28b3d0123dcbb77e86ade349d5bc8c10b210c7b54c17132c1c8787d9951cb",
+        "name": "visualize-desktop-1440x1000-dark-mount",
+        "page_error_count": 0,
+        "page_errors": [],
+        "path": "visualize-desktop-1440x1000-dark-mount.png",
+        "readiness": {
+          "document_ready_state": "complete",
+          "no_white_surface_regression": true,
+          "theme_synchronized": true,
+          "visualize_settled": true
+        },
+        "request_failure_count": 0,
+        "request_failures": [],
+        "theme": "dark",
+        "theme_transition_sequence": [
+          "load:/workbench/data:grid",
+          "appearance:dark",
+          "switch:Visualize"
+        ],
+        "viewport": "desktop-1440x1000",
+        "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+      },
+      "page_error_count": 0,
+      "pass": true,
+      "request_failure_count": 0,
+      "viewport": "desktop-1440x1000",
+      "width": 1440
+    },
+    {
+      "away_back_and_roundtrip": [
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 495,
+                "theme": "dark",
+                "width": 678
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "away-back-dark"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": false,
+            "bodyLight": true,
+            "bodyQDark": false,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(255, 255, 255)",
+                "color": "rgb(29, 29, 31)",
+                "height": 495,
+                "theme": "light",
+                "width": 678
+              }
+            ],
+            "chartThemes": [
+              "light"
+            ],
+            "expectedTheme": "light",
+            "noWhiteSurfaceRegression": false,
+            "rootTheme": "light",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": true,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-light"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 495,
+                "theme": "dark",
+                "width": 678
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-final-dark"
+        }
+      ],
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "dark_precondition": {
+        "activeLab": "grid",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 0,
+        "chartReady": false,
+        "chartSurfaces": [],
+        "chartThemes": [],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": false,
+        "themeSynchronized": false,
+        "visibleWhiteSurface": false,
+        "visualizeReady": false
+      },
+      "height": 900,
+      "initial_grid_ready": true,
+      "mount": {
+        "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+        "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+        "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+        "console_error_count": 0,
+        "console_errors": [],
+        "facts": {
+          "activeLab": "visualize",
+          "bodyDark": true,
+          "bodyLight": false,
+          "bodyQDark": true,
+          "chartCount": 1,
+          "chartReady": true,
+          "chartSurfaces": [
+            {
+              "background": "rgb(24, 24, 27)",
+              "color": "rgb(245, 245, 247)",
+              "height": 495,
+              "theme": "dark",
+              "width": 678
+            }
+          ],
+          "chartThemes": [
+            "dark"
+          ],
+          "expectedTheme": "dark",
+          "noWhiteSurfaceRegression": true,
+          "rootTheme": "dark",
+          "tableReady": true,
+          "themeSynchronized": true,
+          "visibleWhiteSurface": false,
+          "visualizeReady": true
+        },
+        "image_sha256": "130256a0f5b3ba2ef7732d08fede27abb43879a6497e0378e76577b93032da30",
+        "name": "visualize-tablet-1024x900-dark-mount",
+        "page_error_count": 0,
+        "page_errors": [],
+        "path": "visualize-tablet-1024x900-dark-mount.png",
+        "readiness": {
+          "document_ready_state": "complete",
+          "no_white_surface_regression": true,
+          "theme_synchronized": true,
+          "visualize_settled": true
+        },
+        "request_failure_count": 0,
+        "request_failures": [],
+        "theme": "dark",
+        "theme_transition_sequence": [
+          "load:/workbench/data:grid",
+          "appearance:dark",
+          "switch:Visualize"
+        ],
+        "viewport": "tablet-1024x900",
+        "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+      },
+      "page_error_count": 0,
+      "pass": true,
+      "request_failure_count": 0,
+      "viewport": "tablet-1024x900",
+      "width": 1024
+    },
+    {
+      "away_back_and_roundtrip": [
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 455,
+                "theme": "dark",
+                "width": 686
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "away-back-dark"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": false,
+            "bodyLight": true,
+            "bodyQDark": false,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(255, 255, 255)",
+                "color": "rgb(29, 29, 31)",
+                "height": 455,
+                "theme": "light",
+                "width": 686
+              }
+            ],
+            "chartThemes": [
+              "light"
+            ],
+            "expectedTheme": "light",
+            "noWhiteSurfaceRegression": false,
+            "rootTheme": "light",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": true,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-light"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 455,
+                "theme": "dark",
+                "width": 686
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-final-dark"
+        }
+      ],
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "dark_precondition": {
+        "activeLab": "grid",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 0,
+        "chartReady": false,
+        "chartSurfaces": [],
+        "chartThemes": [],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": false,
+        "themeSynchronized": false,
+        "visibleWhiteSurface": false,
+        "visualizeReady": false
+      },
+      "height": 900,
+      "initial_grid_ready": true,
+      "mount": {
+        "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+        "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+        "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+        "console_error_count": 0,
+        "console_errors": [],
+        "facts": {
+          "activeLab": "visualize",
+          "bodyDark": true,
+          "bodyLight": false,
+          "bodyQDark": true,
+          "chartCount": 1,
+          "chartReady": true,
+          "chartSurfaces": [
+            {
+              "background": "rgb(24, 24, 27)",
+              "color": "rgb(245, 245, 247)",
+              "height": 455,
+              "theme": "dark",
+              "width": 686
+            }
+          ],
+          "chartThemes": [
+            "dark"
+          ],
+          "expectedTheme": "dark",
+          "noWhiteSurfaceRegression": true,
+          "rootTheme": "dark",
+          "tableReady": true,
+          "themeSynchronized": true,
+          "visibleWhiteSurface": false,
+          "visualizeReady": true
+        },
+        "image_sha256": "123d1da6878192c5dfc7c17342aa2042e8c857dd50dc69904f2627694833a521",
+        "name": "visualize-small-tablet-768x900-dark-mount",
+        "page_error_count": 0,
+        "page_errors": [],
+        "path": "visualize-small-tablet-768x900-dark-mount.png",
+        "readiness": {
+          "document_ready_state": "complete",
+          "no_white_surface_regression": true,
+          "theme_synchronized": true,
+          "visualize_settled": true
+        },
+        "request_failure_count": 0,
+        "request_failures": [],
+        "theme": "dark",
+        "theme_transition_sequence": [
+          "load:/workbench/data:grid",
+          "appearance:dark",
+          "switch:Visualize"
+        ],
+        "viewport": "small-tablet-768x900",
+        "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+      },
+      "page_error_count": 0,
+      "pass": true,
+      "request_failure_count": 0,
+      "viewport": "small-tablet-768x900",
+      "width": 768
+    },
+    {
+      "away_back_and_roundtrip": [
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 470,
+                "theme": "dark",
+                "width": 308
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "away-back-dark"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": false,
+            "bodyLight": true,
+            "bodyQDark": false,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(255, 255, 255)",
+                "color": "rgb(29, 29, 31)",
+                "height": 470,
+                "theme": "light",
+                "width": 308
+              }
+            ],
+            "chartThemes": [
+              "light"
+            ],
+            "expectedTheme": "light",
+            "noWhiteSurfaceRegression": false,
+            "rootTheme": "light",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": true,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-light"
+        },
+        {
+          "facts": {
+            "activeLab": "visualize",
+            "bodyDark": true,
+            "bodyLight": false,
+            "bodyQDark": true,
+            "chartCount": 1,
+            "chartReady": true,
+            "chartSurfaces": [
+              {
+                "background": "rgb(24, 24, 27)",
+                "color": "rgb(245, 245, 247)",
+                "height": 470,
+                "theme": "dark",
+                "width": 308
+              }
+            ],
+            "chartThemes": [
+              "dark"
+            ],
+            "expectedTheme": "dark",
+            "noWhiteSurfaceRegression": true,
+            "rootTheme": "dark",
+            "tableReady": true,
+            "themeSynchronized": true,
+            "visibleWhiteSurface": false,
+            "visualizeReady": true
+          },
+          "stage": "roundtrip-final-dark"
+        }
+      ],
+      "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+      "console_error_count": 0,
+      "dark_precondition": {
+        "activeLab": "grid",
+        "bodyDark": true,
+        "bodyLight": false,
+        "bodyQDark": true,
+        "chartCount": 0,
+        "chartReady": false,
+        "chartSurfaces": [],
+        "chartThemes": [],
+        "expectedTheme": "dark",
+        "noWhiteSurfaceRegression": true,
+        "rootTheme": "dark",
+        "tableReady": false,
+        "themeSynchronized": false,
+        "visibleWhiteSurface": false,
+        "visualizeReady": false
+      },
+      "height": 844,
+      "initial_grid_ready": true,
+      "mount": {
+        "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+        "candidate_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+        "candidate_tree": "815d26a6755d54ff790686ea118a8a2a94f7fa55",
+        "console_error_count": 0,
+        "console_errors": [],
+        "facts": {
+          "activeLab": "visualize",
+          "bodyDark": true,
+          "bodyLight": false,
+          "bodyQDark": true,
+          "chartCount": 1,
+          "chartReady": true,
+          "chartSurfaces": [
+            {
+              "background": "rgb(24, 24, 27)",
+              "color": "rgb(245, 245, 247)",
+              "height": 470,
+              "theme": "dark",
+              "width": 308
+            }
+          ],
+          "chartThemes": [
+            "dark"
+          ],
+          "expectedTheme": "dark",
+          "noWhiteSurfaceRegression": true,
+          "rootTheme": "dark",
+          "tableReady": true,
+          "themeSynchronized": true,
+          "visibleWhiteSurface": false,
+          "visualizeReady": true
+        },
+        "image_sha256": "5b93b7f2721fb5c6b4395693d16894a1c1ebdc8727e76db3b332106b2d826159",
+        "name": "visualize-phone-390x844-dark-mount",
+        "page_error_count": 0,
+        "page_errors": [],
+        "path": "visualize-phone-390x844-dark-mount.png",
+        "readiness": {
+          "document_ready_state": "complete",
+          "no_white_surface_regression": true,
+          "theme_synchronized": true,
+          "visualize_settled": true
+        },
+        "request_failure_count": 0,
+        "request_failures": [],
+        "theme": "dark",
+        "theme_transition_sequence": [
+          "load:/workbench/data:grid",
+          "appearance:dark",
+          "switch:Visualize"
+        ],
+        "viewport": "phone-390x844",
+        "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+      },
+      "page_error_count": 0,
+      "pass": true,
+      "request_failure_count": 0,
+      "viewport": "phone-390x844",
+      "width": 390
+    }
+  ],
+  "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1"
+}
