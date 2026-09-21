@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "fabric_job": "CF-55d9db070dbd940c06f2c64d",
+  "project": "nicegui-base",
+  "project_id": "nicegui-base",
+  "request": "stable3-data-lab-code-copy-a11y-fix-1",
+  "operation": "FIX",
+  "base": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+  "base_tree": "4969bd1ff2d3e51646b84ff473094ff084077631",
+  "candidate_head": "57ebdee2619d8b5152615450701ea286f3758f48",
+  "candidate_tree": "ceec2ea6ed2280dd97c964e62da7cf52e7b68940",
+  "work_branch": "codex/nicegui-base-stable3-data-lab-code-copy-a11y-fix-1",
+  "candidate_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-data-lab-code-copy-a11y-fix-1",
+  "evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-data-lab-code-copy-a11y-fix-1",
+  "defect": "workbench-data-code-copy-accessible-name",
+  "route": "/workbench/data",
+  "browser_profiles": [
+    "desktop-1440x900",
+    "mobile-390x844",
+    "mobile-narrow-360x800"
+  ],
+  "browser_capture_launched": true,
+  "accessibility_regression_passed": true,
+  "focused_browser_cases": 24,
+  "focused_browser_passed": 24,
+  "focused_browser_result": "browser/DATA_LAB_CODE_COPY_A11Y_RESULT.json",
+  "source_changed": true,
+  "artifact_commit": "9dd7ecf5185707cbf09eb0fcf5a41f6d196f6672",
+  "package_manifest": "MANIFEST.sha256",
+  "audit_scope": "Candidate evidence only; no main mutation, integration or stable-production claim."
+}

@@ -1,0 +1,1068 @@
+{
+  "candidate": "NGB-20260907-G2.6",
+  "labs": [
+    "Grid",
+    "Actions",
+    "Edit",
+    "Visualize",
+    "Import",
+    "Detail",
+    "Server",
+    "States"
+  ],
+  "passed": 24,
+  "profiles": {
+    "desktop-1440x900": [
+      1440,
+      900
+    ],
+    "mobile-390x844": [
+      390,
+      844
+    ],
+    "mobile-narrow-360x800": [
+      360,
+      800
+    ]
+  },
+  "results": [
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Grid",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "ae5afadfb7c42e1959a4db06065f749fe93ad07c1e33e9fb9b01c5f4e753a24e",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Grid",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Grid",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Actions",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "0093516986a2a5f63ddf4ef2eb7dc819463db2a9f52549b7f42fac4fb86de35f",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Actions",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Actions",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Edit",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "950acc7fe6e1c8a39fe4390fc459b7f381cb704d558c89319a0edcfa05739a49",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Edit",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Edit",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Visualize",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "42f446d965779afcbcfb4f721de592d7d3063c99dac90606dc9a7d2233427975",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Visualize",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Visualize",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Import",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "1ba029822f6d13134ce61575e3b63b98d67e16ed3f90fed842ac63b623456e5d",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Import",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Import",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Detail",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "18fe4c734531223f5d99084f7b79d329ae8aabe12eff4e92a8b857d3b95874d1",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Detail",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Detail",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Server",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "7a7bfc68bee7c78957d689a595978e42da208334b42a1ae151291feaa81e6211",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Server",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Server",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "States",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "desktop-1440x900"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "27dac9d97cf49c5e07a02f71714a9b2f76eb4bd7c22abd46adc177db757f23a9",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "States",
+            "profile": "desktop-1440x900"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "States",
+      "overflow": {
+        "body": 1440,
+        "document": 1440,
+        "viewport": 1440
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "desktop-1440x900",
+      "route_status": 200,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Grid",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "ae5afadfb7c42e1959a4db06065f749fe93ad07c1e33e9fb9b01c5f4e753a24e",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Grid",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Grid",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Actions",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "0093516986a2a5f63ddf4ef2eb7dc819463db2a9f52549b7f42fac4fb86de35f",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Actions",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Actions",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Edit",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "950acc7fe6e1c8a39fe4390fc459b7f381cb704d558c89319a0edcfa05739a49",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Edit",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Edit",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Visualize",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "42f446d965779afcbcfb4f721de592d7d3063c99dac90606dc9a7d2233427975",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Visualize",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Visualize",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Import",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "1ba029822f6d13134ce61575e3b63b98d67e16ed3f90fed842ac63b623456e5d",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Import",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Import",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Detail",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "18fe4c734531223f5d99084f7b79d329ae8aabe12eff4e92a8b857d3b95874d1",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Detail",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Detail",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Server",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "7a7bfc68bee7c78957d689a595978e42da208334b42a1ae151291feaa81e6211",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Server",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Server",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "States",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-390x844"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "27dac9d97cf49c5e07a02f71714a9b2f76eb4bd7c22abd46adc177db757f23a9",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "States",
+            "profile": "mobile-390x844"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "States",
+      "overflow": {
+        "body": 390,
+        "document": 390,
+        "viewport": 390
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-390x844",
+      "route_status": 200,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Grid",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "ae5afadfb7c42e1959a4db06065f749fe93ad07c1e33e9fb9b01c5f4e753a24e",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Grid",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Grid",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Actions",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "0093516986a2a5f63ddf4ef2eb7dc819463db2a9f52549b7f42fac4fb86de35f",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Actions",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Actions",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Edit",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "950acc7fe6e1c8a39fe4390fc459b7f381cb704d558c89319a0edcfa05739a49",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Edit",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Edit",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Visualize",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "42f446d965779afcbcfb4f721de592d7d3063c99dac90606dc9a7d2233427975",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Visualize",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Visualize",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Import",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "1ba029822f6d13134ce61575e3b63b98d67e16ed3f90fed842ac63b623456e5d",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Import",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Import",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Detail",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "18fe4c734531223f5d99084f7b79d329ae8aabe12eff4e92a8b857d3b95874d1",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Detail",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Detail",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "Server",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "7a7bfc68bee7c78957d689a595978e42da208334b42a1ae151291feaa81e6211",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "Server",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "Server",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    },
+    {
+      "accessibility": [
+        {
+          "accessible_name": "Copy code",
+          "aria_label": "Copy code",
+          "class": "q-btn q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-primary q-btn--actionable q-focusable q-hoverable nicegui-code-copy",
+          "failure": null,
+          "focusable": true,
+          "lab": "States",
+          "pass": true,
+          "role": "button",
+          "selector": ".cui-data-lab-reference .nicegui-code-copy",
+          "title": null,
+          "viewport": "mobile-narrow-360x800"
+        },
+        {
+          "copy_behavior": {
+            "click_activatable": true,
+            "copied_code_sha256": "27dac9d97cf49c5e07a02f71714a9b2f76eb4bd7c22abd46adc177db757f23a9",
+            "keyboard_activatable": true,
+            "keyboard_focus": true,
+            "lab": "States",
+            "profile": "mobile-narrow-360x800"
+          }
+        }
+      ],
+      "console_errors": [],
+      "failed_requests": [],
+      "lab": "States",
+      "overflow": {
+        "body": 360,
+        "document": 360,
+        "viewport": 360
+      },
+      "page_errors": [],
+      "pass": true,
+      "profile": "mobile-narrow-360x800",
+      "route_status": 200,
+      "viewport": {
+        "height": 800,
+        "width": 360
+      }
+    }
+  ],
+  "route": "/workbench/data",
+  "settled_readiness": {
+    "document_fonts_status": "loaded",
+    "document_ready_state": "complete"
+  },
+  "total": 24
+}
