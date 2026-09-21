@@ -1,0 +1,17 @@
+{
+  "fabric_job": "CF-ec36039834a9cb3e8cd92519",
+  "project": "nicegui-base",
+  "request": "stable3-golden-visual-atlas-risk-adjudication-slice-1",
+  "operation": "VERIFY",
+  "base": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+  "source_sha": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+  "tree_sha": "4969bd1ff2d3e51646b84ff473094ff084077631",
+  "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-risk-adjudication-slice-1",
+  "source_changed": false,
+  "browser_capture_launched": false,
+  "product_commits": 0,
+  "product_changed_files": 0,
+  "notion_called_or_written": false,
+  "main_mutated": false,
+  "claim_boundary": "R7 text-only VERIFY evidence normalization; no severity, visual-quality, acceptance, stable/production, qualification, promotion, or Product-defect claim."
+}
