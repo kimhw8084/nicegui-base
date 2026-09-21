@@ -1,0 +1,484 @@
+{
+  "accepted_at": "2026-09-21T21:19:04Z",
+  "changed_files": [
+    {
+      "additions": 9,
+      "deletions": 5,
+      "path": "source/nicegui_base/integrations/nicegui_visualization.py",
+      "status": "M"
+    },
+    {
+      "additions": 46,
+      "deletions": 0,
+      "path": "source/tests/test_chg163_visualization_theme.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' run_nicegui_base.py && rtk sed -n '1,200p' source/nicegui_base/workbench/launcher.py 2>/dev/null || true && rtk rg -n 'run_nicegui_base|agent-check|runtime-contract|runtime-smoke' pyproject.toml source/nicegui_base | head -n 220\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,430p' source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py | tail -n 120 && rtk rg -n 'ChartPanel\\\\.__init__|ChartPanel\\\\(' source/tests | head -n 120 && rtk sed -n '1,120p' source/tests/test_visualization_micro_closure.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 8 'def _fake_nicegui|class Fake' tools/execute_visualization_examples.py | head -n 220 && rtk sed -n '1,170p' tools/execute_visualization_examples.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk git diff --stat && rtk git diff -- source/nicegui_base/integrations/nicegui_visualization.py source/tests/test_chg163_visualization_theme.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py source/tests/test_visualization_micro_closure.py source/tests/test_visualization_final_integrity.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "b156e9922f76d25723911762a7fc411b0a8aeb840a9069496bef64f6b3877445",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'ChartPanel|apply_all_chart_themes' source/nicegui_base/__init__.py source/nicegui_base/integrations/__init__.py && rtk sed -n '120,200p' source/nicegui_base/__init__.py && rtk sed -n '1,100p' source/nicegui_base/integrations/__init__.py 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_chg163_visualization_theme.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "423b1d0e014eb1eab96f4420f7b344c2615be505dd574b756ac884826ca74f2d",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nicegui-base agent-check . 2>&1 | rg 'test_chg163|NiceGUI Base agent check|ERROR AI|Agent scaffold|dependency-pin|entrypoint|python-compile|manifest|tests:'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add source/nicegui_base/integrations/nicegui_visualization.py source/tests/test_chg163_visualization_theme.py && rtk git diff --cached --check && rtk git diff --cached --stat && rtk git diff --cached -- source/nicegui_base/integrations/nicegui_visualization.py source/tests/test_chg163_visualization_theme.py && rtk git commit -m \"Fix visualization dark theme preservation on mount\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git log -1 --format='%H %T %P %s' && rtk git diff 65f17e55ed3622cafcd603c925a98db9f55ff602 --stat\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -lah /tmp/chg163-visual-evidence 2>/dev/null || true; rtk tail -n 20 /tmp/chg163-visual-evidence/server.log 2>/dev/null || true; rtk ps aux | rg 'run_data_table|verify_data|run_nicegui' | rg -v rg || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -eo pid,etime,command | rg 'run_data_table|verify_data|run_nicegui|python tools' | rg -v rg || true; rtk find /tmp/chg163-visual-evidence/matrix -maxdepth 1 -type f -print 2>/dev/null | head -n 30; rtk du -sh /tmp/chg163-visual-evidence\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg163-visual-evidence/matrix/DATA_LAB_BROWSER_RESULT.json')\ntry:\n d=json.loads(p.read_text()); print(json.dumps({k:d.get(k) for k in ('matrix_count','passed','summary','focused_state_count')},indent=2)); print(d.keys())\nexcept Exception as e: print(e)\nPY\nrtk tail -n 30 /tmp/chg163-visual-evidence/matrix/verifier.stdout.log 2>/dev/null || true; rtk tail -n 30 /tmp/chg163-visual-evidence/matrix/verifier.stderr.log 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -eo pid,etime,command | rg 'run_data_table|verify_data|run_nicegui|python tools' | rg -v rg || true; rtk find /tmp/chg163-visual-evidence -maxdepth 2 -type f -printf '%p %s\\\\n' 2>/dev/null | tail -n 20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/chg163-visual-evidence/focused -maxdepth 1 -type f -printf '%f\\\\n' 2>/dev/null | sort | tail -n 30; rtk find /tmp/chg163-visual-evidence -maxdepth 1 -type f -printf '%f\\\\n' 2>/dev/null; rtk tail -n 10 /tmp/chg163-visual-evidence/server.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -o pid,etime,%cpu,%mem,command | rg 'run_data_table|run_nicegui|python tools' | rg -v rg || true; rtk tail -n 5 /tmp/chg163-visual-evidence/server.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy pgrep -af 'run_data_table|run_nicegui|verify_data' || true; rtk ls -la /tmp/chg163-visual-evidence/focused 2>/dev/null || true; rtk ls -la /tmp/chg163-visual-evidence | tail -n 10\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/chg163-visual-evidence/focused -maxdepth 1 -type f -printf '%f\\\\n' 2>/dev/null | sort; rtk find /tmp/chg163-visual-evidence -maxdepth 1 -type f -printf '%f\\\\n' 2>/dev/null | sort\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy find /tmp/chg163-visual-evidence/focused -maxdepth 1 -type f -print 2>/dev/null | head -n 40; rtk proxy find /tmp/chg163-visual-evidence -maxdepth 1 -type f -print 2>/dev/null | tail -n 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python tools/run_data_table_visual_audit.py --output /tmp/chg163-visual-evidence --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nroot=Path('/tmp/chg163-visual-evidence')\nfor path in [root/'matrix/DATA_LAB_BROWSER_RESULT.json',root/'audit_v3.json']:\n print('\\\\n---',path)\n d=json.loads(path.read_text())\n if path.name=='DATA_LAB_BROWSER_RESULT.json':\n  print(json.dumps({k:d[k] for k in ('candidate','total','passed','interaction_smoke')},indent=2))\n  print('accessibility',len(d.get('accessibility_results',[])),sum(1 for x in d.get('accessibility_results',[]) if x.get('ok')))\n  fails=[x for x in d['results'] if not x.get('ok')]; print('failures',fails[:2])\n else:\n  print(json.dumps({k:d.get(k) for k in ('audit_version','candidate','route','matrix_count','focused_state_count','raw_finding_count','root_finding_count','matrix_passed','focused_passed')},indent=2))\n  print('git',d.get('git'))\nPY\nrtk unzip -l /tmp/chg163-visual-evidence.zip | head -n 80\nrtk sha256sum /tmp/chg163-visual-evidence.zip\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg163-visual-evidence/matrix/DATA_LAB_BROWSER_RESULT.json')\nd=json.loads(p.read_text())\nprint(json.dumps(d['accessibility_results'][:2],indent=2))\na=json.loads((Path('/tmp/chg163-visual-evidence/audit_v3.json')).read_text())\nprint('audit keys',sorted(a))\nprint(json.dumps({k:a[k] for k in sorted(a) if k not in {'matrix','focused','issues'}},indent=2,default=str)[:12000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nd=json.loads((Path('/tmp/chg163-visual-evidence/matrix/DATA_LAB_BROWSER_RESULT.json')).read_text())\nfor item in d['results']:\n if item['lab']=='Visualize' and item['theme']=='dark':\n  print(json.dumps(item,indent=2));\n  break\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 18 'def _set_actual_theme|def _switch_lab|def _check_page|body--dark|chart-theme' tools/verify_data_table_lab.py | head -n 360\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom __future__ import annotations\n\nimport hashlib\nimport json\nimport os\nimport shutil\nimport socket\nimport subprocess\nimport sys\nimport time\nimport zipfile\nfrom pathlib import Path\nfrom urllib.request import urlopen\n\nfrom playwright.sync_api import sync_playwright\n\nroot = Path.cwd()\nout = Path('/tmp/chg163-targeted/visual-evidence')\nif out.exists():\n    shutil.rmtree(out.parent)\nout.mkdir(parents=True)\n\ncandidate_head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()\ncandidate_tree = subprocess.check_output(['git', 'show', '-s', '--format=%T', 'HEAD'], text=True).strip()\nbase = '65f17e55ed3622cafcd603c925a98db9f55ff602'\nbranch = 'codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1'\n\n# Reuse the just-run canonical matrix output as a retained, hash-bound input.\nmatrix_source = Path('/tmp/chg163-visual-evidence/matrix/DATA_LAB_BROWSER_RESULT.json')\nshutil.copy2(matrix_source, out / 'data-table-matrix.json')\nmatrix_payload = json.loads(matrix_source.read_text())\n\nviewports = {\n    'desktop-1440x1000': (1440, 1000),\n    'tablet-1024x900': (1024, 900),\n    'small-tablet-768x900': (768, 900),\n    'phone-390x844': (390, 844),\n}\n\n\ndef free_port() -> int:\n    with socket.socket() as sock:\n        sock.bind(('127.0.0.1', 0))\n        return int(sock.getsockname()[1])\n\n\ndef wait_ready(process: subprocess.Popen[str], url: str) -> None:\n    deadline = time.monotonic() + 40\n    last = ''\n    while time.monotonic() < deadline:\n        if process.poll() is not None:\n            raise RuntimeError(f'canonical Workbench exited with {process.returncode}')\n        try:\n            with urlopen(url + '/healthz', timeout=2) as response:\n                if response.status == 200:\n                    return\n        except Exception as exc:\n            last = str(exc)\n        time.sleep(.25)\n    raise TimeoutError(last)\n\n\ndef sha256(path: Path) -> str:\n    return hashlib.sha256(path.read_bytes()).hexdigest()\n\n\ndef facts(page, expected: str | None = None) -> dict[str, object]:\n    value = page.evaluate(\\\"\\\"\\\"() => {\n      const visible = el => {\n        const r = el.getBoundingClientRect();\n        const s = getComputedStyle(el);\n        return r.width > 0 && r.height > 0 && s.display \"'!== '\"'none' && s.visibility \"'!== '\"'hidden';\n      };\n      const root = document.documentElement;\n      const body = document.body;\n      const chartHosts = [...document.querySelectorAll('.cui-data-lab-visual-chart [data-chart-theme]')].filter(visible);\n      const chartSurfaces = chartHosts.map(el => {\n        const style = getComputedStyle(el);\n        return {\n          theme: el.getAttribute('data-chart-theme') || '',\n          background: style.backgroundColor,\n          color: style.color,\n          width: el.getBoundingClientRect().width,\n          height: el.getBoundingClientRect().height,\n        };\n      });\n      const white = new Set(['rgb(255, 255, 255)', 'white', '#fff', '#ffffff']);\n      const visibleWhiteSurface = chartSurfaces.some(item => white.has(String(item.background).toLowerCase()));\n      return {\n        rootTheme: root.dataset.theme || '',\n        bodyDark: body.classList.contains('body--dark'),\n        bodyQDark: body.classList.contains('q-dark'),\n        bodyLight: body.classList.contains('body--light'),\n        chartThemes: [...new Set(chartSurfaces.map(item => item.theme))].sort(),\n        chartCount: chartSurfaces.length,\n        chartSurfaces,\n        visibleWhiteSurface,\n        activeLab: document.querySelector('[data-active-lab]')?.getAttribute('data-active-lab') || '',\n        tableReady: Boolean(document.querySelector('.cui-data-lab-visual-table .cui-data-table')) && Boolean(document.querySelector('.cui-data-lab-visual-table .ag-center-cols-container .ag-row')),\n        chartReady: chartHosts.length > 0,\n      };\n    }\\\"\\\"\\\")\n    value['expectedTheme'] = expected\n    value['themeSynchronized'] = (\n        value['rootTheme'] == expected\n        and value['bodyDark'] == (expected == 'dark')\n        and value['bodyQDark'] == (expected == 'dark')\n        and value['chartThemes'] == [expected]\n    ) if expected else None\n    value['visualizeReady'] = bool(value['activeLab'] == 'visualize' and value['tableReady'] and value['chartReady'])\n    value['noWhiteSurfaceRegression'] = not bool(value['visibleWhiteSurface'])\n    return value\n\n\ndef wait_visualize(page) -> None:\n    page.locator('[data-active-lab=\\\"visualize\\\"]').wait_for(state='visible', timeout=10000)\n    page.get_by_text('Filtered engineering records', exact=True).wait_for(state='visible', timeout=15000)\n    page.locator('.cui-data-lab-visual-table .ag-center-cols-container .ag-row').first.wait_for(state='visible', timeout=15000)\n    page.locator('.cui-data-lab-visual-chart [data-chart-theme]').first.wait_for(state='visible', timeout=15000)\n    page.wait_for_timeout(700)\n\n\ndef set_actual_theme(page, desired: str) -> None:\n    button = page.locator('[aria-label\"'^=\"Appearance theme:\"]'\"').first\n    button.wait_for(state='visible', timeout=10000)\n    for _ in range(3):\n        label = button.get_attribute('aria-label') or ''\n        if label.endswith(f': {desired.title()}'):\n            break\n        button.click()\n        page.wait_for_timeout(450)\n    page.wait_for_function(\n        \\\"desired => document.documentElement.dataset.theme === desired && document.body.classList.contains(desired === 'dark' ? 'body--dark' : 'body--light')\\\",\n        arg=desired,\n        timeout=8000,\n    )\n\n\ndef switch_lab(page, label: str) -> None:\n    page.keyboard.press('Escape')\n    page.get_by_role('radio', name=label, exact=True).click()\n    page.locator(f'[data-active-lab=\\\"{label.lower()}\\\"]').wait_for(state='visible', timeout=10000)\n    if label == 'Visualize':\n        wait_visualize(page)\n    else:\n        page.wait_for_timeout(500)\n\n\ndef capture(page, name: str, viewport_name: str, sequence: list[str], expected: str, console_errors: list[str], page_errors: list[str], request_failures: list[str], results: list[dict[str, object]]) -> dict[str, object]:\n    path = out / f'{name}.png'\n    page.screenshot(path=str(path), full_page=False)\n    record = {\n        'name': name,\n        'path': path.name,\n        'candidate_sha': candidate_head,\n        'candidate_tree': candidate_tree,\n        'base_sha': base,\n        'work_branch': branch,\n        'viewport': viewport_name,\n        'theme_transition_sequence': list(sequence),\n        'theme': expected,\n        'facts': facts(page, expected),\n        'console_error_count': len(console_errors),\n        'page_error_count': len(page_errors),\n        'request_failure_count': len(request_failures),\n        'console_errors': console_errors[:10],\n        'page_errors': page_errors[:10],\n        'request_failures': request_failures[:10],\n        'readiness': {\n            'document_ready_state': page.evaluate('document.readyState'),\n            'visualize_settled': bool(facts(page, expected)['visualizeReady']),\n            'theme_synchronized': bool(facts(page, expected)['themeSynchronized']),\n            'no_white_surface_regression': bool(facts(page, expected)['noWhiteSurfaceRegression']),\n        },\n        'image_sha256': sha256(path),\n    }\n    results.append(record)\n    return record\n\nport = free_port()\nurl = f'http://127.0.0.1:{port}'\nlog_path = out / 'canonical-workbench.log'\nlog = log_path.open('w', encoding='utf-8')\nprocess = subprocess.Popen([sys.executable, str(root / 'run_nicegui_base.py'), '--host', '127.0.0.1', '--port', str(port), '--no-show'], cwd=root, env=os.environ.copy(), stdout=log, stderr=subprocess.STDOUT, text=True)\nrecords: list[dict[str, object]] = []\nviewport_checks: list[dict[str, object]] = []\ntry:\n    wait_ready(process, url)\n    with sync_playwright() as playwright:\n        browser = playwright.chromium.launch(headless=True)\n        for viewport_name, (width, height) in viewports.items():\n            context = browser.new_context(viewport={'width': width, 'height': height}, color_scheme='light')\n            page = context.new_page()\n            console_errors: list[str] = []\n            page_errors: list[str] = []\n            request_failures: list[str] = []\n            page.on('console', lambda msg, bag=console_errors: bag.append(msg.text) if msg.type == 'error' else None)\n            page.on('pageerror', lambda exc, bag=page_errors: bag.append(str(exc)))\n            page.on('requestfailed', lambda request, bag=request_failures: bag.append(f'{request.method} {request.url}: {request.failure}'))\n            response = page.goto(url + '/workbench/data', wait_until='domcontentloaded', timeout=45000)\n            page.get_by_role('radio', name='Grid', exact=True).wait_for(state='visible', timeout=10000)\n            initial_grid_ready = bool(response and response.status == 200 and page.locator('[data-active-lab=\\\"grid\\\"]').is_visible())\n            set_actual_theme(page, 'dark')\n            precondition = facts(page, 'dark')\n            if not (precondition['rootTheme'] == 'dark' and precondition['bodyDark'] and precondition['bodyQDark']):\n                raise AssertionError(f'dark precondition failed at {viewport_name}: {precondition}')\n            switch_lab(page, 'Visualize')\n            sequence = ['load:/workbench/data:grid', 'appearance:dark', 'switch:Visualize']\n            mount_name = f'visualize-{viewport_name}-dark-mount'\n            mount = capture(page, mount_name, viewport_name, sequence, 'dark', console_errors, page_errors, request_failures, records)\n            away_back: list[dict[str, object]] = []\n            switch_lab(page, 'Grid')\n            switch_lab(page, 'Visualize')\n            sequence += ['switch:Grid', 'switch:Visualize']\n            away_back_facts = facts(page, 'dark')\n            away_back.append({'stage': 'away-back-dark', 'facts': away_back_facts})\n            set_actual_theme(page, 'light')\n            sequence += ['appearance:dark-to-light']\n            light_facts = facts(page, 'light')\n            away_back.append({'stage': 'roundtrip-light', 'facts': light_facts})\n            set_actual_theme(page, 'dark')\n            sequence += ['appearance:light-to-dark']\n            dark_facts = facts(page, 'dark')\n            away_back.append({'stage': 'roundtrip-final-dark', 'facts': dark_facts})\n            if width in {1440, 390}:\n                capture(page, f'visualize-{viewport_name}-dark-roundtrip-final', viewport_name, sequence, 'dark', console_errors, page_errors, request_failures, records)\n            viewport_checks.append({\n                'viewport': viewport_name,\n                'width': width,\n                'height': height,\n                'candidate_sha': candidate_head,\n                'candidate_tree': candidate_tree,\n                'initial_grid_ready': initial_grid_ready,\n                'dark_precondition': precondition,\n                'mount': mount,\n                'away_back_and_roundtrip': away_back,\n                'console_error_count': len(console_errors),\n                'page_error_count': len(page_errors),\n                'request_failure_count': len(request_failures),\n                'pass': bool(\n                    initial_grid_ready\n                    and precondition['rootTheme'] == 'dark' and precondition['bodyDark'] and precondition['bodyQDark']\n                    and mount['readiness']['visualize_settled'] and mount['readiness']['theme_synchronized'] and mount['readiness']['no_white_surface_regression']\n                    and away_back_facts['themeSynchronized'] and light_facts['themeSynchronized'] and dark_facts['themeSynchronized']\n                    and not console_errors and not page_errors and not request_failures\n                ),\n            })\n            page.close()\n            context.close()\n        browser.close()\nfinally:\n    if process.poll() is None:\n        process.terminate()\n        try:\n            process.wait(timeout=8)\n        except subprocess.TimeoutExpired:\n            process.kill()\n            process.wait(timeout=5)\n    log.close()\n\nmatrix_pass = matrix_payload.get('passed') == matrix_payload.get('total') == 64\naccessibility_records = matrix_payload.get('accessibility_results', [])\naccessibility_pass = len(accessibility_records) == 64 and all(bool(item.get('pass')) for item in accessibility_records)\ninteraction = matrix_payload.get('interaction_smoke', {})\n\nbrowser_result = {\n    'candidate_sha': candidate_head,\n    'candidate_tree': candidate_tree,\n    'base_sha': base,\n    'work_branch': branch,\n    'target': '/workbench/data',\n    'browser': 'Chromium via Playwright',\n    'browser_capture_launched': True,\n    'focused_dark_viewports': list(viewports),\n    'focused_dark_viewports_passed': [item['viewport'] for item in viewport_checks if item['pass']],\n    'viewport_checks': viewport_checks,\n    'screenshots': records,\n    'data_table_matrix': {\n        'total': matrix_payload.get('total'),\n        'passed': matrix_payload.get('passed'),\n        'pass': matrix_pass,\n        'interaction_smoke': interaction,\n        'accessibility_records': len(accessibility_records),\n        'accessibility_passed': sum(1 for item in accessibility_records if item.get('pass')),\n        'accessibility_pass': accessibility_pass,\n        'source_report': 'data-table-matrix.json',\n    },\n    'pass': bool(matrix_pass and accessibility_pass and interaction.get('passed') and len(viewport_checks) == 4 and all(item['pass'] for item in viewport_checks)),\n}\n(out / 'browser-result.json').write_text(json.dumps(browser_result, indent=2, sort_keys=True) + '\\\\n', encoding='utf-8')\n\nlines = [\n    '# CHG-163 targeted visual evidence',\n    '',\n    f'- Candidate: \"'`{candidate_head}`; tree `{candidate_tree}`; base `{base}`.'\"',\n    f'- Branch: \"'`{branch}`; target: `/workbench/data`; browser: Chromium via Playwright.'\"',\n    '- Canonical Workbench launch: \"'`python run_nicegui_base.py --host 127.0.0.1 --port <ephemeral> --no-show`.'\"',\n    '',\n    '## Results',\n    '',\n    f\\\"- Focused dark viewports: {len(browser_result['focused_dark_viewports_passed'])}/4 PASS.\\\",\n    f\\\"- Data & Tables matrix: {matrix_payload.get('passed')}/{matrix_payload.get('total')} PASS.\\\",\n    f\\\"- Copy code accessibility records: {browser_result['data_table_matrix']['accessibility_passed']}/{browser_result['data_table_matrix']['accessibility_records']} PASS.\\\",\n    f\\\"- Interaction smoke: {'PASS' if interaction.get('passed') else 'FAIL'}; issues={interaction.get('issues', [])}; console_errors={interaction.get('console_errors', [])}; page_errors={interaction.get('page_errors', [])}.\\\",\n    '- Focused checks require root \"'`dataset.theme`, Quasar `q-dark`, page `body--dark`, chart `data-chart-theme`, settled table/chart readiness, and no visible white chart surface.'\"',\n    '- Desktop and phone include dark→light→dark round-trip screenshots with final dark synchronization.',\n    '',\n    '## Candidate scope',\n    '',\n    '- Source change: shared visualization theme resolver and explicit renderer theme authority only.',\n    '- No generated evidence is present in the product work tree.',\n    '- This is target evidence, not a human visual-acceptance or atlas-promotion claim.',\n]\n(out / 'validation.md').write_text('\\\\n'.join(lines) + '\\\\n', encoding='utf-8')\n\n# Manifest covers every retained evidence file. The outer ZIP is a transport wrapper\n# and is hashed separately after it is built to avoid a self-referential hash.\nmanifest = {\n    'manifest_version': 1,\n    'project': 'nicegui-base',\n    'change': 'CHG-163',\n    'request': 'stable3-visualize-dark-theme-preservation-fix-1',\n    'operation': 'FIX',\n    'candidate_sha': candidate_head,\n    'candidate_tree': candidate_tree,\n    'base_sha': base,\n    'work_branch': branch,\n    'artifact_scope': 'targeted-visual-evidence-only',\n    'files': {},\n}\nfor path in sorted(out.iterdir()):\n    if path.is_file() and path.name \"'!= '\"'manifest.json':\n        manifest['files'][path.name] = {'bytes': path.stat().st_size, 'sha256': sha256(path)}\n(out / 'manifest.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\\\\n', encoding='utf-8')\n\n# Deterministic enough for audit readback: sorted names, fixed timestamps and no\n# product-source files.\nzip_path = out.parent / 'artifact-bundle.zip'\nwith zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:\n    for path in sorted(out.iterdir()):\n        if path.is_file():\n            info = zipfile.ZipInfo(f'visual-evidence/{path.name}')\n            info.date_time = (2026, 9, 21, 0, 0, 0)\n            info.compress_type = zipfile.ZIP_DEFLATED\n            info.external_attr = 0o100644 << 16\n            archive.writestr(info, path.read_bytes())\nprint(json.dumps({\n    'pass': browser_result['pass'],\n    'candidate_sha': candidate_head,\n    'candidate_tree': candidate_tree,\n    'focused': browser_result['focused_dark_viewports_passed'],\n    'matrix': f\\\"{matrix_payload.get('passed')}/{matrix_payload.get('total')}\\\",\n    'accessibility': f\\\"{browser_result['data_table_matrix']['accessibility_passed']}/{browser_result['data_table_matrix']['accessibility_records']}\\\",\n    'screenshots': len(records),\n    'artifact_bundle': str(zip_path),\n    'artifact_bundle_sha256': sha256(zip_path),\n}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg163-targeted/visual-evidence')\nd=json.loads((p/'browser-result.json').read_text())\nprint(json.dumps({k:d[k] for k in ('pass','candidate_sha','candidate_tree','focused_dark_viewports_passed','data_table_matrix')},indent=2))\nfor item in d['screenshots']:\n print(item['name'], item['viewport'], item['image_sha256'][:16], item['facts']['rootTheme'], item['facts']['bodyDark'], item['facts']['bodyQDark'], item['facts']['chartThemes'], item['facts']['chartCount'], item['readiness'])\nfor check in d['viewport_checks']:\n print('CHECK',check['viewport'],check['pass'],'pre',check['dark_precondition']['rootTheme'],check['dark_precondition']['bodyDark'],check['dark_precondition']['bodyQDark'],'roundtrip',[(x['stage'],x['facts']['rootTheme'],x['facts']['bodyDark'],x['facts']['bodyQDark'],x['facts']['chartThemes'],x['facts']['themeSynchronized']) for x in check['away_back_and_roundtrip']])\nprint('manifest',json.loads((p/'manifest.json').read_text()))\nPY\nrtk unzip -t /tmp/chg163-targeted/artifact-bundle.zip && rtk unzip -l /tmp/chg163-targeted/artifact-bundle.zip | head -n 40 && rtk sha256sum /tmp/chg163-targeted/artifact-bundle.zip\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q tests'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-smoke --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_nicegui_base_identity_migration.py::test_primary_identity_is_nicegui_base",
+          "source/tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "source/tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "source/tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "source/tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "source/tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "source/tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "source/tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page",
+          "source/tests/test_phase5_adapter_contract.py::test_adapter_uses_aggrid_and_semantic_classes",
+          "source/tests/test_phase5_adapter_contract.py::test_shell_installs_table_css",
+          "source/tests/test_phase5_adapter_contract.py::test_theme_adapter_installs_table_css",
+          "source/tests/test_phase73_v300a8_sustained_operations_incident_rollback_audit.py::test_wave73_audit_package_is_deterministic",
+          "source/tests/test_phase74_v300a8_operations_evidence_renewal_continuity.py::test_wave74_source_certification_phase_floor_is_74",
+          "source/tests/test_phase75_v300a8_operational_assurance_renewal_ledger.py::test_wave75_source_certification_phase_floor_is_75",
+          "source/tests/test_phase76_v300a8_longitudinal_assurance_review_exception_governance.py::test_wave76_source_certification_phase_floor_is_76",
+          "source/tests/test_phase7_adapter_contract.py::test_adapter_uses_local_renderer_only",
+          "source/tests/test_phase7_packaging.py::test_theme_adapter_installs_visual_css"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 46696,
+        "output_sha256": "90a06c43aefdae7f656ea7565b0bfbf42332406674af3635e02706b57a201d99",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py source/tests/test_visualization_micro_closure.py source/tests/test_visualization_final_integrity.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py source/tests/test_workbench_data_table_lab.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 160,
+        "output_sha256": "3f384efc38ce43974978e9aced983f1fdf98684d494c5d09e5a1df12f4658741",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'cd source && python -m pytest -q'\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page",
+          "tests/test_phase73_v300a8_sustained_operations_incident_rollback_audit.py::test_wave73_audit_package_is_deterministic",
+          "tests/test_phase75_v300a8_operational_assurance_renewal_ledger.py::test_wave75_longitudinal_package_is_deterministic"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 27426,
+        "output_sha256": "d397fe0eeb8976d28b69ff97023c2f6be52b485d11f85702cf0162b851e4c06b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show --no-patch --format='%H%n%T%n%P%n%s' refs/heads/project-os-artifacts/nicegui-base/stable3-data-lab-code-copy-a11y-fix-1 && rtk git ls-tree -r --name-only refs/heads/project-os-artifacts/nicegui-base/stable3-data-lab-code-copy-a11y-fix-1 | head -n 80 && rtk git show --stat --oneline refs/heads/project-os-artifacts/nicegui-base/stable3-data-lab-code-copy-a11y-fix-1 | head -n 80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1 || true; rtk git status --short --branch; rtk git diff 65f17e55ed3622cafcd603c925a98db9f55ff602..HEAD --name-only'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json /tmp/chg163-runtime-smoke-report.json && rtk cp certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log /tmp/chg163-runtime-smoke-server.log && rtk git restore --source=HEAD -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk mkdir -p /tmp/chg163-carrier-staging/visual-evidence && rtk cp /tmp/chg163-targeted/visual-evidence/* /tmp/chg163-carrier-staging/visual-evidence/ && rtk cp /tmp/chg163-targeted/artifact-bundle.zip /tmp/chg163-carrier-staging/artifact-bundle.zip && rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom hashlib import sha256\nstaging = Path('/tmp/chg163-carrier-staging')\nhead = '955b90e80a1a675d2bb7c014620ed0697d573450'\ntree = '815d26a6755d54ff790686ea118a8a2a94f7fa55'\nbase = '65f17e55ed3622cafcd603c925a98db9f55ff602'\nmanifest = json.loads((staging/'visual-evidence/manifest.json').read_text())\n(staging/'candidate.json').write_text(json.dumps({\n    'project': 'nicegui-base',\n    'change': 'CHG-163',\n    'request': 'stable3-visualize-dark-theme-preservation-fix-1',\n    'operation': 'FIX',\n    'base': base,\n    'candidate_head': head,\n    'candidate_tree': tree,\n    'work_branch': 'codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1',\n    'artifact_ref': 'refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1',\n    'evidence_ref': 'refs/heads/codex-fabric/evidence/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1',\n    'visual_evidence_manifest': 'visual-evidence/manifest.json',\n    'artifact_bundle': 'artifact-bundle.zip',\n    'artifact_bundle_sha256': sha256((staging/'artifact-bundle.zip').read_bytes()).hexdigest(),\n    'focused_dark_viewports_passed': ['1440x1000','1024x900','768x900','390x844'],\n    'data_table_matrix_passed': '64/64',\n    'accessibility_records_passed': '64/64',\n}, indent=2, sort_keys=True)+'\\\\n', encoding='utf-8')\nprint(staging)\nPY\nrtk find /tmp/chg163-carrier-staging -maxdepth 2 -type f -print | sort\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse --git-dir && rtk env GIT_INDEX_FILE=/tmp/chg163-carrier-index git --git-dir=/Users/haewonkim/.codex-fabric/worktrees/CF-a7a6f2f5df92fe137e20f2f0/.git --work-tree=/tmp/chg163-carrier-staging read-tree --empty && rtk env GIT_INDEX_FILE=/tmp/chg163-carrier-index git --git-dir=/Users/haewonkim/.codex-fabric/worktrees/CF-a7a6f2f5df92fe137e20f2f0/.git --work-tree=/tmp/chg163-carrier-staging add --all && rtk env GIT_INDEX_FILE=/tmp/chg163-carrier-index git --git-dir=/Users/haewonkim/.codex-fabric/worktrees/CF-a7a6f2f5df92fe137e20f2f0/.git write-tree'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git commit-tree 937cc18c838262457df3896fa17049ec0f19d216 -p 955b90e80a1a675d2bb7c014620ed0697d573450 <<'EOF'\nCHG-163 targeted visualization dark-theme evidence\n\nBinds the exact candidate and carries only the targeted visual-evidence package.\nEOF\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git update-ref refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1 33cf1d7b1cf9f2a0950c234fa589335018241c7e && rtk git show --no-patch --format='%H%n%T%n%P%n%s' refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1 && rtk git ls-tree -r --name-only refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1 | head -n 30 && rtk git push origin 33cf1d7b1cf9f2a0950c234fa589335018241c7e:refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1:refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1 && rtk python - <<'PY'\nfrom __future__ import annotations\nimport hashlib\nimport io\nimport json\nimport subprocess\nimport zipfile\nfrom pathlib import Path\n\nref = 'refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1'\nroot = Path('/tmp/chg163-remote-readback')\nroot.mkdir(exist_ok=True)\n\ndef git_bytes(path: str) -> bytes:\n    return subprocess.check_output(['git', 'show', f'{ref}:{path}'])\n\ndef sha(data: bytes) -> str:\n    return hashlib.sha256(data).hexdigest()\n\ncommit = subprocess.check_output(['git', 'rev-parse', ref], text=True).strip()\nparents = subprocess.check_output(['git', 'show', '-s', '--format=%P', ref], text=True).strip().split()\ntree = subprocess.check_output(['git', 'show', '-s', '--format=%T', ref], text=True).strip()\nassert commit == '33cf1d7b1cf9f2a0950c234fa589335018241c7e'\nassert parents == ['955b90e80a1a675d2bb7c014620ed0697d573450'], parents\ncandidate = json.loads(git_bytes('candidate.json'))\nassert candidate['candidate_head'] == parents[0]\nassert candidate['candidate_tree'] == '815d26a6755d54ff790686ea118a8a2a94f7fa55'\nmanifest = json.loads(git_bytes('visual-evidence/manifest.json'))\nchecked = {}\nfor path, detail in manifest['files'].items():\n    remote_path = f'visual-evidence/{path}'\n    data = git_bytes(remote_path)\n    observed = sha(data)\n    assert observed == detail['sha256'], (path, observed, detail['sha256'])\n    assert len(data) == detail['bytes'], path\n    checked[remote_path] = observed\nbundle = git_bytes('artifact-bundle.zip')\nassert sha(bundle) == candidate['artifact_bundle_sha256']\nwith zipfile.ZipFile(io.BytesIO(bundle)) as archive:\n    names = archive.namelist()\n    assert 'visual-evidence/manifest.json' in names\n    screenshot_name = 'visual-evidence/visualize-desktop-1440x1000-dark-mount.png'\n    screenshot = archive.read(screenshot_name)\n    assert sha(screenshot) == manifest['files']['visualize-desktop-1440x1000-dark-mount.png']['sha256']\nprint(json.dumps({\n    'remote_ref': ref,\n    'artifact_commit': commit,\n    'artifact_tree': tree,\n    'sole_parent': parents[0],\n    'candidate_sha': candidate['candidate_head'],\n    'candidate_tree': candidate['candidate_tree'],\n    'retained_files_hash_verified': len(checked),\n    'artifact_bundle_sha256': sha(bundle),\n    'artifact_bundle_zip_entries': len(names),\n    'screenshot_binary_verified': {'path': screenshot_name, 'bytes': len(screenshot), 'sha256': sha(screenshot)},\n}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git rev-parse HEAD && rtk git show -s --format='%T %P' HEAD && rtk git rev-parse refs/heads/main && rtk git rev-parse origin/main && rtk git diff --name-only 65f17e55ed3622cafcd603c925a98db9f55ff602..HEAD && rtk git ls-tree -r --name-only HEAD | rg '(\"'^|/)(visual-evidence|artifact-bundle'\"\\\\.zip)|\\\\.codex-fabric/audit\\\\.json' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python -m pytest -q source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py source/tests/test_visualization_micro_closure.py source/tests/test_visualization_final_integrity.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py source/tests/test_workbench_data_table_lab.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 160,
+        "output_sha256": "3f384efc38ce43974978e9aced983f1fdf98684d494c5d09e5a1df12f4658741",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 212,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.79,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 10887424,
+      "fresh_input_tokens": 245485,
+      "input_tokens": 11132909,
+      "non_reasoning_output_tokens": 22071,
+      "output_tokens": 38019,
+      "reasoning_output_tokens": 15948,
+      "total_processed_tokens": 11170928
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "subject": "Fix visualization dark theme preservation on mount"
+    }
+  ],
+  "diff": {
+    "additions": 55,
+    "changed_files": 2,
+    "commit_count": 1,
+    "deletions": 5
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-21T21:39:46Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+    "branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1",
+    "detached_verify": false,
+    "head_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+    "remote_exact_head": true,
+    "remote_head_sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+    "work_branch": "codex/nicegui-base-stable3-visualize-dark-theme-preservation-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-a7a6f2f5df92fe137e20f2f0",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-visualize-dark-theme-preservation-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-visualize-dark-theme-preservation-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-21T21:19:04Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1242,
+    "queue_seconds": 0,
+    "total_seconds": 1242
+  },
+  "transport": {
+    "bytes": 10270,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 9905,
+    "prompt_sha256": "41af8dff2fb130dc5164a5d12369cb7a1afa5f4cb91deb16bad36fffc0a43862",
+    "sha256": "a7a6f2f5df92fe137e20f2f08ca73f498f7a4de79f199a851e137f05fc17a850"
+  }
+}
