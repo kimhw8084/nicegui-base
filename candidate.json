@@ -1,0 +1,33 @@
+{
+  "project_os_ui_fix": 2,
+  "project": "nicegui-base",
+  "change": "CHG-163",
+  "request": "stable3-visualize-theme-client-isolation-fix-2",
+  "operation": "FIX",
+  "fabric_job": "CF-ed23f860fd42d76bbb72de5a",
+  "base": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+  "predecessor_candidate": "955b90e80a1a675d2bb7c014620ed0697d573450",
+  "candidate_head": "f86d201372c405e43359c8fde8d0106f9c7401c0",
+  "candidate_tree": "16afc20436f98937c4d8481c0e23fa12a9578f12",
+  "work_branch": "codex/nicegui-base-stable3-visualize-theme-client-isolation-fix-2",
+  "source_changed": true,
+  "browser_capture_launched": true,
+  "defect": "visualization-theme-client-isolation-and-system-resolution",
+  "multi_client_isolation_passed": true,
+  "system_theme_resolution_passed": true,
+  "r1_dark_viewports_passed": [
+    "1440x1000",
+    "1024x900",
+    "768x900",
+    "390x844"
+  ],
+  "data_table_matrix_passed": "64/64",
+  "accessibility_records_passed": "64/64",
+  "targeted_test_count": 107,
+  "runtime_smoke": "PASS",
+  "runtime_contract": "PASS",
+  "launcher_check": "PASS",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-visualize-theme-client-isolation-fix-2",
+  "deterministic_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-visualize-theme-client-isolation-fix-2",
+  "error_code": null
+}

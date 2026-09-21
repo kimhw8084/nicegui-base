@@ -1,0 +1,59 @@
+{
+  "schema": "chg163-visual-evidence-v2",
+  "candidate": "f86d201372c405e43359c8fde8d0106f9c7401c0",
+  "tree": "16afc20436f98937c4d8481c0e23fa12a9578f12",
+  "predecessor_candidate": "955b90e80a1a675d2bb7c014620ed0697d573450",
+  "artifact_root": "candidate.json + visual-evidence/",
+  "files": [
+    {
+      "path": "candidate.json",
+      "bytes": 1330,
+      "sha256": "9c35658de1ba7d7a0063e2b9c75430bb2463a5dd295326d08d0b41a0e6cc0ea0"
+    },
+    {
+      "path": "visual-evidence/browser-result.json",
+      "bytes": 16697,
+      "sha256": "c4801b871a5e59df431697dddb0ab0b9432c3386304fcd5137a3e4e85b1c2735"
+    },
+    {
+      "path": "visual-evidence/data-lab-browser-result.json",
+      "bytes": 40013,
+      "sha256": "46a2dbfb4221194280b20f08ca73d8788af05c389c1b0ad7f9aeab1c995d6425"
+    },
+    {
+      "path": "visual-evidence/r1-final-dark-desktop.png",
+      "bytes": 314569,
+      "sha256": "11bfaab69acf6c939a481498ff5566892b82eb021ec7c4752910e5e4c0d006bd"
+    },
+    {
+      "path": "visual-evidence/r1-final-dark-phone.png",
+      "bytes": 179565,
+      "sha256": "473d5cb391405236e277697b449677eae3300846034ed81e61176cfc3529e78f"
+    },
+    {
+      "path": "visual-evidence/screenshots/explicit-client-a-dark.png",
+      "bytes": 274885,
+      "sha256": "adf156fda5d0af3859b1e940cdfcaf5f2911a29c5786b815a763cefb17070aff"
+    },
+    {
+      "path": "visual-evidence/screenshots/explicit-client-b-light.png",
+      "bytes": 272755,
+      "sha256": "35d54c2dabeea51d0fd6b88f12fd307fd2b99a1d88600cb118da5121c0c9ee26"
+    },
+    {
+      "path": "visual-evidence/screenshots/system-client-c-dark.png",
+      "bytes": 275331,
+      "sha256": "627ee3379509d3b0142d662193e8411d71b08a30ed8eae0cf91b283fab7573c1"
+    },
+    {
+      "path": "visual-evidence/screenshots/system-client-d-light.png",
+      "bytes": 275388,
+      "sha256": "7e839fe4a487432803ef3f3a7a79fc808c527158e28e77e46c44aa6b695b5fa8"
+    },
+    {
+      "path": "visual-evidence/validation.md",
+      "bytes": 2482,
+      "sha256": "49c9d9c24a7e72049b7b211632cabf8b39a3e927949712e15fc04f48766da491"
+    }
+  ]
+}
