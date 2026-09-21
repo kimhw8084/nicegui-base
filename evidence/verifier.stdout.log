@@ -1,0 +1,1 @@
+{"candidate": "NGB-20260907-G2.6", "total": 64, "passed": 60, "failed": 4, "interaction_smoke": {"passed": true, "issues": [], "console_errors": [], "page_errors": []}, "output": "/Users/haewonkim/.codex-fabric/evidence/stable3-data-lab-code-copy-a11y-fix-1/visual-audit/matrix"}
