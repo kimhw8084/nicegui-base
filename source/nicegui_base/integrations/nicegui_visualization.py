@@ -97,7 +97,6 @@ _ACTIVE_CHARTS: 'weakref.WeakSet[ChartPanel]' = weakref.WeakSet()
 # becoming process-lifetime state while still keeping page-owned renderers
 # available for live theme changes.
 _ACTIVE_THEME_RENDERERS: 'weakref.WeakKeyDictionary[Any, set[Any]]' = weakref.WeakKeyDictionary()
-_FALLBACK_THEME_RENDERERS: set[Any] = set()
 _CLIENT_THEME_CLEANUP_REGISTERED: 'weakref.WeakSet[Any]' = weakref.WeakSet()
 
 
@@ -121,12 +120,10 @@ def _register_theme_renderer(renderer: Any) -> None:
     client = _active_client()
     renderer._theme_client = client
     if client is None:
-        _FALLBACK_THEME_RENDERERS.add(renderer)
         return
     try:
         bucket = _ACTIVE_THEME_RENDERERS.setdefault(client, set())
     except TypeError:
-        _FALLBACK_THEME_RENDERERS.add(renderer)
         return
     bucket.add(renderer)
     if client not in _CLIENT_THEME_CLEANUP_REGISTERED:
@@ -139,7 +136,6 @@ def _register_theme_renderer(renderer: Any) -> None:
 def _unregister_theme_renderer(renderer: Any) -> None:
     client = getattr(renderer, '_theme_client', None)
     if client is None:
-        _FALLBACK_THEME_RENDERERS.discard(renderer)
         return
     try:
         bucket = _ACTIVE_THEME_RENDERERS.get(client)
@@ -183,7 +179,7 @@ def apply_all_chart_themes(mode: str, *, client: Any | None = None) -> None:
     try:
         panels = tuple(_ACTIVE_THEME_RENDERERS.get(target, ()))
     except TypeError:
-        panels = tuple(_FALLBACK_THEME_RENDERERS)
+        panels = ()
     failures=[]
     for panel in panels:
         try:
