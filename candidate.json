@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "fabric_job": "CF-55d9db070dbd940c06f2c64d",
+  "project": "nicegui-base",
+  "request": "stable3-data-lab-code-copy-a11y-fix-1",
+  "operation": "FIX",
+  "defect": "workbench-data-code-copy-accessible-name",
+  "base": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+  "base_tree": "4969bd1ff2d3e51646b84ff473094ff084077631",
+  "candidate_head": "57ebdee2619d8b5152615450701ea286f3758f48",
+  "candidate_tree": "ceec2ea6ed2280dd97c964e62da7cf52e7b68940",
+  "work_branch": "codex/nicegui-base-stable3-data-lab-code-copy-a11y-fix-1",
+  "browser_route": "/workbench/data",
+  "browser_profiles": [
+    "desktop-1440x900",
+    "mobile-390x844",
+    "mobile-narrow-360x800"
+  ],
+  "browser_capture_launched": true,
+  "focused_browser_result": "browser/DATA_LAB_CODE_COPY_A11Y_RESULT.json",
+  "focused_browser_cases": 24,
+  "focused_browser_passed": 24,
+  "focused_browser_contract": {
+    "readiness": "document.readyState=complete and document.fonts.status=loaded",
+    "accessible_name": "Copy code",
+    "role": "button",
+    "keyboard_focus_and_activation": true,
+    "click_copy_behavior": true,
+    "page_level_horizontal_overflow": false,
+    "console_errors": 0,
+    "page_errors": 0,
+    "failed_requests": 0
+  },
+  "direct_browser_suite": {
+    "command": "rtk env PYTHONPATH=source python tools/run_data_table_visual_audit.py --output <evidence>/visual-audit",
+    "matrix_cases": 64,
+    "matrix_passed": 60,
+    "interaction_smoke_passed": true,
+    "accessibility_records_passed": 64,
+    "pre_existing_unrelated_warning": "dark-theme-not-applied for Visualize in desktop/tablet/small-tablet/phone dark matrix cases"
+  },
+  "source_changed": true,
+  "source_files": [
+    "source/nicegui_base/workbench/data_table_lab.py",
+    "source/tests/test_workbench_data_table_lab.py",
+    "tools/verify_data_table_lab.py",
+    "tools/verify_data_lab_code_copy_a11y.py"
+  ]
+}
