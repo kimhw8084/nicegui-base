@@ -92,7 +92,7 @@ def _display_control_bar(*, inline: bool = False) -> Any:
     from nicegui import app, ui
     from nicegui_base.integrations.nicegui_data_table import apply_all_table_density
     from nicegui_base.integrations.nicegui_layout import SegmentedControl
-    from nicegui_base.integrations.nicegui_visualization import apply_all_chart_themes
+    from nicegui_base.integrations.nicegui_visualization import apply_all_chart_themes, register_client_theme_resolver
 
     theme = str(app.storage.user.get('cui_lab_theme', 'system'))
     density = str(app.storage.user.get('cui_lab_density', 'compact'))
@@ -105,6 +105,7 @@ def _display_control_bar(*, inline: bool = False) -> Any:
         motion = 'normal'
 
     dark = ui.dark_mode()
+    register_client_theme_resolver(ui)
 
     def sync_theme(value: str) -> None:
         dark_value = {'light': False, 'dark': True, 'system': None}[value]
@@ -119,17 +120,21 @@ def _display_control_bar(*, inline: bool = False) -> Any:
         ui.run_javascript(f"""(() => {{
           const root=document.documentElement;
           const requested={value!r};
-          const media=window.matchMedia?.('(prefers-color-scheme: dark)');
-          const apply=()=>{{
-            const resolved=requested==='system' ? (media?.matches ? 'dark' : 'light') : requested;
+          root.__niceguiBaseThemeRequested=requested;
+          root.__niceguiBaseApplyTheme=()=>{{
+            const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+            const current=root.__niceguiBaseThemeRequested;
+            const resolved=current==='system' ? (media?.matches ? 'dark' : 'light') : current;
             root.dataset.theme=resolved;
             document.body?.classList.toggle('q-dark', resolved==='dark');
             document.body?.classList.toggle('body--dark', resolved==='dark');
+            document.querySelectorAll('[data-cui-theme-resolver="true"]').forEach((bridge)=>bridge.dispatchEvent(new CustomEvent('cui-theme-resolved',{{detail:{{mode:resolved}}}})));
           }};
-          apply();
-          if(requested==='system' && media && !root.__niceguiBaseThemeListener){{
-            root.__niceguiBaseThemeListener=()=>apply();
-            media.addEventListener?.('change',root.__niceguiBaseThemeListener);
+          root.__niceguiBaseApplyTheme();
+          if(!root.__niceguiBaseThemeListener){{
+            const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+            root.__niceguiBaseThemeListener=()=>root.__niceguiBaseApplyTheme();
+            media?.addEventListener?.('change',root.__niceguiBaseThemeListener);
           }}
           try{{localStorage.setItem('nicegui_base_theme',requested);localStorage.setItem('cui_lab_theme',requested);}}catch(_){{}}
         }})()""")

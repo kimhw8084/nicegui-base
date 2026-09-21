@@ -28,7 +28,36 @@ def _ui():
     return ui
 
 
-_CURRENT_THEME_MODE = 'light'
+_CLIENT_THEME_STORAGE_KEY = '_nicegui_base_effective_theme'
+
+
+def _active_client(ui: Any | None = None) -> Any | None:
+    ui = ui or _ui()
+    return getattr(getattr(ui, 'context', None), 'client', None)
+
+
+def _client_storage(client: Any) -> Any | None:
+    try:
+        from nicegui import app
+        active = _active_client()
+        if active is client:
+            return app.storage.client
+    except Exception:
+        pass
+    return getattr(client, 'storage', None)
+
+
+def _client_theme_mode(client: Any | None) -> str | None:
+    if client is None:
+        return None
+    storage = _client_storage(client)
+    if storage is None:
+        return None
+    try:
+        mode = storage.get(_CLIENT_THEME_STORAGE_KEY)
+    except Exception:
+        return None
+    return mode if mode in {'light', 'dark'} else None
 
 
 def _resolve_theme_mode(mode: str | None) -> str:
@@ -37,7 +66,7 @@ def _resolve_theme_mode(mode: str | None) -> str:
     # ``ui.dark_mode()`` constructs a page element in NiceGUI 3.15. It is not
     # a passive getter, so using it here would install a second controller and
     # reset the page's selected appearance while a renderer is mounting.
-    return _CURRENT_THEME_MODE
+    return _client_theme_mode(_active_client()) or 'light'
 
 
 def _register_client_delete(ui: Any, callback: Callable[..., Any]) -> bool:
@@ -63,25 +92,100 @@ def _icon(ui, key: str, *, label: str | None = None, size: str = 'xs'):
     return ui.html(render_icon_svg(key, size=size, label=label), sanitize=False).classes('cui-svg-icon-host')
 
 _ACTIVE_CHARTS: 'weakref.WeakSet[ChartPanel]' = weakref.WeakSet()
-# Theme updates are application-wide and must retain a renderer until the
-# client lifecycle invokes its explicit dispose callback. A WeakSet here can
-# collect Workbench-created panels immediately because the page owns the DOM
-# element, not the Python wrapper; that makes a live theme switch silently
-# miss the chart. Every renderer registered below removes itself from this set
-# in dispose(), so the strong ownership is bounded by the client lifecycle.
-_ACTIVE_THEME_RENDERERS: set[Any] = set()
+# Keep a strong renderer reference only inside its owning client bucket. The
+# weak client keys and explicit delete cleanup prevent this registry from
+# becoming process-lifetime state while still keeping page-owned renderers
+# available for live theme changes.
+_ACTIVE_THEME_RENDERERS: 'weakref.WeakKeyDictionary[Any, set[Any]]' = weakref.WeakKeyDictionary()
+_FALLBACK_THEME_RENDERERS: set[Any] = set()
+_CLIENT_THEME_CLEANUP_REGISTERED: 'weakref.WeakSet[Any]' = weakref.WeakSet()
+
+
+def _cleanup_client(client: Any) -> None:
+    bucket = _ACTIVE_THEME_RENDERERS.pop(client, None)
+    if bucket:
+        for renderer in tuple(bucket):
+            if getattr(renderer, '_theme_client', None) is client:
+                renderer._theme_client = None
+        bucket.clear()
+    _CLIENT_THEME_CLEANUP_REGISTERED.discard(client)
+    storage = getattr(client, 'storage', None)
+    if storage is not None:
+        try:
+            storage.pop(_CLIENT_THEME_STORAGE_KEY, None)
+        except Exception:
+            pass
 
 
 def _register_theme_renderer(renderer: Any) -> None:
-    _ACTIVE_THEME_RENDERERS.add(renderer)
+    client = _active_client()
+    renderer._theme_client = client
+    if client is None:
+        _FALLBACK_THEME_RENDERERS.add(renderer)
+        return
+    try:
+        bucket = _ACTIVE_THEME_RENDERERS.setdefault(client, set())
+    except TypeError:
+        _FALLBACK_THEME_RENDERERS.add(renderer)
+        return
+    bucket.add(renderer)
+    if client not in _CLIENT_THEME_CLEANUP_REGISTERED:
+        on_delete = getattr(client, 'on_delete', None)
+        if callable(on_delete):
+            on_delete(_cleanup_client)
+            _CLIENT_THEME_CLEANUP_REGISTERED.add(client)
 
-def apply_all_chart_themes(mode: str) -> None:
-    global _CURRENT_THEME_MODE
+
+def _unregister_theme_renderer(renderer: Any) -> None:
+    client = getattr(renderer, '_theme_client', None)
+    if client is None:
+        _FALLBACK_THEME_RENDERERS.discard(renderer)
+        return
+    try:
+        bucket = _ACTIVE_THEME_RENDERERS.get(client)
+    except TypeError:
+        bucket = None
+    if bucket is not None:
+        bucket.discard(renderer)
+        if not bucket:
+            _ACTIVE_THEME_RENDERERS.pop(client, None)
+    renderer._theme_client = None
+
+
+def register_client_theme_resolver(ui: Any) -> Any:
+    """Create a client-local bridge for browser-resolved System appearance."""
+    bridge = ui.element('div').classes('cui-visually-hidden').props(
+        'aria-hidden="true" data-cui-theme-resolver="true"'
+    )
+
+    def resolved(event: Any) -> None:
+        args = getattr(event, 'args', {}) or {}
+        mode = args.get('mode') if isinstance(args, Mapping) else None
+        if mode in {'light', 'dark'}:
+            apply_all_chart_themes(mode)
+
+    bridge.on('cui-theme-resolved', resolved, js_handler='e => emit(e.detail)')
+    return bridge
+
+
+def apply_all_chart_themes(mode: str, *, client: Any | None = None) -> None:
     if mode not in {'light','dark'}:
         return
-    _CURRENT_THEME_MODE = mode
+    target = client if client is not None else _active_client()
+    if target is None:
+        return
+    storage = _client_storage(target)
+    if storage is not None:
+        try:
+            storage[_CLIENT_THEME_STORAGE_KEY] = mode
+        except Exception:
+            pass
+    try:
+        panels = tuple(_ACTIVE_THEME_RENDERERS.get(target, ()))
+    except TypeError:
+        panels = tuple(_FALLBACK_THEME_RENDERERS)
     failures=[]
-    for panel in tuple(_ACTIVE_THEME_RENDERERS):
+    for panel in panels:
         try:
             panel.apply_theme(mode)
         except Exception as exc:
@@ -591,7 +695,7 @@ class ChartPanel:
         if self._disposed:return
         self._disposed=True; self._pending_render=False
         _ACTIVE_CHARTS.discard(self)
-        _ACTIVE_THEME_RENDERERS.discard(self)
+        _unregister_theme_renderer(self)
 
 
 class _TypedChart(ChartPanel):
@@ -791,7 +895,7 @@ class _SpatialSvgPanel:
             self.container.props(f'data-chart-theme="{mode}"')
 
     def dispose(self) -> None:
-        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
+        self._disposed=True; _unregister_theme_renderer(self)
 
 
 class WaferMap(_SpatialSvgPanel):
@@ -1105,7 +1209,7 @@ class PlotlyPanel:
         if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
 
     def dispose(self) -> None:
-        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
+        self._disposed=True; _unregister_theme_renderer(self)
 
 
 class _SemanticOptionDiagram:
@@ -1138,6 +1242,7 @@ class _SemanticOptionDiagram:
                 self.element = (ui.echart(options, renderer=self.chart_renderer) if self.chart_renderer else ui.echart(options)).classes('cui-chart-canvas w-full')
             ui.label(self.accessibility_summary(options)).props(f'id="{summary_id}"').classes('cui-visually-hidden')
         _register_theme_renderer(self)
+        _register_client_delete(ui, self.dispose)
 
     def apply_theme(self, mode: str) -> None:
         if mode not in {'light','dark'}: raise ValueError('diagram theme mode must be light or dark')
@@ -1148,7 +1253,7 @@ class _SemanticOptionDiagram:
         if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
 
     def dispose(self) -> None:
-        _ACTIVE_THEME_RENDERERS.discard(self)
+        _unregister_theme_renderer(self)
 
     @classmethod
     def accessibility_summary(cls, options: dict[str, Any]) -> str:
@@ -1490,7 +1595,7 @@ class ViolinPlot:
         if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
 
     def dispose(self) -> None:
-        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
+        self._disposed=True; _unregister_theme_renderer(self)
 
 
 class RidgePlot:
@@ -1564,7 +1669,7 @@ class RidgePlot:
         if self.container is not None: self.container.props(f'data-chart-theme="{mode}"')
 
     def dispose(self) -> None:
-        self._disposed=True; _ACTIVE_THEME_RENDERERS.discard(self)
+        self._disposed=True; _unregister_theme_renderer(self)
 
 
 class ProcessTrendPanel:
