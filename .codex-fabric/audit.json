@@ -1,0 +1,212 @@
+{
+  "accepted_at": "2026-09-21T23:53:07Z",
+  "changed_files": [
+    {
+      "additions": 22,
+      "deletions": 5,
+      "path": "source/nicegui_base/certification/mac_lab.py",
+      "status": "M"
+    },
+    {
+      "additions": 126,
+      "deletions": 21,
+      "path": "source/nicegui_base/integrations/nicegui_visualization.py",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 8,
+      "path": "source/nicegui_base/workbench/app.py",
+      "status": "M"
+    },
+    {
+      "additions": 101,
+      "deletions": 0,
+      "path": "source/tests/test_chg163_visualization_theme.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,260p' /Users/haewonkim/.codex/law.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git remote -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show-ref --heads --remotes'",
+      "exit_code": 129,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set -e\nBASE=65f17e55ed3622cafcd603c925a98db9f55ff602\nBASE_TREE=ceec2ea6ed2280dd97c964e62da7cf52e7b68940\nCANDIDATE=f86d201372c405e43359c8fde8d0106f9c7401c0\nCANDIDATE_TREE=16afc20436f98937c4d8481c0e23fa12a9578f12\nPREDECESSOR=955b90e80a1a675d2bb7c014620ed0697d573450\nprintf 'origin/main: '; rtk git rev-parse refs/remotes/origin/main\nprintf 'origin/main tree: '; rtk git rev-parse refs/remotes/origin/main\"'^{tree}\nprintf '\"'candidate: '; rtk git rev-parse \\\"\"'$CANDIDATE\"\nprintf '\"'candidate tree: '; rtk git rev-parse \\\"\"'$CANDIDATE''^{tree}\"\nprintf '\"'base tree: '; rtk git rev-parse \\\"\"'$BASE''^{tree}\"\nprintf '\"'candidate parents: '; rtk git show -s --format='%P' \\\"\"'$CANDIDATE\"\nprintf '\"'R3 local branch: '; rtk git rev-parse --verify refs/heads/codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3\nprintf 'base ancestor: '; if rtk git merge-base --is-ancestor \\\"\"'$BASE\" \"$CANDIDATE\"; then echo true; else echo false; fi\nprintf '\"'predecessor ancestor: '; if rtk git merge-base --is-ancestor \\\"\"'$PREDECESSOR\" \"$CANDIDATE\"; then echo true; else echo false; fi\nprintf '\"'base-to-candidate diff names:\\\\n'; rtk git diff --name-only \\\"\"'$BASE\" \"$CANDIDATE\"\nprintf '\"'candidate audit paths:\\\\n'; rtk git ls-tree -r --name-only \\\"\"'$CANDIDATE\" .codex-fabric\nprintf '\"'worktree porcelain:\\\\n'; rtk git status --porcelain=v1\nprintf 'checks:\\\\n'; test \\\"\"'$(rtk git rev-parse refs/remotes/origin/main)\" = \"$BASE\"; test \"$(rtk git rev-parse refs/remotes/origin/main''^{tree})\" = \"$BASE_TREE\"; test \"$(rtk git rev-parse \"$CANDIDATE\")\" = \"$CANDIDATE\"; test \"$(rtk git rev-parse \"$CANDIDATE''^{tree}\")\" = \"$CANDIDATE_TREE\"; test \"$(rtk git rev-parse \"$BASE''^{tree}\")\" = \"$BASE_TREE\"; test \"$(rtk git rev-parse refs/heads/codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3)\" = \"$CANDIDATE\"; rtk git merge-base --is-ancestor \"$BASE\" \"$CANDIDATE\"; rtk git merge-base --is-ancestor \"$PREDECESSOR\" \"$CANDIDATE\"; test -z \"$(rtk git status --porcelain=v1)\"; echo PASS'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy git status --porcelain=v1 --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -vv'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote --heads origin refs/heads/codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git reset --hard f86d201372c405e43359c8fde8d0106f9c7401c0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"set -e\nBASE=65f17e55ed3622cafcd603c925a98db9f55ff602\nBASE_TREE=ceec2ea6ed2280dd97c964e62da7cf52e7b68940\nCANDIDATE=f86d201372c405e43359c8fde8d0106f9c7401c0\nCANDIDATE_TREE=16afc20436f98937c4d8481c0e23fa12a9578f12\nPREDECESSOR=955b90e80a1a675d2bb7c014620ed0697d573450\nBRANCH=codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3\nEXPECTED='source/nicegui_base/certification/mac_lab.py\nsource/nicegui_base/integrations/nicegui_visualization.py\nsource/nicegui_base/workbench/app.py\nsource/tests/test_chg163_visualization_theme.py'\nLOCAL_HEAD=\"'$(rtk proxy git rev-parse \"refs/heads/$BRANCH\")\nWORK_HEAD=$(rtk proxy git rev-parse HEAD)\nORIGIN_MAIN=$(rtk proxy git rev-parse refs/remotes/origin/main)\nORIGIN_MAIN_TREE=$(rtk proxy git rev-parse refs/remotes/origin/main''^{tree})\nCANDIDATE_TREE_OBSERVED=$(rtk proxy git rev-parse \"$CANDIDATE''^{tree}\")\nBASE_TREE_OBSERVED=$(rtk proxy git rev-parse \"$BASE''^{tree}\")\nDIFF_NAMES=$(rtk proxy git diff --name-only \"$BASE\" \"$CANDIDATE\")\nset -- $(rtk proxy git ls-remote --heads origin \"refs/heads/$BRANCH\")\nREMOTE_BRANCH_SHA=$1\nREMOTE_BRANCH_REF=$2\nset -- $(rtk proxy git ls-remote --heads origin refs/heads/main)\nREMOTE_MAIN_SHA=$1\nprintf '\"'local_head=%s\\\\n' \\\"\"'$LOCAL_HEAD\"\nprintf '\"'work_head=%s\\\\n' \\\"\"'$WORK_HEAD\"\nprintf '\"'remote_branch_sha=%s\\\\n' \\\"\"'$REMOTE_BRANCH_SHA\"\nprintf '\"'remote_branch_ref=%s\\\\n' \\\"\"'$REMOTE_BRANCH_REF\"\nprintf '\"'origin_main=%s\\\\n' \\\"\"'$ORIGIN_MAIN\"\nprintf '\"'remote_main_sha=%s\\\\n' \\\"\"'$REMOTE_MAIN_SHA\"\nprintf '\"'origin_main_tree=%s\\\\n' \\\"\"'$ORIGIN_MAIN_TREE\"\nprintf '\"'candidate_tree=%s\\\\n' \\\"\"'$CANDIDATE_TREE_OBSERVED\"\nprintf '\"'base_tree=%s\\\\n' \\\"\"'$BASE_TREE_OBSERVED\"\nprintf '\"'commit_distance=%s\\\\n' \\\"\"'$(rtk proxy git rev-list --count \"$BASE..$CANDIDATE\")\"\nprintf '\"'diff_names:\\\\n%s\\\\n' \\\"\"'$DIFF_NAMES\"\nprintf '\"'codex_fabric_candidate_paths:\\\\n%s\\\\n' \\\"\"'$(rtk proxy git ls-tree -r --name-only \"$CANDIDATE\" .codex-fabric)\"\n\ntest \"$LOCAL_HEAD\" = \"$CANDIDATE\"\ntest \"$WORK_HEAD\" = \"$CANDIDATE\"\ntest \"$REMOTE_BRANCH_SHA\" = \"$CANDIDATE\"\ntest \"$REMOTE_BRANCH_REF\" = \"refs/heads/$BRANCH\"\ntest \"$ORIGIN_MAIN\" = \"$BASE\"\ntest \"$REMOTE_MAIN_SHA\" = \"$BASE\"\ntest \"$ORIGIN_MAIN_TREE\" = \"$BASE_TREE\"\ntest \"$CANDIDATE_TREE_OBSERVED\" = \"$CANDIDATE_TREE\"\ntest \"$BASE_TREE_OBSERVED\" = \"$BASE_TREE\"\ntest \"$(rtk proxy git rev-list --count \"$BASE..$CANDIDATE\")\" = 3\ntest \"$DIFF_NAMES\" = \"$EXPECTED\"\nrtk proxy git merge-base --is-ancestor \"$BASE\" \"$CANDIDATE\"\nrtk proxy git merge-base --is-ancestor \"$PREDECESSOR\" \"$CANDIDATE\"\ntest -z \"$(rtk proxy git status --porcelain=v1)\"\nrtk proxy git diff --quiet \"$CANDIDATE\" --\nrtk proxy git diff --cached --quiet\nprintf '\"'verification=PASS\\\\n'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 33,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 89.26,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 172800,
+      "fresh_input_tokens": 20792,
+      "input_tokens": 193592,
+      "non_reasoning_output_tokens": 3224,
+      "output_tokens": 6571,
+      "reasoning_output_tokens": 3347,
+      "total_processed_tokens": 200163
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "f86d201372c405e43359c8fde8d0106f9c7401c0",
+      "subject": "Remove no-client visualization theme fallback"
+    },
+    {
+      "sha": "b5c529469542e72155aa7212b591506190f9e050",
+      "subject": "Fix visualization theme client isolation"
+    },
+    {
+      "sha": "955b90e80a1a675d2bb7c014620ed0697d573450",
+      "subject": "Fix visualization dark theme preservation on mount"
+    }
+  ],
+  "diff": {
+    "additions": 262,
+    "changed_files": 4,
+    "commit_count": 3,
+    "deletions": 34
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-21T23:56:29Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+    "branch": "codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3",
+    "detached_verify": false,
+    "head_sha": "f86d201372c405e43359c8fde8d0106f9c7401c0",
+    "remote_exact_head": true,
+    "remote_head_sha": "f86d201372c405e43359c8fde8d0106f9c7401c0",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+    "work_branch": "codex/nicegui-base-stable3-visualize-theme-native-audit-verify-3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-c7e63db5d8af1b42e046a44d",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-visualize-theme-native-audit-verify-3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-visualize-theme-native-audit-verify-3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-visualize-theme-native-audit-verify-3",
+  "schema_version": 1,
+  "started_at": "2026-09-21T23:53:07Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 202,
+    "queue_seconds": 0,
+    "total_seconds": 202
+  },
+  "transport": {
+    "bytes": 7115,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6751,
+    "prompt_sha256": "b81dea25fcc8d924414a8213f39bf41c45d14a5bb98cb98da6ddc87a0fe61066",
+    "sha256": "c7e63db5d8af1b42e046a44d44e93018f54e202d68e27bc44c5a48918d2c3b73"
+  }
+}
