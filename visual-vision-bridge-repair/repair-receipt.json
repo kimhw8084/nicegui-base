@@ -1,0 +1,41 @@
+{
+  "browser_capture_launched": false,
+  "change": "CHG-135",
+  "claim_boundary": "R6 VERIFY-only repair receipt. It records formal byte/readback reconciliation and does not decide visual quality, severity, acceptance, qualification, promotion, or release readiness.",
+  "error_code": null,
+  "fabric_job": "CF-97d510c16e2afd4dc477453d",
+  "notion_called_or_written": false,
+  "ok": true,
+  "operation": "VERIFY",
+  "prior_refs_unchanged_at_preflight": true,
+  "product_changed_files": 0,
+  "product_commits": 0,
+  "project": "nicegui-base",
+  "project_os_visual_vision_bridge_repair": 1,
+  "r4_capture_fabric_job": "CF-c22d316de7cdce2bc09258c6",
+  "r5_artifact_commit": "924725e1d33fc03925538ba69c89cb23f8658c8d",
+  "r5_corrected_receipt_sha256": "c14998565caacbfb733966396e64b654ab5513b0e4cdb20b903c8d7e1b1c0877",
+  "r5_derived_package_verified": true,
+  "r5_evidence_commit": "947d4a5684e2dbfc68a8e679787d50e96d0ca736",
+  "r5_fabric_job": "CF-5b4daf57fb9695dbae9d7140",
+  "r5_postflight_verification_sha256": "76fd45acf2d8374f3e4f0743be35de4b938726832f1117078cccb3808626945c",
+  "r5_shared_bridge_tree": "da0a0f7dde3ade830ddce02fb645026089a654c2",
+  "repair_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-vision-bridge-repair-1",
+  "repair_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-vision-bridge-repair-1",
+  "repair_package_files": {
+    "r5-corrected-receipt.json": {
+      "bytes": 2543,
+      "sha256": "c14998565caacbfb733966396e64b654ab5513b0e4cdb20b903c8d7e1b1c0877"
+    },
+    "r5-postflight-verification.json": {
+      "bytes": 24753,
+      "sha256": "76fd45acf2d8374f3e4f0743be35de4b938726832f1117078cccb3808626945c"
+    }
+  },
+  "repair_package_verified": true,
+  "request": "stable3-golden-visual-atlas-vision-bridge-repair-1",
+  "source_changed": false,
+  "source_sha": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+  "status": "R5_POSTFLIGHT_REPAIRED_AWAITING_AUDIT",
+  "tree_sha": "4969bd1ff2d3e51646b84ff473094ff084077631"
+}
