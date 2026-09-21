@@ -73,6 +73,54 @@ def test_data_page_projects_single_active_lab_not_the_old_capability_wall() -> N
     assert 'render_data_dock' not in data_page
 
 
+def test_data_lab_api_disclosures_delegate_to_governed_code_viewer() -> None:
+    from nicegui_base.workbench import data_table_lab
+
+    class FakeElement:
+        def __init__(self) -> None:
+            self.class_calls: list[str] = []
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def classes(self, value: str):
+            self.class_calls.append(value)
+            return self
+
+        def props(self, _value: str):
+            return self
+
+    class FakeUI:
+        def element(self, *_args) -> FakeElement:
+            return FakeElement()
+
+        def label(self, *_args) -> FakeElement:
+            return FakeElement()
+
+    class FakeCodeViewer:
+        calls: list[tuple[str, str]] = []
+        instances: list['FakeCodeViewer'] = []
+
+        def __init__(self, code: str, *, language: str) -> None:
+            self.__class__.calls.append((code, language))
+            self.element = FakeElement()
+            self.__class__.instances.append(self)
+
+    data_table_lab._api_disclosure(
+        {'ui': FakeUI(), 'CodeViewer': FakeCodeViewer}, 'print(1)', 'A governed contract.'
+    )
+
+    assert FakeCodeViewer.calls == [('print(1)', 'python')]
+    assert FakeCodeViewer.instances[0].element.class_calls == ['cui-data-lab-code']
+    source = (ROOT / 'nicegui_base' / 'workbench' / 'data_table_lab.py').read_text(encoding='utf-8')
+    assert "from nicegui_base.integrations.nicegui_content import CodeViewer" in source
+    assert "parts['CodeViewer'](code, language='python').element.classes('cui-data-lab-code')" in source
+    assert source.count('\n    _api_disclosure(parts,') == 8
+
+
 def test_typed_column_contract_describes_editors_without_raw_grid_names() -> None:
     from nicegui_base.data_table import ColumnKind, TableColumn
 

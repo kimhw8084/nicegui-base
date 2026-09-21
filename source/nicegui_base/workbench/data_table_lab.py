@@ -409,6 +409,7 @@ class LogicalEngineeringProvider:
 def _ui_parts():
     from nicegui import ui
     from nicegui_base.integrations.nicegui_components import ActionButton, Button, NumberInput, SearchInput, Select, TextArea, TextInput
+    from nicegui_base.integrations.nicegui_content import CodeViewer
     from nicegui_base.integrations.nicegui_data_table import (
         DataTable, EditableTable, MasterDetailTable, ServerDataTable, TablePresetSelector,
     )
@@ -442,7 +443,7 @@ def _api_disclosure(parts, code: str, contract: str) -> None:
         with ui.element('summary').props('tabindex="0"'):
             ui.label('Use this in an application').classes('cui-workbench-card__meta')
         ui.label(contract).classes('cui-workbench-note')
-        ui.code(code, language='python').classes('cui-viewer cui-code-viewer cui-data-lab-code')
+        parts['CodeViewer'](code, language='python').element.classes('cui-data-lab-code')
 
 
 def _summary_strip(parts, session: DataLabSession, rows: Sequence[Mapping[str, Any]] | None = None, *, prefix: str = '') -> Callable[[Sequence[Mapping[str, Any]] | None], None]:

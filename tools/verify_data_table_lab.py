@@ -14,7 +14,75 @@ LABS = ('Grid', 'Actions', 'Edit', 'Visualize', 'Import', 'Detail', 'Server', 'S
 TABLE_LABS = {'Grid', 'Actions', 'Edit', 'Visualize', 'Detail', 'Server', 'States'}
 
 
-def _check_page(page, response, *, expected_lab: str) -> list[str]:
+def _wait_for_settled_ready(page, *, timeout: int = 15000) -> None:
+    page.wait_for_function(
+        "() => document.readyState === 'complete' && document.fonts && document.fonts.status === 'loaded'",
+        timeout=timeout,
+    )
+    page.wait_for_timeout(180)
+
+
+def _inspect_code_copy_accessibility(page, *, viewport: str, lab: str) -> list[dict[str, object]]:
+    """Inspect this lab's visible generated copy action after opening its disclosure."""
+    disclosure = page.locator('.cui-data-lab-reference')
+    selector = '.cui-data-lab-reference .nicegui-code-copy'
+    if disclosure.count() != 1:
+        return [{
+            'viewport': viewport, 'lab': lab, 'selector': selector, 'class': None,
+            'accessible_name': None, 'aria_label': None, 'title': None, 'role': None,
+            'focusable': False, 'pass': False, 'failure': f'api-disclosure-count:{disclosure.count()}',
+        }]
+    disclosure.evaluate('(element) => { element.open = true; }')
+    page.wait_for_timeout(80)
+    records = page.evaluate(
+        """({viewport, lab}) => {
+          const selector = '.cui-data-lab-reference .nicegui-code-copy';
+          const visible = element => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+          };
+          const accessibleName = element => {
+            const labelledBy = element.getAttribute('aria-labelledby');
+            if (labelledBy) {
+              const text = labelledBy.split(/\\s+/).map(id => document.getElementById(id)?.innerText || '').join(' ').trim();
+              if (text) return text;
+            }
+            return element.getAttribute('aria-label')?.trim() || element.getAttribute('title')?.trim() || element.innerText?.trim() || null;
+          };
+          return [...document.querySelectorAll(selector)].filter(visible).map(element => {
+            const explicitRole = element.getAttribute('role')?.trim();
+            const role = explicitRole || (element.tagName === 'BUTTON' ? 'button' : element.tagName === 'A' ? 'link' : null);
+            const disabled = Boolean(element.disabled) || element.getAttribute('aria-disabled') === 'true';
+            const name = accessibleName(element);
+            const focusable = !disabled && element.tabIndex >= 0;
+            const pass = role === 'button' && name === 'Copy code' && focusable;
+            return {
+              viewport, lab, selector, class: element.className || null,
+              accessible_name: name,
+              aria_label: element.getAttribute('aria-label'),
+              title: element.getAttribute('title'),
+              role, focusable, pass,
+              failure: pass ? null : [
+                role !== 'button' ? 'role-not-button' : null,
+                name !== 'Copy code' ? 'accessible-name-not-copy-code' : null,
+                !focusable ? 'not-keyboard-focusable' : null,
+              ].filter(Boolean).join(',') || 'accessibility-contract-failed',
+            };
+          });
+        }""",
+        {'viewport': viewport, 'lab': lab},
+    )
+    if not records:
+        return [{
+            'viewport': viewport, 'lab': lab, 'selector': selector, 'class': None,
+            'accessible_name': None, 'aria_label': None, 'title': None, 'role': None,
+            'focusable': False, 'pass': False, 'failure': 'visible-code-copy-missing',
+        }]
+    return records
+
+
+def _check_page(page, response, *, expected_lab: str, accessibility_results: list[dict[str, object]] | None = None) -> list[str]:
     issues: list[str] = []
     if response is None or response.status != 200:
         issues.append(f'http:{response.status if response else None}')
@@ -71,6 +139,11 @@ def _check_page(page, response, *, expected_lab: str) -> list[str]:
         pagination = page.locator('.cui-table-footer__pagination')
         if pagination.count() != 1 or not pagination.is_visible() or pagination.locator('.cui-table-page-label').count() != 1:
             issues.append('server-mobile-pagination-not-coherent')
+    code_copy_results = _inspect_code_copy_accessibility(page, viewport=str(width), lab=expected_lab)
+    if accessibility_results is not None:
+        accessibility_results.extend(code_copy_results)
+    if any(not bool(result['pass']) for result in code_copy_results):
+        issues.append('code-copy-accessibility')
     theme_values = page.evaluate("""() => {
         const root = document.documentElement;
         const sample = document.querySelector('.cui-data-lab') || document.body;
@@ -215,6 +288,7 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
     page.set_default_timeout(8000)
     page.goto(url.rstrip('/') + '/workbench/data', wait_until='domcontentloaded', timeout=45000)
     page.get_by_role('radio', name='Grid', exact=True).wait_for(state='visible', timeout=10000)
+    _wait_for_settled_ready(page)
     page.get_by_role('button', name='Choose columns', exact=True).wait_for(state='visible', timeout=10000)
     page.wait_for_timeout(250)
 
@@ -225,6 +299,7 @@ def _interaction_smoke(page, url: str, evidence_dir: Path | None = None) -> list
         new_client_page()
         page.goto(url.rstrip('/') + '/workbench/data', wait_until='domcontentloaded', timeout=45000)
         page.get_by_role('radio', name='Grid', exact=True).wait_for(state='visible', timeout=10000)
+        _wait_for_settled_ready(page)
         _switch_lab(page, label, wait=wait)
     try:
         # Grid: displayed population, quick filter, density, column visibility and
@@ -698,6 +773,7 @@ def main() -> int:
     args = parser.parse_args()
     output = args.output.resolve(); screenshots = output / 'screenshots'; screenshots.mkdir(parents=True, exist_ok=True)
     results: list[dict[str, object]] = []
+    all_accessibility_results: list[dict[str, object]] = []
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         for viewport, size in (('desktop', (1440, 1000)), ('tablet', (1024, 900)), ('small-tablet', (768, 900)), ('phone', (390, 844))):
@@ -708,14 +784,14 @@ def main() -> int:
                 page.on('pageerror', lambda error: page_errors.append(str(error)))
                 response = page.goto(args.url.rstrip('/') + '/workbench/data', wait_until='domcontentloaded', timeout=45000)
                 page.get_by_role('radio', name='Grid', exact=True).wait_for(state='visible', timeout=10000)
-                page.wait_for_timeout(300)
+                _wait_for_settled_ready(page)
                 _set_actual_theme(page, theme)
                 for label in LABS:
                     if label != 'Grid':
                         page.get_by_role('radio', name=label).click()
                         page.locator(f'[data-active-lab="{label.lower()}"]').wait_for(state='visible', timeout=10000)
-                        page.wait_for_timeout(120)
-                    issues = _check_page(page, response, expected_lab=label)
+                        _wait_for_settled_ready(page)
+                    issues = _check_page(page, response, expected_lab=label, accessibility_results=all_accessibility_results)
                     if label == 'Visualize':
                         if page.locator('[data-chart-kind]').count() != 1:
                             issues.append('visualize-chart-missing')
@@ -766,6 +842,7 @@ def main() -> int:
             'page_errors': smoke_page_errors[:3],
         },
         'results': results,
+        'accessibility_results': all_accessibility_results,
     }
     (output / 'DATA_LAB_BROWSER_RESULT.json').write_text(json.dumps(payload, indent=2), encoding='utf-8')
     print(json.dumps({'candidate': CANDIDATE, 'total': payload['total'], 'passed': payload['passed'], 'failed': payload['total'] - payload['passed'], 'interaction_smoke': payload['interaction_smoke'], 'output': str(output)}))
