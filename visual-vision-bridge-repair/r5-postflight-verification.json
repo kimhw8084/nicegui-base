@@ -1,0 +1,686 @@
+{
+  "board_validation": {
+    "all_boards_under_24576_bytes": true,
+    "caps": [
+      {
+        "bytes": 23561,
+        "path": "visual-vision-bridge/boards/analytics-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 24297,
+        "path": "visual-vision-bridge/boards/analytics-02.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23997,
+        "path": "visual-vision-bridge/boards/analytics-03.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 24475,
+        "path": "visual-vision-bridge/boards/analytics-04.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 24473,
+        "path": "visual-vision-bridge/boards/application-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23950,
+        "path": "visual-vision-bridge/boards/component-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 24105,
+        "path": "visual-vision-bridge/boards/component-02.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23123,
+        "path": "visual-vision-bridge/boards/lab-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23699,
+        "path": "visual-vision-bridge/boards/pattern-studio-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 24093,
+        "path": "visual-vision-bridge/boards/recipe-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23574,
+        "path": "visual-vision-bridge/boards/reference-pattern-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23082,
+        "path": "visual-vision-bridge/boards/workbench-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 24168,
+        "path": "visual-vision-bridge/risk/risk-01.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 22945,
+        "path": "visual-vision-bridge/risk/risk-02.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23941,
+        "path": "visual-vision-bridge/risk/risk-03.jpg",
+        "under_24576": true
+      },
+      {
+        "bytes": 23781,
+        "path": "visual-vision-bridge/risk/risk-04.jpg",
+        "under_24576": true
+      }
+    ],
+    "family_board_count": 12,
+    "family_boards": [
+      "visual-vision-bridge/boards/analytics-01.jpg",
+      "visual-vision-bridge/boards/analytics-02.jpg",
+      "visual-vision-bridge/boards/analytics-03.jpg",
+      "visual-vision-bridge/boards/analytics-04.jpg",
+      "visual-vision-bridge/boards/application-01.jpg",
+      "visual-vision-bridge/boards/component-01.jpg",
+      "visual-vision-bridge/boards/component-02.jpg",
+      "visual-vision-bridge/boards/lab-01.jpg",
+      "visual-vision-bridge/boards/pattern-studio-01.jpg",
+      "visual-vision-bridge/boards/recipe-01.jpg",
+      "visual-vision-bridge/boards/reference-pattern-01.jpg",
+      "visual-vision-bridge/boards/workbench-01.jpg"
+    ],
+    "family_coverage_all_144_exactly_once": true,
+    "risk_board_count": 4,
+    "risk_boards": [
+      "visual-vision-bridge/risk/risk-01.jpg",
+      "visual-vision-bridge/risk/risk-02.jpg",
+      "visual-vision-bridge/risk/risk-03.jpg",
+      "visual-vision-bridge/risk/risk-04.jpg"
+    ],
+    "risk_coverage_top24_exactly_once_in_risk_set": true
+  },
+  "capture_run_identity": {
+    "capture_fabric_job_id": "CF-c22d316de7cdce2bc09258c6",
+    "capture_fabric_job_status": "RECOVERED_EXACT",
+    "sha256": "75f0e966a140a7c7ed3e246e4e14aa1f151999332eb7d3155176dcaefcd13f19"
+  },
+  "change": "CHG-135",
+  "checks": {
+    "all_board_bytes_at_most_24576": true,
+    "capture_identity_recovered_exact": true,
+    "family_board_count_12": true,
+    "family_coverage_all_144_exactly_once": true,
+    "origin_main_source_identity": true,
+    "product_changed_files_zero": true,
+    "product_commits_zero": true,
+    "r5_artifact_ref_exact": true,
+    "r5_artifact_tree_exact": true,
+    "r5_evidence_audit_identity_verified": true,
+    "r5_evidence_ref_exact": true,
+    "r5_evidence_tree_exact": true,
+    "r5_recursive_blob_identity_equal": true,
+    "r5_recursive_byte_size_equal": true,
+    "r5_recursive_path_set_equal": true,
+    "r5_transport_sha256_reconciliation": true,
+    "raw_family_jpeg_verified": true,
+    "raw_risk_jpeg_verified": true,
+    "repair_work_branch_source_identity": true,
+    "required_json_files_present": true,
+    "risk_board_count_4": true,
+    "risk_coverage_top24_exactly_once_in_risk_set": true
+  },
+  "claim_boundary": "VERIFY-only formal readback repair. This package does not accept AR-34, decide visual quality, classify severity, qualify CHG-59, promote a Visual Surface, or claim stable/production readiness.",
+  "ok": true,
+  "operation": "VERIFY",
+  "product_source": {
+    "browser_capture_launched": false,
+    "notion_called_or_written": false,
+    "origin_main_ref": "refs/heads/main",
+    "origin_main_sha": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+    "origin_main_tree": "4969bd1ff2d3e51646b84ff473094ff084077631",
+    "product_changed_files": [],
+    "product_commits": 0,
+    "source_changed": false,
+    "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-vision-bridge-repair-1",
+    "work_branch_sha": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+    "work_branch_tree": "4969bd1ff2d3e51646b84ff473094ff084077631"
+  },
+  "project": "nicegui-base",
+  "r4_immutable_input": {
+    "artifact_commit": "bf2ba1f353bbf40bf524800f0db0d85877a00522",
+    "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-2",
+    "bundle_sha256": "4cac04d3e5dc66e2495c421986923776a460f58e3fdf85d1915843ac03862a9f",
+    "canonical_screenshot_count": 288,
+    "capture_fabric_job": "CF-c22d316de7cdce2bc09258c6",
+    "capture_report_sha256": "190ee993b0f90834e7d8f654c5d9a3f6376dc71b74ce3e61ac79c0e15ad587b0",
+    "evidence_commit": "cc41c18627c58567efd3c0732f5548eacaa554e0",
+    "evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-2",
+    "manifest_sha256": "4974d02d98a28498fbcdd5ac4a714f75c57fdaabbcf2cb59e5ebba4b32ccd498",
+    "surface_count": 144
+  },
+  "r5_evidence_audit": {
+    "browser_capture_launched": false,
+    "job_id": "CF-5b4daf57fb9695dbae9d7140",
+    "notion_called_or_written": false,
+    "product_changed_files": 0,
+    "product_commits": 0,
+    "source_changed": false
+  },
+  "r5_immutable_input": {
+    "artifact_commit": "924725e1d33fc03925538ba69c89cb23f8658c8d",
+    "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-vision-bridge-2",
+    "evidence_commit": "947d4a5684e2dbfc68a8e679787d50e96d0ca736",
+    "evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-vision-bridge-2",
+    "fabric_job": "CF-5b4daf57fb9695dbae9d7140",
+    "pre_repair_receipt": {
+      "derived_artifact_commit": null,
+      "derived_package_verified": false,
+      "ok": true,
+      "status": "VISION_BRIDGE_GIT_PUBLISHED_AWAITING_AUDIT"
+    },
+    "shared_bridge_tree": "da0a0f7dde3ade830ddce02fb645026089a654c2"
+  },
+  "raw_binary_checks": [
+    {
+      "bytes": 23561,
+      "jpeg_signature_hex": "ffd8ff",
+      "jpeg_signature_valid": true,
+      "path": "visual-vision-bridge/boards/analytics-01.jpg",
+      "sha256": "ec6f73304f79287af3051c24625484db7b8d24ebd704fe1fb723741bd3dab95e",
+      "transport_bytes": 23561,
+      "transport_sha256": "ec6f73304f79287af3051c24625484db7b8d24ebd704fe1fb723741bd3dab95e"
+    },
+    {
+      "bytes": 24168,
+      "jpeg_signature_hex": "ffd8ff",
+      "jpeg_signature_valid": true,
+      "path": "visual-vision-bridge/risk/risk-01.jpg",
+      "sha256": "3492c5e74b530456c82c03ade91d6a0e8be2b2887206916bf5ca23757b86c3cd",
+      "transport_bytes": 24168,
+      "transport_sha256": "3492c5e74b530456c82c03ade91d6a0e8be2b2887206916bf5ca23757b86c3cd"
+    }
+  ],
+  "recursive_reconciliation": {
+    "artifact_tree": "da0a0f7dde3ade830ddce02fb645026089a654c2",
+    "evidence_tree": "da0a0f7dde3ade830ddce02fb645026089a654c2",
+    "file_count_including_receipt": 22,
+    "files": [
+      {
+        "artifact": {
+          "blob": "89034f4714024df377b3260ce10cbcc1154f5548",
+          "bytes": 1092939,
+          "mode": "100644",
+          "sha256": "af4b1ad99485b095f05360f617aa0866964d301fff137491fc53b9212422665c",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "89034f4714024df377b3260ce10cbcc1154f5548",
+          "bytes": 1092939,
+          "mode": "100644",
+          "sha256": "af4b1ad99485b095f05360f617aa0866964d301fff137491fc53b9212422665c",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/anomaly-details.json",
+        "transport": {
+          "bytes": 1092939,
+          "sha256": "af4b1ad99485b095f05360f617aa0866964d301fff137491fc53b9212422665c"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "eb3e5d153d7f658f6693496ee117761b55c91bad",
+          "bytes": 159289,
+          "mode": "100644",
+          "sha256": "2f2f7ac0a8c12852495bd1181d2c74cbef35f8ede89ff397e9aee894505ff5f0",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "eb3e5d153d7f658f6693496ee117761b55c91bad",
+          "bytes": 159289,
+          "mode": "100644",
+          "sha256": "2f2f7ac0a8c12852495bd1181d2c74cbef35f8ede89ff397e9aee894505ff5f0",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/atlas-diff.json",
+        "transport": {
+          "bytes": 159289,
+          "sha256": "2f2f7ac0a8c12852495bd1181d2c74cbef35f8ede89ff397e9aee894505ff5f0"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "f1cc1469779a0dde8e0b6e019d62b06692a00c76",
+          "bytes": 203091,
+          "mode": "100644",
+          "sha256": "453038d8c167423fdc5c95ce7d1b03ee17541bd7bd344bb59ff76776dc09229e",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "f1cc1469779a0dde8e0b6e019d62b06692a00c76",
+          "bytes": 203091,
+          "mode": "100644",
+          "sha256": "453038d8c167423fdc5c95ce7d1b03ee17541bd7bd344bb59ff76776dc09229e",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/board-index.json",
+        "transport": {
+          "bytes": 203091,
+          "sha256": "453038d8c167423fdc5c95ce7d1b03ee17541bd7bd344bb59ff76776dc09229e"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "414ba55053b830e8c4531fed9fcf891d22ed6ac9",
+          "bytes": 23561,
+          "mode": "100644",
+          "sha256": "ec6f73304f79287af3051c24625484db7b8d24ebd704fe1fb723741bd3dab95e",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "414ba55053b830e8c4531fed9fcf891d22ed6ac9",
+          "bytes": 23561,
+          "mode": "100644",
+          "sha256": "ec6f73304f79287af3051c24625484db7b8d24ebd704fe1fb723741bd3dab95e",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/analytics-01.jpg",
+        "transport": {
+          "bytes": 23561,
+          "sha256": "ec6f73304f79287af3051c24625484db7b8d24ebd704fe1fb723741bd3dab95e"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "61e71432a822f0420f9d65c95b547cc26734cbb8",
+          "bytes": 24297,
+          "mode": "100644",
+          "sha256": "a054c52e86fcf72f45d794408522917163f70cea3813fc3a3ea478e4ab921d77",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "61e71432a822f0420f9d65c95b547cc26734cbb8",
+          "bytes": 24297,
+          "mode": "100644",
+          "sha256": "a054c52e86fcf72f45d794408522917163f70cea3813fc3a3ea478e4ab921d77",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/analytics-02.jpg",
+        "transport": {
+          "bytes": 24297,
+          "sha256": "a054c52e86fcf72f45d794408522917163f70cea3813fc3a3ea478e4ab921d77"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "62b7fbeee5116f9be38780850cd38e212df1c623",
+          "bytes": 23997,
+          "mode": "100644",
+          "sha256": "1d34924dba784e9461a97456d046df97e88704ef7d83bb5668faf0ee310981e2",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "62b7fbeee5116f9be38780850cd38e212df1c623",
+          "bytes": 23997,
+          "mode": "100644",
+          "sha256": "1d34924dba784e9461a97456d046df97e88704ef7d83bb5668faf0ee310981e2",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/analytics-03.jpg",
+        "transport": {
+          "bytes": 23997,
+          "sha256": "1d34924dba784e9461a97456d046df97e88704ef7d83bb5668faf0ee310981e2"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "7441bbb3de51dc521a43d6c4e67edfa4b9f0fc61",
+          "bytes": 24475,
+          "mode": "100644",
+          "sha256": "33a4bda35d317f5bdd58bacc8c973c40ce014723a85360dba6182652d5faf935",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "7441bbb3de51dc521a43d6c4e67edfa4b9f0fc61",
+          "bytes": 24475,
+          "mode": "100644",
+          "sha256": "33a4bda35d317f5bdd58bacc8c973c40ce014723a85360dba6182652d5faf935",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/analytics-04.jpg",
+        "transport": {
+          "bytes": 24475,
+          "sha256": "33a4bda35d317f5bdd58bacc8c973c40ce014723a85360dba6182652d5faf935"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "0018a8263b5abafa0da18b9604097a5c2ef37e40",
+          "bytes": 24473,
+          "mode": "100644",
+          "sha256": "03ab92ac284a3b4f84f1f81b255b29deadc9aa04977801540fa2af0b0bdbae62",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "0018a8263b5abafa0da18b9604097a5c2ef37e40",
+          "bytes": 24473,
+          "mode": "100644",
+          "sha256": "03ab92ac284a3b4f84f1f81b255b29deadc9aa04977801540fa2af0b0bdbae62",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/application-01.jpg",
+        "transport": {
+          "bytes": 24473,
+          "sha256": "03ab92ac284a3b4f84f1f81b255b29deadc9aa04977801540fa2af0b0bdbae62"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "5283782a73f5576f021ecb4919f5205466e6c5a3",
+          "bytes": 23950,
+          "mode": "100644",
+          "sha256": "c2ac336f5d2932420145829c8a2c95eb4b53c7ede73e2db42e01514c01ae996c",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "5283782a73f5576f021ecb4919f5205466e6c5a3",
+          "bytes": 23950,
+          "mode": "100644",
+          "sha256": "c2ac336f5d2932420145829c8a2c95eb4b53c7ede73e2db42e01514c01ae996c",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/component-01.jpg",
+        "transport": {
+          "bytes": 23950,
+          "sha256": "c2ac336f5d2932420145829c8a2c95eb4b53c7ede73e2db42e01514c01ae996c"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "d3fbe1f6d462ffe7922285f59df535251ef14981",
+          "bytes": 24105,
+          "mode": "100644",
+          "sha256": "efc159bc391ff356a5fb997c71666825ff463151d0a0d2d4861bc91ee63b9420",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "d3fbe1f6d462ffe7922285f59df535251ef14981",
+          "bytes": 24105,
+          "mode": "100644",
+          "sha256": "efc159bc391ff356a5fb997c71666825ff463151d0a0d2d4861bc91ee63b9420",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/component-02.jpg",
+        "transport": {
+          "bytes": 24105,
+          "sha256": "efc159bc391ff356a5fb997c71666825ff463151d0a0d2d4861bc91ee63b9420"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "82b607be4026c45732c8f04a2909a309fada9fe9",
+          "bytes": 23123,
+          "mode": "100644",
+          "sha256": "8f4fcaa3b013dd2a36ac6b308b9e623c9d7b624bc389db29272d038abd0adeb6",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "82b607be4026c45732c8f04a2909a309fada9fe9",
+          "bytes": 23123,
+          "mode": "100644",
+          "sha256": "8f4fcaa3b013dd2a36ac6b308b9e623c9d7b624bc389db29272d038abd0adeb6",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/lab-01.jpg",
+        "transport": {
+          "bytes": 23123,
+          "sha256": "8f4fcaa3b013dd2a36ac6b308b9e623c9d7b624bc389db29272d038abd0adeb6"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "e20a73fbd4042af8681c97a9438db24f4f5ca371",
+          "bytes": 23699,
+          "mode": "100644",
+          "sha256": "61c863e10a6fff9d3d7bc7353ea536af067a48be34171d71c08daa236d3568fd",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "e20a73fbd4042af8681c97a9438db24f4f5ca371",
+          "bytes": 23699,
+          "mode": "100644",
+          "sha256": "61c863e10a6fff9d3d7bc7353ea536af067a48be34171d71c08daa236d3568fd",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/pattern-studio-01.jpg",
+        "transport": {
+          "bytes": 23699,
+          "sha256": "61c863e10a6fff9d3d7bc7353ea536af067a48be34171d71c08daa236d3568fd"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "4692b6f5972541ee352de7fa112fefd56b32466b",
+          "bytes": 24093,
+          "mode": "100644",
+          "sha256": "e91288b4753865ad2656b33b83a74ba61ae887b26479cd7edd51dcd94e4ba0e2",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "4692b6f5972541ee352de7fa112fefd56b32466b",
+          "bytes": 24093,
+          "mode": "100644",
+          "sha256": "e91288b4753865ad2656b33b83a74ba61ae887b26479cd7edd51dcd94e4ba0e2",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/recipe-01.jpg",
+        "transport": {
+          "bytes": 24093,
+          "sha256": "e91288b4753865ad2656b33b83a74ba61ae887b26479cd7edd51dcd94e4ba0e2"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "86c574d289cfcc3a9f89b6a2fa0e216e293831e9",
+          "bytes": 23574,
+          "mode": "100644",
+          "sha256": "c162e51ae8cde335069cdde7f289f22b960a5f13b76d28cf9722c4a72dd8d2d1",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "86c574d289cfcc3a9f89b6a2fa0e216e293831e9",
+          "bytes": 23574,
+          "mode": "100644",
+          "sha256": "c162e51ae8cde335069cdde7f289f22b960a5f13b76d28cf9722c4a72dd8d2d1",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/reference-pattern-01.jpg",
+        "transport": {
+          "bytes": 23574,
+          "sha256": "c162e51ae8cde335069cdde7f289f22b960a5f13b76d28cf9722c4a72dd8d2d1"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "f5de98a280214c111b22743ac241fb8d8e9492db",
+          "bytes": 23082,
+          "mode": "100644",
+          "sha256": "7251949b9481008f3ae758d2db0bf3f56baf4b6befb4b59e5c6bde52a50930c6",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "f5de98a280214c111b22743ac241fb8d8e9492db",
+          "bytes": 23082,
+          "mode": "100644",
+          "sha256": "7251949b9481008f3ae758d2db0bf3f56baf4b6befb4b59e5c6bde52a50930c6",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/boards/workbench-01.jpg",
+        "transport": {
+          "bytes": 23082,
+          "sha256": "7251949b9481008f3ae758d2db0bf3f56baf4b6befb4b59e5c6bde52a50930c6"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "41981383217847686ddf99d56d7d5128fd65d15a",
+          "bytes": 4018,
+          "mode": "100644",
+          "sha256": "75f0e966a140a7c7ed3e246e4e14aa1f151999332eb7d3155176dcaefcd13f19",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "41981383217847686ddf99d56d7d5128fd65d15a",
+          "bytes": 4018,
+          "mode": "100644",
+          "sha256": "75f0e966a140a7c7ed3e246e4e14aa1f151999332eb7d3155176dcaefcd13f19",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/capture-run-identity.json",
+        "transport": {
+          "bytes": 4018,
+          "sha256": "75f0e966a140a7c7ed3e246e4e14aa1f151999332eb7d3155176dcaefcd13f19"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "3634fbfe5b882f2d837eab5d28ed83947e10306f",
+          "bytes": 24168,
+          "mode": "100644",
+          "sha256": "3492c5e74b530456c82c03ade91d6a0e8be2b2887206916bf5ca23757b86c3cd",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "3634fbfe5b882f2d837eab5d28ed83947e10306f",
+          "bytes": 24168,
+          "mode": "100644",
+          "sha256": "3492c5e74b530456c82c03ade91d6a0e8be2b2887206916bf5ca23757b86c3cd",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/risk/risk-01.jpg",
+        "transport": {
+          "bytes": 24168,
+          "sha256": "3492c5e74b530456c82c03ade91d6a0e8be2b2887206916bf5ca23757b86c3cd"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "d11a8cbe3e230bfe89cc7fa159f1461e4b97029c",
+          "bytes": 22945,
+          "mode": "100644",
+          "sha256": "57a1ccd6ea65032a1790c3ddfb7a7f2971ac6922bf86ace8db475ca697fc4d3b",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "d11a8cbe3e230bfe89cc7fa159f1461e4b97029c",
+          "bytes": 22945,
+          "mode": "100644",
+          "sha256": "57a1ccd6ea65032a1790c3ddfb7a7f2971ac6922bf86ace8db475ca697fc4d3b",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/risk/risk-02.jpg",
+        "transport": {
+          "bytes": 22945,
+          "sha256": "57a1ccd6ea65032a1790c3ddfb7a7f2971ac6922bf86ace8db475ca697fc4d3b"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "0ff1288c2bdf9f75e24ea45c7f401f943fe1c9d6",
+          "bytes": 23941,
+          "mode": "100644",
+          "sha256": "ded630615c0c01291228499d260f47f5f8487f7479a5838946467a6bd6ded1ce",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "0ff1288c2bdf9f75e24ea45c7f401f943fe1c9d6",
+          "bytes": 23941,
+          "mode": "100644",
+          "sha256": "ded630615c0c01291228499d260f47f5f8487f7479a5838946467a6bd6ded1ce",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/risk/risk-03.jpg",
+        "transport": {
+          "bytes": 23941,
+          "sha256": "ded630615c0c01291228499d260f47f5f8487f7479a5838946467a6bd6ded1ce"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "f104fb9833074d1921dab1be8b27106e97bda9d2",
+          "bytes": 23781,
+          "mode": "100644",
+          "sha256": "1d54d28bac467090be49a405962807e87304687fa3851a8391793e733d59ea27",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "f104fb9833074d1921dab1be8b27106e97bda9d2",
+          "bytes": 23781,
+          "mode": "100644",
+          "sha256": "1d54d28bac467090be49a405962807e87304687fa3851a8391793e733d59ea27",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/risk/risk-04.jpg",
+        "transport": {
+          "bytes": 23781,
+          "sha256": "1d54d28bac467090be49a405962807e87304687fa3851a8391793e733d59ea27"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "f0aa8b4b29a1bae706cb3bb065274797eb97819b",
+          "bytes": 71542,
+          "mode": "100644",
+          "sha256": "72f79976d24f9bfdf22cad7084e1903846ddf2f155c9e16e60e73744837c620d",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "f0aa8b4b29a1bae706cb3bb065274797eb97819b",
+          "bytes": 71542,
+          "mode": "100644",
+          "sha256": "72f79976d24f9bfdf22cad7084e1903846ddf2f155c9e16e60e73744837c620d",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/source-context.json",
+        "transport": {
+          "bytes": 71542,
+          "sha256": "72f79976d24f9bfdf22cad7084e1903846ddf2f155c9e16e60e73744837c620d"
+        }
+      },
+      {
+        "artifact": {
+          "blob": "bfedd614a39fccbdfa52399243bc6e3dc80f74ce",
+          "bytes": 4483,
+          "mode": "100644",
+          "sha256": "0a268dad2ce5931f5649ca81be767329e7f0567010fc1d1a22436df36c997726",
+          "type": "blob"
+        },
+        "evidence": {
+          "blob": "bfedd614a39fccbdfa52399243bc6e3dc80f74ce",
+          "bytes": 4483,
+          "mode": "100644",
+          "sha256": "0a268dad2ce5931f5649ca81be767329e7f0567010fc1d1a22436df36c997726",
+          "type": "blob"
+        },
+        "path": "visual-vision-bridge/vision-bridge-receipt.json",
+        "transport": {
+          "not_listed": "manifest_receipt_self"
+        }
+      }
+    ],
+    "transport_file_count": 21
+  },
+  "request": "stable3-golden-visual-atlas-vision-bridge-repair-1",
+  "schema_version": 1,
+  "status": "R5_POSTFLIGHT_VERIFICATION_PASSED",
+  "verified_at_utc": "2026-09-21T02:19:07.630206Z",
+  "verified_by_fabric_job": "CF-97d510c16e2afd4dc477453d"
+}
