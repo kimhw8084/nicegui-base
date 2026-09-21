@@ -1,0 +1,319 @@
+{
+  "accepted_at": "2026-09-21T19:34:22Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/data_table_lab.py",
+      "status": "M"
+    },
+    {
+      "additions": 48,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_data_table_lab.py",
+      "status": "M"
+    },
+    {
+      "additions": 202,
+      "deletions": 0,
+      "path": "tools/verify_data_lab_code_copy_a11y.py",
+      "status": "A"
+    },
+    {
+      "additions": 81,
+      "deletions": 4,
+      "path": "tools/verify_data_table_lab.py",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && git status --short --branch && git remote -v && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,240p' /Users/haewonkim/.codex/law.md && sed -n '1,240p' source/nicegui_base/ai/construction_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%H%n%P%n%T 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 4969bd1ff2d3e51646b84ff473094ff084077631 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 128,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show-ref --verify refs/heads/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show-ref --verify refs/remotes/origin/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 128,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-only 4969bd1ff2d3e51646b84ff473094ff084077631 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%H%n%T origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor aa0e7cf611a70e6a35122590d6cf41ded05e6779 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-only aa0e7cf611a70e6a35122590d6cf41ded05e6779 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet aa0e7cf611a70e6a35122590d6cf41ded05e6779 57ebdee2619d8b5152615450701ea286f3758f48 -- .codex-fabric/audit.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%H%n%P%n%T 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git switch --detach 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -f codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git switch codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin refs/heads/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1:refs/heads/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse refs/heads/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor aa0e7cf611a70e6a35122590d6cf41ded05e6779 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%H%n%P%n%T HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%H%n%T origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-only aa0e7cf611a70e6a35122590d6cf41ded05e6779 57ebdee2619d8b5152615450701ea286f3758f48'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --quiet'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 78,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 82.67,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 204288,
+      "fresh_input_tokens": 42814,
+      "input_tokens": 247102,
+      "non_reasoning_output_tokens": 2413,
+      "output_tokens": 5482,
+      "reasoning_output_tokens": 3069,
+      "total_processed_tokens": 252584
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "57ebdee2619d8b5152615450701ea286f3758f48",
+      "subject": "fix(data-lab): govern generated code copy label"
+    }
+  ],
+  "diff": {
+    "additions": 333,
+    "changed_files": 4,
+    "commit_count": 1,
+    "deletions": 5
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-21T19:37:09Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+    "branch": "codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1",
+    "detached_verify": false,
+    "head_sha": "57ebdee2619d8b5152615450701ea286f3758f48",
+    "remote_exact_head": true,
+    "remote_head_sha": "57ebdee2619d8b5152615450701ea286f3758f48",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "aa0e7cf611a70e6a35122590d6cf41ded05e6779",
+    "work_branch": "codex/nicegui-base-stable3-data-lab-code-copy-a11y-native-audit-verify-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-9526ca0c3cf717852b3da04c",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-data-lab-code-copy-a11y-native-audit-verify-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-data-lab-code-copy-a11y-native-audit-verify-1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-data-lab-code-copy-a11y-native-audit-verify-1",
+  "schema_version": 1,
+  "started_at": "2026-09-21T19:34:22Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 167,
+    "queue_seconds": 0,
+    "total_seconds": 167
+  },
+  "transport": {
+    "bytes": 7056,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6676,
+    "prompt_sha256": "a9e77c9e08aa2e5a6a50c22dcf5f18abdf3591f750558d951d96bf0258c4e23c",
+    "sha256": "9526ca0c3cf717852b3da04c3dc174dd4c4925c4e63b2d4e0464ff0fc55bde38"
+  }
+}
