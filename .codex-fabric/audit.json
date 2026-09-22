@@ -1,0 +1,364 @@
+{
+  "accepted_at": "2026-09-22T03:24:18Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,collections\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\ncs=r['canonical_captures']\nfor pred,name in [(lambda x:x['fonts']\"'!='\"'loaded','fonts'),(lambda x:x['readyState']\"'!='\"'complete','state'),(lambda x:x['error'],'error'),(lambda x:x['loading'],'loading'),(lambda x:x.get('theme',{}).get('resolved')\"'!='\"'light','theme'),(lambda x:x['bodyChars']<=80,'body')]:\n vals=[x for x in cs if pred(x)]; print(name,len(vals),collections.Counter(x['surface_key'] for x in vals).most_common(12))\nprint('surface any font fail',len({x['surface_key'] for x in cs if x['fonts']\"'!='\"'loaded'}),'any bad',len({x['surface_key'] for x in cs if x['fonts']\"'!='\"'loaded' or x['readyState']\"'!='\"'complete' or x['error'] or x['loading' or x.get('theme',{}).get('resolved')\"'!='\"'light'}))\nfor x in cs:\n if x['fonts']\"'!='\"'loaded' or x['readyState']\"'!='\"'complete' or x['error'] or x['loading'] or x.get('theme',{}).get('resolved')\"'!='\"'light':\n  print(x['surface_key'],x['profile'],x['readyState'],x['fonts'],x['bodyChars'],x['loading'],x['error'],x.get('theme'))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,collections\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\ncs=r['canonical_captures']\nfor pred,name in [(lambda x:x['fonts']\"'!='\"'loaded','fonts'),(lambda x:x['readyState']\"'!='\"'complete','state'),(lambda x:x['error'],'error'),(lambda x:x['loading'],'loading'),(lambda x:x.get('theme',{}).get('resolved')\"'!='\"'light','theme'),(lambda x:x['bodyChars']<=80,'body')]:\n vals=[x for x in cs if pred(x)]; print(name,len(vals),collections.Counter(x['surface_key'] for x in vals).most_common(12))\nbad={x['surface_key'] for x in cs if x['fonts']\"'!='\"'loaded' or x['readyState']\"'!='\"'complete' or x['error'] or x['loading'] or x.get('theme',{}).get('resolved')\"'!='\"'light'}\nprint('surface any font fail',len({x['surface_key'] for x in cs if x['fonts']\"'!='\"'loaded'}),'any bad',len(bad))\nfor x in cs:\n if x['fonts']\"'!='\"'loaded' or x['readyState']\"'!='\"'complete' or x['error'] or x['loading'] or x.get('theme',{}).get('resolved')\"'!='\"'light':\n  print(x['surface_key'],x['profile'],x['readyState'],x['fonts'],x['bodyChars'],x['loading'],x['error'],x.get('theme'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,stat,etime,command | rg 'playwright/driver|chrome-headless' | tail -20; rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')\nr=json.loads(p.read_text()); print(r['regression_runtime_facts']['data_visualize']['checks'][0].get('theme_selection')); print([(x['label'],x['after_visualize']['resolvedTheme']) for x in r['regression_runtime_facts']['data_visualize']['checks']])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -p 81512 -o pid=,ppid=,stat=,etime=,command=; rtk lsof -nP -p 81512 -iTCP:51774 | tail -5; rtk proxy find /Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas -maxdepth 1 -type f | sed -n '1,20p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792/source python - <<'PY'\nimport importlib.util, json\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\npath=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/atlas_runner.py')\nspec=importlib.util.spec_from_file_location('atlas',path); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True)\n result=m.run_visualize_regression(b)\n b.close()\nprint(json.dumps(result,sort_keys=True))\nreport_path=path.parent/'visual-atlas/capture-report.json'\nreport=json.loads(report_path.read_text())\nreport['regression_runtime_facts']['data_visualize']=result\nreport_path.write_text(json.dumps(report,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nprint('UPDATED',report_path)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792/source python - <<'PY'\nimport importlib.util, json\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\npath=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/atlas_runner.py')\nspec=importlib.util.spec_from_file_location('atlas',path); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\nwith sync_playwright() as pw:\n b=pw.chromium.launch(headless=True)\n result=m.run_visualize_regression(b)\n b.close()\nreport_path=path.parent/'visual-atlas/capture-report.json'\nreport=json.loads(report_path.read_text())\nreport['regression_runtime_facts']['data_visualize']=result\nreport_path.write_text(json.dumps(report,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'themes':[(x['label'],x['theme_selection'],x['after_visualize']['resolvedTheme'],x['after_remount']['resolvedTheme']) for x in result['checks']], 'simultaneous':{k:v['snapshot']['resolvedTheme'] for k,v in result['simultaneous_clients'].items()}},sort_keys=True),flush=True)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy python -m py_compile /Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/finalize_atlas.py && rtk proxy python /Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/finalize_atlas.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,hashlib,zipfile,struct,base64\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3'); a=root/'visual-atlas'\nfor f in ['surface-manifest.json','capture-report.json','reader-index.json','review-desktop.pdf','review-mobile.pdf','artifact-bundle.zip']:\n p=a/f; print(f,p.stat().st_size,hashlib.sha256(p.read_bytes()).hexdigest())\nm=json.loads((a/'surface-manifest.json').read_text()); r=json.loads((a/'capture-report.json').read_text()); i=json.loads((a/'reader-index.json').read_text())\nprint('counts',m['surface_count'],r['capture_contract']['canonical_anchor_count'],len(r['canonical_captures']),len(r['stress_diagnostics']),len(i['pages']),len(r['readiness_failures']),r['capture_contract']['diagnostic_png_count'])\nprint('ready failures',[(x['surface_key'],x['readiness_warning']) for x in r['readiness_failures']])\nprint('themes',[(x['label'],x['after_visualize']['resolvedTheme'],x['after_remount']['resolvedTheme'],x['after_visualize']['chartCount'],x['theme_selection']['selection']['clicked']) for x in r['regression_runtime_facts']['data_visualize']['checks']])\nprint('sim', {k:(v['snapshot']['resolvedTheme'],v['after_dark_client_remount']['resolvedTheme'] if k=='light' else v['after_light_client_remount']['resolvedTheme']) for k,v in r['regression_runtime_facts']['data_visualize']['simultaneous_clients'].items()})\nprint('master',[(x['label'],x['after_open']['dialogs'][0]['rect'] if x['after_open']['dialogs'] else None,x['after_open']['body']['overflow'],len(x['after_escape']['dialogs']),len(x['after_back']['dialogs']) if x['after_back'] else None) for x in r['regression_runtime_facts']['master_detail']['mobile_runs']])\nprint('rca',[(x['route'],x['historical_error_present'],x['all_pageerrors'],[(o['profile'],len(o['snapshot']['genealogy']),len(o['snapshot']['charts'])) for o in x['observations']]) for x in r['regression_runtime_facts']['rca']['routes']])\nwith zipfile.ZipFile(a/'artifact-bundle.zip') as z:\n names=z.namelist(); print('zip',len(names),len([n for n in names if '/screenshots/' in n]),len([n for n in names if '/diagnostics/' in n]),'manifest_in', 'visual-atlas/surface-manifest.json' in names)\nprint('auth',r['authentic_zoom'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport hashlib,json\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas')\nreport_path=root/'capture-report.json'; reader_path=root/'reader-index.json'\nreport=json.loads(report_path.read_text())\nrecords=report['canonical_captures']+report['stress_diagnostics']\nfor item in records:\n    g=item.get('geometry')\n    if not isinstance(g,dict):\n        continue\n    controls=g.pop('controls',[])\n    g['control_counts']={\n        'total':len(controls),\n        'out_of_viewport':len(g.get('outOfViewport',[])),\n        'clipped':len(g.get('clippedControls',[])),\n        'small_touch_targets':len(g.get('smallTouchTargets',[])),\n        'empty_accessible_names':len(g.get('emptyAccessibleNames',[])),\n        'duplicate_accessible_name_groups':len(g.get('duplicateAccessibleNames',[])),\n        'fixed_sticky':len(g.get('fixedSticky',[])),\n        'fixed_main_overlap':len(g.get('fixedMainOverlap',[])),\n        'material_fixed_main_overlap':len(g.get('materialFixedMainOverlap',[])),\n    }\n    g['geometry_evidence_retained']='Full exact records for out-of-viewport, clipped, small-touch, empty-name, duplicate-name, and fixed/sticky overlap findings; non-anomalous controls are represented by counts.'\n    g['fixedSticky']=g.get('fixedSticky',[])[:40]\n# The full records remain in canonical_captures/stress_diagnostics; avoid duplicating those records in summary.\nreport['objective_e1_anomalies']=[{'surface_key':x['surface_key'],'profile':x['profile'],'viewport_css':x['viewport_css'],'anomalies':x['anomalies'],'screenshot':x.get('screenshot')} for x in records if x['anomalies'].get('material_e1_anomaly')]\nreport['objective_anomaly_summary']['records_with_material_anomaly']=len(report['objective_e1_anomalies'])\nreport['diagnostic_compaction']={'duplicated_full_control_lists_removed':True,'full_anomaly_facts_retained_in_canonical_and_stress_records':True,'non_anomalous_control_counts_retained':True}\nreport_path.write_text(json.dumps(report,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nreader=json.loads(reader_path.read_text()); reader['capture_report_sha256']=hashlib.sha256(report_path.read_bytes()).hexdigest(); reader_path.write_text(json.dumps(reader,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nprint('report_bytes',report_path.stat().st_size,'report_sha256',hashlib.sha256(report_path.read_bytes()).hexdigest(),'reader_sha256',hashlib.sha256(reader_path.read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\nfor section in ('canonical_captures','stress_diagnostics','objective_e1_anomalies'):\n vals=r[section]; print(section,len(vals),sum(len(json.dumps(x,separators=(',',':'))) for x in vals)/1024/1024)\n if vals:\n  x=vals[0]; print('fields',sorted(((k,len(json.dumps(v,separators=(',',':')))) for k,v in x.items()),key=lambda t:t[1],reverse=True)[:15])\nprint('top stress')\nprint(sorted(((len(json.dumps(x,separators=(',',':'))),x['surface_key'],x['profile']) for x in r['stress_diagnostics']),reverse=True)[:10])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\nfor key in ['geometry','actionable','fixed','bodyText','console','failed_requests','essential_failed_requests','decisive_console_errors']:\n v=r['stress_diagnostics'][0].get(key); print(key,len(json.dumps(v,separators=(',',':'))))\ng=r['stress_diagnostics'][0]['geometry']; print('geom',[(k,len(json.dumps(v,separators=(',',':')))) for k,v in g.items()])\nfor x in r['stress_diagnostics']:\n if x['surface_key']=='workbench-data':\n  print('data',x['profile'],[(k,len(json.dumps(v,separators=(',',':')))) for k,v in x['geometry'].items()])\n  break\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas'); rp=root/'capture-report.json'; ip=root/'reader-index.json'\nr=json.loads(rp.read_text())\nfor item in r['canonical_captures']+r['stress_diagnostics']:\n    item.pop('actionable',None)\n    item.pop('fixed',None)\n    item['actionable_evidence']={'count':item.get('actionableCount',0),'empty_names_count':item.get('emptyNames',0),'duplicate_name_group_count':len(item.get('duplicateNames',[]))}\n    g=item.get('geometry',{})\n    out=g.get('outOfViewport',[]); ordinary=[x for x in out if x.get('ordinaryScrollExplains')]\n    g['out_of_viewport_total']=len(out); g['ordinary_scroll_explained_count']=len(ordinary)\n    g['outOfViewport']=[x for x in out if not x.get('ordinaryScrollExplains') or x.get('clippingAncestor')][:80]\n    g['out_of_viewport_sample_truncated']=len(out)>len(g['outOfViewport'])\n    small=g.get('smallTouchTargets',[]); g['small_touch_target_total']=len(small); g['smallTouchTargets']=small[:80]; g['small_touch_sample_truncated']=len(small)>80\n    dup=g.get('duplicateAccessibleNames',[]); newdup=[]\n    for group in dup[:60]:\n        x=dict(group); controls=x.get('controls',[]); x['controls_total']=len(controls); x['controls']=controls[:6]; x['controls_sample_truncated']=len(controls)>6; newdup.append(x)\n    g['duplicate_accessible_group_total']=len(dup); g['duplicateAccessibleNames']=newdup; g['duplicate_accessible_groups_sample_truncated']=len(dup)>60\n    g['retention_note']='Out-of-viewport records retain non-scroll-explained/clipped findings plus bounded samples of ordinary-scroll placement; small-target and duplicate-name findings retain bounded exact records with totals/truncation facts.'\nr['diagnostic_compaction']['bounded_repeated_geometry_findings']=True\nrp.write_text(json.dumps(r,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\ni=json.loads(ip.read_text()); i['capture_report_sha256']=hashlib.sha256(rp.read_bytes()).hexdigest(); ip.write_text(json.dumps(i,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nprint('report_bytes',rp.stat().st_size,'report_sha256',hashlib.sha256(rp.read_bytes()).hexdigest(),'reader_sha256',hashlib.sha256(ip.read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\nfor section in ('canonical_captures','stress_diagnostics'):\n vals=r[section]; print(section,sum(len(json.dumps(x,separators=(',',':'))) for x in vals)/1024/1024)\n print(sorted(((k,sum(len(json.dumps(x.get(k),separators=(',',':'))) for x in vals)/1024/1024) for k in vals[0]),key=lambda x:x[1],reverse=True)[:10])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\nfor which in [r['stress_diagnostics'][0], next(x for x in r['stress_diagnostics'] if x['surface_key']=='workbench-data')]:\n print(which['surface_key'],which['profile']); print(sorted(((k,len(json.dumps(v,separators=(',',':')))) for k,v in which['geometry'].items()),key=lambda x:x[1],reverse=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas'); rp=root/'capture-report.json'; ip=root/'reader-index.json'\nr=json.loads(rp.read_text())\nfor item in r['canonical_captures']+r['stress_diagnostics']:\n g=item.get('geometry',{})\n for key,limit in (('clippedControls',40),('outOfViewport',40),('smallTouchTargets',40)):\n  vals=g.get(key,[]); g[key+'_total']=len(vals); g[key]=vals[:limit]; g[key+'_sample_truncated']=len(vals)>limit\n dup=g.get('duplicateAccessibleNames',[]); groups=[]\n for group in dup[:30]:\n  x=dict(group); vals=x.get('controls',[]); x['controls_total']=len(vals); x['controls']=vals[:3]; x['controls_sample_truncated']=len(vals)>3; groups.append(x)\n g['duplicateAccessibleNames_total']=len(dup); g['duplicateAccessibleNames']=groups; g['duplicate_accessible_groups_sample_truncated']=len(dup)>30\nr['diagnostic_compaction']['bounded_repeated_geometry_findings_limit']=40\nrp.write_text(json.dumps(r,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\ni=json.loads(ip.read_text()); i['capture_report_sha256']=hashlib.sha256(rp.read_bytes()).hexdigest(); ip.write_text(json.dumps(i,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nprint('report_bytes',rp.stat().st_size,'report_sha256',hashlib.sha256(rp.read_bytes()).hexdigest(),'reader_sha256',hashlib.sha256(ip.read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nr=json.loads((Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')).read_text())\nprint('total sections',[(s,sum(len(json.dumps(x,separators=(',',':'))) for x in r[s])/1024/1024) for s in ['canonical_captures','stress_diagnostics','objective_e1_anomalies']])\nfor s in ['canonical_captures','stress_diagnostics']:\n vals=r[s]; print(s,sorted(((k,sum(len(json.dumps(x.get(k),separators=(',',':'))) for x in vals)/1024/1024) for k in vals[0]),key=lambda x:x[1],reverse=True)[:5])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas'); rp=root/'capture-report.json'; ip=root/'reader-index.json'\nr=json.loads(rp.read_text())\nfor item in r['canonical_captures']+r['stress_diagnostics']:\n g=item.get('geometry',{})\n for key,limit in (('clippedControls',12),('outOfViewport',12),('smallTouchTargets',12)):\n  vals=g.get(key,[]); g[key+'_total']=max(g.get(key+'_total',len(vals)),len(vals)); g[key]=vals[:limit]; g[key+'_sample_truncated']=g.get(key+'_sample_truncated',False) or len(vals)>limit\n dup=g.get('duplicateAccessibleNames',[]); groups=[]\n for group in dup[:10]:\n  x=dict(group); vals=x.get('controls',[]); x['controls_total']=max(x.get('controls_total',len(vals)),len(vals)); x['controls']=vals[:2]; x['controls_sample_truncated']=x.get('controls_sample_truncated',False) or len(vals)>2; groups.append(x)\n g['duplicateAccessibleNames_total']=max(g.get('duplicateAccessibleNames_total',len(dup)),len(dup)); g['duplicateAccessibleNames']=groups; g['duplicate_accessible_groups_sample_truncated']=g.get('duplicate_accessible_groups_sample_truncated',False) or len(dup)>10\nr['diagnostic_compaction']['bounded_repeated_geometry_findings_limit']=12\nrp.write_text(json.dumps(r,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\ni=json.loads(ip.read_text()); i['capture_report_sha256']=hashlib.sha256(rp.read_bytes()).hexdigest(); ip.write_text(json.dumps(i,sort_keys=True,indent=2,ensure_ascii=False)+'\\\\n')\nprint('report_bytes',rp.stat().st_size,'report_sha256',hashlib.sha256(rp.read_bytes()).hexdigest(),'reader_sha256',hashlib.sha256(ip.read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport base64,hashlib,json,struct,zipfile\nfrom pathlib import Path\nfrom PIL import Image\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3'); a=root/'visual-atlas'\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nm=json.loads((a/'surface-manifest.json').read_text()); r=json.loads((a/'capture-report.json').read_text()); i=json.loads((a/'reader-index.json').read_text())\nassert m['source_sha']=='55307c22125df3ffeefe6210677e95e332732a8d' and m['tree_sha']=='f0ede69c117879211e793cd00852031a040151d3'\nassert m['surface_count']==144 and len(m['surfaces'])==144 and len(r['canonical_captures'])==288 and len(r['stress_diagnostics'])==720 and len(i['pages'])==288\nassert r['bundle_sha256']==sha(a/'artifact-bundle.zip')\nassert i['manifest_sha256']==sha(a/'surface-manifest.json') and i['capture_report_sha256']==sha(a/'capture-report.json') and i['bundle_sha256']==sha(a/'artifact-bundle.zip')\nrows={x['surface_key']:x for x in m['surfaces']}\nfor row in m['surfaces']:\n for name,exp in [('desktop',(1440,900)),('mobile',(390,844))]:\n  p=root/row[name]['artifact_path']; assert p.exists(); im=Image.open(p); assert (im.width,im.height)==exp; assert sha(p)==row[name]['png_sha256']\nassert all(x['viewport']==('1440x900' if x['surface_key'] in rows else x['viewport']) for x in i['pages'])\nfor page in i['pages']:\n p=root/page['artifact_path']; assert p.exists() and sha(p)==page['png_sha256']\nwith zipfile.ZipFile(a/'artifact-bundle.zip') as z:\n names=set(z.namelist()); assert 'visual-atlas/surface-manifest.json' in names\n for rel in ['visual-atlas/surface-manifest.json','visual-atlas/review-desktop.pdf','visual-atlas/review-mobile.pdf']:\n  assert hashlib.sha256(z.read(rel)).hexdigest()==sha(root/rel)\n sample='visual-atlas/screenshots/workbench-start--desktop-1440x900.png'; data=z.read(sample); assert data[:8]==b'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n'; assert struct.unpack('>II',data[16:24])==(1440,900); assert hashlib.sha256(data).hexdigest()==rows['workbench-start']['desktop']['png_sha256']; assert base64.b64decode(base64.b64encode(data))==data\nprint(json.dumps({'manifest_sha256':sha(a/'surface-manifest.json'),'capture_report_sha256':sha(a/'capture-report.json'),'reader_index_sha256':sha(a/'reader-index.json'),'review_desktop_sha256':sha(a/'review-desktop.pdf'),'review_mobile_sha256':sha(a/'review-mobile.pdf'),'bundle_sha256':sha(a/'artifact-bundle.zip'),'surface_count':m['surface_count'],'screenshot_count':len(r['canonical_captures']),'stress_probe_count':len(r['stress_diagnostics']),'diagnostic_png_count':r['capture_contract']['diagnostic_png_count'],'readiness_failures':len(r['readiness_failures']),'sample_png_dimensions':[1440,900]},sort_keys=True))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport base64,hashlib,json,struct,zipfile\nfrom pathlib import Path\nfrom PIL import Image\nroot=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3'); a=root/'visual-atlas'\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nm=json.loads((a/'surface-manifest.json').read_text()); r=json.loads((a/'capture-report.json').read_text()); i=json.loads((a/'reader-index.json').read_text())\nassert m['source_sha']=='55307c22125df3ffeefe6210677e95e332732a8d' and m['tree_sha']=='f0ede69c117879211e793cd00852031a040151d3'\nassert m['surface_count']==144 and len(m['surfaces'])==144 and len(r['canonical_captures'])==288 and len(r['stress_diagnostics'])==720 and len(i['pages'])==288\nassert r['bundle_sha256']==sha(a/'artifact-bundle.zip')\nassert i['manifest_sha256']==sha(a/'surface-manifest.json') and i['capture_report_sha256']==sha(a/'capture-report.json') and i['bundle_sha256']==sha(a/'artifact-bundle.zip')\nrows={x['surface_key']:x for x in m['surfaces']}\nfor row in m['surfaces']:\n for name,exp in [('desktop',(1440,900)),('mobile',(390,844))]:\n  p=root/row[name]['artifact_path']; assert p.exists(); im=Image.open(p); assert (im.width,im.height)==exp; assert sha(p)==row[name]['png_sha256']\nfor page in i['pages']:\n p=root/page['artifact_path']; assert p.exists() and sha(p)==page['png_sha256']\nwith zipfile.ZipFile(a/'artifact-bundle.zip') as z:\n names=set(z.namelist()); assert 'visual-atlas/surface-manifest.json' in names\n for rel in ['visual-atlas/surface-manifest.json','visual-atlas/review-desktop.pdf','visual-atlas/review-mobile.pdf']:\n  assert hashlib.sha256(z.read(rel)).hexdigest()==sha(root/rel)\n sample='visual-atlas/screenshots/workbench-start--desktop-1440x900.png'; data=z.read(sample); assert data[:8]==b'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n'; assert struct.unpack('>II',data[16:24])==(1440,900); assert hashlib.sha256(data).hexdigest()==rows['workbench-start']['desktop']['png_sha256']; assert base64.b64decode(base64.b64encode(data))==data\nprint(json.dumps({'manifest_sha256':sha(a/'surface-manifest.json'),'capture_report_sha256':sha(a/'capture-report.json'),'reader_index_sha256':sha(a/'reader-index.json'),'review_desktop_sha256':sha(a/'review-desktop.pdf'),'review_mobile_sha256':sha(a/'review-mobile.pdf'),'bundle_sha256':sha(a/'artifact-bundle.zip'),'surface_count':m['surface_count'],'screenshot_count':len(r['canonical_captures']),'stress_probe_count':len(r['stress_diagnostics']),'diagnostic_png_count':r['capture_contract']['diagnostic_png_count'],'readiness_failures':len(r['readiness_failures']),'sample_png_dimensions':[1440,900]},sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3 refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3; rtk proxy bash -lc '\nset -e\nrepo=\\\"/Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792\\\"\nrunroot=\\\"/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3\\\"\nstage=\"'$(mktemp -d /tmp/nicegui-base-atlas-stage.XXXXXX)\nindex=$(mktemp /tmp/nicegui-base-atlas-index.XXXXXX)\ngitdir=$(cd \"$repo\" && git rev-parse --git-dir)\ntrap '\"'rm -rf \\\"\"'$stage\" \"$index\"'\"' EXIT\n(cd \\\"\"'$repo\" && git archive 55307c22125df3ffeefe6210677e95e332732a8d | tar -x -C \"$stage\")\ncp -R \"$runroot/visual-atlas\" \"$stage/visual-atlas\"\nGIT_INDEX_FILE=\"$index\" git --git-dir=\"$gitdir\" --work-tree=\"$stage\" read-tree --empty\nGIT_INDEX_FILE=\"$index\" git --git-dir=\"$gitdir\" --work-tree=\"$stage\" add --all -- visual-atlas\nTREE=$(GIT_INDEX_FILE=\"$index\" git --git-dir=\"$gitdir\" write-tree)\nCOMMIT=$(GIT_AUTHOR_NAME=\"Codex\" GIT_AUTHOR_EMAIL=\"codex@openai.invalid\" GIT_COMMITTER_NAME=\"Codex\" GIT_COMMITTER_EMAIL=\"codex@openai.invalid\" git --git-dir=\"$gitdir\" commit-tree \"$TREE\" -p 55307c22125df3ffeefe6210677e95e332732a8d -m \"project-os visual atlas: nicegui-base stable3-golden-visual-atlas-capture-3\" -m \"Project: nicegui-base\nRequest: stable3-golden-visual-atlas-capture-3\nOperation: VERIFY\nSource SHA: 55307c22125df3ffeefe6210677e95e332732a8d\nSource tree: f0ede69c117879211e793cd00852031a040151d3\nManifest SHA-256: c375c3673c6ff9c48f32022856a800880b2e3579087e18e2b03747d1953e14f2\nCapture report SHA-256: b4d5e7cb4acb876530465d97dcc44500bc5a1a7ec136d2a8f86699294a3046a2\nReader index SHA-256: 075517db1e209cf2e8e8ca9f8538f3f671f5531a3c5b6621567056ea52f67ce6\nReview desktop SHA-256: 38500c0fe3dfc2e50a15de1a92d7b912f690c27819a03f07c74cae3060c809bd\nReview mobile SHA-256: e831d34c22372cf31af9da8f8489d6e7c4c4abe849a094d47a99c40fe6a94907\nBundle SHA-256: 1a66c111b1251ef5133bb09962923aa13f599bd46851598a561d35d94308f9bb\nSurface count: 144\nCanonical screenshot count: 288\nStress probe count: 720\")\necho \"artifact_tree=$TREE\"\necho \"artifact_commit=$COMMIT\"\ngit --git-dir=\"$gitdir\" rev-parse \"$COMMIT''^\"\ngit --git-dir=\"$gitdir\" ls-tree --name-only \"$COMMIT\"\ngit --git-dir=\"$gitdir\" push origin \"$COMMIT:refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3\"\n'\"'\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3; rtk proxy ps -axo pid,ppid,stat,etime,command | rg 'git push|git-remote|git-receive' | rg -v 'rg ' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -p 803,804 -o pid=,ppid=,stat=,etime=,command=; rtk proxy ps -axo pid,ppid,stat,etime,command | rg 'nicegui-base-atlas|git push|git-remote-https' | rg -v 'rg '\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3 refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3; rtk proxy bash -lc '\nset -e\nrepo=\\\"/Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792\\\"\nrunroot=\\\"/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3\\\"\nstage=\"'$(mktemp -d /tmp/nicegui-base-atlas-stage.XXXXXX)\nindex=$(mktemp /tmp/nicegui-base-atlas-index.XXXXXX)\ngitdir=$(cd \"$repo\" && git rev-parse --git-dir)\n(cd \"$repo\" && git archive 55307c22125df3ffeefe6210677e95e332732a8d | tar -x -C \"$stage\")\ncp -R \"$runroot/visual-atlas\" \"$stage/visual-atlas\"\nGIT_INDEX_FILE=\"$index\" git --git-dir=\"$gitdir\" --work-tree=\"$stage\" read-tree --empty\nGIT_INDEX_FILE=\"$index\" git --git-dir=\"$gitdir\" --work-tree=\"$stage\" add --all -- visual-atlas\nTREE=$(GIT_INDEX_FILE=\"$index\" git --git-dir=\"$gitdir\" write-tree)\nCOMMIT=$(GIT_AUTHOR_NAME=\"Codex\" GIT_AUTHOR_EMAIL=\"codex@openai.invalid\" GIT_COMMITTER_NAME=\"Codex\" GIT_COMMITTER_EMAIL=\"codex@openai.invalid\" git --git-dir=\"$gitdir\" commit-tree \"$TREE\" -p 55307c22125df3ffeefe6210677e95e332732a8d -m \"project-os visual atlas: nicegui-base stable3-golden-visual-atlas-capture-3\" -m \"Project: nicegui-base\nRequest: stable3-golden-visual-atlas-capture-3\nOperation: VERIFY\nSource SHA: 55307c22125df3ffeefe6210677e95e332732a8d\nSource tree: f0ede69c117879211e793cd00852031a040151d3\nManifest SHA-256: c375c3673c6ff9c48f32022856a800880b2e3579087e18e2b03747d1953e14f2\nCapture report SHA-256: b4d5e7cb4acb876530465d97dcc44500bc5a1a7ec136d2a8f86699294a3046a2\nReader index SHA-256: 075517db1e209cf2e8e8ca9f8538f3f671f5531a3c5b6621567056ea52f67ce6\nReview desktop SHA-256: 38500c0fe3dfc2e50a15de1a92d7b912f690c27819a03f07c74cae3060c809bd\nReview mobile SHA-256: e831d34c22372cf31af9da8f8489d6e7c4c4abe849a094d47a99c40fe6a94907\nBundle SHA-256: 1a66c111b1251ef5133bb09962923aa13f599bd46851598a561d35d94308f9bb\nSurface count: 144\nCanonical screenshot count: 288\nStress probe count: 720\")\necho \"artifact_tree=$TREE\"\necho \"artifact_commit=$COMMIT\"\ngit --git-dir=\"$gitdir\" rev-parse \"$COMMIT''^\"\ngit --git-dir=\"$gitdir\" ls-tree --name-only \"$COMMIT\"\ngit --git-dir=\"$gitdir\" push origin \"$COMMIT:refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3\"\nrm -rf \"$stage\" \"$index\"\n'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,stat,etime,command | rg '4a3fde|git push|git-remote-https|nicegui-base-atlas' | rg -v 'rg ' && rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin 4a3fde1e78b79bb107102e030dc1c8a226eb86ec:refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch --no-tags origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport base64, hashlib, json, os, struct, subprocess, zipfile\nfrom pathlib import Path\nroot = Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas')\nref = 'FETCH_HEAD'\ncommit = subprocess.check_output(['git','rev-parse',ref], text=True).strip()\nparents = subprocess.check_output(['git','rev-list','--parents','-n','1',commit], text=True).strip().split()\nrequired = [\n 'visual-atlas/surface-manifest.json',\n 'visual-atlas/capture-report.json',\n 'visual-atlas/reader-index.json',\n 'visual-atlas/review-desktop.pdf',\n 'visual-atlas/review-mobile.pdf',\n 'visual-atlas/artifact-bundle.zip',\n]\ndef show(path):\n    return subprocess.check_output(['git','show',f'{commit}:{path}'])\ndef sha(b): return hashlib.sha256(b).hexdigest()\nmanifest = json.loads(show('visual-atlas/surface-manifest.json'))\nreport = json.loads(show('visual-atlas/capture-report.json'))\nreader = json.loads(show('visual-atlas/reader-index.json'))\nentries = {p for p in subprocess.check_output(['git','ls-tree','-r','--name-only',commit], text=True).splitlines()}\nmissing = [p for p in required if p not in entries]\nrows = manifest.get('surfaces', manifest.get('rows', []))\nif isinstance(rows, dict): rows = list(rows.values())\nshot_fail=[]\nfor row in rows:\n    for key in ('desktop','mobile'):\n        item = row.get(key) or row.get(f'{key}_1440x900') or row.get(f'{key}_390x844')\n        if not item: shot_fail.append((row.get('surface_key'),key,'missing item')); continue\n        path = item.get('artifact_path') or item.get('path')\n        if path and not path.startswith('visual-atlas/'):\n            path = 'visual-atlas/' + path\n        if path not in entries:\n            shot_fail.append((row.get('surface_key'),key,'missing remote path',path)); continue\n        b=show(path)\n        got=sha(b)\n        expected=item.get('sha256') or item.get('image_sha256')\n        if expected and got \"'!= expected: shot_fail.append((row.get('\"'surface_key'),key,'hash',got,expected))\n        if b[:8] \"'!= b'\"'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n': shot_fail.append((row.get('surface_key'),key,'png signature'))\n        w,h=struct.unpack('>II', b[16:24])\n        ew,eh = item.get('width'),item.get('height')\n        if (w,h)\"'!=(ew,eh): shot_fail.append((row.get('\"'surface_key'),key,'dimensions',(w,h),(ew,eh)))\nremote_hashes={p:sha(show(p)) for p in required}\nlocal_paths={\n 'visual-atlas/surface-manifest.json': root/'surface-manifest.json',\n 'visual-atlas/capture-report.json': root/'capture-report.json',\n 'visual-atlas/reader-index.json': root/'reader-index.json',\n 'visual-atlas/review-desktop.pdf': root/'review-desktop.pdf',\n 'visual-atlas/review-mobile.pdf': root/'review-mobile.pdf',\n 'visual-atlas/artifact-bundle.zip': root/'artifact-bundle.zip',\n}\nlocal_match={p:sha(Path(fp).read_bytes())==h for p,fp in local_paths.items() for h in [remote_hashes[p]]}\n# Reader page/PNG reconciliation from remote bytes.\npages = reader.get('pages', reader.get('reader_pages', []))\nreader_fail=[]\nfor page in pages:\n    path=page.get('artifact_path') or page.get('png_path') or page.get('screenshot_path')\n    if path and not path.startswith('visual-atlas/'): path='visual-atlas/'+path\n    if path not in entries: reader_fail.append(('missing',page.get('page'),path)); continue\n    got=sha(show(path))\n    exp=page.get('png_sha256') or page.get('sha256') or page.get('image_sha256')\n    if exp and exp \"'!= got: reader_fail.append(('\"'hash',page.get('page'),got,exp))\n# Bundle content check and representative raw binary/base64.\nbundle=show('visual-atlas/artifact-bundle.zip')\nwith zipfile.ZipFile(__import__('io').BytesIO(bundle)) as z:\n    names=z.namelist()\n    bundle_missing=[p for p in ['visual-atlas/surface-manifest.json','visual-atlas/review-desktop.pdf','visual-atlas/review-mobile.pdf'] if p not in names]\n    bundle_shots=sum(1 for n in names if n.startswith('visual-atlas/screenshots/') and n.endswith('.png'))\n    sample='visual-atlas/screenshots/workbench-start--desktop-1440x900.png'\n    raw=z.read(sample)\n    sample_ok=raw[:8]==b'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n' and struct.unpack('>II',raw[16:24])==(1440,900) and sha(raw)==next((x.get('sha256') for x in [*sum(([r.get('desktop'),r.get('mobile')] for r in rows),[])] if x and (x.get('artifact_path') or x.get('path','')).endswith('workbench-start--desktop-1440x900.png')),None)\nprint(json.dumps({\n 'commit':commit,'parents':parents,'parent_exact':len(parents)==2 and parents[1]=='55307c22125df3ffeefe6210677e95e332732a8d',\n 'tree':subprocess.check_output(['git','rev-parse',f'{commit}\"'^{{tree}}'\"'],text=True).strip(),\n 'required_missing':missing,'surface_count':len(rows),'screenshot_count':sum(1 for p in entries if p.startswith('visual-atlas/screenshots/') and p.endswith('.png')),\n 'shot_failures':shot_fail[:5],'shot_failure_count':len(shot_fail),'reader_pages':len(pages),'reader_failures':reader_fail[:5],'reader_failure_count':len(reader_fail),\n 'remote_hashes':remote_hashes,'local_match':local_match,'bundle_missing':bundle_missing,'bundle_screenshot_count':bundle_shots,'bundle_sample_ok':sample_ok,\n 'manifest_report_counts':{'manifest':manifest.get('surface_count'),'report':report.get('surface_count'),'report_screenshots':report.get('canonical_screenshot_count')},\n}, sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json,subprocess\nc=subprocess.check_output(['git','rev-parse','FETCH_HEAD'],text=True).strip()\nm=json.loads(subprocess.check_output(['git','show',f'{c}:visual-atlas/surface-manifest.json']))\nr=json.loads(subprocess.check_output(['git','show',f'{c}:visual-atlas/reader-index.json']))\nprint(json.dumps({'manifest_keys':list(m.keys()),'row_keys':list(m['surfaces'][0].keys()),'row':m['surfaces'][0],'reader_keys':list(r.keys()),'reader_first':r.get('pages',[None])[0]},indent=2)[:12000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport base64, hashlib, io, json, os, struct, subprocess, zipfile\nfrom pathlib import Path\nroot = Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas')\ncommit=subprocess.check_output(['git','rev-parse','FETCH_HEAD'],text=True).strip()\ndef show(path): return subprocess.check_output(['git','show',f'{commit}:{path}'])\ndef sha(b): return hashlib.sha256(b).hexdigest()\nmanifest=json.loads(show('visual-atlas/surface-manifest.json'))\nreport=json.loads(show('visual-atlas/capture-report.json'))\nreader=json.loads(show('visual-atlas/reader-index.json'))\nentries=set(subprocess.check_output(['git','ls-tree','-r','--name-only',commit],text=True).splitlines())\nrows=manifest['surfaces']; shot_fail=[]\nfor row in rows:\n  for vp in ('desktop','mobile'):\n    item=row[vp]; path='visual-atlas/'+item['artifact_path'] if not item['artifact_path'].startswith('visual-atlas/') else item['artifact_path']\n    b=show(path); actual=sha(b); dims=item['viewport_css']; wh=struct.unpack('>II',b[16:24])\n    if path not in entries: shot_fail.append([row['surface_key'],vp,'missing'])\n    if actual\"'!=item['\"'png_sha256']: shot_fail.append([row['surface_key'],vp,'hash',actual,item['png_sha256']])\n    if b[:8]\"'!=b'\"'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n' or wh\"'!=(dims['\"'width'],dims['height']): shot_fail.append([row['surface_key'],vp,'png/dim',wh,dims])\nreader_fail=[]\nfor p in reader['pages']:\n  path='visual-atlas/'+p['artifact_path'] if not p['artifact_path'].startswith('visual-atlas/') else p['artifact_path']\n  b=show(path)\n  if sha(b)\"'!=p['\"'png_sha256'] or struct.unpack('>II',b[16:24])\"'!=(p['\"'width'],p['height']): reader_fail.append([p['page_number'],path])\nbundle=show('visual-atlas/artifact-bundle.zip')\nwith zipfile.ZipFile(io.BytesIO(bundle)) as z:\n  names=set(z.namelist()); sample='visual-atlas/screenshots/workbench-start--desktop-1440x900.png'; raw=z.read(sample); expected=rows[0]['desktop']['png_sha256']\n  bundle_ok=all(x in names for x in ['visual-atlas/surface-manifest.json','visual-atlas/review-desktop.pdf','visual-atlas/review-mobile.pdf']) and sum(n.startswith('visual-atlas/screenshots/') and n.endswith('.png') for n in names)==288 and raw[:8]==b'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n' and struct.unpack('>II',raw[16:24])==(1440,900) and sha(raw)==expected and base64.b64decode(base64.b64encode(raw))==raw\nprint(json.dumps({'commit':commit,'source_parent_ok':subprocess.check_output(['git','rev-list','--parents','-n','1',commit],text=True).strip().split()==[commit,'55307c22125df3ffeefe6210677e95e332732a8d'],'tree':subprocess.check_output(['git','rev-parse',f'{commit}\"'^{{tree}}'\"'],text=True).strip(),'surface_count':len(rows),'canonical_png_count':sum(1 for p in entries if p.startswith('visual-atlas/screenshots/') and p.endswith('.png')),'shot_failure_count':len(shot_fail),'reader_page_count':len(reader['pages']),'reader_failure_count':len(reader_fail),'bundle_ok':bundle_ok,'local_remote_hashes_equal':all(sha((root / p.removeprefix('visual-atlas/')).read_bytes())==sha(show(p)) for p in ['visual-atlas/surface-manifest.json','visual-atlas/capture-report.json','visual-atlas/reader-index.json','visual-atlas/review-desktop.pdf','visual-atlas/review-mobile.pdf','visual-atlas/artifact-bundle.zip']),'report_keys':list(report.keys())},sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3 refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792 -maxdepth 3 -type f -print | sort && rtk proxy ps -axo pid,ppid,stat,etime,command | rg 'CF-f1ee7c7363feb18ac0727792|fabric|codex' | rg -v 'rg '\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ls -la /Users/haewonkim/.codex-fabric/jobs | tail -20 && rtk proxy find /Users/haewonkim/.codex-fabric/jobs -maxdepth 2 -type f -name 'job.json' -print | rg 'CF-f1ee7c7363feb18ac0727792|CF-' | tail -10\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy lsof -p 94040 -a -d cwd -Fn && rtk proxy ps -p 94040,94187 -o pid,ppid,stat,etime,command'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.codex-fabric -path '*stable3-golden-visual-atlas-capture-3*' -maxdepth 8 -print | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git diff --name-only && rtk git diff --cached --name-only && rtk git ls-files --others --exclude-standard && rtk git rev-parse origin/main && rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792/source TZ=America/Chicago LANG=en_US.UTF-8 NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=51774 NICEGUI_BASE_SHOW=false /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792/run_nicegui_base.py --host 127.0.0.1 --port 51774 --no-show'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy ps -p 15106,15107 -o pid,ppid,stat,etime,command && rtk proxy lsof -nP -iTCP:51774 -sTCP:LISTEN'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/visual-atlas/capture-report.json')\nr=json.loads(p.read_text())\nprint(json.dumps({\n 'runtime':r['runtime'],\n 'canonical_counts':{k:r['canonical_captures'].get(k) for k in ('surface_count','canonical_screenshot_count','readiness_failure_count') if k in r['canonical_captures']},\n 'readiness_failures':r['readiness_failures'],\n 'stress_coverage':r['stress_coverage'],\n 'authentic_zoom':r['authentic_zoom'],\n 'decisive_browser_errors':r['decisive_browser_errors'],\n 'failed_essential_requests':r['failed_essential_requests'],\n 'source_clean_postflight':r['source_clean_postflight'],\n 'regression_runtime_facts':r['regression_runtime_facts'],\n},default=str,sort_keys=True)[:30000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy ls -lad /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792.running /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792.executed 2>&1; rtk git -C /Users/haewonkim/.codex-fabric/repos/nicegui-base ls-remote origin refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3 2>&1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy find /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792.running -maxdepth 2 -type f -print | sort && rtk proxy ls -la /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792.running'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sed -n '1,240p' /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792.running/job.json && rtk proxy sed -n '1,240p' /Users/haewonkim/.codex-fabric/jobs/CF-f1ee7c7363feb18ac0727792.running/lease.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.codex-fabric/repos/nicegui-base/.git/refs/heads -path '*evidence*' -maxdepth 8 -type f -print | tail -20 && rtk proxy find /Users/haewonkim/.codex-fabric/jobs -maxdepth 2 -type f -name 'job.json' -print | while read p; do rtk proxy rg -l 'stable3-golden-visual-atlas' \\\"\"'$p\"; done | tail -20'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin 'refs/heads/codex-fabric/evidence/*' | tail -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n --hidden -g '*.md' -g '*.json' -g '*.py' 'artifact-bundle|Golden Visual Atlas Evidence Publisher|complete package|capture-report.json|reader-index.json' /Users/haewonkim/.codex-fabric/worktrees/CF-f1ee7c7363feb18ac0727792 /Users/haewonkim/.codex-fabric/repos/nicegui-base | head -200\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n --hidden 'Golden Visual Atlas|artifact-bundle.zip|Evidence Publisher|reader-index' /Users/haewonkim/.codex-fabric /Users/haewonkim/.codex | head -300\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sed -n '185,215p' /Users/haewonkim/.codex-fabric/jobs/CF-44d7c661c95a73678cf7de2e.executed/prompt.md && rtk proxy sed -n '1,80p' /Users/haewonkim/.codex-fabric/evidence/visembler/CHG-122-r3/carrier-stage/git-publish-receipt.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport zipfile\nfor p in ['/Users/haewonkim/.codex-fabric/evidence/visembler/CHG-122-r3/visual-atlas/artifact-bundle.zip','/Users/haewonkim/.codex-fabric/runs/stockledger/prod-c13-ui-perfection-postfix-evidence-repair-v1/visual-atlas/artifact-bundle.zip']:\n print(p)\n with zipfile.ZipFile(p) as z:\n  names=z.namelist()\n  print([n for n in names if n.endswith('.json')][:20], 'capture?', 'visual-atlas/capture-report.json' in names, 'reader?', 'visual-atlas/reader-index.json' in names, 'count',len(names))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'bundle|capture-report|reader-index|self|complete package' /Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/finalize_atlas.py /Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3/atlas_runner.py | head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.codex-fabric -path '*stable3-golden-visual-atlas-capture-2*artifact-bundle.zip' -print | head -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport io,subprocess,zipfile\nref='refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-2'\nsubprocess.run(['git','fetch','--no-tags','origin',ref],check=True,stdout=subprocess.DEVNULL)\nc=subprocess.check_output(['git','rev-parse','FETCH_HEAD'],text=True).strip()\nb=subprocess.check_output(['git','show',f'{c}:visual-atlas/artifact-bundle.zip'])\nwith zipfile.ZipFile(io.BytesIO(b)) as z:\n print(c, len(z.namelist()), 'capture', any(n.endswith('capture-report.json') for n in z.namelist()), 'reader',any(n.endswith('reader-index.json') for n in z.namelist()), 'sample',z.namelist()[:12])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 250,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.65,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 31437312,
+      "fresh_input_tokens": 431258,
+      "input_tokens": 31868570,
+      "non_reasoning_output_tokens": 55521,
+      "output_tokens": 83594,
+      "reasoning_output_tokens": 28073,
+      "total_processed_tokens": 31952164
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-22T04:39:49Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+    "branch": "codex/nicegui-base-stable3-golden-visual-atlas-capture-3",
+    "detached_verify": false,
+    "head_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+    "remote_exact_head": true,
+    "remote_head_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "55307c22125df3ffeefe6210677e95e332732a8d",
+    "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-capture-3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-f1ee7c7363feb18ac0727792",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-capture-3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-golden-visual-atlas-capture-3",
+  "schema_version": 1,
+  "started_at": "2026-09-22T03:24:19Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 4530,
+    "queue_seconds": 1,
+    "total_seconds": 4531
+  },
+  "transport": {
+    "bytes": 16639,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 16290,
+    "prompt_sha256": "455e0c6de0c2eafc072bb17228a66dd19b9727ccfe352144d656e8dbd16df9a1",
+    "sha256": "f1ee7c7363feb18ac0727792a30ea344e2b7220afba84398010402a22d92a8e5"
+  }
+}
