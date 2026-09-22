@@ -22,6 +22,7 @@ from nicegui_base.design.constitution_css import build_constitution_css
 from nicegui_base.design.hardening_css import build_hardening_css
 from nicegui_base.analysis.css import build_analysis_css
 from nicegui_base.integrations.debugger_css import build_debugger_css
+from nicegui_base.integrations.nicegui_master_detail import MASTER_DETAIL_CONTEXT_RUNTIME, OVERLAY_MANAGER_RUNTIME
 
 
 
@@ -57,6 +58,8 @@ def install_framework_css(ui) -> None:
     })();</script>''', shared=True)
     ui.add_css(build_framework_css(), shared=True)
     ui.add_head_html('<meta name="darkreader-lock">', shared=True)
+    ui.add_head_html(f'<script>{OVERLAY_MANAGER_RUNTIME}</script>', shared=True)
+    ui.add_head_html(MASTER_DETAIL_CONTEXT_RUNTIME, shared=True)
     ui.add_head_html(r'''<script>
 window.NiceGUIBaseSpatial=window.NiceGUIBaseSpatial||{
  state:new Map(),

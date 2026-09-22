@@ -101,6 +101,9 @@ def build_layout_css() -> str:
 .cui-pattern-slot--inspector {{ padding:16px; border-radius:var(--cui-radius-surface); background:var(--cui-surface-secondary); box-shadow:inset 0 0 0 1px var(--cui-border-default); }}
 .cui-pattern-slot.is-sticky {{ position:sticky; top:calc(var(--cui-shell-header-height) + var(--cui-page-gutter)); z-index:var(--cui-layer-sticky); }}
 .cui-pattern-slot--actions {{ display:flex; flex-direction:row; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:var(--cui-space-2); }}
+.cui-master-detail-context {{ min-width:0; }}
+.cui-master-detail-context__header {{ display:none; }}
+.cui-master-detail-context__body {{ width:100%; min-width:0; }}
 .cui-pattern-slot--metrics:has(> .cui-metric-card) {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:var(--cui-space-3); }}
 .cui-pattern-filter-controls {{ display:flex; align-items:flex-end; flex-wrap:wrap; gap:10px; min-width:0; }}
 .cui-pattern-filter-controls > * {{ flex:0 1 auto; min-width:0; }}
@@ -176,5 +179,33 @@ def build_layout_css() -> str:
   .cui-page {{ padding: var(--cui-space-3); gap: var(--cui-space-4); }}
   .cui-grid--metrics, .cui-grid--halves, .cui-grid--thirds, .cui-grid--fourths {{ grid-template-columns: 1fr; }}
   .cui-workspace {{ padding: var(--cui-space-2); }}
+
+  /* MasterDetail owns the phone state transition. The detail slot stays in
+     the same DOM and becomes the modal contextual surface only when opened. */
+  .cui-pattern--master_detail:has(.cui-master-detail-context[data-cui-context-state="closed"]) .cui-pattern-slot--details {{ display:none !important; }}
+  .cui-pattern--master_detail:has(.cui-master-detail-context[data-cui-context-state="open"])::before {{
+    content:''; position:fixed; inset:0; z-index:var(--cui-overlay-backdrop-z);
+    background:var(--cui-overlay-scrim); pointer-events:auto;
+  }}
+  .cui-pattern--master_detail:has(.cui-master-detail-context[data-cui-context-state="open"]) .cui-pattern-slot--details {{
+    grid-column:1 / -1 !important; position:static; padding:0; border:0; border-radius:0;
+    box-shadow:none; overflow:visible;
+  }}
+  .cui-pattern--master_detail .cui-master-detail-context[data-cui-context-state="open"] {{
+    position:fixed !important; inset:0; z-index:var(--cui-modal-z); display:flex !important;
+    flex-direction:column; width:100vw; min-width:0; height:100dvh; max-height:100dvh;
+    padding:0 !important; margin:0; border:0; border-radius:0; background:var(--cui-surface);
+    box-shadow:var(--cui-shadow-2); overflow:hidden;
+  }}
+  .cui-master-detail-context__header {{
+    display:flex; flex:0 0 auto; align-items:center; min-height:var(--cui-control-height);
+    padding:calc(var(--cui-space-2) + env(safe-area-inset-top)) var(--cui-space-3) var(--cui-space-2);
+    border-bottom:1px solid var(--cui-border-subtle); background:var(--cui-surface);
+  }}
+  .cui-master-detail-context__back {{ min-height:var(--cui-control-height); }}
+  .cui-master-detail-context__body {{ flex:1 1 auto; min-height:0; overflow:auto; overscroll-behavior:contain; padding:var(--cui-space-4) var(--cui-space-3) calc(var(--cui-space-4) + env(safe-area-inset-bottom)); }}
+  @media (prefers-reduced-motion: reduce) {{
+    .cui-master-detail-context, .cui-master-detail-context::before {{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }}
+  }}
 }}
 """.strip() + "\n"

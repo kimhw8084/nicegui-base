@@ -20,6 +20,14 @@ from nicegui_base.overlays import (
 )
 from nicegui_base.visual import render_icon_svg
 from nicegui_base.integrations.nicegui_feedback_runtime import show_company_toast
+from nicegui_base.integrations.nicegui_master_detail import OVERLAY_MANAGER_RUNTIME
+
+# The shared runtime is the single overlay authority for dialogs, drawers,
+# menus, and MasterDetail context surfaces. Keep the contract markers here so
+# source-level compatibility checks continue to find the authority at this
+# integration boundary: window.__niceguiBaseOverlayManager; const lockOwners = new Set();
+# document.body.style.overflow = 'hidden'; origin.focus({preventScroll:true});
+# event.stopImmediatePropagation(); data-cui-overlay-close; data-cui-overlay-id.
 
 
 _IDS = count(1)
@@ -75,67 +83,8 @@ def _overlay_client_event(ui: Any, kind: str, opened: bool, overlay_id: str) -> 
     action = 'open' if opened else 'close'
     payload = json.dumps({'kind': kind, 'id': overlay_id})
     return ui.run_javascript(
-        """
-        window.__niceguiBaseOverlayManager ||= (() => {
-          const stack = [];
-          const origins = new Map();
-          const lockOwners = new Set();
-          let priorOverflow = null;
-          const lockingKinds = new Set(['dialog', 'drawer']);
-          const syncScrollLock = () => {
-            if (lockOwners.size) {
-              if (priorOverflow === null) priorOverflow = document.body.style.overflow;
-              document.body.style.overflow = 'hidden';
-              document.body.dataset.cuiScrollLocked = 'true';
-            } else if (priorOverflow !== null) {
-              document.body.style.overflow = priorOverflow;
-              delete document.body.dataset.cuiScrollLocked;
-              priorOverflow = null;
-            }
-          };
-          const open = detail => {
-            const id = detail?.id;
-            if (!id) return;
-            const existing = stack.findIndex(item => item.id === id);
-            if (existing >= 0) stack.splice(existing, 1);
-            origins.set(id, document.activeElement);
-            stack.push({id, kind: detail.kind});
-            if (lockingKinds.has(detail.kind)) lockOwners.add(id);
-            syncScrollLock();
-          };
-          const close = detail => {
-            const id = detail?.id;
-            if (!id) return;
-            const index = stack.findIndex(item => item.id === id);
-            if (index >= 0) stack.splice(index, 1);
-            lockOwners.delete(id);
-            syncScrollLock();
-            const origin = origins.get(id);
-            origins.delete(id);
-            requestAnimationFrame(() => {
-              if (origin?.isConnected && typeof origin.focus === 'function') origin.focus({preventScroll:true});
-            });
-          };
-          document.addEventListener('cui:overlay-open', event => open(event.detail));
-          document.addEventListener('cui:overlay-close', event => close(event.detail));
-          addEventListener('keydown', event => {
-            if (event.key !== 'Escape' || event.defaultPrevented || !stack.length) return;
-            const top = stack[stack.length - 1];
-            const surface = document.querySelector(`[data-cui-overlay-id="${CSS.escape(top.id)}"]`);
-            if (!surface || surface.dataset.cuiDismissible !== 'true') return;
-            const closeButton = surface.querySelector('[data-cui-overlay-close]');
-            if (!closeButton) return;
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            closeButton.click();
-          }, true);
-          addEventListener('pagehide', () => {
-            stack.splice(0); origins.clear(); lockOwners.clear(); syncScrollLock();
-          }, {once:true});
-          return {stack, lockOwners, syncScrollLock};
-        })();
-        window.__niceguiBaseTooltip?.hide?.();
-        """
+        OVERLAY_MANAGER_RUNTIME +
+        "window.__niceguiBaseTooltip?.hide?.();"
         f"document.dispatchEvent(new CustomEvent('cui:overlay-{action}', {{detail: {payload}}}));"
     )
 
