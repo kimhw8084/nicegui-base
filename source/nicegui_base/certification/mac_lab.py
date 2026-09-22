@@ -79,7 +79,7 @@ from nicegui_base.integrations.nicegui_visual_assets import StateIllustration, S
 from nicegui_base.integrations.nicegui_visualization import (
     AreaChart, BarChart, BoxPlot, ChartBrush, ChartCrossFilter, ChartDataView, ChartExport, ChartFullscreen, ChartLegend, ChartPanel, ChartSelection, ChartToolbar, ChartTooltip, ChartZoom,
     ControlChart, DistributionPanel, DonutChart, Gauge, Heatmap, Histogram, LineChart, ParetoChart, PlotlyPanel, ProcessTrendPanel, RidgePlot, ScatterChart, SpatialMap, ViolinPlot,
-    StackedBarChart, TimelineChart, WaferMap, WaferComparisonMap, ChamberFingerprintMatrix, CommonalityMatrix, RadialProfilePlot, apply_all_chart_themes,
+    StackedBarChart, TimelineChart, WaferMap, WaferComparisonMap, ChamberFingerprintMatrix, CommonalityMatrix, RadialProfilePlot, apply_all_chart_themes, register_client_theme_resolver,
 )
 from nicegui_base.layouts import ActionRow, AlertStack, ButtonCluster, ContentColumn, FormStack, LayoutSlot, SurfaceGrid, ToolbarGroup
 from nicegui_base.overlays import MenuItemSpec
@@ -195,10 +195,26 @@ def _sync_theme(mode: str, dark: Any) -> None:
         dark.disable()
     else:
         dark.auto()
-    ui.run_javascript(
-        f"document.documentElement.dataset.theme={mode!r};"
-        f"try{{localStorage.setItem('nicegui_base_theme',{mode!r});localStorage.setItem('cui_lab_theme',{mode!r});}}catch(_){{}}"
-    )
+    ui.run_javascript(f"""(() => {{
+      const root=document.documentElement;
+      root.__niceguiBaseThemeRequested={mode!r};
+      root.__niceguiBaseApplyTheme=()=>{{
+        const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+        const requested=root.__niceguiBaseThemeRequested;
+        const resolved=requested==='system' ? (media?.matches ? 'dark' : 'light') : requested;
+        root.dataset.theme=resolved;
+        document.body?.classList.toggle('q-dark', resolved==='dark');
+        document.body?.classList.toggle('body--dark', resolved==='dark');
+        document.querySelectorAll('[data-cui-theme-resolver="true"]').forEach((bridge)=>bridge.dispatchEvent(new CustomEvent('cui-theme-resolved',{{detail:{{mode:resolved}}}})));
+      }};
+      root.__niceguiBaseApplyTheme();
+      if(!root.__niceguiBaseThemeListener){{
+        const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+        root.__niceguiBaseThemeListener=()=>root.__niceguiBaseApplyTheme();
+        media?.addEventListener?.('change',root.__niceguiBaseThemeListener);
+      }}
+      try{{localStorage.setItem('nicegui_base_theme',{mode!r});localStorage.setItem('cui_lab_theme',{mode!r});}}catch(_){{}}
+    }})()""")
     if mode in {'light','dark'}:
         apply_all_chart_themes(mode)
 
@@ -209,6 +225,7 @@ def _control_bar() -> None:
     density = str(app.storage.user.get('cui_lab_density', 'compact'))
     motion = str(app.storage.user.get('cui_lab_motion', 'normal'))
     dark = ui.dark_mode()
+    register_client_theme_resolver(_ui())
     _sync_theme(theme, dark)
     ui.run_javascript(f"document.documentElement.dataset.density={density!r}; document.documentElement.dataset.motion={motion!r};")
 
