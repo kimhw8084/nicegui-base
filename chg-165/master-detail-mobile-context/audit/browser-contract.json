@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "project": "nicegui-base",
+  "change": "CHG-165",
+  "request": "nicegui-base-master-detail-mobile-context-rebase-fix-2",
+  "operation": "FIX",
+  "base_sha": "ca98dfbf70f9b0c3948785211a0e136b1cc01791",
+  "base_tree": "16afc20436f98937c4d8481c0e23fa12a9578f12",
+  "candidate_sha": "126b9b6185bd7a28fdbf550c079dab4011ab402d",
+  "candidate_tree": "f0ede69c117879211e793cd00852031a040151d",
+  "engine": "Chromium for Testing",
+  "dpr": 1,
+  "route": "/patterns/master-detail",
+  "screenshots": [
+    {
+      "path": "screenshots/desktop-1440-after-close.png",
+      "sha256": "34c4d445dc85c00ca2ffd77a0ea7e6d1cb3a0f1e5f769490498672a53b89095a",
+      "bytes": 127727,
+      "viewport": "1440x900",
+      "theme": "light",
+      "state": "after-close"
+    },
+    {
+      "path": "screenshots/desktop-1440-before.png",
+      "sha256": "5a05cb1f32aa2927ea41ac951261d085bc268904439a9c356626488881806c51",
+      "bytes": 127613,
+      "viewport": "1440x900",
+      "theme": "light",
+      "state": "before-selection"
+    },
+    {
+      "path": "screenshots/desktop-1440-open.png",
+      "sha256": "3d83d65badfc4b24d989b504471429ba34960e4ecd2f33e9dc707d122f00208e",
+      "bytes": 127839,
+      "viewport": "1440x900",
+      "theme": "light",
+      "state": "selected-inline"
+    },
+    {
+      "path": "screenshots/phone-320-after-close.png",
+      "sha256": "149ee60dde468669911ea2ab3e0d0f4cae77b5713991d495876111cf08f9909b",
+      "bytes": 37675,
+      "viewport": "320x800",
+      "theme": "light",
+      "state": "after-close"
+    },
+    {
+      "path": "screenshots/phone-320-before.png",
+      "sha256": "b205ebd20432234e68e96d9394826a03ee29c4ff387d11171be81fa6527549da",
+      "bytes": 37028,
+      "viewport": "320x800",
+      "theme": "light",
+      "state": "before-selection"
+    },
+    {
+      "path": "screenshots/phone-320-open.png",
+      "sha256": "49cd2d4af3775f618a54cb61ccf09024c409166bade0493166adb1773c7f1eff",
+      "bytes": 22167,
+      "viewport": "320x800",
+      "theme": "light",
+      "state": "touch-open"
+    },
+    {
+      "path": "screenshots/phone-390-after-close.png",
+      "sha256": "61bf9bb0834a6a318230a7bedda5031548e84d4bee93813816f882cf71b0c19e",
+      "bytes": 45878,
+      "viewport": "390x844",
+      "theme": "light",
+      "state": "after-close"
+    },
+    {
+      "path": "screenshots/phone-390-before.png",
+      "sha256": "14ec97f7450760a5040e53353af804b315d1d74833de094f98470e6ecf498a49",
+      "bytes": 45680,
+      "viewport": "390x844",
+      "theme": "light",
+      "state": "before-selection"
+    },
+    {
+      "path": "screenshots/phone-390-dark-open.png",
+      "sha256": "8c4ee35543e3e066a46bf4c5b82585a03d66dfd8b385613d244f282f69390a82",
+      "bytes": 21373,
+      "viewport": "390x844",
+      "theme": "dark",
+      "state": "touch-open"
+    },
+    {
+      "path": "screenshots/phone-390-open.png",
+      "sha256": "0b8d38c52cf6a75487153962d6ed8e7c816ee86f2865165168157ff40a806772",
+      "bytes": 25532,
+      "viewport": "390x844",
+      "theme": "light",
+      "state": "touch-open"
+    },
+    {
+      "path": "screenshots/phone-390-system-dark-open.png",
+      "sha256": "8c4ee35543e3e066a46bf4c5b82585a03d66dfd8b385613d244f282f69390a82",
+      "bytes": 21373,
+      "viewport": "390x844",
+      "theme": "dark",
+      "state": "touch-open"
+    }
+  ],
+  "spot_checks": [
+    {
+      "surface": "light-direct",
+      "body": "body--light",
+      "context": "open",
+      "role": "dialog",
+      "aria_modal": true,
+      "focus_inside": true,
+      "viewport": "390x844",
+      "body_overflow": "hidden",
+      "horizontal_overflow": 0,
+      "context_background": "rgb(255, 255, 255)",
+      "status": "PASS"
+    },
+    {
+      "surface": "dark",
+      "body": "body--dark q-dark",
+      "context": "open",
+      "role": "dialog",
+      "aria_modal": true,
+      "focus_inside": true,
+      "viewport": "390x844",
+      "body_overflow": "hidden",
+      "horizontal_overflow": 0,
+      "context_background": "rgb(24, 24, 27)",
+      "status": "PASS"
+    },
+    {
+      "surface": "system-dark",
+      "body": "body--dark q-dark",
+      "context": "open",
+      "role": "dialog",
+      "aria_modal": true,
+      "focus_inside": true,
+      "viewport": "390x844",
+      "body_overflow": "hidden",
+      "horizontal_overflow": 0,
+      "context_background": "rgb(24, 24, 27)",
+      "status": "PASS"
+    },
+    {
+      "surface": "light",
+      "body": "body--light",
+      "context": "open",
+      "role": "dialog",
+      "aria_modal": true,
+      "focus_inside": true,
+      "viewport": "390x844",
+      "body_overflow": "hidden",
+      "horizontal_overflow": 0,
+      "context_background": "rgb(255, 255, 255)",
+      "status": "PASS"
+    }
+  ],
+  "assertions": {
+    "desktop_inline": true,
+    "phone_full_viewport_context": true,
+    "mouse_touch_selection": true,
+    "keyboard_enter_space_selection": true,
+    "role_dialog_aria_modal": true,
+    "back_target_44px": true,
+    "focus_trap_tab_shift_tab": true,
+    "background_inert_aria_hidden": true,
+    "body_scroll_lock": true,
+    "horizontal_overflow_zero": true,
+    "escape_close": true,
+    "back_close": true,
+    "focus_restore": true,
+    "singleton_reopen_no_lock_leak": true,
+    "reduced_motion": true,
+    "forced_colors": true,
+    "explicit_dark": true,
+    "system_dark": true,
+    "explicit_light": true,
+    "simultaneous_client_theme_isolation": true
+  },
+  "error_counts": {
+    "console": 0,
+    "pageerror": 0,
+    "requestfailed": 0,
+    "http": 0
+  },
+  "errors": [],
+  "status": "PASS"
+}
