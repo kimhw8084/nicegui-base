@@ -1,0 +1,167 @@
+{
+  "anchors": [
+    {
+      "actual_url": "http://127.0.0.1:61718/catalog",
+      "auth_boundary": false,
+      "body_chars": 2069,
+      "canonical_route": "/catalog",
+      "dpr": 1,
+      "error": false,
+      "font_ready_contract": {
+        "document_fonts_ready_awaited": true,
+        "final_status": "loaded",
+        "font_error": null,
+        "font_status_after_two_animation_frames": "loaded",
+        "font_status_before_ready": "loaded",
+        "two_animation_frames_after_loaded": true
+      },
+      "fonts": "loaded",
+      "loading": false,
+      "loading_text": false,
+      "material": true,
+      "png": {
+        "bytes": 132021,
+        "dimensions": {
+          "height": 900,
+          "width": 1440
+        },
+        "path": "visual-atlas/screenshots/workbench-catalog--desktop-1440x900.png",
+        "sha256": "01a81ef79425afd0f5d8db19ec831b77f0291b0a9934561e600d147744090b96",
+        "valid_png_signature": true
+      },
+      "profile": "desktop-1440x900",
+      "readyState": "complete",
+      "runtime_ready": true,
+      "surface_key": "workbench-catalog",
+      "viewport_css": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "actual_url": "http://127.0.0.1:61718/workbench/data",
+      "auth_boundary": false,
+      "body_chars": 4262,
+      "canonical_route": "/workbench/data",
+      "dpr": 1,
+      "error": false,
+      "font_ready_contract": {
+        "document_fonts_ready_awaited": true,
+        "final_status": "loaded",
+        "font_status_after_two_animation_frames": "loaded",
+        "font_status_before_ready": "loaded",
+        "two_animation_frames_after_loaded": true
+      },
+      "fonts": "loaded",
+      "loading": false,
+      "loading_text": true,
+      "material": true,
+      "png": {
+        "bytes": 138412,
+        "dimensions": {
+          "height": 900,
+          "width": 1440
+        },
+        "path": "visual-atlas/screenshots/workbench-data--desktop-1440x900.png",
+        "sha256": "41779baf39c52546f94bebe97a1fa7202cd2cfaabf13c04871afdfdc15a84ea8",
+        "valid_png_signature": true
+      },
+      "profile": "desktop-1440x900",
+      "readyState": "complete",
+      "runtime_ready": true,
+      "surface_key": "workbench-data",
+      "viewport_css": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    {
+      "actual_url": "http://127.0.0.1:61718/workbench/data",
+      "auth_boundary": false,
+      "body_chars": 2304,
+      "canonical_route": "/workbench/data",
+      "dpr": 1,
+      "error": false,
+      "font_ready_contract": {
+        "document_fonts_ready_awaited": true,
+        "final_status": "loaded",
+        "font_error": null,
+        "font_ready_timed_out": false,
+        "font_status_after_two_animation_frames": "loaded",
+        "font_status_before_ready": "loaded",
+        "two_animation_frames_after_loaded": true
+      },
+      "fonts": "loaded",
+      "loading": false,
+      "loading_text": true,
+      "material": true,
+      "png": {
+        "bytes": 56923,
+        "capture_method": "Chrome DevTools Protocol Page.captureScreenshot",
+        "dimensions": {
+          "height": 844,
+          "width": 390
+        },
+        "path": "visual-atlas/screenshots/workbench-data--mobile-390x844.png",
+        "profile": "mobile-390x844",
+        "route": "/workbench/data",
+        "runtime_facts": {
+          "bodyChars": 2722,
+          "fonts": "loaded",
+          "innerHeight": 844,
+          "innerWidth": 390,
+          "loading": false,
+          "readyState": "complete"
+        },
+        "sha256": "2f7331e550f6f3bcb09966d6b67e28947e45d46b5cb7ffe1f0728f291871f4fe",
+        "surface_key": "workbench-data",
+        "target_id": "2F18AA4CE47ADD47B64C1B7CF8C581FD",
+        "valid_png_signature": true
+      },
+      "profile": "mobile-390x844",
+      "readyState": "complete",
+      "runtime_ready": true,
+      "surface_key": "workbench-data",
+      "viewport_css": {
+        "height": 844,
+        "width": 390
+      }
+    }
+  ],
+  "decisive_error_counts": {
+    "bad_response": 0,
+    "console_error": 0,
+    "pageerror": 0,
+    "requestfailed": 0
+  },
+  "fabric_job": "CF-3f1ea2ce0b3fce2a4175d2f8",
+  "project": "nicegui-base",
+  "request": "stable3-golden-visual-atlas-capture-3-readiness-repair-1",
+  "runtime": {
+    "browser": "Playwright Chromium / Google Chrome for Testing",
+    "browser_capture_mechanism": "Playwright 1.62.0 with Chrome DevTools Protocol Page.captureScreenshot for the mobile replacement",
+    "browser_executable": "/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+    "browser_version": "151.0.7922.34 (Playwright 1.62.0)",
+    "cwd": "/Users/haewonkim/.codex-fabric/worktrees/CF-3f1ea2ce0b3fce2a4175d2f8",
+    "dpr": 1,
+    "entrypoint": "env PYTHONPATH=/Users/haewonkim/.codex-fabric/worktrees/CF-3f1ea2ce0b3fce2a4175d2f8/source TZ=America/Chicago LANG=en_US.UTF-8 NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=61718 NICEGUI_BASE_SHOW=false /opt/anaconda3/bin/python /Users/haewonkim/.codex-fabric/worktrees/CF-3f1ea2ce0b3fce2a4175d2f8/run_nicegui_base.py --host 127.0.0.1 --port 61718 --no-show",
+    "identity_state": "local-dev ephemeral reference identity",
+    "locale": "en-US",
+    "motion_preference": "reduced",
+    "nicegui_base_import": "/Users/haewonkim/.codex-fabric/worktrees/CF-3f1ea2ce0b3fce2a4175d2f8/source/nicegui_base/__init__.py",
+    "nicegui_version": "3.15.0",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "port": 61718,
+    "python": "/opt/anaconda3/bin/python",
+    "python_implementation": "CPython",
+    "python_version": "3.11.7",
+    "role": "local-dev / reference-explorer / governed Product fixtures",
+    "server_pid": 77533,
+    "theme": "light",
+    "timezone": "America/Chicago",
+    "url": "http://127.0.0.1:61718"
+  },
+  "schema_version": 1,
+  "source_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+  "tree_sha": "f0ede69c117879211e793cd00852031a040151d3"
+}
