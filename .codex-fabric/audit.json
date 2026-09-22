@@ -1,0 +1,458 @@
+{
+  "accepted_at": "2026-09-22T02:39:06Z",
+  "changed_files": [
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "source/docs/APP_PATTERNS.md",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "source/nicegui_base/ai/guides/APP_PATTERNS.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/nicegui_data_table.py",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 61,
+      "path": "source/nicegui_base/integrations/nicegui_interactions.py",
+      "status": "M"
+    },
+    {
+      "additions": 249,
+      "deletions": 0,
+      "path": "source/nicegui_base/integrations/nicegui_master_detail.py",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "source/nicegui_base/integrations/nicegui_theme.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "source/nicegui_base/integrations/visual_normalization.py",
+      "status": "M"
+    },
+    {
+      "additions": 31,
+      "deletions": 0,
+      "path": "source/nicegui_base/layouts/css.py",
+      "status": "M"
+    },
+    {
+      "additions": 49,
+      "deletions": 3,
+      "path": "source/nicegui_base/patterns/pages.py",
+      "status": "M"
+    },
+    {
+      "additions": 31,
+      "deletions": 5,
+      "path": "source/nicegui_base/workbench/pattern_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 91,
+      "deletions": 0,
+      "path": "source/tests/test_chg165_master_detail_mobile_context.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk git show a46edcb:candidate.json && rtk git show a46edcb:visual-evidence/manifest.json && rtk git show a46edcb:visual-evidence/validation.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git grep -n -I 'f0ede69c117879211e793cd00852031a040151d' 38b9976a900b3960945bfc842c993a4c91b5b778 -- || true && rtk git grep -n -I '126b9b6185bd7a28fdbf550c079dab4011ab402d' 38b9976a900b3960945bfc842c993a4c91b5b778 -- candidate.json chg-165 artifact-bundle.zip || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk env | rtk rg -i 'fabric|job|codex|worktree|request' | rtk rg -v 'TOKEN|KEY|SECRET|PATH|PWD|HOME'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 38b9976a900b3960945bfc842c993a4c91b5b778:candidate.json | rtk sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la /Users/haewonkim/.codex-fabric && rtk find /Users/haewonkim/.codex-fabric -maxdepth 2 -type d'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric -maxdepth 3 -type f -name '*.json' | rtk rg 'CF-83ea35912ef6e6b3e103eea5|job_id|fabric_job' | rtk head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric/jobs -maxdepth 1 -type f -name 'CF-83ea35912ef6e6b3e103eea5.*' -print\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/audit.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric/runs /Users/haewonkim/.codex-fabric/results /Users/haewonkim/.codex-fabric/state -maxdepth 3 -type f | rtk rg 'CF-83ea35912ef6e6b3e103eea5|evidence-bind-verify-3' | rtk head -50\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric/bin /Users/haewonkim/.codex-fabric/libexec -maxdepth 2 -type f | rtk rg -i 'artifact|evidence|publish|audit|carrier|fabric' | rtk head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree list --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git log --all --pretty='%H %P %s' --grep='evidence-bind-verify\\\\|artifact.*repair\\\\|native audit' --regexp-ignore-case --max-count=100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk file /Users/haewonkim/.codex-fabric/bin/fabricctl && rtk sed -n '1,240p' /Users/haewonkim/.codex-fabric/bin/fabricctl\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch -- /private/tmp/chg165-artifact-worktree 2>/dev/null || true && rtk ls -la /private/tmp/chg165-artifact-worktree | rtk head -40'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /Users/haewonkim/.codex-fabric/bin/fabricctl --help'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /Users/haewonkim/.codex-fabric/bin/fabricctl status CF-83ea35912ef6e6b3e103eea5'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /private/tmp/chg165-artifact-worktree status --short --branch && rtk git -C /private/tmp/chg165-artifact-worktree rev-parse HEAD && rtk shasum -a 256 /private/tmp/chg165-artifact-worktree/artifact-bundle.zip 2>/dev/null || true && rtk git -C /private/tmp/chg165-artifact-worktree log -1 --format='%H %P %s'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' /private/tmp/chg165-artifact-worktree/candidate.json && rtk sed -n '1,80p' /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json && rtk sed -n '1,60p' /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/browser-contract.json && rtk sed -n '1,80p' /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/validation.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /private/tmp/chg165-artifact-worktree diff -- candidate.json chg-165/master-detail-mobile-context/audit/manifest.json chg-165/master-detail-mobile-context/audit/browser-contract.json chg-165/master-detail-mobile-context/audit/validation.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git cat-file blob 38b9976a900b3960945bfc842c993a4c91b5b778:chg-165/master-detail-mobile-context/audit/manifest.json | rtk shasum -a 256 && rtk git cat-file -s 38b9976a900b3960945bfc842c993a4c91b5b778:chg-165/master-detail-mobile-context/audit/manifest.json && rtk git cat-file blob 38b9976a900b3960945bfc842c993a4c91b5b778:chg-165/master-detail-mobile-context/audit/browser-contract.json | rtk shasum -a 256 && rtk git cat-file blob 38b9976a900b3960945bfc842c993a4c91b5b778:chg-165/master-detail-mobile-context/audit/validation.md | rtk shasum -a 256'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/manifest.json && rtk wc -c /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/manifest.json && rtk diff -u /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/manifest.json | rtk head -100'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk diff -u /private/tmp/chg165-artifact-worktree/candidate.json /tmp/chg165-r3.z3knAJ/r2-bundle/candidate.json | rtk head -80 && rtk shasum -a 256 /private/tmp/chg165-artifact-worktree/candidate.json /tmp/chg165-r3.z3knAJ/r2-bundle/candidate.json && rtk wc -c /private/tmp/chg165-artifact-worktree/candidate.json /tmp/chg165-r3.z3knAJ/r2-bundle/candidate.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp /private/tmp/chg165-artifact-worktree/candidate.json /tmp/chg165-r3.z3knAJ/r2-bundle/candidate.json && rtk cp /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/manifest.json && rtk cp /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/browser-contract.json /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/browser-contract.json && rtk cp /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/validation.md /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/validation.md && rtk diff -qr /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/screenshots /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/screenshots'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 /private/tmp/chg165-artifact-worktree/candidate.json /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/browser-contract.json /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/validation.md && rtk wc -c /private/tmp/chg165-artifact-worktree/candidate.json /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/browser-contract.json /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/validation.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 2 '\\\"path\\\": \\\"chg-165/master-detail-mobile-context/audit|\\\"path\\\": \\\"candidate.json|\\\"bytes\\\"|\\\"sha256\\\"' /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp /private/tmp/chg165-artifact-worktree/candidate.json /tmp/chg165-r3.z3knAJ/r2-bundle/candidate.json && rtk cp /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/manifest.json && rtk cp /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/browser-contract.json /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/browser-contract.json && rtk cp /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/validation.md /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/audit/validation.md && rtk diff -qr /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/screenshots /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/screenshots'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk zip -X -q /tmp/chg165-r3.z3knAJ/r3-artifact-bundle.zip candidate.json chg-165/master-detail-mobile-context/audit/manifest.json chg-165/master-detail-mobile-context/audit/browser-contract.json chg-165/master-detail-mobile-context/audit/validation.md chg-165/master-detail-mobile-context/screenshots/desktop-1440-after-close.png chg-165/master-detail-mobile-context/screenshots/desktop-1440-before.png chg-165/master-detail-mobile-context/screenshots/desktop-1440-open.png chg-165/master-detail-mobile-context/screenshots/phone-320-after-close.png chg-165/master-detail-mobile-context/screenshots/phone-320-before.png chg-165/master-detail-mobile-context/screenshots/phone-320-open.png chg-165/master-detail-mobile-context/screenshots/phone-390-after-close.png chg-165/master-detail-mobile-context/screenshots/phone-390-before.png chg-165/master-detail-mobile-context/screenshots/phone-390-dark-open.png chg-165/master-detail-mobile-context/screenshots/phone-390-open.png chg-165/master-detail-mobile-context/screenshots/phone-390-system-dark-open.png'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mv /tmp/chg165-r3.z3knAJ/r3-artifact-bundle.zip /private/tmp/chg165-artifact-worktree/artifact-bundle.zip && rtk unzip -t /private/tmp/chg165-artifact-worktree/artifact-bundle.zip && rtk unzip -l /private/tmp/chg165-artifact-worktree/artifact-bundle.zip'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -m json.tool /private/tmp/chg165-artifact-worktree/candidate.json >/dev/null && rtk python -m json.tool /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/manifest.json >/dev/null && rtk python -m json.tool /private/tmp/chg165-artifact-worktree/chg-165/master-detail-mobile-context/audit/browser-contract.json >/dev/null && rtk rg -n 'f0ede69c117879211e793cd00852031a040151d([\"'^3]|$)'\"' /private/tmp/chg165-artifact-worktree/candidate.json /private/tmp/chg165-artifact-worktree/chg-165 /tmp/chg165-r3.z3knAJ/r2-bundle/candidate.json /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165 || true && rtk git -C /private/tmp/chg165-artifact-worktree status --short && rtk git -C /private/tmp/chg165-artifact-worktree diff --name-status\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git reset --hard 126b9b6185bd7a28fdbf550c079dab4011ab402d && rtk git rev-parse HEAD && rtk git status --short --branch && rtk git push origin 126b9b6185bd7a28fdbf550c079dab4011ab402d:refs/heads/codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3 && rtk git ls-remote origin refs/heads/codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /private/tmp/chg165-artifact-worktree add -A && rtk git -C /private/tmp/chg165-artifact-worktree diff --cached --name-status && rtk git -C /private/tmp/chg165-artifact-worktree diff --cached --stat && rtk git -C /private/tmp/chg165-artifact-worktree status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /private/tmp/chg165-artifact-worktree write-tree'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /private/tmp/chg165-artifact-worktree commit-tree 3a3d32362ab9a3f28dbbecfe9230a077a50e609e -p 126b9b6185bd7a28fdbf550c079dab4011ab402d -m 'artifact: CHG-165 current-main MasterDetail evidence bind verify 3'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /private/tmp/chg165-artifact-worktree reset --hard 368d883dffe29a8daa754f98f338673735f726c9 && rtk git update-ref refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 368d883dffe29a8daa754f98f338673735f726c9 0000000000000000000000000000000000000000 && rtk git show -s --format='%H%n%T%n%P%n%s' 368d883dffe29a8daa754f98f338673735f726c9 && rtk git -C /private/tmp/chg165-artifact-worktree status --short --branch && rtk git diff-tree --no-commit-id --name-status -r 126b9b6185bd7a28fdbf550c079dab4011ab402d 368d883dffe29a8daa754f98f338673735f726c9\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin 368d883dffe29a8daa754f98f338673735f726c9:refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 && rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-context-rebase-fix-2 refs/heads/codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3 refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /Users/haewonkim/.codex-fabric/bin/fabricctl publish-evidence CF-83ea35912ef6e6b3e103eea5'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'publish-evidence|refresh-evidence|JOB_NOT_TERMINAL|terminal job not found|job_state' /Users/haewonkim/.codex-fabric/current/fabric.py /Users/haewonkim/.codex-fabric/current 2>/dev/null | rtk head -160\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la /Users/haewonkim/.codex-fabric/jobs | rtk tail -20 && rtk ls -la /Users/haewonkim/.codex-fabric/state | rtk head -40'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /Users/haewonkim/.codex-fabric/jobs -maxdepth 1 -type f | rtk rg 'CF-83ea35912ef6e6b3e103eea5|CF-c6694bc8db35bcd5efa368b6' | rtk head -20 && rtk /Users/haewonkim/.codex-fabric/bin/fabricctl status CF-c6694bc8db35bcd5efa368b6\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '2760,2860p' /Users/haewonkim/.codex-fabric/current/fabric.py && rtk sed -n '4320,4410p' /Users/haewonkim/.codex-fabric/current/fabric.py && rtk rg -n 'def (publish_evidence_for_job|find_job|job_status|status)|JOB_NOT_TERMINAL|RUNNING' /Users/haewonkim/.codex-fabric/current/fabric.py | rtk head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -ld /Users/haewonkim/.codex-fabric/jobs/CF-83ea35912ef6e6b3e103eea5* /Users/haewonkim/.codex-fabric/results/CF-83ea35912ef6e6b3e103eea5 /Users/haewonkim/.codex-fabric/worktrees/CF-83ea35912ef6e6b3e103eea5 2>&1 || true && rtk find /Users/haewonkim/.codex-fabric/jobs -maxdepth 1 -type d | rtk rg '/CF-83' || true && rtk find /Users/haewonkim/.codex-fabric/results -maxdepth 1 -type d | rtk rg '/CF-83' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/jobs/CF-83ea35912ef6e6b3e103eea5.running/job.json && rtk ls -la /Users/haewonkim/.codex-fabric/results/CF-83ea35912ef6e6b3e103eea5 && rtk sed -n '1,260p' /Users/haewonkim/.codex-fabric/results/CF-83ea35912ef6e6b3e103eea5/job-summary.json 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 && rtk git show -s --format='%H%n%T%n%P%n%s' refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 && rtk git grep -n -I 'f0ede69c117879211e793cd00852031a040151d' refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 -- || true && rtk git grep -n -I 'f0ede69c117879211e793cd00852031a040151d3' refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 -- candidate.json chg-165/master-detail-mobile-context/audit/manifest.json chg-165/master-detail-mobile-context/audit/browser-contract.json chg-165/master-detail-mobile-context/audit/validation.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy git show refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:artifact-bundle.zip > /tmp/chg165-r3.z3knAJ/remote-artifact-bundle.zip && rtk unzip -t /tmp/chg165-r3.z3knAJ/remote-artifact-bundle.zip && rtk rm -rf /tmp/chg165-r3.z3knAJ/remote-bundle && rtk mkdir -p /tmp/chg165-r3.z3knAJ/remote-bundle && rtk unzip -q /tmp/chg165-r3.z3knAJ/remote-artifact-bundle.zip -d /tmp/chg165-r3.z3knAJ/remote-bundle && rtk diff -qr /tmp/chg165-r3.z3knAJ/r2-bundle/chg-165/master-detail-mobile-context/screenshots /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/screenshots && rtk git cat-file -s refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:artifact-bundle.zip && rtk unzip -l /tmp/chg165-r3.z3knAJ/remote-artifact-bundle.zip'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/desktop-1440-after-close.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/desktop-1440-before.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/desktop-1440-open.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-320-after-close.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-320-before.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-320-open.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-390-after-close.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-390-before.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-390-dark-open.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-390-open.png | rtk shasum -a 256 && rtk git cat-file blob refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/screenshots/phone-390-system-dark-open.png | rtk shasum -a 256'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r --long refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 -- chg-165/master-detail-mobile-context/screenshots && rtk git show refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:candidate.json && rtk git show refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/audit/manifest.json | rtk sed -n '1,42p' && rtk git show refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/audit/browser-contract.json | rtk sed -n '1,24p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /private/tmp/chg165-artifact-worktree status --short --branch && rtk git -C /private/tmp/chg165-artifact-worktree show -s --format='%H %T %P %s' HEAD && rtk git -C /private/tmp/chg165-artifact-worktree diff --quiet 126b9b6185bd7a28fdbf550c079dab4011ab402d HEAD -- artifact-bundle.zip candidate.json chg-165/master-detail-mobile-context/audit/browser-contract.json chg-165/master-detail-mobile-context/audit/manifest.json chg-165/master-detail-mobile-context/audit/validation.md; test \"'$? -eq 0 || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git diff --name-only ca98dfbf70f9b0c3948785211a0e136b1cc01791...HEAD && rtk git diff-tree --no-commit-id --name-status -r ca98dfbf70f9b0c3948785211a0e136b1cc01791 126b9b6185bd7a28fdbf550c079dab4011ab402d'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/main refs/heads/codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3 refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-context-rebase-fix-2 refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 refs/heads/codex-fabric/evidence/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3 && rtk git show -s --format='origin-main %H %T %P' refs/remotes/origin/main && rtk git show -s --format='candidate %H %T %P' 126b9b6185bd7a28fdbf550c079dab4011ab402d && rtk git show -s --format='r2-artifact %H %T %P' 38b9976a900b3960945bfc842c993a4c91b5b778 && rtk git show -s --format='r3-artifact %H %T %P' refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -m json.tool /tmp/chg165-r3.z3knAJ/remote-bundle/candidate.json >/dev/null && rtk python -m json.tool /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/audit/manifest.json >/dev/null && rtk python -m json.tool /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/audit/browser-contract.json >/dev/null && rtk diff -u <(rtk git show refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:candidate.json) /tmp/chg165-r3.z3knAJ/remote-bundle/candidate.json && rtk diff -u <(rtk git show refs/remotes/origin/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3:chg-165/master-detail-mobile-context/audit/manifest.json) /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/audit/manifest.json && rtk rg -n 'nicegui-base-master-detail-mobile-evidence-bind-verify-3|CF-83ea35912ef6e6b3e103eea5|f0ede69c117879211e793cd00852031a040151d3|38b9976a900b3960945bfc842c993a4c91b5b778' /tmp/chg165-r3.z3knAJ/remote-bundle/candidate.json /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/audit/manifest.json /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/audit/browser-contract.json /tmp/chg165-r3.z3knAJ/remote-bundle/chg-165/master-detail-mobile-context/audit/validation.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 161,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.86,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4949504,
+      "fresh_input_tokens": 160243,
+      "input_tokens": 5109747,
+      "non_reasoning_output_tokens": 17494,
+      "output_tokens": 36123,
+      "reasoning_output_tokens": 18629,
+      "total_processed_tokens": 5145870
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "126b9b6185bd7a28fdbf550c079dab4011ab402d",
+      "subject": "fix: honor MasterDetail phone contextual detail"
+    }
+  ],
+  "diff": {
+    "additions": 481,
+    "changed_files": 12,
+    "commit_count": 1,
+    "deletions": 72
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 3,
+    "items": [
+      {
+        "bytes": 2327,
+        "path": "source/docs/APP_PATTERNS.md",
+        "sha256": "323a14639231af8460c47df6eeae0129a26eeaf40b4695197dd7e63b22be62a7"
+      },
+      {
+        "bytes": 2327,
+        "path": "source/nicegui_base/ai/guides/APP_PATTERNS.md",
+        "sha256": "323a14639231af8460c47df6eeae0129a26eeaf40b4695197dd7e63b22be62a7"
+      },
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "1d300d74203a0241d78002e4185fd4fa80619eaa3d8fd9600c33cb044dcaa28b"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-22T02:51:27Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "ca98dfbf70f9b0c3948785211a0e136b1cc01791",
+    "branch": "codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+    "detached_verify": false,
+    "head_sha": "126b9b6185bd7a28fdbf550c079dab4011ab402d",
+    "remote_exact_head": true,
+    "remote_head_sha": "126b9b6185bd7a28fdbf550c079dab4011ab402d",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "ca98dfbf70f9b0c3948785211a0e136b1cc01791",
+    "work_branch": "codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-83ea35912ef6e6b3e103eea5",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+  "schema_version": 1,
+  "started_at": "2026-09-22T02:39:07Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 740,
+    "queue_seconds": 1,
+    "total_seconds": 741
+  },
+  "transport": {
+    "bytes": 8773,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8387,
+    "prompt_sha256": "d6f6c1f9aed667ad95c38be59415a2341febf75dfefa0c211840a6c81bb0abd9",
+    "sha256": "83ea35912ef6e6b3e103eea56cd1164c5ff6dee5aeaab8d1c8f50091c9e225df"
+  }
+}
