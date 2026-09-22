@@ -1,0 +1,1126 @@
+{
+  "forcedColors": {
+    "borderColor": "rgb(0, 0, 0)",
+    "forcedColorAdjust": "auto",
+    "media": true
+  },
+  "keyboard": {
+    "close": {
+      "action": {
+        "rect": {
+          "bottom": 0,
+          "h": 0,
+          "top": 0,
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        "visible": false
+      },
+      "active": {
+        "aria": null,
+        "inContext": false,
+        "tag": "DIV",
+        "text": "MEAS-100000L260100W01"
+      },
+      "back": {
+        "minHeight": "44px",
+        "rect": {
+          "bottom": 0,
+          "h": 0,
+          "top": 0,
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        "visible": false
+      },
+      "context": {
+        "ariaHidden": "true",
+        "ariaModal": null,
+        "background": "rgb(247, 247, 249)",
+        "display": "none",
+        "position": "static",
+        "rect": {
+          "bottom": 0,
+          "h": 0,
+          "top": 0,
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        "role": "region",
+        "state": "closed"
+      },
+      "detailSlot": {
+        "display": "none",
+        "rect": {
+          "bottom": 0,
+          "h": 0,
+          "top": 0,
+          "w": 0,
+          "x": 0,
+          "y": 0
+        }
+      },
+      "root": {
+        "bodyScrollWidth": 390,
+        "styleOverflow": "",
+        "viewportWidth": 390
+      },
+      "selected": 1,
+      "siblings": [
+        {
+          "ariaHidden": null,
+          "class": "cui-page-header",
+          "inert": false
+        },
+        {
+          "ariaHidden": null,
+          "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+          "inert": false
+        },
+        {
+          "ariaHidden": null,
+          "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+          "inert": false
+        },
+        {
+          "ariaHidden": "true",
+          "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+          "inert": false
+        }
+      ],
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    "open": {
+      "action": {
+        "rect": {
+          "bottom": 832,
+          "h": 44,
+          "top": 788,
+          "w": 186.6875,
+          "x": 12,
+          "y": 788
+        },
+        "visible": true
+      },
+      "active": {
+        "aria": "Back to master list",
+        "inContext": true,
+        "tag": "BUTTON",
+        "text": "Back to master list"
+      },
+      "back": {
+        "minHeight": "44px",
+        "rect": {
+          "bottom": 52,
+          "h": 44,
+          "top": 8,
+          "w": 156.84375,
+          "x": 12,
+          "y": 8
+        },
+        "visible": true
+      },
+      "context": {
+        "ariaHidden": "false",
+        "ariaModal": "true",
+        "background": "rgb(255, 255, 255)",
+        "display": "flex",
+        "position": "fixed",
+        "rect": {
+          "bottom": 844,
+          "h": 844,
+          "top": 0,
+          "w": 390,
+          "x": 0,
+          "y": 0
+        },
+        "role": "dialog",
+        "state": "open"
+      },
+      "detailSlot": {
+        "display": "flex",
+        "rect": {
+          "bottom": 844,
+          "h": 844,
+          "top": 0,
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      },
+      "root": {
+        "bodyScrollWidth": 390,
+        "styleOverflow": "hidden",
+        "viewportWidth": 390
+      },
+      "selected": 1,
+      "siblings": [
+        {
+          "ariaHidden": "true",
+          "class": "cui-page-header",
+          "inert": true
+        },
+        {
+          "ariaHidden": "true",
+          "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+          "inert": true
+        },
+        {
+          "ariaHidden": "true",
+          "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+          "inert": true
+        },
+        {
+          "ariaHidden": "false",
+          "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+          "inert": false
+        }
+      ],
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    }
+  },
+  "reducedMotion": {
+    "animation": "0s",
+    "media": true,
+    "scrollBehavior": "auto",
+    "transition": "0s"
+  },
+  "touch": {
+    "action": {
+      "rect": {
+        "bottom": 832,
+        "h": 44,
+        "top": 788,
+        "w": 186.6875,
+        "x": 12,
+        "y": 788
+      },
+      "visible": true
+    },
+    "active": {
+      "aria": "Back to master list",
+      "inContext": true,
+      "tag": "BUTTON",
+      "text": "Back to master list"
+    },
+    "back": {
+      "minHeight": "44px",
+      "rect": {
+        "bottom": 52,
+        "h": 44,
+        "top": 8,
+        "w": 156.84375,
+        "x": 12,
+        "y": 8
+      },
+      "visible": true
+    },
+    "context": {
+      "ariaHidden": "false",
+      "ariaModal": "true",
+      "background": "rgb(255, 255, 255)",
+      "display": "flex",
+      "position": "fixed",
+      "rect": {
+        "bottom": 844,
+        "h": 844,
+        "top": 0,
+        "w": 390,
+        "x": 0,
+        "y": 0
+      },
+      "role": "dialog",
+      "state": "open"
+    },
+    "detailSlot": {
+      "display": "flex",
+      "rect": {
+        "bottom": 844,
+        "h": 844,
+        "top": 0,
+        "w": 390,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "root": {
+      "bodyScrollWidth": 390,
+      "styleOverflow": "hidden",
+      "viewportWidth": 390
+    },
+    "selected": 1,
+    "siblings": [
+      {
+        "ariaHidden": "true",
+        "class": "cui-page-header",
+        "inert": true
+      },
+      {
+        "ariaHidden": "true",
+        "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+        "inert": true
+      },
+      {
+        "ariaHidden": "true",
+        "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+        "inert": true
+      },
+      {
+        "ariaHidden": "false",
+        "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+        "inert": false
+      }
+    ],
+    "viewport": {
+      "height": 844,
+      "width": 390
+    }
+  },
+  "viewports": {
+    "desktop-1440x900": {
+      "actionReachableAfterScroll": null,
+      "afterClose": {
+        "action": {
+          "rect": {
+            "bottom": 1258,
+            "h": 38,
+            "top": 1220,
+            "w": 186.6875,
+            "x": 973.328125,
+            "y": 1220
+          },
+          "visible": true
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "DIV",
+          "text": "W01"
+        },
+        "back": {
+          "minHeight": "38px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "false",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "flex",
+          "position": "sticky",
+          "rect": {
+            "bottom": 1274,
+            "h": 812,
+            "top": 462,
+            "w": 462.671875,
+            "x": 957.328125,
+            "y": 462
+          },
+          "role": "region",
+          "state": "open"
+        },
+        "detailSlot": {
+          "display": "flex",
+          "rect": {
+            "bottom": 1274,
+            "h": 812,
+            "top": 462,
+            "w": 462.671875,
+            "x": 957.328125,
+            "y": 462
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 1440,
+          "styleOverflow": "",
+          "viewportWidth": 1440
+        },
+        "selected": 1,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "false",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      "before": {
+        "action": {
+          "rect": {
+            "bottom": 1258,
+            "h": 38,
+            "top": 1220,
+            "w": 186.6875,
+            "x": 973.328125,
+            "y": 1220
+          },
+          "visible": true
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "BODY",
+          "text": "import * as Vue from \"vue\";\n      globalThis.Vue = Vue;\n    "
+        },
+        "back": {
+          "minHeight": "38px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "false",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "flex",
+          "position": "sticky",
+          "rect": {
+            "bottom": 1274,
+            "h": 812,
+            "top": 462,
+            "w": 462.671875,
+            "x": 957.328125,
+            "y": 462
+          },
+          "role": "region",
+          "state": "closed"
+        },
+        "detailSlot": {
+          "display": "flex",
+          "rect": {
+            "bottom": 1274,
+            "h": 812,
+            "top": 462,
+            "w": 462.671875,
+            "x": 957.328125,
+            "y": 462
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 1440,
+          "styleOverflow": "",
+          "viewportWidth": 1440
+        },
+        "selected": 0,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "false",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      "selected": {
+        "action": {
+          "rect": {
+            "bottom": 1258,
+            "h": 38,
+            "top": 1220,
+            "w": 186.6875,
+            "x": 973.328125,
+            "y": 1220
+          },
+          "visible": true
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "DIV",
+          "text": "W01"
+        },
+        "back": {
+          "minHeight": "38px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "false",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "flex",
+          "position": "sticky",
+          "rect": {
+            "bottom": 1274,
+            "h": 812,
+            "top": 462,
+            "w": 462.671875,
+            "x": 957.328125,
+            "y": 462
+          },
+          "role": "region",
+          "state": "open"
+        },
+        "detailSlot": {
+          "display": "flex",
+          "rect": {
+            "bottom": 1274,
+            "h": 812,
+            "top": 462,
+            "w": 462.671875,
+            "x": 957.328125,
+            "y": 462
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 1440,
+          "styleOverflow": "",
+          "viewportWidth": 1440
+        },
+        "selected": 1,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "false",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      }
+    },
+    "mobile-390x844": {
+      "actionReachableAfterScroll": {
+        "bottom": 832,
+        "top": 788,
+        "withinViewport": true
+      },
+      "afterClose": {
+        "action": {
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "DIV",
+          "text": "MEAS-100000L260100W01"
+        },
+        "back": {
+          "minHeight": "44px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "true",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "none",
+          "position": "static",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "role": "region",
+          "state": "closed"
+        },
+        "detailSlot": {
+          "display": "none",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 390,
+          "styleOverflow": "",
+          "viewportWidth": 390
+        },
+        "selected": 1,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 844,
+          "width": 390
+        }
+      },
+      "before": {
+        "action": {
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "BODY",
+          "text": "import * as Vue from \"vue\";\n      globalThis.Vue = Vue;\n    "
+        },
+        "back": {
+          "minHeight": "44px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "true",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "none",
+          "position": "static",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "role": "region",
+          "state": "closed"
+        },
+        "detailSlot": {
+          "display": "none",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 390,
+          "styleOverflow": "",
+          "viewportWidth": 390
+        },
+        "selected": 0,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 844,
+          "width": 390
+        }
+      },
+      "selected": {
+        "action": {
+          "rect": {
+            "bottom": 832,
+            "h": 44,
+            "top": 788,
+            "w": 186.6875,
+            "x": 12,
+            "y": 788
+          },
+          "visible": true
+        },
+        "active": {
+          "aria": "Back to master list",
+          "inContext": true,
+          "tag": "BUTTON",
+          "text": "Back to master list"
+        },
+        "back": {
+          "minHeight": "44px",
+          "rect": {
+            "bottom": 52,
+            "h": 44,
+            "top": 8,
+            "w": 156.84375,
+            "x": 12,
+            "y": 8
+          },
+          "visible": true
+        },
+        "context": {
+          "ariaHidden": "false",
+          "ariaModal": "true",
+          "background": "rgb(255, 255, 255)",
+          "display": "flex",
+          "position": "fixed",
+          "rect": {
+            "bottom": 844,
+            "h": 844,
+            "top": 0,
+            "w": 390,
+            "x": 0,
+            "y": 0
+          },
+          "role": "dialog",
+          "state": "open"
+        },
+        "detailSlot": {
+          "display": "flex",
+          "rect": {
+            "bottom": 844,
+            "h": 844,
+            "top": 0,
+            "w": 390,
+            "x": 0,
+            "y": 0
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 390,
+          "styleOverflow": "hidden",
+          "viewportWidth": 390
+        },
+        "selected": 1,
+        "siblings": [
+          {
+            "ariaHidden": "true",
+            "class": "cui-page-header",
+            "inert": true
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": true
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": true
+          },
+          {
+            "ariaHidden": "false",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 844,
+          "width": 390
+        }
+      }
+    },
+    "narrow-320x800": {
+      "actionReachableAfterScroll": {
+        "bottom": 800,
+        "top": 756,
+        "withinViewport": true
+      },
+      "afterClose": {
+        "action": {
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "DIV",
+          "text": "MEAS-100000L260100W01"
+        },
+        "back": {
+          "minHeight": "44px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "true",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "none",
+          "position": "static",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "role": "region",
+          "state": "closed"
+        },
+        "detailSlot": {
+          "display": "none",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 320,
+          "styleOverflow": "",
+          "viewportWidth": 320
+        },
+        "selected": 1,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 800,
+          "width": 320
+        }
+      },
+      "before": {
+        "action": {
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "active": {
+          "aria": null,
+          "inContext": false,
+          "tag": "BODY",
+          "text": "import * as Vue from \"vue\";\n      globalThis.Vue = Vue;\n    "
+        },
+        "back": {
+          "minHeight": "44px",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "visible": false
+        },
+        "context": {
+          "ariaHidden": "true",
+          "ariaModal": null,
+          "background": "rgb(247, 247, 249)",
+          "display": "none",
+          "position": "static",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          },
+          "role": "region",
+          "state": "closed"
+        },
+        "detailSlot": {
+          "display": "none",
+          "rect": {
+            "bottom": 0,
+            "h": 0,
+            "top": 0,
+            "w": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 320,
+          "styleOverflow": "",
+          "viewportWidth": 320
+        },
+        "selected": 0,
+        "siblings": [
+          {
+            "ariaHidden": null,
+            "class": "cui-page-header",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": false
+          },
+          {
+            "ariaHidden": null,
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": false
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 800,
+          "width": 320
+        }
+      },
+      "selected": {
+        "action": {
+          "rect": {
+            "bottom": 832,
+            "h": 44,
+            "top": 788,
+            "w": 186.6875,
+            "x": 12,
+            "y": 788
+          },
+          "visible": true
+        },
+        "active": {
+          "aria": "Back to master list",
+          "inContext": true,
+          "tag": "BUTTON",
+          "text": "Back to master list"
+        },
+        "back": {
+          "minHeight": "44px",
+          "rect": {
+            "bottom": 52,
+            "h": 44,
+            "top": 8,
+            "w": 156.84375,
+            "x": 12,
+            "y": 8
+          },
+          "visible": true
+        },
+        "context": {
+          "ariaHidden": "false",
+          "ariaModal": "true",
+          "background": "rgb(255, 255, 255)",
+          "display": "flex",
+          "position": "fixed",
+          "rect": {
+            "bottom": 800,
+            "h": 800,
+            "top": 0,
+            "w": 320,
+            "x": 0,
+            "y": 0
+          },
+          "role": "dialog",
+          "state": "open"
+        },
+        "detailSlot": {
+          "display": "flex",
+          "rect": {
+            "bottom": 800,
+            "h": 800,
+            "top": 0,
+            "w": 320,
+            "x": 0,
+            "y": 0
+          }
+        },
+        "root": {
+          "bodyScrollWidth": 320,
+          "styleOverflow": "hidden",
+          "viewportWidth": 320
+        },
+        "selected": 1,
+        "siblings": [
+          {
+            "ariaHidden": "true",
+            "class": "cui-page-header",
+            "inert": true
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--filters cui-pattern-slot--subtle",
+            "inert": true
+          },
+          {
+            "ariaHidden": "true",
+            "class": "cui-pattern-slot cui-pattern-slot--data cui-pattern-slot--plain",
+            "inert": true
+          },
+          {
+            "ariaHidden": "false",
+            "class": "cui-pattern-slot cui-pattern-slot--details cui-pattern-slot--inspector is-sticky cui-master-detail-context",
+            "inert": false
+          }
+        ],
+        "viewport": {
+          "height": 800,
+          "width": 320
+        }
+      }
+    }
+  }
+}
