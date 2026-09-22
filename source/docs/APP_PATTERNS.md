@@ -14,3 +14,9 @@
 | Maximum-density analysis | `AnalysisWorkspacePage` | Compact header/filtering → resizable primary workspace → optional inspector |
 
 If two patterns seem plausible, choose the pattern that best matches the **user's dominant task**, not the one that merely resembles the requested widgets.
+
+## MasterDetail responsive contract
+
+`MasterDetailPage` keeps the `DATA` and `DETAILS` slots simultaneously visible on desktop and tablet. On phone, the framework hides the inactive details slot and promotes the same selected detail surface to a full-screen contextual surface. The page adds an accessible **Back to master list** control, focus containment, Escape handling, body-scroll locking, and focus restoration without changing the table selection or query state.
+
+Selection callbacks may call `page.open_detail()` after rendering the selected detail and `page.close_detail()` to return to the preserved master context. Governed selectable `DataTable` rows also open the contextual surface automatically. Applications should keep detail content in the public `LayoutSlot.DETAILS`; route-local responsive CSS or duplicate mobile drawers are not required.

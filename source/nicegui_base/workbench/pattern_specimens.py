@@ -244,17 +244,43 @@ def render_pattern(key: str, *, title: str, rows: Sequence[Mapping[str, Any]], o
                     draw_detail()
 
         elif key == 'master_detail':
+            state = {'selected_id': None}
+            detail_ref: dict[str, Any] = {}
+
+            def draw_master_detail() -> None:
+                detail_host = detail_ref.get('host')
+                if detail_host is None:
+                    return
+                detail_host.clear()
+                selected = _selected_record(records[:6], state['selected_id'])
+                with detail_host:
+                    if selected is None:
+                        ui.label('No lot selected').classes('cui-section-title')
+                        ui.label('Select a lot to open its contextual detail.').classes('cui-workbench-note')
+                        return
+                    ui.label(f"Selected lot · {selected['id']}").classes('cui-section-title')
+                    ui.label('The detail stays bound to the selected master row.').classes('cui-workbench-note')
+                    PropertyGrid(tuple(KeyValueItem(str(name), str(name).replace('_', ' ').title(), value) for name, value in selected.items()))
+                    Button('Open lot history', intent=ButtonIntent.SECONDARY, on_click=lambda: emit('Opened selected lot history'))
+
+            def on_master_selected(selected_rows: Sequence[Mapping[str, Any]]) -> None:
+                state['selected_id'] = selected_rows[0].get('id') if selected_rows else None
+                draw_master_detail()
+                if state['selected_id'] is None:
+                    page.close_detail()
+                else:
+                    page.open_detail()
+
             with page.slot(LayoutSlot.FILTERS):
                 SearchInput('Find lot or tool', value='ETCH')
             with page.slot(LayoutSlot.DATA):
                 with region('master'):
-                    render_table('data_table', title='Master lots', rows=records[:6], on_event=on_event)
+                    render_table('data_table', title='Master lots', rows=records[:6], on_event=on_event,
+                                 on_select=on_master_selected, row_key='id')
             with page.slot(LayoutSlot.DETAILS):
                 with region('selected_detail'):
-                    ui.label('LOT-240902').classes('cui-section-title')
-                    ui.label('Selected from the master list').classes('cui-workbench-note')
-                    PropertyGrid(tuple(KeyValueItem(str(name), str(name).replace('_', ' ').title(), value) for name, value in records[1].items()))
-                    Button('Open lot history', intent=ButtonIntent.SECONDARY, on_click=lambda: emit('Opened selected lot history'))
+                    detail_ref['host'] = ui.element('div').classes('w-full')
+                    draw_master_detail()
 
         elif key == 'crud':
             local = [dict(row) for row in records[:5]]
