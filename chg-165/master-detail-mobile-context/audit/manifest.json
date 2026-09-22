@@ -1,0 +1,18 @@
+{
+  "project": "nicegui-base",
+  "operation": "FIX",
+  "change": "CHG-165",
+  "request": "nicegui-base-master-detail-mobile-context-v1",
+  "fabric_job_id": "CF-f38f7f0118b47b4c10660943",
+  "base": "main@65f17e55ed3622cafcd603c925a98db9f55ff602",
+  "base_tree": "ceec2ea6ed2280dd97c964e62da7cf52e7b68940",
+  "candidate_head": "f8d8fbe91179dcfdfc32063c501b17f913901362",
+  "candidate_tree": "93f3d4e33f7e97313ac340aea12031b757571e0e",
+  "work_branch": "codex/nicegui-base-master-detail-mobile-context-v1",
+  "desktop_master_detail": "PASS",
+  "mobile_contextual_detail": "PASS",
+  "focus_restore": "PASS",
+  "accessibility": "PASS",
+  "browser_contract": "browser-contract.json",
+  "artifact_sibling": "../screenshots"
+}
