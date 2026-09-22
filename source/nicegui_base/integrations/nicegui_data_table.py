@@ -780,7 +780,9 @@ class DataTable:
                 })
             row_selection = None
             if spec.selection is SelectionMode.MULTIPLE: row_selection={'mode':'multiRow'}
-            elif spec.selection is SelectionMode.SINGLE: row_selection={'mode':'singleRow'}
+            elif spec.selection is SelectionMode.SINGLE:
+                row_selection={'mode':'singleRow'}
+                row_selection['enableClickSelection'] = True
             options={
                 'columnDefs': col_defs,
                 'rowData': self.rows,

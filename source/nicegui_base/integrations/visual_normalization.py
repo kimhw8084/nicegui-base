@@ -168,7 +168,7 @@ body { font-size: var(--cui-type-body-size); line-height: var(--cui-type-body-li
 /* High contrast / forced-colors. */
 @media (forced-colors: active) {
   .cui-button,.cui-icon-button,.cui-field-control,.cui-choice,.cui-surface,.cui-dialog,.cui-drawer,
-  .cui-menu,.cui-popover,.cui-data-table,.cui-metric-card,.cui-viewer { forced-color-adjust:auto; border-color:CanvasText; }
+  .cui-menu,.cui-popover,.cui-data-table,.cui-metric-card,.cui-viewer,.cui-master-detail-context { forced-color-adjust:auto; border-color:CanvasText; }
   .cui-button:focus-visible,.cui-icon-button:focus-visible,.cui-field-control:focus-within,.cui-choice:focus-within,.cui-tab:focus-visible { outline:2px solid Highlight; }
   .cui-button--primary,.cui-button--danger,.cui-choice.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
   .cui-choice-row--switch:has(.cui-choice-native:checked) .cui-switch-track { background:Highlight !important; color:HighlightText !important; border-color:Highlight !important; }
