@@ -1,0 +1,211 @@
+{
+  "schema_version": 2,
+  "project": "nicegui-base",
+  "change": "CHG-165",
+  "request": "nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+  "operation": "VERIFY",
+  "fabric_job": "CF-83ea35912ef6e6b3e103eea5",
+  "base_sha": "ca98dfbf70f9b0c3948785211a0e136b1cc01791",
+  "base_tree": "16afc20436f98937c4d8481c0e23fa12a9578f12",
+  "predecessor_candidate": "f8d8fbe91179dcfdfc32063c501b17f913901362",
+  "predecessor_tree": "93f3d4e33f7e97313ac340aea12031b757571e0e",
+  "predecessor_parent": "65f17e55ed3622cafcd603c925a98db9f55ff602",
+  "candidate_sha": "126b9b6185bd7a28fdbf550c079dab4011ab402d",
+  "candidate_tree": "f0ede69c117879211e793cd00852031a040151d3",
+  "candidate_parent": "ca98dfbf70f9b0c3948785211a0e136b1cc01791",
+  "work_branch": "codex/nicegui-base-nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+  "deterministic_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/nicegui-base-master-detail-mobile-evidence-bind-verify-3",
+  "source_changed": false,
+  "browser_capture_launched": false,
+  "recovered_from": {
+    "request": "nicegui-base-master-detail-mobile-context-rebase-fix-2",
+    "artifact_commit": "38b9976a900b3960945bfc842c993a4c91b5b778",
+    "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/nicegui-base-master-detail-mobile-context-rebase-fix-2"
+  },
+  "changed_files": [
+    "source/docs/APP_PATTERNS.md",
+    "source/nicegui_base/ai/guides/APP_PATTERNS.md",
+    "source/nicegui_base/certification/certification_manifest.json",
+    "source/nicegui_base/integrations/nicegui_data_table.py",
+    "source/nicegui_base/integrations/nicegui_interactions.py",
+    "source/nicegui_base/integrations/nicegui_master_detail.py",
+    "source/nicegui_base/integrations/nicegui_theme.py",
+    "source/nicegui_base/integrations/visual_normalization.py",
+    "source/nicegui_base/layouts/css.py",
+    "source/nicegui_base/patterns/pages.py",
+    "source/nicegui_base/workbench/pattern_specimens.py",
+    "source/tests/test_chg165_master_detail_mobile_context.py"
+  ],
+  "browser_contract": "browser-contract.json",
+  "viewport_dpr": 1,
+  "screenshots": [
+    {
+      "path": "screenshots/desktop-1440-after-close.png",
+      "sha256": "34c4d445dc85c00ca2ffd77a0ea7e6d1cb3a0f1e5f769490498672a53b89095a",
+      "bytes": 127727,
+      "viewport": "1440x900",
+      "theme": "light",
+      "state": "after-close"
+    },
+    {
+      "path": "screenshots/desktop-1440-before.png",
+      "sha256": "5a05cb1f32aa2927ea41ac951261d085bc268904439a9c356626488881806c51",
+      "bytes": 127613,
+      "viewport": "1440x900",
+      "theme": "light",
+      "state": "before-selection"
+    },
+    {
+      "path": "screenshots/desktop-1440-open.png",
+      "sha256": "3d83d65badfc4b24d989b504471429ba34960e4ecd2f33e9dc707d122f00208e",
+      "bytes": 127839,
+      "viewport": "1440x900",
+      "theme": "light",
+      "state": "selected-inline"
+    },
+    {
+      "path": "screenshots/phone-320-after-close.png",
+      "sha256": "149ee60dde468669911ea2ab3e0d0f4cae77b5713991d495876111cf08f9909b",
+      "bytes": 37675,
+      "viewport": "320x800",
+      "theme": "light",
+      "state": "after-close"
+    },
+    {
+      "path": "screenshots/phone-320-before.png",
+      "sha256": "b205ebd20432234e68e96d9394826a03ee29c4ff387d11171be81fa6527549da",
+      "bytes": 37028,
+      "viewport": "320x800",
+      "theme": "light",
+      "state": "before-selection"
+    },
+    {
+      "path": "screenshots/phone-320-open.png",
+      "sha256": "49cd2d4af3775f618a54cb61ccf09024c409166bade0493166adb1773c7f1eff",
+      "bytes": 22167,
+      "viewport": "320x800",
+      "theme": "light",
+      "state": "touch-open"
+    },
+    {
+      "path": "screenshots/phone-390-after-close.png",
+      "sha256": "61bf9bb0834a6a318230a7bedda5031548e84d4bee93813816f882cf71b0c19e",
+      "bytes": 45878,
+      "viewport": "390x844",
+      "theme": "light",
+      "state": "after-close"
+    },
+    {
+      "path": "screenshots/phone-390-before.png",
+      "sha256": "14ec97f7450760a5040e53353af804b315d1d74833de094f98470e6ecf498a49",
+      "bytes": 45680,
+      "viewport": "390x844",
+      "theme": "light",
+      "state": "before-selection"
+    },
+    {
+      "path": "screenshots/phone-390-dark-open.png",
+      "sha256": "8c4ee35543e3e066a46bf4c5b82585a03d66dfd8b385613d244f282f69390a82",
+      "bytes": 21373,
+      "viewport": "390x844",
+      "theme": "dark",
+      "state": "touch-open"
+    },
+    {
+      "path": "screenshots/phone-390-open.png",
+      "sha256": "0b8d38c52cf6a75487153962d6ed8e7c816ee86f2865165168157ff40a806772",
+      "bytes": 25532,
+      "viewport": "390x844",
+      "theme": "light",
+      "state": "touch-open"
+    },
+    {
+      "path": "screenshots/phone-390-system-dark-open.png",
+      "sha256": "8c4ee35543e3e066a46bf4c5b82585a03d66dfd8b385613d244f282f69390a82",
+      "bytes": 21373,
+      "viewport": "390x844",
+      "theme": "dark",
+      "state": "touch-open"
+    }
+  ],
+  "error_counts": {
+    "console": 0,
+    "pageerror": 0,
+    "requestfailed": 0,
+    "http": 0
+  },
+  "status": "PASS",
+  "files": [
+    {
+      "path": "chg-165/master-detail-mobile-context/audit/browser-contract.json",
+      "bytes": 5931,
+      "sha256": "85d6f0bb42a08758056f632c70b6744956d63a64e5eaaf0abcf0c8a2544b663c"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/audit/manifest.json",
+      "bytes": 7293,
+      "sha256": "64ed03283625e7bcfe14ed117ba08706406cc374f0d84d7b37d85451fa61c573"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/audit/validation.md",
+      "bytes": 2739,
+      "sha256": "dba456000fc908fca4e1f596bbac33b1976ce2938b6086fa922acbf13f4a1987"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/desktop-1440-after-close.png",
+      "bytes": 127727,
+      "sha256": "34c4d445dc85c00ca2ffd77a0ea7e6d1cb3a0f1e5f769490498672a53b89095a"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/desktop-1440-before.png",
+      "bytes": 127613,
+      "sha256": "5a05cb1f32aa2927ea41ac951261d085bc268904439a9c356626488881806c51"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/desktop-1440-open.png",
+      "bytes": 127839,
+      "sha256": "3d83d65badfc4b24d989b504471429ba34960e4ecd2f33e9dc707d122f00208e"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-320-after-close.png",
+      "bytes": 37675,
+      "sha256": "149ee60dde468669911ea2ab3e0d0f4cae77b5713991d495876111cf08f9909b"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-320-before.png",
+      "bytes": 37028,
+      "sha256": "b205ebd20432234e68e96d9394826a03ee29c4ff387d11171be81fa6527549da"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-320-open.png",
+      "bytes": 22167,
+      "sha256": "49cd2d4af3775f618a54cb61ccf09024c409166bade0493166adb1773c7f1eff"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-390-after-close.png",
+      "bytes": 45878,
+      "sha256": "61bf9bb0834a6a318230a7bedda5031548e84d4bee93813816f882cf71b0c19e"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-390-before.png",
+      "bytes": 45680,
+      "sha256": "14ec97f7450760a5040e53353af804b315d1d74833de094f98470e6ecf498a49"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-390-dark-open.png",
+      "bytes": 21373,
+      "sha256": "8c4ee35543e3e066a46bf4c5b82585a03d66dfd8b385613d244f282f69390a82"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-390-open.png",
+      "bytes": 25532,
+      "sha256": "0b8d38c52cf6a75487153962d6ed8e7c816ee86f2865165168157ff40a806772"
+    },
+    {
+      "path": "chg-165/master-detail-mobile-context/screenshots/phone-390-system-dark-open.png",
+      "bytes": 21373,
+      "sha256": "8c4ee35543e3e066a46bf4c5b82585a03d66dfd8b385613d244f282f69390a82"
+    }
+  ]
+}
