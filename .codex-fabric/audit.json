@@ -1,0 +1,78 @@
+{
+  "ancestry": {
+    "main_moved": false,
+    "parent_is_exact_predecessor": true,
+    "target_base_preserved": true
+  },
+  "base_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+  "candidate": {
+    "branch": "codex/nicegui-base-stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1",
+    "commit": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+    "main_unchanged": true,
+    "predecessor": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+    "target_base": "1bc15bbb197245e8a6367de9161dc7f63001b71a"
+  },
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "rtk git fetch origin main; exact origin/main SHA/tree validation",
+      "exit_code": 0,
+      "result": "1bc15bbb197245e8a6367de9161dc7f63001b71a / 726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "type": "command_execution"
+    },
+    {
+      "command": "Fabric-owned R16 job/result/receipt and published-ref/hash binding review",
+      "exit_code": 0,
+      "result": "RECOVERED_EXACT: CF-4864f3020de109e8bc24d52b; all R16 tuple fields and package hashes match",
+      "type": "evidence_verification"
+    },
+    {
+      "command": "R17 source-diff and capture-scope verification",
+      "exit_code": 0,
+      "result": "source_changed=false; Product commits=0; Product changed files=0; browser_capture_launched=false",
+      "type": "evidence_verification"
+    }
+  ],
+  "generated_at": "2026-09-23T16:56:12Z",
+  "job_id": "CF-0a15f7015a316d215a71ffec",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1"
+  },
+  "notes": [
+    "No NiceGUI server, browser, Chromium, Playwright, screenshot capture, or recapture process was launched by this R17 execution.",
+    "Exact full-file recovery-receipt SHA256 is recorded here and in the final handoff receipt; the receipt file cannot embed its own exact SHA256."
+  ],
+  "operation": "VERIFY",
+  "project_id": "nicegui-base",
+  "r16_recovery": {
+    "artifact_commit": "1fd12d6477010c58cb477dd836d984c6b99e7bbf",
+    "evidence_commit": "04e5753c67187d105597011415fbeb6745edfbe0",
+    "fabric_job_id": "CF-4864f3020de109e8bc24d52b",
+    "status": "RECOVERED_EXACT"
+  },
+  "recovery_files_sha256": {
+    "handoff-recovery/r16-execution-identity.json": "f0e850b25d1adb771a735e1c0afb5540dff74e25cfeb506785bce786fb38d893",
+    "handoff-recovery/recovery-receipt.json": "9e063f5f932d3d8a0658541340e2503a0894a71ff72b26816ef4964eb5141d68"
+  },
+  "request": "stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1",
+  "schema_version": 1,
+  "scope": {
+    "excluded": [
+      "Product source changes",
+      "server/browser/Playwright/screenshot capture",
+      "R16 regeneration or ref mutation",
+      "UI acceptance or promotion"
+    ],
+    "included": [
+      "recover exact R16 Fabric execution identity from Fabric-owned durable state",
+      "publish compact recovery JSONs on new R17 refs"
+    ]
+  },
+  "source_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+  "source_tree_sha": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+  "status": "R16_HANDOFF_RECOVERY_GIT_PUBLISHED_AWAITING_AUDIT",
+  "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1"
+}

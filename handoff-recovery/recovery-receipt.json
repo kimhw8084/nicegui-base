@@ -1,0 +1,32 @@
+{
+  "base_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+  "browser_capture_launched": false,
+  "fabric_job_id": "CF-0a15f7015a316d215a71ffec",
+  "operation": "VERIFY",
+  "project": "nicegui-base",
+  "r16_artifact": {
+    "commit": "1fd12d6477010c58cb477dd836d984c6b99e7bbf",
+    "ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+  },
+  "r16_deterministic_evidence": {
+    "commit": "04e5753c67187d105597011415fbeb6745edfbe0",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+  },
+  "recovery_json_sha256": {
+    "r16-execution-identity.json": {
+      "scope": "exact UTF-8 file bytes",
+      "sha256": "f0e850b25d1adb771a735e1c0afb5540dff74e25cfeb506785bce786fb38d893"
+    },
+    "recovery-receipt.json": {
+      "scope": "canonical UTF-8 JSON with this self-hash entry omitted; exact full-file SHA256 is bound by the R17 native audit and final handoff receipt",
+      "sha256": "c6312520db97797507ce9b80373e9e6eb5ea64e41d3fadb2a441020c11a474ab"
+    }
+  },
+  "recovery_status": "RECOVERED_EXACT",
+  "request": "stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1",
+  "schema_version": 1,
+  "source_changed": false,
+  "status": "R16_HANDOFF_RECOVERY_GIT_PUBLISHED_AWAITING_AUDIT",
+  "target_branch": "main",
+  "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-r16-handoff-evidence-recovery-1"
+}
