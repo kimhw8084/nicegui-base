@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from nicegui_base.design.tokens import FONT_SIZES, FONT_WEIGHTS, MOTION_DURATIONS_MS
-
+import math
 from typing import Any, Sequence
+
+from nicegui_base.design.tokens import FONT_SIZES, FONT_WEIGHTS, MOTION_DURATIONS_MS
 
 from .models import AnnotationIntent, AxisSpec, AxisType, ChartAnnotation, ChartKind, ChartPanelSpec, LegendPosition, ScaleMode, SeriesSpec, SpecLimits, ThresholdSpec
 from .palette import CATEGORICAL, stable_series_color
@@ -154,6 +155,156 @@ def _spatial_values(series: Sequence[SeriesSpec]) -> list[float]:
     return values
 
 
+def _mark_line_label(text: str, color: str, *, coordinate: str, align: str | None = None,
+                     position: str | None = None, inverted_y_axis: bool = False) -> dict[str, Any]:
+    """Keep reference labels attached to their line with bounded orientation-aware placement."""
+    label: dict[str, Any] = {
+        'formatter': text,
+        'color': color,
+        'fontSize': FONT_SIZES['10'],
+        # ECharts rotates vertical-line labels for every ``inside*`` position.
+        # Start/end keep their text horizontal; the endpoint is selected so it
+        # sits at the top of the visible plot, in the reserved axis-name band.
+        'position': position or ('insideStartTop' if coordinate == 'yAxis' else (
+            'start' if inverted_y_axis else 'end'
+        )),
+        'distance': [6, 4],
+    }
+    if coordinate == 'xAxis' and align is not None:
+        label['align'] = align
+    return label
+
+
+def _finite_number(value: Any) -> float | None:
+    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value)):
+        return float(value)
+    return None
+
+
+def _series_axis_values(series: Sequence[SeriesSpec], *, y_axis: bool) -> list[Any]:
+    values: list[Any] = []
+    for item in series:
+        if item.x_key is not None:
+            key = item.y_key if y_axis else item.x_key
+            values.extend(row[key] for row in item.data)
+        elif item.data and isinstance(item.data[0], (tuple, list)) and len(item.data[0]) >= 2:
+            index = 1 if y_axis else 0
+            values.extend(row[index] for row in item.data if isinstance(row, (tuple, list)) and len(row) > index)
+        else:
+            values.extend(item.data)
+    return values
+
+
+def _axis_value_ratio(value: Any, axis: AxisSpec, values: Sequence[Any]) -> float | None:
+    """Estimate a reference's normalized axis position for an inward label side."""
+    if axis.kind is AxisType.CATEGORY:
+        categories = tuple(axis.categories)
+        if not categories:
+            unique_categories: list[Any] = []
+            for item in values:
+                if item not in unique_categories:
+                    unique_categories.append(item)
+            categories = tuple(unique_categories)
+        try:
+            index = categories.index(value)
+        except ValueError:
+            index = value if isinstance(value, int) and not isinstance(value, bool) else None
+        if index is None or len(categories) <= 1:
+            return None
+        ratio = max(0.0, min(1.0, index / (len(categories) - 1)))
+    else:
+        numeric_values = [number for item in values if (number := _finite_number(item)) is not None]
+        numeric_value = _finite_number(value)
+        if numeric_value is None:
+            return None
+        if axis.kind is AxisType.LOG:
+            numeric_values = [item for item in numeric_values if item > 0]
+            if numeric_value <= 0:
+                return None
+            low = float(axis.min_value) if axis.min_value is not None else (min(numeric_values) if numeric_values else numeric_value)
+            high = float(axis.max_value) if axis.max_value is not None else (max(numeric_values) if numeric_values else numeric_value)
+            if low <= 0 or high <= low:
+                return None
+            ratio = (math.log(numeric_value) - math.log(low)) / (math.log(high) - math.log(low))
+        else:
+            low = float(axis.min_value) if axis.min_value is not None else min(numeric_values, default=numeric_value)
+            high = float(axis.max_value) if axis.max_value is not None else max(numeric_values, default=numeric_value)
+            # Value axes default to including zero. Match that contract when a
+            # shared option does not set explicit bounds, without changing axis
+            # geometry or reserving additional chart space.
+            if axis.min_value is None and low > 0:
+                low = 0.0
+            if axis.max_value is None and high < 0:
+                high = 0.0
+            if high <= low:
+                return None
+            ratio = (numeric_value - low) / (high - low)
+        ratio = max(0.0, min(1.0, ratio))
+    return 1.0 - ratio if axis.inverse else ratio
+
+
+def _horizontal_mark_line_position(index: int, value: Any, axis: AxisSpec,
+                                   series: Sequence[SeriesSpec], reference_values: Sequence[Any]) -> str:
+    """Place a horizontal reference label on the side with more plot interior."""
+    values = (*_series_axis_values(series, y_axis=True), *reference_values)
+    ratio = _axis_value_ratio(value, axis, values)
+    # High values map near the top of a normal y-axis, so put their labels below
+    # the line. Low values use the opposite side. Midpoint ties alternate to
+    # keep otherwise coincident labels from stacking on the same side.
+    if ratio is None:
+        side = 'Top' if index % 2 == 0 else 'Bottom'
+    elif ratio > 0.5:
+        side = 'Bottom'
+    elif ratio < 0.5:
+        side = 'Top'
+    else:
+        side = 'Top' if index % 2 == 0 else 'Bottom'
+    endpoint = 'insideStart' if index % 2 == 0 else 'insideEnd'
+    return endpoint + side
+
+
+def _x_axis_label_align(value: Any, axis: AxisSpec, series: Sequence[SeriesSpec],
+                        reference_values: Sequence[Any] = ()) -> str:
+    """Align vertical reference labels toward the interior edge of the plot."""
+    if axis.kind is AxisType.CATEGORY:
+        categories = tuple(axis.categories)
+        category_count = len(categories) or max((len(item.data) for item in series), default=0)
+        try:
+            index = categories.index(value)
+        except ValueError:
+            index = value if isinstance(value, int) and not isinstance(value, bool) else None
+        if index is None or category_count <= 1:
+            return 'center'
+        ratio = max(0.0, min(1.0, index / (category_count - 1)))
+    else:
+        values: list[float] = []
+        for item in reference_values:
+            if isinstance(item, (int, float)) and not isinstance(item, bool) and math.isfinite(float(item)):
+                values.append(float(item))
+        for item in series:
+            if item.x_key is not None:
+                candidates = (row[item.x_key] for row in item.data)
+            elif item.data and isinstance(item.data[0], (tuple, list)) and len(item.data[0]) >= 2:
+                candidates = (row[0] for row in item.data if isinstance(row, (tuple, list)) and len(row) >= 2)
+            else:
+                candidates = range(len(item.data))
+            for candidate in candidates:
+                if isinstance(candidate, (int, float)) and not isinstance(candidate, bool) and math.isfinite(float(candidate)):
+                    values.append(float(candidate))
+        low = float(axis.min_value) if axis.min_value is not None else (min(values) if values else None)
+        high = float(axis.max_value) if axis.max_value is not None else (max(values) if values else None)
+        if low is None or high is None or high <= low or not isinstance(value, (int, float)):
+            return 'center'
+        ratio = max(0.0, min(1.0, (float(value) - low) / (high - low)))
+    if axis.inverse:
+        ratio = 1.0 - ratio
+    if ratio <= 0.33:
+        return 'left'
+    if ratio >= 0.67:
+        return 'right'
+    return 'center'
+
+
 def build_echarts_options(spec: ChartPanelSpec, series: Sequence[SeriesSpec], *,
                           thresholds: Sequence[ThresholdSpec]=(), spec_limits: SpecLimits | None=None,
                           annotations: Sequence[ChartAnnotation]=(), theme: ChartTheme | None=None) -> dict[str, Any]:
@@ -279,21 +430,36 @@ def build_echarts_options(spec: ChartPanelSpec, series: Sequence[SeriesSpec], *,
     if feature: options['toolbox'] = {'show': False, 'feature': feature}
 
     mark_lines=[]
-    for t in thresholds:
-        mark_lines.append({'yAxis':t.value,'name':t.label,'lineStyle':{'type':t.line_style.value,'color':{'info':theme.info,'success':theme.success,'warning':theme.warning,'danger':theme.danger,'neutral':theme.text_secondary}[t.intent.value],'width':1.2},'label':{'formatter':t.label,'color':theme.text_secondary,'fontSize':FONT_SIZES['10']}})
+    horizontal_references: list[Any] = [item.value for item in thresholds]
+    if spec.kind is not ChartKind.HISTOGRAM and spec_limits is not None:
+        horizontal_references.extend(value for value in (spec_limits.lower, spec_limits.target, spec_limits.upper) if value is not None)
+    for index, t in enumerate(thresholds):
+        color={'info':theme.info,'success':theme.success,'warning':theme.warning,'danger':theme.danger,'neutral':theme.text_secondary}[t.intent.value]
+        position = _horizontal_mark_line_position(index, t.value, spec.y_axis, visible_series, horizontal_references)
+        mark_lines.append({'yAxis':t.value,'name':t.label,'lineStyle':{'type':t.line_style.value,'color':color,'width':1.2},'label':_mark_line_label(t.label,theme.text_secondary,coordinate='yAxis',position=position)})
     if spec_limits:
         # Capability limits are vertical annotations on a numeric measurement
         # axis. Every other limit contract is a horizontal y-axis reference.
         coordinate = 'xAxis' if spec.kind is ChartKind.HISTOGRAM else 'yAxis'
-        if spec_limits.lower is not None: mark_lines.append({coordinate:spec_limits.lower,'name':spec_limits.lower_label,'lineStyle':{'type':'dashed','color':theme.danger,'width':1.2},'label':{'formatter':spec_limits.lower_label,'color':theme.danger,'fontSize':FONT_SIZES['10']}})
-        if spec_limits.upper is not None: mark_lines.append({coordinate:spec_limits.upper,'name':spec_limits.upper_label,'lineStyle':{'type':'dashed','color':theme.danger,'width':1.2},'label':{'formatter':spec_limits.upper_label,'color':theme.danger,'fontSize':FONT_SIZES['10']}})
-        if spec_limits.target is not None: mark_lines.append({coordinate:spec_limits.target,'name':spec_limits.target_label,'lineStyle':{'type':'dotted','color':theme.info,'width':1.2},'label':{'formatter':spec_limits.target_label,'color':theme.info,'fontSize':FONT_SIZES['10']}})
+        refs = tuple(value for value in (spec_limits.lower, spec_limits.target, spec_limits.upper) if value is not None)
+        for value, label, style, color in (
+            (spec_limits.lower, spec_limits.lower_label, 'dashed', theme.danger),
+            (spec_limits.upper, spec_limits.upper_label, 'dashed', theme.danger),
+            (spec_limits.target, spec_limits.target_label, 'dotted', theme.info),
+        ):
+            if value is None:
+                continue
+            align = _x_axis_label_align(value, spec.x_axis, visible_series, refs) if coordinate == 'xAxis' else None
+            position = _horizontal_mark_line_position(len(mark_lines), value, spec.y_axis, visible_series, horizontal_references) if coordinate == 'yAxis' else None
+            mark_lines.append({coordinate:value,'name':label,'lineStyle':{'type':style,'color':color,'width':1.2},'label':_mark_line_label(label,color,coordinate=coordinate,align=align,position=position,inverted_y_axis=spec.y_axis.inverse)})
     annotation_colors={AnnotationIntent.INFO:theme.info,AnnotationIntent.SUCCESS:theme.success,AnnotationIntent.WARNING:theme.warning,AnnotationIntent.DANGER:theme.danger,AnnotationIntent.NEUTRAL:theme.text_secondary}
     mark_points=[]
     for annotation in annotations:
         color=annotation_colors[annotation.intent]
         if annotation.y is None:
-            mark_lines.append({'xAxis':annotation.x,'name':annotation.label,'lineStyle':{'type':'dotted','color':color,'width':1.2},'label':{'formatter':annotation.label,'color':color,'fontSize':FONT_SIZES['10']}})
+            refs = tuple(item.x for item in annotations if item.y is None)
+            align = _x_axis_label_align(annotation.x, spec.x_axis, visible_series, refs)
+            mark_lines.append({'xAxis':annotation.x,'name':annotation.label,'lineStyle':{'type':'dotted','color':color,'width':1.2},'label':_mark_line_label(annotation.label,color,coordinate='xAxis',align=align,inverted_y_axis=spec.y_axis.inverse)})
         else:
             mark_points.append({'name':annotation.label,'coord':[annotation.x,annotation.y],'value':annotation.label,'itemStyle':{'color':color},'label':{'formatter':annotation.label,'color':color,'fontSize':FONT_SIZES['10']}})
     if options['series']:
