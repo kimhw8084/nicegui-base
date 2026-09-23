@@ -1,0 +1,86 @@
+{
+  "evidence_used": [
+    {
+      "facts": {
+        "job_id": "CF-4864f3020de109e8bc24d52b",
+        "operation": "VERIFY",
+        "project_id": "nicegui-base",
+        "request": "stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+      },
+      "path": "/Users/haewonkim/.codex-fabric/jobs/CF-4864f3020de109e8bc24d52b.executed/job.json",
+      "record_id": "CF-4864f3020de109e8bc24d52b"
+    },
+    {
+      "facts": {
+        "base_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+        "changed_files": 0,
+        "finished_at": "2026-09-23T04:37:16Z",
+        "head_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+        "started_at": "2026-09-23T03:15:06Z",
+        "status": "EXECUTED_WITH_WARNINGS",
+        "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+      },
+      "path": "/Users/haewonkim/.codex-fabric/results/CF-4864f3020de109e8bc24d52b/result.json",
+      "record_id": "CF-4864f3020de109e8bc24d52b"
+    },
+    {
+      "facts": "R16 execution records bind the source/tree, R16 work branch, artifact/evidence refs and commits, manifest SHA256, and bundle SHA256 to this job result.",
+      "path": "/Users/haewonkim/.codex-fabric/results/CF-4864f3020de109e8bc24d52b/codex.events.jsonl",
+      "record_ids": [
+        269,
+        270,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "facts": "project/request/operation/source/tree match; 144 surfaces, 288 canonical PNGs, 16 fresh, 128 reused; manifest, reader-index, desktop and mobile review hashes match the published carrier blobs.",
+      "path": "/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1/visual-atlas/git-publish-receipt.json",
+      "record_id": "git-publish-receipt.json"
+    },
+    {
+      "facts": "published artifact commit/ref match; source_changed=false; remote readback verified=true with 288 canonical PNGs and 671 package files.",
+      "path": "/Users/haewonkim/.codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1/fabric-evidence/evidence.json",
+      "record_id": "evidence.json"
+    },
+    {
+      "facts": "excluded nonmatch: project_id=stockledger, operation=BUILD, request=stockledger-prod-c15-review-detail-lawbook-v1.",
+      "path": "/Users/haewonkim/.codex-fabric/jobs/CF-5eda248fda3917746fd12135.executed/job.json",
+      "record_id": "CF-5eda248fda3917746fd12135"
+    }
+  ],
+  "package": {
+    "canonical_png_count": 288,
+    "fresh_surface_count": 16,
+    "reused_exact_byte_surface_count": 128,
+    "sha256": {
+      "bundle": "5203c39051aa0a062095ace69e84ff9b4ae1d0bdd8be2bb3a0074e24f2fb5e29",
+      "manifest": "30cc606814517aeef258a9689c90e9682b3317cb6a28692231a782974edf7ebc",
+      "reader_index": "3c12b8ce33de9fa417147d951b58e2d91d868076a0c555a11f51390e15efff60",
+      "review_desktop": "5af611bef42b9d9b3db09105bafd8594fe1eebbba68321933223129d1a7f69ab",
+      "review_mobile": "c20fb8ad5da2df52974dbc38d0202f39dc9b93cd5b64e4c734c75bdbba3472f8"
+    },
+    "surface_count": 144
+  },
+  "project": "nicegui-base",
+  "r16_artifact": {
+    "commit": "1fd12d6477010c58cb477dd836d984c6b99e7bbf",
+    "ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+  },
+  "r16_deterministic_evidence": {
+    "commit": "04e5753c67187d105597011415fbeb6745edfbe0",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+  },
+  "r16_fabric_job_id": "CF-4864f3020de109e8bc24d52b",
+  "r16_fabric_job_status": "RECOVERED_EXACT",
+  "r16_tuple": {
+    "base_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+    "operation": "VERIFY",
+    "request": "stable3-golden-visual-atlas-post-chg177-impact-recapture-1",
+    "source_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+    "source_tree_sha": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+    "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+  },
+  "schema_version": 1
+}
