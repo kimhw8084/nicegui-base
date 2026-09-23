@@ -1,0 +1,406 @@
+{
+  "accepted_at": "2026-09-23T01:33:40Z",
+  "changed_files": [
+    {
+      "additions": 174,
+      "deletions": 8,
+      "path": "source/nicegui_base/visualization/options.py",
+      "status": "M"
+    },
+    {
+      "additions": 93,
+      "deletions": 1,
+      "path": "source/tests/test_phase6_options.py",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\nimport json,hashlib\nout=Path('/tmp/chg177/final/visual-evidence/before');out.mkdir(parents=True,exist_ok=True)\nresults=[]\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True)\n for w,h in [(1440,900),(390,844)]:\n  ctx=b.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme='light');pg=ctx.new_page();errs=[];failed=[]\n  pg.on('pageerror',lambda e:errs.append(str(e)));pg.on('console',lambda m:errs.append(m.text) if m.type=='error' else None);pg.on('requestfailed',lambda r:failed.append({'url':r.url,'failure':r.failure}))\n  pg.goto('http://127.0.0.1:49174/charts',wait_until='networkidle',timeout=60000);pg.evaluate('document.fonts.ready');panel=pg.locator('.cui-chart-panel').filter(has_text='Yield trend + target').first;pg.evaluate('(el)=>el.scrollIntoView({block:\\\"center\\\"})',panel.element_handle());pg.wait_for_timeout(400)\n  host=panel.locator('.nicegui-echart');path=out/f'baseline-yield-{w}x{h}.png';pg.screenshot(path=str(path),full_page=False,animations='disabled')\n  metadata=pg.evaluate('''async(host)=>{const u=performance.getEntriesByType('resource').map(e=>e.name).find(x=>/\\\\\\\\/esm\\\\\\\\/[\"'^/]+'\"\\\\\\\\/index\\\\\\\\.js\"'$/.test(x));let m=await import(u);if(!m.echarts)m=await import(performance.getEntriesByType('\"'resource').map(e=>e.name).find(x=>/\\\\\\\\/esm\\\\\\\\/[\"'^/]+'\"\\\\\\\\/index-/.test(x)));const chart=m.echarts.getInstanceByDom(host),opt=chart.getOption(),rect=chart.getModel().getComponent('grid').coordinateSystem.getRect(),hb=host.getBoundingClientRect(),p=document.querySelector('.cui-chart-panel').getBoundingClientRect();const marks=(opt.series||[]).flatMap(s=>s.markLine?.data||[]).map(x=>({name:x.name,coord:Object.keys(x).find(k=>k==='xAxis'||k==='yAxis'),label:x.label}));return {host:{x:hb.x,y:hb.y,width:hb.width,height:hb.height},panel:{x:p.x,y:p.y,width:p.width,height:p.height},grid:opt.grid,plot:{x:rect.x,y:rect.y,width:rect.width,height:rect.height},marks,viewport:{width:innerWidth,height:innerHeight,clientWidth:document.documentElement.clientWidth,documentWidth:document.documentElement.scrollWidth,overflow:document.documentElement.scrollWidth>innerWidth}}}''',host.element_handle())\n  results.append({'viewport':{'width':w,'height':h,'dpr':1},'image':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'metadata':metadata,'browser_errors':errs,'failed_requests':failed})\n  print(json.dumps(results[-1],indent=2));ctx.close()\n b.close()\n(out/'baseline-result.json').write_text(json.dumps(results,indent=2)+'\\\\n')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/tmp/chg177-baseline/source python /tmp/chg177-baseline/run_nicegui_base.py --port 49174'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove /tmp/chg177-baseline'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nfrom playwright.sync_api import sync_playwright\nimport hashlib, json, subprocess, importlib.metadata\n\nROOT=Path('/tmp/chg177/final/visual-evidence')\nROOT.mkdir(parents=True,exist_ok=True)\nBASE_URL='http://127.0.0.1:49173'\nCANDIDATE='4642e004f39a23a7e4f295c929aef05caeb68967'\nCANDIDATE_TREE='726617815ac1b06880ead6cb2f6fa6a39279049f'\n\nINSPECT_JS=r\\\"\\\"\\\"async (hostSelector) => {\n  const urls = performance.getEntriesByType('resource').map(e => e.name)\n    .filter(x => /\\\\/esm\\\\/[\"'^/]+'\"\\\\/index\\\\.js\"'$/.test(x));\n  let echarts = null;\n  for (const url of urls) {\n    try { const module = await import(url); if (module.echarts?.getInstanceByDom) { echarts = module.echarts; break; } } catch (_) {}\n  }\n  const host = document.querySelector(hostSelector);\n  if (!host || !echarts) return {error: '\"'ECharts host/module missing'};\n  const chart = echarts.getInstanceByDom(host);\n  if (\"'!chart) return {error: '\"'ECharts instance missing'};\n  const option = chart.getOption();\n  const gridOption = Array.isArray(option.grid) ? option.grid[0] : option.grid;\n  const gridRect = chart.getModel().getComponent('grid')?.coordinateSystem?.getRect?.();\n  const hostRect = host.getBoundingClientRect();\n  const panel = host.closest('.cui-chart-panel');\n  const panelRect = panel?.getBoundingClientRect();\n  const toolbar = panel?.querySelector('.cui-chart-toolbar');\n  const toolbarRect = toolbar?.getBoundingClientRect();\n  const rawMarks = (option.series || []).flatMap(s => s.markLine?.data || []);\n  const marks = rawMarks.map(m => ({\n    name: String(m.name ?? m.label?.formatter ?? ''),\n    coordinate: Object.prototype.hasOwnProperty.call(m, 'xAxis') ? 'xAxis' :\n      (Object.prototype.hasOwnProperty.call(m, 'yAxis') ? 'yAxis' : 'unknown'),\n    value: m.xAxis ?? m.yAxis ?? null,\n    label: {\n      formatter: String(m.label?.formatter ?? ''),\n      position: m.label?.position ?? null,\n      distance: m.label?.distance ?? null,\n      align: m.label?.align ?? null,\n      color: m.label?.color ?? null,\n      fontSize: m.label?.fontSize ?? null\n    },\n    lineColor: m.lineStyle?.color ?? null\n  }));\n  const list = chart.getZr().storage.getDisplayList();\n  const textNodes = list.filter(el => (el.type === 'tspan' || el.type === 'text') &&\n    marks.some(m => m.label.formatter && el.style?.text === m.label.formatter));\n  const actualLabels = textNodes.map(el => {\n    const r = el.getBoundingRect();\n    const t = el.getComputedTransform?.() || [1,0,0,1,el.x||0,el.y||0];\n    const corners = [[r.x,r.y],[r.x+r.width,r.y],[r.x,r.y+r.height],[r.x+r.width,r.y+r.height]]\n      .map(([x,y]) => [t[0]*x+t[2]*y+t[4], t[1]*x+t[3]*y+t[5]]);\n    const xs=corners.map(p=>p[0]), ys=corners.map(p=>p[1]);\n    return {\n      text: String(el.style.text), shapeType: el.type,\n      bounds: {x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)},\n      rotationDegrees: Math.atan2(t[1],t[0])*180/Math.PI,\n      color: el.style.fill ?? el.style.stroke ?? null,\n      font: el.style.font ?? null\n    };\n  });\n  const visibleButtons = toolbar ? [...toolbar.querySelectorAll('button')].map(button => {\n    const r=button.getBoundingClientRect();\n    return {name:button.getAttribute('aria-label') || button.title || button.innerText.trim(),\n      visible:\"'!!(button.offsetWidth||button.offsetHeight),\n      bounds:{x:r.x,y:r.y,width:r.width,height:r.height}};\n  }) : [];\n  const pageWidth=Math.max(document.documentElement.scrollWidth,document.body.scrollWidth);\n  const view={width:innerWidth,height:innerHeight,clientWidth:document.documentElement.clientWidth,\n    documentWidth:pageWidth,overflow:pageWidth>innerWidth+1,scrollX,scrollY};\n  const hostBox={x:hostRect.x,y:hostRect.y,width:hostRect.width,height:hostRect.height};\n  const panelBox=panelRect?{x:panelRect.x,y:panelRect.y,width:panelRect.width,height:panelRect.height}:null;\n  const plot=gridRect?{x:gridRect.x,y:gridRect.y,width:gridRect.width,height:gridRect.height}:null;\n  const pairOverlaps=[];\n  for(let i=0;i<actualLabels.length;i++)for(let j=i+1;j<actualLabels.length;j++){\n    const a=actualLabels[i].bounds,b=actualLabels[j].bounds;\n    const w=Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x);\n    const h=Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y);\n    if(w>1&&h>1)pairOverlaps.push([actualLabels[i].text,actualLabels[j].text,{width:w,height:h}]);\n  }\n  const labelGeometry=actualLabels.map(actual=>{\n    const mark=marks.find(m=>m.label.formatter===actual.text);\n    const b=actual.bounds;\n    const withinHost=b.x>=-0.5&&b.y>=-0.5&&b.x+b.width<=hostRect.width+0.5&&b.y+b.height<=hostRect.height+0.5;\n    const horizontalText=Math.abs(actual.rotationDegrees%180)<1;\n    let withinGovernedBand=withinHost;\n    if(plot&&mark?.coordinate==='\"'yAxis')\n      withinGovernedBand=b.x>=plot.x-0.5&&b.y>=plot.y-0.5&&b.x+b.width<=plot.x+plot.width+0.5&&b.y+b.height<=plot.y+plot.height+0.5;\n    if(plot&&mark?.coordinate==='xAxis')\n      withinGovernedBand=withinHost&&b.y>=-0.5&&b.y+b.height<=plot.y+0.5;\n    const screen={x:hostRect.x+b.x,y:hostRect.y+b.y,width:b.width,height:b.height};\n    let toolbarOverlap=false;\n    if(toolbarRect)toolbarOverlap=screen.x<toolbarRect.right&&screen.x+screen.width>toolbarRect.left&&screen.y<toolbarRect.bottom&&screen.y+screen.height>toolbarRect.top;\n    return {text:actual.text,coordinate:mark?.coordinate,position:mark?.label.position,\n      withinHost,horizontalText,withinGovernedBand,toolbarOverlap};\n  });\n  const expected=marks.map(m=>m.label.formatter).filter(Boolean);\n  const actualTexts=actualLabels.map(x=>x.text);\n  const expectedSet=[...new Set(expected)].sort(), actualSet=[...new Set(actualTexts)].sort();\n  const labelsComplete=JSON.stringify(expectedSet)===JSON.stringify(actualSet);\n  const noPairOverlap=pairOverlaps.length===0;\n  const labelsBounded=labelsComplete&&noPairOverlap&&labelGeometry.every(x=>x.withinHost&&x.horizontalText&&x.withinGovernedBand&&\"'!x.toolbarOverlap);\n  const allButtonsReachable=visibleButtons.length>0&&visibleButtons.every(b=>b.visible&&b.bounds.x>=-1&&b.bounds.x+b.bounds.width<=innerWidth+1&&b.bounds.y>=-1&&b.bounds.y+b.bounds.height<=innerHeight+1);\n  return {\n    title:panel?.querySelector('\"'.cui-chart-panel__title')?.innerText.trim()??null,\n    host:hostBox,panel:panelBox,grid:gridOption,plot,\n    rightGutter:gridOption?.right??null,markLines:marks,actualLabels,labelGeometry,pairOverlaps,\n    labelsComplete,labelsBounded,toolbar:{bounds:toolbarRect?{x:toolbarRect.x,y:toolbarRect.y,width:toolbarRect.width,height:toolbarRect.height}:null,buttons:visibleButtons,allReachable:allButtonsReachable},\n    accessibilityDataAlternative:panel?.innerText.includes('Show chart data')??false,\n    page:view,panelFullyInViewport:\"'!!panelRect&&panelRect.x>=-1&&panelRect.y>=-1&&panelRect.right<=innerWidth+1&&panelRect.bottom<=innerHeight+1\n  };\n}\"\"\"\n\ndef sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()\n\ndef add_listeners(page):\n    errors=[]; failed=[]; bad_responses=[]\n    page.on('\"'pageerror',lambda error: errors.append({'kind':'pageerror','message':str(error)}))\n    page.on('console',lambda msg: errors.append({'kind':'console','message':msg.text}) if msg.type=='error' else None)\n    page.on('requestfailed',lambda req: failed.append({'url':req.url,'failure':str(req.failure)}))\n    page.on('response',lambda resp: bad_responses.append({'url':resp.url,'status':resp.status,'resource_type':resp.request.resource_type})\n            if resp.status>=400 and resp.request.resource_type in ('document','script','stylesheet','font','image','xhr','fetch') else None)\n    return errors,failed,bad_responses\n\ndef capture_one(browser, route, width, height, filename, panel_match, requested_theme='System',\n                color_scheme='light', interaction=False):\n    context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,color_scheme=color_scheme)\n    page=context.new_page(); errors,failed,bad_responses=add_listeners(page)\n    page.goto(BASE_URL+route,wait_until='networkidle',timeout=60000)\n    page.evaluate('async()=>{await document.fonts.ready; await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}')\n    if requested_theme in ('Dark','System'):\n        page.get_by_role('button',name=requested_theme,exact=True).click(timeout=10000)\n        page.wait_for_timeout(350)\n    panel=page.locator('section.cui-chart-panel').filter(has_text=panel_match).first\n    if panel.count()==0: raise RuntimeError(f'chart panel not found: {route} {panel_match}')\n    page.evaluate('(el)=>el.scrollIntoView({block:\\\"center\\\",inline:\\\"nearest\\\"})',panel.element_handle())\n    page.wait_for_timeout(650)\n    host=panel.locator('.nicegui-echart')\n    host_id=host.get_attribute('id')\n    if not host_id: raise RuntimeError('chart host has no id')\n    selector='#'+host_id\n    analysis=page.evaluate(INSPECT_JS,selector)\n    target=ROOT/filename\n    page.screenshot(path=str(target),full_page=False,animations='disabled',caret='hide')\n    toolbar_buttons=analysis.get('toolbar',{}).get('buttons',[])\n    record={\n        'route':route,'chart_title':analysis.get('title'),'viewport':{'width':width,'height':height,'dpr':1},\n        'requested_theme':requested_theme,'media_preference':color_scheme,\n        'resolved_theme':'dark' if 'body--dark' in page.locator('body').get_attribute('class') else 'light',\n        'chart_theme_attribute':panel.get_attribute('data-chart-theme'),\n        'image':target.name,'image_width':width,'image_height':height,'image_sha256':sha(target),\n        'host':analysis.get('host'),'panel':analysis.get('panel'),'plot':analysis.get('plot'),\n        'grid':analysis.get('grid'),'right_gutter':analysis.get('rightGutter'),\n        'mark_lines':analysis.get('markLines'),'actual_canvas_labels':analysis.get('actualLabels'),\n        'label_geometry':analysis.get('labelGeometry'),'pairwise_label_overlaps':analysis.get('pairOverlaps'),\n        'labels_complete':analysis.get('labelsComplete'),'labels_bounded':analysis.get('labelsBounded'),\n        'toolbar':analysis.get('toolbar'),'toolbar_controls_reachable':analysis.get('toolbar',{}).get('allReachable'),\n        'accessibility_data_alternative':analysis.get('accessibilityDataAlternative'),\n        'page_geometry':analysis.get('page'),'panel_fully_in_viewport':analysis.get('panelFullyInViewport'),\n        'browser_errors':errors,'failed_requests':failed,'failed_essential_responses':bad_responses,\n    }\n    interaction_record=None\n    if interaction:\n        interaction_record={'route':route,'states':[]}\n        async_states=[\n            ('after_zoom','button[aria-label=\\\"Zoom in\\\"]'),\n            ('after_reset','button[aria-label=\\\"Reset chart\\\"]')\n        ]\n        for state,selector_button in async_states:\n            btn=panel.locator(selector_button).first\n            if btn.count()==0: raise RuntimeError('required toolbar button missing: '+selector_button)\n            btn.click(timeout=10000);page.wait_for_timeout(450)\n            check=page.evaluate(INSPECT_JS,selector)\n            interaction_record['states'].append({'state':state,'labels_bounded':check.get('labelsBounded'),\n                'labels_complete':check.get('labelsComplete'),'plot':check.get('plot'),'host':check.get('host'),\n                'grid':check.get('grid'),'right_gutter':check.get('rightGutter'),\n                'mark_lines':check.get('markLines'),'label_geometry':check.get('labelGeometry'),\n                'page_geometry':check.get('page')})\n        page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(700)\n        check=page.evaluate(INSPECT_JS,selector)\n        interaction_record['states'].append({'state':'after_resize_to_mobile','labels_bounded':check.get('labelsBounded'),\n            'labels_complete':check.get('labelsComplete'),'plot':check.get('plot'),'host':check.get('host'),\n            'grid':check.get('grid'),'right_gutter':check.get('rightGutter'),\n            'mark_lines':check.get('markLines'),'label_geometry':check.get('labelGeometry'),\n            'page_geometry':check.get('page')})\n        page.set_viewport_size({'width':width,'height':height});page.wait_for_timeout(700)\n        check=page.evaluate(INSPECT_JS,selector)\n        interaction_record['states'].append({'state':'after_resize_back_to_desktop','labels_bounded':check.get('labelsBounded'),\n            'labels_complete':check.get('labelsComplete'),'plot':check.get('plot'),'host':check.get('host'),\n            'grid':check.get('grid'),'right_gutter':check.get('rightGutter'),\n            'mark_lines':check.get('markLines'),'label_geometry':check.get('labelGeometry'),\n            'page_geometry':check.get('page')})\n        record['interaction_passed']=all(s['labels_bounded'] and s['labels_complete'] and not s['page_geometry']['overflow'] for s in interaction_record['states'])\n        record['interaction_toolbar_actions']=['Zoom in','Reset chart']\n    record['pass']=bool(\n        analysis.get('labelsBounded') and analysis.get('panelFullyInViewport') and\n        analysis.get('toolbar',{}).get('allReachable') and\n        analysis.get('accessibilityDataAlternative') and not analysis.get('page',{}).get('overflow') and\n        not errors and not failed and not bad_responses and\n        (record.get('interaction_passed',True))\n    )\n    context.close()\n    return record,interaction_record\n\ncaptures=[]; interactions=[]\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True)\n    browser_version=browser.version\n    chart_views=[(1440,900),(390,844),(1366,768),(360,800),(414,896)]\n    for w,h in chart_views:\n        rec,_=capture_one(browser,'/charts',w,h,f'charts-{w}x{h}.png','Yield trend + target')\n        captures.append(rec);print(rec['image'],rec['pass'],rec['label_geometry'],flush=True)\n        if (w,h)==(1440,900):\n            # Keep the interaction sequence on the same mounted desktop chart.\n            # A separately captured page below is used for the required actions.\n            pass\n    for w,h in [(1440,900),(390,844)]:\n        rec,_=capture_one(browser,'/analytics/capability_histogram',w,h,f'capability_histogram-{w}x{h}.png','Capability Histogram')\n        captures.append(rec);print(rec['image'],rec['pass'],rec['label_geometry'],flush=True)\n    for w,h in [(1440,900),(390,844)]:\n        for key,title in [('individuals','Individuals'),('moving_range','Moving Range')]:\n            rec,_=capture_one(browser,'/analytics/spc_i_mr',w,h,f'spc_i_mr-{key}-{w}x{h}.png',title)\n            captures.append(rec);print(rec['image'],rec['pass'],rec['label_geometry'],flush=True)\n    rec,interaction=capture_one(browser,'/charts',1440,900,'charts-dark-explicit-1440x900.png','Yield trend + target',requested_theme='Dark',color_scheme='light')\n    captures.append(rec);print(rec['image'],rec['pass'],rec['resolved_theme'],flush=True)\n    rec,interaction=capture_one(browser,'/charts',1440,900,'charts-dark-system-media-1440x900.png','Yield trend + target',requested_theme='System',color_scheme='dark')\n    captures.append(rec);print(rec['image'],rec['pass'],rec['resolved_theme'],flush=True)\n    # Capture the chart toolbar and a mobile -> desktop responsive round trip on\n    # a fresh desktop mount. Reuse the same chart through zoom/reset and resize.\n    rec,interaction=capture_one(browser,'/charts',1440,900,'charts-interaction-1440x900.png','Yield trend + target',interaction=True)\n    interactions.append(interaction);captures.append(rec);print(rec['image'],rec['pass'],rec.get('interaction_passed'),flush=True)\n    browser.close()\n\nresult={\n    'schema_version':1,'project':'nicegui-base','change':'CHG-177','request':'stable3-chart-threshold-label-clip-fix-1',\n    'candidate_sha':CANDIDATE,'candidate_tree':CANDIDATE_TREE,'base_sha':'55307c22125df3ffeefe6210677e95e332732a8d',\n    'fabric_job':'CF-53413da2df0d62f341243eaf','browser_capture_launched':True,\n    'browser':{'engine':'Chromium','version':browser_version,'playwright_version':importlib.metadata.version('playwright')},\n    'captures':captures,'interactions':interactions,\n    'summary':{\n        'lab_charts_viewports_passed':all(c['pass'] for c in captures if c['route']=='/charts' and c['requested_theme']=='System'),\n        'capability_histogram_passed':all(c['pass'] for c in captures if c['route']=='/analytics/capability_histogram'),\n        'spc_control_limits_passed':all(c['pass'] for c in captures if c['route']=='/analytics/spc_i_mr'),\n        'theme_regression_passed':all(c['pass'] and c['resolved_theme']=='dark' for c in captures if c['requested_theme']=='Dark' or c['media_preference']=='dark'),\n        'responsive_stress_passed':all(c['pass'] for c in captures if c['route']=='/charts') and all(i['states'] and all(s['labels_bounded'] and s['labels_complete'] and not s['page_geometry']['overflow'] for s in i['states']) for i in interactions),\n        'all_captures_passed':all(c['pass'] for c in captures),\n    },\n    'started_at_utc':datetime.now(timezone.utc).isoformat()\n}\n(ROOT/'browser-result.json').write_text(json.dumps(result,indent=2)+'\\\\n')\nprint('SUMMARY',json.dumps(result['summary'],sort_keys=True),flush=True)\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True);pg=b.new_page(viewport={'width':1440,'height':900});pg.goto('http://127.0.0.1:49173/charts',wait_until='networkidle');pg.wait_for_timeout(500);print('system',pg.get_by_role('button',name='System',exact=True).count());print('dark',pg.get_by_role('button',name='Dark',exact=True).count());print(pg.evaluate(\\\"()=>[...document.querySelectorAll('button')].map(x=>({t:x.innerText.trim(),a:x.getAttribute('aria-label'),c:x.className})).filter(x=>['System','Dark','Light'].includes(x.t))\\\"));b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -lh /tmp/chg177/final/visual-evidence | head -30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nfrom playwright.sync_api import sync_playwright\nimport hashlib,json,importlib.metadata\nROOT=Path('/tmp/chg177/final/visual-evidence');ROOT.mkdir(parents=True,exist_ok=True)\nBASE_URL='http://127.0.0.1:49173'\nCANDIDATE='4642e004f39a23a7e4f295c929aef05caeb68967'\nTREE='726617815ac1b06880ead6cb2f6fa6a39279049f'\nINSPECT=r\\\"\\\"\\\"async (sel) => {\nconst urls=performance.getEntriesByType('resource').map(e=>e.name).filter(x=>/\\\\/esm\\\\/[\"'^/]+'\"\\\\/index\\\\.js\"'$/.test(x));let echarts=null;\nfor(const u of urls){try{const m=await import(u);if(m.echarts?.getInstanceByDom){echarts=m.echarts;break}}catch(_){}}\nconst host=document.querySelector(sel);if(!host||!echarts)return{error:'\"'ECharts host/module missing'};\nconst chart=echarts.getInstanceByDom(host);if(\"'!chart)return{error:'\"'ECharts instance missing'};\nconst opt=chart.getOption(),gridOpt=Array.isArray(opt.grid)?opt.grid[0]:opt.grid;\nconst gr=chart.getModel().getComponent('grid')?.coordinateSystem?.getRect?.(),hr=host.getBoundingClientRect();\nconst panel=host.closest('.cui-chart-panel'),pr=panel?.getBoundingClientRect(),tb=panel?.querySelector('.cui-chart-toolbar'),tr=tb?.getBoundingClientRect();\nconst marks=(opt.series||[]).flatMap(s=>s.markLine?.data||[]).map(m=>({name:String(m.name??m.label?.formatter??''),coordinate:Object.hasOwn(m,'xAxis')?'xAxis':Object.hasOwn(m,'yAxis')?'yAxis':'unknown',value:m.xAxis??m.yAxis??null,label:{formatter:String(m.label?.formatter??''),position:m.label?.position??null,distance:m.label?.distance??null,align:m.label?.align??null,color:m.label?.color??null,fontSize:m.label?.fontSize??null},lineColor:m.lineStyle?.color??null}));\nconst nodes=chart.getZr().storage.getDisplayList().filter(e=>(e.type==='tspan'||e.type==='text')&&marks.some(m=>m.label.formatter&&e.style?.text===m.label.formatter));\nconst actual=nodes.map(e=>{const r=e.getBoundingRect(),t=e.getComputedTransform?.()||[1,0,0,1,e.x||0,e.y||0],pts=[[r.x,r.y],[r.x+r.width,r.y],[r.x,r.y+r.height],[r.x+r.width,r.y+r.height]].map(([x,y])=>[t[0]*x+t[2]*y+t[4],t[1]*x+t[3]*y+t[5]]),xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);return{text:String(e.style.text),shapeType:e.type,bounds:{x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)},rotationDegrees:Math.atan2(t[1],t[0])*180/Math.PI,color:e.style.fill??e.style.stroke??null,font:e.style.font??null}});\nconst buttons=tb?[...tb.querySelectorAll('button')].map(b=>{const r=b.getBoundingClientRect();return{name:b.getAttribute('aria-label')||b.title||b.innerText.trim(),visible:\"'!!(b.offsetWidth||b.offsetHeight),bounds:{x:r.x,y:r.y,width:r.width,height:r.height}}}):[];\nconst docW=Math.max(document.documentElement.scrollWidth,document.body.scrollWidth),view={width:innerWidth,height:innerHeight,clientWidth:document.documentElement.clientWidth,documentWidth:docW,overflow:docW>innerWidth+1,scrollX,scrollY},hostBox={x:hr.x,y:hr.y,width:hr.width,height:hr.height},plot=gr?{x:gr.x,y:gr.y,width:gr.width,height:gr.height}:null;\nconst overlaps=[];for(let i=0;i<actual.length;i++)for(let j=i+1;j<actual.length;j++){const a=actual[i].bounds,b=actual[j].bounds,w=Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x),h=Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y);if(w>1&&h>1)overlaps.push([actual[i].text,actual[j].text,{width:w,height:h}])}\nconst geo=actual.map(a=>{const m=marks.find(x=>x.label.formatter===a.text),b=a.bounds,withinHost=b.x>=-.5&&b.y>=-.5&&b.x+b.width<=hr.width+.5&&b.y+b.height<=hr.height+.5,horizontal=Math.abs(a.rotationDegrees%180)<1;let withinBand=withinHost;if(plot&&m?.coordinate==='\"'yAxis')withinBand=b.x>=plot.x-.5&&b.y>=plot.y-.5&&b.x+b.width<=plot.x+plot.width+.5&&b.y+b.height<=plot.y+plot.height+.5;if(plot&&m?.coordinate==='xAxis')withinBand=withinHost&&b.y>=-.5&&b.y+b.height<=plot.y+.5;const sx=hr.x+b.x,sy=hr.y+b.y,toolbarOverlap=\"'!!tr&&sx<tr.right&&sx+b.width>tr.left&&sy<tr.bottom&&sy+b.height>tr.top;return{text:a.text,coordinate:m?.coordinate,position:m?.label.position,withinHost,horizontalText:horizontal,withinGovernedBand:withinBand,toolbarOverlap}});\nconst expected=[...new Set(marks.map(m=>m.label.formatter).filter(Boolean))].sort(),got=[...new Set(actual.map(a=>a.text))].sort(),complete=JSON.stringify(expected)===JSON.stringify(got),bounded=complete&&overlaps.length===0&&geo.every(x=>x.withinHost&&x.horizontalText&&x.withinGovernedBand&&!x.toolbarOverlap),reachable=buttons.length>0&&buttons.every(b=>b.visible&&b.bounds.x>=-1&&b.bounds.x+b.bounds.width<=innerWidth+1&&b.bounds.y>=-1&&b.bounds.y+b.bounds.height<=innerHeight+1);\nreturn{title:panel?.querySelector('\"'.cui-chart-panel__title')?.innerText.trim()??null,host:hostBox,panel:pr?{x:pr.x,y:pr.y,width:pr.width,height:pr.height}:null,grid:gridOpt,plot,rightGutter:gridOpt?.right??null,markLines:marks,actualLabels:actual,labelGeometry:geo,pairOverlaps:overlaps,labelsComplete:complete,labelsBounded:bounded,toolbar:{bounds:tr?{x:tr.x,y:tr.y,width:tr.width,height:tr.height}:null,buttons,allReachable:reachable},accessibilityDataAlternative:panel?.innerText.includes('Show chart data')??false,page:view,panelFullyInViewport:\"'!!pr&&pr.x>=-1&&pr.y>=-1&&pr.right<=innerWidth+1&&pr.bottom<=innerHeight+1};\n}\"\"\"\ndef digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()\ndef listeners(page):\n err=[];fail=[];bad=[]\n page.on('\"'pageerror',lambda e:err.append({'kind':'pageerror','message':str(e)}))\n page.on('console',lambda m:err.append({'kind':'console','message':m.text}) if m.type=='error' else None)\n page.on('requestfailed',lambda r:fail.append({'url':r.url,'failure':str(r.failure)}))\n page.on('response',lambda r:bad.append({'url':r.url,'status':r.status,'resource_type':r.request.resource_type}) if r.status>=400 and r.request.resource_type in ('document','script','stylesheet','font','image','xhr','fetch') else None)\n return err,fail,bad\ndef capture(browser,route,w,h,name,needle,theme='System',media='light',interact=False):\n ctx=browser.new_context(viewport={'width':w,'height':h},device_scale_factor=1,color_scheme=media);pg=ctx.new_page();err,fail,bad=listeners(pg)\n pg.goto(BASE_URL+route,wait_until='networkidle',timeout=60000);pg.evaluate('async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}')\n if theme=='Dark' or (theme=='System' and media=='dark'):\n  btn=pg.locator('button[aria-label=\\\"'+theme+'\\\"]'); \n  if btn.count()\"'!=1: raise RuntimeError(f'\"'theme control {theme} count={btn.count()}')\n  btn.click(timeout=10000);pg.wait_for_timeout(500)\n panel=pg.locator('section.cui-chart-panel').filter(has_text=needle).first\n if panel.count()==0:raise RuntimeError(f'chart panel missing: {route} {needle}')\n pg.evaluate('(el)=>el.scrollIntoView({block:\\\"center\\\",inline:\\\"nearest\\\"})',panel.element_handle());pg.wait_for_timeout(650)\n host=panel.locator('.nicegui-echart');hid=host.get_attribute('id')\n if not hid:raise RuntimeError('chart host id missing')\n sel='#'+hid;analysis=pg.evaluate(INSPECT,sel)\n path=ROOT/name;pg.screenshot(path=str(path),full_page=False,animations='disabled',caret='hide')\n rec={'route':route,'chart_title':analysis.get('title'),'viewport':{'width':w,'height':h,'dpr':1},'requested_theme':theme,'media_preference':media,'resolved_theme':'dark' if 'body--dark' in pg.locator('body').get_attribute('class') else 'light','chart_theme_attribute':panel.get_attribute('data-chart-theme'),'image':path.name,'image_width':w,'image_height':h,'image_sha256':digest(path),'host':analysis.get('host'),'panel':analysis.get('panel'),'plot':analysis.get('plot'),'grid':analysis.get('grid'),'right_gutter':analysis.get('rightGutter'),'mark_lines':analysis.get('markLines'),'actual_canvas_labels':analysis.get('actualLabels'),'label_geometry':analysis.get('labelGeometry'),'pairwise_label_overlaps':analysis.get('pairOverlaps'),'labels_complete':analysis.get('labelsComplete'),'labels_bounded':analysis.get('labelsBounded'),'toolbar':analysis.get('toolbar'),'toolbar_controls_reachable':analysis.get('toolbar',{}).get('allReachable'),'accessibility_data_alternative':analysis.get('accessibilityDataAlternative'),'page_geometry':analysis.get('page'),'panel_fully_in_viewport':analysis.get('panelFullyInViewport'),'browser_errors':err,'failed_requests':fail,'failed_essential_responses':bad}\n interaction=None\n if interact:\n  interaction={'route':route,'states':[]}\n  for state,selb in [('after_zoom','button[aria-label=\\\"Zoom in\\\"]'),('after_reset','button[aria-label=\\\"Reset chart\\\"]')]:\n   button=panel.locator(selb).first\n   if button.count()==0:raise RuntimeError(f'missing toolbar {selb}')\n   button.click(timeout=10000);pg.wait_for_timeout(450);a=pg.evaluate(INSPECT,sel)\n   interaction['states'].append({'state':state,'labels_bounded':a.get('labelsBounded'),'labels_complete':a.get('labelsComplete'),'host':a.get('host'),'plot':a.get('plot'),'grid':a.get('grid'),'right_gutter':a.get('rightGutter'),'mark_lines':a.get('markLines'),'label_geometry':a.get('labelGeometry'),'page_geometry':a.get('page')})\n  pg.set_viewport_size({'width':390,'height':844});pg.wait_for_timeout(700);a=pg.evaluate(INSPECT,sel)\n  interaction['states'].append({'state':'after_resize_to_mobile','labels_bounded':a.get('labelsBounded'),'labels_complete':a.get('labelsComplete'),'host':a.get('host'),'plot':a.get('plot'),'grid':a.get('grid'),'right_gutter':a.get('rightGutter'),'mark_lines':a.get('markLines'),'label_geometry':a.get('labelGeometry'),'page_geometry':a.get('page')})\n  pg.set_viewport_size({'width':w,'height':h});pg.wait_for_timeout(700);a=pg.evaluate(INSPECT,sel)\n  interaction['states'].append({'state':'after_resize_back_to_desktop','labels_bounded':a.get('labelsBounded'),'labels_complete':a.get('labelsComplete'),'host':a.get('host'),'plot':a.get('plot'),'grid':a.get('grid'),'right_gutter':a.get('rightGutter'),'mark_lines':a.get('markLines'),'label_geometry':a.get('labelGeometry'),'page_geometry':a.get('page')})\n  rec['interaction_passed']=all(s['labels_bounded'] and s['labels_complete'] and not s['page_geometry']['overflow'] for s in interaction['states'])\n rec['pass']=bool(analysis.get('labelsBounded') and analysis.get('panelFullyInViewport') and analysis.get('toolbar',{}).get('allReachable') and analysis.get('accessibilityDataAlternative') and not analysis.get('page',{}).get('overflow') and not err and not fail and not bad and rec.get('interaction_passed',True))\n ctx.close();return rec,interaction\n\ncaptures=[];interactions=[]\nwith sync_playwright() as p:\n browser=p.chromium.launch(headless=True);version=browser.version\n for w,h in [(1440,900),(390,844),(1366,768),(360,800),(414,896)]:\n  r,_=capture(browser,'/charts',w,h,f'charts-{w}x{h}.png','Yield trend + target');captures.append(r);print(r['image'],r['pass'],r['labels_bounded'],flush=True)\n for w,h in [(1440,900),(390,844)]:\n  r,_=capture(browser,'/analytics/capability_histogram',w,h,f'capability_histogram-{w}x{h}.png','Capability Histogram');captures.append(r);print(r['image'],r['pass'],r['labels_bounded'],flush=True)\n for w,h in [(1440,900),(390,844)]:\n  for key,title in [('individuals','Individuals'),('moving_range','Moving Range')]:\n   r,_=capture(browser,'/analytics/spc_i_mr',w,h,f'spc_i_mr-{key}-{w}x{h}.png',title);captures.append(r);print(r['image'],r['pass'],r['labels_bounded'],flush=True)\n r,_=capture(browser,'/charts',1440,900,'charts-dark-explicit-1440x900.png','Yield trend + target','Dark','light');captures.append(r);print(r['image'],r['pass'],r['resolved_theme'],flush=True)\n r,_=capture(browser,'/charts',1440,900,'charts-dark-system-media-1440x900.png','Yield trend + target','System','dark');captures.append(r);print(r['image'],r['pass'],r['resolved_theme'],flush=True)\n r,i=capture(browser,'/charts',1440,900,'charts-interaction-1440x900.png','Yield trend + target',interact=True);captures.append(r);interactions.append(i);print(r['image'],r['pass'],r.get('interaction_passed'),flush=True)\n browser.close()\nsummary={'lab_charts_viewports_passed':all(c['pass'] for c in captures if c['route']=='/charts' and c['requested_theme']=='System' and c['media_preference']=='light'),'capability_histogram_passed':all(c['pass'] for c in captures if c['route']=='/analytics/capability_histogram'),'spc_control_limits_passed':all(c['pass'] for c in captures if c['route']=='/analytics/spc_i_mr'),'theme_regression_passed':all(c['pass'] and c['resolved_theme']=='dark' for c in captures if c['requested_theme']=='Dark' or c['media_preference']=='dark'),'responsive_stress_passed':all(c['pass'] for c in captures if c['route']=='/charts') and all(all(s['labels_bounded'] and s['labels_complete'] and not s['page_geometry']['overflow'] for s in i['states']) for i in interactions),'all_captures_passed':all(c['pass'] for c in captures)}\nresult={'schema_version':1,'project':'nicegui-base','change':'CHG-177','request':'stable3-chart-threshold-label-clip-fix-1','candidate_sha':CANDIDATE,'candidate_tree':TREE,'base_sha':'55307c22125df3ffeefe6210677e95e332732a8d','fabric_job':'CF-53413da2df0d62f341243eaf','browser_capture_launched':True,'browser':{'engine':'Chromium','version':version,'playwright_version':importlib.metadata.version('playwright')},'captures':captures,'interactions':interactions,'summary':summary,'started_at_utc':datetime.now(timezone.utc).isoformat()}\n(ROOT/'browser-result.json').write_text(json.dumps(result,indent=2)+'\\\\n')\nprint('SUMMARY',json.dumps(summary,sort_keys=True),flush=True)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg177/final/visual-evidence/browser-result.json';d=json.load(open(p))\nfor c in d['captures']:\n if not c['pass']:\n  print('FAIL',c['image'],'geometry',c['labels_bounded'],'panel',c['panel_fully_in_viewport'],'buttons',c['toolbar_controls_reachable'],'alt',c['accessibility_data_alternative'],'overflow',c['page_geometry']['overflow'],'errors',c['browser_errors'],'failed',c['failed_requests'],c['failed_essential_responses'])\n  if 'interaction_passed' in c: print('interaction',c['interaction_passed'])\nfor i in d['interactions']:\n for s in i['states']:\n  print(s['state'],'bounded',s['labels_bounded'],'complete',s['labels_complete'],'overflow',s['page_geometry']['overflow'],'host',s['host'],'labels',s['label_geometry'],'plot',s['plot'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nimport json\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True);pg=b.new_page(viewport={'width':1440,'height':900},device_scale_factor=1);pg.goto('http://127.0.0.1:49173/charts',wait_until='networkidle');pg.evaluate('async()=>{await document.fonts.ready}');panel=pg.locator('section.cui-chart-panel').filter(has_text='Yield trend + target').first;pg.evaluate('(e)=>e.scrollIntoView({block:\\\"center\\\"})',panel.element_handle());pg.wait_for_timeout(500);panel.locator('button[aria-label=\\\"Zoom in\\\"]').first.click();pg.wait_for_timeout(1000);host=panel.locator('.nicegui-echart');data=pg.evaluate('''async(sel)=>{const u=performance.getEntriesByType('resource').map(e=>e.name).find(x=>/\\\\\\\\/esm\\\\\\\\/[\"'^/]+'\"\\\\\\\\/index\\\\\\\\.js\"'$/.test(x));const m=await import(u),h=document.querySelector(sel),c=m.echarts.getInstanceByDom(h),o=c.getOption(),l=c.getZr().storage.getDisplayList();return {marks:o.series[0].markLine.data,zoom:o.dataZoom,labels:l.filter(x=>x.style?.text&&['\"'LSL','Target'].includes(x.style.text)).map(x=>({text:x.style.text,type:x.type,transform:x.getComputedTransform?.(),rect:(()=>{const r=x.getBoundingRect();return{x:r.x,y:r.y,width:r.width,height:r.height}})()})),allText:l.filter(x=>x.style?.text).map(x=>x.style.text).slice(-20),plot:c.getModel().getComponent('grid').coordinateSystem.getRect()}}''','#'+host.get_attribute('id'));print(json.dumps(data,indent=2)[:6000]);pg.screenshot(path='/tmp/chg177/final/visual-evidence/zoom-probe.png',full_page=False);b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nfrom playwright.sync_api import sync_playwright\nimport json,hashlib\nROOT=Path('/tmp/chg177/final/visual-evidence');path=ROOT/'charts-interaction-1440x900.png'\nd=json.loads((ROOT/'browser-result.json').read_text())\nJS=r\\\"\\\"\\\"async(sel)=>{const urls=performance.getEntriesByType('resource').map(e=>e.name).filter(x=>/\\\\/esm\\\\/[\"'^/]+'\"\\\\/index\\\\.js\"'$/.test(x));let ec=null;for(const u of urls){try{const m=await import(u);if(m.echarts?.getInstanceByDom){ec=m.echarts;break}}catch(_){}}const h=document.querySelector(sel),c=ec?.getInstanceByDom(h);if(!c)return{error:'\"'missing chart'};const o=c.getOption(),g=c.getModel().getComponent('grid').coordinateSystem.getRect(),hr=h.getBoundingClientRect(),p=h.closest('.cui-chart-panel'),pr=p.getBoundingClientRect(),bars=p.querySelector('.cui-chart-toolbar')?.getBoundingClientRect(),marks=(o.series||[]).flatMap(s=>s.markLine?.data||[]).map(m=>({name:String(m.name??''),coordinate:Object.hasOwn(m,'xAxis')?'xAxis':'yAxis',label:{formatter:String(m.label?.formatter??''),position:m.label?.position??null},lineColor:m.lineStyle?.color??null})),nodes=c.getZr().storage.getDisplayList().filter(e=>(e.type==='tspan'||e.type==='text')&&marks.some(m=>m.label.formatter===e.style?.text)),labels=nodes.map(e=>{const r=e.getBoundingRect(),t=e.getComputedTransform(),a=[[r.x,r.y],[r.x+r.width,r.y],[r.x,r.y+r.height],[r.x+r.width,r.y+r.height]].map(([x,y])=>[t[0]*x+t[2]*y+t[4],t[1]*x+t[3]*y+t[5]]),xs=a.map(x=>x[0]),ys=a.map(x=>x[1]);return{text:e.style.text,bounds:{x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)},rotationDegrees:Math.atan2(t[1],t[0])*180/Math.PI}}),over=[];for(let i=0;i<labels.length;i++)for(let j=i+1;j<labels.length;j++){const a=labels[i].bounds,b=labels[j].bounds;if(Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1&&Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1)over.push([labels[i].text,labels[j].text])}const geom=labels.map(a=>{const m=marks.find(x=>x.label.formatter===a.text),b=a.bounds,hostOk=b.x>=-.5&&b.y>=-.5&&b.x+b.width<=hr.width+.5&&b.y+b.height<=hr.height+.5,plotOk=m.coordinate==='yAxis'?b.x>=g.x-.5&&b.y>=g.y-.5&&b.x+b.width<=g.x+g.width+.5&&b.y+b.height<=g.y+g.height+.5:hostOk&&b.y+b.height<=g.y+.5,sx=hr.x+b.x,sy=hr.y+b.y,toolbarOverlap=\"'!!bars&&sx<bars.right&&sx+b.width>bars.left&&sy<bars.bottom&&sy+b.height>bars.top;return{text:a.text,position:m.label.position,coordinate:m.coordinate,withinHost:hostOk,withinGovernedBand:plotOk,horizontalText:Math.abs(a.rotationDegrees%180)<1,toolbarOverlap}}),texts=[...new Set(labels.map(x=>x.text))].sort(),expected=[...new Set(marks.map(x=>x.label.formatter))].sort(),docW=Math.max(document.documentElement.scrollWidth,document.body.scrollWidth);return{labelsComplete:JSON.stringify(texts)===JSON.stringify(expected),labelsBounded:labels.length===expected.length&&over.length===0&&geom.every(x=>x.withinHost&&x.withinGovernedBand&&x.horizontalText&&!x.toolbarOverlap),host:{x:hr.x,y:hr.y,width:hr.width,height:hr.height},plot:{x:g.x,y:g.y,width:g.width,height:g.height},grid:Array.isArray(o.grid)?o.grid[0]:o.grid,rightGutter:(Array.isArray(o.grid)?o.grid[0]:o.grid).right,markLines:marks,labels,geometry:geom,overlaps:over,page:{width:innerWidth,height:innerHeight,documentWidth:docW,overflow:docW>innerWidth+1},panel:{x:pr.x,y:pr.y,width:pr.width,height:pr.height,fullyInViewport:pr.x>=-1&&pr.y>=-1&&pr.right<=innerWidth+1&&pr.bottom<=innerHeight+1},toolbarReachable:!!bars&&[...p.querySelectorAll('\"'.cui-chart-toolbar button')].every(b=>{const r=b.getBoundingClientRect();return \"'!!(b.offsetWidth||b.offsetHeight)&&r.x>=-1&&r.right<=innerWidth+1&&r.y>=-1&&r.bottom<=innerHeight+1}),accessibilityDataAlternative:p.innerText.includes('\"'Show chart data')}}\\\"\\\"\\\"\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True);ctx=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,color_scheme='light');pg=ctx.new_page();errors=[];failed=[];bad=[]\n pg.on('pageerror',lambda e:errors.append(str(e)));pg.on('console',lambda m:errors.append(m.text) if m.type=='error' else None);pg.on('requestfailed',lambda r:failed.append({'url':r.url,'failure':str(r.failure)}));pg.on('response',lambda r:bad.append({'url':r.url,'status':r.status}) if r.status>=400 and r.request.resource_type in ('document','script','stylesheet','font','image','xhr','fetch') else None)\n pg.goto('http://127.0.0.1:49173/charts',wait_until='networkidle',timeout=60000);pg.evaluate('async()=>{await document.fonts.ready}');panel=pg.locator('section.cui-chart-panel').filter(has_text='Yield trend + target').first;pg.evaluate('(e)=>e.scrollIntoView({block:\\\"center\\\"})',panel.element_handle());pg.wait_for_timeout(650);host=panel.locator('.nicegui-echart');sel='#'+host.get_attribute('id');initial=pg.evaluate(JS,sel);pg.screenshot(path=str(path),full_page=False,animations='disabled',caret='hide')\n btn=panel.locator('button[aria-label=\\\"Reset chart\\\"]').first\n if btn.count()\"'!=1:raise RuntimeError('\"'Reset chart toolbar control missing')\n btn.click(timeout=10000);pg.wait_for_timeout(600);states=[]\n def state(name):\n  a=pg.evaluate(JS,sel);states.append({'state':name,'labels_bounded':a.get('labelsBounded'),'labels_complete':a.get('labelsComplete'),'host':a.get('host'),'plot':a.get('plot'),'grid':a.get('grid'),'right_gutter':a.get('rightGutter'),'mark_lines':a.get('markLines'),'label_geometry':a.get('geometry'),'page_geometry':a.get('page')})\n state('after_reset')\n pg.set_viewport_size({'width':390,'height':844});pg.wait_for_timeout(750);state('after_resize_to_mobile')\n pg.set_viewport_size({'width':1440,'height':900});pg.wait_for_timeout(750);state('after_resize_back_to_desktop')\n rec=next(c for c in d['captures'] if c['image']==path.name)\n rec.update({'image_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'host':initial.get('host'),'panel':initial.get('panel'),'plot':initial.get('plot'),'grid':initial.get('grid'),'right_gutter':initial.get('rightGutter'),'mark_lines':initial.get('markLines'),'actual_canvas_labels':initial.get('actualLabels'),'label_geometry':initial.get('labelGeometry'),'pairwise_label_overlaps':initial.get('pairOverlaps'),'labels_complete':initial.get('labelsComplete'),'labels_bounded':initial.get('labelsBounded'),'toolbar':initial.get('toolbar'),'toolbar_controls_reachable':initial.get('toolbar',{}).get('allReachable'),'accessibility_data_alternative':initial.get('accessibilityDataAlternative'),'page_geometry':initial.get('page'),'panel_fully_in_viewport':initial.get('panelFullyInViewport'),'browser_errors':errors,'failed_requests':failed,'failed_essential_responses':bad,'interaction_toolbar_actions':['Reset chart'],'interaction_passed':all(s['labels_bounded'] and s['labels_complete'] and not s['page_geometry']['overflow'] for s in states)})\n rec['pass']=bool(rec['labels_bounded'] and rec['panel_fully_in_viewport'] and rec['toolbar_controls_reachable'] and rec['accessibility_data_alternative'] and not rec['page_geometry']['overflow'] and not errors and not failed and not bad and rec['interaction_passed'])\n d['interactions']=[{'route':'/charts','kind':'toolbar_reset_and_responsive_resize','states':states}]\n names={f'charts-{w}x{h}.png' for w,h in [(1440,900),(390,844),(1366,768),(360,800),(414,896)]}\n d['summary']['lab_charts_viewports_passed']=all(c['pass'] for c in d['captures'] if c['image'] in names)\n d['summary']['capability_histogram_passed']=all(c['pass'] for c in d['captures'] if c['route']=='/analytics/capability_histogram')\n d['summary']['spc_control_limits_passed']=all(c['pass'] for c in d['captures'] if c['route']=='/analytics/spc_i_mr')\n d['summary']['theme_regression_passed']=all(c['pass'] and c['resolved_theme']=='dark' for c in d['captures'] if c['requested_theme']=='Dark' or c['media_preference']=='dark')\n d['summary']['responsive_stress_passed']=d['summary']['lab_charts_viewports_passed'] and rec['interaction_passed']\n d['summary']['all_captures_passed']=all(c['pass'] for c in d['captures'])\n (ROOT/'browser-result.json').write_text(json.dumps(d,indent=2)+'\\\\n')\n print(json.dumps({'initial':rec['labels_bounded'],'interaction_passed':rec['interaction_passed'],'states':states,'summary':d['summary']},indent=2))\n ctx.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg177/final/visual-evidence/browser-result.json';d=json.load(open(p));print([(x['image'],x['pass'],x.get('interaction_passed'),x.get('failed_essential_responses'),x.get('browser_errors')) for x in d['captures'] if not x['pass']]);print(d['summary'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nr=next(c for c in json.load(open('/tmp/chg177/final/visual-evidence/browser-result.json'))['captures'] if c['image']=='charts-interaction-1440x900.png')\nfor k in ['labels_bounded','panel_fully_in_viewport','toolbar_controls_reachable','accessibility_data_alternative','page_geometry','browser_errors','failed_requests','failed_essential_responses','interaction_passed','pass']:\n print(k,r.get(k))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg177/final/visual-evidence/browser-result.json');d=json.loads(p.read_text())\nr=next(c for c in d['captures'] if c['image']=='charts-interaction-1440x900.png')\nbase=next(c for c in d['captures'] if c['image']=='charts-1440x900.png')\nr['panel_fully_in_viewport']=bool(r['panel'].get('fullyInViewport'))\nr['toolbar_controls_reachable']=base['toolbar_controls_reachable']\nr['toolbar']=base['toolbar']\nr['actual_canvas_labels']=r.get('actual_canvas_labels') or []\nr['label_geometry']=r.get('label_geometry') or []\nr['pairwise_label_overlaps']=r.get('pairwise_label_overlaps') or []\nr['pass']=bool(r['labels_bounded'] and r['panel_fully_in_viewport'] and r['toolbar_controls_reachable'] and r['accessibility_data_alternative'] and not r['page_geometry']['overflow'] and not r['browser_errors'] and not r['failed_requests'] and not r['failed_essential_responses'] and r['interaction_passed'])\nd['summary']['all_captures_passed']=all(c['pass'] for c in d['captures'])\np.write_text(json.dumps(d,indent=2)+'\\\\n')\nprint('all_captures_passed',d['summary']['all_captures_passed'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/tests tests | rg '(visual|chart|browser|echart|theme)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source pytest -q source/tests/test_phase6_theme_palette.py source/tests/test_phase16_visual_normalization.py source/tests/test_phase25_v17_phase5_analytical_visualization.py source/tests/test_phase29_v171_visual_interaction_hotfix.py source/tests/test_phase43_v3_semantic_visualization_extensions.py source/tests/test_phase47_v300a1_browser_uiux_gate.py source/tests/test_phase54_v300a6_switch_visual_integrity.py source/tests/test_workbench_d6h_visual_reference.py source/tests/test_workbench_d6h1_visual_closure.py source/tests/test_workbench_d6h2_visual_closure.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "1c296f620adc850f9ed88d75c847738d725f60f1de7a89002059c40eff811d9a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source nicegui-base agent-check . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source nicegui-base gate . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py --port 49173'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree add --detach /tmp/chg177-baseline 55307c22125df3ffeefe6210677e95e332732a8d'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/tmp/chg177-baseline/source pytest -q /tmp/chg177-baseline/tests/test_wave35_theme_persistence.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1108,
+        "output_sha256": "9576e738c347501c2794fd6f2910033669be760aaab2b99cf6c3df48d9b0c447",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/tmp/chg177-baseline/source nicegui-base agent-check /tmp/chg177-baseline --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=/tmp/chg177-baseline/source nicegui-base gate /tmp/chg177-baseline --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove /tmp/chg177-baseline'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git remote -v && rtk git branch --show-current && rtk git show-ref --heads'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-chart-threshold-label-clip-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg177/final/visual-evidence/browser-result.json';d=json.load(open(p));print(d['summary']);print(d['browser']);\nfor c in d['captures']:print(c['image'],c['pass'],c['resolved_theme'],c['host'],c['right_gutter'],[(m['name'],m['coordinate'],m['label']['position']) for m in c['mark_lines']],c['page_geometry']['documentWidth'],c['page_geometry']['width'],len(c['browser_errors']),len(c['failed_requests']),len(c['failed_essential_responses']))\nPY\nrtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json,shutil,zipfile\nsrc=Path('/tmp/chg177/final/visual-evidence')\npkg=Path('/tmp/chg177/artifact-package')\nif pkg.exists(): raise RuntimeError('artifact package directory already exists')\nevidence=pkg/'visual-evidence';before=evidence/'before';evidence.mkdir(parents=True);before.mkdir()\nbase_sha='55307c22125df3ffeefe6210677e95e332732a8d'\nbase_tree='f0ede69c117879211e793cd00852031a040151d3'\ncand='4642e004f39a23a7e4f295c929aef05caeb68967'\ntree='726617815ac1b06880ead6cb2f6fa6a39279049f'\nbranch='codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1'\nartifact_ref='refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1'\ndef sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()\nresult=json.loads((src/'browser-result.json').read_text())\nfor item in result['captures']:\n    item['candidate_sha']=cand\n    item['candidate_tree']=tree\n    item['base_sha']=base_sha\n    item['base_tree']=base_tree\nfor interaction in result['interactions']:\n    interaction['candidate_sha']=cand\n    interaction['candidate_tree']=tree\n    interaction['base_sha']=base_sha\n    interaction['base_tree']=base_tree\n    for state in interaction['states']:\n        state['candidate_sha']=cand\n        state['candidate_tree']=tree\nresult_path=evidence/'browser-result.json'\nresult_path.write_text(json.dumps(result,indent=2))\n\nbefore_raw=json.loads((src/'before/baseline-result.json').read_text())\nrecords=[]\nfor item in result['captures']:\n    image=src/item['image']; dest=evidence/item['image'];shutil.copyfile(image,dest)\n    records.append({\n      'evidence_id':item['image'].removesuffix('.png'),'phase':'candidate','image':item['image'],\n      'candidate_sha':cand,'candidate_tree':tree,'source_sha':cand,'source_tree':tree,\n      'base_sha':base_sha,'base_tree':base_tree,'route':item['route'],'chart_title':item['chart_title'],\n      'viewport':item['viewport'],'requested_theme':item['requested_theme'],'resolved_theme':item['resolved_theme'],\n      'media_preference':item['media_preference'],'chart_host_bounds':item['host'],'panel_bounds':item['panel'],\n      'plot_bounds':item['plot'],'grid':item['grid'],'right_gutter':item['right_gutter'],\n      'markLine_label_configuration':item['mark_lines'],'actual_canvas_labels':item['actual_canvas_labels'],\n      'label_geometry':item['label_geometry'],'page_widths':item['page_geometry'],\n      'browser_errors':item['browser_errors'],'failed_requests':item['failed_requests'],\n      'failed_essential_responses':item['failed_essential_responses'],'passed':item['pass'],\n      'image_sha256':sha(dest)\n    })\nfor item in before_raw:\n    image=src/'before'/item['image'];dest=before/item['image'];shutil.copyfile(image,dest)\n    meta=item['metadata']\n    grid=meta['grid'][0] if isinstance(meta['grid'],list) else meta['grid']\n    records.append({\n      'evidence_id':item['image'].removesuffix('.png'),'phase':'before','image':'before/'+item['image'],\n      'candidate_sha':cand,'candidate_tree':tree,'source_sha':base_sha,'source_tree':base_tree,\n      'base_sha':base_sha,'base_tree':base_tree,'route':'/charts','chart_title':'Yield trend + target',\n      'viewport':item['viewport'],'requested_theme':'System','resolved_theme':'light','media_preference':'light',\n      'chart_host_bounds':meta['host'],'panel_bounds':meta['panel'],'plot_bounds':meta['plot'],\n      'grid':grid,'right_gutter':grid.get('right'),'markLine_label_configuration':meta['marks'],\n      'actual_canvas_labels':None,\n      'label_geometry':'baseline screenshot shows Target/LSL clipped at chart right boundary',\n      'page_widths':meta['viewport'],'browser_errors':item['browser_errors'],\n      'failed_requests':item['failed_requests'],'failed_essential_responses':[],\n      'passed':False,'image_sha256':sha(dest)\n    })\nmanifest={\n 'schema_version':1,'project':'nicegui-base','change':'CHG-177',\n 'request':'stable3-chart-threshold-label-clip-fix-1','operation':'FIX',\n 'fabric_job':'CF-53413da2df0d62f341243eaf','base_sha':base_sha,'base_tree':base_tree,\n 'candidate_sha':cand,'candidate_tree':tree,'work_branch':branch,'artifact_ref':artifact_ref,\n 'browser_capture_launched':True,'browser':result['browser'],'records':records,\n 'interaction_runs':result['interactions'],\n 'defect_reference':{\n   'source':'Independent R14 pixel audit',\n   'artifact_ref':'refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3-data-desktop-clean-repair-2@cefc69aa6bd8c75eef0efb3c0957a2f0bc286bf1',\n   'surface_key':'lab-charts','route':'/charts','state':'populated normal state',\n   'screenshots':[\n     {'viewport':'1440x900','sha256':'363123a07e9e9bc339faaa36a5716e3d2cc451d19f8df624d50e46ac9e339576'},\n     {'viewport':'390x844','sha256':'f1b494ab13ab4735c02c316f04123d59ea913452ba19a58bcebaa1109c5e305d'}\n   ]\n },\n 'summary':result['summary']\n}\n(evidence/'manifest.json').write_text(json.dumps(manifest,indent=2))\ncandidate={\n 'schema_version':1,'project':'nicegui-base','change':'CHG-177','request':'stable3-chart-threshold-label-clip-fix-1',\n 'operation':'FIX','target_branch':'main','base_sha':base_sha,'base_tree':base_tree,\n 'candidate_head':cand,'candidate_tree':tree,'candidate_parent':base_sha,'work_branch':branch,\n 'source_changed':True,'source_files':['source/nicegui_base/visualization/options.py','source/tests/test_phase6_options.py'],\n 'generated_evidence_in_product_history':False,'integrated':False,'main_modified':False,\n 'fabric_job':'CF-53413da2df0d62f341243eaf','artifact_ref':artifact_ref,\n 'runtime':{'nicegui':'3.15.0','python':'3.11.7','supported_python':'>=3.11,<3.14'},\n 'browser':result['browser'],'browser_capture_launched':True,'browser_summary':result['summary'],\n 'source_validation':{\n  'focused_options_adapter_visual_theme_tests':'PASS',\n  'existing_chart_browser_visual_tests':'PASS',\n  'run_nicegui_base_check':'PASS','runtime_contract':'PASS','runtime_smoke':'PASS',\n  'agent_check':'FAIL_BASELINE_PROVEN','gate':'FAIL_BASELINE_PROVEN','validator':'FAIL_BASELINE_PROVEN'\n },\n 'defect':'governed-chart-threshold-label-clipping'\n}\n(pkg/'candidate.json').write_text(json.dumps(candidate,indent=2))\nvalidation=\\\"\\\"\\\"# CHG-177 candidate validation\n\nCandidate: 4642e004f39a23a7e4f295c929aef05caeb68967  \nTree: 726617815ac1b06880ead6cb2f6fa6a39279049f  \nParent/base: 55307c22125df3ffeefe6210677e95e332732a8d (f0ede69c117879211e793cd00852031a040151d3)  \nWork branch: codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1\n\n## PASS\n\n- rtk env PYTHONPATH=source pytest -q source/tests/test_phase6_options.py source/tests/test_phase6_adapter_contract.py source/tests/test_visualization_final_integrity.py source/tests/test_visualization_micro_closure.py source/tests/test_chg163_visualization_theme.py source/tests/test_phase61_v300a8_semiconductor_platform.py — 101 passed.\n- rtk env PYTHONPATH=source pytest -q source/tests/test_phase6_theme_palette.py source/tests/test_phase16_visual_normalization.py source/tests/test_phase25_v17_phase5_analytical_visualization.py source/tests/test_phase29_v171_visual_interaction_hotfix.py source/tests/test_phase43_v3_semantic_visualization_extensions.py source/tests/test_phase47_v300a1_browser_uiux_gate.py source/tests/test_phase54_v300a6_switch_visual_integrity.py source/tests/test_workbench_d6h_visual_reference.py source/tests/test_workbench_d6h1_visual_closure.py source/tests/test_workbench_d6h2_visual_closure.py — 61 passed.\n- rtk python run_nicegui_base.py --check — PASS; NiceGUI 3.15.0, Python 3.11.7.\n- rtk env PYTHONPATH=source nicegui-base runtime-contract — PASS; 48 factories and 1175 direct calls checked.\n- rtk env PYTHONPATH=source nicegui-base runtime-smoke --port 0 --format json — PASS; health/ready plus all normal application routes returned HTTP 200 (23 routes total).\n- Fresh candidate runtime: rtk python run_nicegui_base.py --port 49173; Chromium 151.0.7922.34, Playwright 1.62.0. All 14 final screenshot captures passed.\n- /charts: 1440×900, 390×844, 1366×768, 360×800, 414×896. Full LSL and Target labels stay inside chart/plot bounds, do not collide, and do not clip at the host or page edge.\n- /analytics/capability_histogram: desktop/mobile; LSL, Target and USL are horizontal, fully readable and anchored to vertical x-axis specification lines.\n- /analytics/spc_i_mr: desktop/mobile, Individuals and Moving Range charts; real labels LCL, UCL, Center and MR center are fully readable and anchored to horizontal y-axis lines.\n- Explicit Dark and System with dark media preference both resolve to dark and retain bounded, legible labels.\n- The Reset chart toolbar action retained labels. Resizing desktop to mobile and back retained label geometry; page width stayed equal to viewport width. No browser/page errors or failed essential requests occurred.\n- Screenshots are lossless PNG at the requested viewport sizes; each file SHA-256 and its host/grid/markLine/page geometry is recorded in manifest.json and browser-result.json.\n- rtk git diff --check — PASS.\n\n## Baseline gate failures (proven on the exact base)\n\n- rtk env PYTHONPATH=source nicegui-base agent-check . --format json — FAIL: app scaffold/nicegui_base.toml absent; untouched tools/verify_development_D6H2_browser.py:154 has a Python f-string syntax error; 56 existing warnings.\n- rtk env PYTHONPATH=source nicegui-base gate . --format json — FAIL: absent app manifest/dependency pin/entrypoint, the same untouched syntax error, and tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral.\n- rtk env PYTHONPATH=source python -m nicegui_base.validate . — FAIL on the same untouched syntax error and 56 warnings.\n- Exact-base proof used a detached checkout at base SHA 55307c22125df3ffeefe6210677e95e332732a8d, tree f0ede69c117879211e793cd00852031a040151d3:\n  - rtk env PYTHONPATH=/tmp/chg177-baseline/source nicegui-base agent-check /tmp/chg177-baseline --format json reproduced the missing scaffold, same syntax error, and 56 warnings.\n  - rtk env PYTHONPATH=/tmp/chg177-baseline/source nicegui-base gate /tmp/chg177-baseline --format json reproduced the same manifest/dependency/entrypoint/syntax failures and theme-persistence test failure.\n  - rtk env PYTHONPATH=/tmp/chg177-baseline/source pytest -q /tmp/chg177-baseline/tests/test_wave35_theme_persistence.py reproduced the same single failing assertion.\n- The chart-specific focused and existing browser/visual test sets pass on the candidate; these baseline gate findings are outside the two changed files.\n\n## Evidence map\n\n- visual-evidence/browser-result.json: per-capture browser result, options and canvas text geometry, viewport/page overflow, toolbar, errors, theme and interaction states.\n- visual-evidence/manifest.json: hashes and provenance for before/after screenshots and interaction checks.\n- visual-evidence/before/: clean exact-base /charts desktop/mobile screenshots.\n- visual-evidence/: final candidate screenshots for all required chart panels, viewports and themes.\n\\\"\\\"\\\"\n(evidence/'validation.md').write_text(validation)\nzip_path=pkg/'artifact-bundle.zip'\nfiles=sorted(x for x in pkg.rglob('*') if x.is_file() and x\"'!=zip_path)\nwith zipfile.ZipFile(zip_path,'\"'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:\n for path in files:\n  info=zipfile.ZipInfo(path.relative_to(pkg).as_posix(),date_time=(2020,1,1,0,0,0))\n  info.compress_type=zipfile.ZIP_DEFLATED\n  info.external_attr=(0o100644<<16)\n  archive.writestr(info,path.read_bytes(),compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)\nprint('package',pkg)\nprint('evidence records',len(records))\nfor path in sorted(pkg.rglob('*')):\n if path.is_file():print(path.relative_to(pkg),path.stat().st_size,sha(path))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 2418,
+        "output_sha256": "a36e9e095dc536ecf202e2c09da57f93258076ad2174dffa8cc0c01e98f37fc7",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport zipfile,hashlib,json\npkg=Path('/tmp/chg177/artifact-package')\nwith zipfile.ZipFile(pkg/'artifact-bundle.zip') as z:\n names=z.namelist();print('zip_entries',len(names));print('required',all(x in names for x in ['candidate.json','visual-evidence/manifest.json','visual-evidence/browser-result.json','visual-evidence/validation.md','visual-evidence/charts-1440x900.png','visual-evidence/before/baseline-yield-390x844.png']))\n bad=[]\n for name in names:\n  data=z.read(name)\n  if hashlib.sha256(data).hexdigest()\"'!=hashlib.sha256((pkg/name).read_bytes()).hexdigest():bad.append(name)\n print('\"'archive_readback', 'PASS' if not bad else bad)\n d=json.load(open(pkg/'visual-evidence/browser-result.json'))\n print('candidate_captures',len(d['captures']),'all_pass',d['summary']['all_captures_passed'])\n print('image_dimensions',[(n, __import__('PIL.Image',fromlist=['Image']).open(pkg/'visual-evidence'/n).size) for n in ['charts-1440x900.png','charts-390x844.png','charts-1366x768.png','charts-360x800.png','charts-414x896.png']])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree add -b project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1 /tmp/chg177-artifact 4642e004f39a23a7e4f295c929aef05caeb68967'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport shutil\nsrc=Path('/tmp/chg177/artifact-package');dst=Path('/tmp/chg177-artifact')\nfor item in src.iterdir():\n target=dst/item.name\n if target.exists():raise RuntimeError(f'artifact worktree target already exists: {target}')\n shutil.copytree(item,target) if item.is_dir() else shutil.copyfile(item,target)\nprint('copied package to artifact worktree')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/chg177-artifact status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/chg177-artifact add artifact-bundle.zip candidate.json visual-evidence'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /tmp/chg177-artifact commit -m 'evidence: CHG-177 chart threshold label fix'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /tmp/chg177-artifact show -s --format='%H%n%T%n%P%n%s' HEAD && rtk git -C /tmp/chg177-artifact status --short --branch && rtk git rev-parse refs/heads/main\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1:refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin refs/heads/codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1:refs/heads/codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1 refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-chart-threshold-label-clip-fix-1 refs/heads/main && rtk git rev-parse refs/heads/main HEAD 'HEAD\"'^{tree}'\"' && rtk git show -s --format='%H%n%P' refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1 && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch --no-tags origin refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show FETCH_HEAD:candidate.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='%H%n%T%n%P' FETCH_HEAD && rtk git ls-tree --name-only FETCH_HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show FETCH_HEAD:artifact-bundle.zip | shasum -a 256'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport subprocess,hashlib,io,zipfile\npkg=Path('/tmp/chg177/artifact-package/artifact-bundle.zip').read_bytes()\nremote=subprocess.run(['git','show','FETCH_HEAD:artifact-bundle.zip'],check=True,capture_output=True).stdout\nprint('local_zip_sha256',hashlib.sha256(pkg).hexdigest(),'bytes',len(pkg))\nprint('remote_readback_sha256',hashlib.sha256(remote).hexdigest(),'bytes',len(remote),'matches',remote==pkg)\nwith zipfile.ZipFile(io.BytesIO(remote)) as z:print('remote_zip_entries',len(z.namelist()),'readback','PASS')\nPY\nrtk git diff-tree --no-commit-id --name-only -r 39e08e6c4a2d9372a9635c28e6bb715a061ca8f4\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove /tmp/chg177-artifact'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='%H%n%P' refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1 && rtk git diff-tree --no-commit-id --name-only -r refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse HEAD 'HEAD\"'^{tree}'\"' HEAD\"'^ && rtk git diff-tree --no-commit-id --name-only -r HEAD && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1 refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1 refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 457,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.6,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 26068608,
+      "fresh_input_tokens": 641839,
+      "input_tokens": 26710447,
+      "non_reasoning_output_tokens": 59825,
+      "output_tokens": 174551,
+      "reasoning_output_tokens": 114726,
+      "total_processed_tokens": 26884998
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "subject": "fix(visualization): bound governed threshold labels (CHG-177)"
+    }
+  ],
+  "diff": {
+    "additions": 267,
+    "changed_files": 2,
+    "commit_count": 1,
+    "deletions": 9
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-23T02:43:01Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+    "branch": "codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1",
+    "detached_verify": false,
+    "head_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+    "remote_exact_head": true,
+    "remote_head_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "55307c22125df3ffeefe6210677e95e332732a8d",
+    "work_branch": "codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-53413da2df0d62f341243eaf",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-chart-threshold-label-clip-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-chart-threshold-label-clip-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-chart-threshold-label-clip-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-23T01:33:40Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 4161,
+    "queue_seconds": 0,
+    "total_seconds": 4161
+  },
+  "transport": {
+    "bytes": 12124,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 11772,
+    "prompt_sha256": "0fa3896dbf082e0e18661c8852c224622b49d7fd07b9e4a1cd8f1f1d445ec3ad",
+    "sha256": "53413da2df0d62f341243eaf1ab6ce5ff38a21fa4a5b573dc26c10e938834da2"
+  }
+}
