@@ -1,0 +1,111 @@
+{
+  "artifact_remote_readback": {
+    "all_package_files_byte_identical": true,
+    "binary_base64_samples": {
+      "fresh-sample.png": {
+        "base64_roundtrip": true,
+        "dimensions": [
+          1440,
+          900
+        ],
+        "matches_manifest_sha256": true,
+        "matches_package_image": true,
+        "png_signature": true,
+        "sha256": "9d4c0d22cb1b12f0d928e5deb4942bf762aa26864ca59d4a48e4b835556d8ab2"
+      },
+      "reused-sample.png": {
+        "base64_roundtrip": true,
+        "dimensions": [
+          1440,
+          900
+        ],
+        "matches_manifest_sha256": true,
+        "matches_package_image": true,
+        "png_signature": true,
+        "sha256": "4cb6b6f67aed918fc1315bd30b3dbfd5ed0959a0e106ec3c505d1b014b0f1b62"
+      }
+    },
+    "bundle_integrity": true,
+    "canonical_png_count": 288,
+    "full_package_file_count": 671,
+    "independent_fetch_commit": "1fd12d6477010c58cb477dd836d984c6b99e7bbf",
+    "manifest_report_index_text_matches": {
+      "capture-report.json": true,
+      "reader-index.json": true,
+      "surface-manifest.json": true
+    },
+    "reader_pdf_pages": {
+      "review-desktop.pdf": 144,
+      "review-mobile.pdf": 144
+    },
+    "remote_package_file_count": 671,
+    "verified": true
+  },
+  "change": "CHG-135",
+  "git_artifact_commit": "1fd12d6477010c58cb477dd836d984c6b99e7bbf",
+  "git_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1",
+  "human_visual_acceptance": "PENDING_SEPARATE_REVIEW",
+  "notion_accessed": false,
+  "operation": "VERIFY",
+  "package": {
+    "bundle_sha256": "5203c39051aa0a062095ace69e84ff9b4ae1d0bdd8be2bb3a0074e24f2fb5e29",
+    "bundle_size_bytes": 77412880,
+    "canonical_screenshot_count": 288,
+    "capture_report_sha256": "0ccda3684dc405f1a892eac0028bd13b1015bc8adc1d59eab442d65d0bea0be3",
+    "file_count": 671,
+    "file_inventory_sha256": "b602e536fe98fbb395f234b9346211695ebaeac3c9b7a5754e066c0ead1ad692",
+    "fresh_surface_count": 16,
+    "git_publish_receipt_sha256": "89076d4d24679ce2ef64a7701d61d96da36fcba70854e879a093aff971c07e2e",
+    "manifest_sha256": "30cc606814517aeef258a9689c90e9682b3317cb6a28692231a782974edf7ebc",
+    "reader_index_sha256": "3c12b8ce33de9fa417147d951b58e2d91d868076a0c555a11f51390e15efff60",
+    "reused_surface_count": 128,
+    "review_desktop_sha256": "5af611bef42b9d9b3db09105bafd8594fe1eebbba68321933223129d1a7f69ab",
+    "review_mobile_sha256": "c20fb8ad5da2df52974dbc38d0202f39dc9b93cd5b64e4c734c75bdbba3472f8",
+    "surface_count": 144
+  },
+  "product_worktree_clean": true,
+  "project": "nicegui-base",
+  "project_os_visual_atlas_evidence": 1,
+  "publication_note": "GitHub accepted the carrier push and warned that artifact-bundle.zip exceeds its recommended 50 MB size; remote readback and hashes verified.",
+  "repository": "kimhw8084/nicegui-base",
+  "request": "stable3-golden-visual-atlas-post-chg177-impact-recapture-1",
+  "schema_version": 1,
+  "scope_note": "No Product source edits, no full recapture of proven unaffected surfaces, no 200% zoom claim, and no human or release acceptance claim.",
+  "source_changed": false,
+  "source_sha": "1bc15bbb197245e8a6367de9161dc7f63001b71a",
+  "status": "GIT_PUBLISHED_AWAITING_AUDIT",
+  "target_branch": "main",
+  "tree_sha": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+  "validation": [
+    {
+      "command": "rtk env PYTHONPATH=source python -m pytest -q source/tests/test_phase6_options.py",
+      "evidence": "12 passed",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk python run_nicegui_base.py --check",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk nicegui-base runtime-contract",
+      "evidence": "nicegui==3.15.0; 48 factories / 1172 calls",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk nicegui-base runtime-smoke --port 0",
+      "evidence": "22 routes HTTP 200",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk nicegui-base agent-check .",
+      "evidence": "pre-existing workspace scaffold/version findings and SyntaxError in tools/verify_development_D6H2_browser.py:154",
+      "status": "FAIL"
+    },
+    {
+      "command": "rtk nicegui-base gate .",
+      "evidence": "pre-existing workspace scaffold/manifests/dependency-pin/entrypoint findings, the same SyntaxError, and incompatible global pytest/pathlib collections.Sequence",
+      "status": "FAIL"
+    }
+  ],
+  "work_branch": "codex/nicegui-base-stable3-golden-visual-atlas-post-chg177-impact-recapture-1"
+}
