@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "project": "nicegui-base",
+  "change": "CHG-177",
+  "request": "stable3-chart-threshold-label-clip-fix-1",
+  "operation": "FIX",
+  "target_branch": "main",
+  "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+  "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+  "candidate_head": "4642e004f39a23a7e4f295c929aef05caeb68967",
+  "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+  "candidate_parent": "55307c22125df3ffeefe6210677e95e332732a8d",
+  "work_branch": "codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1",
+  "source_changed": true,
+  "source_files": [
+    "source/nicegui_base/visualization/options.py",
+    "source/tests/test_phase6_options.py"
+  ],
+  "generated_evidence_in_product_history": false,
+  "integrated": false,
+  "main_modified": false,
+  "fabric_job": "CF-53413da2df0d62f341243eaf",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1",
+  "runtime": {
+    "nicegui": "3.15.0",
+    "python": "3.11.7",
+    "supported_python": ">=3.11,<3.14"
+  },
+  "browser": {
+    "engine": "Chromium",
+    "version": "151.0.7922.34",
+    "playwright_version": "1.62.0"
+  },
+  "browser_capture_launched": true,
+  "browser_summary": {
+    "lab_charts_viewports_passed": true,
+    "capability_histogram_passed": true,
+    "spc_control_limits_passed": true,
+    "theme_regression_passed": true,
+    "responsive_stress_passed": true,
+    "all_captures_passed": true
+  },
+  "source_validation": {
+    "focused_options_adapter_visual_theme_tests": "PASS",
+    "existing_chart_browser_visual_tests": "PASS",
+    "run_nicegui_base_check": "PASS",
+    "runtime_contract": "PASS",
+    "runtime_smoke": "PASS",
+    "agent_check": "FAIL_BASELINE_PROVEN",
+    "gate": "FAIL_BASELINE_PROVEN",
+    "validator": "FAIL_BASELINE_PROVEN"
+  },
+  "defect": "governed-chart-threshold-label-clipping"
+}

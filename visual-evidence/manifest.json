@@ -1,0 +1,3001 @@
+{
+  "schema_version": 1,
+  "project": "nicegui-base",
+  "change": "CHG-177",
+  "request": "stable3-chart-threshold-label-clip-fix-1",
+  "operation": "FIX",
+  "fabric_job": "CF-53413da2df0d62f341243eaf",
+  "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+  "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+  "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+  "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+  "work_branch": "codex/nicegui-base-stable3-chart-threshold-label-clip-fix-1",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-chart-threshold-label-clip-fix-1",
+  "browser_capture_launched": true,
+  "browser": {
+    "engine": "Chromium",
+    "version": "151.0.7922.34",
+    "playwright_version": "1.62.0"
+  },
+  "records": [
+    {
+      "evidence_id": "charts-1440x900",
+      "phase": "candidate",
+      "image": "charts-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 284,
+        "y": 285,
+        "width": 354.65625,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 276,
+        "y": 199,
+        "width": 370.65625,
+        "height": 502
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 282.64697265625,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 68.20000000000002,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 296.365234375,
+            "y": 61.82500000000002,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 184
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "a30402e7cc75e525a19c04f21fd95773d385bb01992eab8655ade5be3b7375ca"
+    },
+    {
+      "evidence_id": "charts-390x844",
+      "phase": "candidate",
+      "image": "charts-390x844.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 24,
+        "y": 304,
+        "width": 342,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 16,
+        "y": 203,
+        "width": 358,
+        "height": 437
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 269.64697265625,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 65,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 283.365234375,
+            "y": 60.625,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 338
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "b5d0e05b46bb9918d7a080154c2baa4de202f5235848ca7eafd2c21c1342b11a"
+    },
+    {
+      "evidence_id": "charts-1366x768",
+      "phase": "candidate",
+      "image": "charts-1366x768.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 1366,
+        "height": 768,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 284,
+        "y": 229,
+        "width": 330,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 276,
+        "y": 123,
+        "width": 346,
+        "height": 522
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 257.64697265625,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 68.20000000000002,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 271.365234375,
+            "y": 61.82500000000002,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1366,
+        "height": 768,
+        "clientWidth": 1366,
+        "documentWidth": 1366,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 260
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "f8e09f5b1c155dc115ee91ea8b9618df3c4a7889369dae800a8000cd5d84c703"
+    },
+    {
+      "evidence_id": "charts-360x800",
+      "phase": "candidate",
+      "image": "charts-360x800.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 24,
+        "y": 282,
+        "width": 312,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 16,
+        "y": 181,
+        "width": 328,
+        "height": 437
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 239.64697265625,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 65,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 253.365234375,
+            "y": 60.625,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 360,
+        "height": 800,
+        "clientWidth": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 360
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "e18d37c4f3cca46ee0bdd27c8c64b5cc5e00267c3217a4154d2ca9c0d402534e"
+    },
+    {
+      "evidence_id": "charts-414x896",
+      "phase": "candidate",
+      "image": "charts-414x896.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 24,
+        "y": 330,
+        "width": 366,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 16,
+        "y": 229,
+        "width": 382,
+        "height": 437
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 293.64697265625,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 65,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 307.365234375,
+            "y": 60.625,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 414,
+        "height": 896,
+        "clientWidth": 414,
+        "documentWidth": 414,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 312
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "e066ea47ff5cd4542a1127a2a005b233ee18b213e6e9028e825ea356c2080d50"
+    },
+    {
+      "evidence_id": "capability_histogram-1440x900",
+      "phase": "candidate",
+      "image": "capability_histogram-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/analytics/capability_histogram",
+      "chart_title": "Capability Histogram",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 299,
+        "y": 274.15625,
+        "width": 1098,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 291,
+        "y": 210.15625,
+        "width": 1114,
+        "height": 480
+      },
+      "plot_bounds": {
+        "x": 38.11767578125,
+        "y": 54,
+        "width": 1037.88232421875,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "xAxis",
+          "value": 38.5,
+          "label": {
+            "formatter": "LSL",
+            "position": "end",
+            "distance": [
+              6,
+              4
+            ],
+            "align": "left",
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "USL",
+          "coordinate": "xAxis",
+          "value": 41.5,
+          "label": {
+            "formatter": "USL",
+            "position": "end",
+            "distance": [
+              6,
+              4
+            ],
+            "align": "right",
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "xAxis",
+          "value": 40,
+          "label": {
+            "formatter": "Target",
+            "position": "end",
+            "distance": [
+              6,
+              4
+            ],
+            "align": "center",
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 112.25212751115942,
+            "y": 40.058380126953125,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "USL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 982.0901576450888,
+            "y": 40.058380126953125,
+            "width": 19.775390625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 541.741455078125,
+            "y": 40.058380126953125,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "xAxis",
+          "position": "end",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "USL",
+          "coordinate": "xAxis",
+          "position": "end",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "xAxis",
+          "position": "end",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 622
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "b7d7f80f9c8e33c2df50b6906efc6c5844bc21b762b7f86e6fbb17848ad01a6b"
+    },
+    {
+      "evidence_id": "capability_histogram-390x844",
+      "phase": "candidate",
+      "image": "capability_histogram-390x844.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/analytics/capability_histogram",
+      "chart_title": "Capability Histogram",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 39,
+        "y": 320.671875,
+        "width": 312,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 31,
+        "y": 186.671875,
+        "width": 328,
+        "height": 470
+      },
+      "plot_bounds": {
+        "x": 38.11767578125,
+        "y": 54,
+        "width": 251.88232421875,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "xAxis",
+          "value": 38.5,
+          "label": {
+            "formatter": "LSL",
+            "position": "end",
+            "distance": [
+              6,
+              4
+            ],
+            "align": "left",
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "USL",
+          "coordinate": "xAxis",
+          "value": 41.5,
+          "label": {
+            "formatter": "USL",
+            "position": "end",
+            "distance": [
+              6,
+              4
+            ],
+            "align": "right",
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "xAxis",
+          "value": 40,
+          "label": {
+            "formatter": "Target",
+            "position": "end",
+            "distance": [
+              6,
+              4
+            ],
+            "align": "center",
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.109270368303896,
+            "y": 40.058380126953125,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "USL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 252.23301478794656,
+            "y": 40.058380126953125,
+            "width": 19.775390625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 148.741455078125,
+            "y": 40.058380126953125,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "xAxis",
+          "position": "end",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "USL",
+          "coordinate": "xAxis",
+          "position": "end",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "xAxis",
+          "position": "end",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 781
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "eef8821a5a13211fbd928d2f66f82237ee8750e78e8079f3f92de667a0068795"
+    },
+    {
+      "evidence_id": "spc_i_mr-individuals-1440x900",
+      "phase": "candidate",
+      "image": "spc_i_mr-individuals-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/analytics/spc_i_mr",
+      "chart_title": "Individuals \u2014 SPC I-MR",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 299,
+        "y": 274.09375,
+        "width": 1098,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 291,
+        "y": 210.09375,
+        "width": 1114,
+        "height": 480
+      },
+      "plot_bounds": {
+        "x": 71.76220703125,
+        "y": 54,
+        "width": 1004.23779296875,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LCL",
+          "coordinate": "yAxis",
+          "value": 38.90225083986562,
+          "label": {
+            "formatter": "LCL",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "UCL",
+          "coordinate": "yAxis",
+          "value": 42.037749160134375,
+          "label": {
+            "formatter": "UCL",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Center",
+          "coordinate": "yAxis",
+          "value": 40.47,
+          "label": {
+            "formatter": "Center",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 77.76220703125,
+            "y": 277.6808350784395,
+            "width": 18.57421875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "UCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 1049.4384765625,
+            "y": 75.37754504851361,
+            "width": 20.5615234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Center",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 77.76220703125,
+            "y": 167.55838012695312,
+            "width": 32.490234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LCL",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "UCL",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Center",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 630
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "ff297d18751e8b59773a472db54ee125e8f2e546d89692116005c943ed09d7a8"
+    },
+    {
+      "evidence_id": "spc_i_mr-moving_range-1440x900",
+      "phase": "candidate",
+      "image": "spc_i_mr-moving_range-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/analytics/spc_i_mr",
+      "chart_title": "Moving Range \u2014 SPC I-MR",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 299,
+        "y": 282.09375,
+        "width": 1098,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 291,
+        "y": 218.09375,
+        "width": 1114,
+        "height": 480
+      },
+      "plot_bounds": {
+        "x": 65.64453125,
+        "y": 54,
+        "width": 1010.35546875,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LCL",
+          "coordinate": "yAxis",
+          "value": 0,
+          "label": {
+            "formatter": "LCL",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "UCL",
+          "coordinate": "yAxis",
+          "value": 1.9258105263157863,
+          "label": {
+            "formatter": "UCL",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "MR center",
+          "coordinate": "yAxis",
+          "value": 0.5894736842105254,
+          "label": {
+            "formatter": "MR center",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 71.64453125,
+            "y": 295.0583801269531,
+            "width": 18.57421875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "UCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 1049.4384765625,
+            "y": 90.77849072315439,
+            "width": 20.5615234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "MR center",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 71.64453125,
+            "y": 227.1253798816998,
+            "width": 49.365234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LCL",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "UCL",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "MR center",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 1102
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "bc5ea1a9008aae4ae9d0f9005b90ec65f5b48bd7a477ef9d0c0f2b6cea62e459"
+    },
+    {
+      "evidence_id": "spc_i_mr-individuals-390x844",
+      "phase": "candidate",
+      "image": "spc_i_mr-individuals-390x844.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/analytics/spc_i_mr",
+      "chart_title": "Individuals \u2014 SPC I-MR",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 39,
+        "y": 304.484375,
+        "width": 312,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 31,
+        "y": 203.484375,
+        "width": 328,
+        "height": 437
+      },
+      "plot_bounds": {
+        "x": 71.76220703125,
+        "y": 54,
+        "width": 218.23779296875,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LCL",
+          "coordinate": "yAxis",
+          "value": 38.90225083986562,
+          "label": {
+            "formatter": "LCL",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "UCL",
+          "coordinate": "yAxis",
+          "value": 42.037749160134375,
+          "label": {
+            "formatter": "UCL",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Center",
+          "coordinate": "yAxis",
+          "value": 40.47,
+          "label": {
+            "formatter": "Center",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 77.76220703125,
+            "y": 203.13261391718888,
+            "width": 18.57421875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "UCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 263.4384765625,
+            "y": 69.92576620976425,
+            "width": 20.5615234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Center",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 77.76220703125,
+            "y": 127.55838012695312,
+            "width": 32.490234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LCL",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "UCL",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Center",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 840
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "97f2501c0e548de42eec842e92467003bae9b5590bb10841c215efcb16cb4e5c"
+    },
+    {
+      "evidence_id": "spc_i_mr-moving_range-390x844",
+      "phase": "candidate",
+      "image": "spc_i_mr-moving_range-390x844.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/analytics/spc_i_mr",
+      "chart_title": "Moving Range \u2014 SPC I-MR",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 39,
+        "y": 304.484375,
+        "width": 312,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 31,
+        "y": 203.484375,
+        "width": 328,
+        "height": 437
+      },
+      "plot_bounds": {
+        "x": 65.64453125,
+        "y": 54,
+        "width": 224.35546875,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LCL",
+          "coordinate": "yAxis",
+          "value": 0,
+          "label": {
+            "formatter": "LCL",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "UCL",
+          "coordinate": "yAxis",
+          "value": 1.9258105263157863,
+          "label": {
+            "formatter": "UCL",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#B42318",
+            "fontSize": 10
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "MR center",
+          "coordinate": "yAxis",
+          "value": 0.5894736842105254,
+          "label": {
+            "formatter": "MR center",
+            "position": "insideStartTop",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#1D5FBF",
+            "fontSize": 10
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 71.64453125,
+            "y": 215.05838012695312,
+            "width": 18.57421875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "UCL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 263.4384765625,
+            "y": 80.49504265314516,
+            "width": 20.5615234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#B42318",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "MR center",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 71.64453125,
+            "y": 168.43769368413223,
+            "width": 49.365234375,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#1D5FBF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LCL",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "UCL",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "MR center",
+          "coordinate": "yAxis",
+          "position": "insideStartTop",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 1277
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "803acc4d243af1eea26f866c062d6ff2c5759deacf1b926ffeaf9462edd19088"
+    },
+    {
+      "evidence_id": "charts-dark-explicit-1440x900",
+      "phase": "candidate",
+      "image": "charts-dark-explicit-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "Dark",
+      "resolved_theme": "dark",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 284,
+        "y": 285,
+        "width": 354.65625,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 276,
+        "y": 199,
+        "width": 370.65625,
+        "height": 502
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 282.64697265625,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#FF817A",
+            "fontSize": 10
+          },
+          "lineColor": "#FF817A"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#83B3FF",
+            "fontSize": 10
+          },
+          "lineColor": "#83B3FF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 68.20000000000002,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#FF817A",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 296.365234375,
+            "y": 61.82500000000002,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#83B3FF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 184
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "3ace51b5a763a6e8c3780104a9d9cd3378f48a513ec26194e7f5449d5f5220fb"
+    },
+    {
+      "evidence_id": "charts-dark-system-media-1440x900",
+      "phase": "candidate",
+      "image": "charts-dark-system-media-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "dark",
+      "media_preference": "dark",
+      "chart_host_bounds": {
+        "x": 284,
+        "y": 285,
+        "width": 354.65625,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 276,
+        "y": 199,
+        "width": 370.65625,
+        "height": 502
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 282.64697265625,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "value": 96,
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#FF817A",
+            "fontSize": 10
+          },
+          "lineColor": "#FF817A"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "value": 98.5,
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom",
+            "distance": [
+              6,
+              4
+            ],
+            "align": null,
+            "color": "#83B3FF",
+            "fontSize": 10
+          },
+          "lineColor": "#83B3FF"
+        }
+      ],
+      "actual_canvas_labels": [
+        {
+          "text": "LSL",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 56.35302734375,
+            "y": 68.20000000000002,
+            "width": 18.0810546875,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#FF817A",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        },
+        {
+          "text": "Target",
+          "shapeType": "tspan",
+          "bounds": {
+            "x": 296.365234375,
+            "y": 61.82500000000002,
+            "width": 30.634765625,
+            "height": 9.941619873046875
+          },
+          "rotationDegrees": 0,
+          "color": "#83B3FF",
+          "font": "normal normal 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        }
+      ],
+      "label_geometry": [
+        {
+          "text": "LSL",
+          "coordinate": "yAxis",
+          "position": "insideStartBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        },
+        {
+          "text": "Target",
+          "coordinate": "yAxis",
+          "position": "insideEndBottom",
+          "withinHost": true,
+          "horizontalText": true,
+          "withinGovernedBand": true,
+          "toolbarOverlap": false
+        }
+      ],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "scrollX": 0,
+        "scrollY": 184
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "15a3088d3accb4e3456396dfbd33dd4111f6b46a5d84d9ce46d27771a3c0a416"
+    },
+    {
+      "evidence_id": "charts-interaction-1440x900",
+      "phase": "candidate",
+      "image": "charts-interaction-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "source_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 284,
+        "y": 285,
+        "width": 354.65625,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 276,
+        "y": 199,
+        "width": 370.65625,
+        "height": 502,
+        "fullyInViewport": true
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 282.64697265625,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coordinate": "yAxis",
+          "label": {
+            "formatter": "LSL",
+            "position": "insideStartBottom"
+          },
+          "lineColor": "#B42318"
+        },
+        {
+          "name": "Target",
+          "coordinate": "yAxis",
+          "label": {
+            "formatter": "Target",
+            "position": "insideEndBottom"
+          },
+          "lineColor": "#1D5FBF"
+        }
+      ],
+      "actual_canvas_labels": [],
+      "label_geometry": [],
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "documentWidth": 1440,
+        "overflow": false
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": true,
+      "image_sha256": "a30402e7cc75e525a19c04f21fd95773d385bb01992eab8655ade5be3b7375ca"
+    },
+    {
+      "evidence_id": "baseline-yield-1440x900",
+      "phase": "before",
+      "image": "before/baseline-yield-1440x900.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "source_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 284,
+        "y": 285,
+        "width": 354.65625,
+        "height": 360
+      },
+      "panel_bounds": {
+        "x": 276,
+        "y": 199,
+        "width": 370.65625,
+        "height": 502
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 282.64697265625,
+        "height": 255
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coord": "yAxis",
+          "label": {
+            "formatter": "LSL",
+            "color": "#B42318",
+            "fontSize": 10
+          }
+        },
+        {
+          "name": "Target",
+          "coord": "yAxis",
+          "label": {
+            "formatter": "Target",
+            "color": "#1D5FBF",
+            "fontSize": 10
+          }
+        }
+      ],
+      "actual_canvas_labels": null,
+      "label_geometry": "baseline screenshot shows Target/LSL clipped at chart right boundary",
+      "page_widths": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "documentWidth": 1440,
+        "overflow": false
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": false,
+      "image_sha256": "cfaa1a22f29c368b0ec46290c211788f391d0126e6a80ed8849f6997197869a8"
+    },
+    {
+      "evidence_id": "baseline-yield-390x844",
+      "phase": "before",
+      "image": "before/baseline-yield-390x844.png",
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "source_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "source_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3",
+      "route": "/charts",
+      "chart_title": "Yield trend + target",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 1
+      },
+      "requested_theme": "System",
+      "resolved_theme": "light",
+      "media_preference": "light",
+      "chart_host_bounds": {
+        "x": 24,
+        "y": 304,
+        "width": 342,
+        "height": 280
+      },
+      "panel_bounds": {
+        "x": 16,
+        "y": 203,
+        "width": 358,
+        "height": 437
+      },
+      "plot_bounds": {
+        "x": 50.35302734375,
+        "y": 54,
+        "width": 269.64697265625,
+        "height": 175
+      },
+      "grid": {
+        "left": 22,
+        "right": 22,
+        "top": 54,
+        "bottom": 30,
+        "containLabel": true,
+        "show": false,
+        "z": 0,
+        "outerBoundsMode": "auto",
+        "outerBounds": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": null,
+          "height": null
+        },
+        "outerBoundsContain": "all",
+        "outerBoundsClampWidth": "25%",
+        "outerBoundsClampHeight": "25%",
+        "backgroundColor": "rgba(0,0,0,0)",
+        "borderWidth": 1,
+        "borderColor": "#b7b9be",
+        "width": null,
+        "height": null
+      },
+      "right_gutter": 22,
+      "markLine_label_configuration": [
+        {
+          "name": "LSL",
+          "coord": "yAxis",
+          "label": {
+            "formatter": "LSL",
+            "color": "#B42318",
+            "fontSize": 10
+          }
+        },
+        {
+          "name": "Target",
+          "coord": "yAxis",
+          "label": {
+            "formatter": "Target",
+            "color": "#1D5FBF",
+            "fontSize": 10
+          }
+        }
+      ],
+      "actual_canvas_labels": null,
+      "label_geometry": "baseline screenshot shows Target/LSL clipped at chart right boundary",
+      "page_widths": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "documentWidth": 390,
+        "overflow": false
+      },
+      "browser_errors": [],
+      "failed_requests": [],
+      "failed_essential_responses": [],
+      "passed": false,
+      "image_sha256": "7fd270dbfa4a0e3b77b9c466875a886df56d204a798b703cf28b4a9caeace47a"
+    }
+  ],
+  "interaction_runs": [
+    {
+      "route": "/charts",
+      "kind": "toolbar_reset_and_responsive_resize",
+      "states": [
+        {
+          "state": "after_reset",
+          "labels_bounded": true,
+          "labels_complete": true,
+          "host": {
+            "x": 284,
+            "y": 285,
+            "width": 354.65625,
+            "height": 360
+          },
+          "plot": {
+            "x": 50.35302734375,
+            "y": 54,
+            "width": 282.64697265625,
+            "height": 255
+          },
+          "grid": {
+            "left": 22,
+            "right": 22,
+            "top": 54,
+            "bottom": 30,
+            "containLabel": true,
+            "show": false,
+            "z": 0,
+            "outerBoundsMode": "auto",
+            "outerBounds": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": null,
+              "height": null
+            },
+            "outerBoundsContain": "all",
+            "outerBoundsClampWidth": "25%",
+            "outerBoundsClampHeight": "25%",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "borderWidth": 1,
+            "borderColor": "#b7b9be",
+            "width": null,
+            "height": null
+          },
+          "right_gutter": 22,
+          "mark_lines": [
+            {
+              "name": "LSL",
+              "coordinate": "yAxis",
+              "label": {
+                "formatter": "LSL",
+                "position": "insideStartBottom"
+              },
+              "lineColor": "#B42318"
+            },
+            {
+              "name": "Target",
+              "coordinate": "yAxis",
+              "label": {
+                "formatter": "Target",
+                "position": "insideEndBottom"
+              },
+              "lineColor": "#1D5FBF"
+            }
+          ],
+          "label_geometry": [
+            {
+              "text": "LSL",
+              "position": "insideStartBottom",
+              "coordinate": "yAxis",
+              "withinHost": true,
+              "withinGovernedBand": true,
+              "horizontalText": true,
+              "toolbarOverlap": false
+            },
+            {
+              "text": "Target",
+              "position": "insideEndBottom",
+              "coordinate": "yAxis",
+              "withinHost": true,
+              "withinGovernedBand": true,
+              "horizontalText": true,
+              "toolbarOverlap": false
+            }
+          ],
+          "page_geometry": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "overflow": false
+          },
+          "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+          "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f"
+        },
+        {
+          "state": "after_resize_to_mobile",
+          "labels_bounded": true,
+          "labels_complete": true,
+          "host": {
+            "x": 24,
+            "y": 458,
+            "width": 342,
+            "height": 280
+          },
+          "plot": {
+            "x": 50.35302734375,
+            "y": 54,
+            "width": 269.64697265625,
+            "height": 175
+          },
+          "grid": {
+            "left": 22,
+            "right": 22,
+            "top": 54,
+            "bottom": 30,
+            "containLabel": true,
+            "show": false,
+            "z": 0,
+            "outerBoundsMode": "auto",
+            "outerBounds": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": null,
+              "height": null
+            },
+            "outerBoundsContain": "all",
+            "outerBoundsClampWidth": "25%",
+            "outerBoundsClampHeight": "25%",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "borderWidth": 1,
+            "borderColor": "#b7b9be",
+            "width": null,
+            "height": null
+          },
+          "right_gutter": 22,
+          "mark_lines": [
+            {
+              "name": "LSL",
+              "coordinate": "yAxis",
+              "label": {
+                "formatter": "LSL",
+                "position": "insideStartBottom"
+              },
+              "lineColor": "#B42318"
+            },
+            {
+              "name": "Target",
+              "coordinate": "yAxis",
+              "label": {
+                "formatter": "Target",
+                "position": "insideEndBottom"
+              },
+              "lineColor": "#1D5FBF"
+            }
+          ],
+          "label_geometry": [
+            {
+              "text": "LSL",
+              "position": "insideStartBottom",
+              "coordinate": "yAxis",
+              "withinHost": true,
+              "withinGovernedBand": true,
+              "horizontalText": true,
+              "toolbarOverlap": false
+            },
+            {
+              "text": "Target",
+              "position": "insideEndBottom",
+              "coordinate": "yAxis",
+              "withinHost": true,
+              "withinGovernedBand": true,
+              "horizontalText": true,
+              "toolbarOverlap": false
+            }
+          ],
+          "page_geometry": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "overflow": false
+          },
+          "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+          "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f"
+        },
+        {
+          "state": "after_resize_back_to_desktop",
+          "labels_bounded": true,
+          "labels_complete": true,
+          "host": {
+            "x": 284,
+            "y": 285,
+            "width": 354.65625,
+            "height": 360
+          },
+          "plot": {
+            "x": 50.35302734375,
+            "y": 54,
+            "width": 282.64697265625,
+            "height": 255
+          },
+          "grid": {
+            "left": 22,
+            "right": 22,
+            "top": 54,
+            "bottom": 30,
+            "containLabel": true,
+            "show": false,
+            "z": 0,
+            "outerBoundsMode": "auto",
+            "outerBounds": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": null,
+              "height": null
+            },
+            "outerBoundsContain": "all",
+            "outerBoundsClampWidth": "25%",
+            "outerBoundsClampHeight": "25%",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "borderWidth": 1,
+            "borderColor": "#b7b9be",
+            "width": null,
+            "height": null
+          },
+          "right_gutter": 22,
+          "mark_lines": [
+            {
+              "name": "LSL",
+              "coordinate": "yAxis",
+              "label": {
+                "formatter": "LSL",
+                "position": "insideStartBottom"
+              },
+              "lineColor": "#B42318"
+            },
+            {
+              "name": "Target",
+              "coordinate": "yAxis",
+              "label": {
+                "formatter": "Target",
+                "position": "insideEndBottom"
+              },
+              "lineColor": "#1D5FBF"
+            }
+          ],
+          "label_geometry": [
+            {
+              "text": "LSL",
+              "position": "insideStartBottom",
+              "coordinate": "yAxis",
+              "withinHost": true,
+              "withinGovernedBand": true,
+              "horizontalText": true,
+              "toolbarOverlap": false
+            },
+            {
+              "text": "Target",
+              "position": "insideEndBottom",
+              "coordinate": "yAxis",
+              "withinHost": true,
+              "withinGovernedBand": true,
+              "horizontalText": true,
+              "toolbarOverlap": false
+            }
+          ],
+          "page_geometry": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "overflow": false
+          },
+          "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+          "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f"
+        }
+      ],
+      "candidate_sha": "4642e004f39a23a7e4f295c929aef05caeb68967",
+      "candidate_tree": "726617815ac1b06880ead6cb2f6fa6a39279049f",
+      "base_sha": "55307c22125df3ffeefe6210677e95e332732a8d",
+      "base_tree": "f0ede69c117879211e793cd00852031a040151d3"
+    }
+  ],
+  "defect_reference": {
+    "source": "Independent R14 pixel audit",
+    "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-capture-3-data-desktop-clean-repair-2@cefc69aa6bd8c75eef0efb3c0957a2f0bc286bf1",
+    "surface_key": "lab-charts",
+    "route": "/charts",
+    "state": "populated normal state",
+    "screenshots": [
+      {
+        "viewport": "1440x900",
+        "sha256": "363123a07e9e9bc339faaa36a5716e3d2cc451d19f8df624d50e46ac9e339576"
+      },
+      {
+        "viewport": "390x844",
+        "sha256": "f1b494ab13ab4735c02c316f04123d59ea913452ba19a58bcebaa1109c5e305d"
+      }
+    ]
+  },
+  "summary": {
+    "lab_charts_viewports_passed": true,
+    "capability_histogram_passed": true,
+    "spc_control_limits_passed": true,
+    "theme_regression_passed": true,
+    "responsive_stress_passed": true,
+    "all_captures_passed": true
+  }
+}
