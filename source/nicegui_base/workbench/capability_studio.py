@@ -776,14 +776,16 @@ def render_capability_studio(
         with preview_host:
             if info['mode'] not in {'pattern', 'analytical_sample', 'analytical_data'}:
                 ui.label(session.config.title).classes('cui-workbench-section-title').props('data-preview-title')
-            try:
-                if preview_renderer:
-                    preview_renderer(session)
-                else:
-                    default_preview()
-            except ValueError as exc:
-                from nicegui_base import Alert, FeedbackIntent
-                Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
+            from nicegui_base.integrations.nicegui_visualization import _chart_theme_scope
+            with _chart_theme_scope(session.config.theme):
+                try:
+                    if preview_renderer:
+                        preview_renderer(session)
+                    else:
+                        default_preview()
+                except ValueError as exc:
+                    from nicegui_base import Alert, FeedbackIntent
+                    Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
         code_revision['value'] += 1
         if callbacks.get('code'):
             callbacks['code']()
@@ -934,14 +936,16 @@ def render_capability_studio(
         with panel('states'):
             host=ui.element('div').classes('cui-studio-state-host')
             def render_state_preview() -> None:
-                try:
-                    if preview_renderer:
-                        preview_renderer(session)
-                    else:
-                        default_preview()
-                except ValueError as exc:
-                    from nicegui_base import Alert, FeedbackIntent
-                    Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
+                from nicegui_base.integrations.nicegui_visualization import _chart_theme_scope
+                with _chart_theme_scope(session.config.theme):
+                    try:
+                        if preview_renderer:
+                            preview_renderer(session)
+                        else:
+                            default_preview()
+                    except ValueError as exc:
+                        from nicegui_base import Alert, FeedbackIntent
+                        Alert('Measurement mapping required', message=str(exc), intent=FeedbackIntent.WARNING)
             render_state_matrix(host, render_state_preview)
         with panel('interactions'):
             if interaction_renderer:

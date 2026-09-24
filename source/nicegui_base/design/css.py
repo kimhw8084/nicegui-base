@@ -136,14 +136,14 @@ html[data-theme='dark'], [data-theme='dark'] {{
 }}
 
 @media (prefers-color-scheme: dark) {{
-  html[data-theme='system'], [data-theme='system'] {{
+  html[data-theme='system'] {{
 {_palette_vars('dark', s.dark)}
     color-scheme: dark;
   }}
 }}
 
 @media (prefers-color-scheme: light) {{
-  html[data-theme='system'], [data-theme='system'] {{
+  html[data-theme='system'] {{
 {_palette_vars('light', s.light)}
     color-scheme: light;
   }}
