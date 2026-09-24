@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "evidence_debt_count": 8,
+  "counts_by_status": {
+    "NOT_CAPTURED": 3,
+    "NOT_EXECUTED": 1,
+    "NOT_QUALIFIED": 1,
+    "PARTIAL": 1,
+    "PENDING": 1,
+    "UNPROVEN": 1
+  },
+  "counts_by_category": {
+    "meaningful-state-binding": 1,
+    "keyboard-overlay-selection": 1,
+    "browser-zoom": 1,
+    "human-visual-acceptance": 1,
+    "assistive-technology": 1,
+    "native-physical-device": 1,
+    "CHG-59-work-computer-runtime": 1,
+    "human-preference": 1
+  },
+  "items": [
+    {
+      "id": "ED-203-01-dynamic-state-binding",
+      "category": "meaningful-state-binding",
+      "scope": "All route/surface families; the canonical atlas is representative populated normal state. The lab-states surface displays state specimens but does not prove that every real surface binds loading, progress, empty, no-results, recoverable error, disabled/read-only and stale outcomes to production transitions.",
+      "status": "UNPROVEN",
+      "evidence_needed": "State-bound screenshots or browser records for each applicable state and owner, with recovery and next action."
+    },
+    {
+      "id": "ED-203-02-interaction-outcomes",
+      "category": "keyboard-overlay-selection",
+      "scope": "Shared shell, gallery, table, chart toolbar, forms, menus, drawers and dialogs. Source contracts exist and R16 has limited route/toolbar diagnostics; canonical screenshots do not establish complete focus order, selected/expanded state, Escape/Back return, click-away policy, table selection, search/favorite/compare persistence or overlay recovery.",
+      "status": "PARTIAL",
+      "evidence_needed": "Current browser interaction traces and rendered state evidence for applicable shared authorities."
+    },
+    {
+      "id": "ED-203-03-authentic-zoom",
+      "category": "browser-zoom",
+      "scope": "All surfaces. CHG-100 latest exact-main attempt is NOT_EXECUTED because no safe/exclusive browser-chrome control path was available.",
+      "status": "NOT_EXECUTED",
+      "evidence_needed": "Authentic browser 200% zoom/reflow evidence; do not substitute CSS viewport scaling."
+    },
+    {
+      "id": "ED-203-04-accountable-human-acceptance",
+      "category": "human-visual-acceptance",
+      "scope": "Product-wide. R16 states independent reader/human audit pending; this review inspected pixels but is not accountable human acceptance.",
+      "status": "PENDING",
+      "evidence_needed": "Independent accountable human review against the approved product identity and task contracts."
+    },
+    {
+      "id": "ED-203-05-screen-reader-assistive-technology",
+      "category": "assistive-technology",
+      "scope": "Product-wide. Source-level accessibility contracts and chart data-alternative metadata are not screen-reader/AT verification.",
+      "status": "NOT_CAPTURED",
+      "evidence_needed": "Screen-reader and relevant assistive-technology task evidence."
+    },
+    {
+      "id": "ED-203-06-native-physical-device",
+      "category": "native-physical-device",
+      "scope": "Product-wide. R16 browser images do not establish native-shell or physical-device behavior.",
+      "status": "NOT_CAPTURED",
+      "evidence_needed": "Native and physical-device evidence where those targets are claimed."
+    },
+    {
+      "id": "ED-203-07-work-computer-runtime",
+      "category": "CHG-59-work-computer-runtime",
+      "scope": "No CHG-59 work-computer runtime qualification is present in this audit input.",
+      "status": "NOT_QUALIFIED",
+      "evidence_needed": "The distinct CHG-59 target/work-computer qualification package."
+    },
+    {
+      "id": "ED-203-08-human-preference",
+      "category": "human-preference",
+      "scope": "No field/user preference study or measurable preference evidence was supplied.",
+      "status": "NOT_CAPTURED",
+      "evidence_needed": "User research only if a later decision specifically depends on preference."
+    }
+  ]
+}
