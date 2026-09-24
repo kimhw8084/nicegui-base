@@ -1,0 +1,595 @@
+{
+  "shared_authority_reviews": [
+    {
+      "authority": "shell-and-governed-navigation",
+      "consumers": "All 144 current surfaces.",
+      "visual_evidence": "Canonical shell pages at desktop/mobile and existing route stress sheets.",
+      "source_evidence": [
+        "source/nicegui_base/workbench/app.py",
+        "source/nicegui_base/patterns/registry.py",
+        "docs/DESIGN_CONSTITUTION_V1_6.md"
+      ],
+      "assessment": "Normal-state navigation, identity and full-width content hierarchy are coherent; mobile navigation replaces desktop navigation in observed samples. Focus return and all menu interactions remain unproven."
+    },
+    {
+      "authority": "gallery-search-refinement-favorites-comparison",
+      "consumers": "workbench-catalog, workbench-components-gallery, workbench-patterns, workbench-analytics-gallery, workbench-recipes-gallery and shared Explorer gallery authority.",
+      "visual_evidence": "Canonical gallery pixels show search, category/family refinement, favorites, compare/open actions, previews and counts.",
+      "source_evidence": [
+        "source/nicegui_base/workbench/explorer_gallery.py"
+      ],
+      "assessment": "Intent-first, gallery-first task contract is met in visible normal state; empty search, persisted favorites/comparison and back-context transitions remain evidence debt."
+    },
+    {
+      "authority": "tables-and-data-explorers",
+      "consumers": "workbench-data, data-explorer/reference-pattern consumers and table-bearing patterns/applications.",
+      "visual_evidence": "Canonical dense tables plus R16 1366x768/360x800/414x896 and resize stress examples.",
+      "source_evidence": [
+        "source/nicegui_base/integrations/nicegui_data_table.py",
+        "source/nicegui_base/data_table/css.py",
+        "source/nicegui_base/patterns/registry.py"
+      ],
+      "assessment": "Required entity identity, dense values, responsive table path and detail ownership show no material pixel gap in reviewed surfaces; live sort/select/filter/detail/selection-universe transitions are not established by static pixels."
+    },
+    {
+      "authority": "chart-and-visualization-wrapper",
+      "consumers": "16 routes in R16 explicit/system dark diagnostics; eleven product consumers affected under explicit Dark listed in V3-203-001.",
+      "visual_evidence": "All 32 dark-theme chart diagnostics reviewed; 11/16 explicit Dark render white plot canvas while paired System dark controls and five explicit Dark controls render dark.",
+      "source_evidence": [
+        "source/nicegui_base/integrations/nicegui_visualization.py",
+        "source/nicegui_base/visualization/theme.py",
+        "source/nicegui_base/visualization/options.py",
+        "source/nicegui_base/visualization/css.py",
+        "source/nicegui_base/workbench/app.py"
+      ],
+      "assessment": "Material dark-theme canvas parity defect; chart labels/series on white canvas reduce readability and create an unrequested bright block in the engineering task. Toolbar and full-data recovery outcomes remain partly unproven."
+    },
+    {
+      "authority": "MasterDetail-workspace-and-contextual-details",
+      "consumers": "Registered master-detail/data-explorer/analysis workspace references and consumers.",
+      "visual_evidence": "Canonical normal views plus stress examples for reference-pattern-analysis-workspace and reference-pattern-data-explorer.",
+      "source_evidence": [
+        "source/nicegui_base/patterns/registry.py",
+        "source/nicegui_base/integrations/nicegui_master_detail.py",
+        "source/nicegui_base/integrations/nicegui_interactions.py"
+      ],
+      "assessment": "Normal responsive ownership/context is clear; actual selected entity, open full-screen detail, close/Escape/back/focus return and scroll-lock transitions are not certified here."
+    },
+    {
+      "authority": "forms-and-controls",
+      "consumers": "Component gallery/studio, labs, settings, recipe and application consumers.",
+      "visual_evidence": "Canonical component and form/control specimens inspected across desktop/mobile.",
+      "source_evidence": [
+        "source/nicegui_base/integrations/nicegui_components.py",
+        "source/nicegui_base/integrations/nicegui_interactions.py",
+        "docs/nicegui_base/COMPONENT_CATALOG.md"
+      ],
+      "assessment": "Normal labels, input identities and control grouping have no material static pixel gap; validation/error/disabled/read-only/focus/dirty-submit outcomes remain dynamic evidence debt."
+    },
+    {
+      "authority": "overlays-popups-menus-dialogs",
+      "consumers": "Shared dialog/drawer/menu/popover/tooltip/toast authorities and any registered consumer.",
+      "visual_evidence": "Overlays are not comprehensively captured open in canonical inputs; source contracts inspected only.",
+      "source_evidence": [
+        "source/nicegui_base/integrations/nicegui_interactions.py",
+        "source/nicegui_base/governance/accessibility_contract.py",
+        "docs/DESIGN_CONSTITUTION_V1_6.md"
+      ],
+      "assessment": "Evidence debt; do not infer runtime focus/Escape/click-away/viewport collision from source alone."
+    },
+    {
+      "authority": "shared-Button-action-authority",
+      "consumers": "All shared action consumers in gallery, controls, tables, patterns, forms, overlays, charts and applications.",
+      "visual_evidence": "Visible normal actions in inspected surfaces are consistently labeled and hierarchy-coded; no cross-consumer material static defect identified.",
+      "source_evidence": [
+        "source/nicegui_base/ai/framework_catalog.json",
+        "source/nicegui_base/design/constitution_css.py",
+        "docs/nicegui_base/COMPONENT_CATALOG.md"
+      ],
+      "assessment": "Normal state appears coherent; loading/disabled/async-result/recovery states and full keyboard access remain unproven."
+    }
+  ],
+  "state_coverage": [
+    {
+      "state": "populated normal",
+      "status": "INSPECTED",
+      "evidence": "All 144 surface pairs, 288 canonical screenshots."
+    },
+    {
+      "state": "loading/progress",
+      "status": "EVIDENCE_DEBT",
+      "evidence": "State authority/specimens exist; no complete per-consumer state-bound progression evidence."
+    },
+    {
+      "state": "empty/no-results",
+      "status": "EVIDENCE_DEBT",
+      "evidence": "Lab state specimens and gallery source fallback observed; no complete real-provider route outcome evidence."
+    },
+    {
+      "state": "recoverable error/unavailable",
+      "status": "EVIDENCE_DEBT",
+      "evidence": "Unavailable/error specimens and source state contracts exist; recovery actions are not proven across live consumers."
+    },
+    {
+      "state": "disabled/read-only",
+      "status": "EVIDENCE_DEBT",
+      "evidence": "Some specimen/disabled semantics are visible; no complete consumer state ownership inventory."
+    },
+    {
+      "state": "focused/selected/expanded",
+      "status": "PARTIAL",
+      "evidence": "Source contracts and selected/active visual cues exist; full keyboard and live selection transitions not captured."
+    },
+    {
+      "state": "overlay/menu/drawer/dialog",
+      "status": "EVIDENCE_DEBT",
+      "evidence": "Shared source authority inspected; representative open/close/focus/Escape screenshots absent."
+    },
+    {
+      "state": "light theme",
+      "status": "INSPECTED",
+      "evidence": "Canonical normal-scale 1440x900 and 390x844 corpus; source-wide claim not extended beyond pixels."
+    },
+    {
+      "state": "explicit/system dark chart theme",
+      "status": "INSPECTED_WITH_FINDING",
+      "evidence": "All 32 R16 diagnostic images: 11 explicit Dark route mismatches; paired system dark renders and five explicit dark routes serve as controls."
+    },
+    {
+      "state": "responsive/resize",
+      "status": "INSPECTED_IN_EXISTING_DIAGNOSTICS",
+      "evidence": "R16 existing desktop-constrained 1366x768, mobile-narrow 360x800, holdout 414x896 and desktop-mobile-desktop return diagnostics. No new capture made."
+    }
+  ],
+  "focus_escape_back_scroll_selection_theme_assessment": "Source law establishes intent for focus/Escape/scroll locking and pattern-owned responsive state; screenshots and limited R16 interaction checks do not establish all transitions, selection persistence, or return context. These are evidence debt, not PASS.",
+  "chart_theme_diagnostics": {
+    "explicit_dark_and_system_dark_check_count": 32,
+    "explicit_dark_mismatched_surface_keys": [
+      "analytics-spc-i-mr",
+      "analytics-spc-xbar-r",
+      "analytics-spc-xbar-s",
+      "analytics-capability-histogram",
+      "analytics-fdc-alarm-overlay",
+      "analytics-fdc-equipment-event-overlay",
+      "analytics-fdc-hotelling-t2",
+      "analytics-fdc-spe-q",
+      "recipe-spc-monitor",
+      "recipe-fdc-tool-health",
+      "recipe-pm-effect-analysis"
+    ],
+    "explicit_dark_pixels_matched": [
+      "lab-charts",
+      "lab-engineering",
+      "reference-pattern-data-explorer",
+      "reference-pattern-analysis-workspace",
+      "application-spc-control-center"
+    ],
+    "system_dark_pixels_matched": 16,
+    "affected_evidence": [
+      {
+        "surface_key": "analytics-spc-i-mr",
+        "explicit_dark": {
+          "surface_key": "analytics-spc-i-mr",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-spc-i-mr--explicit-dark-1440x900.png",
+          "sha256": "ea69c863252eb37e1221be994097f0c69ac81205fb85bb465a7a72e20e1dea5a",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-spc-i-mr",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-spc-i-mr--system-dark-1440x900.png",
+          "sha256": "54f2ae9fecfe876ac6615058e04e478d9a9e9fe14b7a2ceff2addfa51f723f04",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-spc-xbar-r",
+        "explicit_dark": {
+          "surface_key": "analytics-spc-xbar-r",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-spc-xbar-r--explicit-dark-1440x900.png",
+          "sha256": "1c1468ba1a093c17ee2d94fc97cd000b1cb8e9d97f9858e5503efd445a8f6736",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-spc-xbar-r",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-spc-xbar-r--system-dark-1440x900.png",
+          "sha256": "258ff5f2e66cd2796c4fb0bdae6158af713b945d8aa88d2c900b20dad6ba055e",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-spc-xbar-s",
+        "explicit_dark": {
+          "surface_key": "analytics-spc-xbar-s",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-spc-xbar-s--explicit-dark-1440x900.png",
+          "sha256": "17396ec6869a556bf630b8ee596cd4a9ebae2d8e4406c516083c100ddedf0448",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-spc-xbar-s",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-spc-xbar-s--system-dark-1440x900.png",
+          "sha256": "9af667e813ba11d6aabe2811afdac264b7a2a778076b9b4742e680bae41fb7f6",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-capability-histogram",
+        "explicit_dark": {
+          "surface_key": "analytics-capability-histogram",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-capability-histogram--explicit-dark-1440x900.png",
+          "sha256": "73815a39508af894e2aa6e5b57da59d0e77141dcacbb3c697937c3f040ed3c70",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-capability-histogram",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-capability-histogram--system-dark-1440x900.png",
+          "sha256": "4b496e69b85ef5fbbf1518b4560e4e50c9d353f5cf690c3bb33ada08beaee76e",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-fdc-alarm-overlay",
+        "explicit_dark": {
+          "surface_key": "analytics-fdc-alarm-overlay",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-alarm-overlay--explicit-dark-1440x900.png",
+          "sha256": "f078b93d2c04028f70e91bb49bb2d76e0d68cbc13484b84dfa711222ab47a06e",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-fdc-alarm-overlay",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-alarm-overlay--system-dark-1440x900.png",
+          "sha256": "b0e3df96da568dc0f15f14bf39e08fae5a3cf35229931680c973de9e4f00366e",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-fdc-equipment-event-overlay",
+        "explicit_dark": {
+          "surface_key": "analytics-fdc-equipment-event-overlay",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-equipment-event-overlay--explicit-dark-1440x900.png",
+          "sha256": "8075d00a2b58d5dfcb9a873b013c64eae1213170ccebd25b4966e94eb7bedef4",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-fdc-equipment-event-overlay",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-equipment-event-overlay--system-dark-1440x900.png",
+          "sha256": "8870b2ecb664eee49fb1ca5709d27f90bac90950f105c6407f244a1df0d470db",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-fdc-hotelling-t2",
+        "explicit_dark": {
+          "surface_key": "analytics-fdc-hotelling-t2",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-hotelling-t2--explicit-dark-1440x900.png",
+          "sha256": "22812a3447821a9d4562e61fe57b1f6d42ac65510f05e616771756d628a13bd7",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-fdc-hotelling-t2",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-hotelling-t2--system-dark-1440x900.png",
+          "sha256": "35c7f9c1ac23727c1e38893f5af8232948b85fece5b56ed6e2eadd07d2218765",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "analytics-fdc-spe-q",
+        "explicit_dark": {
+          "surface_key": "analytics-fdc-spe-q",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-spe-q--explicit-dark-1440x900.png",
+          "sha256": "c37892ddca1c291b32df46c007c83be5a5dda3028238f451b518d3809013b244",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "analytics-fdc-spe-q",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/analytics-fdc-spe-q--system-dark-1440x900.png",
+          "sha256": "b3072df0fde65cd0fa06feb89457957d2b80df4813db9556f6a822f47435e3e9",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "recipe-spc-monitor",
+        "explicit_dark": {
+          "surface_key": "recipe-spc-monitor",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/recipe-spc-monitor--explicit-dark-1440x900.png",
+          "sha256": "2e58515380327c6aa5231db7bcb15879fc757d813b67b42fcc84aa86eb2cf30d",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "recipe-spc-monitor",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/recipe-spc-monitor--system-dark-1440x900.png",
+          "sha256": "ec248c460baefcca6a4bd0da68a24c0487434613a24502ba2b17a21ed013543b",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "recipe-fdc-tool-health",
+        "explicit_dark": {
+          "surface_key": "recipe-fdc-tool-health",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/recipe-fdc-tool-health--explicit-dark-1440x900.png",
+          "sha256": "7b868eaaa46ef5f94608100ea4c8580710df9955645e0d047188148870143ec6",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "recipe-fdc-tool-health",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/recipe-fdc-tool-health--system-dark-1440x900.png",
+          "sha256": "0a70f0bbe7a6d20314a66574aaa82cda747071c07a03cc50a86d77455166b646",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      },
+      {
+        "surface_key": "recipe-pm-effect-analysis",
+        "explicit_dark": {
+          "surface_key": "recipe-pm-effect-analysis",
+          "profile": "explicit-dark",
+          "requested_theme": "dark",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/recipe-pm-effect-analysis--explicit-dark-1440x900.png",
+          "sha256": "0322e5b388bed11cbfee61af11c20cf20b22c7759a0865583c3785f346c400b1",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "system_dark_control": {
+          "surface_key": "recipe-pm-effect-analysis",
+          "profile": "system-dark",
+          "requested_theme": "system",
+          "resolved_theme": "dark",
+          "chart_theme_attribute": "dark",
+          "body_background": "rgb(15, 15, 17)",
+          "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/recipe-pm-effect-analysis--system-dark-1440x900.png",
+          "sha256": "74f0c92b068fdbb53bf2332c11f16725520c1e894a9bc9e793630f04ee41a3c5",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        "pixel_observation": "The explicit Dark selection, resolved dark theme, dark chart-theme attribute, and dark shell are visible in R16 diagnostics, while the plot canvas is white. The corresponding System dark render of the same surface uses a dark canvas."
+      }
+    ],
+    "matched_explicit_dark_evidence": [
+      {
+        "surface_key": "lab-charts",
+        "profile": "explicit-dark",
+        "requested_theme": "dark",
+        "resolved_theme": "dark",
+        "chart_theme_attribute": "dark",
+        "body_background": "rgb(15, 15, 17)",
+        "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/lab-charts--explicit-dark-1440x900.png",
+        "sha256": "2154bed1d92b1b30b9a9f8ee9df48015a2aa78c2b4372870ad43747a5fa9d714",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      {
+        "surface_key": "lab-engineering",
+        "profile": "explicit-dark",
+        "requested_theme": "dark",
+        "resolved_theme": "dark",
+        "chart_theme_attribute": "dark",
+        "body_background": "rgb(15, 15, 17)",
+        "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/lab-engineering--explicit-dark-1440x900.png",
+        "sha256": "1405470fb74b06459ace76a2ce8f54e797877c56af858386b1b648bbecbd7920",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      {
+        "surface_key": "reference-pattern-data-explorer",
+        "profile": "explicit-dark",
+        "requested_theme": "dark",
+        "resolved_theme": "dark",
+        "chart_theme_attribute": "light",
+        "body_background": "rgb(15, 15, 17)",
+        "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/reference-pattern-data-explorer--explicit-dark-1440x900.png",
+        "sha256": "7c528d7e672fbe38777a3c778a1863ed77ae91d19681517ce3741101a9a9615b",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      {
+        "surface_key": "reference-pattern-analysis-workspace",
+        "profile": "explicit-dark",
+        "requested_theme": "dark",
+        "resolved_theme": "dark",
+        "chart_theme_attribute": "light",
+        "body_background": "rgb(15, 15, 17)",
+        "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/reference-pattern-analysis-workspace--explicit-dark-1440x900.png",
+        "sha256": "0021be9f471b94ab8c6fb5f9a83344d56176c1a805c4de506f2d0c6c90e78e10",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      {
+        "surface_key": "application-spc-control-center",
+        "profile": "explicit-dark",
+        "requested_theme": "dark",
+        "resolved_theme": "dark",
+        "chart_theme_attribute": "dark",
+        "body_background": "rgb(15, 15, 17)",
+        "r16_path": "visual-atlas/diagnostics/chart-in-view-dark/application-spc-control-center--explicit-dark-1440x900.png",
+        "sha256": "dd6f73f4688a204f3284553d33b7f2e0a2bbd11a82ec25f1f439ce63d16bce8c",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      }
+    ]
+  }
+}

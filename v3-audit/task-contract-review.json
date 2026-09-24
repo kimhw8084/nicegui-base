@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "task_contracts": [
+    {
+      "id": "TASK-01",
+      "family": "workbench-and-shell",
+      "person_context": "NiceGUI Base developer navigating a governed engineering UI platform.",
+      "current_object": "Workbench start/build/catalog/data/settings surface or selected navigation destination.",
+      "primary_decision_action": "Choose the next supported construction, reference, or governance task.",
+      "required_information": [
+        "application identity and current view",
+        "registered capability names and task fit",
+        "search/refinement/favorite/compare counts",
+        "source/runtime or quality status when applicable"
+      ],
+      "visible_or_semantic_outcome": "Canonical pixels show governed navigation, labeled task/capability objects, gallery previews and named actions. R16 route diagnostics separately recorded current routes ready.",
+      "recovery": "Search/refinement and return to governed navigation; gallery no-results recovery is source-described but not state-bound in this atlas.",
+      "next_legitimate_action": "Open a matching registered example/pattern or continue into build/catalog/detail.",
+      "assessment": "No material clarity gap in inspected normal states. Dynamic search/no-results/favorite/compare restoration remains evidence debt."
+    },
+    {
+      "id": "TASK-02",
+      "family": "labs-and-authority-previews",
+      "person_context": "Framework engineer inspecting an existing component, interaction or data authority.",
+      "current_object": "Named lab section such as controls, forms, data, charts, engineering, state or performance specimen.",
+      "primary_decision_action": "Determine whether the registered behavior covers an application need.",
+      "required_information": [
+        "semantic name and use",
+        "current visible outcome",
+        "accessible label or status meaning",
+        "relevant compact/mobile composition"
+      ],
+      "visible_or_semantic_outcome": "Pixels identify specimens and show controls/outputs; chart evidence includes toolbar, plot and data-alternative diagnostic metadata.",
+      "recovery": "Return to Explorer/gallery or use registered pattern/catalog navigation.",
+      "next_legitimate_action": "Use the public framework authority or open a full reference pattern/application.",
+      "assessment": "No canonical material task gap found. Lab state examples are not proof of dynamic state ownership."
+    },
+    {
+      "id": "TASK-03",
+      "family": "reference-patterns",
+      "person_context": "Application builder comparing an end-to-end registered page pattern.",
+      "current_object": "A named dashboard/data explorer/master-detail/CRUD/monitoring/search/settings/wizard/comparison/analysis pattern.",
+      "primary_decision_action": "Select the closest pattern for the dominant user task.",
+      "required_information": [
+        "pattern purpose and page hierarchy",
+        "filters, selected object, details and actions",
+        "responsive behavior and return context"
+      ],
+      "visible_or_semantic_outcome": "Reference pages show named patterns and current content hierarchy; existing responsive diagnostics include data-explorer and analysis-workspace examples.",
+      "recovery": "Return to pattern index and choose a different registered pattern.",
+      "next_legitimate_action": "Scaffold/use the registered pattern; do not hand-assemble competing state ownership.",
+      "assessment": "No material task gap found in reviewed examples; overlay and state transitions require browser evidence."
+    },
+    {
+      "id": "TASK-04",
+      "family": "component-studio",
+      "person_context": "Framework engineer inspecting one reusable component contract.",
+      "current_object": "The selected catalog component and its specimen variants.",
+      "primary_decision_action": "Check purpose, variants, enabled/disabled and visual semantics.",
+      "required_information": [
+        "component name and intended task",
+        "variant/state distinction",
+        "label, icon and selection/status cues"
+      ],
+      "visible_or_semantic_outcome": "Canonical surfaces present component titles/specimens with a coherent neutral/semantic visual language.",
+      "recovery": "Return to component gallery and select another authority.",
+      "next_legitimate_action": "Use public API and its documented contract.",
+      "assessment": "No material static clarity gap found; dynamic focus/disabled states are not fully established by pixels."
+    },
+    {
+      "id": "TASK-05",
+      "family": "pattern-studio",
+      "person_context": "Framework engineer reviewing a composed pattern before adoption.",
+      "current_object": "Interactive/visual registered pattern specimen.",
+      "primary_decision_action": "Confirm the pattern solves the full task without local competing ownership.",
+      "required_information": [
+        "role/slot hierarchy",
+        "current object or workflow step",
+        "actions and recovery",
+        "responsive reflow"
+      ],
+      "visible_or_semantic_outcome": "Studio pages name compositions and expose task structure with governed layout.",
+      "recovery": "Return to studio pattern index.",
+      "next_legitimate_action": "Adopt registered pattern or select a closer alternative.",
+      "assessment": "No material normal-state defect observed; open drawers/dialogs and task transitions are evidence debt."
+    },
+    {
+      "id": "TASK-06",
+      "family": "analytics-and-visualizations",
+      "person_context": "Process/FDC/SPC or RCA engineer reviewing a population or measured signal.",
+      "current_object": "Named chart/analysis (SPC control chart, capability, FDC overlay, distribution, wafer or RCA view).",
+      "primary_decision_action": "Interpret signal against limits/context, inspect evidence, and decide whether to drill or compare.",
+      "required_information": [
+        "chart identity and series labels",
+        "units/axes/limits/context where applicable",
+        "legend/status and outlier/selection meaning",
+        "full-data alternative and legitimate drill/zoom/reset actions"
+      ],
+      "visible_or_semantic_outcome": "Normal canonical pixels provide named engineering context and chart control/data affordances. Existing dark diagnostics show the explicit Dark mismatch on eleven consumers while System dark succeeds on paired routes.",
+      "recovery": "Chart data view/export/reset and route navigation are visible/source-owned; interaction outcome is not inferred from static pixels.",
+      "next_legitimate_action": "Inspect data, zoom or drill to a registered evidence surface.",
+      "assessment": "Finding V3-203-001 on 11 dark-theme consumers. Other normal-state task structure is adequate in reviewed canonical pixels."
+    },
+    {
+      "id": "TASK-07",
+      "family": "recipes",
+      "person_context": "Process engineer/application builder evaluating a runnable workflow starter.",
+      "current_object": "One of eight registered semiconductor application recipes.",
+      "primary_decision_action": "Choose a recipe matching the workflow and inspect its data/evidence panels.",
+      "required_information": [
+        "workflow identity",
+        "current health/measurement/evidence",
+        "sources and next actions",
+        "limitations/uncertainty when present"
+      ],
+      "visible_or_semantic_outcome": "Recipe screenshots identify the workflow and operational information; explicit dark diagnostics establish the same shared chart defect on three recipe routes.",
+      "recovery": "Use recipe/gallery navigation to compare another workflow.",
+      "next_legitimate_action": "Start from the registered recipe with a valid data adapter.",
+      "assessment": "One affected recipe route per Finding V3-203-001 list; no additional normal-state task gap established."
+    },
+    {
+      "id": "TASK-08",
+      "family": "reference-applications",
+      "person_context": "Engineer following a full reference application workflow.",
+      "current_object": "Integrated SPC control center, FDC health center, or excursion investigation.",
+      "primary_decision_action": "Review current engineering context and take the next registered investigation action.",
+      "required_information": [
+        "application identity",
+        "analysis/current entity",
+        "metrics, plots, table/evidence and context-preserving actions"
+      ],
+      "visible_or_semantic_outcome": "Canonical screenshots show integrated pages; the SPC application explicit and system dark diagnostics both render its chart dark.",
+      "recovery": "Use application navigation and its investigation/workspace patterns.",
+      "next_legitimate_action": "Inspect evidence or continue through the registered analysis workflow.",
+      "assessment": "No material normal-state task-truth gap found in current evidence; does not certify task operation or human acceptance."
+    }
+  ],
+  "assessment": "All eight registered surface families were reviewed against current person/object/action/outcome/recovery/next-step intent. One theme-dependent chart readability defect is recorded; no task contract is claimed universally accepted."
+}

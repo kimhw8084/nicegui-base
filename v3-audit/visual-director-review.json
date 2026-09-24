@@ -1,0 +1,93 @@
+{
+  "scope": "Assess the existing approved NiceGUI Base identity. No external fashion/style baseline is imposed.",
+  "character": "Calm, dense, engineering-first reference/product UI. Navigation and governed surfaces dominate; imagery is intentionally limited to useful previews/state illustrations.",
+  "dimensions": [
+    {
+      "dimension": "character-and-negative-identity",
+      "assessment": "Consistent with the repository constitution: restrained internal engineering product, minimal decorative chrome, no trend-driven redesign proposed.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "typography",
+      "assessment": "Clear shell/page/section/label/data hierarchy in inspected desktop/mobile surfaces; values and labels generally remain task-readable. 200% zoom remains unproven.",
+      "result": "NO_MATERIAL_FINDING_WITH_ZOOM_EVIDENCE_DEBT"
+    },
+    {
+      "dimension": "density",
+      "assessment": "Workbench/catalog/data and analytics surfaces convey dense simultaneous needs without broad decorative-card inflation; phone layouts preserve a readable single-column path.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "hierarchy",
+      "assessment": "Application/workbench purpose, current named object, decision area and subordinate evidence are ordered in inspected normal-state surfaces.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "spacing-and-grouping",
+      "assessment": "Grouping and semantic section gaps remain coherent across canonical surfaces and reviewed constrained/narrow/holdout/resize diagnostics.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "surfaces",
+      "assessment": "Boundaries separate panels, table regions, forms and overlays where content/action ownership changes; no material decorative-card inflation found. Chart theme finding is specifically a plot canvas parity failure.",
+      "result": "MATERIAL_FINDING_V3-203-001"
+    },
+    {
+      "dimension": "border-and-radius-vocabulary",
+      "assessment": "Observed role-based control/surface/overlay vocabulary is consistent with the 10/14/18 token law; no material arbitrary-radius pattern found.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "color-and-theme",
+      "assessment": "Neutral structure and semantic/action accents are consistent in normal light surfaces. In eleven existing explicit-dark chart diagnostics, dark shell and declared dark chart meet a white plot canvas; paired System-dark renders are dark.",
+      "result": "MATERIAL_FINDING_V3-203-001"
+    },
+    {
+      "dimension": "emphasis",
+      "assessment": "Primary actions and selected/current objects carry most salience in normal views; affected white plot canvas gains unintended salience in Dark mode.",
+      "result": "MATERIAL_FINDING_V3-203-001"
+    },
+    {
+      "dimension": "icons",
+      "assessment": "Company-owned labeled controls and icon treatments appear coherent in reviewed gallery/chart surface pixels; source contracts govern semantic labels. No material inconsistency established.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "imagery",
+      "assessment": "Previews and state illustrations serve capability comprehension/recovery; no decorative imagery debt observed.",
+      "result": "NO_MATERIAL_FINDING"
+    },
+    {
+      "dimension": "motion",
+      "assessment": "Source owns reduced-motion tokens and CSS behavior. Static atlas and available diagnostics do not establish all live motion/transition outcomes.",
+      "result": "EVIDENCE_DEBT"
+    },
+    {
+      "dimension": "data-density-and-recovery",
+      "assessment": "Charts identify measured object and provide toolbar/data alternative metadata; tables and analysis keep dense evidence available. Selection universe and full-detail recovery transitions are not completely established by static screenshots.",
+      "result": "EVIDENCE_DEBT"
+    },
+    {
+      "dimension": "content-tone-and-truth",
+      "assessment": "Visible labels/actions are operational and direct. Dark plot background mismatch makes chart color semantics less reliable/readable for dark users.",
+      "result": "MATERIAL_FINDING_V3-203-001"
+    },
+    {
+      "dimension": "responsive-composition",
+      "assessment": "Canonical mobile and R16 constrained/narrow/holdout/resize diagnostics show recomposition rather than merely scaled desktop, with route context and labels retained in inspected samples.",
+      "result": "NO_MATERIAL_FINDING"
+    }
+  ],
+  "evidence_basis": [
+    "288 canonical PNGs independently pixel-inspected through 27 family contact sheets.",
+    "84 stress-profile PNGs represented in 14 reviewed route sheets.",
+    "All 32 published explicit-dark/system-dark chart diagnostic PNGs represented in 6 reviewed theme-comparison sheets.",
+    "Representative chart-kind diagnostics reviewed; all contact sheets are derived solely from the exact R16 bundle."
+  ],
+  "non_claims": [
+    "No universal perfection or numeric beauty score.",
+    "No accountable human visual acceptance or user-preference result.",
+    "No screen-reader/AT, native/physical-device or CHG-59 qualification.",
+    "No authentic 200% browser zoom/reflow result."
+  ]
+}
