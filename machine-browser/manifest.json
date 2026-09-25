@@ -1,0 +1,524 @@
+{
+  "aggregate": "CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL",
+  "alternate_zoom_substitute_used": false,
+  "artifact": {
+    "product_source_changes_in_artifact": 0,
+    "ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-2",
+    "required_parent_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b"
+  },
+  "authentic_browser_zoom_200": "PENDING_NOT_EXECUTED",
+  "browser": {
+    "automation": "Playwright Python sync API",
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "executable_version_output": "Google Chrome 153.0.8010.54",
+    "headless": true,
+    "installed_executable": true,
+    "product": "Google Chrome",
+    "version": "153.0.8010.54"
+  },
+  "browser_capture_finished_at_utc": "2026-09-25T13:19:11.310424+00:00",
+  "browser_capture_started_at_utc": "2026-09-25T13:17:37.821289+00:00",
+  "browser_environment": {
+    "alternate_zoom_substitute_used": false,
+    "authentic_browser_chrome_zoom_200": "NOT_EXECUTED_BY_DESIGN",
+    "browser": {
+      "automation": "Playwright Python sync API",
+      "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "executable_version_output": "Google Chrome 153.0.8010.54",
+      "headless": true,
+      "installed_executable": true,
+      "product": "Google Chrome",
+      "version": "153.0.8010.54"
+    },
+    "evidence_scope": {
+      "accountable_human_visual_acceptance": "PENDING",
+      "alternate_zoom_substitute_used": false,
+      "authentic_browser_chrome_zoom_200": "PENDING_NOT_EXECUTED",
+      "current_main_machine_browser": "E1",
+      "supporting_pixels": "E2_READY"
+    },
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "runtime": {
+      "build_id": "NGB-20260907-G2.6",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "run_nicegui_base.py",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "63420",
+        "--no-show"
+      ],
+      "cwd": "/Users/haewonkim/.codex-fabric/worktrees/CF-a25508c618dbb510eb6c7d1f",
+      "launcher": "root run_nicegui_base.py; source/ inserted by canonical launcher",
+      "nicegui": "3.15.0",
+      "nicegui_base_distribution": "nicegui-base==3.0.0a8",
+      "nicegui_base_framework": "3.0.0a8",
+      "nicegui_base_module": "source/nicegui_base/__init__.py",
+      "nicegui_distribution": "nicegui==3.15.0",
+      "nicegui_module": "/opt/anaconda3/lib/python3.11/site-packages/nicegui/__init__.py",
+      "port": 63420,
+      "python_executable": "/opt/anaconda3/bin/python",
+      "python_version": "3.11.7",
+      "server_log": "/tmp/CF-a25508c618dbb510eb6c7d1f-chg100-refresh2/server.log",
+      "server_pid": 98628,
+      "server_port_closed_after_capture": "PENDING_CLEANUP",
+      "source_import": "PYTHONPATH=source; canonical run_nicegui_base.py launcher",
+      "source_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+      "source_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+      "url": "http://127.0.0.1:63420"
+    },
+    "viewports": {
+      "desktop": "1440x900",
+      "device_scale_factor": 1,
+      "mobile": "390x844",
+      "reduced_motion": "reduce"
+    }
+  },
+  "change": "CHG-100",
+  "chg59_work_computer_runtime_server_qualification": "DOWNSTREAM_NOT_EXECUTED",
+  "cleanup": {
+    "pid": 98628,
+    "port": 63420,
+    "port_closed": true,
+    "process_terminated_by_job": true,
+    "verification": "PID command matched exact server argv before SIGTERM; process absent and localhost TCP connection refused after termination"
+  },
+  "created_at_utc": "2026-09-25T13:37:22.974246+00:00",
+  "evidence_level": "E1_MACHINE_BROWSER_WITH_E2_READY_PIXELS",
+  "fabric_evidence": {
+    "native_audit_path": ".codex-fabric/audit.json",
+    "publisher": "Fabric native publisher; never synthesized in this package",
+    "reserved_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-2"
+  },
+  "fabric_job": "CF-a25508c618dbb510eb6c7d1f",
+  "final_worktree": {
+    "ahead": 0,
+    "behind": 0,
+    "branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-2",
+    "clean": true,
+    "head_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "origin_main_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "origin_main_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+    "product_changes": 0,
+    "tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b"
+  },
+  "hashing_note": "The manifest does not recursively hash itself. Root SHA256SUMS.txt hashes this manifest and every other package file except SHA256SUMS.txt itself.",
+  "human_visual_acceptance": "PENDING",
+  "operation": "VERIFY",
+  "package_file_count_hashed_below": 70,
+  "package_file_hashes_sha256_excluding_manifest_and_SHA256SUMS_txt": {
+    "human-review/checklist.md": "19d5d7d897ed15dd6904321c6492f9ce9083365fb8384b5b12cf68a8e647e321",
+    "human-review/receipt-template.json": "0a96a68f826af81c0cb94f627b51ad81d1e2f6eadf179a5f4aed17d6f908ecd1",
+    "human-review/zoom-metrics-snippet.txt": "51f927ecfe1835f1b7621a1130f071c113e574ef63d50e9aa26bde9a39038fc0",
+    "machine-browser/browser-environment.json": "2479934cbf05b3dbc70c53f1aa9d156fd2c678431890f1bca37c5665819617c4",
+    "machine-browser/capture_browser.py": "6ea277b7e8031bb7a0272a1756e7465b7dbe6f4d65e83b7db908b10000d168f9",
+    "machine-browser/checks/agent-check.log": "fdd7fca8658ddabdf41f0c79e8913a2a3c987adef37de0782349f409e69f1baa",
+    "machine-browser/checks/focused-tests.xml": "cb5f1e700715f51470326c663d6cfa7ab006ba3b32a9d4eb489c61c52c67ae8e",
+    "machine-browser/checks/gate.log": "56e5c7d169af24027d05e85038f5252c2889e2b7b430ee9af66c9cf929e0d2fb",
+    "machine-browser/checks/theme-persistence-focused.log": "0f6832fcec2c0a7ec632a7818da4a83451d50c2bf5f4f31342729babaad062a7",
+    "machine-browser/checks/theme-persistence.xml": "e2c651a4297c22049115235b23c156e31383970015a4d51c4da701f591167631",
+    "machine-browser/commands.json": "647bb96deb5bf4c0919833224fa7eba4c4503b6dea2080d85e0fc69e4149ddca",
+    "machine-browser/console-network.json": "ebcaf28e4d548ef49c342497b9fd2d92484cc556e3a92a1dd30037faec2fa666",
+    "machine-browser/focus-accessibility.json": "8328dd22bc4cd98fc6b38f13a644616e8b9cb90a5b4d00fd2779553ffbe98786",
+    "machine-browser/review-summary.md": "7c241dd6de693fde57079c7a2a34a762a2a1a9751b5b8b76da1ecbc5042161df",
+    "machine-browser/scenario-matrix.json": "2d521ab4b9b5ecdd9441e964c77ae45894c185811527809c29c74110fd2c16ef",
+    "machine-browser/screenshots/s1-analytics-desktop.png": "f58872de4b42f71ff2ee349def42a23a6389d01e420c4619a147d93c5d69804a",
+    "machine-browser/screenshots/s1-analytics-mobile.png": "ae2a0f93ef3ee07e4ff75b95d75e8379c35bc89ef717b4a731b4fe91cd9824c5",
+    "machine-browser/screenshots/s1-components-desktop.png": "8cd764d1e0a96445b9e95ae27cf1bbb3ef87da43f1c819e489457a71013a9663",
+    "machine-browser/screenshots/s1-components-mobile.png": "07d999e2161c0bfb1034f4d8c92c63b8d139e16040f1cf8f95063cd87faf9486",
+    "machine-browser/screenshots/s1-recipes-desktop.png": "4a03e6791425bd4918a2d926b7964b6f244af9ba10da6717b3d14608b99ad943",
+    "machine-browser/screenshots/s1-recipes-mobile.png": "4dce058e8321f0b658a369141aeb80347a611bf004ff33087f3642f445fa4182",
+    "machine-browser/screenshots/s2-patterns-desktop.png": "6902c751e9b900e361bbc00d0618a56a7f0c68af6e2f72a454ec939a6d0ff334",
+    "machine-browser/screenshots/s2-patterns-mobile.png": "73ef653dd137bb0377c06d564dc0f469641d2052ec9cfe5c0acd65b8d088bbad",
+    "machine-browser/screenshots/s3-components-desktop-favorites.png": "910bf4c3de4a57dc7cc39ca75fbfdfe6a2ecfc9ae7087f290693e34c13a95723",
+    "machine-browser/screenshots/s3-components-desktop-matching.png": "454dfefa543eaa699f3783ecc6a2f347d8e5397bc44e0da597e7d12250ec7b44",
+    "machine-browser/screenshots/s3-components-desktop-no-results.png": "5e3f3ecc99e345a2590b88edec7cf521df3359ad4cb9d4f45e4914f106c9cc02",
+    "machine-browser/screenshots/s3-components-mobile-family.png": "98f5e2fc9188c08176aebf06a5f9a23c2dc81cb426253fd83121cb097fe09513",
+    "machine-browser/screenshots/s3-components-mobile-favorites.png": "7e71a7df409b19cc0ed5fb1a826076dc6e394952c9088da808dc412c2c9ac6c9",
+    "machine-browser/screenshots/s3-components-mobile-matching.png": "f11366e94bb3d8425776b09e91c18b9d6e513630a910bb742a0299b300ea8c0c",
+    "machine-browser/screenshots/s3-components-mobile-no-results.png": "109545c91d2921e166ed23dee2b073d29ccff053519b525416b23bffd6d98d08",
+    "machine-browser/screenshots/s4-data-desktop-cleared.png": "84dc9d4210e6aae4e82874d9d5a607237daf6504b50149fd67c42f71cd4c962f",
+    "machine-browser/screenshots/s4-data-desktop-final.png": "5aa1a8b19917aa2f5fca51d536f1c575c94ff3584a6863beb00e81e8bf52261f",
+    "machine-browser/screenshots/s4-data-desktop-selected.png": "00aa5cdae91189af5f72b3e818bef941f3c79441c6a2ec76587bbad524b3f113",
+    "machine-browser/screenshots/s4-data-mobile-cleared.png": "04275c93e1b3d50f470f8d2e49bd62417e9f97016677fc38a512fc16cf2cb35e",
+    "machine-browser/screenshots/s4-data-mobile-final.png": "de61d00489e849866cdffcc86f02042dcd0dba3cc9570bd4d2983c7b0d992400",
+    "machine-browser/screenshots/s4-data-mobile-selected.png": "6391ada68fba5dabf20e80b463fb9d7341f5193d795a6c4f2ae0f669604accfd",
+    "machine-browser/screenshots/s5-select-desktop-open.png": "ab12b1009255be118ce9d717e8ac169eb94c591856e3e01d38857302250a2326",
+    "machine-browser/screenshots/s5-select-mobile-open.png": "98d8f0416a3395d459eb8f1ed11a5d0ec700d9d249d4a302be0bdb044827e2d4",
+    "machine-browser/screenshots/s6-shell-analytics-open.png": "d54a3025cca9f92ebf6e8c9cb3c42dc7319f539ad145a1f0f3290c138c8bb01a",
+    "machine-browser/screenshots/s6-shell-components-open.png": "7a280614349d8d31ee39ef1f97b92b2c3ab45d85d69276cdc0ba8717374dba9d",
+    "machine-browser/screenshots/s7-breakpoint-desktop-return.png": "6b60c4e207b1c42fbdd764044d82dcca760c5a2e3cf86ac091ff59cacca5702c",
+    "machine-browser/screenshots/s7-breakpoint-mobile.png": "0d4a360ca1b11f40ebb1eb0a52851247c6100a53138507377ccca46eca45aad4",
+    "machine-browser/screenshots/s8-dark-analytics-capability_histogram-canvas.png": "210e2fe5ebd634126cbf64fb35984cddaf0104a22d27ffe01466304f7810d397",
+    "machine-browser/screenshots/s8-dark-analytics-capability_histogram.png": "4da9f3aecf47089e784a0ee0bd1dd8e818b3a5379216b8e232fadb40829fb362",
+    "machine-browser/screenshots/s8-dark-analytics-spc_i_mr-canvas.png": "d0d68b5ded566d42c806ee3aa49b85ada04aba54397936a9c115be94c7ce5ff1",
+    "machine-browser/screenshots/s8-dark-analytics-spc_i_mr.png": "1b285946c48f31d7d48a4d991bc99c1425e5d5e14f34d8a591d5fb4dc3401419",
+    "machine-browser/screenshots/s8-dark-components.png": "439d7e4b13c53aa793321987fabb6c570f3125541ec4b94d0caa12be639099c7",
+    "machine-browser/screenshots/s8-dark-patterns.png": "2d217b10ce6fd357cdb1df8eea7adea6859977b6cdfeb678df10c82fe9bd1017",
+    "machine-browser/screenshots/s8-light-analytics-capability_histogram.png": "9d3eb7b3e593abc017f48221bcf4ffd27d21fd949d8538e84488e2e4ffdcb51f",
+    "machine-browser/screenshots/s8-light-analytics-spc_i_mr.png": "08a7f797cc2b8fea8e09c4cbd36a9a706a1510b34b2a91e6f7b562b665f9c017",
+    "machine-browser/screenshots/s8-light-components.png": "82bc2108628df02a68401da08b70fa402c5fd29acf5901fc5838b90f6a11b300",
+    "machine-browser/screenshots/s8-light-patterns.png": "bd2d8cbe764d658c4193364ab5231bd0a52a5254266082f6c6c591b29a1db09c",
+    "machine-browser/screenshots/s8-system_dark-analytics-capability_histogram-canvas.png": "72f6ff20da06dde7443551ce5f16e9b71ded7bcde2631870606ea6937144e1b2",
+    "machine-browser/screenshots/s8-system_dark-analytics-capability_histogram.png": "515686ec9c61a213b48ddc681979d895718336acbd06937bfa86421d3227e2a1",
+    "machine-browser/screenshots/s8-system_dark-analytics-spc_i_mr-canvas.png": "57fba47e7f44e56eb2d7af45bdefcdab111a6dbe6522950ba16215e619fd826c",
+    "machine-browser/screenshots/s8-system_dark-analytics-spc_i_mr.png": "7a906f6aa3a6b7814cde360e9a0c7689e5a7d371f07eb6627807c5e84082c15e",
+    "machine-browser/screenshots/s8-system_dark-components.png": "1ac6fbf8843b41d741a37f8f4fdb3ea22c03509b9eca4a7919aa0b960b4a9eac",
+    "machine-browser/screenshots/s8-system_dark-patterns.png": "91e352b22e953c50b025c1d0d3c55d585fc902a4ba4e20653f4a38849c8dd539",
+    "machine-browser/screenshots/s9-a11y-analytics-desktop.png": "f58872de4b42f71ff2ee349def42a23a6389d01e420c4619a147d93c5d69804a",
+    "machine-browser/screenshots/s9-a11y-analytics-mobile.png": "addbcc192be616bf03488e81d6215d845860a2784b6d4d30af5012677e01d275",
+    "machine-browser/screenshots/s9-a11y-components-desktop.png": "8cd764d1e0a96445b9e95ae27cf1bbb3ef87da43f1c819e489457a71013a9663",
+    "machine-browser/screenshots/s9-a11y-components-mobile.png": "e12e511be200a5d2384a1f43a47f97ebfaa7ac803741120b5068f6159645f6da",
+    "machine-browser/screenshots/s9-a11y-patterns-desktop.png": "6902c751e9b900e361bbc00d0618a56a7f0c68af6e2f72a454ec939a6d0ff334",
+    "machine-browser/screenshots/s9-a11y-patterns-mobile.png": "73ef653dd137bb0377c06d564dc0f469641d2052ec9cfe5c0acd65b8d088bbad",
+    "machine-browser/screenshots/s9-a11y-recipes-desktop.png": "232bedb20631163a1f233ac6f1594fa86dd63e8b3610cf9ab10f8a38c3053f16",
+    "machine-browser/screenshots/s9-a11y-recipes-mobile.png": "d4510e066e7b39b51871eeefadef51001a930f3d8c481a6a2173340ee6cb5576",
+    "machine-browser/screenshots/s9-a11y-studio-component-select-desktop.png": "d3e5bb6a786837ee0d3ceff1eff9be27c57bd5b4d0d491ad4259ab7dd9f75aa9",
+    "machine-browser/screenshots/s9-a11y-studio-component-select-mobile.png": "221188aef037cc3c599a07fd3e0aef445fe21dad4364ad0a53543dc58ad0252d",
+    "machine-browser/screenshots/s9-a11y-studio-pattern-data_explorer-desktop.png": "20ec2b6e6f68980dc193c9ba4820f2286c5ffbffe39a66ad0103b7b5bb372f52",
+    "machine-browser/screenshots/s9-a11y-studio-pattern-data_explorer-mobile.png": "4bd9bf6435abd0bbdfc810cd551a1c06af15110504bd354bca52623ec87bacde"
+  },
+  "project": "nicegui-base",
+  "repository": "kimhw8084/nicegui-base",
+  "request": "stable3-browser-ui-current-main-refresh-2",
+  "runtime": {
+    "build_id": "NGB-20260907-G2.6",
+    "command": [
+      "/opt/anaconda3/bin/python",
+      "run_nicegui_base.py",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "63420",
+      "--no-show"
+    ],
+    "cwd": "/Users/haewonkim/.codex-fabric/worktrees/CF-a25508c618dbb510eb6c7d1f",
+    "launcher": "root run_nicegui_base.py; source/ inserted by canonical launcher",
+    "nicegui": "3.15.0",
+    "nicegui_base_distribution": "nicegui-base==3.0.0a8",
+    "nicegui_base_framework": "3.0.0a8",
+    "nicegui_base_module": "source/nicegui_base/__init__.py",
+    "nicegui_distribution": "nicegui==3.15.0",
+    "nicegui_module": "/opt/anaconda3/lib/python3.11/site-packages/nicegui/__init__.py",
+    "port": 63420,
+    "python_executable": "/opt/anaconda3/bin/python",
+    "python_version": "3.11.7",
+    "server_log": "/tmp/CF-a25508c618dbb510eb6c7d1f-chg100-refresh2/server.log",
+    "server_pid": 98628,
+    "server_port_closed_after_capture": "PENDING_CLEANUP",
+    "source_import": "PYTHONPATH=source; canonical run_nicegui_base.py launcher",
+    "source_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "source_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+    "url": "http://127.0.0.1:63420"
+  },
+  "scenario_statuses": {
+    "CURRENT_MAIN_BREAKPOINT_FOCUS_RECOVERY": "FAIL",
+    "CURRENT_MAIN_BUTTON_ACCESSIBILITY_ENVELOPE": "PASS",
+    "CURRENT_MAIN_COMPONENTS_WORKFLOW": "FAIL",
+    "CURRENT_MAIN_DATA_EXPLORER": "PASS",
+    "CURRENT_MAIN_MOBILE_SHELL": "PASS",
+    "CURRENT_MAIN_PATTERNS_IDENTITY": "PASS",
+    "CURRENT_MAIN_SELECT_OVERLAY": "FAIL",
+    "CURRENT_MAIN_SHARED_GALLERIES": "PASS",
+    "CURRENT_MAIN_THEME_MOTION_SMOKE": "PASS"
+  },
+  "schema_version": 1,
+  "screenshot_count": 55,
+  "screenshots": [
+    {
+      "bytes": 137236,
+      "path": "machine-browser/screenshots/s1-components-desktop.png",
+      "sha256": "8cd764d1e0a96445b9e95ae27cf1bbb3ef87da43f1c819e489457a71013a9663"
+    },
+    {
+      "bytes": 42224,
+      "path": "machine-browser/screenshots/s1-components-mobile.png",
+      "sha256": "07d999e2161c0bfb1034f4d8c92c63b8d139e16040f1cf8f95063cd87faf9486"
+    },
+    {
+      "bytes": 240218,
+      "path": "machine-browser/screenshots/s1-analytics-desktop.png",
+      "sha256": "f58872de4b42f71ff2ee349def42a23a6389d01e420c4619a147d93c5d69804a"
+    },
+    {
+      "bytes": 57050,
+      "path": "machine-browser/screenshots/s1-analytics-mobile.png",
+      "sha256": "ae2a0f93ef3ee07e4ff75b95d75e8379c35bc89ef717b4a731b4fe91cd9824c5"
+    },
+    {
+      "bytes": 313470,
+      "path": "machine-browser/screenshots/s1-recipes-desktop.png",
+      "sha256": "4a03e6791425bd4918a2d926b7964b6f244af9ba10da6717b3d14608b99ad943"
+    },
+    {
+      "bytes": 60313,
+      "path": "machine-browser/screenshots/s1-recipes-mobile.png",
+      "sha256": "4dce058e8321f0b658a369141aeb80347a611bf004ff33087f3642f445fa4182"
+    },
+    {
+      "bytes": 102539,
+      "path": "machine-browser/screenshots/s2-patterns-desktop.png",
+      "sha256": "6902c751e9b900e361bbc00d0618a56a7f0c68af6e2f72a454ec939a6d0ff334"
+    },
+    {
+      "bytes": 45906,
+      "path": "machine-browser/screenshots/s2-patterns-mobile.png",
+      "sha256": "73ef653dd137bb0377c06d564dc0f469641d2052ec9cfe5c0acd65b8d088bbad"
+    },
+    {
+      "bytes": 91695,
+      "path": "machine-browser/screenshots/s3-components-desktop-matching.png",
+      "sha256": "454dfefa543eaa699f3783ecc6a2f347d8e5397bc44e0da597e7d12250ec7b44"
+    },
+    {
+      "bytes": 102569,
+      "path": "machine-browser/screenshots/s3-components-desktop-no-results.png",
+      "sha256": "5e3f3ecc99e345a2590b88edec7cf521df3359ad4cb9d4f45e4914f106c9cc02"
+    },
+    {
+      "bytes": 89733,
+      "path": "machine-browser/screenshots/s3-components-desktop-favorites.png",
+      "sha256": "910bf4c3de4a57dc7cc39ca75fbfdfe6a2ecfc9ae7087f290693e34c13a95723"
+    },
+    {
+      "bytes": 37538,
+      "path": "machine-browser/screenshots/s3-components-mobile-matching.png",
+      "sha256": "f11366e94bb3d8425776b09e91c18b9d6e513630a910bb742a0299b300ea8c0c"
+    },
+    {
+      "bytes": 40211,
+      "path": "machine-browser/screenshots/s3-components-mobile-no-results.png",
+      "sha256": "109545c91d2921e166ed23dee2b073d29ccff053519b525416b23bffd6d98d08"
+    },
+    {
+      "bytes": 40003,
+      "path": "machine-browser/screenshots/s3-components-mobile-family.png",
+      "sha256": "98f5e2fc9188c08176aebf06a5f9a23c2dc81cb426253fd83121cb097fe09513"
+    },
+    {
+      "bytes": 37264,
+      "path": "machine-browser/screenshots/s3-components-mobile-favorites.png",
+      "sha256": "7e71a7df409b19cc0ed5fb1a826076dc6e394952c9088da808dc412c2c9ac6c9"
+    },
+    {
+      "bytes": 115117,
+      "path": "machine-browser/screenshots/s4-data-desktop-selected.png",
+      "sha256": "00aa5cdae91189af5f72b3e818bef941f3c79441c6a2ec76587bbad524b3f113"
+    },
+    {
+      "bytes": 110544,
+      "path": "machine-browser/screenshots/s4-data-desktop-cleared.png",
+      "sha256": "84dc9d4210e6aae4e82874d9d5a607237daf6504b50149fd67c42f71cd4c962f"
+    },
+    {
+      "bytes": 108948,
+      "path": "machine-browser/screenshots/s4-data-desktop-final.png",
+      "sha256": "5aa1a8b19917aa2f5fca51d536f1c575c94ff3584a6863beb00e81e8bf52261f"
+    },
+    {
+      "bytes": 38851,
+      "path": "machine-browser/screenshots/s4-data-mobile-selected.png",
+      "sha256": "6391ada68fba5dabf20e80b463fb9d7341f5193d795a6c4f2ae0f669604accfd"
+    },
+    {
+      "bytes": 36770,
+      "path": "machine-browser/screenshots/s4-data-mobile-cleared.png",
+      "sha256": "04275c93e1b3d50f470f8d2e49bd62417e9f97016677fc38a512fc16cf2cb35e"
+    },
+    {
+      "bytes": 38853,
+      "path": "machine-browser/screenshots/s4-data-mobile-final.png",
+      "sha256": "de61d00489e849866cdffcc86f02042dcd0dba3cc9570bd4d2983c7b0d992400"
+    },
+    {
+      "bytes": 116935,
+      "path": "machine-browser/screenshots/s5-select-desktop-open.png",
+      "sha256": "ab12b1009255be118ce9d717e8ac169eb94c591856e3e01d38857302250a2326"
+    },
+    {
+      "bytes": 50511,
+      "path": "machine-browser/screenshots/s5-select-mobile-open.png",
+      "sha256": "98d8f0416a3395d459eb8f1ed11a5d0ec700d9d249d4a302be0bdb044827e2d4"
+    },
+    {
+      "bytes": 47072,
+      "path": "machine-browser/screenshots/s6-shell-components-open.png",
+      "sha256": "7a280614349d8d31ee39ef1f97b92b2c3ab45d85d69276cdc0ba8717374dba9d"
+    },
+    {
+      "bytes": 50734,
+      "path": "machine-browser/screenshots/s6-shell-analytics-open.png",
+      "sha256": "d54a3025cca9f92ebf6e8c9cb3c42dc7319f539ad145a1f0f3290c138c8bb01a"
+    },
+    {
+      "bytes": 42231,
+      "path": "machine-browser/screenshots/s7-breakpoint-mobile.png",
+      "sha256": "0d4a360ca1b11f40ebb1eb0a52851247c6100a53138507377ccca46eca45aad4"
+    },
+    {
+      "bytes": 105881,
+      "path": "machine-browser/screenshots/s7-breakpoint-desktop-return.png",
+      "sha256": "6b60c4e207b1c42fbdd764044d82dcca760c5a2e3cf86ac091ff59cacca5702c"
+    },
+    {
+      "bytes": 120883,
+      "path": "machine-browser/screenshots/s8-light-analytics-spc_i_mr.png",
+      "sha256": "08a7f797cc2b8fea8e09c4cbd36a9a706a1510b34b2a91e6f7b562b665f9c017"
+    },
+    {
+      "bytes": 120890,
+      "path": "machine-browser/screenshots/s8-light-analytics-capability_histogram.png",
+      "sha256": "9d3eb7b3e593abc017f48221bcf4ffd27d21fd949d8538e84488e2e4ffdcb51f"
+    },
+    {
+      "bytes": 136939,
+      "path": "machine-browser/screenshots/s8-light-components.png",
+      "sha256": "82bc2108628df02a68401da08b70fa402c5fd29acf5901fc5838b90f6a11b300"
+    },
+    {
+      "bytes": 102243,
+      "path": "machine-browser/screenshots/s8-light-patterns.png",
+      "sha256": "bd2d8cbe764d658c4193364ab5231bd0a52a5254266082f6c6c591b29a1db09c"
+    },
+    {
+      "bytes": 121426,
+      "path": "machine-browser/screenshots/s8-dark-analytics-spc_i_mr.png",
+      "sha256": "1b285946c48f31d7d48a4d991bc99c1425e5d5e14f34d8a591d5fb4dc3401419"
+    },
+    {
+      "bytes": 107746,
+      "path": "machine-browser/screenshots/s8-dark-analytics-spc_i_mr-canvas.png",
+      "sha256": "d0d68b5ded566d42c806ee3aa49b85ada04aba54397936a9c115be94c7ce5ff1"
+    },
+    {
+      "bytes": 121277,
+      "path": "machine-browser/screenshots/s8-dark-analytics-capability_histogram.png",
+      "sha256": "4da9f3aecf47089e784a0ee0bd1dd8e818b3a5379216b8e232fadb40829fb362"
+    },
+    {
+      "bytes": 95976,
+      "path": "machine-browser/screenshots/s8-dark-analytics-capability_histogram-canvas.png",
+      "sha256": "210e2fe5ebd634126cbf64fb35984cddaf0104a22d27ffe01466304f7810d397"
+    },
+    {
+      "bytes": 139036,
+      "path": "machine-browser/screenshots/s8-dark-components.png",
+      "sha256": "439d7e4b13c53aa793321987fabb6c570f3125541ec4b94d0caa12be639099c7"
+    },
+    {
+      "bytes": 102554,
+      "path": "machine-browser/screenshots/s8-dark-patterns.png",
+      "sha256": "2d217b10ce6fd357cdb1df8eea7adea6859977b6cdfeb678df10c82fe9bd1017"
+    },
+    {
+      "bytes": 121872,
+      "path": "machine-browser/screenshots/s8-system_dark-analytics-spc_i_mr.png",
+      "sha256": "7a906f6aa3a6b7814cde360e9a0c7689e5a7d371f07eb6627807c5e84082c15e"
+    },
+    {
+      "bytes": 108179,
+      "path": "machine-browser/screenshots/s8-system_dark-analytics-spc_i_mr-canvas.png",
+      "sha256": "57fba47e7f44e56eb2d7af45bdefcdab111a6dbe6522950ba16215e619fd826c"
+    },
+    {
+      "bytes": 121749,
+      "path": "machine-browser/screenshots/s8-system_dark-analytics-capability_histogram.png",
+      "sha256": "515686ec9c61a213b48ddc681979d895718336acbd06937bfa86421d3227e2a1"
+    },
+    {
+      "bytes": 96243,
+      "path": "machine-browser/screenshots/s8-system_dark-analytics-capability_histogram-canvas.png",
+      "sha256": "72f6ff20da06dde7443551ce5f16e9b71ded7bcde2631870606ea6937144e1b2"
+    },
+    {
+      "bytes": 139498,
+      "path": "machine-browser/screenshots/s8-system_dark-components.png",
+      "sha256": "1ac6fbf8843b41d741a37f8f4fdb3ea22c03509b9eca4a7919aa0b960b4a9eac"
+    },
+    {
+      "bytes": 103021,
+      "path": "machine-browser/screenshots/s8-system_dark-patterns.png",
+      "sha256": "91e352b22e953c50b025c1d0d3c55d585fc902a4ba4e20653f4a38849c8dd539"
+    },
+    {
+      "bytes": 137236,
+      "path": "machine-browser/screenshots/s9-a11y-components-desktop.png",
+      "sha256": "8cd764d1e0a96445b9e95ae27cf1bbb3ef87da43f1c819e489457a71013a9663"
+    },
+    {
+      "bytes": 47707,
+      "path": "machine-browser/screenshots/s9-a11y-components-mobile.png",
+      "sha256": "e12e511be200a5d2384a1f43a47f97ebfaa7ac803741120b5068f6159645f6da"
+    },
+    {
+      "bytes": 240218,
+      "path": "machine-browser/screenshots/s9-a11y-analytics-desktop.png",
+      "sha256": "f58872de4b42f71ff2ee349def42a23a6389d01e420c4619a147d93c5d69804a"
+    },
+    {
+      "bytes": 79311,
+      "path": "machine-browser/screenshots/s9-a11y-analytics-mobile.png",
+      "sha256": "addbcc192be616bf03488e81d6215d845860a2784b6d4d30af5012677e01d275"
+    },
+    {
+      "bytes": 313471,
+      "path": "machine-browser/screenshots/s9-a11y-recipes-desktop.png",
+      "sha256": "232bedb20631163a1f233ac6f1594fa86dd63e8b3610cf9ab10f8a38c3053f16"
+    },
+    {
+      "bytes": 94853,
+      "path": "machine-browser/screenshots/s9-a11y-recipes-mobile.png",
+      "sha256": "d4510e066e7b39b51871eeefadef51001a930f3d8c481a6a2173340ee6cb5576"
+    },
+    {
+      "bytes": 102539,
+      "path": "machine-browser/screenshots/s9-a11y-patterns-desktop.png",
+      "sha256": "6902c751e9b900e361bbc00d0618a56a7f0c68af6e2f72a454ec939a6d0ff334"
+    },
+    {
+      "bytes": 45906,
+      "path": "machine-browser/screenshots/s9-a11y-patterns-mobile.png",
+      "sha256": "73ef653dd137bb0377c06d564dc0f469641d2052ec9cfe5c0acd65b8d088bbad"
+    },
+    {
+      "bytes": 112523,
+      "path": "machine-browser/screenshots/s9-a11y-studio-pattern-data_explorer-desktop.png",
+      "sha256": "20ec2b6e6f68980dc193c9ba4820f2286c5ffbffe39a66ad0103b7b5bb372f52"
+    },
+    {
+      "bytes": 60383,
+      "path": "machine-browser/screenshots/s9-a11y-studio-pattern-data_explorer-mobile.png",
+      "sha256": "4bd9bf6435abd0bbdfc810cd551a1c06af15110504bd354bca52623ec87bacde"
+    },
+    {
+      "bytes": 110567,
+      "path": "machine-browser/screenshots/s9-a11y-studio-component-select-desktop.png",
+      "sha256": "d3e5bb6a786837ee0d3ceff1eff9be27c57bd5b4d0d491ad4259ab7dd9f75aa9"
+    },
+    {
+      "bytes": 55354,
+      "path": "machine-browser/screenshots/s9-a11y-studio-component-select-mobile.png",
+      "sha256": "221188aef037cc3c599a07fd3e0aef445fe21dad4364ad0a53543dc58ad0252d"
+    }
+  ],
+  "source": {
+    "branch": "main",
+    "product_commits": 0,
+    "product_source_files_changed": 0,
+    "sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+    "work_branch_start_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "work_branch_start_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b"
+  },
+  "supporting_tree_equivalence": {
+    "chg203_artifact_commit": "cfb4ffaf90df47bb830ceb358e79a1fefe798d3c",
+    "chg203_artifact_parent": "072252a637ca201baf911696a2eb22044ae0a6f0",
+    "chg203_candidate_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+    "chg203_declared_screenshot_hashes_verified": "32/32",
+    "current_main_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+    "r3_canonical_framework_evidence_sha": "9120663ae2bfbd0d4f78805785ce22b7e6cfce10",
+    "r3_suite_rerun": false
+  },
+  "work_branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-2"
+}

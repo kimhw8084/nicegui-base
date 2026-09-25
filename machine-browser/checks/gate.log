@@ -1,0 +1,19 @@
+[FAIL] manifest: /Users/haewonkim/.codex-fabric/worktrees/CF-a25508c618dbb510eb6c7d1f/nicegui_base.toml
+[FAIL] agent-preflight: 1 errors / 56 warnings; scaffold=missing
+[FAIL] dependency-pin: requirements.txt must contain nicegui-base==3.0.0a8
+[FAIL] python-compile: tools/verify_development_D6H2_browser.py: f-string expression part cannot include a backslash (verify_development_D6H2_browser.py, line 154)
+[FAIL] entrypoint: missing: invalid entrypoint ''; expected module:symbol
+[FAIL] build-page: missing: ValueError: invalid entrypoint ''; expected module:symbol
+[FAIL] tests: =================================== FAILURES ===================================
+________ test_workbench_preserves_browser_theme_while_server_is_neutral ________
+
+    def test_workbench_preserves_browser_theme_while_server_is_neutral() -> None:
+        source=(ROOT/'source/nicegui_base/workbench/app.py').read_text(encoding='utf-8')
+        assert 'WAVE35_THEME_RECONCILIATION_V8' in source
+>       assert "requested==='system'" in source
+E       assert "requested==='system'" in "from __future__ import annotations\n\nimport json\nimport os\nimport secrets\nfrom .update_identity import BUILD_ID\n...RKBENCH_SUBTITLE','reference_entries_for_section','register_workbench_pages','run_workbench','workbench_navigation']\n"
+
+tests/test_wave35_theme_persistence.py:11: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral
+NiceGUI Base application gate: FAIL

@@ -1,0 +1,15 @@
+# Authentic browser zoom metrics — run by the accountable human later
+
+Open the browser DevTools Console while viewing a candidate route. Run this once before zoom, then again after setting actual browser user zoom to 200% using the browser's own menu or zoom controls:
+
+```js
+(() => ({
+  url: location.href,
+  devicePixelRatio,
+  innerWidth,
+  innerHeight,
+  documentScrollWidth: document.documentElement.scrollWidth
+}))()
+```
+
+Record both outputs with the completed human receipt. The reviewer must invoke the browser's real user zoom control and confirm 200% in browser UI. CSS `zoom`, changing the viewport, device-scale factor, emulation, DOM transforms, CDP `pageScaleFactor`, and screenshot scaling are not valid substitutes. No authentic browser zoom was attempted in this Fabric run.

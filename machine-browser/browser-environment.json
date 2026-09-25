@@ -1,0 +1,64 @@
+{
+  "alternate_zoom_substitute_used": false,
+  "authentic_browser_chrome_zoom_200": "NOT_EXECUTED_BY_DESIGN",
+  "browser": {
+    "automation": "Playwright Python sync API",
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "executable_version_output": "Google Chrome 153.0.8010.54",
+    "headless": true,
+    "installed_executable": true,
+    "product": "Google Chrome",
+    "version": "153.0.8010.54"
+  },
+  "cleanup": {
+    "pid": 98628,
+    "port": 63420,
+    "port_closed": true,
+    "process_terminated_by_job": true,
+    "verification": "PID command matched exact server argv before SIGTERM; process absent and localhost TCP connection refused after termination"
+  },
+  "evidence_scope": {
+    "accountable_human_visual_acceptance": "PENDING",
+    "alternate_zoom_substitute_used": false,
+    "authentic_browser_chrome_zoom_200": "PENDING_NOT_EXECUTED",
+    "current_main_machine_browser": "E1",
+    "supporting_pixels": "E2_READY"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "runtime": {
+    "build_id": "NGB-20260907-G2.6",
+    "command": [
+      "/opt/anaconda3/bin/python",
+      "run_nicegui_base.py",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "63420",
+      "--no-show"
+    ],
+    "cwd": "/Users/haewonkim/.codex-fabric/worktrees/CF-a25508c618dbb510eb6c7d1f",
+    "launcher": "root run_nicegui_base.py; source/ inserted by canonical launcher",
+    "nicegui": "3.15.0",
+    "nicegui_base_distribution": "nicegui-base==3.0.0a8",
+    "nicegui_base_framework": "3.0.0a8",
+    "nicegui_base_module": "source/nicegui_base/__init__.py",
+    "nicegui_distribution": "nicegui==3.15.0",
+    "nicegui_module": "/opt/anaconda3/lib/python3.11/site-packages/nicegui/__init__.py",
+    "port": 63420,
+    "python_executable": "/opt/anaconda3/bin/python",
+    "python_version": "3.11.7",
+    "server_log": "/tmp/CF-a25508c618dbb510eb6c7d1f-chg100-refresh2/server.log",
+    "server_pid": 98628,
+    "server_port_closed_after_capture": "PASS",
+    "source_import": "PYTHONPATH=source; canonical run_nicegui_base.py launcher",
+    "source_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "source_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+    "url": "http://127.0.0.1:63420"
+  },
+  "viewports": {
+    "desktop": "1440x900",
+    "device_scale_factor": 1,
+    "mobile": "390x844",
+    "reduced_motion": "reduce"
+  }
+}
