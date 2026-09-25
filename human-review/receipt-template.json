@@ -1,0 +1,15 @@
+{
+  "project": "nicegui-base",
+  "change": "CHG-100",
+  "request": "stable3-browser-ui-current-main-refresh-3",
+  "fabric_job": "CF-16d31d92c36bf4edd1cc6d79",
+  "source_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "source_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+  "evidence_level": "E3_PENDING_HUMAN",
+  "reviewer": null,
+  "reviewed_at": null,
+  "human_visual_acceptance": "PENDING",
+  "authentic_browser_zoom_200": "PENDING",
+  "human_review_notes": null,
+  "human_zoom_metrics": null
+}

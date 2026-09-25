@@ -1,0 +1,101 @@
+{
+  "change": "CHG-100",
+  "commands": [
+    {
+      "command": "rtk git fetch origin main",
+      "evidence": "machine-browser/manifest.json",
+      "exit_code": 0,
+      "result": "origin/main remained the exact requested SHA/tree"
+    },
+    {
+      "command": "python run_nicegui_base.py --check",
+      "exit_code": 0,
+      "result": "PASS; NiceGUI Base 3.0.0a8, nicegui==3.15.0, Python 3.11.7 at /opt/anaconda3/bin/python"
+    },
+    {
+      "command": "/opt/anaconda3/bin/python run_nicegui_base.py --host 127.0.0.1 --port 58060 --no-show",
+      "exit_code": 0,
+      "result": "job-owned server PID 57212; readiness HTTP 200 /components; browser port closed after exact PID terminated"
+    },
+    {
+      "command": "rtk proxy python /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/capture_browser.py",
+      "exit_code": 0,
+      "result": "all nine browser scenarios executed; aggregate CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL; 59 screenshots"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg236.py source/tests/test_chg237_select_popup_geometry.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_phase4_overlays.py source/tests/test_phase23_v17_overlay_architecture.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_workbench_d6e_patterns_recipes.py source/tests/test_patterns.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_data_table_lab.py source/tests/test_phase24_v17_datatable_platform.py source/tests/test_chg203_chart_theme.py source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py tests/test_wave35_accessibility.py tests/test_wave35_theme_persistence.py --junitxml=/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/focused-tests.xml",
+      "evidence": "machine-browser/checks/focused-tests.xml",
+      "exit_code": 1,
+      "failures": [
+        {
+          "classname": "tests.test_wave35_theme_persistence",
+          "message": "assert \"requested==='system'\" in \"from __future__ import annotations\\n\\nimport json\\nimport os\\nimport secrets\\nfrom .update_identity import BUILD_ID\\n...RKBENCH_SUBTITLE','reference_entries_for_section','register_workbench_pages','run_workbench','workbench_navigation']\\n\"",
+          "name": "test_workbench_preserves_browser_theme_while_server_is_neutral"
+        }
+      ],
+      "result": "139 test cases; 138 passed, 1 failed, 0 errors, 0 skipped; one test-only theme source-string assertion failed."
+    },
+    {
+      "command": "nicegui-base runtime-contract",
+      "exit_code": 0,
+      "result": "PASS; 48 factories / 1172 direct calls checked"
+    },
+    {
+      "command": "nicegui-base runtime-smoke --port 0",
+      "evidence": "machine-browser/checks/runtime-smoke-report.json",
+      "exit_code": 0,
+      "result": "PASS; all 23 health and route checks HTTP 200; this local package smoke is not CHG-59 work-computer qualification"
+    },
+    {
+      "command": "nicegui-base agent-check .",
+      "evidence": "machine-browser/checks/agent-check.txt",
+      "exit_code": 1,
+      "result": "FAIL: missing agent scaffold/version; AI000 Python syntax error in tools/verify_development_D6H2_browser.py:154; 56 warnings"
+    },
+    {
+      "command": "nicegui-base gate .",
+      "evidence": "machine-browser/checks/gate.txt",
+      "exit_code": 1,
+      "result": "FAIL: missing nicegui_base.toml scaffold/entrypoint and requirements pin; same Python syntax error; pytest import failure from collections.Sequence on gate path"
+    }
+  ],
+  "fabric_job": "CF-16d31d92c36bf4edd1cc6d79",
+  "focused_test_failure_note": "tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral fails because the test expects literal source text requested==='system'; current browser-computed Light/Dark/System-dark states passed.",
+  "project": "nicegui-base",
+  "request": "stable3-browser-ui-current-main-refresh-3",
+  "scope": {
+    "authentic_zoom_200": "NOT_EXECUTED",
+    "chg59_work_computer_runtime_qualification": "NOT_EXECUTED",
+    "human_visual_acceptance": "PENDING",
+    "product_source_modified": false
+  },
+  "server_cleanup": {
+    "command_matches_recorded_command": true,
+    "exact_pid": 57212,
+    "tcp_127_0_0_1_58060_closed": true,
+    "terminated_with": "SIGTERM"
+  },
+  "source": {
+    "ahead_behind": "0\t0",
+    "branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-3",
+    "lineage": {
+      "all_ancestors_of_head": true,
+      "chg236_accepted_head": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+      "chg236_merge": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+      "chg237_accepted_head": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+      "chg237_merge": "8024c21adad310881d6f3bbc04b00da1f4f03d31"
+    },
+    "origin_main_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "origin_main_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "product_changed_files": 0,
+    "product_commits_ahead": 0,
+    "sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "worktree_porcelain": ""
+  }
+}

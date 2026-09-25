@@ -1,0 +1,238 @@
+{
+  "observations": [
+    {
+      "focus_path": [
+        {
+          "centerUnobscured": true,
+          "className": "q-icon notranslate material-icons q-field__focusable-action",
+          "focusVisible": true,
+          "label": "Clear",
+          "outline": "none",
+          "outlineWidth": "0px",
+          "rect": {
+            "height": 18,
+            "width": 18,
+            "x": 512,
+            "y": 136.375
+          },
+          "role": "button",
+          "shadow": "none",
+          "tag": "I"
+        },
+        {
+          "centerUnobscured": true,
+          "className": "q-select__focus-target",
+          "focusVisible": true,
+          "label": "Tool",
+          "outline": "none",
+          "outlineWidth": "0px",
+          "rect": {
+            "height": 1,
+            "width": 52.6875,
+            "x": 350,
+            "y": 215.875
+          },
+          "role": "combobox",
+          "shadow": "none",
+          "tag": "INPUT"
+        }
+      ],
+      "step": "search-filter-tab-path",
+      "viewport": "desktop"
+    },
+    {
+      "centerUnobscured": true,
+      "className": "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first ag-cell-focus",
+      "focusVisible": true,
+      "outline": "none",
+      "outlineWidth": "3px",
+      "rect": {
+        "height": 37,
+        "width": 50,
+        "x": 311,
+        "y": 469.375
+      },
+      "role": "gridcell",
+      "shadow": "color(srgb 0 0.443137 0.890196 / 0.46) 0px 0px 0px 2px inset",
+      "step": "table-keyboard-focus"
+    },
+    {
+      "focus_path": [
+        {
+          "centerUnobscured": true,
+          "className": "q-icon notranslate material-icons q-field__focusable-action",
+          "focusVisible": true,
+          "label": "Clear",
+          "outline": "none",
+          "outlineWidth": "0px",
+          "rect": {
+            "height": 18,
+            "width": 18,
+            "x": 244,
+            "y": 60.390625
+          },
+          "role": "button",
+          "shadow": "none",
+          "tag": "I"
+        },
+        {
+          "centerUnobscured": true,
+          "className": "q-select__focus-target",
+          "focusVisible": true,
+          "label": "Tool",
+          "outline": "none",
+          "outlineWidth": "0px",
+          "rect": {
+            "height": 1,
+            "width": 52.6875,
+            "x": 82,
+            "y": 145.890625
+          },
+          "role": "combobox",
+          "shadow": "none",
+          "tag": "INPUT"
+        }
+      ],
+      "step": "search-filter-tab-path",
+      "viewport": "mobile"
+    },
+    {
+      "centerUnobscured": true,
+      "className": "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first ag-cell-focus",
+      "focusVisible": true,
+      "outline": "none",
+      "outlineWidth": "3px",
+      "rect": {
+        "height": 37,
+        "width": 50,
+        "x": 47,
+        "y": 441.390625
+      },
+      "role": "gridcell",
+      "shadow": "color(srgb 0 0.443137 0.890196 / 0.46) 0px 0px 0px 2px inset",
+      "step": "table-keyboard-focus"
+    },
+    {
+      "focus": {
+        "boxShadow": "color(srgb 0.4 0.658824 1 / 0.3) 0px 0px 0px 3px, color(srgb 0 0.443137 0.890196 / 0.32) 0px 0px 0px 1px inset",
+        "centerHit": {
+          "className": "q-select__focus-target",
+          "id": "f_ab7048c6-2051-43bf-a82c-8123a6656441",
+          "tag": "INPUT"
+        },
+        "centerOwned": true,
+        "focusVisible": true,
+        "headerBottom": null,
+        "id": "f_ab7048c6-2051-43bf-a82c-8123a6656441",
+        "inFrame": true,
+        "indicatorInFrame": true,
+        "indicatorVisible": true,
+        "label": "Family",
+        "outline": "color(srgb 0.4 0.658824 1 / 0.46) solid 3px",
+        "rect": {
+          "bottom": 734.484375,
+          "height": 38,
+          "left": 1106.15625,
+          "right": 1393,
+          "top": 696.484375,
+          "width": 286.84375,
+          "x": 1106.15625,
+          "y": 696.484375
+        },
+        "role": "combobox",
+        "scroll": {
+          "x": 0,
+          "y": 4600
+        },
+        "tag": "INPUT",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      "state": {
+        "id": "f_ab7048c6-2051-43bf-a82c-8123a6656441",
+        "label": "Family",
+        "refineOpen": true,
+        "role": "combobox",
+        "tag": "INPUT",
+        "width": 1440
+      },
+      "step": "breakpoint-initial-keyboard-family-focus"
+    },
+    {
+      "before": {
+        "active": true,
+        "scrollY": 0
+      },
+      "desktop": {
+        "active": true,
+        "clientWidth": 1440,
+        "docWidth": 1440,
+        "scrollY": 0
+      },
+      "mobile": {
+        "active": true,
+        "clientWidth": 390,
+        "docWidth": 390,
+        "scrollY": 0
+      },
+      "step": "external-search-breakpoint-preservation"
+    },
+    {
+      "focus": {
+        "boxShadow": "color(srgb 0.4 0.658824 1 / 0.35) 0px 0px 0px 3px",
+        "centerHit": {
+          "className": "block",
+          "id": "",
+          "tag": "SPAN"
+        },
+        "centerOwned": true,
+        "focusVisible": true,
+        "headerBottom": null,
+        "id": "c433",
+        "inFrame": false,
+        "indicatorInFrame": true,
+        "indicatorVisible": true,
+        "label": "Favorites only",
+        "outline": "rgb(29, 29, 31) none 0px",
+        "rect": {
+          "bottom": 900.484375,
+          "height": 38,
+          "left": 1106.15625,
+          "right": 1393,
+          "top": 862.484375,
+          "width": 286.84375,
+          "x": 1106.15625,
+          "y": 862.484375
+        },
+        "role": null,
+        "scroll": {
+          "x": 0,
+          "y": 4482
+        },
+        "tag": "BUTTON",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      "state": {
+        "activeId": "c433",
+        "activeLabel": "Favorites only",
+        "clientWidth": 1440,
+        "detailsCount": 1,
+        "docWidth": 1440,
+        "open": true,
+        "searchCount": 1,
+        "tag": "BUTTON"
+      },
+      "step": "disabled-family-fallback"
+    }
+  ],
+  "source_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "source_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+  "summary": {
+    "focus_samples": 7
+  }
+}

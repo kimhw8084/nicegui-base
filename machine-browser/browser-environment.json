@@ -1,0 +1,54 @@
+{
+  "alternate_zoom_substitute_used": false,
+  "authentic_browser_chrome_zoom_200": "NOT_EXECUTED_BY_DESIGN",
+  "browser": {
+    "automation": "Playwright Python sync API",
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "headless": true,
+    "playwright_version": "1.62.0",
+    "product": "Google Chrome",
+    "version": "153.0.8010.54"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "runtime": {
+    "build_id": "NGB-20260907-G2.6",
+    "command": [
+      "/opt/anaconda3/bin/python",
+      "run_nicegui_base.py",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "58060",
+      "--no-show"
+    ],
+    "cwd": "/Users/haewonkim/.codex-fabric/worktrees/CF-16d31d92c36bf4edd1cc6d79",
+    "launcher": "root run_nicegui_base.py; source/ inserted by canonical launcher",
+    "nicegui": "3.15.0",
+    "nicegui_base_distribution": "nicegui-base==3.0.0a8",
+    "nicegui_base_framework": "3.0.0a8",
+    "nicegui_base_module": "source/nicegui_base/__init__.py",
+    "nicegui_distribution": "nicegui==3.15.0",
+    "port": 58060,
+    "python_executable": "/opt/anaconda3/bin/python",
+    "python_version": "3.11.7",
+    "server_lifecycle": {
+      "job_owned": true,
+      "port": 58060,
+      "port_closed_after_capture": true,
+      "server_pid": 57212,
+      "stopped": true
+    },
+    "server_log": "/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/server.log",
+    "server_pid": 57212,
+    "source_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "source_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "storage_path": "/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/nicegui-storage",
+    "url": "http://127.0.0.1:58060"
+  },
+  "viewports": {
+    "desktop": "1440x900",
+    "device_scale_factor": 1,
+    "mobile": "390x844",
+    "reduced_motion": "reduce"
+  }
+}

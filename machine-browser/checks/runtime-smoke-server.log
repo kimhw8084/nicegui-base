@@ -1,0 +1,32 @@
+INFO:     Started server process [20419]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:62554 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62564 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62568 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62569 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62570 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62574 - "GET /foundation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62575 - "GET /shell HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62576 - "GET /controls HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62580 - "GET /forms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62581 - "GET /data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62584 - "GET /charts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62588 - "GET /content HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62589 - "GET /engineering HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62590 - "GET /states HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62591 - "GET /performance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62592 - "GET /patterns/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62593 - "GET /patterns/explorer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62594 - "GET /patterns/master-detail HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62595 - "GET /patterns/crud HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62596 - "GET /patterns/monitoring HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62597 - "GET /patterns/search HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62598 - "GET /patterns/settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62599 - "GET /patterns/wizard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62600 - "GET /patterns/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62601 - "GET /patterns/analysis HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [20419]

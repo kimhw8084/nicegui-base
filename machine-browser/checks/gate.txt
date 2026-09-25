@@ -1,0 +1,19 @@
+[FAIL] manifest: /Users/haewonkim/.codex-fabric/worktrees/CF-16d31d92c36bf4edd1cc6d79/nicegui_base.toml
+[FAIL] agent-preflight: 1 errors / 56 warnings; scaffold=missing
+[FAIL] dependency-pin: requirements.txt must contain nicegui-base==3.0.0a8
+[FAIL] python-compile: tools/verify_development_D6H2_browser.py: f-string expression part cannot include a backslash (verify_development_D6H2_browser.py, line 154)
+[FAIL] entrypoint: missing: invalid entrypoint ''; expected module:symbol
+[FAIL] build-page: missing: ValueError: invalid entrypoint ''; expected module:symbol
+[FAIL] tests:   File "<frozen runpy>", line 189, in _run_module_as_main
+  File "<frozen runpy>", line 148, in _get_module_details
+  File "<frozen runpy>", line 112, in _get_module_details
+  File "/opt/anaconda3/lib/python3.11/site-packages/pytest/__init__.py", line 8, in <module>
+    from _pytest._code import ExceptionInfo
+  File "/opt/anaconda3/lib/python3.11/site-packages/_pytest/_code/__init__.py", line 5, in <module>
+    from .code import Code
+  File "/opt/anaconda3/lib/python3.11/site-packages/_pytest/_code/code.py", line 15, in <module>
+    from pathlib import Path
+  File "/opt/anaconda3/lib/python3.11/site-packages/pathlib.py", line 10, in <module>
+    from collections import Sequence
+ImportError: cannot import name 'Sequence' from 'collections' (/opt/anaconda3/lib/python3.11/collections/__init__.py)
+NiceGUI Base application gate: FAIL

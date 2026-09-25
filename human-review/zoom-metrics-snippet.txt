@@ -1,0 +1,14 @@
+CHG-100 authentic browser zoom metrics — later human session only
+
+Run this expression in Chrome DevTools Console before the review zoom, record the returned object, then invoke Chrome's actual browser zoom control to reach 200% and run it again.
+
+(() => ({
+  url: location.href,
+  devicePixelRatio,
+  innerWidth,
+  innerHeight,
+  documentScrollWidth: document.documentElement.scrollWidth,
+  capturedAt: new Date().toISOString()
+}))()
+
+The accountable human must set 200% using the browser's real user-facing zoom control (Chrome menu → Zoom) and record both returned objects plus the displayed zoom percentage. Do not use CSS zoom, viewport resizing, deviceScaleFactor, DOM transforms, CDP pageScaleFactor, screenshot scaling, or emulation as a substitute. This Fabric run did not perform or simulate authentic browser zoom; the zoom outcome remains PENDING.
