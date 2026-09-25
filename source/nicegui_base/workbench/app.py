@@ -33,8 +33,7 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
     return style.display !== 'none' && style.visibility !== 'hidden' && element.getClientRects().length > 0;
   };
   const focusFallback = (details) => {
-    const family = details.querySelector('.cui-explorer-refine__body .q-select[aria-label="Family"]');
-    const familyTarget = family?.querySelector('.q-select__focus-target, .q-field__input[role="combobox"]');
+    const familyTarget = details.querySelector('.cui-explorer-refine__body .q-select__focus-target[aria-label="Family"], .cui-explorer-refine__body .q-field__input[role="combobox"][aria-label="Family"]');
     if (isEligible(familyTarget, details)) return familyTarget;
     return [...details.querySelectorAll('.cui-explorer-refine__body .q-select__focus-target, .cui-explorer-refine__body .q-field__input[role="combobox"], .cui-explorer-refine__body .cui-button.q-btn')]
       .find((element) => isEligible(element, details)) || null;

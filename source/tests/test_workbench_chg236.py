@@ -210,7 +210,7 @@ def test_responsive_focus_sync_transfers_restores_and_preserves_external_focus()
 <details class="cui-explorer-refine" open>
  <summary tabindex="0">Refine references</summary>
  <div class="cui-explorer-refine__body">
-  <div class="q-select" aria-label="Family"><input id="family" class="q-select__focus-target" aria-label="Family"></div>
+  <div class="q-select"><input id="family" class="q-select__focus-target" aria-label="Family"></div>
   <button id="favorites" class="cui-button q-btn">Favorites only</button>
  </div>
 </details>'''

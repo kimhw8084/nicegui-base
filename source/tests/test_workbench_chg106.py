@@ -67,6 +67,7 @@ def test_workbench_responsive_sync_is_singleton_idempotent_and_focus_safe() -> N
     assert 'summaryHandoffs.has(details)' in script
     assert "window.addEventListener('blur'" in script
     assert 'const remembered = focusTargets.get(details);' in script
+    assert '.q-select__focus-target[aria-label="Family"]' in script
     assert 'focusFallback(details)' in script
     assert 'target?.focus({preventScroll: true});' in script
     assert "element.closest('[hidden], [inert], [aria-hidden=\"true\"], [aria-disabled=\"true\"], .q-field--disabled')" in script
