@@ -1,0 +1,90 @@
+{
+  "identity": {
+    "project": "nicegui-base",
+    "change": "CHG-237",
+    "request": "stable3-select-popup-viewport-geometry-fix-1",
+    "operation": "FIX",
+    "fabric_job_id": "CF-bb35d92450ddb9e5d1ca2d87",
+    "parent_qualification_job_id": "CF-a25508c618dbb510eb6c7d1f",
+    "registered_target_branch": "main",
+    "base_sha": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "base_tree": "84120e595f263cc3c6aa0da9977b71f2b9dd95c5",
+    "candidate_branch": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "candidate_sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "candidate_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "candidate_parent": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "candidate_is_descendant_of_base": true,
+    "project_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "fabric_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "qualification_parent_artifact": "refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-2@8024a592fdec97f1c5b984400a41f98675d0603e",
+    "qualification_parent_native_evidence": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-2:.codex-fabric/audit.json@8ca07c4cee7224711a0e53faf551e46844a9a303",
+    "product_scope": "Governed Select-family shared popup viewport geometry and its listbox overflow behavior."
+  },
+  "scenarios": [
+    {
+      "scenario": "SELECT_GEOMETRY_BASE_NEGATIVE",
+      "status": "PASS",
+      "meaning": "Exact base reproduced the established failure class.",
+      "evidence": "predecessor/chg237-base-negative.json",
+      "screenshot": "predecessor/chg237-base-negative.png"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_DESKTOP_1440x900",
+      "status": "PASS",
+      "evidence": "popup-geometry-evidence.json#SELECT_GEOMETRY_DESKTOP_1440X900; keyboard/pointer contract in keyboard-focus-evidence.json",
+      "screenshot": "screenshots/desktop_1440x900.png"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_SHORT_HEIGHT_1440x700",
+      "status": "PASS",
+      "evidence": "popup-geometry-evidence.json#SELECT_GEOMETRY_SHORT_HEIGHT_1440X700",
+      "screenshot": "screenshots/short_height_1440x700.png"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_COMPACT_1024x768",
+      "status": "PASS",
+      "evidence": "popup-geometry-evidence.json#SELECT_GEOMETRY_COMPACT_1024X768"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_MOBILE_390x844",
+      "status": "PASS",
+      "evidence": "popup-geometry-evidence.json#SELECT_GEOMETRY_MOBILE_390X844",
+      "screenshot": "screenshots/mobile_390x844.png"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_TOP_EDGE_SANITY",
+      "status": "PASS",
+      "evidence": "popup-geometry-evidence.json#SELECT_GEOMETRY_TOP_EDGE_SANITY",
+      "screenshot": "screenshots/top_edge_sanity.png"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_INHERITANCE",
+      "status": "PASS",
+      "evidence": "popup-geometry-evidence.json#SELECT_GEOMETRY_INHERITANCE_MULTI_SELECT and #SELECT_GEOMETRY_INHERITANCE_COMBOBOX"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_SOURCE_REGRESSION",
+      "status": "PASS",
+      "evidence": "validation-summary.json#focused_suite"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_SERVER_CLEANUP",
+      "status": "PASS",
+      "evidence": "scenario-matrix.json#server_cleanup"
+    },
+    {
+      "scenario": "SELECT_GEOMETRY_GIT_FINAL",
+      "status": "PASS",
+      "evidence": "manifest.json#identity and validation-summary.json#git"
+    }
+  ],
+  "server_cleanup": {
+    "status": "PASS",
+    "server_pid": 93113,
+    "server_session": 43026,
+    "port": 43137,
+    "pid_alive_after_interrupt": false,
+    "tcp_connect_ex_after_interrupt": 61,
+    "listening_after_interrupt": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "architecture": "arm64",
+  "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]",
+  "nicegui": "3.15.0",
+  "playwright": "1.62.0",
+  "browser": {
+    "product": "Google Chrome",
+    "version": "153.0.8010.54",
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "engine": "Chromium",
+    "headless": true
+  },
+  "browserContext": {
+    "deviceScaleFactor": 1,
+    "reducedMotion": "reduce"
+  },
+  "server": {
+    "command": "rtk python run_nicegui_base.py --port 43137 --no-show",
+    "host": "127.0.0.1",
+    "port": 43137,
+    "pid": 93113,
+    "candidateIdentity": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "serverSession": 43026,
+    "candidateTree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "worktree": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1"
+  }
+}

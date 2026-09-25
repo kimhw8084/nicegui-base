@@ -1,0 +1,10 @@
+{
+  "scenario": "SELECT_GEOMETRY_SERVER_CLEANUP",
+  "status": "PASS",
+  "server_pid": 93113,
+  "server_session": 43026,
+  "port": 43137,
+  "pid_alive_after_interrupt": false,
+  "tcp_connect_ex_after_interrupt": 61,
+  "listening_after_interrupt": false
+}

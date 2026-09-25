@@ -1,0 +1,101 @@
+{
+  "scenario": "SELECT_GEOMETRY_BASE_NEGATIVE",
+  "http": 200,
+  "browser": "153.0.8010.54",
+  "geometry": {
+    "url": "http://127.0.0.1:43137/studio/component%3Aselect",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "scroll": {
+      "x": 0,
+      "y": 25
+    },
+    "document": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "active": {
+      "tag": "INPUT",
+      "role": "combobox",
+      "label": "Process area",
+      "expanded": "true",
+      "rect": {
+        "x": 322,
+        "y": 861.578125,
+        "right": 866,
+        "bottom": 899.578125,
+        "width": 544,
+        "height": 38
+      }
+    },
+    "opener": {
+      "tag": "LABEL",
+      "role": null,
+      "label": "Process area",
+      "rect": {
+        "x": 310,
+        "y": 861.578125,
+        "right": 930,
+        "bottom": 899.578125,
+        "width": 620,
+        "height": 38
+      }
+    },
+    "popup": {
+      "tag": "DIV",
+      "role": "listbox",
+      "classes": "q-menu q-position-engine scroll",
+      "rect": {
+        "x": 310,
+        "y": 775.578125,
+        "right": 490,
+        "bottom": 909.578125,
+        "width": 180,
+        "height": 134
+      },
+      "style": "--q-transition-duration: 300ms; top: 775.578px; left: 310px; visibility: visible; min-width: 620px; max-height: 86px;",
+      "display": "block",
+      "visibility": "visible",
+      "overflowY": "hidden",
+      "scrollHeight": 132,
+      "clientHeight": 132,
+      "optionCount": 3,
+      "center": {
+        "x": 400,
+        "y": 842.578125
+      },
+      "owner": {
+        "tag": "DIV",
+        "role": null,
+        "className": "q-item__label",
+        "text": "Deposition"
+      }
+    },
+    "overflow": {
+      "top": 0,
+      "right": 0,
+      "bottom": 9.578125,
+      "left": 0
+    },
+    "intersection": {
+      "x": 310,
+      "y": 861.578125,
+      "right": 490,
+      "bottom": 899.578125,
+      "width": 180,
+      "height": 38,
+      "area": 6840
+    }
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "badResponses": [],
+  "candidateIdentity": {
+    "sha": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "tree": "84120e595f263cc3c6aa0da9977b71f2b9dd95c5",
+    "branch": "main"
+  }
+}

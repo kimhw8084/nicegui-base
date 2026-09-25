@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "project": "nicegui-base",
+    "change": "CHG-237",
+    "request": "stable3-select-popup-viewport-geometry-fix-1",
+    "operation": "FIX",
+    "fabric_job_id": "CF-bb35d92450ddb9e5d1ca2d87",
+    "parent_qualification_job_id": "CF-a25508c618dbb510eb6c7d1f",
+    "registered_target_branch": "main",
+    "base_sha": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "base_tree": "84120e595f263cc3c6aa0da9977b71f2b9dd95c5",
+    "candidate_branch": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "candidate_sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "candidate_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "candidate_parent": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "candidate_is_descendant_of_base": true,
+    "project_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "fabric_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "qualification_parent_artifact": "refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-2@8024a592fdec97f1c5b984400a41f98675d0603e",
+    "qualification_parent_native_evidence": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-2:.codex-fabric/audit.json@8ca07c4cee7224711a0e53faf551e46844a9a303",
+    "product_scope": "Governed Select-family shared popup viewport geometry and its listbox overflow behavior."
+  },
+  "focused_suite": {
+    "status": "PASS",
+    "exit_code": 0,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "command": "rtk python - <<'PY' ; os.chdir(\"source\"); pytest.main([\"-q\", \"tests/test_chg237_select_popup_geometry.py\", \"tests/test_workbench_chg108.py\", \"tests/test_workbench_chg106.py\", \"tests/test_phase4_overlays.py\", \"tests/test_phase23_v17_overlay_architecture.py\", \"tests/test_component_models.py\", \"tests/test_component_registry.py\", \"tests/test_component_css.py\", \"tests/test_nicegui_component_adapter.py\", \"tests/test_public_api_phase2.py\", \"tests/test_public_api_phase3.py\", \"tests/test_public_api_phase4.py\", \"tests/test_public_api_phase5.py\", \"tests/test_phase7_public_api.py\", \"tests/test_public_api_phase9.py\", \"tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source\"])"
+  },
+  "full_source_suite": {
+    "status": "FAIL",
+    "failed_count": 14,
+    "failures": [
+      "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+      "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+      "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+      "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+      "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+      "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+      "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+      "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+      "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+      "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+      "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+      "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+      "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[analysis-workspace]",
+      "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+    ],
+    "classification": "Unrelated existing failures in unchanged runtime StateKey / generated application roots under the current source environment. All failures raise TypeError: super(type, obj): obj must be an instance or subtype of type during StateKey[T] construction."
+  },
+  "framework_validator": {
+    "status": "FAIL",
+    "error_count": 1,
+    "warning_count": 56,
+    "blocking_error": {
+      "code": "AI000",
+      "path": "tools/verify_development_D6H2_browser.py",
+      "line": 154,
+      "message": "Python syntax error: f-string expression part cannot include a backslash",
+      "classification": "Pre-existing unrelated tracked file; outside CHG-237 changes."
+    },
+    "warnings_classification": "Existing warnings across unchanged tests/tools."
+  },
+  "runtime_contract": {
+    "status": "PASS",
+    "nicegui_required": "3.15.0",
+    "nicegui_installed": "3.15.0",
+    "factories_checked": 48,
+    "direct_calls_checked": 1172
+  },
+  "git": {
+    "candidate_head": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "candidate_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "candidate_parent": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "candidate_descends_from_base": true,
+    "origin_main_before_publish": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "worktree_clean": true,
+    "diff_check": "PASS",
+    "product_files": [
+      "source/nicegui_base/certification/certification_manifest.json",
+      "source/nicegui_base/design/hardening_css.py",
+      "source/tests/test_chg237_select_popup_geometry.py"
+    ],
+    "origin_main_after_publish": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "candidate_branch": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "candidate_remote_ref": "refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "candidate_remote_sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "product_worktree_status_porcelain": "",
+    "artifact_commit_parent_expected": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "artifact_remote_read": {
+      "status": "PASS",
+      "remote_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+      "verified_sha256_files": 15,
+      "commit_parent": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+      "single_parented_to_candidate": true,
+      "required_files_present": true,
+      "json_parse": "PASS"
+    }
+  },
+  "runtime_smoke": "NOT_RUN",
+  "visual_E3": "NOT_CLAIMED"
+}

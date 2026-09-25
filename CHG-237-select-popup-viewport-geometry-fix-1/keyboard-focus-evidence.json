@@ -1,0 +1,263 @@
+{
+  "scenario": "SELECT_GEOMETRY_DESKTOP_1440X900_KEYBOARD_POINTER",
+  "status": "PASS",
+  "http": 200,
+  "tabCount": 22,
+  "keyboardOpen": {
+    "url": "http://127.0.0.1:43137/studio/component%3Aselect",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "dpr": 1
+    },
+    "scroll": {
+      "x": 0,
+      "y": 25
+    },
+    "document": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "bodyScrollWidth": 1440,
+      "bodyClientWidth": 1440
+    },
+    "activeCombobox": {
+      "tag": "INPUT",
+      "role": "combobox",
+      "label": "Process area",
+      "expanded": "true",
+      "describedBy": null,
+      "invalid": null,
+      "rect": {
+        "x": 322,
+        "y": 861.578125,
+        "right": 866,
+        "bottom": 899.578125,
+        "width": 544,
+        "height": 38
+      },
+      "fieldComboboxCount": 1,
+      "focusTargetCount": 0
+    },
+    "opener": {
+      "tag": "LABEL",
+      "rect": {
+        "x": 310,
+        "y": 861.578125,
+        "right": 930,
+        "bottom": 899.578125,
+        "width": 620,
+        "height": 38
+      }
+    },
+    "popup": {
+      "tag": "DIV",
+      "role": "listbox",
+      "id": "c511_lb",
+      "classes": "q-menu q-position-engine scroll",
+      "rect": {
+        "x": 310,
+        "y": 775.578125,
+        "right": 490,
+        "bottom": 861.578125,
+        "width": 180,
+        "height": 86
+      },
+      "display": "block",
+      "visibility": "visible",
+      "overflowY": "auto",
+      "maxHeight": "86px",
+      "boxSizing": "border-box",
+      "scrollHeight": 132,
+      "clientHeight": 84,
+      "scrollTop": 48,
+      "optionCount": 3,
+      "options": [
+        "Etch",
+        "Deposition",
+        "Metrology"
+      ],
+      "center": {
+        "x": 400,
+        "y": 818.578125
+      },
+      "centerOwner": {
+        "tag": "DIV",
+        "role": "option",
+        "className": "q-item q-item-type row no-wrap q-item--dense q-item--active  q-item--clickable q-link cursor-pointer q-manual-focusable q-manual-focusable--focused",
+        "text": "Metrology"
+      },
+      "representativeOptionPoint": {
+        "x": 481,
+        "y": 794.578125
+      },
+      "representativeOptionOwner": {
+        "tag": "DIV",
+        "role": "option",
+        "className": "q-item q-item-type row no-wrap q-item--dense q-item--clickable q-link cursor-pointer q-manual-focusable",
+        "text": "Deposition"
+      }
+    },
+    "overflow": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "openerPopupIntersection": {
+      "x": 310,
+      "y": 861.578125,
+      "right": 490,
+      "bottom": 861.578125,
+      "width": 180,
+      "height": 0,
+      "area": 0
+    }
+  },
+  "arrowNavigation": [
+    {
+      "key": "ArrowUp",
+      "value": "Deposition",
+      "role": "combobox",
+      "label": "Process area",
+      "expanded": "true",
+      "activedescendant": "c511_1",
+      "activeOption": "Deposition",
+      "listbox": {
+        "role": "listbox",
+        "optionCount": 3,
+        "scrollTop": 38,
+        "scrollHeight": 132,
+        "clientHeight": 84
+      }
+    },
+    {
+      "key": "ArrowUp",
+      "value": "Etch",
+      "role": "combobox",
+      "label": "Process area",
+      "expanded": "true",
+      "activedescendant": "c511_0",
+      "activeOption": "Etch",
+      "listbox": {
+        "role": "listbox",
+        "optionCount": 3,
+        "scrollTop": 0,
+        "scrollHeight": 132,
+        "clientHeight": 84
+      }
+    },
+    {
+      "key": "ArrowDown",
+      "value": "Deposition",
+      "role": "combobox",
+      "label": "Process area",
+      "expanded": "true",
+      "activedescendant": "c511_1",
+      "activeOption": "Deposition",
+      "listbox": {
+        "role": "listbox",
+        "optionCount": 3,
+        "scrollTop": 0,
+        "scrollHeight": 132,
+        "clientHeight": 84
+      }
+    }
+  ],
+  "afterEnterSelect": {
+    "tag": "INPUT",
+    "role": "combobox",
+    "label": "Process area",
+    "expanded": "false",
+    "value": "Deposition",
+    "focusVisible": true,
+    "fieldClasses": "q-field row no-wrap items-start q-field--outlined q-select q-field--auto-height q-select--with-input q-select--without-chips q-select--single q-field--float q-field--dense q-field--focused q-field--highlighted cui-field-control cui-control--medium cui-field-control--default cui-field-width--auto cui-select",
+    "fieldComboboxCount": 1,
+    "focusTargetCount": 0,
+    "description": null,
+    "invalid": null,
+    "focusPseudoAfter": {
+      "borderColor": "rgb(29, 29, 31)",
+      "borderWidth": "0px",
+      "borderStyle": "none",
+      "opacity": "1"
+    }
+  },
+  "escapeOpen": {
+    "value": "Deposition",
+    "role": "combobox",
+    "label": "Process area",
+    "expanded": "true",
+    "activedescendant": "c511_1",
+    "activeOption": "Deposition",
+    "listbox": {
+      "role": "listbox",
+      "optionCount": 3,
+      "scrollTop": 0,
+      "scrollHeight": 132,
+      "clientHeight": 132
+    }
+  },
+  "afterEscapeFocusReturn": {
+    "tag": "INPUT",
+    "role": "combobox",
+    "label": "Process area",
+    "expanded": "false",
+    "value": "Deposition",
+    "focusVisible": true,
+    "fieldClasses": "q-field row no-wrap items-start q-field--outlined q-select q-field--auto-height q-select--with-input q-select--without-chips q-select--single q-field--float q-field--dense q-field--focused q-field--highlighted cui-field-control cui-control--medium cui-field-control--default cui-field-width--auto cui-select",
+    "fieldComboboxCount": 1,
+    "focusTargetCount": 0
+  },
+  "tabAfterEscape": {
+    "tag": "I",
+    "role": "button",
+    "label": "Clear",
+    "className": "q-icon notranslate material-icons q-field__focusable-action"
+  },
+  "focusReturnScreenshot": "keyboard-focus-return.png",
+  "pointerOpen": {
+    "value": "Deposition",
+    "role": "combobox",
+    "label": "Process area",
+    "expanded": "true",
+    "activedescendant": "c511_1",
+    "activeOption": "Deposition",
+    "listbox": {
+      "role": "listbox",
+      "optionCount": 3,
+      "scrollTop": 0,
+      "scrollHeight": 132,
+      "clientHeight": 132
+    }
+  },
+  "pointerSelect": {
+    "label": "Process area",
+    "role": "combobox",
+    "expanded": "false",
+    "value": "Etch"
+  },
+  "pointerReopen": {
+    "value": "Etch",
+    "role": "combobox",
+    "label": "Process area",
+    "expanded": "true",
+    "activedescendant": "c511_0",
+    "activeOption": "Etch",
+    "listbox": {
+      "role": "listbox",
+      "optionCount": 3,
+      "scrollTop": 0,
+      "scrollHeight": 132,
+      "clientHeight": 132
+    }
+  },
+  "pointerOutsideClose": {
+    "activeRole": "main",
+    "activeLabel": null,
+    "expanded": "false"
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "badResponses": []
+}

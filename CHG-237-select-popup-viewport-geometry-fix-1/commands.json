@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "project": "nicegui-base",
+    "change": "CHG-237",
+    "request": "stable3-select-popup-viewport-geometry-fix-1",
+    "operation": "FIX",
+    "fabric_job_id": "CF-bb35d92450ddb9e5d1ca2d87",
+    "parent_qualification_job_id": "CF-a25508c618dbb510eb6c7d1f",
+    "registered_target_branch": "main",
+    "base_sha": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "base_tree": "84120e595f263cc3c6aa0da9977b71f2b9dd95c5",
+    "candidate_branch": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "candidate_sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "candidate_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+    "candidate_parent": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "candidate_is_descendant_of_base": true,
+    "project_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "fabric_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "qualification_parent_artifact": "refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-2@8024a592fdec97f1c5b984400a41f98675d0603e",
+    "qualification_parent_native_evidence": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-2:.codex-fabric/audit.json@8ca07c4cee7224711a0e53faf551e46844a9a303",
+    "product_scope": "Governed Select-family shared popup viewport geometry and its listbox overflow behavior."
+  },
+  "commands": [
+    {
+      "command": "rtk nicegui-base agent-context \"Fix governed Select popup viewport placement while preserving accessibility and inherited behavior\" --format json",
+      "status": "PASS",
+      "purpose": "Framework/catalog authority discovery before editing."
+    },
+    {
+      "command": "rtk python run_nicegui_base.py --port 43137 --no-show",
+      "status": "PASS",
+      "purpose": "Canonical source-checkout launcher for exact-base negative control and candidate real-browser route."
+    },
+    {
+      "command": "Playwright sync_api invoked via `rtk python - <<'PY'` against `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`",
+      "status": "PASS",
+      "purpose": "Actual keyboard/pointer QSelect geometry and interaction matrix. See popup-geometry-evidence.json, keyboard-focus-evidence.json, predecessor/ and screenshots/."
+    },
+    {
+      "command": "rtk python - <<'PY'\nimport os, pytest\nos.chdir(\"source\")\npaths=['tests/test_chg237_select_popup_geometry.py', 'tests/test_workbench_chg108.py', 'tests/test_workbench_chg106.py', 'tests/test_phase4_overlays.py', 'tests/test_phase23_v17_overlay_architecture.py', 'tests/test_component_models.py', 'tests/test_component_registry.py', 'tests/test_component_css.py', 'tests/test_nicegui_component_adapter.py', 'tests/test_public_api_phase2.py', 'tests/test_public_api_phase3.py', 'tests/test_public_api_phase4.py', 'tests/test_public_api_phase5.py', 'tests/test_phase7_public_api.py', 'tests/test_public_api_phase9.py', 'tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source']\nraise SystemExit(pytest.main([\"-q\", *paths]))\nPY",
+      "status": "PASS",
+      "purpose": "72 focused Select/component/accessibility/overlay/public API tests."
+    },
+    {
+      "command": "rtk python - <<'PY'\nimport os, pytest\nos.chdir(\"source\")\nraise SystemExit(pytest.main([\"-q\"]))\nPY",
+      "status": "FAIL",
+      "purpose": "Full source pytest suite; 14 unrelated failures described in validation-summary.json."
+    },
+    {
+      "command": "rtk env PYTHONPATH=source python -m nicegui_base.validate . --format json",
+      "status": "FAIL",
+      "purpose": "Framework validator; one existing AI000 syntax error and 56 warnings."
+    },
+    {
+      "command": "rtk nicegui-base runtime-contract",
+      "status": "PASS",
+      "purpose": "Runtime contract."
+    },
+    {
+      "command": "rtk git diff --check",
+      "status": "PASS",
+      "purpose": "Whitespace/error check."
+    },
+    {
+      "command": "rtk git push origin HEAD:refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+      "status": "PASS",
+      "purpose": "Publish exact candidate work branch."
+    },
+    {
+      "command": "rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+      "status": "PASS",
+      "purpose": "Remote-read the published artifact ref."
+    },
+    {
+      "command": "rtk git archive --format=tar FETCH_HEAD CHG-237-select-popup-viewport-geometry-fix-1 > /tmp/chg237-remote-read.tar",
+      "status": "PASS",
+      "purpose": "Read artifact bytes from the fetched remote commit."
+    },
+    {
+      "command": "rtk python - <<'PY' ; parse remote JSON and validate all SHA256SUMS.txt entries, required file set, and bound candidate identity",
+      "status": "PASS",
+      "purpose": "Independent verification of remotely fetched artifact contents."
+    }
+  ],
+  "browser_command_detail": "Browser tests were executed with inline Playwright scripts. The specific interaction and evaluation sequence is reflected in the structured geometry and keyboard evidence; the transient heredoc source was not separately saved."
+}
