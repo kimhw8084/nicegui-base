@@ -84,8 +84,13 @@ def _entry_search(entries: Sequence[Any], query: str) -> tuple[Any, ...]:
     text = str(query or '').strip()
     if not text:
         return source
-    from .search import search_entries
-    return tuple(result.entry for result in measure('catalog_search', lambda: search_entries(source, text, limit=max(1, len(source)))))
+    from .search import search_entries, tokens
+    required_terms = set(tokens(text))
+    results = measure('catalog_search', lambda: search_entries(source, text, limit=max(1, len(source))))
+    return tuple(
+        result.entry for result in results
+        if required_terms.issubset(result.matched_terms)
+    )
 
 
 def filtered_entries(entries: Sequence[Any], state: ExplorerState) -> tuple[Any, ...]:
@@ -208,7 +213,7 @@ def render_reference_gallery(entries: Iterable[Any], *, section: str, intro: str
         with host:
             _comparison(source, state, section, render)
             if not visible:
-                with ui.element('section').classes('cui-workbench-preview-empty'):
+                with ui.element('section').classes('cui-workbench-preview-empty').props('role="status" aria-live="polite"'):
                     ui.label('No governed reference matches the current search/filter. Clear the filter or try an engineering intent.')
                 return
             with ui.element('div').classes('cui-explorer-gallery-grid').props(f'data-explorer-section="{section}"'):

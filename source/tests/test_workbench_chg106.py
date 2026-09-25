@@ -54,12 +54,33 @@ def test_workbench_responsive_sync_is_singleton_idempotent_and_focus_safe() -> N
     assert script.count("__niceguiBaseExplorerRefineResponsive") == 1
     assert 'if (window[key]) {' in script
     assert 'const mounted = new WeakSet();' in script
+    assert 'const focusTargets = new WeakMap();' in script
+    assert 'const summaryHandoffs = new WeakSet();' in script
     assert "window.matchMedia('(max-width: 680px)')" in script
     assert 'details.open = !media.matches;' in script
     assert "media.addEventListener('change', changed)" in script
     assert 'new MutationObserver(() => state.scan())' in script
-    assert 'const focusInside = media.matches && details.contains(document.activeElement);' in script
-    assert "details.querySelector(':scope > summary')?.focus();" in script
+    assert "details.addEventListener('focusin', (event) => {" in script
+    assert 'const focusInside = details.contains(active);' in script
+    assert "const focusAndReveal = (element, details) => {" in script
+    assert "visualTarget.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});" in script
+    assert 'if (deltaX || deltaY) window.scrollBy({left: deltaX, top: deltaY, behavior: \'instant\'});' in script
+    assert "const visualTarget = element.closest('.q-field') || element;" in script
+    assert "blockerStyle.position === 'fixed' || blockerStyle.position === 'sticky'" in script
+    assert "const interruptFocusReveal = () => { focusRevealInterrupted += 1; };" in script
+    assert "focusRevealInterrupted !== revealVersion" in script
+    assert 'const revealAfterLayout = (frames) => requestAnimationFrame(() => {' in script
+    assert 'revealAfterLayout(4);' in script
+    assert "if (focusInside && isEligible(summary, details)) focusAndReveal(summary, details);" in script
+    assert 'if (!focusInside && !handoffLostToDocument) return;' in script
+    assert 'summaryHandoffs.has(details)' in script
+    assert "window.addEventListener('blur'" in script
+    assert 'const remembered = focusTargets.get(details);' in script
+    assert '.q-select__focus-target[aria-label="Family"]' in script
+    assert 'focusFallback(details)' in script
+    assert 'focusAndReveal(target, details);' in script
+    assert 'preventScroll' not in script
+    assert "element.closest('[hidden], [inert], [aria-hidden=\"true\"], [aria-disabled=\"true\"], .q-field--disabled')" in script
 
 
 def test_responsive_sync_is_installed_once_by_workbench_presentation_root() -> None:
