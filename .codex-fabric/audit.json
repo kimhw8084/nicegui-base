@@ -1,0 +1,391 @@
+{
+  "accepted_at": "2026-09-25T20:18:25Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'git rev-parse HEAD && git rev-parse HEAD''^{tree} && git status --porcelain && git rev-list --left-right --count origin/main...HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy python /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/capture_browser.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/scenario-matrix.json')\nx=json.loads(p.read_text())\nfor s in x:\n if s['status']\"'!='\"'PASS':\n  print(json.dumps({'id':s.get('id'),'issues':s.get('issues'),'details':s.get('details')},indent=2))\nPY\n\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/scenario-matrix.json')\nx=json.loads(p.read_text())\nprint(type(x), list(x)[:4] if isinstance(x,dict) else len(x))\nprint(json.dumps(x,indent=2)[:1200])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport json\nfrom pathlib import Path\nx=json.loads(Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/scenario-matrix.json').read_text())\nfor s in x['scenarios']:\n if s['status']\"'!='\"'PASS': print(s['id'],json.dumps(s.get('issues'),indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n \\\"focus|fallback|indicator|viewport|bottom|Family|Favorites\\\" source/tests/test_workbench_chg236.py source/tests | rg 'chg236|refine|breakpoint' | head -n 160\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport json\nfrom pathlib import Path\nx=json.loads(Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/scenario-matrix.json').read_text())\ns=next(s for s in x['scenarios'] if s['id']=='CURRENT_MAIN_BREAKPOINT_FOCUS_RECOVERY')\nfor item in s['steps']:\n print(item.get('step'), item.get('status'))\n if item.get('step') in ('mobile-to-desktop','desktop-to-mobile','disabled-family-fallback','external-search-preservation'):\n  print(json.dumps(item,indent=2)[:2600])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git diff --check && git status --porcelain && git rev-parse HEAD && git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg --files source/tests tests | rg -i '(chg236|chg237|chg103|chg106|chg108|chg117|chg124|explorer|gallery|shell|theme|accessibility|overlay|select|pattern|visualization|data.*table)' | sort\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'python run_nicegui_base.py --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg236.py source/tests/test_chg237_select_popup_geometry.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_phase4_overlays.py source/tests/test_phase23_v17_overlay_architecture.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_workbench_d6e_patterns_recipes.py source/tests/test_patterns.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_data_table_lab.py source/tests/test_phase24_v17_datatable_platform.py source/tests/test_chg203_chart_theme.py source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py tests/test_wave35_accessibility.py tests/test_wave35_theme_persistence.py --junitxml=/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/focused-tests.xml'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1223,
+        "output_sha256": "393af733731779a3ece2a4a1b8bac4141b00cff2542349617775d18041c9c9c4",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'nicegui-base agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'nicegui-base gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"find /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser -maxdepth 2 -type f -print | sort && python - <<'PY'\nimport json\nfrom pathlib import Path\nx=json.loads(Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/scenario-matrix.json').read_text())\nfor s in x['scenarios']:\n print(s['id'],s['status'],len(s.get('issues',[])),len(s.get('screenshots',[])))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cat /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/browser-environment.json && python - <<'PY'\nimport json\nfrom pathlib import Path\nfor n in ['focus-accessibility.json','console-network.json']:\n x=json.loads((Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser')/n).read_text())\n print('\\\\n',n,type(x).__name__, list(x) if isinstance(x,dict) else len(x))\n print(json.dumps(x,indent=2)[:1000])\nPY\ncat /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/server.json 2>/dev/null || true\n\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport os,signal,socket,subprocess,time,sys\npid=57212\nexpected='/opt/anaconda3/bin/python run_nicegui_base.py --host 127.0.0.1 --port 58060 --no-show'\ntry:\n    actual=subprocess.check_output(['ps','-p',str(pid),'-o','command='],text=True).strip()\nexcept subprocess.CalledProcessError:\n    actual=''\nif actual and actual \"'!= expected:\n    print(f'\"'REFUSED: PID {pid} command mismatch: {actual\"'!r}'\"')\n    sys.exit(2)\nif actual:\n    os.kill(pid,signal.SIGTERM)\n    for _ in range(60):\n        if subprocess.run(['kill','-0',str(pid)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode \"'!= 0:\n            break\n        time.sleep(0.1)\n    else:\n        print(f'\"'REFUSED_TO_ESCALATE: exact PID {pid} did not exit after SIGTERM')\n        sys.exit(3)\nfor _ in range(10):\n    try:\n        with socket.create_connection(('127.0.0.1',58060),timeout=0.2):\n            time.sleep(0.1)\n    except OSError:\n        print(f'PASS: terminated exact job server PID={pid}; TCP 127.0.0.1:58060 closed')\n        break\nelse:\n    print('FAIL: port 58060 remains open')\n    sys.exit(4)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'nicegui-base runtime-smoke --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git status --short --untracked-files=all && git status --porcelain=v1 --ignored | head -n 60 && git rev-parse HEAD && git rev-parse HEAD''^{tree} && git rev-list --left-right --count origin/main...HEAD && test -f certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && tail -n 12 certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'mkdir -p /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/checks && cp certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/checks/runtime-smoke-report.json && cp certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/checks/runtime-smoke-server.log && git restore --source=HEAD -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && git status --porcelain=v1 && git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin main && git rev-parse origin/main && git rev-parse origin/main''^{tree} && git branch --show-current && git rev-parse HEAD && git rev-parse HEAD''^{tree} && git rev-list --left-right --count origin/main...HEAD && git merge-base --is-ancestor 1152cd1ef76259d01bbcf89f8fdf11117d99ad69 HEAD && git merge-base --is-ancestor e95cc5472351ccfbde70e28b73380aeb8196fb09 HEAD && git merge-base --is-ancestor e20446c9f8e887e3fe97fa6ba9efdf22e64de182 HEAD && git status --porcelain=v1 && lsof -nP -iTCP:58060 -sTCP:LISTEN || true && ps -p 20419 -o pid=,command= || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nimport json\nfrom pathlib import Path\nx=json.loads(Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/machine-browser/scenario-matrix.json').read_text())\nfor sid in ['CURRENT_MAIN_SHARED_GALLERIES','CURRENT_MAIN_COMPONENTS_WORKFLOW','CURRENT_MAIN_SELECT_OVERLAY','CURRENT_MAIN_BREAKPOINT_FOCUS_RECOVERY','CURRENT_MAIN_OBJECTIVE_AGGREGATE']:\n s=next(s for s in x['scenarios'] if s['id']==sid)\n print(sid, list(s.keys()))\n if sid=='CURRENT_MAIN_SELECT_OVERLAY': print('detail keys',list(s['detail'].keys()) if isinstance(s.get('detail'),dict) else type(s.get('detail')).__name__)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nfrom pathlib import Path\nimport json, shutil, subprocess, hashlib, xml.etree.ElementTree as ET, sys\nfrom datetime import datetime, timezone\nrepo=Path('/Users/haewonkim/.codex-fabric/worktrees/CF-16d31d92c36bf4edd1cc6d79')\nwork=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3')\npackage=work/'artifact-package'\nif package.exists(): shutil.rmtree(package)\nmb_src=work/'machine-browser'\nmb_dst=package/'machine-browser'\nshutil.copytree(mb_src,mb_dst)\n(package/'human-review').mkdir(parents=True)\nchecks=mb_dst/'checks'; checks.mkdir()\nshutil.copy2(work/'focused-tests.xml',checks/'focused-tests.xml')\nshutil.copy2(work/'checks/runtime-smoke-report.json',checks/'runtime-smoke-report.json')\nshutil.copy2(work/'checks/runtime-smoke-server.log',checks/'runtime-smoke-server.log')\n# Preserve exact diagnostic command outputs for this clean main checkout.\nfor command,name in [(['nicegui-base','agent-check','.'],'agent-check'),(['nicegui-base','gate','.'],'gate')]:\n r=subprocess.run(command,cwd=repo,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)\n (checks/f'{name}.txt').write_text(r.stdout,encoding='utf-8')\n (checks/f'{name}-exit-code.txt').write_text(str(r.returncode)+'\\\\n',encoding='utf-8')\n\ndef run(args):\n return subprocess.run(args,cwd=repo,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT).stdout.strip()\n# Required unfilled human templates.\n(package/'human-review/checklist.md').write_text('''# CHG-100 accountable human review worksheet — unfilled template\\\\n\\\\nEvidence package: \"'`stable3-browser-ui-current-main-refresh-3`'\"\\\\nSource: \"'`8024c21adad310881d6f3bbc04b00da1f4f03d31` / tree `fcc6294ba8f7c36b68b88a217e65b7efb3050393`'\"\\\\n\\\\n**This worksheet is for a later accountable-human session. It contains no human acceptance evidence.**\\\\n\\\\nReviewer: ______________________________\\\\n\\\\nRole / accountability: ______________________________\\\\n\\\\nReview date/time (UTC): ______________________________\\\\n\\\\nBrowser / OS used: ______________________________\\\\n\\\\n## Representative review session\\\\n\\\\nUse the live current-main Reference Explorer. Review these routes and representative states:\\\\n\\\\n1. \"'`/components` — search for a known result, enter `zzzz-no-such-component-2026`, confirm the empty message, clear it, then use Family and Favorites. On mobile, use Refine while keeping Search available.'\"\\\\n2. \"'`/analytics/spc_i_mr` — inspect the chart in Light, Dark, and System-dark appearance where available. Check chart background, axes, thresholds, labels, and reading contrast.'\"\\\\n3. \"'`/patterns` — inspect the pattern explorer identity, selected application-pattern control, and live pattern/full-application controls.'\"\\\\n4. \"'`/studio/pattern%3Adata_explorer` — select a row, filter while preserving it, remove it with a filter, and clear filters. Check whether the selected record and detail region remain understandable.'\"\\\\n5. \"'`/studio/component%3Aselect` — open Process area with keyboard and pointer, navigate options, select, close with Escape, and inspect popup placement and focus return.'\"\\\\n\\\\n## Human judgments\\\\n\\\\nLeave each choice blank until the accountable review.\\\\n\\\\n- Task clarity: [ ] clear  [ ] mixed  [ ] unclear\\\\n- Information hierarchy: [ ] clear  [ ] mixed  [ ] unclear\\\\n- Readability and contrast: [ ] acceptable  [ ] needs work\\\\n- Focus and keyboard behavior: [ ] acceptable  [ ] needs work\\\\n- Overlay behavior: [ ] acceptable  [ ] needs work\\\\n- Dense-data usability: [ ] acceptable  [ ] needs work\\\\n- Light/dark coherence: [ ] acceptable  [ ] needs work\\\\n- Material visual or interaction defect remains: [ ] no  [ ] yes\\\\n- If yes, route/state and concrete task consequence: ______________________________\\\\n\\\\nReviewer notes: ________________________________________________________________\\\\n\\\\nHuman visual acceptance: [ ] ACCEPT  [ ] REJECT  [ ] DEFER\\\\n\\\\nAuthentic browser-chrome 200% zoom/reflow completed: [ ] YES  [ ] NO\\\\n\\\\nZoom before/after metrics attached: [ ] YES  [ ] NO\\\\n\\\\nReviewer signature / accountable record: ______________________________\\\\n\\\\n## Evidence boundary\\\\n\\\\nMachine browser evidence and screenshots in this package are supporting evidence only. This template is unfilled. Fabric did not perform accountable human review or authentic browser-chrome zoom. Do not treat any machine result as completing those gates.\\\\n''',encoding='utf-8')\n(package/'human-review/receipt-template.json').write_text(json.dumps({\n 'project':'nicegui-base','change':'CHG-100','request':'stable3-browser-ui-current-main-refresh-3','fabric_job':'CF-16d31d92c36bf4edd1cc6d79',\n 'source_sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','source_tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393',\n 'evidence_level':'E3_PENDING_HUMAN','reviewer':None,'reviewed_at':None,'human_visual_acceptance':'PENDING','authentic_browser_zoom_200':'PENDING',\n 'human_review_notes':None,'human_zoom_metrics':None\n},indent=2)+'\\\\n',encoding='utf-8')\n(package/'human-review/zoom-metrics-snippet.txt').write_text('''CHG-100 authentic browser zoom metrics — later human session only\\\\n\\\\nRun this expression in Chrome DevTools Console before the review zoom, record the returned object, then invoke Chrome's actual browser zoom control to reach 200% and run it again.\\\\n\\\\n(() => ({\\\\n  url: location.href,\\\\n  devicePixelRatio,\\\\n  innerWidth,\\\\n  innerHeight,\\\\n  documentScrollWidth: document.documentElement.scrollWidth,\\\\n  capturedAt: new Date().toISOString()\\\\n}))()\\\\n\\\\nThe accountable human must set 200% using the browser's real user-facing zoom control (Chrome menu → Zoom) and record both returned objects plus the displayed zoom percentage. Do not use CSS zoom, viewport resizing, deviceScaleFactor, DOM transforms, CDP pageScaleFactor, screenshot scaling, or emulation as a substitute. This Fabric run did not perform or simulate authentic browser zoom; the zoom outcome remains PENDING.\\\\n''',encoding='utf-8')\n# Load machine evidence and test summary.\nscenario=json.loads((mb_dst/'scenario-matrix.json').read_text())\nenv=json.loads((mb_dst/'browser-environment.json').read_text())\nfocus=json.loads((mb_dst/'focus-accessibility.json').read_text())\nconsole=json.loads((mb_dst/'console-network.json').read_text())\nxml=ET.parse(checks/'focused-tests.xml').getroot()\ncase_failures=[]\nfor tc in xml.iter('testcase'):\n if tc.find('failure') is not None or tc.find('error') is not None:\n  node=tc.find('failure') if tc.find('failure') is not None else tc.find('error')\n  case_failures.append({'classname':tc.attrib.get('classname'),'name':tc.attrib.get('name'),'message':(node.attrib.get('message') or '')[:700]})\n# Remove redundant source binding omissions from auxiliary machine files, then identify the full job.\ntry: playwright_version=__import__('importlib.metadata',fromlist=['version']).version('playwright')\nexcept Exception: playwright_version='unknown'\nenv['browser']['playwright_version']=playwright_version\nenv['runtime']['server_lifecycle']={'job_owned':True,'stopped':True,'port_closed_after_capture':True,'server_pid':57212,'port':58060}\nenv['authentic_browser_chrome_zoom_200']='NOT_EXECUTED_BY_DESIGN'\n(mb_dst/'browser-environment.json').write_text(json.dumps(env,indent=2,sort_keys=True)+'\\\\n',encoding='utf-8')\n# Evidence commands and source-lineage proof.\ncommands={\n 'project':'nicegui-base','change':'CHG-100','request':'stable3-browser-ui-current-main-refresh-3','fabric_job':'CF-16d31d92c36bf4edd1cc6d79',\n 'source':{'branch':run(['git','branch','--show-current']),'sha':run(['git','rev-parse','HEAD']),'tree':run(['git','rev-parse','HEAD\"'^{tree}'\"']),'origin_main_sha':run(['git','rev-parse','origin/main']),'origin_main_tree':run(['git','rev-parse','origin/main\"'^{tree}'\"']),'ahead_behind':run(['git','rev-list','--left-right','--count','origin/main...HEAD']),'worktree_porcelain':run(['git','status','--porcelain=v1']),'product_commits_ahead':0,'product_changed_files':0,\n  'lineage':{'chg236_merge':'1152cd1ef76259d01bbcf89f8fdf11117d99ad69','chg236_accepted_head':'e95cc5472351ccfbde70e28b73380aeb8196fb09','chg237_merge':'8024c21adad310881d6f3bbc04b00da1f4f03d31','chg237_accepted_head':'e20446c9f8e887e3fe97fa6ba9efdf22e64de182','all_ancestors_of_head':True}},\n 'commands':[\n  {'command':'rtk git fetch origin main','exit_code':0,'result':'origin/main remained the exact requested SHA/tree','evidence':'machine-browser/manifest.json'},\n  {'command':'python run_nicegui_base.py --check','exit_code':0,'result':'PASS; NiceGUI Base 3.0.0a8, nicegui==3.15.0, Python 3.11.7 at /opt/anaconda3/bin/python'},\n  {'command':'/opt/anaconda3/bin/python run_nicegui_base.py --host 127.0.0.1 --port 58060 --no-show','exit_code':0,'result':'job-owned server PID 57212; readiness HTTP 200 /components; browser port closed after exact PID terminated'},\n  {'command':'rtk proxy python <job-temp>/capture_browser.py','exit_code':0,'result':'all nine browser scenarios executed; aggregate CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL; 59 screenshots'},\n  {'command':'git diff --check','exit_code':0,'result':'PASS'},\n  {'command':'rtk proxy env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg236.py source/tests/test_chg237_select_popup_geometry.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_phase4_overlays.py source/tests/test_phase23_v17_overlay_architecture.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_workbench_d6e_patterns_recipes.py source/tests/test_patterns.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_data_table_lab.py source/tests/test_phase24_v17_datatable_platform.py source/tests/test_chg203_chart_theme.py source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py tests/test_wave35_accessibility.py tests/test_wave35_theme_persistence.py --junitxml=<job-temp>/focused-tests.xml','exit_code':1,'result':f\\\"{xml.attrib.get('tests')} test cases; {int(xml.attrib.get('tests','0'))-int(xml.attrib.get('failures','0'))-int(xml.attrib.get('errors','0'))} passed, {xml.attrib.get('failures')} failed, {xml.attrib.get('errors')} errors; one unrelated source-text assertion listed below\\\",'failures':case_failures,'evidence':'machine-browser/checks/focused-tests.xml'},\n  {'command':'nicegui-base runtime-contract','exit_code':0,'result':'PASS; 48 factories / 1172 direct calls checked'},\n  {'command':'nicegui-base runtime-smoke --port 0','exit_code':0,'result':'PASS; all 23 health and route checks HTTP 200; this local package smoke is not CHG-59 work-computer qualification','evidence':'machine-browser/checks/runtime-smoke-report.json'},\n  {'command':'nicegui-base agent-check .','exit_code':1,'result':'FAIL: missing agent scaffold/version; AI000 Python syntax error in tools/verify_development_D6H2_browser.py:154; 56 warnings','evidence':'machine-browser/checks/agent-check.txt'},\n  {'command':'nicegui-base gate .','exit_code':1,'result':'FAIL: missing nicegui_base.toml scaffold/entrypoint and requirements pin; same Python syntax error; pytest import failure from collections.Sequence on gate path','evidence':'machine-browser/checks/gate.txt'},\n ],\n 'focused_test_failure_note':'tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral fails because the test expects literal source text requested===\\\\'system\\\\'; current browser-computed Light/Dark/System-dark states passed.',\n 'server_cleanup':{'exact_pid':57212,'command_matches_recorded_command':True,'terminated_with':'SIGTERM','tcp_127_0_0_1_58060_closed':True},\n 'scope':{'product_source_modified':False,'authentic_zoom_200':'NOT_EXECUTED','human_visual_acceptance':'PENDING','chg59_work_computer_runtime_qualification':'NOT_EXECUTED'}\n}\n(mb_dst/'commands.json').write_text(json.dumps(commands,indent=2,sort_keys=True)+'\\\\n',encoding='utf-8')\n# Add complete, concise review summary.\nreview='''# CHG-100 current-main machine/browser review summary\\\\n\\\\n- **Machine result:** \"'`CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL`'\"\\\\n- **Project/change/request/job:** nicegui-base / CHG-100 / \"'`stable3-browser-ui-current-main-refresh-3` / `CF-16d31d92c36bf4edd1cc6d79`'\"\\\\n- **Exact source/base:** \"'`8024c21adad310881d6f3bbc04b00da1f4f03d31`, tree `fcc6294ba8f7c36b68b88a217e65b7efb3050393`'\"\\\\n- **Runtime/browser:** NiceGUI Base 3.0.0a8, \"'`nicegui==3.15.0`, Python 3.11.7, installed Google Chrome 153.0.8010.54 through Playwright; 1440×900 desktop and 390×844 mobile contexts, DPR 1, reduced motion.'\"\\\\n- **Scenario result:** scenarios 1–6, 8, and 9 PASS. Scenario 7 \"'`CURRENT_MAIN_BREAKPOINT_FOCUS_RECOVERY` FAILS its extra disabled-Family fallback viewport-containment assertion. Scenario 10 aggregate FAIL. See `scenario-matrix.json` for machine detail.'\"\\\\n\\\\n## Three repaired CHG-100 failure classes\\\\n\\\\n1. **Components no-match Search — PASS on exact current main.** \"'`zzzz-no-such-component-2026` yields zero governed cards and one visible `role=status` / `aria-live=polite` no-results message. Search text, persisted ExplorerState query, and result projection agree on desktop and mobile; known match, clear, Family, Favorites, and return-context flows pass.'\"\\\\n2. **Select popup viewport geometry — PASS on exact current main.** Keyboard/pointer interactions pass. Popup remains inside the viewport, adjacent to the controlling field, and without material opener overlap at 1440×900, 1440×700, 1024×768, 390×844, and the top-edge sanity state; listbox internal scrolling keeps the last option reachable. Per-state rects, max-height, scrolling, and hit test are in the scenario matrix.\\\\n3. **Explorer breakpoint focus continuity — PARTIAL / acceptance FAIL.** Three desktop→mobile→desktop cycles pass: mobile focus goes to the visible operable Refine summary, desktop restoration returns to Family in-frame with visible focus, and external Search focus/scroll is preserved. In the additional disabled-Family fallback, focus moves to Favorites and its focus ring and center hit test are visible, but the active button rectangle ends at \"'`y=900.484375` in a `1440×900` CSS viewport. This is a 0.484375 CSS-pixel bottom-edge miss. The explicit current-main acceptance requires the active target rect inside the viewport; the machine scenario therefore fails. The evidence does not show a blocked action or justify a P0/P1 classification.'\"\\\\n\\\\n## Objective findings and separate checks\\\\n\\\\n- Browser routes had no decisive page/console errors or failed essential requests; route-level document overflow checks passed.\\\\n- No unresolved P0/P1 browser/UI defect was established. One precise focus-containment acceptance miss is recorded above; no material task-blocking consequence was observed.\\\\n- Focused tests: see \"'`checks/focused-tests.xml`; 138 pass and one test-only theme source-string assertion fails (`test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral`).'\"\\\\n- \"'`runtime-contract`, launcher preflight, `git diff --check`, and `runtime-smoke --port 0`: PASS. The runtime smoke is local package evidence and does not qualify CHG-59.'\"\\\\n- \"'`agent-check` / application `gate`: FAIL separately on missing application scaffold/dependency metadata and existing syntax error `tools/verify_development_D6H2_browser.py:154`; the gate path also reports a pytest `collections.Sequence` import failure. Full outputs are attached in `checks/`. These repository validation failures are not browser regressions.'\"\\\\n\\\\n## Claim boundary\\\\n\\\\nThis package contains current-main E1 machine/browser evidence and supporting screenshots only. It is not accountable human review, authentic Chrome 200% zoom/reflow, CHG-59 work-computer runtime/server qualification, company-provider/data or scale qualification, deployment/operations qualification, stable 3.0.0 readiness, or publication readiness. Human files are unfilled templates. Authentic browser zoom and accountable E3 visual acceptance remain PENDING.\\\\n'''\n(mb_dst/'review-summary.md').write_text(review,encoding='utf-8')\n# Source lineage is recorded as evidence in addition to exact SHA and tree.\n# Build manifest hashes after all package content is finalized (manifest and sums are excluded from its internal map to avoid recursion).\ndef sha(path):\n h=hashlib.sha256()\n with path.open('rb') as f:\n  for chunk in iter(lambda:f.read(1024*1024),b''): h.update(chunk)\n return h.hexdigest()\nfiles=sorted(p for p in package.rglob('*') if p.is_file())\nshots=sorted((mb_dst/'screenshots').glob('*.png'))\nif len(shots)\"'!=59: raise SystemExit(f'\"'Expected exactly 59 screenshots, got {len(shots)}')\nscenario_statuses={s['id']:s['status'] for s in scenario['scenarios']}\nmanifest={\n 'schema_version':'1.0','project':'nicegui-base','change':'CHG-100','operation':'VERIFY','request':'stable3-browser-ui-current-main-refresh-3','fabric_job':'CF-16d31d92c36bf4edd1cc6d79',\n 'source':{'repository':'kimhw8084/nicegui-base','branch':'codex/nicegui-base-stable3-browser-ui-current-main-refresh-3','base_branch':'main','sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393','origin_main_sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','origin_main_tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393','branch_start_equals_main':True,'branch_finish_equals_main':True,'product_commits':0,'product_changed_files':0,'chg236_merge_and_accepted_head_ancestors':True,'chg237_merge_and_accepted_head_ancestors':True},\n 'runtime':env['runtime'],'browser':env['browser'],'platform':env['platform'],'viewports':env['viewports'],\n 'machine_result':scenario['aggregate'],'scenario_statuses':scenario_statuses,'screenshot_count':len(shots),'screenshot_sha256':{str(p.relative_to(package)):sha(p) for p in shots},\n 'former_failure_classes':{'components_no_match':'PASS','select_popup_geometry':'PASS','breakpoint_focus_recovery':'PARTIAL_FAIL_DISABLED_FAMILY_FALLBACK_0.484375_CSS_PX_BELOW_VIEWPORT','notes':'Normal Family restore cycles pass; fallback target focus ring remains visible, but bounding rect fails explicit in-viewport criterion.'},\n 'claim_boundary':{'evidence_level':'E1_MACHINE_BROWSER_WITH_SUPPORTING_PIXELS','human_visual_acceptance':'PENDING','authentic_browser_chrome_zoom_200':'PENDING_NOT_EXECUTED','chg59_work_computer_runtime_server_qualification':'DOWNSTREAM_NOT_EXECUTED','stable_3_0_0_or_publication_readiness':'NOT_CLAIMED'},\n 'hash_policy':'package_file_sha256 covers every package file except this manifest and SHA256SUMS.txt. SHA256SUMS.txt covers every package file except itself, including this manifest.',\n 'package_file_sha256':{str(p.relative_to(package)):sha(p) for p in files}\n}\n(mb_dst/'manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\\\\n',encoding='utf-8')\n# Complete package hash list, manifest included and checksum file self-excluded.\nlines=[]\nfor p in sorted(q for q in package.rglob('*') if q.is_file() and q.name\"'!='\"'SHA256SUMS.txt'):\n lines.append(f'{sha(p)}  {p.relative_to(package)}')\n(package/'SHA256SUMS.txt').write_text('\\\\n'.join(lines)+'\\\\n',encoding='utf-8')\n# Copy a concise build metadata file for later reproducibility.\nprint(json.dumps({'package':str(package),'machine_result':manifest['machine_result'],'scenario_statuses':scenario_statuses,'screenshots':len(shots),'files':sum(1 for p in package.rglob('*') if p.is_file()),'focused_test_cases':xml.attrib,'focused_test_failures':case_failures,'playwright_version':playwright_version},indent=2))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 1267,
+        "output_sha256": "1bb8331a08382e4bd0385eb1a64cb2ea1d9d6ab915716eef974b89686da9850c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nfrom pathlib import Path\nimport xml.etree.ElementTree as ET\np=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/focused-tests.xml')\nr=ET.parse(p).getroot()\nprint(r.tag,r.attrib)\nprint('testcases',len(list(r.iter('testcase'))),'failures',len(list(r.iter('failure'))),'errors',len(list(r.iter('error'))),'skipped',len(list(r.iter('skipped'))))\np=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/server.log')\nprint('server_log',p.stat().st_size if p.exists() else 'missing')\nif p.exists(): print(p.read_text(errors='replace')[-1000:])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,xml.etree.ElementTree as ET\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-package')\nmb=root/'machine-browser'; checks=mb/'checks'\ncmdp=mb/'commands.json'; commands=json.loads(cmdp.read_text())\nxml=ET.parse(checks/'focused-tests.xml').getroot(); cases=list(xml.iter('testcase')); failures=list(xml.iter('failure')); errors=list(xml.iter('error')); skipped=list(xml.iter('skipped'))\npass_count=len(cases)-len(failures)-len(errors)-len(skipped)\nfor c in commands['commands']:\n if c['command'].startswith('rtk proxy python '): c['command']='rtk proxy python /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/capture_browser.py'\n if c['command'].startswith('rtk proxy env PYTHONPATH=source'):\n  c['command']='rtk proxy env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg236.py source/tests/test_chg237_select_popup_geometry.py source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_phase4_overlays.py source/tests/test_phase23_v17_overlay_architecture.py source/tests/test_phase38_v200rc5_p0_lifecycle_async_overlay.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_identity_and_shell_reconstruction.py source/tests/test_workbench_d6e_patterns_recipes.py source/tests/test_patterns.py source/tests/test_data_table_final_integrity.py source/tests/test_workbench_data_table_lab.py source/tests/test_phase24_v17_datatable_platform.py source/tests/test_chg203_chart_theme.py source/tests/test_chg163_visualization_theme.py source/tests/test_phase6_theme_palette.py tests/test_wave35_accessibility.py tests/test_wave35_theme_persistence.py --junitxml=/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/focused-tests.xml'\n  c['result']=f'{len(cases)} test cases; {pass_count} passed, {len(failures)} failed, {len(errors)} errors, {len(skipped)} skipped; one test-only theme source-string assertion failed.'\ncmdp.write_text(json.dumps(commands,indent=2,sort_keys=True)+'\\\\n')\nmanifestp=mb/'manifest.json'; manifest=json.loads(manifestp.read_text())\ndef sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()\nshots=sorted((mb/'screenshots').glob('*.png'))\nmanifest['screenshot_count']=len(shots); manifest['screenshot_sha256']={str(p.relative_to(root)):sha(p) for p in shots}\nmanifest['package_file_sha256']={str(p.relative_to(root)):sha(p) for p in sorted(root.rglob('*')) if p.is_file() and p.name not in ('manifest.json','SHA256SUMS.txt')}\nmanifestp.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\\\\n')\nsumsp=root/'SHA256SUMS.txt'\nlines=[f'{sha(p)}  {p.relative_to(root)}' for p in sorted(root.rglob('*')) if p.is_file() and p.name\"'!='\"'SHA256SUMS.txt']\nsumsp.write_text('\\\\n'.join(lines)+'\\\\n')\nprint(json.dumps({'focused_cases':len(cases),'passed':pass_count,'failed':len(failures),'package_files':sum(p.is_file() for p in root.rglob('*')),'screenshots':len(shots),'sha256sum_lines':len(lines)},indent=2))\nPY\n\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 128,
+        "output_sha256": "995cdc737954c614f7f060c04d6e150730bcc5a0349677087aef29e028dbc07e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-package')\nm=json.loads((root/'machine-browser/manifest.json').read_text())\nassert m['machine_result']=='CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL'\nassert m['source']['sha']=='8024c21adad310881d6f3bbc04b00da1f4f03d31'\nassert m['source']['tree']=='fcc6294ba8f7c36b68b88a217e65b7efb3050393'\nassert m['screenshot_count']==59\nfor rel,expected in m['package_file_sha256'].items():\n p=root/rel; assert p.is_file(),rel; actual=hashlib.sha256(p.read_bytes()).hexdigest(); assert actual==expected,(rel,expected,actual)\nfor line in (root/'SHA256SUMS.txt').read_text().splitlines():\n expected,rel=line.split('  ',1); actual=hashlib.sha256((root/rel).read_bytes()).hexdigest(); assert expected==actual,rel\nreceipt=json.loads((root/'human-review/receipt-template.json').read_text())\nassert receipt['evidence_level']=='E3_PENDING_HUMAN' and receipt['reviewer'] is None and receipt['reviewed_at'] is None and receipt['human_visual_acceptance']=='PENDING' and receipt['authentic_browser_zoom_200']=='PENDING'\nassert len(list((root/'machine-browser/screenshots').glob('*.png')))==59\nprint(f\\\"PASS local: {len(m['package_file_sha256'])} declared package hashes, {len((root/'SHA256SUMS.txt').read_text().splitlines())} full-checksum entries, 59 screenshots, unfilled E3/zoom template\\\")\nPY\nrtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git worktree add --detach /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-worktree 8024c21adad310881d6f3bbc04b00da1f4f03d31'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nfrom pathlib import Path\nimport shutil\nsrc=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-package')\ndst=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-worktree')\nfor item in src.iterdir():\n target=dst/item.name\n if item.is_dir(): shutil.copytree(item,target,dirs_exist_ok=True)\n else: shutil.copy2(item,target)\nPY\ngit add SHA256SUMS.txt machine-browser human-review && git diff --cached --check && git diff --cached --stat && git diff --cached --name-only | sed -n '1,120p' && git status --short\"",
+      "exit_code": 128,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"/opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport shutil\nsrc=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-package')\ndst=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-worktree')\nfor item in src.iterdir():\n target=dst/item.name\n if item.is_dir(): shutil.copytree(item,target,dirs_exist_ok=True)\n else: shutil.copy2(item,target)\nPY\ngit add SHA256SUMS.txt machine-browser human-review\ngit diff --cached --check\ngit diff --cached --stat\ngit diff --cached --name-only | sed -n '1,120p'\ngit status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git commit -m \"CHG-100 current-main browser verification evidence refresh-3\" && git rev-parse HEAD && git rev-parse HEAD''^ && git show --stat --oneline --summary HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"git show -s --format='commit=%H%nparent=%P%nsubject=%s' HEAD && git diff-tree --no-commit-id --name-only -r HEAD | rg -v '\"'^(machine-browser/|human-review/|SHA256SUMS.txt$)'\"' || true && rtk git push origin HEAD:refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3:refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3 && git rev-parse refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3 && git show -s --format=%P refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git worktree add --detach /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,subprocess\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read')\nsha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()\nparent=subprocess.check_output(['git','show','-s','--format=%P','HEAD'],cwd=root,text=True).strip()\nassert sha=='aac158f34ce3e2ad3c651d7265d8551e768f4740',sha\nassert parent=='8024c21adad310881d6f3bbc04b00da1f4f03d31',parent\nm=json.loads((root/'machine-browser/manifest.json').read_text())\nassert m['source']['sha']==parent\nassert m['machine_result']=='CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL'\nassert m['screenshot_count']==59\nrequired=['machine-browser/manifest.json','machine-browser/scenario-matrix.json','machine-browser/browser-environment.json','machine-browser/focus-accessibility.json','machine-browser/console-network.json','machine-browser/commands.json','machine-browser/review-summary.md','human-review/checklist.md','human-review/receipt-template.json','human-review/zoom-metrics-snippet.txt']\nfor rel in required: assert (root/rel).is_file(),rel\nfor rel,expected in m['package_file_sha256'].items():\n actual=hashlib.sha256((root/rel).read_bytes()).hexdigest(); assert actual==expected,rel\nchecksum_lines=(root/'SHA256SUMS.txt').read_text().splitlines()\nfor line in checksum_lines:\n expected,rel=line.split('  ',1); actual=hashlib.sha256((root/rel).read_bytes()).hexdigest(); assert expected==actual,rel\nall_files=sorted(str(p.relative_to(root)) for p in root.rglob('*') if p.is_file())\nassert set(all_files)-{'SHA256SUMS.txt'}=={line.split('  ',1)[1] for line in checksum_lines}\nassert len(list((root/'machine-browser/screenshots').glob('*.png')))==59\nreceipt=json.loads((root/'human-review/receipt-template.json').read_text())\nassert receipt['evidence_level']=='E3_PENDING_HUMAN' and receipt['reviewer'] is None and receipt['reviewed_at'] is None and receipt['human_visual_acceptance']=='PENDING' and receipt['authentic_browser_zoom_200']=='PENDING'\nchanged=subprocess.check_output(['git','diff-tree','--no-commit-id','--name-only','-r','HEAD'],cwd=root,text=True).splitlines()\nassert changed and all(p.startswith('machine-browser/') or p.startswith('human-review/') or p=='SHA256SUMS.txt' for p in changed)\nprint(json.dumps({'remote_commit':sha,'sole_parent':parent,'files':len(all_files),'manifest_declared_files':len(m['package_file_sha256']),'sha256sum_verified_files':len(checksum_lines),'screenshots':59,'required_files':'PASS','human_template':'PENDING/unfilled','evidence_only_paths':'PASS'},indent=2))\nPY\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"/opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,subprocess\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read')\nsha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()\nparent=subprocess.check_output(['git','show','-s','--format=%P','HEAD'],cwd=root,text=True).strip()\nassert sha=='aac158f34ce3e2ad3c651d7265d8551e768f4740',sha\nassert parent=='8024c21adad310881d6f3bbc04b00da1f4f03d31',parent\nm=json.loads((root/'machine-browser/manifest.json').read_text())\nassert m['source']['sha']==parent\nassert m['machine_result']=='CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL'\nassert m['screenshot_count']==59\nrequired=['machine-browser/manifest.json','machine-browser/scenario-matrix.json','machine-browser/browser-environment.json','machine-browser/focus-accessibility.json','machine-browser/console-network.json','machine-browser/commands.json','machine-browser/review-summary.md','human-review/checklist.md','human-review/receipt-template.json','human-review/zoom-metrics-snippet.txt']\nfor rel in required: assert (root/rel).is_file(),rel\nfor rel,expected in m['package_file_sha256'].items():\n actual=hashlib.sha256((root/rel).read_bytes()).hexdigest(); assert actual==expected,rel\nchecksum_lines=(root/'SHA256SUMS.txt').read_text().splitlines()\nfor line in checksum_lines:\n expected,rel=line.split('  ',1); actual=hashlib.sha256((root/rel).read_bytes()).hexdigest(); assert expected==actual,rel\nall_files=sorted(str(p.relative_to(root)) for p in root.rglob('*') if p.is_file())\nassert set(all_files)-{'SHA256SUMS.txt'}=={line.split('  ',1)[1] for line in checksum_lines}\nassert len(list((root/'machine-browser/screenshots').glob('*.png')))==59\nreceipt=json.loads((root/'human-review/receipt-template.json').read_text())\nassert receipt['evidence_level']=='E3_PENDING_HUMAN' and receipt['reviewer'] is None and receipt['reviewed_at'] is None and receipt['human_visual_acceptance']=='PENDING' and receipt['authentic_browser_zoom_200']=='PENDING'\nchanged=subprocess.check_output(['git','diff-tree','--no-commit-id','--name-only','-r','HEAD'],cwd=root,text=True).splitlines()\nassert changed and all(p.startswith('machine-browser/') or p.startswith('human-review/') or p=='SHA256SUMS.txt' for p in changed)\nprint(json.dumps({'remote_commit':sha,'sole_parent':parent,'files':len(all_files),'manifest_declared_files':len(m['package_file_sha256']),'sha256sum_verified_files':len(checksum_lines),'screenshots':59,'required_files':'PASS','human_template':'PENDING/unfilled','evidence_only_paths':'PASS'},indent=2))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"/opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read')\nfor p in ['human-review/receipt-template.json','machine-browser/manifest.json']:\n print(p,Path(root/p).read_text()[:1200])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"/opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,subprocess\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read')\nsha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip();parent=subprocess.check_output(['git','show','-s','--format=%P','HEAD'],cwd=root,text=True).strip()\nm=json.loads((root/'machine-browser/manifest.json').read_text())\nprint('sha',sha,'parent',parent,'source',m['source']['sha'],'screens',m['screenshot_count'],len(list((root/'machine-browser/screenshots').glob('*.png'))))\nfor rel,expected in m['package_file_sha256'].items():\n actual=hashlib.sha256((root/rel).read_bytes()).hexdigest()\n if actual\"'!=expected: print('\"'hash mismatch',rel); break\nelse: print('manifest hashes ok',len(m['package_file_sha256']))\nchecksum_lines=(root/'SHA256SUMS.txt').read_text().splitlines()\nfor line in checksum_lines:\n expected,rel=line.split('  ',1);actual=hashlib.sha256((root/rel).read_bytes()).hexdigest()\n if expected\"'!=actual: print('\"'checksum mismatch',rel);break\nelse: print('checksums ok',len(checksum_lines))\nall_files=sorted(str(p.relative_to(root)) for p in root.rglob('*') if p.is_file())\nprint('all',len(all_files),'sum set',len(set(line.split('  ',1)[1] for line in checksum_lines)), 'not in sums',set(all_files)-{'SHA256SUMS.txt'}-{line.split('  ',1)[1] for line in checksum_lines})\nchanged=subprocess.check_output(['git','diff-tree','--no-commit-id','--name-only','-r','HEAD'],cwd=root,text=True).splitlines()\nprint('changed',len(changed),'bad', [x for x in changed if not (x.startswith('machine-browser/') or x.startswith('human-review/') or x=='SHA256SUMS.txt')][:10])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"/opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,subprocess\nroot=Path('/tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read')\nsha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip();parent=subprocess.check_output(['git','show','-s','--format=%P','HEAD'],cwd=root,text=True).strip()\nassert sha=='aac158f34ce3e2ad3c651d7265d8551e768f4740',sha\nassert parent=='8024c21adad310881d6f3bbc04b00da1f4f03d31',parent\nm=json.loads((root/'machine-browser/manifest.json').read_text())\nassert m['source']['sha']==parent and m['machine_result']=='CURRENT_MAIN_MACHINE_BROWSER_PRODUCT_FAIL' and m['screenshot_count']==59\nrequired=['machine-browser/manifest.json','machine-browser/scenario-matrix.json','machine-browser/browser-environment.json','machine-browser/focus-accessibility.json','machine-browser/console-network.json','machine-browser/commands.json','machine-browser/review-summary.md','human-review/checklist.md','human-review/receipt-template.json','human-review/zoom-metrics-snippet.txt']\nfor rel in required: assert (root/rel).is_file(),rel\nfor rel,expected in m['package_file_sha256'].items(): assert hashlib.sha256((root/rel).read_bytes()).hexdigest()==expected,rel\nchecksums=(root/'SHA256SUMS.txt').read_text().splitlines()\nfor line in checksums:\n expected,rel=line.split('  ',1); assert hashlib.sha256((root/rel).read_bytes()).hexdigest()==expected,rel\nscoped=sorted(str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and (str(p.relative_to(root)).startswith('machine-browser/') or str(p.relative_to(root)).startswith('human-review/') or str(p.relative_to(root))=='SHA256SUMS.txt'))\nassert set(scoped)-{'SHA256SUMS.txt'}=={line.split('  ',1)[1] for line in checksums}\nassert len(list((root/'machine-browser/screenshots').glob('*.png')))==59\nreceipt=json.loads((root/'human-review/receipt-template.json').read_text())\nassert receipt['evidence_level']=='E3_PENDING_HUMAN' and receipt['reviewer'] is None and receipt['reviewed_at'] is None and receipt['human_visual_acceptance']=='PENDING' and receipt['authentic_browser_zoom_200']=='PENDING'\nchanged=subprocess.check_output(['git','diff-tree','--no-commit-id','--name-only','-r','HEAD'],cwd=root,text=True).splitlines()\nassert changed and all(p.startswith('machine-browser/') or p.startswith('human-review/') or p=='SHA256SUMS.txt' for p in changed)\nprint(json.dumps({'remote_commit':sha,'sole_parent':parent,'package_files':len(scoped),'manifest_declared_hashes':len(m['package_file_sha256']),'full_checksums_verified':len(checksums),'screenshots':59,'required_files':'PASS','human_template':'PENDING/unfilled','evidence_only_paths':'PASS'},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'command -v fabricctl && fabricctl --help'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"type -a fabricctl || true; ls -la /Users/haewonkim/.codex-fabric; rg --files /Users/haewonkim/.codex-fabric | rg '(\"'^|/)(fabricctl|fabric)('\"\\\\.py)?\"'$|audit'\"\\\\.json\"'$|job'\"\\\\.json\"'$'\"' | head -n 100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'ls -la /Users/haewonkim/.codex-fabric/bin && ls -la /Users/haewonkim/.codex-fabric/current | head -n 30 && find /Users/haewonkim/.codex-fabric/current -maxdepth 2 -type f -perm -111 -print | head -n 80'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc '/Users/haewonkim/.codex-fabric/bin/fabricctl --help'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rg -n \"publish-evidence|def publish_evidence|def .*evidence\" /Users/haewonkim/.codex-fabric/current/fabric.py | head -n 100'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"sed -n '2952,3085p' /Users/haewonkim/.codex-fabric/current/fabric.py && sed -n '4835,4860p' /Users/haewonkim/.codex-fabric/current/fabric.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc '/Users/haewonkim/.codex-fabric/bin/fabricctl status CF-16d31d92c36bf4edd1cc6d79'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git worktree remove --force /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-worktree\ngit worktree remove --force /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/remote-read\nrtk git fetch origin main\ngit rev-parse HEAD\ngit rev-parse HEAD''^{tree}\ngit rev-parse origin/main\ngit rev-parse origin/main''^{tree}\ngit branch --show-current\ngit rev-list --left-right --count origin/main...HEAD\ngit status --porcelain=v1\ngit diff --check\nlsof -nP -iTCP:58060 -sTCP:LISTEN || true\ngit worktree list'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg '\"'^([0-9a-f]{64})  machine-browser/manifest.json$'\"' /tmp/CF-16d31d92c36bf4edd1cc6d79-chg100-refresh3/artifact-package/SHA256SUMS.txt && git status --porcelain=v1 && git rev-parse HEAD && git rev-list --left-right --count origin/main...HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc '/Users/haewonkim/.codex-fabric/bin/fabricctl status CF-16d31d92c36bf4edd1cc6d79'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.156.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 305,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.45,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 10368000,
+      "fresh_input_tokens": 381588,
+      "input_tokens": 10749588,
+      "non_reasoning_output_tokens": 49280,
+      "output_tokens": 116415,
+      "reasoning_output_tokens": 67135,
+      "total_processed_tokens": 10866003
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-25T21:01:18Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-3",
+    "detached_verify": false,
+    "head_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "remote_exact_head": true,
+    "remote_head_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-16d31d92c36bf4edd1cc6d79",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-current-main-refresh-3",
+  "schema_version": 1,
+  "started_at": "2026-09-25T20:18:25Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 2573,
+    "queue_seconds": 0,
+    "total_seconds": 2573
+  },
+  "transport": {
+    "bytes": 19996,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 19639,
+    "prompt_sha256": "8f486a992eec4cb0ee04714bfdb50671be59ed8708fe99bdf497a3fde0e8c5a2",
+    "sha256": "16d31d92c36bf4edd1cc6d7936e864860c06b68e0963f90a7a03c754444b9211"
+  }
+}
