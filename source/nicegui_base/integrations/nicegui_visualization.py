@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import csv
+from contextlib import contextmanager
+from contextvars import ContextVar
 import inspect
 import io
 import json
@@ -29,6 +31,19 @@ def _ui():
 
 
 _CLIENT_THEME_STORAGE_KEY = '_nicegui_base_effective_theme'
+_CHART_THEME_SCOPE: ContextVar[str | None] = ContextVar('nicegui_base_chart_theme_scope', default=None)
+
+
+@contextmanager
+def _chart_theme_scope(mode: str):
+    """Bind rendered charts to the local theme owner of a specimen preview."""
+    if mode not in {'system', 'light', 'dark'}:
+        raise ValueError('chart theme scope must be system, light, or dark')
+    token = _CHART_THEME_SCOPE.set(mode)
+    try:
+        yield
+    finally:
+        _CHART_THEME_SCOPE.reset(token)
 
 
 def _active_client(ui: Any | None = None) -> Any | None:
@@ -61,6 +76,9 @@ def _client_theme_mode(client: Any | None) -> str | None:
 
 
 def _resolve_theme_mode(mode: str | None) -> str:
+    local_mode = _CHART_THEME_SCOPE.get()
+    if local_mode in {'light', 'dark'}:
+        return local_mode
     if mode in {'light', 'dark'}:
         return mode
     # ``ui.dark_mode()`` constructs a page element in NiceGUI 3.15. It is not
@@ -98,6 +116,7 @@ _ACTIVE_CHARTS: 'weakref.WeakSet[ChartPanel]' = weakref.WeakSet()
 # available for live theme changes.
 _ACTIVE_THEME_RENDERERS: 'weakref.WeakKeyDictionary[Any, set[Any]]' = weakref.WeakKeyDictionary()
 _CLIENT_THEME_CLEANUP_REGISTERED: 'weakref.WeakSet[Any]' = weakref.WeakSet()
+_CLIENT_THEME_RESOLVER_REGISTERED: 'weakref.WeakSet[Any]' = weakref.WeakSet()
 
 
 def _cleanup_client(client: Any) -> None:
@@ -108,6 +127,7 @@ def _cleanup_client(client: Any) -> None:
                 renderer._theme_client = None
         bucket.clear()
     _CLIENT_THEME_CLEANUP_REGISTERED.discard(client)
+    _CLIENT_THEME_RESOLVER_REGISTERED.discard(client)
     storage = getattr(client, 'storage', None)
     if storage is not None:
         try:
@@ -119,6 +139,7 @@ def _cleanup_client(client: Any) -> None:
 def _register_theme_renderer(renderer: Any) -> None:
     client = _active_client()
     renderer._theme_client = client
+    renderer._theme_scope_mode = _CHART_THEME_SCOPE.get()
     if client is None:
         return
     try:
@@ -126,6 +147,7 @@ def _register_theme_renderer(renderer: Any) -> None:
     except TypeError:
         return
     bucket.add(renderer)
+    register_client_theme_resolver(_ui())
     if client not in _CLIENT_THEME_CLEANUP_REGISTERED:
         on_delete = getattr(client, 'on_delete', None)
         if callable(on_delete):
@@ -150,6 +172,14 @@ def _unregister_theme_renderer(renderer: Any) -> None:
 
 def register_client_theme_resolver(ui: Any) -> Any:
     """Create a client-local bridge for browser-resolved System appearance."""
+    client = _active_client(ui)
+    if client is not None:
+        try:
+            if client in _CLIENT_THEME_RESOLVER_REGISTERED:
+                return None
+            _CLIENT_THEME_RESOLVER_REGISTERED.add(client)
+        except TypeError:
+            client = None
     bridge = ui.element('div').classes('cui-visually-hidden').props(
         'aria-hidden="true" data-cui-theme-resolver="true"'
     )
@@ -161,6 +191,43 @@ def register_client_theme_resolver(ui: Any) -> Any:
             apply_all_chart_themes(mode)
 
     bridge.on('cui-theme-resolved', resolved, js_handler='e => emit(e.detail)')
+    if client is not None:
+        on_delete = getattr(client, 'on_delete', None)
+        if callable(on_delete) and client not in _CLIENT_THEME_CLEANUP_REGISTERED:
+            on_delete(_cleanup_client)
+            _CLIENT_THEME_CLEANUP_REGISTERED.add(client)
+    ui.run_javascript('''(() => {
+      const key='__niceguiBaseResolveChartTheme';
+      const root=document.documentElement;
+      const dispatch=()=>{
+        const requested=root.__niceguiBaseThemeRequested||root.dataset.theme||'system';
+        const mode=requested==='light'||requested==='dark'?requested:
+          (window.matchMedia?.('(prefers-color-scheme: dark)').matches?'dark':'light');
+        const state=window.__niceguiBaseChartThemeResolverState||
+          (window.__niceguiBaseChartThemeResolverState={lastMode:null});
+        document.querySelectorAll('[data-cui-theme-resolver="true"]').forEach(bridge=>{
+          if(!bridge.__cuiThemeResolvedObserver){
+            bridge.__cuiThemeResolvedObserver=true;
+            bridge.addEventListener('cui-theme-resolved',event=>{
+              const next=event.detail?.mode;
+              if(next==='light'||next==='dark') state.lastMode=next;
+            },true);
+          }
+        });
+        if(state.lastMode===mode)return;
+        state.lastMode=mode;
+        document.querySelectorAll('[data-cui-theme-resolver="true"]').forEach(bridge=>
+          bridge.dispatchEvent(new CustomEvent('cui-theme-resolved',{detail:{mode}})));
+      };
+      if(!window[key]){
+        window[key]=dispatch;
+        const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+        media?.addEventListener?.('change',dispatch);
+        new MutationObserver(dispatch).observe(root,{attributes:true,attributeFilter:['data-theme']});
+      }
+      requestAnimationFrame(()=>setTimeout(window[key],0));
+      setTimeout(window[key],120);
+    })()''')
     return bridge
 
 
@@ -183,7 +250,8 @@ def apply_all_chart_themes(mode: str, *, client: Any | None = None) -> None:
     failures=[]
     for panel in panels:
         try:
-            panel.apply_theme(mode)
+            local_mode = getattr(panel, '_theme_scope_mode', None)
+            panel.apply_theme(local_mode if local_mode in {'light', 'dark'} else mode)
         except Exception as exc:
             failures.append(f'{type(panel).__name__}: {type(exc).__name__}: {exc}')
     if failures:
