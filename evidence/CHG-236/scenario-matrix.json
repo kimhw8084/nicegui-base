@@ -1,0 +1,60 @@
+{
+  "base_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+  "base_tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b",
+  "candidate_sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+  "candidate_tree": "38d32f2a6f1b09331acb00ac3c0dc24de4a93c02",
+  "change": "CHG-236",
+  "fabric_job_id": "CF-f6ce7d6e1470db15b042dd80",
+  "project": "nicegui-base",
+  "request": "stable3-explorer-no-results-breakpoint-focus-fix-1",
+  "scenarios": [
+    {
+      "evidence": "desktop-scenario.json",
+      "name": "EXPLORER_FIX_COMPONENTS_DESKTOP",
+      "status": "PASS",
+      "summary": "Known match, strict no-match empty projection and truthful status, clear, Family, Favorites only/All references round trip, combined filtering, single Search/Refine, no overflow or browser/network errors."
+    },
+    {
+      "evidence": "mobile-scenario.json",
+      "name": "EXPLORER_FIX_COMPONENTS_MOBILE",
+      "status": "PASS",
+      "summary": "390x844; primary Search remains visible outside closed Refine; secondary controls hidden until opened; no-match produces zero cards and live status; no overflow/errors."
+    },
+    {
+      "evidence": "breakpoint-scenario.json",
+      "name": "EXPLORER_FIX_BREAKPOINT_FOCUS",
+      "status": "PASS",
+      "summary": "Three same-page cycles; mobile summary handoff; Family/Favorites desktop recovery; one listener; singleton; no focus theft from outside Search; ineligible Family falls back to Favorites; no errors."
+    },
+    {
+      "evidence": "shared-gallery-scenario.json",
+      "name": "EXPLORER_FIX_SHARED_GALLERY_REGRESSION",
+      "status": "PASS",
+      "summary": "Components, analytics and recipes each retain one Search and one Refine, desktop-open/mobile-closed behavior and mobile Search visibility."
+    },
+    {
+      "evidence": "patterns-identity-scenario.json",
+      "name": "EXPLORER_FIX_PATTERNS_IDENTITY",
+      "status": "PASS",
+      "summary": "Distinct unified chooser; no shared-gallery Search/Refine markers."
+    },
+    {
+      "evidence": "source-regression.json",
+      "name": "EXPLORER_FIX_SOURCE_REGRESSION",
+      "status": "PASS",
+      "summary": "Focused regression and public API/component suites passed (106 tests, exit 0)."
+    },
+    {
+      "evidence": "server-cleanup.json",
+      "name": "EXPLORER_FIX_SERVER_CLEANUP",
+      "status": "PASS",
+      "summary": "Only job-owned PID 9959 on 127.0.0.1:47823 was stopped; no listener remained and connection was refused."
+    },
+    {
+      "evidence": "git-final.json",
+      "name": "EXPLORER_FIX_GIT_FINAL",
+      "status": "PASS",
+      "summary": "Work branch is pushed at candidate; candidate descends normally from exact base; origin/main unchanged; Product worktree clean."
+    }
+  ]
+}

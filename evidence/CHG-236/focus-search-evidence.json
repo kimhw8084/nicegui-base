@@ -1,0 +1,44 @@
+{
+  "candidate_sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+  "desktop_no_match": {
+    "aria_live": "polite",
+    "cards": 0,
+    "empty_role": "status",
+    "input_and_state_aligned": true,
+    "query": "zzzz-no-such-component-2026",
+    "screenshot": "screenshots/explorer-fix-components-desktop-no-results.png",
+    "status": "0 of 34 visible \u00b7 1 saved \u00b7 0 comparing"
+  },
+  "favorites_label_round_trip": [
+    "Favorites only",
+    "All references",
+    "Favorites only"
+  ],
+  "focus_handoff": {
+    "desktop_document_overflow_px": 0,
+    "desktop_origin": "Family",
+    "desktop_return": "visible eligible Family control",
+    "mobile_document_overflow_px": 0,
+    "mobile_summary_rect": {
+      "height": 38,
+      "width": 290.5,
+      "x": 74.484375,
+      "y": 633
+    },
+    "mobile_target": "Refine summary",
+    "outside_search_focus_preserved": true,
+    "repeated_cycles": 3,
+    "screenshot_desktop": "screenshots/explorer-fix-breakpoint-desktop-family-restored.png",
+    "screenshot_mobile": "screenshots/explorer-fix-breakpoint-mobile-summary-focused.png"
+  },
+  "mobile_no_match": {
+    "aria_live": "polite",
+    "cards": 0,
+    "document_overflow_px": 0,
+    "empty_role": "status",
+    "input_and_state_aligned": true,
+    "query": "zzzz-no-such-component-2026",
+    "screenshot": "screenshots/explorer-fix-components-mobile-no-results.png"
+  },
+  "status": "PASS"
+}

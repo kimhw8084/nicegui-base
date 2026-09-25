@@ -1,0 +1,76 @@
+{
+  "commands": [
+    {
+      "command": "rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg236.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_iteration2.py source/tests/test_phase8_state.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py source/tests/test_component_models.py source/tests/test_component_css.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py",
+      "name": "focused-regressions",
+      "result": "106 passed, 0 failed, exit 0",
+      "status": "PASS"
+    },
+    {
+      "command": "(workdir source) rtk proxy /opt/anaconda3/bin/python -m pytest -q",
+      "name": "source-full-suite",
+      "result": "14 failures in pre-existing runtime StateKey generic slots, runtime kernel undo/snapshot, agent starter, and generated template tests; CHG-236 focused tests passed",
+      "status": "FAIL_UNRELATED"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests",
+      "name": "root-tests",
+      "result": "26 passed, 1 failed; test_wave35_theme_persistence.py expects unrelated requested===system source literal",
+      "status": "FAIL_UNRELATED"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source nicegui-base runtime-contract",
+      "name": "runtime-contract",
+      "result": "NiceGUI 3.15.0; factory 48 / 1176",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source nicegui-base runtime-smoke --port 0",
+      "name": "runtime-smoke",
+      "result": "Health/readiness and all listed route checks returned 200",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source nicegui-base agent-check .",
+      "name": "agent-check",
+      "result": "Missing scaffold/version authority, existing syntax error in tools/verify_development_D6H2_browser.py, and 56 warnings",
+      "status": "FAIL_PREEXISTING"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source nicegui-base gate .",
+      "name": "gate",
+      "result": "Manifest/dependency pin/entrypoint gaps, same pre-existing Python syntax error, and unrelated wave35 theme literal expectation",
+      "status": "FAIL_PREEXISTING"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source python -m nicegui_base.validate .",
+      "name": "framework-validator",
+      "result": "Same pre-existing syntax error and warnings",
+      "status": "FAIL_PREEXISTING"
+    },
+    {
+      "command": "rtk proxy env PYTHONPATH=source NICEGUI_BASE_PORT=47823 python run_nicegui_base.py --port 47823",
+      "name": "browser-server",
+      "result": "Exact candidate server on 127.0.0.1:47823; stopped after scenarios",
+      "status": "PASS"
+    },
+    {
+      "command": "Playwright 1.62.0 headless Chromium 151.0.7922.34 against http://127.0.0.1:47823; deterministic scenario result files are included in this package",
+      "name": "browser-scenarios",
+      "result": "Five requested browser scenarios passed; see scenario-matrix.json and per-scenario JSON",
+      "status": "PASS"
+    },
+    {
+      "command": "Ctrl-C to job-owned server session 1668; then lsof and socket connect_ex probe on 127.0.0.1:47823",
+      "name": "server-cleanup",
+      "result": "PID 9959 exited; no listener; ECONNREFUSED (61)",
+      "status": "PASS"
+    },
+    {
+      "command": "rtk git fetch origin main; rtk git merge-base --is-ancestor <base> HEAD; rtk git status --short --branch; rtk git ls-remote origin <candidate-ref> refs/heads/main",
+      "name": "git-final",
+      "result": "Exact base ancestry; candidate branch pushed; origin/main remains exact base; Product worktree clean",
+      "status": "PASS"
+    }
+  ]
+}

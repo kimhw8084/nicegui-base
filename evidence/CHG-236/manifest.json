@@ -1,0 +1,30 @@
+{
+  "accountability_boundary": [
+    "No Project OS GO self-declaration",
+    "No human E3 visual acceptance",
+    "No CHG-237 Select popup geometry claim",
+    "No authentic browser-chrome 200% zoom claim",
+    "No CHG-59/company data/runtime/deployment or publication readiness claim"
+  ],
+  "artifact_scope": "Implementation evidence only; this artifact commit adds evidence files and does not replace Product source.",
+  "base": {
+    "ref": "main",
+    "sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b"
+  },
+  "candidate": {
+    "branch": "codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1",
+    "parent": "72636acb262e4b35d11095e21845fc86bc6aed29",
+    "sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+    "tree": "38d32f2a6f1b09331acb00ac3c0dc24de4a93c02"
+  },
+  "change": "CHG-236",
+  "fabric_job_id": "CF-f6ce7d6e1470db15b042dd80",
+  "native_fabric_audit": {
+    "reason": "No Fabric publisher is exposed among the available tools; .codex-fabric/audit.json was not forged.",
+    "status": "NOT_PUBLISHED_BY_THIS_SESSION"
+  },
+  "operation": "FIX",
+  "project": "nicegui-base",
+  "request": "stable3-explorer-no-results-breakpoint-focus-fix-1"
+}

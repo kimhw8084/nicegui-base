@@ -1,0 +1,11 @@
+{
+  "address": "127.0.0.1",
+  "connect_ex_after_cleanup": 61,
+  "listener_after_cleanup": false,
+  "meaning": "ECONNREFUSED",
+  "owned_command": "python run_nicegui_base.py --port 47823",
+  "pid": 9959,
+  "port": 47823,
+  "status": "PASS",
+  "termination": "Ctrl-C sent to the job-owned server session; process exited after application shutdown"
+}

@@ -1,0 +1,16 @@
+{
+  "command": "rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg236.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_iteration2.py source/tests/test_phase8_state.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py source/tests/test_component_models.py source/tests/test_component_css.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py",
+  "coverage": [
+    "CHG-103",
+    "CHG-106",
+    "CHG-108",
+    "CHG-117",
+    "CHG-124",
+    "CHG-236",
+    "Explorer/gallery/state/component/accessibility/public API"
+  ],
+  "exit_code": 0,
+  "failed": 0,
+  "passed": 106,
+  "status": "PASS"
+}
