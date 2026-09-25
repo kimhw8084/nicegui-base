@@ -1,0 +1,536 @@
+{
+  "accepted_at": "2026-09-25T13:57:22Z",
+  "changed_files": [
+    {
+      "additions": 54,
+      "deletions": 3,
+      "path": "source/nicegui_base/workbench/app.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 3,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 2,
+      "path": "source/tests/test_workbench_chg106.py",
+      "status": "M"
+    },
+    {
+      "additions": 270,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg236.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 9959 -o pid=,stat=,command=; rtk lsof -nP -iTCP:47823 -sTCP:LISTEN'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git log --oneline --decorate -3 && rtk git rev-parse HEAD HEAD''^{tree} HEAD''^'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin main && rtk git rev-parse origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l /tmp/nicegui_base_chg236_implementation_evidence && rtk find /tmp/nicegui_base_chg236_implementation_evidence -maxdepth 2 -type f -print'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"No governed reference|no_results|explorer-empty|role=\\\\\\\"status\\\\\\\"|white-space\\\" source/nicegui_base/workbench/explorer_gallery.py source/nicegui_base/workbench/workbench_css.py source/nicegui_base\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /tmp/nicegui_base_chg236_implementation_evidence/breakpoint-scenario.json /tmp/nicegui_base_chg236_implementation_evidence/mobile-scenario.json /tmp/nicegui_base_chg236_implementation_evidence/desktop-scenario.json /tmp/nicegui_base_chg236_implementation_evidence/shared-gallery-scenario.json /tmp/nicegui_base_chg236_implementation_evidence/patterns-identity-scenario.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"cui-workbench-preview-empty|preview-empty\\\" source/nicegui_base/workbench source/nicegui_base/design && rtk sed -n '1,260p' source/nicegui_base/workbench/explorer_gallery.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python -m pytest -q > /tmp/chg236-source-full-pytest.log 2>&1; result=$?; rtk tail -n 90 /tmp/chg236-source-full-pytest.log; exit $result'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 6574,
+        "output_sha256": "b540a85adbce4970a105688e26de4e6c0264c3b74d3d094b20aa5fa06af53eb8",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nimport asyncio, json\nfrom playwright.async_api import async_playwright\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True)\n  page=await b.new_page(viewport={\\\"width\\\":390,\\\"height\\\":844})\n  await page.goto('http://127.0.0.1:47823/components')\n  await page.locator('[data-explorer-search]').locator('input').fill('zzzz-no-such-component-2026')\n  await page.wait_for_timeout(500)\n  print(json.dumps(await page.locator('.cui-workbench-preview-empty').evaluate(\\\"e => ({rect:e.getBoundingClientRect().toJSON(), scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,css:getComputedStyle(e).cssText,display:getComputedStyle(e).display,wrap:getComputedStyle(e).flexWrap,child:[...e.children].map(c=>({tag:c.tagName,cls:c.className,rect:c.getBoundingClientRect().toJSON(),sw:c.scrollWidth,cw:c.clientWidth,white:getComputedStyle(c).whiteSpace,overflow:getComputedStyle(c).overflowWrap,word:getComputedStyle(c).wordBreak,display:getComputedStyle(c).display}))})\\\"),indent=2))\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python - <<'PY'\nimport asyncio, json\nfrom playwright.async_api import async_playwright\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True)\n  page=await b.new_page(viewport={\\\"width\\\":390,\\\"height\\\":844})\n  await page.goto('http://127.0.0.1:47823/components')\n  await page.locator('[data-explorer-search]').locator('input').fill('zzzz-no-such-component-2026')\n  await page.wait_for_timeout(500)\n  print(json.dumps(await page.locator('.cui-workbench-preview-empty').evaluate(\\\"e => ({rect:e.getBoundingClientRect().toJSON(), scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,display:getComputedStyle(e).display,wrap:getComputedStyle(e).flexWrap,child:[...e.children].map(c=>({tag:c.tagName,cls:c.className,rect:c.getBoundingClientRect().toJSON(),sw:c.scrollWidth,cw:c.clientWidth,white:getComputedStyle(c).whiteSpace,overflow:getComputedStyle(c).overflowWrap,word:getComputedStyle(c).wordBreak,display:getComputedStyle(c).display}))})\\\"),indent=2))\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk cat /tmp/nicegui_base_chg236_implementation_evidence/browser-environment.json; rtk sed -n '/\"'^FAILED /,$p'\"' /tmp/chg236-source-full-pytest.log | rtk head -n 35\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 2321,
+        "output_sha256": "81ee0bdddb0d2e16296a9b238b3d5594762cc77e55a9369f7924c503ddb8848e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"\\\\.q-label\\\\s*\\\\{|label\\\\.q-label|white-space:\\\\s*nowrap\\\" source/nicegui_base --glob '*.py' --glob '*.css'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 9959 -o pid=,stat=,command=; rtk curl -sS -I http://127.0.0.1:47823/components'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -u - <<'PY'\nimport asyncio, json\nfrom playwright.async_api import async_playwright\nEXE='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True,executable_path=EXE)\n  page=await b.new_page(viewport={\\\"width\\\":390,\\\"height\\\":844})\n  resp=await page.goto('http://127.0.0.1:47823/components',wait_until='domcontentloaded',timeout=10000)\n  print('resp',resp.status if resp else None,'url',page.url,'title',await page.title())\n  await page.wait_for_timeout(1000)\n  print('controls',await page.locator('[data-explorer-search]').count(),'inputs',await page.locator('input').count(),'body', (await page.locator('body').inner_text())[:500])\n  print('empty',await page.locator('.cui-workbench-preview-empty').count())\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -u - <<'PY'\nimport asyncio, json\nfrom playwright.async_api import async_playwright\nEXE='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True,executable_path=EXE)\n  page=await b.new_page(viewport={\\\"width\\\":390,\\\"height\\\":844})\n  await page.goto('http://127.0.0.1:47823/components',wait_until='domcontentloaded')\n  print('selector',await page.locator('[data-explorer-search] input').count())\n  await page.locator('[data-explorer-search] input').fill('zzzz-no-such-component-2026')\n  await page.wait_for_timeout(800)\n  print(json.dumps(await page.locator('.cui-workbench-preview-empty').evaluate(\\\"e => ({rect:e.getBoundingClientRect().toJSON(), scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,display:getComputedStyle(e).display,wrap:getComputedStyle(e).flexWrap,child:[...e.children].map(c=>({tag:c.tagName,cls:c.className,rect:c.getBoundingClientRect().toJSON(),sw:c.scrollWidth,cw:c.clientWidth,white:getComputedStyle(c).whiteSpace,overflow:getComputedStyle(c).overflowWrap,word:getComputedStyle(c).wordBreak,display:getComputedStyle(c).display}))})\\\"),indent=2))\n  await page.screenshot(path='/tmp/chg236-mobile-before.png')\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -u - <<'PY'\nimport asyncio\nfrom playwright.async_api import async_playwright\nEXE='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True,executable_path=EXE)\n  page=await b.new_page(viewport={'width':390,'height':844})\n  await page.goto('http://127.0.0.1:47823/components',wait_until='domcontentloaded')\n  await page.wait_for_timeout(200)\n  print(await page.locator('.cui-explorer-controls').evaluate(\\\"e=>e.outerHTML.slice(0,5000)\\\"))\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -u - <<'PY'\nimport asyncio, json\nfrom playwright.async_api import async_playwright\nEXE='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True,executable_path=EXE)\n  page=await b.new_page(viewport={'width':390,'height':844})\n  await page.goto('http://127.0.0.1:47823/components',wait_until='domcontentloaded')\n  await page.locator('[data-explorer-search]').fill('zzzz-no-such-component-2026')\n  await page.wait_for_timeout(500)\n  print(json.dumps(await page.locator('.cui-workbench-preview-empty').evaluate(\\\"e => ({rect:e.getBoundingClientRect().toJSON(), scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,display:getComputedStyle(e).display,wrap:getComputedStyle(e).flexWrap,child:[...e.children].map(c=>({tag:c.tagName,cls:c.className,rect:c.getBoundingClientRect().toJSON(),sw:c.scrollWidth,cw:c.clientWidth,white:getComputedStyle(c).whiteSpace,overflow:getComputedStyle(c).overflowWrap,word:getComputedStyle(c).wordBreak,display:getComputedStyle(c).display,inner:[...c.children].map(x=>({tag:x.tagName,cls:x.className,rect:x.getBoundingClientRect().toJSON(),white:getComputedStyle(x).whiteSpace,display:getComputedStyle(x).display}))}))})\\\"),indent=2))\n  await page.screenshot(path='/tmp/chg236-mobile-before.png')\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -u - <<'PY'\nimport asyncio, json\nfrom pathlib import Path\nfrom playwright.async_api import async_playwright\nEXE='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nOUT=Path('/tmp/nicegui_base_chg236_implementation_evidence/screenshots')\nasync def metric(page):\n return await page.evaluate(\\\"\\\"\\\"() => { const a=document.activeElement, r=a?.getBoundingClientRect(); return {active:{tag:a?.tagName,cls:a?.className,label:a?.getAttribute('aria-label'),text:a?.innerText,connected:a?.isConnected,disabled:a?.disabled,rect:r?.toJSON()},scroll:{x:scrollX,y:scrollY,documentWidth:document.documentElement.scrollWidth,viewportWidth:document.documentElement.clientWidth,bodyWidth:document.body.scrollWidth},details:document.querySelector('.cui-explorer-refine')?.open,summary:document.querySelector('.cui-explorer-refine summary')?.getBoundingClientRect().toJSON()}; }\\\"\\\"\\\")\nasync def main():\n async with async_playwright() as p:\n  browser=await p.chromium.launch(headless=True,executable_path=EXE)\n  page=await browser.new_page(viewport={'width':390,'height':844})\n  errors=[]; failed=[]\n  page.on('pageerror',lambda e:errors.append(str(e)))\n  page.on('requestfailed',lambda r:failed.append(r.url))\n  await page.goto('http://127.0.0.1:47823/components',wait_until='domcontentloaded')\n  await page.locator('[data-explorer-search]').fill('zzzz-no-such-component-2026')\n  await page.wait_for_function(\\\"document.querySelector('.cui-workbench-preview-empty') \"'!== null\")\n  await page.screenshot(path=str(OUT/'\"'explorer-fix-components-mobile-no-results.png'))\n  await page.set_viewport_size({'width':1440,'height':900})\n  await page.wait_for_function(\\\"document.querySelector('.cui-explorer-refine').open\\\")\n  await page.locator('.cui-explorer-refine .q-select__focus-target[aria-label=\\\"Family\\\"]').focus()\n  desk_start=await metric(page)\n  await page.set_viewport_size({'width':390,'height':844})\n  await page.wait_for_function(\\\"\"'!document.querySelector('\"'.cui-explorer-refine').open && document.activeElement.matches('.cui-explorer-refine summary')\\\")\n  mob=await metric(page)\n  await page.screenshot(path=str(OUT/'explorer-fix-breakpoint-mobile-summary-focused.png'))\n  await page.locator('.cui-explorer-refine summary').click()\n  await page.locator('.cui-explorer-refine .q-select__focus-target[aria-label=\\\"Family\\\"]').focus()\n  await page.set_viewport_size({'width':1440,'height':900})\n  await page.wait_for_function(\\\"document.querySelector('.cui-explorer-refine').open && document.activeElement.matches('.q-select__focus-target[aria-label=\\\\\\\"Family\\\\\\\"]')\\\")\n  desk=await metric(page)\n  await page.screenshot(path=str(OUT/'explorer-fix-breakpoint-desktop-family-restored.png'))\n  print(json.dumps({'desktop_start':desk_start,'mobile_summary':mob,'desktop_restored':desk,'errors':errors,'failed':failed},indent=2))\n  await browser.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -u - <<'PY'\nimport asyncio, json\nfrom pathlib import Path\nfrom playwright.async_api import async_playwright\nEXE='/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'\nOUT=Path('/tmp/nicegui_base_chg236_implementation_evidence/screenshots')\nasync def main():\n async with async_playwright() as p:\n  b=await p.chromium.launch(headless=True,executable_path=EXE)\n  page=await b.new_page(viewport={'width':1440,'height':900})\n  await page.goto('http://127.0.0.1:47823/components',wait_until='domcontentloaded')\n  await page.locator('.cui-explorer-refine .q-select__focus-target[aria-label=\\\"Family\\\"]').focus()\n  await page.set_viewport_size({'width':390,'height':844})\n  await page.wait_for_function(\\\"\"'!document.querySelector('\"'.cui-explorer-refine').open && document.activeElement.matches('.cui-explorer-refine summary')\\\")\n  await page.screenshot(path=str(OUT/'explorer-fix-breakpoint-mobile-summary-focused.png'))\n  await page.locator('.cui-explorer-refine summary').click()\n  await page.locator('.cui-explorer-refine .q-select__focus-target[aria-label=\\\"Family\\\"]').focus()\n  await page.set_viewport_size({'width':1440,'height':900})\n  await page.wait_for_function(\\\"document.querySelector('.cui-explorer-refine').open && document.activeElement.matches('.q-select__focus-target[aria-label=\\\\\\\"Family\\\\\\\"]')\\\")\n  await page.wait_for_timeout(700)\n  geometry=await page.evaluate(\\\"\\\"\\\"() => Object.fromEntries(['.q-page-container','.q-page','.cui-explorer-controls','.cui-explorer-gallery-host'].map(s=>{const e=document.querySelector(s),r=e?.getBoundingClientRect();return[s,{rect:r?.toJSON(),width:e?.clientWidth,scrollWidth:e?.scrollWidth,transform:e&&getComputedStyle(e).transform}]}))\\\"\\\"\\\")\n  await page.screenshot(path=str(OUT/'explorer-fix-breakpoint-desktop-family-restored.png'))\n  print(json.dumps({'geometry':geometry,'scroll':await page.evaluate('({x:scrollX,y:scrollY,documentWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth})')}))\n  await b.close()\nasyncio.run(main())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source NICEGUI_BASE_PORT=47823 python run_nicegui_base.py --port 47823'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk lsof -nP -iTCP:47823 -sTCP:LISTEN; rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nimport socket\ns=socket.socket(); s.settimeout(1)\nprint('port_47823_connect_ex=',s.connect_ex(('127.0.0.1',47823)))\ns.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests > /tmp/chg236-root-tests.log 2>&1; result=$?; rtk tail -n 50 /tmp/chg236-root-tests.log; exit $result'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 1052,
+        "output_sha256": "5748eae9aed1f6ae6b650fbe20f198d02c9279d891376821ff463b4fa1d1a6aa",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source nicegui-base runtime-smoke --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls project-os-artifacts'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git remote -v && rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1 refs/heads/codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 7b126d431215e8aac038bd5935d39d118a1ea68b HEAD; rtk git rev-parse HEAD HEAD''^{tree} HEAD''^ HEAD''^''^'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-status 7b126d431215e8aac038bd5935d39d118a1ea68b..HEAD && rtk git diff --stat 7b126d431215e8aac038bd5935d39d118a1ea68b..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch; rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /tmp/nicegui_base_chg236_implementation_evidence/scenario-matrix.json /tmp/nicegui_base_chg236_implementation_evidence/focus-search-evidence.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /tmp/nicegui_base_chg236_implementation_evidence/desktop-scenario.json /tmp/nicegui_base_chg236_implementation_evidence/mobile-scenario.json /tmp/nicegui_base_chg236_implementation_evidence/breakpoint-scenario.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1 && rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1 refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree add -b codex-temp-chg236-artifacts /tmp/chg236-artifacts eec28bae56e89497e59b5174aa3724d27d7261bd'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg236.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_iteration2.py source/tests/test_phase8_state.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py source/tests/test_component_models.py source/tests/test_component_css.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 160,
+        "output_sha256": "42f91387fc61022ff6b5a7d2c343068cd9b2e4e9e4c8ed88a28e63532dff8639",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"=+ .* (passed|failed|warnings) in \" /tmp/chg236-source-full-pytest.log /tmp/chg236-root-tests.log; rtk rg -n \"''^FAILED \" /tmp/chg236-source-full-pytest.log | rtk wc -l'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 3,
+        "output_sha256": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -n 12 /tmp/chg236-source-full-pytest.log; rtk tail -n 12 /tmp/chg236-root-tests.log'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page",
+          "tests/test_wave35_theme_persistence.py::test_workbench_preserves_browser_theme_while_server_is_neutral"
+        ],
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 2470,
+        "output_sha256": "f456a5d40f5f7cb79d9fd5ad08d92e06bc040be4c6183aa3995d1d9c5eeceb07",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nfor name in ['source-full-pytest','root-tests']:\n p=Path('/tmp/chg236-'+name+'.log')\n lines=p.read_text(errors='replace').splitlines()\n print(name, 'lines',len(lines))\n for line in lines:\n  if 'passed' in line and ('in ' in line or 'failed' in line): print('summary',line)\n print('last', lines[-1] if lines else '')\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 296,
+        "output_sha256": "261436fcbd177bbb26962e439d8b55029d7a1c0fff41e99219eee55085a1915c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '330,410p' /tmp/chg236-source-full-pytest.log\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 5808,
+        "output_sha256": "2ae00cd0e3791ba520993427bb239e10a82ba4920c3be71b0597529636ddada5",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, shutil, hashlib\nroot=Path('/tmp/chg236-artifacts/evidence/CHG-236')\nsource=Path('/tmp/nicegui_base_chg236_implementation_evidence')\nscreens=root/'screenshots'\nscreens.mkdir(parents=True,exist_ok=True)\nfor name in ['browser-environment.json','desktop-scenario.json','mobile-scenario.json','breakpoint-scenario.json','shared-gallery-scenario.json','patterns-identity-scenario.json']:\n data=json.loads((source/name).read_text())\n data['candidate_sha']='eec28bae56e89497e59b5174aa3724d27d7261bd'\n data['candidate_tree']='38d32f2a6f1b09331acb00ac3c0dc24de4a93c02'\n data['base_sha']='7b126d431215e8aac038bd5935d39d118a1ea68b'\n data['fabric_job_id']='CF-f6ce7d6e1470db15b042dd80'\n (root/name).write_text(json.dumps(data,indent=2,sort_keys=True)+'\\\\n')\nfor p in (source/'screenshots').glob('*.png'):\n shutil.copy2(p,screens/p.name)\n\nfocused_command='rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q source/tests/test_workbench_chg103.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg108.py source/tests/test_workbench_chg117.py source/tests/test_workbench_chg124.py source/tests/test_workbench_chg236.py source/tests/test_workbench_g21_explorer.py source/tests/test_workbench_iteration2.py source/tests/test_phase8_state.py source/tests/test_component_registry.py source/tests/test_nicegui_component_adapter.py source/tests/test_component_models.py source/tests/test_component_css.py source/tests/test_public_api_phase2.py source/tests/test_public_api_phase3.py source/tests/test_public_api_phase4.py source/tests/test_public_api_phase5.py source/tests/test_public_api_phase9.py source/tests/test_phase7_public_api.py'\nchecks=[\n {'name':'EXPLORER_FIX_COMPONENTS_DESKTOP','status':'PASS','evidence':'desktop-scenario.json','summary':'Known match, strict no-match empty projection and truthful status, clear, Family, Favorites only/All references round trip, combined filtering, single Search/Refine, no overflow or browser/network errors.'},\n {'name':'EXPLORER_FIX_COMPONENTS_MOBILE','status':'PASS','evidence':'mobile-scenario.json','summary':'390x844; primary Search remains visible outside closed Refine; secondary controls hidden until opened; no-match produces zero cards and live status; no overflow/errors.'},\n {'name':'EXPLORER_FIX_BREAKPOINT_FOCUS','status':'PASS','evidence':'breakpoint-scenario.json','summary':'Three same-page cycles; mobile summary handoff; Family/Favorites desktop recovery; one listener; singleton; no focus theft from outside Search; ineligible Family falls back to Favorites; no errors.'},\n {'name':'EXPLORER_FIX_SHARED_GALLERY_REGRESSION','status':'PASS','evidence':'shared-gallery-scenario.json','summary':'Components, analytics and recipes each retain one Search and one Refine, desktop-open/mobile-closed behavior and mobile Search visibility.'},\n {'name':'EXPLORER_FIX_PATTERNS_IDENTITY','status':'PASS','evidence':'patterns-identity-scenario.json','summary':'Distinct unified chooser; no shared-gallery Search/Refine markers.'},\n {'name':'EXPLORER_FIX_SOURCE_REGRESSION','status':'PASS','evidence':'source-regression.json','summary':'Focused regression and public API/component suites passed (106 tests, exit 0).'},\n {'name':'EXPLORER_FIX_SERVER_CLEANUP','status':'PASS','evidence':'server-cleanup.json','summary':'Only job-owned PID 9959 on 127.0.0.1:47823 was stopped; no listener remained and connection was refused.'},\n {'name':'EXPLORER_FIX_GIT_FINAL','status':'PASS','evidence':'git-final.json','summary':'Work branch is pushed at candidate; candidate descends normally from exact base; origin/main unchanged; Product worktree clean.'},\n]\n(root/'scenario-matrix.json').write_text(json.dumps({'project':'nicegui-base','change':'CHG-236','request':'stable3-explorer-no-results-breakpoint-focus-fix-1','fabric_job_id':'CF-f6ce7d6e1470db15b042dd80','base_sha':'7b126d431215e8aac038bd5935d39d118a1ea68b','base_tree':'d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b','candidate_sha':'eec28bae56e89497e59b5174aa3724d27d7261bd','candidate_tree':'38d32f2a6f1b09331acb00ac3c0dc24de4a93c02','scenarios':checks},indent=2,sort_keys=True)+'\\\\n')\n(root/'source-regression.json').write_text(json.dumps({'status':'PASS','exit_code':0,'passed':106,'failed':0,'command':focused_command,'coverage':['CHG-103','CHG-106','CHG-108','CHG-117','CHG-124','CHG-236','Explorer/gallery/state/component/accessibility/public API']},indent=2,sort_keys=True)+'\\\\n')\n(root/'server-cleanup.json').write_text(json.dumps({'status':'PASS','port':47823,'address':'127.0.0.1','pid':9959,'owned_command':'python run_nicegui_base.py --port 47823','termination':'Ctrl-C sent to the job-owned server session; process exited after application shutdown','listener_after_cleanup':False,'connect_ex_after_cleanup':61,'meaning':'ECONNREFUSED'},indent=2,sort_keys=True)+'\\\\n')\n(root/'git-final.json').write_text(json.dumps({'status':'PASS','branch':'codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1','candidate_sha':'eec28bae56e89497e59b5174aa3724d27d7261bd','candidate_tree':'38d32f2a6f1b09331acb00ac3c0dc24de4a93c02','candidate_parent':'72636acb262e4b35d11095e21845fc86bc6aed29','candidate_parent_parent':'7b126d431215e8aac038bd5935d39d118a1ea68b','exact_base_ancestor':True,'origin_main':'7b126d431215e8aac038bd5935d39d118a1ea68b','work_branch_remote_sha':'eec28bae56e89497e59b5174aa3724d27d7261bd','product_worktree_clean':True,'changed_product_and_test_files':['source/nicegui_base/workbench/app.py','source/nicegui_base/workbench/explorer_gallery.py','source/tests/test_workbench_chg106.py','source/tests/test_workbench_chg236.py']},indent=2,sort_keys=True)+'\\\\n')\n(root/'focus-search-evidence.json').write_text(json.dumps({'status':'PASS','candidate_sha':'eec28bae56e89497e59b5174aa3724d27d7261bd','desktop_no_match':{'query':'zzzz-no-such-component-2026','input_and_state_aligned':True,'cards':0,'status':'0 of 34 visible · 1 saved · 0 comparing','empty_role':'status','aria_live':'polite','screenshot':'screenshots/explorer-fix-components-desktop-no-results.png'},'mobile_no_match':{'query':'zzzz-no-such-component-2026','input_and_state_aligned':True,'cards':0,'empty_role':'status','aria_live':'polite','document_overflow_px':0,'screenshot':'screenshots/explorer-fix-components-mobile-no-results.png'},'focus_handoff':{'desktop_origin':'Family','mobile_target':'Refine summary','desktop_return':'visible eligible Family control','mobile_summary_rect':{'x':74.484375,'y':633,'width':290.5,'height':38},'desktop_document_overflow_px':0,'mobile_document_overflow_px':0,'outside_search_focus_preserved':True,'repeated_cycles':3,'screenshot_mobile':'screenshots/explorer-fix-breakpoint-mobile-summary-focused.png','screenshot_desktop':'screenshots/explorer-fix-breakpoint-desktop-family-restored.png'},'favorites_label_round_trip':['Favorites only','All references','Favorites only']},indent=2,sort_keys=True)+'\\\\n')\n\ncommands={'commands':[\n {'name':'focused-regressions','command':focused_command,'status':'PASS','result':'106 passed, 0 failed, exit 0'},\n {'name':'source-full-suite','command':'(workdir source) rtk proxy /opt/anaconda3/bin/python -m pytest -q','status':'FAIL_UNRELATED','result':'14 failures in pre-existing runtime StateKey generic slots, runtime kernel undo/snapshot, agent starter, and generated template tests; CHG-236 focused tests passed'},\n {'name':'root-tests','command':'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m pytest -q tests','status':'FAIL_UNRELATED','result':'26 passed, 1 failed; test_wave35_theme_persistence.py expects unrelated requested===system source literal'},\n {'name':'runtime-contract','command':'rtk proxy env PYTHONPATH=source nicegui-base runtime-contract','status':'PASS','result':'NiceGUI 3.15.0; factory 48 / 1176'},\n {'name':'runtime-smoke','command':'rtk proxy env PYTHONPATH=source nicegui-base runtime-smoke --port 0','status':'PASS','result':'Health/readiness and all listed route checks returned 200'},\n {'name':'agent-check','command':'rtk proxy env PYTHONPATH=source nicegui-base agent-check .','status':'FAIL_PREEXISTING','result':'Missing scaffold/version authority, existing syntax error in tools/verify_development_D6H2_browser.py, and 56 warnings'},\n {'name':'gate','command':'rtk proxy env PYTHONPATH=source nicegui-base gate .','status':'FAIL_PREEXISTING','result':'Manifest/dependency pin/entrypoint gaps, same pre-existing Python syntax error, and unrelated wave35 theme literal expectation'},\n {'name':'framework-validator','command':'rtk proxy env PYTHONPATH=source python -m nicegui_base.validate .','status':'FAIL_PREEXISTING','result':'Same pre-existing syntax error and warnings'},\n {'name':'browser-server','command':'rtk proxy env PYTHONPATH=source NICEGUI_BASE_PORT=47823 python run_nicegui_base.py --port 47823','status':'PASS','result':'Exact candidate server on 127.0.0.1:47823; stopped after scenarios'},\n {'name':'browser-scenarios','command':'Playwright 1.62.0 headless Chromium 151.0.7922.34 against http://127.0.0.1:47823; deterministic scenario result files are included in this package','status':'PASS','result':'Five requested browser scenarios passed; see scenario-matrix.json and per-scenario JSON'},\n {'name':'server-cleanup','command':'Ctrl-C to job-owned server session 1668; then lsof and socket connect_ex probe on 127.0.0.1:47823','status':'PASS','result':'PID 9959 exited; no listener; ECONNREFUSED (61)'},\n {'name':'git-final','command':'rtk git fetch origin main; rtk git merge-base --is-ancestor <base> HEAD; rtk git status --short --branch; rtk git ls-remote origin <candidate-ref> refs/heads/main','status':'PASS','result':'Exact base ancestry; candidate branch pushed; origin/main remains exact base; Product worktree clean'}\n]}\n(root/'commands.json').write_text(json.dumps(commands,indent=2,sort_keys=True)+'\\\\n')\n(root/'manifest.json').write_text(json.dumps({'project':'nicegui-base','change':'CHG-236','operation':'FIX','request':'stable3-explorer-no-results-breakpoint-focus-fix-1','fabric_job_id':'CF-f6ce7d6e1470db15b042dd80','base':{'ref':'main','sha':'7b126d431215e8aac038bd5935d39d118a1ea68b','tree':'d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b'},'candidate':{'branch':'codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1','sha':'eec28bae56e89497e59b5174aa3724d27d7261bd','tree':'38d32f2a6f1b09331acb00ac3c0dc24de4a93c02','parent':'72636acb262e4b35d11095e21845fc86bc6aed29'},'artifact_scope':'Implementation evidence only; this artifact commit adds evidence files and does not replace Product source.','native_fabric_audit':{'status':'NOT_PUBLISHED_BY_THIS_SESSION','reason':'No Fabric publisher is exposed among the available tools; .codex-fabric/audit.json was not forged.'},'accountability_boundary':['No Project OS GO self-declaration','No human E3 visual acceptance','No CHG-237 Select popup geometry claim','No authentic browser-chrome 200% zoom claim','No CHG-59/company data/runtime/deployment or publication readiness claim']},indent=2,sort_keys=True)+'\\\\n')\n\n# Deterministic checksums for every artifact except the checksum index itself.\nlines=[]\nfor p in sorted(x for x in root.rglob('*') if x.is_file() and x.name\"'!='\"'SHA256SUMS.txt'):\n lines.append(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(root).as_posix()}')\n(root/'SHA256SUMS.txt').write_text('\\\\n'.join(lines)+'\\\\n')\nprint('artifact_dir',root)\nprint('files',len(lines)+1)\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 61,
+        "output_sha256": "e7af0eda8e781fe4de621ce3ef4dfd0f7b69c2fdd87feab428d2f77cdea26af8",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport shutil\nsrc=Path('/tmp/chg236-artifacts/evidence/CHG-236')\ndst=Path('/tmp/chg236-artifacts/evidence/CHG-236')\nrepo=Path('/tmp/chg236-artifacts')\n# The evidence staging directory is already inside the artifact worktree root.\nprint('worktree',repo)\nprint('package_files',sum(1 for p in dst.rglob('*') if p.is_file()))\nPY\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport hashlib, json\nroot=Path('evidence/CHG-236')\nfor p in root.rglob('*.json'):\n json.loads(p.read_text())\nfor line in (root/'SHA256SUMS.txt').read_text().splitlines():\n digest, rel=line.split('  ',1)\n actual=hashlib.sha256((root/rel).read_bytes()).hexdigest()\n assert actual==digest,(rel,actual,digest)\nprint('json_parse=PASS checksums=PASS listed=',len((root/'SHA256SUMS.txt').read_text().splitlines()))\nPY\nrtk git diff --check && rtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add evidence/CHG-236 && rtk git commit -m \"Add CHG-236 Explorer implementation evidence\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD HEAD''^{tree} HEAD''^ && rtk git show --format='\"'parents=%P' --name-status --no-renames HEAD && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git update-ref refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1 7f63360f847e598629ae35719e7c396e5b353b1f && rtk git push origin refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1 && rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk lsof -nP -iTCP:47823 -sTCP:LISTEN; rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nimport socket\ns=socket.socket();s.settimeout(1)\nprint('port_47823_connect_ex=',s.connect_ex(('127.0.0.1',47823)))\ns.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy env /opt/anaconda3/bin/python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json\nroot=Path('evidence/CHG-236')\nfor p in root.rglob('*.json'): json.loads(p.read_text())\nfor line in (root/'SHA256SUMS.txt').read_text().splitlines():\n d,n=line.split('  ',1); assert hashlib.sha256((root/n).read_bytes()).hexdigest()==d,n\nprint('artifact_json_parse=PASS checksums=PASS files=',len((root/'SHA256SUMS.txt').read_text().splitlines()))\nPY\nrtk git show --format=%P --no-patch HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1 refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin main && rtk git rev-parse origin/main && rtk git rev-parse HEAD HEAD''^{tree} HEAD''^ HEAD''^''^ && rtk git merge-base --is-ancestor 7b126d431215e8aac038bd5935d39d118a1ea68b HEAD && rtk git status --short --branch && rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove /tmp/chg236-artifacts && rtk git branch -D codex-temp-chg236-artifacts && rtk git worktree list && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"def _entry_search|cui-workbench-preview-empty|function syncRefine|summaryHandoffs|isEligible|focusFallback|test_chg236|test_explorer_search\" source/nicegui_base/workbench/explorer_gallery.py source/nicegui_base/workbench/app.py source/tests/test_workbench_chg106.py source/tests/test_workbench_chg236.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.156.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 450,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.85,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 17866880,
+      "fresh_input_tokens": 392354,
+      "input_tokens": 18259234,
+      "non_reasoning_output_tokens": 53966,
+      "output_tokens": 136708,
+      "reasoning_output_tokens": 82742,
+      "total_processed_tokens": 18395942
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+      "subject": "Correct Explorer Family focus fallback target"
+    },
+    {
+      "sha": "72636acb262e4b35d11095e21845fc86bc6aed29",
+      "subject": "Fix Explorer no-results and breakpoint focus"
+    }
+  ],
+  "diff": {
+    "additions": 345,
+    "changed_files": 4,
+    "commit_count": 2,
+    "deletions": 8
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-25T14:49:09Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "branch": "codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1",
+    "detached_verify": false,
+    "head_sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+    "remote_exact_head": true,
+    "remote_head_sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "work_branch": "codex/nicegui-base-stable3-explorer-no-results-breakpoint-focus-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-f6ce7d6e1470db15b042dd80",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-no-results-breakpoint-focus-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-explorer-no-results-breakpoint-focus-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-25T13:57:22Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 3107,
+    "queue_seconds": 0,
+    "total_seconds": 3107
+  },
+  "transport": {
+    "bytes": 13944,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 13572,
+    "prompt_sha256": "a852affb2f5325d366255a3c89af5c244e2dc886ec82ebee520f895c13686535",
+    "sha256": "f6ce7d6e1470db15b042dd80df0defaf3066ff8937d2a882456b35bb52c7d235"
+  }
+}
