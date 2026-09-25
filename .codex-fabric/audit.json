@@ -1,0 +1,454 @@
+{
+  "accepted_at": "2026-09-25T15:28:17Z",
+  "changed_files": [
+    {
+      "additions": 107,
+      "deletions": 3,
+      "path": "source/nicegui_base/workbench/app.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 3,
+      "path": "source/nicegui_base/workbench/explorer_gallery.py",
+      "status": "M"
+    },
+    {
+      "additions": 23,
+      "deletions": 2,
+      "path": "source/tests/test_workbench_chg106.py",
+      "status": "M"
+    },
+    {
+      "additions": 378,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg236.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-smoke --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 22822,
+        "output_sha256": "f0855e7103f168eb27f7e3bba9a43420e618940904ac3e957b742ada6a46f1f2",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python run_nicegui_base.py --port 49762'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg236.py tests/test_workbench_chg106.py tests/test_workbench_chg103.py tests/test_workbench_chg108.py tests/test_workbench_chg117.py tests/test_workbench_chg124.py --junitxml=/tmp/chg236-fix2-evidence/source-regression-junit.xml'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 161,
+        "output_sha256": "7d46500e2597c6b6fe6b7125e73a68661acd00030525d767ec8b57666b93b9bf",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import json,pathlib; p=pathlib.Path(\\\"/tmp/chg236-fix2-evidence\\\"); d=json.loads((p/\\\"scenario-results.json\\\").read_text()); [print(json.dumps({\\\"scenario\\\":x[\\\"scenario\\\"],\\\"status\\\":x[\\\"status\\\"],\\\"keys\\\":list(x.get(\\\"evidence\\\",{})),\\\"evidence\\\":x.get(\\\"evidence\\\",{}) if x[\\\"scenario\\\"] in (\\\"FOCUS_VISIBILITY_REPEAT_AND_EXTERNAL\\\",\\\"FOCUS_VISIBILITY_SEARCH_FREEZE\\\") else None},sort_keys=True)) for x in d]; print(\\\"error log\\\",(p/\\\"browser-errors.json\\\").read_text()); print(\\\"checksums\\\",[(x.name,__import__(\\\"hashlib\\\").sha256(x.read_bytes()).hexdigest(),x.stat().st_size) for x in (p/\\\"screenshots\\\").glob(\\\"*.png\\\")]); print(\\\"pytest nodes/fail\\\",len(json.loads(pathlib.Path(\\\"source/.pytest_cache/v/cache/nodeids\\\").read_text())),len(json.loads(pathlib.Path(\\\"source/.pytest_cache/v/cache/lastfailed\\\").read_text())))'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 14929,
+        "output_sha256": "3c7a9a59163c0677f33f087a644eb25a2f486eef034f91c13914bf3038f9c4bf",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD && rtk git show -s --format='HEAD %H%nTREE %T%nPARENTS %P' HEAD && rtk git show -s --format='PREDECESSOR %H%nTREE %T%nPARENTS %P' eec28bae56e89497e59b5174aa3724d27d7261bd && rtk git show -s --format='BASE %H%nTREE %T' 7b126d431215e8aac038bd5935d39d118a1ea68b && rtk git rev-parse origin/main && rtk git ls-remote --heads origin refs/heads/codex/nicegui-base-stable3-explorer-focus-visibility-fix-2 refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git checkout -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove --force /private/tmp/chg236-fix2-predecessor && rtk git status --short --branch && rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk grep -n \\\"focusAndReveal\\\\|focusRevealInterrupted\\\\|revealFocusedTarget\\\\|requestAnimationFrame\\\" source/nicegui_base/workbench/app.py && rtk grep -n \\\"def test_.*responsive_focus_sync\\\\|def test_.*focus_visibility\\\\|preventScroll\\\" source/tests/test_workbench_chg236.py source/tests/test_workbench_chg106.py && rtk git diff eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD -- source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 53384 -o pid=,stat=,command='",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import socket; s=socket.socket(); s.settimeout(.5); print(\\\"OPEN\\\" if s.connect_ex((\\\"127.0.0.1\\\",49762))==0 else \\\"CLOSED\\\"); s.close()'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push -u origin codex/nicegui-base-stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport json, shutil\nroot = Path('/tmp/chg236-fix2-evidence')\nartifact = root / 'artifact'\nartifact.mkdir(exist_ok=True)\nfor name in ['browser-environment.json', 'focus-visibility-evidence.json', 'scenario-results.json', 'browser-errors.json', 'browser_runner.py', 'source-regression-junit.xml']:\n    shutil.copy2(root / name, artifact / name)\nshutil.copytree(root / 'screenshots', artifact / 'screenshots', dirs_exist_ok=True)\nmanifest = {\n  'project': 'nicegui-base',\n  'project_repository': 'kimhw8084/nicegui-base',\n  'change': 'CHG-236',\n  'request': 'stable3-explorer-focus-visibility-fix-2',\n  'operation': 'FIX',\n  'fabric_job': 'CF-7b99dc23f8dfcd384689424c',\n  'target_branch': 'main',\n  'target_base': {'sha': '7b126d431215e8aac038bd5935d39d118a1ea68b', 'tree': 'd8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b'},\n  'predecessor_fix_1': {'sha': 'eec28bae56e89497e59b5174aa3724d27d7261bd', 'tree': '38d32f2a6f1b09331acb00ac3c0dc24de4a93c02'},\n  'candidate_fix_2': {'branch': 'codex/nicegui-base-stable3-explorer-focus-visibility-fix-2', 'sha': 'e95cc5472351ccfbde70e28b73380aeb8196fb09', 'tree': '84120e595f263cc3c6aa0da9977b71f2b9dd95c5'},\n  'project_artifact_ref': 'refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2',\n  'fabric_evidence_ref': 'refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2',\n  'recorded_at_utc': '2026-09-25T16:13:58Z',\n  'native_fabric_audit': {'status': 'NOT_PUBLISHED_BY_THIS_SESSION', 'reason': 'No Fabric audit publisher/tool is callable in this runtime; no native audit was fabricated.'},\n}\n(artifact / 'manifest.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\\\\n')\nraw = json.loads((artifact / 'scenario-results.json').read_text())\nby_name = {item['scenario']: item for item in raw}\nscenarios = [\n  {'scenario': 'FOCUS_VISIBILITY_MOBILE_HANDOFF', 'status': by_name['FOCUS_VISIBILITY_MOBILE_HANDOFF']['status'], 'evidence': 'focus-visibility-evidence.json#/desktop_to_mobile and screenshots/explorer-fix-breakpoint-mobile-summary-focused.png'},\n  {'scenario': 'FOCUS_VISIBILITY_DESKTOP_HANDOFF', 'status': by_name['FOCUS_VISIBILITY_DESKTOP_HANDOFF']['status'], 'evidence': 'focus-visibility-evidence.json#/mobile_to_desktop and screenshots/explorer-fix-breakpoint-desktop-family-restored.png'},\n  {'scenario': 'FOCUS_VISIBILITY_REPEAT_AND_EXTERNAL', 'status': by_name['FOCUS_VISIBILITY_REPEAT_AND_EXTERNAL']['status'], 'evidence': 'scenario-results.json; three complete resize cycles, external Search preserved, ineligible Family fallback to Favorites, stable listener/observer/singleton counts'},\n  {'scenario': 'FOCUS_VISIBILITY_SEARCH_FREEZE', 'status': by_name['FOCUS_VISIBILITY_SEARCH_FREEZE']['status'], 'evidence': 'scenario-results.json; known match, strict no-match live empty status, clear to 34, Favorites + Family, mobile no-match'},\n  {'scenario': 'FOCUS_VISIBILITY_SHARED_GALLERY', 'status': by_name['FOCUS_VISIBILITY_SHARED_GALLERY']['status'], 'evidence': 'scenario-results.json; /components, /analytics, /recipes'},\n  {'scenario': 'FOCUS_VISIBILITY_PATTERNS_IDENTITY', 'status': by_name['FOCUS_VISIBILITY_PATTERNS_IDENTITY']['status'], 'evidence': 'scenario-results.json; /patterns identity remains distinct'},\n  {'scenario': 'FOCUS_VISIBILITY_SOURCE_REGRESSION', 'status': 'PASS', 'evidence': 'source-regression-junit.xml; 25 focused CHG-236/103/106/108/117/124 tests passed'},\n  {'scenario': 'FOCUS_VISIBILITY_SERVER_CLEANUP', 'status': 'PASS', 'evidence': 'cleanup-evidence.json; PID 53384 exited and localhost:49762 refused connection'},\n  {'scenario': 'FOCUS_VISIBILITY_GIT_FINAL', 'status': 'PASS', 'evidence': 'git-final-evidence.json; exact base/predecessor ancestry, candidate pushed, main SHA unchanged, clean product worktree'},\n]\n(artifact / 'scenario-matrix.json').write_text(json.dumps({'scenarios': scenarios, 'claim_boundary': 'No Project OS GO, human E3 acceptance, CHG-59 runtime qualification, scale, deployment, stable 3.0.0, or publication readiness is claimed.'}, indent=2, sort_keys=True) + '\\\\n')\nnegative = {\n  'base_candidate': 'eec28bae56e89497e59b5174aa3724d27d7261bd',\n  'test': 'tests/test_workbench_chg236.py::test_responsive_focus_sync_transfers_restores_and_preserves_external_focus',\n  'command': 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg236.py::test_responsive_focus_sync_transfers_restores_and_preserves_external_focus',\n  'exit_code': 1,\n  'expected_result': 'FAIL',\n  'failure_point': 'wait_for_handoff_layout timed out after breakpoint resize; focused target did not meet viewport/focus-ring visibility predicate on FIX-1 predecessor.',\n  'interpretation': 'The regression fails on the exact predecessor and passes on FIX-2.'\n}\n(artifact / 'predecessor-negative-control.json').write_text(json.dumps(negative, indent=2, sort_keys=True) + '\\\\n')\ncleanup = {'candidate': 'e95cc5472351ccfbde70e28b73380aeb8196fb09', 'server_command': 'rtk proxy /opt/anaconda3/bin/python run_nicegui_base.py --port 49762', 'server_pid': 53384, 'stop': 'Ctrl-C; exit 130 after graceful Uvicorn shutdown', 'listener_check': 'CLOSED', 'pid_check': 'no process with PID 53384', 'status': 'PASS'}\n(artifact / 'cleanup-evidence.json').write_text(json.dumps(cleanup, indent=2, sort_keys=True) + '\\\\n')\nvalidation = {\n  'runtime-contract': {'status': 'PASS', 'evidence': 'NiceGUI required and installed 3.15.0; factory contract 48 factories / 1172 direct calls checked.'},\n  'runtime-smoke': {'status': 'PASS', 'evidence': 'Health/readiness and 22 routes returned HTTP 200; smoke server stopped by the command.'},\n  'agent-check': {'status': 'FAIL', 'preexisting': True, 'evidence': 'Missing generated-app scaffold and 1 unrelated AI000 syntax error at tools/verify_development_D6H2_browser.py:154:245; 56 warnings.'},\n  'gate': {'status': 'FAIL', 'preexisting': True, 'evidence': 'Missing app manifest/dependency pin/entrypoint plus the same unrelated Python syntax error; bundled test launcher also imports collections.Sequence.'},\n  'framework-validator': {'status': 'FAIL', 'preexisting': True, 'evidence': '279 files, 1 AI000 syntax error in tools/verify_development_D6H2_browser.py, 56 warnings.'},\n  'full-source-pytest': {'status': 'FAIL', 'preexisting': True, 'collected': 1976, 'failed': 14, 'evidence': 'Unrelated StateKey generic construction failures in phase39/44/45/48 and generated application build/import failures in phase50/58; none of the changed files touch these areas.'},\n  'diff-check': {'status': 'PASS', 'command': 'rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD'}\n}\n(artifact / 'validation-summary.json').write_text(json.dumps(validation, indent=2, sort_keys=True) + '\\\\n')\ncommands = [\n  {'command': 'rtk proxy /opt/anaconda3/bin/python run_nicegui_base.py --port 49762', 'workdir': '.', 'status': 'PASS', 'exit_code': 130, 'note': 'Started exact candidate server; deliberately stopped via Ctrl-C after browser run; graceful shutdown logged.'},\n  {'command': 'rtk proxy /opt/anaconda3/bin/python /tmp/chg236-fix2-evidence/browser_runner.py', 'workdir': '.', 'status': 'PASS', 'exit_code': 0, 'note': 'Playwright Chromium; all six browser scenarios passed; outputs saved in this artifact.'},\n  {'command': 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg236.py tests/test_workbench_chg106.py tests/test_workbench_chg103.py tests/test_workbench_chg108.py tests/test_workbench_chg117.py tests/test_workbench_chg124.py --junitxml=/tmp/chg236-fix2-evidence/source-regression-junit.xml', 'workdir': 'source', 'status': 'PASS', 'exit_code': 0, 'tests_passed': 25},\n  {'command': negative['command'], 'workdir': '/private/tmp/chg236-fix2-predecessor/source at exact FIX-1 SHA', 'status': 'EXPECTED_FAIL', 'exit_code': 1, 'evidence': 'predecessor-negative-control.json'},\n  {'command': 'rtk nicegui-base runtime-contract', 'workdir': '.', 'status': 'PASS', 'exit_code': 0},\n  {'command': 'rtk nicegui-base runtime-smoke --port 0', 'workdir': '.', 'status': 'PASS', 'exit_code': 0},\n  {'command': 'rtk nicegui-base agent-check .', 'workdir': '.', 'status': 'FAIL', 'exit_code': 1, 'preexisting': True},\n  {'command': 'rtk nicegui-base gate .', 'workdir': '.', 'status': 'FAIL', 'exit_code': 1, 'preexisting': True},\n  {'command': 'rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.validate .', 'workdir': '.', 'status': 'FAIL', 'exit_code': 1, 'preexisting': True},\n  {'command': 'rtk proxy /opt/anaconda3/bin/python -m pytest -q tests', 'workdir': 'source', 'status': 'FAIL', 'exit_code': 1, 'tests_collected': 1976, 'failures': 14, 'preexisting_unrelated': True},\n  {'command': 'rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD', 'workdir': '.', 'status': 'PASS', 'exit_code': 0},\n  {'command': 'socket connect check 127.0.0.1:49762 and process lookup for PID 53384', 'workdir': '.', 'status': 'PASS', 'exit_code': 0, 'evidence': 'cleanup-evidence.json'},\n]\n(artifact / 'commands.json').write_text(json.dumps(commands, indent=2, sort_keys=True) + '\\\\n')\n(artifact / 'implementation-summary.md').write_text('''# CHG-236 FIX-2 implementation\\\\n\\\\nThe Workbench singleton responsive synchronizer now uses native focus scrolling and a bounded reveal repair for the actual visual target (\"'`.q-field` when present). It measures focus-ring clearance, uses nearest scrolling, corrects only the needed viewport delta, accounts for fixed/sticky occlusion, and schedules four animation-frame checks for breakpoint reflow. Pointer, wheel, touch, and key activity cancels deferred reveal so user-owned movement/focus is preserved. No route-specific scripts or duplicate refinement subtree were introduced.'\"\\\\n\\\\nProduct files changed relative to FIX-1: \"'`source/nicegui_base/workbench/app.py`, `source/tests/test_workbench_chg106.py`, and `source/tests/test_workbench_chg236.py`. FIX-1 search/no-results implementation and semantics remain unchanged.'\"\\\\n''')\nprint(str(artifact))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 35,
+        "output_sha256": "64a1c1f24519d0c3734d54acb9c8cc3418f56eda124f2480a4b30bd21b1e7992",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree add --detach /tmp/chg236-fix2-artifact-candidate-e95 e95cc5472351ccfbde70e28b73380aeb8196fb09'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git checkout -b project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git status --porcelain=v1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff eec28bae56e89497e59b5174aa3724d27d7261bd e95cc5472351ccfbde70e28b73380aeb8196fb09 > /tmp/chg236-fix2-evidence/artifact/source-changes.diff'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\nimport json, hashlib\np = Path('/tmp/chg236-fix2-evidence/artifact')\ngit_final = {\n  'status': 'PASS',\n  'product_branch': 'codex/nicegui-base-stable3-explorer-focus-visibility-fix-2',\n  'candidate': {'sha': 'e95cc5472351ccfbde70e28b73380aeb8196fb09', 'tree': '84120e595f263cc3c6aa0da9977b71f2b9dd95c5'},\n  'candidate_parent': 'b140eb8370877fa97fc79cde62ab0d0395a9a828',\n  'predecessor': {'sha': 'eec28bae56e89497e59b5174aa3724d27d7261bd', 'tree': '38d32f2a6f1b09331acb00ac3c0dc24de4a93c02', 'ancestor_of_candidate': True},\n  'target_base': {'sha': '7b126d431215e8aac038bd5935d39d118a1ea68b', 'tree': 'd8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b', 'ancestor_of_candidate': True},\n  'origin_main': '7b126d431215e8aac038bd5935d39d118a1ea68b',\n  'origin_main_unchanged_at_target': True,\n  'product_branch_pushed': True,\n  'remote_product_branch_sha': 'e95cc5472351ccfbde70e28b73380aeb8196fb09',\n  'product_worktree_clean': True,\n  'main_checkout_or_merge_performed': False,\n  'project_artifact_ref': 'refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2',\n  'artifact_commit_topology': 'The evidence ref is created as one evidence-only commit whose sole parent is the candidate SHA above.',\n  'fabric_evidence_ref': 'refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2',\n  'fabric_native_audit_status': 'NOT_PUBLISHED_BY_THIS_SESSION; no callable Fabric publisher was available and no audit was fabricated.'\n}\n(p / 'git-final-evidence.json').write_text(json.dumps(git_final, indent=2, sort_keys=True) + '\\\\n')\ncommands = json.loads((p / 'commands.json').read_text())\ncommands.extend([\n  {'command': 'rtk git push -u origin codex/nicegui-base-stable3-explorer-focus-visibility-fix-2', 'workdir': '.', 'status': 'PASS', 'exit_code': 0, 'note': 'Remote candidate ref points to e95cc5472351ccfbde70e28b73380aeb8196fb09.'},\n  {'command': 'Create evidence-only commit at refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2, parent e95cc5472351ccfbde70e28b73380aeb8196fb09, then push that ref', 'workdir': 'artifact worktree', 'status': 'PASS', 'note': 'The operations are performed immediately after preparing this command record; topology is checked before report.'},\n  {'command': 'rtk git ls-remote origin refs/heads/main', 'workdir': '.', 'status': 'PASS', 'exit_code': 0, 'output': '7b126d431215e8aac038bd5935d39d118a1ea68b refs/heads/main'}\n])\n(p / 'commands.json').write_text(json.dumps(commands, indent=2, sort_keys=True) + '\\\\n')\n# Hash every artifact file except the checksum ledger itself.\nlines = []\nfor f in sorted(x for x in p.rglob('*') if x.is_file() and x.name \"'!= '\"'SHA256SUMS.txt'):\n    digest = hashlib.sha256(f.read_bytes()).hexdigest()\n    lines.append(f'{digest}  {f.relative_to(p).as_posix()}')\n(p / 'SHA256SUMS.txt').write_text('\\\\n'.join(lines) + '\\\\n')\nprint(f'{len(lines)} files hashed')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mkdir -p .codex-fabric/project-os/CHG-236/stable3-explorer-focus-visibility-fix-2 && rtk cp -R /tmp/chg236-fix2-evidence/artifact/. .codex-fabric/project-os/CHG-236/stable3-explorer-focus-visibility-fix-2/'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sha256sum -c .codex-fabric/project-os/CHG-236/stable3-explorer-focus-visibility-fix-2/SHA256SUMS.txt && rtk git status --short --branch && rtk git check-ignore .codex-fabric/project-os/CHG-236/stable3-explorer-focus-visibility-fix-2/manifest.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sha256sum -c SHA256SUMS.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git check-ignore -v .codex-fabric/project-os/CHG-236/stable3-explorer-focus-visibility-fix-2/manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git rev-parse HEAD''^'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add -f .codex-fabric/project-os/CHG-236/stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --stat && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git commit -m 'chore: publish CHG-236 FIX-2 evidence'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='COMMIT %H%nTREE %T%nPARENTS %P%nSUBJECT %s' HEAD && rtk git diff-tree --no-commit-id --name-status -r HEAD && rtk git status --short --branch && rtk sha256sum -c SHA256SUMS.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push -u origin project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove /tmp/chg236-fix2-artifact-candidate-e95'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='HEAD %H%nTREE %T%nPARENTS %P' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='COMMIT %H%nTREE %T%nPARENTS %P' project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 7b126d431215e8aac038bd5935d39d118a1ea68b HEAD && rtk git merge-base --is-ancestor eec28bae56e89497e59b5174aa3724d27d7261bd HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree list --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import socket; s=socket.socket(); s.settimeout(.5); rc=s.connect_ex((\\\"127.0.0.1\\\",49762)); s.close(); print(\\\"CLOSED\\\" if rc else \\\"OPEN\\\"); raise SystemExit(0 if rc else 1)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/nicegui-base-stable3-explorer-focus-visibility-fix-2 refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2 refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='%H %T %P' 72636acb262e4b35d11095e21845fc86bc6aed29 && rtk git show -s --format='%H %T %P' b140eb8370877fa97fc79cde62ab0d0395a9a828\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.156.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 420,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.2,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 21821952,
+      "fresh_input_tokens": 399040,
+      "input_tokens": 22220992,
+      "non_reasoning_output_tokens": 55230,
+      "output_tokens": 142636,
+      "reasoning_output_tokens": 87406,
+      "total_processed_tokens": 22363628
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+      "subject": "fix: settle Explorer focus reveal after reflow (CHG-236)"
+    },
+    {
+      "sha": "b140eb8370877fa97fc79cde62ab0d0395a9a828",
+      "subject": "fix: keep Explorer breakpoint focus visible (CHG-236)"
+    },
+    {
+      "sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+      "subject": "Correct Explorer Family focus fallback target"
+    },
+    {
+      "sha": "72636acb262e4b35d11095e21845fc86bc6aed29",
+      "subject": "Fix Explorer no-results and breakpoint focus"
+    }
+  ],
+  "diff": {
+    "additions": 516,
+    "changed_files": 4,
+    "commit_count": 4,
+    "deletions": 8
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-25T16:20:03Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "branch": "codex/nicegui-base-stable3-explorer-focus-visibility-fix-2",
+    "detached_verify": false,
+    "head_sha": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+    "remote_exact_head": true,
+    "remote_head_sha": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "work_branch": "codex/nicegui-base-stable3-explorer-focus-visibility-fix-2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-7b99dc23f8dfcd384689424c",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-explorer-focus-visibility-fix-2",
+  "schema_version": 1,
+  "started_at": "2026-09-25T15:28:17Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 3106,
+    "queue_seconds": 0,
+    "total_seconds": 3106
+  },
+  "transport": {
+    "bytes": 13937,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 13587,
+    "prompt_sha256": "f9de5b4f6057e671bdcd5b8adf84aff1eb7de4feecee7e505d8c2c70242c008d",
+    "sha256": "7b99dc23f8dfcd384689424c5cc9beec2477683d6cf9e414a8e30eed59c6de87"
+  }
+}
