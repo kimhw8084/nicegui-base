@@ -1,0 +1,466 @@
+{
+  "accepted_at": "2026-09-25T17:38:37Z",
+  "changed_files": [
+    {
+      "additions": 36,
+      "deletions": 36,
+      "path": "source/nicegui_base/certification/certification_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "source/nicegui_base/design/hardening_css.py",
+      "status": "M"
+    },
+    {
+      "additions": 100,
+      "deletions": 0,
+      "path": "source/tests/test_chg237_select_popup_geometry.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,80p' source/nicegui_base/certification/certification_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"source-evidence|regenerate-certification|sync.*manifest|refresh.*certification|certification_manifest\" source/nicegui_base/cli.py source/nicegui_base/__main__.py source/nicegui_base'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '110,250p' source/nicegui_base/governance/source_evidence.py && rtk sed -n '250,360p' source/nicegui_base/governance/source_evidence.py && rtk sed -n '830,880p' source/nicegui_base/governance/source_evidence.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport os\nfrom pathlib import Path\nos.chdir('source')\nfrom nicegui_base.certification.mac_coverage import coverage_summary\nfrom nicegui_base.governance.source_evidence import _pytest_count, _sync_packaged_certification_manifest\nroot=Path('.').resolve()\ncount=_pytest_count(root)\ncoverage=coverage_summary()\n_sync_packaged_certification_manifest(root,test_count=count,coverage=coverage)\nprint({'manifest':'nicegui_base/certification/certification_manifest.json','automated_tests':count,'combined_css_bytes':len(__import__('nicegui_base.certification.engine',fromlist=['combined_css']).combined_css().encode('utf-8'))})\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 126,
+        "output_sha256": "47560c7a8c706e8cf97325dee68d44b2de91e1c892ac028c18872914d88db7bc",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat && rtk git diff -- source/nicegui_base/certification/certification_manifest.json | rtk head -120'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/nicegui_base | rtk rg 'validate|__main__|source_evidence' && rtk rg -n \\\"def main|if __name__|ArgumentParser\\\" source/nicegui_base/validate.py source/nicegui_base/validate source/nicegui_base/governance/source_evidence.py\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk git diff --check && rtk ls-remote origin refs/heads/main && rtk python - <<'PY'\nimport json\np='/tmp/chg237-evidence/popup-geometry-evidence.json'\nwith open(p) as f: d=json.load(f)\nprint('topedge?', any(x.get('scenario')=='SELECT_GEOMETRY_TOP_EDGE_SANITY' for x in d.get('scenarios', [])))\nprint('root keys', list(d))\nprint('scenario count',len(d.get('scenarios', [])))\nPY\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/main && rtk python - <<'PY'\nimport json, urllib.request\np='/tmp/chg237-evidence/popup-geometry-evidence.json'\nwith open(p) as f: d=json.load(f)\nprint('root keys:',list(d))\nprint('scenario count:',len(d.get('scenarios', [])))\nprint('scenarios:',[x.get('scenario') for x in d.get('scenarios', [])])\ntry:\n print('server:',urllib.request.urlopen('http://127.0.0.1:43137/studio/component%3Aselect',timeout=3).status)\nexcept Exception as e: print('server error:',repr(e))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json, os, time\nfrom playwright.sync_api import sync_playwright\nout='/tmp/chg237-evidence'\nurl='http://127.0.0.1:43137/studio/component%3Aselect'\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', args=['--force-device-scale-factor=1'])\n    context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,reduced_motion='reduce')\n    page=context.new_page(); errors=[]; failed=[]; bad=[]; page.on('pageerror',lambda e:errors.append(str(e))); page.on('console',lambda m: errors.append('console:'+m.text) if m.type=='error' else None); page.on('requestfailed',lambda r:failed.append({'url':r.url,'error':r.failure})); page.on('response',lambda r:bad.append({'url':r.url,'status':r.status}) if r.status>=400 else None)\n    resp=page.goto(url,wait_until='networkidle'); page.wait_for_timeout(350)\n    page.keyboard.press('Tab')\n    for _ in range(21): page.keyboard.press('Tab')\n    loc=page.locator('input[role=\\\"combobox\\\"][aria-label=\\\"Process area\\\"]')\n    loc.wait_for(state='visible')\n    before=loc.evaluate('(e)=>{const r=e.closest(\\\".q-field\\\").getBoundingClientRect();return {y:r.y,bottom:r.bottom,scrollY:scrollY}}')\n    page.evaluate('''() => { const el=document.querySelector('input[role=\\\"combobox\\\"][aria-label=\\\"Process area\\\"]'); document.documentElement.style.minHeight='2200px'; const r=el.closest('.q-field').getBoundingClientRect(); window.scrollTo(0,window.scrollY+r.top-80); }''')\n    page.wait_for_timeout(100)\n    placed=loc.evaluate('(e)=>{const r=e.closest(\\\".q-field\\\").getBoundingClientRect();return {y:r.y,bottom:r.bottom,scrollY:scrollY}}')\n    page.keyboard.press('ArrowDown'); page.wait_for_timeout(60)\n    data=page.evaluate('''() => {const input=document.querySelector('input[role=\\\"combobox\\\"][aria-label=\\\"Process area\\\"]'); const ir=input.getBoundingClientRect(); const opener=input.closest('.q-field').getBoundingClientRect(); const popup=[...document.querySelectorAll('[role=\\\"listbox\\\"]')].find(e=>getComputedStyle(e).display\"'!=='\"'none'); if(\"'!popup)return {error:'\"'listbox missing'}; const r=popup.getBoundingClientRect(), s=getComputedStyle(popup), root=document.documentElement,body=document.body; const x=Math.max(opener.left,r.left),y=Math.max(opener.top,r.top),right=Math.min(opener.right,r.right),bottom=Math.min(opener.bottom,r.bottom); const ix=Math.max(0,right-x),iy=Math.max(0,bottom-y); const cx=r.left+r.width/2,cy=r.top+r.height/2; const owner=document.elementFromPoint(cx,cy); const options=[...popup.querySelectorAll('[role=\\\"option\\\"]')]; return {url:location.href,viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},scroll:{x:scrollX,y:scrollY},document:{scrollWidth:root.scrollWidth,clientWidth:root.clientWidth,bodyScrollWidth:body.scrollWidth,bodyClientWidth:body.clientWidth},activeCombobox:{tag:input.tagName,role:input.getAttribute('role'),label:input.getAttribute('aria-label'),expanded:input.getAttribute('aria-expanded'),rect:{x:ir.x,y:ir.y,right:ir.right,bottom:ir.bottom,width:ir.width,height:ir.height}},opener:{tag:'FIELD',rect:{x:opener.x,y:opener.y,right:opener.right,bottom:opener.bottom,width:opener.width,height:opener.height}},popup:{tag:popup.tagName,role:popup.getAttribute('role'),id:popup.id,classes:popup.className,rect:{x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height},display:s.display,visibility:s.visibility,overflowY:s.overflowY,maxHeight:s.maxHeight,boxSizing:s.boxSizing,scrollHeight:popup.scrollHeight,clientHeight:popup.clientHeight,scrollTop:popup.scrollTop,optionCount:options.length,options:options.map(e=>e.innerText.trim()),center:{x:cx,y:cy},centerOwner:{tag:owner&&owner.tagName,role:owner&&owner.getAttribute('role'),text:owner&&owner.innerText.trim()}},overflow:{top:Math.max(0,-r.top),right:Math.max(0,r.right-innerWidth),bottom:Math.max(0,r.bottom-innerHeight),left:Math.max(0,-r.left)},openerPopupIntersection:{x,y,right,bottom,width:ix,height:iy,area:ix*iy}}}''')\n    os.makedirs(out+'/screenshots',exist_ok=True); page.screenshot(path=out+'/screenshots/top_edge_sanity.png')\n    data={'scenario':'SELECT_GEOMETRY_TOP_EDGE_SANITY','status':'PASS' if 'error' not in data and max(data['overflow'].values())<=1 and data['openerPopupIntersection']['area']<=1 and data['document']['scrollWidth']-data['document']['clientWidth']<=1 and data['popup']['optionCount']>0 else 'FAIL','http':resp.status,'testPlacement':{'method':'scrolled the real focused Select to the upper viewport region after adding test-only document scroll range','before':before,'after':placed},'firstFrame':data,'pageErrors':errors,'consoleErrors':errors,'failedRequests':failed,'badResponses':bad,'screenshot':'top_edge_sanity.png'}\n    assert data['status']=='PASS',data\n    browser.close()\np=out+'/popup-geometry-evidence.json'\nwith open(p) as f: all_data=json.load(f)\nall_data=[x for x in all_data if x.get('scenario')\"'!='\"'SELECT_GEOMETRY_TOP_EDGE_SANITY']+[data]\nwith open(p,'w') as f: json.dump(all_data,f,indent=2)\nprint(json.dumps({'scenario':data['scenario'],'status':data['status'],'opener':data['firstFrame']['opener']['rect'],'popup':data['firstFrame']['popup']['rect'],'overflow':data['firstFrame']['overflow'],'overlap':data['firstFrame']['openerPopupIntersection'],'errors':len(errors),'failed':len(failed),'bad':len(bad)},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport os,pytest\nos.chdir('source')\npaths=[\n 'tests/test_chg237_select_popup_geometry.py',\n 'tests/test_workbench_chg108.py',\n 'tests/test_workbench_chg106.py',\n 'tests/test_phase4_overlays.py',\n 'tests/test_phase23_v17_overlay_architecture.py',\n 'tests/test_component_models.py',\n 'tests/test_component_registry.py',\n 'tests/test_component_css.py',\n 'tests/test_nicegui_component_adapter.py',\n 'tests/test_phase2_public_api.py',\n 'tests/test_phase3_public_api.py',\n 'tests/test_phase4_public_api.py',\n 'tests/test_phase5_public_api.py',\n 'tests/test_phase7_public_api.py',\n 'tests/test_phase9_public_api.py',\n 'tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source',\n]\nraise SystemExit(pytest.main(['-q',*paths]))\nPY\"",
+      "exit_code": 4,
+      "test_result": {
+        "exit_code": 4,
+        "framework": "pytest",
+        "outcome": "usage_error",
+        "output_bytes": 70,
+        "output_sha256": "00b47bffa6c46a90e84fd417761115bcc68b6c8883b565fdf45ff01839d7f845",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/tests | rtk rg 'phase(2|3|4|5|7|9).*public|component.*(model|registry|css)|nicegui_component_adapter|phase35_v200|phase4_overlays|phase23_v17|workbench_chg10|chg237_select'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/tests | rtk rg 'public|api' | rtk head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport os,pytest\nos.chdir('source')\npaths=[\n 'tests/test_chg237_select_popup_geometry.py',\n 'tests/test_workbench_chg108.py',\n 'tests/test_workbench_chg106.py',\n 'tests/test_phase4_overlays.py',\n 'tests/test_phase23_v17_overlay_architecture.py',\n 'tests/test_component_models.py',\n 'tests/test_component_registry.py',\n 'tests/test_component_css.py',\n 'tests/test_nicegui_component_adapter.py',\n 'tests/test_public_api_phase2.py',\n 'tests/test_public_api_phase3.py',\n 'tests/test_public_api_phase4.py',\n 'tests/test_public_api_phase5.py',\n 'tests/test_phase7_public_api.py',\n 'tests/test_public_api_phase9.py',\n 'tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source',\n]\nraise SystemExit(pytest.main(['-q',*paths]))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "b701e7dd8d0f0fd498c8169c56e853fee0a80dbdcc9c7fda669fb3106e46d96b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' source/nicegui_base/validate.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg237-evidence/popup-geometry-evidence.json'\nd=json.load(open(p))\nprint([(x['scenario'],x['status']) for x in d])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- source/nicegui_base/design/hardening_css.py source/tests/test_chg237_select_popup_geometry.py source/nicegui_base/certification/certification_manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=source python -m nicegui_base.validate . --format json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,os,shutil,platform,sys,importlib.metadata\nsrc='/tmp/chg237-evidence'; dst=src+'/package'\nos.makedirs(dst+'/predecessor',exist_ok=True);os.makedirs(dst+'/screenshots',exist_ok=True)\nfor f in ['desktop_1440x900.png','short_height_1440x700.png','mobile_390x844.png','keyboard-focus-return.png','top_edge_sanity.png']:\n shutil.copy2(src+'/screenshots/'+f,dst+'/screenshots/'+f)\nfor f in ['/tmp/chg237-base-negative.png','/tmp/chg237-base-negative.json']:\n shutil.copy2(f,dst+'/predecessor/'+os.path.basename(f))\nshutil.copy2(src+'/popup-geometry-evidence.json',dst+'/popup-geometry-evidence.json')\nall_data=json.load(open(src+'/popup-geometry-evidence.json'))\nkey=next(x for x in all_data if x['scenario']=='SELECT_GEOMETRY_DESKTOP_1440X900_KEYBOARD_POINTER')\njson.dump(key,open(dst+'/keyboard-focus-evidence.json','w'),indent=2)\ntry: import playwright; pw=importlib.metadata.version('playwright')\nexcept Exception: pw='unknown'\ntry: ng=importlib.metadata.version('nicegui')\nexcept Exception: ng='unknown'\nenv={'os':platform.platform(),'architecture':platform.machine(),'python':sys.version,'nicegui':ng,'playwright':pw,'browser':{'product':'Google Chrome','version':'153.0.8010.54','executable':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','engine':'Chromium','headless':True},'browserContext':{'deviceScaleFactor':1,'reducedMotion':'reduce'},'server':{'command':'rtk python run_nicegui_base.py --port 43137 --no-show','host':'127.0.0.1','port':43137,'pid':93113,'candidateIdentity':'1152cd1ef76259d01bbcf89f8fdf11117d99ad69 candidate changes served from worktree before final commit','serverSession':43026}}\njson.dump(env,open(dst+'/browser-environment.json','w'),indent=2)\nprint(json.dumps({'package':dst,'files':os.listdir(dst),'scenarios':[(x['scenario'],x['status']) for x in all_data]},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nx=json.load(open('/tmp/chg237-base-negative.json'))\nprint(json.dumps(x,indent=2)[:6000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n '_sync_packaged_certification_manifest|combined_css_bytes' source/nicegui_base source/tests | rtk head -60\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '820,875p' source/nicegui_base/governance/source_evidence.py && rtk rg -n 'source_evidence' source/nicegui_base/cli.py source/nicegui_base | rtk head -60\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '940,970p' source/nicegui_base/governance/source_evidence.py && rtk rg -n 'source-evidence|generate-source|source_evidence' source/nicegui_base | rtk head -40\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport os,pytest\nos.chdir('source')\nraise SystemExit(pytest.main(['-q']))\nPY\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 22822,
+        "output_sha256": "48f8dcca4c4abb5710c47aed483e032ff7b772905d1fa954a79e4e61a9706256",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,os,pytest\nos.chdir('source')\nclass Stats:\n def __init__(self): self.counts={'passed':0,'failed':0,'skipped':0,'errors':0}\n def pytest_runtest_logreport(self,report):\n  if report.when=='call':\n   if report.passed:self.counts['passed']+=1\n   elif report.failed:self.counts['failed']+=1\n   elif report.skipped:self.counts['skipped']+=1\n def pytest_collectreport(self,report):\n  if report.failed:self.counts['errors']+=1\npaths=['tests/test_chg237_select_popup_geometry.py','tests/test_workbench_chg108.py','tests/test_workbench_chg106.py','tests/test_phase4_overlays.py','tests/test_phase23_v17_overlay_architecture.py','tests/test_component_models.py','tests/test_component_registry.py','tests/test_component_css.py','tests/test_nicegui_component_adapter.py','tests/test_public_api_phase2.py','tests/test_public_api_phase3.py','tests/test_public_api_phase4.py','tests/test_public_api_phase5.py','tests/test_phase7_public_api.py','tests/test_public_api_phase9.py','tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source']\nst=Stats();rc=pytest.main(['-q',*paths],plugins=[st]);print('FOCUSED_RESULT '+json.dumps({'exit_code':int(rc),'counts':st.counts},sort_keys=True));raise SystemExit(int(rc))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 178,
+        "output_sha256": "044e20e852e46a9a8f376d79c0b3ef072ce0a9ef7dbd98a68fc6d41fdc10356d",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"import socket; s=socket.socket(); s.settimeout(1); print('port_43137_open=',s.connect_ex(('127.0.0.1',43137))==0); s.close()\\\" && rtk python run_nicegui_base.py --port 43137 --no-show\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,os,socket\npid=93113\nalive=True\ntry: os.kill(pid,0)\nexcept ProcessLookupError: alive=False\nexcept PermissionError: alive=True\ns=socket.socket();s.settimeout(.5);code=s.connect_ex(('127.0.0.1',43137));s.close()\nresult={'scenario':'SELECT_GEOMETRY_SERVER_CLEANUP','status':'PASS' if not alive and code\"'!=0 else '\"'FAIL','serverPid':pid,'pidAlive':alive,'port':43137,'connectEx':code,'listening':code==0}\nprint(json.dumps(result,indent=2));assert result['status']=='PASS'\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current && rtk git rev-parse HEAD && rtk git status --short && rtk git diff --check && rtk git add source/nicegui_base/design/hardening_css.py source/tests/test_chg237_select_popup_geometry.py source/nicegui_base/certification/certification_manifest.json && rtk git diff --cached --check && rtk git diff --cached --stat && rtk git write-tree'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git commit -m 'Fix governed Select popup viewport geometry' && rtk git rev-parse HEAD && rtk git rev-parse 'HEAD\"'^{tree}'\"' && rtk git show -s --format='parent=%P%nsubject=%s' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\np='/tmp/chg237-evidence/popup-geometry-evidence.json'\nx=next(v for v in json.load(open(p)) if v['scenario']=='SELECT_GEOMETRY_DESKTOP_1440X900_KEYBOARD_POINTER')\nprint(json.dumps({k:v for k,v in x.items() if k not in ('pageErrors','consoleErrors','failedRequests','badResponses')},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,os,shutil,datetime\np='/tmp/chg237-evidence/package'\nhead='e20446c9f8e887e3fe97fa6ba9efdf22e64de182'; tree='fcc6294ba8f7c36b68b88a217e65b7efb3050393'; base='1152cd1ef76259d01bbcf89f8fdf11117d99ad69'; basetree='84120e595f263cc3c6aa0da9977b71f2b9dd95c5'\nart='refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1'; fabric='refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1'\nrun={'project':'nicegui-base','change':'CHG-237','request':'stable3-select-popup-viewport-geometry-fix-1','operation':'FIX','fabric_job_id':'CF-bb35d92450ddb9e5d1ca2d87','parent_qualification_job_id':'CF-a25508c618dbb510eb6c7d1f','registered_target_branch':'main','base_sha':base,'base_tree':basetree,'candidate_branch':'codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1','candidate_sha':head,'candidate_tree':tree,'candidate_parent':base,'candidate_is_descendant_of_base':True,'project_artifact_ref':art,'fabric_evidence_ref':fabric,'qualification_parent_artifact':'refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-2@8024a592fdec97f1c5b984400a41f98675d0603e','qualification_parent_native_evidence':'refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-2:.codex-fabric/audit.json@8ca07c4cee7224711a0e53faf551e46844a9a303','product_scope':'Governed Select-family shared popup viewport geometry and its listbox overflow behavior.'}\njson.dump({'artifact_format':'nicegui-base-change-evidence-v1','created_date':'2026-09-25','identity':run,'root_cause':'The shared hardening CSS forced max-height:min(420px,calc(100dvh - 40px))\"'!important on every Quasar listbox and applied overflow:hidden!important. This overrode Quasar 3.15.0 QMenu position-engine inline max-height (86px in the repro), so a bottom-edge listbox kept a 134px box, overflowed by 9.578125px, covered the field, and clipped its internally scrollable options.'\"','implementation':'Removed the forced listbox max-height and generic hidden overflow from listboxes; retained hidden overflow on governed non-listbox menus and set listbox overflow-x:hidden / overflow-y:auto. Quasar QMenu now controls placement and available-height sizing. Select-family wrapper, CHG-108 focus repair, options mapping and route construction are unchanged.','claims':{'human_visual_E3':'NOT_CLAIMED','authentic_browser_chrome_200_percent_zoom':'NOT_PERFORMED','CHG_59_work_computer_runtime_server_qualification':'NOT_CLAIMED','company_provider_data_scale_deployment_operations':'NOT_CLAIMED','stable_3_0_0_or_publication_readiness':'NOT_CLAIMED','main_modified_or_merged':'NO','fabric_native_audit_forged':'NO'}},open(p+'/manifest.json','w'),indent=2)\nscenarios=[\n {'scenario':'SELECT_GEOMETRY_BASE_NEGATIVE','status':'PASS','meaning':'Exact base reproduced the established failure class.','evidence':'predecessor/chg237-base-negative.json','screenshot':'predecessor/chg237-base-negative.png'},\n {'scenario':'SELECT_GEOMETRY_DESKTOP_1440x900','status':'PASS','evidence':'popup-geometry-evidence.json#SELECT_GEOMETRY_DESKTOP_1440X900; keyboard/pointer contract in keyboard-focus-evidence.json','screenshot':'screenshots/desktop_1440x900.png'},\n {'scenario':'SELECT_GEOMETRY_SHORT_HEIGHT_1440x700','status':'PASS','evidence':'popup-geometry-evidence.json#SELECT_GEOMETRY_SHORT_HEIGHT_1440X700','screenshot':'screenshots/short_height_1440x700.png'},\n {'scenario':'SELECT_GEOMETRY_COMPACT_1024x768','status':'PASS','evidence':'popup-geometry-evidence.json#SELECT_GEOMETRY_COMPACT_1024X768'},\n {'scenario':'SELECT_GEOMETRY_MOBILE_390x844','status':'PASS','evidence':'popup-geometry-evidence.json#SELECT_GEOMETRY_MOBILE_390X844','screenshot':'screenshots/mobile_390x844.png'},\n {'scenario':'SELECT_GEOMETRY_TOP_EDGE_SANITY','status':'PASS','evidence':'popup-geometry-evidence.json#SELECT_GEOMETRY_TOP_EDGE_SANITY','screenshot':'screenshots/top_edge_sanity.png'},\n {'scenario':'SELECT_GEOMETRY_INHERITANCE','status':'PASS','evidence':'popup-geometry-evidence.json#SELECT_GEOMETRY_INHERITANCE_MULTI_SELECT and #SELECT_GEOMETRY_INHERITANCE_COMBOBOX'},\n {'scenario':'SELECT_GEOMETRY_SOURCE_REGRESSION','status':'PASS','evidence':'validation-summary.json#focused_suite'},\n {'scenario':'SELECT_GEOMETRY_SERVER_CLEANUP','status':'PASS','evidence':'scenario-matrix.json#server_cleanup'},\n {'scenario':'SELECT_GEOMETRY_GIT_FINAL','status':'PASS','evidence':'manifest.json#identity and validation-summary.json#git'}]\ncleanup={'status':'PASS','server_pid':93113,'server_session':43026,'port':43137,'pid_alive_after_interrupt':False,'tcp_connect_ex_after_interrupt':61,'listening_after_interrupt':False}\njson.dump({'identity':run,'scenarios':scenarios,'server_cleanup':cleanup},open(p+'/scenario-matrix.json','w'),indent=2)\njson.dump({'scenario':'SELECT_GEOMETRY_SERVER_CLEANUP',**cleanup},open(p+'/server-cleanup-evidence.json','w'),indent=2)\ncmds=[\n {'command':'rtk nicegui-base agent-context \\\"Fix governed Select popup viewport placement while preserving accessibility and inherited behavior\\\" --format json','status':'PASS','purpose':'Framework and catalog discovery before editing.'},\n {'command':'rtk python run_nicegui_base.py --port 43137 --no-show','status':'PASS','purpose':'Canonical launcher for the exact-base negative-control server and exact-candidate browser run.'},\n {'command':'Playwright sync_api through \"'`rtk python - <<'\"\\\\'PY\\\\'\"'` against installed Chrome 153.0.8010.54'\"','status':'PASS','purpose':'Real keyboard-opened QSelect geometry, keyboard/pointer interactions, viewport matrix, MultiSelect/Combobox inheritance; screenshot/rect evidence in popup-geometry-evidence.json and screenshots/.'},\n {'command':'rtk python - <<\\\\'PY\\\\' ; os.chdir(\\\"source\\\"); pytest.main([\\\"-q\\\", <16 focused paths listed in validation-summary.json>])','status':'PASS','purpose':'72 focused component, Select, accessibility, overlays and public API tests.'},\n {'command':'rtk python - <<\\\\'PY\\\\' ; os.chdir(\\\"source\\\"); pytest.main([\\\"-q\\\"])','status':'FAIL','purpose':'Full source suite; 14 unrelated failures detailed in validation-summary.json.'},\n {'command':'rtk env PYTHONPATH=source python -m nicegui_base.validate . --format json','status':'FAIL','purpose':'Framework validation; one pre-existing syntax error and 56 warnings.'},\n {'command':'rtk nicegui-base runtime-contract','status':'PASS','purpose':'Installed NiceGUI/runtime contract.'},\n {'command':'rtk git diff --check','status':'PASS','purpose':'Whitespace/error check before and after commit.'},\n {'command':'rtk git push origin HEAD:refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1','status':'PENDING','purpose':'Push the normal descendant candidate branch.'},\n {'command':'rtk git push origin HEAD:refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1','status':'PENDING','purpose':'Publish candidate-bound evidence commit sole-parented to candidate.'}]\njson.dump({'identity':run,'commands':cmds,'note':'Browser interactions were run as inline Python Playwright sync_api scripts. Each decisive state is archived as structured geometry/interaction evidence with corresponding screenshots where required.'},open(p+'/commands.json','w'),indent=2)\nfailed=[\n 'tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes',\n 'tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure',\n 'tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe',\n 'tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed',\n 'tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none',\n 'tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step',\n 'tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics',\n 'tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch',\n 'tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction',\n 'tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch',\n 'tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions',\n 'tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui',\n 'tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[analysis-workspace]',\n 'tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page']\nfocused={'status':'PASS','exit_code':0,'passed':72,'failed':0,'skipped':0,'command':'rtk python - <<\\\\'PY\\\\' ; os.chdir(\\\"source\\\"); pytest.main([\\\"-q\\\", \\\"tests/test_chg237_select_popup_geometry.py\\\", \\\"tests/test_workbench_chg108.py\\\", \\\"tests/test_workbench_chg106.py\\\", \\\"tests/test_phase4_overlays.py\\\", \\\"tests/test_phase23_v17_overlay_architecture.py\\\", \\\"tests/test_component_models.py\\\", \\\"tests/test_component_registry.py\\\", \\\"tests/test_component_css.py\\\", \\\"tests/test_nicegui_component_adapter.py\\\", \\\"tests/test_public_api_phase2.py\\\", \\\"tests/test_public_api_phase3.py\\\", \\\"tests/test_public_api_phase4.py\\\", \\\"tests/test_public_api_phase5.py\\\", \\\"tests/test_phase7_public_api.py\\\", \\\"tests/test_public_api_phase9.py\\\", \\\"tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source\\\"])'}\nsummary={'identity':run,'focused_suite':focused,'full_source_suite':{'status':'FAIL','failed_count':14,'failures':failed,'classification':'Unrelated existing failures in unchanged runtime StateKey / generated application roots under the current source environment. All failures raise TypeError: super(type, obj): obj must be an instance or subtype of type during StateKey[T] construction.'},'framework_validator':{'status':'FAIL','error_count':1,'warning_count':56,'blocking_error':{'code':'AI000','path':'tools/verify_development_D6H2_browser.py','line':154,'message':'Python syntax error: f-string expression part cannot include a backslash','classification':'Pre-existing unrelated tracked file; outside CHG-237 changes.'},'warnings_classification':'Existing warnings across unchanged tests/tools.'},'runtime_contract':{'status':'PASS','nicegui_required':'3.15.0','nicegui_installed':'3.15.0','factories_checked':48,'direct_calls_checked':1172},'git':{'candidate_head':head,'candidate_tree':tree,'candidate_parent':base,'candidate_descends_from_base':True,'origin_main_before_publish':base,'worktree_clean':'PENDING','diff_check':'PASS','product_files':['source/nicegui_base/certification/certification_manifest.json','source/nicegui_base/design/hardening_css.py','source/tests/test_chg237_select_popup_geometry.py']},'runtime_smoke':'NOT_RUN','visual_E3':'NOT_CLAIMED'}\njson.dump(summary,open(p+'/validation-summary.json','w'),indent=2)\n# Correct environment identity now that the candidate is committed.\nep=p+'/browser-environment.json'; env=json.load(open(ep));env['server']['candidateIdentity']=head;env['server']['candidateTree']=tree;env['server']['worktree']='codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1';json.dump(env,open(ep,'w'),indent=2)\nprint(json.dumps({'written':sorted(os.listdir(p)),'candidate':head,'tree':tree,'focused_tests':72,'full_failures':len(failed)},indent=2))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 460,
+        "output_sha256": "2541b0b0cedefb57e7cea3f0e182b22bbe5b7912c7f83c3f5095f3ee0037cbd3",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short && rtk git diff --check && rtk git merge-base --is-ancestor 1152cd1ef76259d01bbcf89f8fdf11117d99ad69 HEAD && rtk git ls-remote origin refs/heads/main && rtk git push origin HEAD:refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1 && rtk git ls-remote origin refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1 refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,hashlib,os\np='/tmp/chg237-evidence/package'\nbase='1152cd1ef76259d01bbcf89f8fdf11117d99ad69'; basetree='84120e595f263cc3c6aa0da9977b71f2b9dd95c5'; head='e20446c9f8e887e3fe97fa6ba9efdf22e64de182'; tree='fcc6294ba8f7c36b68b88a217e65b7efb3050393'; art='refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1'; branch='refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1'\nneg=json.load(open(p+'/predecessor/chg237-base-negative.json'));neg['candidateIdentity']={'sha':base,'tree':basetree,'branch':'main'};json.dump(neg,open(p+'/predecessor/chg237-base-negative.json','w'),indent=2)\npaths=['tests/test_chg237_select_popup_geometry.py','tests/test_workbench_chg108.py','tests/test_workbench_chg106.py','tests/test_phase4_overlays.py','tests/test_phase23_v17_overlay_architecture.py','tests/test_component_models.py','tests/test_component_registry.py','tests/test_component_css.py','tests/test_nicegui_component_adapter.py','tests/test_public_api_phase2.py','tests/test_public_api_phase3.py','tests/test_public_api_phase4.py','tests/test_public_api_phase5.py','tests/test_phase7_public_api.py','tests/test_public_api_phase9.py','tests/test_phase35_v200_single_token_authority.py::test_v2_packaged_certification_manifest_is_regenerated_from_current_source']\nfocused='rtk python - <<\\\\'PY\\\\'\\\\nimport os, pytest\\\\nos.chdir(\\\"source\\\")\\\\npaths='+repr(paths)+'\\\\nraise SystemExit(pytest.main([\\\"-q\\\", *paths]))\\\\nPY'\nfull='rtk python - <<\\\\'PY\\\\'\\\\nimport os, pytest\\\\nos.chdir(\\\"source\\\")\\\\nraise SystemExit(pytest.main([\\\"-q\\\"]))\\\\nPY'\ncmds=[\n {'command':'rtk nicegui-base agent-context \\\"Fix governed Select popup viewport placement while preserving accessibility and inherited behavior\\\" --format json','status':'PASS','purpose':'Framework/catalog authority discovery before editing.'},\n {'command':'rtk python run_nicegui_base.py --port 43137 --no-show','status':'PASS','purpose':'Canonical source-checkout launcher for exact-base negative control and candidate real-browser route.'},\n {'command':'Playwright sync_api invoked via \"'`rtk python - <<'\"\\\\'PY\\\\'\"'` against `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`'\"','status':'PASS','purpose':'Actual keyboard/pointer QSelect geometry and interaction matrix. See popup-geometry-evidence.json, keyboard-focus-evidence.json, predecessor/ and screenshots/.'},\n {'command':focused,'status':'PASS','purpose':'72 focused Select/component/accessibility/overlay/public API tests.'},\n {'command':full,'status':'FAIL','purpose':'Full source pytest suite; 14 unrelated failures described in validation-summary.json.'},\n {'command':'rtk env PYTHONPATH=source python -m nicegui_base.validate . --format json','status':'FAIL','purpose':'Framework validator; one existing AI000 syntax error and 56 warnings.'},\n {'command':'rtk nicegui-base runtime-contract','status':'PASS','purpose':'Runtime contract.'},\n {'command':'rtk git diff --check','status':'PASS','purpose':'Whitespace/error check.'},\n {'command':'rtk git push origin HEAD:'+branch,'status':'PASS','purpose':'Publish exact candidate work branch.'},\n {'command':'rtk git push origin HEAD:'+art,'status':'PENDING','purpose':'Publish candidate-bound evidence commit sole-parented to candidate.'}]\njson.dump({'identity':json.load(open(p+'/manifest.json'))['identity'],'commands':cmds,'browser_command_detail':'Browser tests were executed with inline Playwright scripts. The specific interaction and evaluation sequence is reflected in the structured geometry and keyboard evidence; the transient heredoc source was not separately saved.'},open(p+'/commands.json','w'),indent=2)\n# product worktree check after commit and push\ns=json.load(open(p+'/scenario-matrix.json'));s['identity']['candidate_branch']='codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1';s['scenarios'][-1]['status']='PASS';json.dump(s,open(p+'/scenario-matrix.json','w'),indent=2)\nv=json.load(open(p+'/validation-summary.json'));v['git'].update({'worktree_clean':True,'diff_check':'PASS','origin_main_after_publish':base,'candidate_branch':'codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1','candidate_remote_ref':branch,'candidate_remote_sha':head});json.dump(v,open(p+'/validation-summary.json','w'),indent=2)\nprint(json.dumps({'focused_command':focused,'full_command':full,'statuses':[(x['scenario'],x['status']) for x in s['scenarios']]},indent=2))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 1642,
+        "output_sha256": "69e4df2c1d2a93e9f336e1e198678dedbc20ac0173da17ea22a9be911dfe8087",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,os,hashlib\np='/tmp/chg237-evidence/package'\ncp=p+'/commands.json';d=json.load(open(cp));d['commands']=[x for x in d['commands'] if 'project-os-artifacts' not in x.get('command','')];json.dump(d,open(cp,'w'),indent=2)\n# Add the repository's exact clean final state and expected artifact ancestry to the evidence summary.\nv=json.load(open(p+'/validation-summary.json'));v['git']['product_worktree_status_porcelain']='';v['git']['artifact_commit_parent_expected']=v['git']['candidate_head'];v['git']['artifact_remote_read']='TO_BE_VERIFIED_AFTER_PUBLISH';json.dump(v,open(p+'/validation-summary.json','w'),indent=2)\n# Deterministic SHA256 list over every current payload file except the list itself.\nrows=[]\nfor root,dirs,files in os.walk(p):\n dirs.sort()\n for name in sorted(files):\n  full=os.path.join(root,name);rel=os.path.relpath(full,p).replace(os.sep,'/')\n  if rel=='SHA256SUMS.txt':continue\n  h=hashlib.sha256(open(full,'rb').read()).hexdigest();rows.append(f'{h}  {rel}')\nopen(p+'/SHA256SUMS.txt','w').write('\\\\n'.join(rows)+'\\\\n')\n# Parse all JSON, verify sha list, required files, screenshot signatures, candidate/base identity.\nfor root,dirs,files in os.walk(p):\n for name in files:\n  if name.endswith('.json'):json.load(open(os.path.join(root,name)))\nfor line in open(p+'/SHA256SUMS.txt'):\n h,rel=line.rstrip('\\\\n').split('  ',1);actual=hashlib.sha256(open(p+'/'+rel,'rb').read()).hexdigest();assert h==actual,(rel,h,actual)\nrequired=['manifest.json','scenario-matrix.json','browser-environment.json','popup-geometry-evidence.json','keyboard-focus-evidence.json','commands.json','validation-summary.json','SHA256SUMS.txt']\nassert all(os.path.isfile(p+'/'+x) for x in required)\nfor root,dirs,files in os.walk(p+'/screenshots'):\n for name in files:assert open(os.path.join(root,name),'rb').read(8)==b'\\\\x89PNG\\\\r\\\\n\\\\x1a\\\\n',name\nident=json.load(open(p+'/manifest.json'))['identity'];assert ident['candidate_sha']=='e20446c9f8e887e3fe97fa6ba9efdf22e64de182' and ident['candidate_tree']=='fcc6294ba8f7c36b68b88a217e65b7efb3050393'\nprint(json.dumps({'file_count':len(rows),'required_files':required,'screenshots':[(x,os.path.getsize(p+'/screenshots/'+x)) for x in sorted(os.listdir(p+'/screenshots'))],'sha256sum':'PASS','json':'PASS'},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git worktree add --detach /tmp/chg237-artifact-worktree e20446c9f8e887e3fe97fa6ba9efdf22e64de182 && rtk python - <<'PY'\nimport os,shutil\nsrc='/tmp/chg237-evidence/package';root='/tmp/chg237-artifact-worktree/CHG-237-select-popup-viewport-geometry-fix-1'\nos.makedirs(root,exist_ok=True)\nfor name in os.listdir(src):\n s=os.path.join(src,name);d=os.path.join(root,name)\n if os.path.isdir(s):shutil.copytree(s,d)\n else:shutil.copy2(s,d)\nprint(root)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk git add CHG-237-select-popup-viewport-geometry-fix-1 && rtk git diff --cached --check && rtk git diff --cached --stat && rtk git commit -m 'Add CHG-237 Select popup geometry evidence' && rtk git rev-parse HEAD && rtk git show -s --format='parent=%P%nsubject=%s' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 && rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1 refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 && rtk git rev-parse FETCH_HEAD && rtk git rev-parse 'FETCH_HEAD\"'^{tree}'\"' && rtk git show -s --format='commit=%H%nparent=%P%nsubject=%s' FETCH_HEAD && rtk git archive --format=tar FETCH_HEAD CHG-237-select-popup-viewport-geometry-fix-1 | rtk tar -x -C /tmp/chg237-remote-read\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport os\nos.makedirs('/tmp/chg237-remote-read',exist_ok=True)\nPY\nrtk git archive --format=tar FETCH_HEAD CHG-237-select-popup-viewport-geometry-fix-1 | rtk tar -x -C /tmp/chg237-remote-read\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import os; print(os.path.exists(\\\"/tmp/chg237-remote-read\\\"))' && rtk mkdir -p /tmp/chg237-remote-read\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk pwd && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python --version && rtk command -v python && rtk ls /private/tmp'",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python --version && rtk pwd'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 && rtk git rev-parse FETCH_HEAD && rtk git rev-parse 'FETCH_HEAD\"'^{tree}'\"' && rtk git show -s --format='commit=%H%nparent=%P%nsubject=%s' FETCH_HEAD && rtk git archive --format=tar FETCH_HEAD CHG-237-select-popup-viewport-geometry-fix-1 > /tmp/chg237-remote-read.tar\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport tarfile,os,json,hashlib,struct\narc='/tmp/chg237-remote-read.tar';dest='/tmp/chg237-remote-read'\nos.makedirs(dest,exist_ok=True)\nwith tarfile.open(arc,'r:') as t:t.extractall(dest,filter='data')\np=dest+'/CHG-237-select-popup-viewport-geometry-fix-1'\nrows=open(p+'/SHA256SUMS.txt').read().splitlines();verified=[]\nfor line in rows:\n h,rel=line.split('  ',1);actual=hashlib.sha256(open(p+'/'+rel,'rb').read()).hexdigest();assert h==actual,(rel,h,actual);verified.append(rel)\nfor root,dirs,files in os.walk(p):\n for f in files:\n  if f.endswith('.json'):json.load(open(os.path.join(root,f)))\nmanifest=json.load(open(p+'/manifest.json'));ident=manifest['identity']\nassert ident['candidate_sha']=='e20446c9f8e887e3fe97fa6ba9efdf22e64de182'\nassert ident['candidate_tree']=='fcc6294ba8f7c36b68b88a217e65b7efb3050393'\nassert len(verified)==15\nrequired=['manifest.json','scenario-matrix.json','browser-environment.json','popup-geometry-evidence.json','keyboard-focus-evidence.json','commands.json','validation-summary.json','SHA256SUMS.txt']\nassert all(os.path.isfile(p+'/'+x) for x in required)\nprint(json.dumps({'remote_sha256sum':'PASS','verified_payload_files':len(verified),'json_parse':'PASS','identity':'PASS','required_files':'PASS','artifact_ref_commit':'e19b81331e42bdd0c7dcb2cd23b7434e886cca34','artifact_tree':'e1fe9b70f966a66c91ae63c5167cf387d3d71679','artifact_parent':'e20446c9f8e887e3fe97fa6ba9efdf22e64de182'},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json,hashlib,os\np='/tmp/chg237-evidence/package';v=json.load(open(p+'/validation-summary.json'))\nv['git']['artifact_remote_read']={'status':'PASS','remote_ref':'refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1','verified_sha256_files':15,'commit_parent':'e20446c9f8e887e3fe97fa6ba9efdf22e64de182','single_parented_to_candidate':True,'required_files_present':True,'json_parse':'PASS'}\njson.dump(v,open(p+'/validation-summary.json','w'),indent=2)\nc=json.load(open(p+'/commands.json'));c['commands'] += [\n {'command':'rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1','status':'PASS','purpose':'Remote-read the published artifact ref.'},\n {'command':'rtk git archive --format=tar FETCH_HEAD CHG-237-select-popup-viewport-geometry-fix-1 > /tmp/chg237-remote-read.tar','status':'PASS','purpose':'Read artifact bytes from the fetched remote commit.'},\n {'command':'rtk python - <<\\\\'PY\\\\' ; parse remote JSON and validate all SHA256SUMS.txt entries, required file set, and bound candidate identity','status':'PASS','purpose':'Independent verification of remotely fetched artifact contents.'}]\njson.dump(c,open(p+'/commands.json','w'),indent=2)\nrows=[]\nfor root,dirs,files in os.walk(p):\n dirs.sort()\n for name in sorted(files):\n  rel=os.path.relpath(os.path.join(root,name),p).replace(os.sep,'/')\n  if rel=='SHA256SUMS.txt':continue\n  rows.append(f'{hashlib.sha256(open(p+\\\"/\\\"+rel,\\\"rb\\\").read()).hexdigest()}  {rel}')\nopen(p+'/SHA256SUMS.txt','w').write('\\\\n'.join(rows)+'\\\\n')\nfor line in open(p+'/SHA256SUMS.txt'):\n h,rel=line.rstrip().split('  ',1);assert hashlib.sha256(open(p+'/'+rel,'rb').read()).hexdigest()==h\nprint('local evidence updated; files hashed:',len(rows))\nPY\nrtk python - <<'PY'\nimport shutil\np='/tmp/chg237-evidence/package';root='/tmp/chg237-artifact-worktree/CHG-237-select-popup-viewport-geometry-fix-1'\nfor f in ['validation-summary.json','commands.json','SHA256SUMS.txt']:shutil.copy2(p+'/'+f,root+'/'+f)\nPY\nrtk git -C /tmp/chg237-artifact-worktree add CHG-237-select-popup-viewport-geometry-fix-1/validation-summary.json CHG-237-select-popup-viewport-geometry-fix-1/commands.json CHG-237-select-popup-viewport-geometry-fix-1/SHA256SUMS.txt && rtk git -C /tmp/chg237-artifact-worktree diff --cached --check && rtk git -C /tmp/chg237-artifact-worktree commit --amend --no-edit && rtk git -C /tmp/chg237-artifact-worktree show -s --format='commit=%H%nparent=%P' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push --force-with-lease origin HEAD:refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 && rtk git ls-remote origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1 refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport shutil,os\nfor p in ['/tmp/chg237-remote-read','/tmp/chg237-remote-read.tar']:\n if os.path.isdir(p):shutil.rmtree(p)\n elif os.path.exists(p):os.remove(p)\nPY\nrtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 && rtk git rev-parse FETCH_HEAD && rtk git show -s --format='commit=%H%nparent=%P' FETCH_HEAD && rtk git archive --format=tar FETCH_HEAD CHG-237-select-popup-viewport-geometry-fix-1 > /tmp/chg237-remote-read.tar && rtk python - <<'PY'\nimport tarfile,os,json,hashlib\narc='/tmp/chg237-remote-read.tar';dest='/tmp/chg237-remote-read';os.makedirs(dest,exist_ok=True)\nwith tarfile.open(arc,'r:') as t:t.extractall(dest,filter='data')\np=dest+'/CHG-237-select-popup-viewport-geometry-fix-1';rows=open(p+'/SHA256SUMS.txt').read().splitlines();verified=[]\nfor line in rows:\n h,rel=line.split('  ',1);actual=hashlib.sha256(open(p+'/'+rel,'rb').read()).hexdigest();assert h==actual,rel;verified.append(rel)\nfor root,dirs,files in os.walk(p):\n for name in files:\n  if name.endswith('.json'):json.load(open(os.path.join(root,name)))\nid=json.load(open(p+'/manifest.json'))['identity'];v=json.load(open(p+'/validation-summary.json'))\nassert id['candidate_sha']=='e20446c9f8e887e3fe97fa6ba9efdf22e64de182' and id['candidate_tree']=='fcc6294ba8f7c36b68b88a217e65b7efb3050393'\nassert len(verified)==15 and len(rows)==15\nassert v['git']['artifact_remote_read']['status']=='PASS'\nassert v['git']['artifact_remote_read']['single_parented_to_candidate'] is True\nprint(json.dumps({'status':'PASS','verified_files':len(verified),'sha256':'PASS','json':'PASS','identity':'PASS','recorded_remote_validation':'PASS'},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --porcelain && rtk git diff --check && rtk git branch --show-current && rtk git rev-parse HEAD && rtk git rev-parse 'HEAD\"'^{tree}'\"' && rtk git show -s --format='parent=%P' HEAD && rtk git merge-base --is-ancestor 1152cd1ef76259d01bbcf89f8fdf11117d99ad69 HEAD && rtk git ls-remote origin refs/heads/main refs/heads/codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1 refs/heads/project-os-artifacts/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1 && rtk git rev-parse FETCH_HEAD && rtk git rev-parse 'FETCH_HEAD\"'^{tree}'\"' && rtk git show -s --format='commit=%H%nparent=%P' FETCH_HEAD && rtk git -C /tmp/chg237-artifact-worktree status --porcelain && rtk git worktree remove /tmp/chg237-artifact-worktree && rtk git status --porcelain\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.156.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 261,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.68,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 11689984,
+      "fresh_input_tokens": 401963,
+      "input_tokens": 12091947,
+      "non_reasoning_output_tokens": 43062,
+      "output_tokens": 142278,
+      "reasoning_output_tokens": 99216,
+      "total_processed_tokens": 12234225
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+      "subject": "Fix governed Select popup viewport geometry"
+    }
+  ],
+  "diff": {
+    "additions": 139,
+    "changed_files": 3,
+    "commit_count": 1,
+    "deletions": 38
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 1,
+    "items": [
+      {
+        "bytes": 210422,
+        "path": "source/nicegui_base/certification/certification_manifest.json",
+        "sha256": "5098d90b00e806f12bba786efbe44aa15b115b0ba32b61267f7a3742e213b591"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-25T18:29:48Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "branch": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "detached_verify": false,
+    "head_sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "remote_exact_head": true,
+    "remote_head_sha": "e20446c9f8e887e3fe97fa6ba9efdf22e64de182",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "1152cd1ef76259d01bbcf89f8fdf11117d99ad69",
+    "work_branch": "codex/nicegui-base-stable3-select-popup-viewport-geometry-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-bb35d92450ddb9e5d1ca2d87",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-select-popup-viewport-geometry-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-select-popup-viewport-geometry-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-25T17:38:37Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 3071,
+    "queue_seconds": 0,
+    "total_seconds": 3071
+  },
+  "transport": {
+    "bytes": 14134,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 13774,
+    "prompt_sha256": "ba0303c8c2856ffbdd95ff2e7329f579fd34e31a206f3e73c624c07cc6f2d869",
+    "sha256": "bb35d92450ddb9e5d1ca2d87ed9a842461b1cb6a490afa12fa7a0888eff8fac6"
+  }
+}
