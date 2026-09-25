@@ -54,12 +54,22 @@ def test_workbench_responsive_sync_is_singleton_idempotent_and_focus_safe() -> N
     assert script.count("__niceguiBaseExplorerRefineResponsive") == 1
     assert 'if (window[key]) {' in script
     assert 'const mounted = new WeakSet();' in script
+    assert 'const focusTargets = new WeakMap();' in script
+    assert 'const summaryHandoffs = new WeakSet();' in script
     assert "window.matchMedia('(max-width: 680px)')" in script
     assert 'details.open = !media.matches;' in script
     assert "media.addEventListener('change', changed)" in script
     assert 'new MutationObserver(() => state.scan())' in script
-    assert 'const focusInside = media.matches && details.contains(document.activeElement);' in script
-    assert "details.querySelector(':scope > summary')?.focus();" in script
+    assert "details.addEventListener('focusin', (event) => {" in script
+    assert 'const focusInside = details.contains(active);' in script
+    assert "if (focusInside && isEligible(summary, details)) summary.focus({preventScroll: true});" in script
+    assert 'if (!focusInside && !handoffLostToDocument) return;' in script
+    assert 'summaryHandoffs.has(details)' in script
+    assert "window.addEventListener('blur'" in script
+    assert 'const remembered = focusTargets.get(details);' in script
+    assert 'focusFallback(details)' in script
+    assert 'target?.focus({preventScroll: true});' in script
+    assert "element.closest('[hidden], [inert], [aria-hidden=\"true\"], [aria-disabled=\"true\"], .q-field--disabled')" in script
 
 
 def test_responsive_sync_is_installed_once_by_workbench_presentation_root() -> None:

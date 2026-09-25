@@ -23,23 +23,75 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
   }
   const media = window.matchMedia('(max-width: 680px)');
   const mounted = new WeakSet();
+  const focusTargets = new WeakMap();
+  const summaryHandoffs = new WeakSet();
+  const isEligible = (element, details) => {
+    if (!element || !element.isConnected || !details.contains(element)) return false;
+    if (element.disabled || element.matches(':disabled, [disabled]') ||
+        element.closest('[hidden], [inert], [aria-hidden="true"], [aria-disabled="true"], .q-field--disabled')) return false;
+    const style = window.getComputedStyle(element);
+    return style.display !== 'none' && style.visibility !== 'hidden' && element.getClientRects().length > 0;
+  };
+  const focusFallback = (details) => {
+    const family = details.querySelector('.cui-explorer-refine__body .q-select[aria-label="Family"]');
+    const familyTarget = family?.querySelector('.q-select__focus-target, .q-field__input[role="combobox"]');
+    if (isEligible(familyTarget, details)) return familyTarget;
+    return [...details.querySelectorAll('.cui-explorer-refine__body .q-select__focus-target, .cui-explorer-refine__body .q-field__input[role="combobox"], .cui-explorer-refine__body .cui-button.q-btn')]
+      .find((element) => isEligible(element, details)) || null;
+  };
   const state = {
     media,
     scan() {
       document.querySelectorAll('.cui-explorer-refine').forEach((details) => {
         if (mounted.has(details)) return;
         mounted.add(details);
+        details.addEventListener('focusin', (event) => {
+          const summary = details.querySelector(':scope > summary');
+          if (summary?.contains(event.target)) {
+            if (media.matches) summaryHandoffs.add(details);
+            return;
+          }
+          summaryHandoffs.delete(details);
+          if (!isEligible(event.target, details)) return;
+          focusTargets.set(details, event.target);
+        });
         details.open = !media.matches;
       });
     },
     syncBreakpoint() {
       document.querySelectorAll('.cui-explorer-refine').forEach((details) => {
-        const focusInside = media.matches && details.contains(document.activeElement);
-        details.open = !media.matches;
-        if (focusInside) details.querySelector(':scope > summary')?.focus();
+        const active = document.activeElement;
+        const focusInside = details.contains(active);
+        const summary = details.querySelector(':scope > summary');
+        const focusOnSummary = summary?.contains(active) || false;
+        if (media.matches) {
+          if (focusInside && !focusOnSummary && isEligible(active, details)) focusTargets.set(details, active);
+          details.open = false;
+          if (focusInside && isEligible(summary, details)) summary.focus({preventScroll: true});
+          return;
+        }
+        details.open = true;
+        const handoffLostToDocument = !focusInside &&
+          (active === document.body || active === document.documentElement) && summaryHandoffs.has(details);
+        if (!focusInside && !handoffLostToDocument) return;
+        const remembered = focusTargets.get(details);
+        const target = isEligible(remembered, details)
+          ? remembered
+          : !focusOnSummary && isEligible(active, details)
+            ? active
+            : focusFallback(details);
+        target?.focus({preventScroll: true});
       });
     },
   };
+  document.addEventListener('focusin', (event) => {
+    document.querySelectorAll('.cui-explorer-refine').forEach((details) => {
+      if (!details.contains(event.target)) summaryHandoffs.delete(details);
+    });
+  });
+  window.addEventListener('blur', () => {
+    document.querySelectorAll('.cui-explorer-refine').forEach((details) => summaryHandoffs.delete(details));
+  });
   window[key] = state;
   const changed = () => state.syncBreakpoint();
   if (media.addEventListener) media.addEventListener('change', changed);
