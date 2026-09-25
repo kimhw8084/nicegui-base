@@ -1,0 +1,9 @@
+{
+  "candidate": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+  "listener_check": "CLOSED",
+  "pid_check": "no process with PID 53384",
+  "server_command": "rtk proxy /opt/anaconda3/bin/python run_nicegui_base.py --port 49762",
+  "server_pid": 53384,
+  "status": "PASS",
+  "stop": "Ctrl-C; exit 130 after graceful Uvicorn shutdown"
+}

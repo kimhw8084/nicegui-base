@@ -1,0 +1,36 @@
+{
+  "agent-check": {
+    "evidence": "Missing generated-app scaffold and 1 unrelated AI000 syntax error at tools/verify_development_D6H2_browser.py:154:245; 56 warnings.",
+    "preexisting": true,
+    "status": "FAIL"
+  },
+  "diff-check": {
+    "command": "rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD",
+    "status": "PASS"
+  },
+  "framework-validator": {
+    "evidence": "279 files, 1 AI000 syntax error in tools/verify_development_D6H2_browser.py, 56 warnings.",
+    "preexisting": true,
+    "status": "FAIL"
+  },
+  "full-source-pytest": {
+    "collected": 1976,
+    "evidence": "Unrelated StateKey generic construction failures in phase39/44/45/48 and generated application build/import failures in phase50/58; none of the changed files touch these areas.",
+    "failed": 14,
+    "preexisting": true,
+    "status": "FAIL"
+  },
+  "gate": {
+    "evidence": "Missing app manifest/dependency pin/entrypoint plus the same unrelated Python syntax error; bundled test launcher also imports collections.Sequence.",
+    "preexisting": true,
+    "status": "FAIL"
+  },
+  "runtime-contract": {
+    "evidence": "NiceGUI required and installed 3.15.0; factory contract 48 factories / 1172 direct calls checked.",
+    "status": "PASS"
+  },
+  "runtime-smoke": {
+    "evidence": "Health/readiness and 22 routes returned HTTP 200; smoke server stopped by the command.",
+    "status": "PASS"
+  }
+}

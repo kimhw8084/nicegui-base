@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://127.0.0.1:49762",
+  "browser": "Playwright Chromium",
+  "browserVersion": "151.0.7922.34",
+  "executablePath": "/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "playwrightVersion": "1.62.0",
+  "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]",
+  "reducedMotion": "reduce",
+  "serverIdentity": "exact FIX-2 candidate e95cc5472351ccfbde70e28b73380aeb8196fb09"
+}

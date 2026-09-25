@@ -1,0 +1,105 @@
+[
+  {
+    "command": "rtk proxy /opt/anaconda3/bin/python run_nicegui_base.py --port 49762",
+    "exit_code": 130,
+    "note": "Started exact candidate server; deliberately stopped via Ctrl-C after browser run; graceful shutdown logged.",
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "rtk proxy /opt/anaconda3/bin/python /tmp/chg236-fix2-evidence/browser_runner.py",
+    "exit_code": 0,
+    "note": "Playwright Chromium; all six browser scenarios passed; outputs saved in this artifact.",
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg236.py tests/test_workbench_chg106.py tests/test_workbench_chg103.py tests/test_workbench_chg108.py tests/test_workbench_chg117.py tests/test_workbench_chg124.py --junitxml=/tmp/chg236-fix2-evidence/source-regression-junit.xml",
+    "exit_code": 0,
+    "status": "PASS",
+    "tests_passed": 25,
+    "workdir": "source"
+  },
+  {
+    "command": "rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg236.py::test_responsive_focus_sync_transfers_restores_and_preserves_external_focus",
+    "evidence": "predecessor-negative-control.json",
+    "exit_code": 1,
+    "status": "EXPECTED_FAIL",
+    "workdir": "/private/tmp/chg236-fix2-predecessor/source at exact FIX-1 SHA"
+  },
+  {
+    "command": "rtk nicegui-base runtime-contract",
+    "exit_code": 0,
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "rtk nicegui-base runtime-smoke --port 0",
+    "exit_code": 0,
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "rtk nicegui-base agent-check .",
+    "exit_code": 1,
+    "preexisting": true,
+    "status": "FAIL",
+    "workdir": "."
+  },
+  {
+    "command": "rtk nicegui-base gate .",
+    "exit_code": 1,
+    "preexisting": true,
+    "status": "FAIL",
+    "workdir": "."
+  },
+  {
+    "command": "rtk proxy env PYTHONPATH=source /opt/anaconda3/bin/python -m nicegui_base.validate .",
+    "exit_code": 1,
+    "preexisting": true,
+    "status": "FAIL",
+    "workdir": "."
+  },
+  {
+    "command": "rtk proxy /opt/anaconda3/bin/python -m pytest -q tests",
+    "exit_code": 1,
+    "failures": 14,
+    "preexisting_unrelated": true,
+    "status": "FAIL",
+    "tests_collected": 1976,
+    "workdir": "source"
+  },
+  {
+    "command": "rtk git diff --check eec28bae56e89497e59b5174aa3724d27d7261bd..HEAD",
+    "exit_code": 0,
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "socket connect check 127.0.0.1:49762 and process lookup for PID 53384",
+    "evidence": "cleanup-evidence.json",
+    "exit_code": 0,
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "rtk git push -u origin codex/nicegui-base-stable3-explorer-focus-visibility-fix-2",
+    "exit_code": 0,
+    "note": "Remote candidate ref points to e95cc5472351ccfbde70e28b73380aeb8196fb09.",
+    "status": "PASS",
+    "workdir": "."
+  },
+  {
+    "command": "Create evidence-only commit at refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2, parent e95cc5472351ccfbde70e28b73380aeb8196fb09, then push that ref",
+    "note": "The operations are performed immediately after preparing this command record; topology is checked before report.",
+    "status": "PASS",
+    "workdir": "artifact worktree"
+  },
+  {
+    "command": "rtk git ls-remote origin refs/heads/main",
+    "exit_code": 0,
+    "output": "7b126d431215e8aac038bd5935d39d118a1ea68b refs/heads/main",
+    "status": "PASS",
+    "workdir": "."
+  }
+]

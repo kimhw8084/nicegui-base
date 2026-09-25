@@ -1,0 +1,29 @@
+{
+  "artifact_commit_topology": "The evidence ref is created as one evidence-only commit whose sole parent is the candidate SHA above.",
+  "candidate": {
+    "sha": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+    "tree": "84120e595f263cc3c6aa0da9977b71f2b9dd95c5"
+  },
+  "candidate_parent": "b140eb8370877fa97fc79cde62ab0d0395a9a828",
+  "fabric_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2",
+  "fabric_native_audit_status": "NOT_PUBLISHED_BY_THIS_SESSION; no callable Fabric publisher was available and no audit was fabricated.",
+  "main_checkout_or_merge_performed": false,
+  "origin_main": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+  "origin_main_unchanged_at_target": true,
+  "predecessor": {
+    "ancestor_of_candidate": true,
+    "sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+    "tree": "38d32f2a6f1b09331acb00ac3c0dc24de4a93c02"
+  },
+  "product_branch": "codex/nicegui-base-stable3-explorer-focus-visibility-fix-2",
+  "product_branch_pushed": true,
+  "product_worktree_clean": true,
+  "project_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2",
+  "remote_product_branch_sha": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+  "status": "PASS",
+  "target_base": {
+    "ancestor_of_candidate": true,
+    "sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b"
+  }
+}

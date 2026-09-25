@@ -1,0 +1,29 @@
+{
+  "candidate_fix_2": {
+    "branch": "codex/nicegui-base-stable3-explorer-focus-visibility-fix-2",
+    "sha": "e95cc5472351ccfbde70e28b73380aeb8196fb09",
+    "tree": "84120e595f263cc3c6aa0da9977b71f2b9dd95c5"
+  },
+  "change": "CHG-236",
+  "fabric_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-explorer-focus-visibility-fix-2",
+  "fabric_job": "CF-7b99dc23f8dfcd384689424c",
+  "native_fabric_audit": {
+    "reason": "No Fabric audit publisher/tool is callable in this runtime; no native audit was fabricated.",
+    "status": "NOT_PUBLISHED_BY_THIS_SESSION"
+  },
+  "operation": "FIX",
+  "predecessor_fix_1": {
+    "sha": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+    "tree": "38d32f2a6f1b09331acb00ac3c0dc24de4a93c02"
+  },
+  "project": "nicegui-base",
+  "project_artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-explorer-focus-visibility-fix-2",
+  "project_repository": "kimhw8084/nicegui-base",
+  "recorded_at_utc": "2026-09-25T16:13:58Z",
+  "request": "stable3-explorer-focus-visibility-fix-2",
+  "target_base": {
+    "sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "tree": "d8b510a85f7767bb8d67dba3f0e2b1d44f8fc87b"
+  },
+  "target_branch": "main"
+}

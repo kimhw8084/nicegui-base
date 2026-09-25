@@ -1,0 +1,9 @@
+{
+  "base_candidate": "eec28bae56e89497e59b5174aa3724d27d7261bd",
+  "command": "rtk proxy /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg236.py::test_responsive_focus_sync_transfers_restores_and_preserves_external_focus",
+  "exit_code": 1,
+  "expected_result": "FAIL",
+  "failure_point": "wait_for_handoff_layout timed out after breakpoint resize; focused target did not meet viewport/focus-ring visibility predicate on FIX-1 predecessor.",
+  "interpretation": "The regression fails on the exact predecessor and passes on FIX-2.",
+  "test": "tests/test_workbench_chg236.py::test_responsive_focus_sync_transfers_restores_and_preserves_external_focus"
+}

@@ -1,0 +1,1184 @@
+[
+  {
+    "evidence": {
+      "active": {
+        "ariaLabel": null,
+        "id": "c425",
+        "rect": {
+          "bottom": 695.625,
+          "height": 38,
+          "left": 25,
+          "right": 365,
+          "top": 657.625,
+          "width": 340
+        },
+        "role": null,
+        "tag": "SUMMARY",
+        "text": "REFINE REFERENCES"
+      },
+      "beforeTransition": {
+        "detailsOpen": true,
+        "familyTop": 5314.984375,
+        "scrollX": 0,
+        "scrollY": 0,
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        }
+      },
+      "centerPoint": {
+        "hit": {
+          "ariaLabel": null,
+          "className": "",
+          "id": "c425",
+          "tag": "SUMMARY"
+        },
+        "x": 195,
+        "y": 676.625
+      },
+      "focusIndicator": {
+        "boxShadow": "none",
+        "clearance": 1,
+        "keyboardVisible": true,
+        "outline": "rgb(0, 95, 204) auto 1px",
+        "outlineOffset": "0px"
+      },
+      "refinement": {
+        "open": false,
+        "summaryRect": {
+          "bottom": 695.625,
+          "height": 38,
+          "left": 25,
+          "right": 365,
+          "top": 657.625,
+          "width": 340
+        },
+        "summaryVisible": true
+      },
+      "screenshot": {
+        "name": "explorer-fix-breakpoint-mobile-summary-focused.png",
+        "sha256": "e169655bc87ac3d9ea0fb2eac0c4a93ca93607a3da6969e54c63b6cfcfb49e07"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 13354
+      },
+      "scrollDelta": {
+        "x": 0,
+        "y": 13354
+      },
+      "shellHeader": {
+        "bottom": 60,
+        "className": "cui-app-header",
+        "id": "c6",
+        "position": "fixed",
+        "tag": "HEADER",
+        "top": 0
+      },
+      "url": "http://127.0.0.1:49762/components",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "viewportChecks": {
+        "centerOwned": true,
+        "documentScrollWidth": 390,
+        "eligible": true,
+        "fullyVisible": true,
+        "horizontalOverflow": false,
+        "intersects": true,
+        "tolerancePx": 1,
+        "visualFullyVisible": true
+      },
+      "visualRect": {
+        "bottom": 695.625,
+        "height": 38,
+        "left": 25,
+        "right": 365,
+        "top": 657.625,
+        "width": 340
+      }
+    },
+    "scenario": "FOCUS_VISIBILITY_MOBILE_HANDOFF",
+    "status": "PASS"
+  },
+  {
+    "evidence": {
+      "active": {
+        "ariaLabel": "Family",
+        "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+        "rect": {
+          "bottom": 876.984375,
+          "height": 1,
+          "left": 1118.15625,
+          "right": 1355,
+          "top": 875.984375,
+          "width": 236.84375
+        },
+        "role": "combobox",
+        "tag": "INPUT",
+        "text": ""
+      },
+      "beforeTransition": {
+        "detailsOpen": true,
+        "familyTop": 14104.125,
+        "scrollX": 0,
+        "scrollY": 0,
+        "viewport": {
+          "height": 844,
+          "width": 390
+        }
+      },
+      "centerPoint": {
+        "hit": {
+          "ariaLabel": "Family",
+          "className": "q-select__focus-target",
+          "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+          "tag": "INPUT"
+        },
+        "x": 1249.578125,
+        "y": 876.484375
+      },
+      "focusIndicator": {
+        "boxShadow": "color(srgb 0.4 0.658824 1 / 0.3) 0px 0px 0px 3px, color(srgb 0 0.443137 0.890196 / 0.32) 0px 0px 0px 1px inset",
+        "clearance": 5,
+        "keyboardVisible": true,
+        "outline": "color(srgb 0.4 0.658824 1 / 0.46) solid 3px",
+        "outlineOffset": "2px"
+      },
+      "refinement": {
+        "open": true,
+        "summaryRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "summaryVisible": false
+      },
+      "screenshot": {
+        "name": "explorer-fix-breakpoint-desktop-family-restored.png",
+        "sha256": "ff5aef00b248b69734d1cab3030ae1c7da2b21cab1eeba1338b9010cee195d7b"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 4439
+      },
+      "scrollDelta": {
+        "x": 0,
+        "y": 4439
+      },
+      "shellHeader": {
+        "bottom": 60,
+        "className": "cui-app-header",
+        "id": "c6",
+        "position": "fixed",
+        "tag": "HEADER",
+        "top": 0
+      },
+      "url": "http://127.0.0.1:49762/components",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "viewportChecks": {
+        "centerOwned": true,
+        "documentScrollWidth": 1440,
+        "eligible": true,
+        "fullyVisible": true,
+        "horizontalOverflow": false,
+        "intersects": true,
+        "tolerancePx": 1,
+        "visualFullyVisible": true
+      },
+      "visualRect": {
+        "bottom": 895.484375,
+        "height": 38,
+        "left": 1106.15625,
+        "right": 1393,
+        "top": 857.484375,
+        "width": 286.84375
+      }
+    },
+    "scenario": "FOCUS_VISIBILITY_DESKTOP_HANDOFF",
+    "status": "PASS"
+  },
+  {
+    "evidence": {
+      "cycles": [
+        {
+          "cycle": 1,
+          "desktop": {
+            "active": {
+              "ariaLabel": "Family",
+              "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+              "rect": {
+                "bottom": 876.984375,
+                "height": 1,
+                "left": 1118.15625,
+                "right": 1355,
+                "top": 875.984375,
+                "width": 236.84375
+              },
+              "role": "combobox",
+              "tag": "INPUT",
+              "text": ""
+            },
+            "beforeTransition": {
+              "scrollX": 0,
+              "scrollY": 0
+            },
+            "centerPoint": {
+              "hit": {
+                "ariaLabel": "Family",
+                "className": "q-select__focus-target",
+                "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+                "tag": "INPUT"
+              },
+              "x": 1249.578125,
+              "y": 876.484375
+            },
+            "focusIndicator": {
+              "boxShadow": "color(srgb 0.4 0.658824 1 / 0.3) 0px 0px 0px 3px, color(srgb 0 0.443137 0.890196 / 0.32) 0px 0px 0px 1px inset",
+              "clearance": 5,
+              "keyboardVisible": true,
+              "outline": "color(srgb 0.4 0.658824 1 / 0.46) solid 3px",
+              "outlineOffset": "2px"
+            },
+            "refinement": {
+              "open": true,
+              "summaryRect": {
+                "bottom": 0,
+                "height": 0,
+                "left": 0,
+                "right": 0,
+                "top": 0,
+                "width": 0
+              },
+              "summaryVisible": false
+            },
+            "scroll": {
+              "x": 0,
+              "y": 4439
+            },
+            "scrollDelta": {
+              "x": 0,
+              "y": 4439
+            },
+            "shellHeader": {
+              "bottom": 60,
+              "className": "cui-app-header",
+              "id": "c6",
+              "position": "fixed",
+              "tag": "HEADER",
+              "top": 0
+            },
+            "url": "http://127.0.0.1:49762/components",
+            "viewport": {
+              "height": 900,
+              "width": 1440
+            },
+            "viewportChecks": {
+              "centerOwned": true,
+              "documentScrollWidth": 1440,
+              "eligible": true,
+              "fullyVisible": true,
+              "horizontalOverflow": false,
+              "intersects": true,
+              "tolerancePx": 1,
+              "visualFullyVisible": true
+            },
+            "visualRect": {
+              "bottom": 895.484375,
+              "height": 38,
+              "left": 1106.15625,
+              "right": 1393,
+              "top": 857.484375,
+              "width": 286.84375
+            }
+          },
+          "mobile": {
+            "active": {
+              "ariaLabel": null,
+              "id": "c425",
+              "rect": {
+                "bottom": 695.625,
+                "height": 38,
+                "left": 25,
+                "right": 365,
+                "top": 657.625,
+                "width": 340
+              },
+              "role": null,
+              "tag": "SUMMARY",
+              "text": "REFINE REFERENCES"
+            },
+            "beforeTransition": {
+              "scrollX": 0,
+              "scrollY": 0
+            },
+            "centerPoint": {
+              "hit": {
+                "ariaLabel": null,
+                "className": "",
+                "id": "c425",
+                "tag": "SUMMARY"
+              },
+              "x": 195,
+              "y": 676.625
+            },
+            "focusIndicator": {
+              "boxShadow": "none",
+              "clearance": 1,
+              "keyboardVisible": true,
+              "outline": "rgb(0, 95, 204) auto 1px",
+              "outlineOffset": "0px"
+            },
+            "refinement": {
+              "open": false,
+              "summaryRect": {
+                "bottom": 695.625,
+                "height": 38,
+                "left": 25,
+                "right": 365,
+                "top": 657.625,
+                "width": 340
+              },
+              "summaryVisible": true
+            },
+            "scroll": {
+              "x": 0,
+              "y": 13354
+            },
+            "scrollDelta": {
+              "x": 0,
+              "y": 13354
+            },
+            "shellHeader": {
+              "bottom": 60,
+              "className": "cui-app-header",
+              "id": "c6",
+              "position": "fixed",
+              "tag": "HEADER",
+              "top": 0
+            },
+            "url": "http://127.0.0.1:49762/components",
+            "viewport": {
+              "height": 844,
+              "width": 390
+            },
+            "viewportChecks": {
+              "centerOwned": true,
+              "documentScrollWidth": 390,
+              "eligible": true,
+              "fullyVisible": true,
+              "horizontalOverflow": false,
+              "intersects": true,
+              "tolerancePx": 1,
+              "visualFullyVisible": true
+            },
+            "visualRect": {
+              "bottom": 695.625,
+              "height": 38,
+              "left": 25,
+              "right": 365,
+              "top": 657.625,
+              "width": 340
+            }
+          }
+        },
+        {
+          "cycle": 2,
+          "desktop": {
+            "active": {
+              "ariaLabel": "Family",
+              "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+              "rect": {
+                "bottom": 876.984375,
+                "height": 1,
+                "left": 1118.15625,
+                "right": 1355,
+                "top": 875.984375,
+                "width": 236.84375
+              },
+              "role": "combobox",
+              "tag": "INPUT",
+              "text": ""
+            },
+            "beforeTransition": {
+              "scrollX": 0,
+              "scrollY": 0
+            },
+            "centerPoint": {
+              "hit": {
+                "ariaLabel": "Family",
+                "className": "q-select__focus-target",
+                "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+                "tag": "INPUT"
+              },
+              "x": 1249.578125,
+              "y": 876.484375
+            },
+            "focusIndicator": {
+              "boxShadow": "color(srgb 0.4 0.658824 1 / 0.3) 0px 0px 0px 3px, color(srgb 0 0.443137 0.890196 / 0.32) 0px 0px 0px 1px inset",
+              "clearance": 5,
+              "keyboardVisible": true,
+              "outline": "color(srgb 0.4 0.658824 1 / 0.46) solid 3px",
+              "outlineOffset": "2px"
+            },
+            "refinement": {
+              "open": true,
+              "summaryRect": {
+                "bottom": 0,
+                "height": 0,
+                "left": 0,
+                "right": 0,
+                "top": 0,
+                "width": 0
+              },
+              "summaryVisible": false
+            },
+            "scroll": {
+              "x": 0,
+              "y": 4439
+            },
+            "scrollDelta": {
+              "x": 0,
+              "y": 4439
+            },
+            "shellHeader": {
+              "bottom": 60,
+              "className": "cui-app-header",
+              "id": "c6",
+              "position": "fixed",
+              "tag": "HEADER",
+              "top": 0
+            },
+            "url": "http://127.0.0.1:49762/components",
+            "viewport": {
+              "height": 900,
+              "width": 1440
+            },
+            "viewportChecks": {
+              "centerOwned": true,
+              "documentScrollWidth": 1440,
+              "eligible": true,
+              "fullyVisible": true,
+              "horizontalOverflow": false,
+              "intersects": true,
+              "tolerancePx": 1,
+              "visualFullyVisible": true
+            },
+            "visualRect": {
+              "bottom": 895.484375,
+              "height": 38,
+              "left": 1106.15625,
+              "right": 1393,
+              "top": 857.484375,
+              "width": 286.84375
+            }
+          },
+          "mobile": {
+            "active": {
+              "ariaLabel": null,
+              "id": "c425",
+              "rect": {
+                "bottom": 695.625,
+                "height": 38,
+                "left": 25,
+                "right": 365,
+                "top": 657.625,
+                "width": 340
+              },
+              "role": null,
+              "tag": "SUMMARY",
+              "text": "REFINE REFERENCES"
+            },
+            "beforeTransition": {
+              "scrollX": 0,
+              "scrollY": 0
+            },
+            "centerPoint": {
+              "hit": {
+                "ariaLabel": null,
+                "className": "",
+                "id": "c425",
+                "tag": "SUMMARY"
+              },
+              "x": 195,
+              "y": 676.625
+            },
+            "focusIndicator": {
+              "boxShadow": "none",
+              "clearance": 1,
+              "keyboardVisible": true,
+              "outline": "rgb(0, 95, 204) auto 1px",
+              "outlineOffset": "0px"
+            },
+            "refinement": {
+              "open": false,
+              "summaryRect": {
+                "bottom": 695.625,
+                "height": 38,
+                "left": 25,
+                "right": 365,
+                "top": 657.625,
+                "width": 340
+              },
+              "summaryVisible": true
+            },
+            "scroll": {
+              "x": 0,
+              "y": 13354
+            },
+            "scrollDelta": {
+              "x": 0,
+              "y": 13354
+            },
+            "shellHeader": {
+              "bottom": 60,
+              "className": "cui-app-header",
+              "id": "c6",
+              "position": "fixed",
+              "tag": "HEADER",
+              "top": 0
+            },
+            "url": "http://127.0.0.1:49762/components",
+            "viewport": {
+              "height": 844,
+              "width": 390
+            },
+            "viewportChecks": {
+              "centerOwned": true,
+              "documentScrollWidth": 390,
+              "eligible": true,
+              "fullyVisible": true,
+              "horizontalOverflow": false,
+              "intersects": true,
+              "tolerancePx": 1,
+              "visualFullyVisible": true
+            },
+            "visualRect": {
+              "bottom": 695.625,
+              "height": 38,
+              "left": 25,
+              "right": 365,
+              "top": 657.625,
+              "width": 340
+            }
+          }
+        },
+        {
+          "cycle": 3,
+          "desktop": {
+            "active": {
+              "ariaLabel": "Family",
+              "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+              "rect": {
+                "bottom": 876.984375,
+                "height": 1,
+                "left": 1118.15625,
+                "right": 1355,
+                "top": 875.984375,
+                "width": 236.84375
+              },
+              "role": "combobox",
+              "tag": "INPUT",
+              "text": ""
+            },
+            "beforeTransition": {
+              "scrollX": 0,
+              "scrollY": 0
+            },
+            "centerPoint": {
+              "hit": {
+                "ariaLabel": "Family",
+                "className": "q-select__focus-target",
+                "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+                "tag": "INPUT"
+              },
+              "x": 1249.578125,
+              "y": 876.484375
+            },
+            "focusIndicator": {
+              "boxShadow": "color(srgb 0.4 0.658824 1 / 0.3) 0px 0px 0px 3px, color(srgb 0 0.443137 0.890196 / 0.32) 0px 0px 0px 1px inset",
+              "clearance": 5,
+              "keyboardVisible": true,
+              "outline": "color(srgb 0.4 0.658824 1 / 0.46) solid 3px",
+              "outlineOffset": "2px"
+            },
+            "refinement": {
+              "open": true,
+              "summaryRect": {
+                "bottom": 0,
+                "height": 0,
+                "left": 0,
+                "right": 0,
+                "top": 0,
+                "width": 0
+              },
+              "summaryVisible": false
+            },
+            "scroll": {
+              "x": 0,
+              "y": 4439
+            },
+            "scrollDelta": {
+              "x": 0,
+              "y": 4439
+            },
+            "shellHeader": {
+              "bottom": 60,
+              "className": "cui-app-header",
+              "id": "c6",
+              "position": "fixed",
+              "tag": "HEADER",
+              "top": 0
+            },
+            "url": "http://127.0.0.1:49762/components",
+            "viewport": {
+              "height": 900,
+              "width": 1440
+            },
+            "viewportChecks": {
+              "centerOwned": true,
+              "documentScrollWidth": 1440,
+              "eligible": true,
+              "fullyVisible": true,
+              "horizontalOverflow": false,
+              "intersects": true,
+              "tolerancePx": 1,
+              "visualFullyVisible": true
+            },
+            "visualRect": {
+              "bottom": 895.484375,
+              "height": 38,
+              "left": 1106.15625,
+              "right": 1393,
+              "top": 857.484375,
+              "width": 286.84375
+            }
+          },
+          "mobile": {
+            "active": {
+              "ariaLabel": null,
+              "id": "c425",
+              "rect": {
+                "bottom": 695.625,
+                "height": 38,
+                "left": 25,
+                "right": 365,
+                "top": 657.625,
+                "width": 340
+              },
+              "role": null,
+              "tag": "SUMMARY",
+              "text": "REFINE REFERENCES"
+            },
+            "beforeTransition": {
+              "scrollX": 0,
+              "scrollY": 0
+            },
+            "centerPoint": {
+              "hit": {
+                "ariaLabel": null,
+                "className": "",
+                "id": "c425",
+                "tag": "SUMMARY"
+              },
+              "x": 195,
+              "y": 676.625
+            },
+            "focusIndicator": {
+              "boxShadow": "none",
+              "clearance": 1,
+              "keyboardVisible": true,
+              "outline": "rgb(0, 95, 204) auto 1px",
+              "outlineOffset": "0px"
+            },
+            "refinement": {
+              "open": false,
+              "summaryRect": {
+                "bottom": 695.625,
+                "height": 38,
+                "left": 25,
+                "right": 365,
+                "top": 657.625,
+                "width": 340
+              },
+              "summaryVisible": true
+            },
+            "scroll": {
+              "x": 0,
+              "y": 13354
+            },
+            "scrollDelta": {
+              "x": 0,
+              "y": 13354
+            },
+            "shellHeader": {
+              "bottom": 60,
+              "className": "cui-app-header",
+              "id": "c6",
+              "position": "fixed",
+              "tag": "HEADER",
+              "top": 0
+            },
+            "url": "http://127.0.0.1:49762/components",
+            "viewport": {
+              "height": 844,
+              "width": 390
+            },
+            "viewportChecks": {
+              "centerOwned": true,
+              "documentScrollWidth": 390,
+              "eligible": true,
+              "fullyVisible": true,
+              "horizontalOverflow": false,
+              "intersects": true,
+              "tolerancePx": 1,
+              "visualFullyVisible": true
+            },
+            "visualRect": {
+              "bottom": 695.625,
+              "height": 38,
+              "left": 25,
+              "right": 365,
+              "top": 657.625,
+              "width": 340
+            }
+          }
+        }
+      ],
+      "desktopScrollRange": 0,
+      "externalSearchDesktop": {
+        "activeId": "c423",
+        "activeLabel": "Search",
+        "scrollX": 0,
+        "scrollY": 0
+      },
+      "externalSearchMobile": {
+        "activeId": "c423",
+        "activeLabel": "Search",
+        "scrollX": 0,
+        "scrollY": 0
+      },
+      "fallback": {
+        "active": {
+          "ariaLabel": "Favorites only",
+          "id": "c433",
+          "rect": {
+            "bottom": 900.484375,
+            "height": 38,
+            "left": 1106.15625,
+            "right": 1393,
+            "top": 862.484375,
+            "width": 286.84375
+          },
+          "role": null,
+          "tag": "BUTTON",
+          "text": "Favorites only"
+        },
+        "beforeTransition": {
+          "scrollX": 0,
+          "scrollY": 13354,
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        },
+        "centerPoint": {
+          "hit": {
+            "ariaLabel": null,
+            "className": "block",
+            "id": "",
+            "tag": "SPAN"
+          },
+          "x": 1249.578125,
+          "y": 881.484375
+        },
+        "focusIndicator": {
+          "boxShadow": "color(srgb 0.4 0.658824 1 / 0.35) 0px 0px 0px 3px",
+          "clearance": 0,
+          "keyboardVisible": true,
+          "outline": "rgb(29, 29, 31) none 0px",
+          "outlineOffset": "2px"
+        },
+        "refinement": {
+          "open": true,
+          "summaryRect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0
+          },
+          "summaryVisible": false
+        },
+        "scroll": {
+          "x": 0,
+          "y": 4482
+        },
+        "scrollDelta": {
+          "x": 0,
+          "y": -8872
+        },
+        "shellHeader": {
+          "bottom": 60,
+          "className": "cui-app-header",
+          "id": "c6",
+          "position": "fixed",
+          "tag": "HEADER",
+          "top": 0
+        },
+        "url": "http://127.0.0.1:49762/components",
+        "viewport": {
+          "height": 900,
+          "width": 1440
+        },
+        "viewportChecks": {
+          "centerOwned": true,
+          "documentScrollWidth": 1440,
+          "eligible": true,
+          "fullyVisible": true,
+          "horizontalOverflow": false,
+          "intersects": true,
+          "tolerancePx": 1,
+          "visualFullyVisible": true
+        },
+        "visualRect": {
+          "bottom": 900.484375,
+          "height": 38,
+          "left": 1106.15625,
+          "right": 1393,
+          "top": 862.484375,
+          "width": 286.84375
+        }
+      },
+      "listenersBeforeAfter": [
+        1,
+        1
+      ],
+      "mobileScrollRange": 0,
+      "observerCountBeforeAfter": [
+        8,
+        8
+      ],
+      "singletonStable": true
+    },
+    "scenario": "FOCUS_VISIBILITY_REPEAT_AND_EXTERNAL",
+    "status": "PASS"
+  },
+  {
+    "evidence": {
+      "projections": [
+        {
+          "cardCount": 1,
+          "emptyAriaLive": null,
+          "emptyRole": null,
+          "emptyStatus": null,
+          "entryKeys": [
+            "component:multi_select"
+          ],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 106
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "1 of 34 visible \u00b7 0 saved \u00b7 0 comparing",
+          "step": "known_match",
+          "url": "http://127.0.0.1:49762/components",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        {
+          "cardCount": 0,
+          "emptyAriaLive": "polite",
+          "emptyRole": "status",
+          "emptyStatus": "No governed reference matches the current search/filter. Clear the filter or try an engineering intent.",
+          "entryKeys": [],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "0 of 34 visible \u00b7 0 saved \u00b7 0 comparing",
+          "step": "strict_no_match",
+          "url": "http://127.0.0.1:49762/components",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        {
+          "cardCount": 34,
+          "emptyAriaLive": null,
+          "emptyRole": null,
+          "emptyStatus": null,
+          "entryKeys": [
+            "component:button_group",
+            "component:split_button",
+            "component:divider",
+            "component:collapsible_panel",
+            "component:accordion",
+            "component:chip",
+            "component:count_badge",
+            "component:severity_indicator",
+            "component:freshness_indicator",
+            "component:data_quality_badge",
+            "component:button",
+            "component:action_button",
+            "component:icon_button",
+            "component:surface",
+            "component:badge",
+            "component:text_input",
+            "component:number_input",
+            "component:textarea",
+            "component:search_input",
+            "component:select",
+            "component:multi_select",
+            "component:autocomplete",
+            "component:combobox",
+            "component:checkbox",
+            "component:checkbox_group",
+            "component:radio_group",
+            "component:switch",
+            "component:slider",
+            "component:range_slider",
+            "component:date_picker",
+            "component:date_range_picker",
+            "component:time_picker",
+            "component:datetime_picker",
+            "component:file_upload"
+          ],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "34 of 34 visible \u00b7 0 saved \u00b7 0 comparing",
+          "step": "clear",
+          "url": "http://127.0.0.1:49762/components",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        {
+          "cardCount": 1,
+          "emptyAriaLive": null,
+          "emptyRole": null,
+          "emptyStatus": null,
+          "entryKeys": [
+            "component:multi_select"
+          ],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 106
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "1 of 34 visible \u00b7 1 saved \u00b7 0 comparing",
+          "step": "family_favorites_composition",
+          "url": "http://127.0.0.1:49762/components",
+          "viewport": {
+            "height": 900,
+            "width": 1440
+          }
+        },
+        {
+          "cardCount": 0,
+          "emptyAriaLive": "polite",
+          "emptyRole": "status",
+          "emptyStatus": "No governed reference matches the current search/filter. Clear the filter or try an engineering intent.",
+          "entryKeys": [],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "0 of 34 visible \u00b7 1 saved \u00b7 0 comparing",
+          "step": "mobile_no_match",
+          "url": "http://127.0.0.1:49762/components",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      ],
+      "refineCount": 1,
+      "searchCount": 1
+    },
+    "scenario": "FOCUS_VISIBILITY_SEARCH_FREEZE",
+    "status": "PASS"
+  },
+  {
+    "evidence": {
+      "routes": [
+        {
+          "cardCount": 0,
+          "emptyAriaLive": "polite",
+          "emptyRole": "status",
+          "emptyStatus": "No governed reference matches the current search/filter. Clear the filter or try an engineering intent.",
+          "entryKeys": [],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "0 of 34 visible \u00b7 1 saved \u00b7 0 comparing",
+          "url": "http://127.0.0.1:49762/components",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        },
+        {
+          "cardCount": 58,
+          "emptyAriaLive": null,
+          "emptyRole": null,
+          "emptyStatus": null,
+          "entryKeys": [
+            "analytics:spc_i_mr",
+            "analytics:spc_xbar_r",
+            "analytics:spc_xbar_s",
+            "analytics:spc_p",
+            "analytics:spc_np",
+            "analytics:spc_c",
+            "analytics:spc_u",
+            "analytics:spc_ewma",
+            "analytics:spc_cusum",
+            "analytics:capability_histogram",
+            "analytics:qq_probability",
+            "analytics:ecdf",
+            "analytics:box_distribution",
+            "analytics:violin_distribution",
+            "analytics:ridge_distribution",
+            "analytics:wafer_continuous",
+            "analytics:wafer_categorical",
+            "analytics:wafer_defect",
+            "analytics:wafer_delta",
+            "analytics:wafer_comparison",
+            "analytics:lot_wafer_strip",
+            "analytics:wafer_small_multiples",
+            "analytics:wafer_contour",
+            "analytics:wafer_radial",
+            "analytics:wafer_center_edge",
+            "analytics:wafer_ring",
+            "analytics:wafer_sector",
+            "analytics:wafer_defect_clusters",
+            "analytics:fdc_recipe_step_trace",
+            "analytics:fdc_golden_envelope",
+            "analytics:fdc_multi_sensor",
+            "analytics:fdc_tool_chamber_compare",
+            "analytics:fdc_chamber_fingerprint",
+            "analytics:fdc_sensor_fingerprint",
+            "analytics:fdc_alarm_overlay",
+            "analytics:fdc_equipment_event_overlay",
+            "analytics:fdc_pca_scores",
+            "analytics:fdc_pca_loadings",
+            "analytics:fdc_hotelling_t2",
+            "analytics:fdc_spe_q",
+            "analytics:rca_affected_control",
+            "analytics:rca_commonality_ranking",
+            "analytics:rca_enrichment",
+            "analytics:rca_commonality_matrix",
+            "analytics:rca_contribution_waterfall",
+            "analytics:rca_correlation_matrix",
+            "analytics:rca_evidence_matrix",
+            "analytics:rca_genealogy_graph",
+            "analytics:rca_cause_tree",
+            "analytics:rca_fault_tree",
+            "analytics:rca_sankey",
+            "analytics:yield_pareto",
+            "analytics:bin_pareto",
+            "analytics:yield_waterfall",
+            "analytics:weibull_reliability",
+            "analytics:doe_main_effects",
+            "analytics:doe_interactions",
+            "analytics:doe_response_surface"
+          ],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "58 of 58 visible \u00b7 0 saved \u00b7 0 comparing",
+          "url": "http://127.0.0.1:49762/analytics",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        },
+        {
+          "cardCount": 8,
+          "emptyAriaLive": null,
+          "emptyRole": null,
+          "emptyStatus": null,
+          "entryKeys": [
+            "recipe:spc-monitor",
+            "recipe:excursion-defense-line",
+            "recipe:fdc-tool-health",
+            "recipe:lot-wafer-explorer",
+            "recipe:yield-loss",
+            "recipe:pm-effect-analysis",
+            "recipe:chamber-matching",
+            "recipe:rca-cockpit"
+          ],
+          "horizontalOverflow": false,
+          "refineCount": 1,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "searchCount": 1,
+          "searchOutsideRefine": true,
+          "status": "8 of 8 visible \u00b7 0 saved \u00b7 0 comparing",
+          "url": "http://127.0.0.1:49762/recipes",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      ]
+    },
+    "scenario": "FOCUS_VISIBILITY_SHARED_GALLERY",
+    "status": "PASS"
+  },
+  {
+    "evidence": {
+      "hasPatternCatalog": true,
+      "identityCount": 1,
+      "refineCount": 0,
+      "sharedGalleryCount": 0,
+      "url": "http://127.0.0.1:49762/patterns"
+    },
+    "scenario": "FOCUS_VISIBILITY_PATTERNS_IDENTITY",
+    "status": "PASS"
+  }
+]

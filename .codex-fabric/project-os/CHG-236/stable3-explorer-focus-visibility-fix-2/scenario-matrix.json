@@ -1,0 +1,50 @@
+{
+  "claim_boundary": "No Project OS GO, human E3 acceptance, CHG-59 runtime qualification, scale, deployment, stable 3.0.0, or publication readiness is claimed.",
+  "scenarios": [
+    {
+      "evidence": "focus-visibility-evidence.json#/desktop_to_mobile and screenshots/explorer-fix-breakpoint-mobile-summary-focused.png",
+      "scenario": "FOCUS_VISIBILITY_MOBILE_HANDOFF",
+      "status": "PASS"
+    },
+    {
+      "evidence": "focus-visibility-evidence.json#/mobile_to_desktop and screenshots/explorer-fix-breakpoint-desktop-family-restored.png",
+      "scenario": "FOCUS_VISIBILITY_DESKTOP_HANDOFF",
+      "status": "PASS"
+    },
+    {
+      "evidence": "scenario-results.json; three complete resize cycles, external Search preserved, ineligible Family fallback to Favorites, stable listener/observer/singleton counts",
+      "scenario": "FOCUS_VISIBILITY_REPEAT_AND_EXTERNAL",
+      "status": "PASS"
+    },
+    {
+      "evidence": "scenario-results.json; known match, strict no-match live empty status, clear to 34, Favorites + Family, mobile no-match",
+      "scenario": "FOCUS_VISIBILITY_SEARCH_FREEZE",
+      "status": "PASS"
+    },
+    {
+      "evidence": "scenario-results.json; /components, /analytics, /recipes",
+      "scenario": "FOCUS_VISIBILITY_SHARED_GALLERY",
+      "status": "PASS"
+    },
+    {
+      "evidence": "scenario-results.json; /patterns identity remains distinct",
+      "scenario": "FOCUS_VISIBILITY_PATTERNS_IDENTITY",
+      "status": "PASS"
+    },
+    {
+      "evidence": "source-regression-junit.xml; 25 focused CHG-236/103/106/108/117/124 tests passed",
+      "scenario": "FOCUS_VISIBILITY_SOURCE_REGRESSION",
+      "status": "PASS"
+    },
+    {
+      "evidence": "cleanup-evidence.json; PID 53384 exited and localhost:49762 refused connection",
+      "scenario": "FOCUS_VISIBILITY_SERVER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "evidence": "git-final-evidence.json; exact base/predecessor ancestry, candidate pushed, main SHA unchanged, clean product worktree",
+      "scenario": "FOCUS_VISIBILITY_GIT_FINAL",
+      "status": "PASS"
+    }
+  ]
+}

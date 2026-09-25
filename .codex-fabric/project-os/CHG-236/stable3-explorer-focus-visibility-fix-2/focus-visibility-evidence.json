@@ -1,0 +1,200 @@
+{
+  "desktop_to_mobile": {
+    "active": {
+      "ariaLabel": null,
+      "id": "c425",
+      "rect": {
+        "bottom": 695.625,
+        "height": 38,
+        "left": 25,
+        "right": 365,
+        "top": 657.625,
+        "width": 340
+      },
+      "role": null,
+      "tag": "SUMMARY",
+      "text": "REFINE REFERENCES"
+    },
+    "beforeTransition": {
+      "detailsOpen": true,
+      "familyTop": 5314.984375,
+      "scrollX": 0,
+      "scrollY": 0,
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      }
+    },
+    "centerPoint": {
+      "hit": {
+        "ariaLabel": null,
+        "className": "",
+        "id": "c425",
+        "tag": "SUMMARY"
+      },
+      "x": 195,
+      "y": 676.625
+    },
+    "focusIndicator": {
+      "boxShadow": "none",
+      "clearance": 1,
+      "keyboardVisible": true,
+      "outline": "rgb(0, 95, 204) auto 1px",
+      "outlineOffset": "0px"
+    },
+    "refinement": {
+      "open": false,
+      "summaryRect": {
+        "bottom": 695.625,
+        "height": 38,
+        "left": 25,
+        "right": 365,
+        "top": 657.625,
+        "width": 340
+      },
+      "summaryVisible": true
+    },
+    "screenshot": {
+      "name": "explorer-fix-breakpoint-mobile-summary-focused.png",
+      "sha256": "e169655bc87ac3d9ea0fb2eac0c4a93ca93607a3da6969e54c63b6cfcfb49e07"
+    },
+    "scroll": {
+      "x": 0,
+      "y": 13354
+    },
+    "scrollDelta": {
+      "x": 0,
+      "y": 13354
+    },
+    "shellHeader": {
+      "bottom": 60,
+      "className": "cui-app-header",
+      "id": "c6",
+      "position": "fixed",
+      "tag": "HEADER",
+      "top": 0
+    },
+    "url": "http://127.0.0.1:49762/components",
+    "viewport": {
+      "height": 844,
+      "width": 390
+    },
+    "viewportChecks": {
+      "centerOwned": true,
+      "documentScrollWidth": 390,
+      "eligible": true,
+      "fullyVisible": true,
+      "horizontalOverflow": false,
+      "intersects": true,
+      "tolerancePx": 1,
+      "visualFullyVisible": true
+    },
+    "visualRect": {
+      "bottom": 695.625,
+      "height": 38,
+      "left": 25,
+      "right": 365,
+      "top": 657.625,
+      "width": 340
+    }
+  },
+  "mobile_to_desktop": {
+    "active": {
+      "ariaLabel": "Family",
+      "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+      "rect": {
+        "bottom": 876.984375,
+        "height": 1,
+        "left": 1118.15625,
+        "right": 1355,
+        "top": 875.984375,
+        "width": 236.84375
+      },
+      "role": "combobox",
+      "tag": "INPUT",
+      "text": ""
+    },
+    "beforeTransition": {
+      "detailsOpen": true,
+      "familyTop": 14104.125,
+      "scrollX": 0,
+      "scrollY": 0,
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    "centerPoint": {
+      "hit": {
+        "ariaLabel": "Family",
+        "className": "q-select__focus-target",
+        "id": "f_be3d0970-1965-45c6-8bd1-aff4a7bcf63e",
+        "tag": "INPUT"
+      },
+      "x": 1249.578125,
+      "y": 876.484375
+    },
+    "focusIndicator": {
+      "boxShadow": "color(srgb 0.4 0.658824 1 / 0.3) 0px 0px 0px 3px, color(srgb 0 0.443137 0.890196 / 0.32) 0px 0px 0px 1px inset",
+      "clearance": 5,
+      "keyboardVisible": true,
+      "outline": "color(srgb 0.4 0.658824 1 / 0.46) solid 3px",
+      "outlineOffset": "2px"
+    },
+    "refinement": {
+      "open": true,
+      "summaryRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "summaryVisible": false
+    },
+    "screenshot": {
+      "name": "explorer-fix-breakpoint-desktop-family-restored.png",
+      "sha256": "ff5aef00b248b69734d1cab3030ae1c7da2b21cab1eeba1338b9010cee195d7b"
+    },
+    "scroll": {
+      "x": 0,
+      "y": 4439
+    },
+    "scrollDelta": {
+      "x": 0,
+      "y": 4439
+    },
+    "shellHeader": {
+      "bottom": 60,
+      "className": "cui-app-header",
+      "id": "c6",
+      "position": "fixed",
+      "tag": "HEADER",
+      "top": 0
+    },
+    "url": "http://127.0.0.1:49762/components",
+    "viewport": {
+      "height": 900,
+      "width": 1440
+    },
+    "viewportChecks": {
+      "centerOwned": true,
+      "documentScrollWidth": 1440,
+      "eligible": true,
+      "fullyVisible": true,
+      "horizontalOverflow": false,
+      "intersects": true,
+      "tolerancePx": 1,
+      "visualFullyVisible": true
+    },
+    "visualRect": {
+      "bottom": 895.484375,
+      "height": 38,
+      "left": 1106.15625,
+      "right": 1393,
+      "top": 857.484375,
+      "width": 286.84375
+    }
+  }
+}
