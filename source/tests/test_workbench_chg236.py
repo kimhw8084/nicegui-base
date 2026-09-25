@@ -199,6 +199,13 @@ def test_responsive_focus_sync_transfers_restores_and_preserves_external_focus()
 <style>
 .cui-explorer-refine,.cui-explorer-refine__body{display:contents}
 .cui-explorer-refine>summary{display:none}
+html,body{margin:0;min-height:100%;font:16px sans-serif}
+#shell-header{position:fixed;inset:0 0 auto;height:64px;background:#fff;border-bottom:1px solid #777;z-index:10}
+#content{padding:80px 16px 0}
+#challenge-space{height:1280px}
+#after-controls{height:1280px}
+#search:focus-visible,#family:focus-visible,#favorites:focus-visible,.cui-explorer-refine>summary:focus-visible{outline:2px solid #005fcc;outline-offset:2px}
+.q-field:focus-within{outline:3px solid #005fcc;outline-offset:2px}
 @media(max-width:680px){
  .cui-explorer-refine{display:block}
  .cui-explorer-refine>summary{display:flex}
@@ -206,14 +213,16 @@ def test_responsive_focus_sync_transfers_restores_and_preserves_external_focus()
  .cui-explorer-refine[open] .cui-explorer-refine__body{display:grid}
 }
 </style>
+<header id="shell-header">Workbench shell</header>
+<main id="content"><div id="challenge-space" aria-hidden="true"></div>
 <input id="search" aria-label="Search">
 <details class="cui-explorer-refine" open>
  <summary tabindex="0">Refine references</summary>
  <div class="cui-explorer-refine__body">
-  <div class="q-select"><input id="family" class="q-select__focus-target" aria-label="Family"></div>
+  <div class="q-select q-field"><input id="family" class="q-select__focus-target" aria-label="Family"></div>
   <button id="favorites" class="cui-button q-btn">Favorites only</button>
  </div>
-</details>'''
+</details><div id="after-controls" aria-hidden="true"></div></main>'''
 
     with playwright_module.sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
@@ -235,28 +244,100 @@ def test_responsive_focus_sync_transfers_restores_and_preserves_external_focus()
         assert page.locator('.cui-explorer-refine').evaluate('(details) => details.open') is True
         assert page.locator('.cui-explorer-refine > summary').is_visible() is False
 
+        def assert_active_target_visible() -> dict[str, object]:
+            evidence = page.evaluate('''() => {
+      const element=document.activeElement;
+      const rect=element.getBoundingClientRect();
+      const visual=element.closest('.q-field') || element;
+      const visualRect=visual.getBoundingClientRect();
+      const width=document.documentElement.clientWidth;
+  const height=document.documentElement.clientHeight;
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  const hit=document.elementFromPoint(cx,cy);
+  const ownsCenter=Boolean(hit && (hit===visual || visual.contains(hit)));
+  const style=getComputedStyle(visual);
+  const clearance=style.outlineStyle==='none' ? 0 : Math.max(0,parseFloat(style.outlineWidth)||0)+Math.max(0,parseFloat(style.outlineOffset)||0);
+  const focusIndicator=element.matches(':focus-visible') &&
+    ((style.outlineStyle!=='none' && parseFloat(style.outlineWidth)>0) || style.boxShadow!=='none');
+  return {tag:element.tagName,id:element.id,top:rect.top,right:rect.right,bottom:rect.bottom,left:rect.left,
+    width:rect.width,height:rect.height,viewportWidth:width,viewportHeight:height,
+    intersects:rect.right>0 && rect.bottom>0 && rect.left<width && rect.top<height,
+    fullyVisible:rect.left>=0 && rect.top>=0 && rect.right<=width && rect.bottom<=height,
+    visualRect:{top:visualRect.top,right:visualRect.right,bottom:visualRect.bottom,left:visualRect.left},
+    visualFullyVisible:visualRect.left>=0 && visualRect.top>=0 && visualRect.right<=width && visualRect.bottom<=height,
+    focusIndicatorFullyVisible:visualRect.left>=clearance && visualRect.top>=clearance && visualRect.right<=width-clearance && visualRect.bottom<=height-clearance,
+    centerOwned:ownsCenter,focusVisible:element.matches(':focus-visible'),focusIndicator,clearance,
+    shellBottom:document.querySelector('#shell-header').getBoundingClientRect().bottom,
+    scrollX,scrollY};
+}''')
+            assert evidence['intersects'] is True
+            assert evidence['fullyVisible'] is True
+            assert evidence['centerOwned'] is True
+            assert evidence['focusIndicator'] is True
+            assert evidence['visualFullyVisible'] is True
+            assert evidence['focusIndicatorFullyVisible'] is True, evidence
+            assert evidence['top'] >= evidence['shellBottom'] - 1
+            return evidence
+
+        def wait_for_handoff_layout() -> None:
+            page.wait_for_function('''() => {
+  const element=document.activeElement;
+  const visual=element.closest('.q-field') || element;
+  const rect=element.getBoundingClientRect();
+  const visible=visual.getBoundingClientRect();
+  const style=getComputedStyle(visual);
+  const clearance=style.outlineStyle==='none' ? 0 : Math.max(0,parseFloat(style.outlineWidth)||0)+Math.max(0,parseFloat(style.outlineOffset)||0);
+  const hit=document.elementFromPoint(visible.left+visible.width/2,visible.top+visible.height/2);
+  const ownsCenter=Boolean(hit && (hit===visual || visual.contains(hit)));
+  const indicator=element.matches(':focus-visible') && ((style.outlineStyle!=='none' && parseFloat(style.outlineWidth)>0) || style.boxShadow!=='none');
+      return rect.right>0 && rect.bottom>0 && rect.left<innerWidth && rect.top<innerHeight &&
+        visible.left>=clearance && visible.top>=clearance && visible.right<=innerWidth-clearance && visible.bottom<=innerHeight-clearance &&
+        ownsCenter && indicator;
+    }''', timeout=2000)
+            page.evaluate('() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
+
+        mobile_scrolls: list[float] = []
+        desktop_scrolls: list[float] = []
         for _ in range(3):
             page.locator('#family').focus()
+            page.evaluate('window.scrollTo(0,0)')
+            assert page.evaluate('document.activeElement.id') == 'family'
+            assert page.locator('#family').evaluate('e => e.getBoundingClientRect().top > innerHeight')
             page.set_viewport_size({'width': 390, 'height': 844})
-            page.wait_for_function("!document.querySelector('.cui-explorer-refine').open")
+            page.wait_for_function("!document.querySelector('.cui-explorer-refine').open && document.activeElement.tagName === 'SUMMARY'")
+            wait_for_handoff_layout()
             assert page.locator('.cui-explorer-refine').evaluate('(details) => !details.open') is True
             assert page.locator('.cui-explorer-refine > summary').is_visible() is True
             assert page.evaluate('document.activeElement.tagName') == 'SUMMARY'
+            mobile_evidence = assert_active_target_visible()
+            mobile_scrolls.append(float(mobile_evidence['scrollY']))
             page.locator('.cui-explorer-refine > summary').click()
             page.locator('#family').focus()
+            page.evaluate('window.scrollTo(0,0)')
+            assert page.locator('#family').evaluate('e => e.getBoundingClientRect().top > innerHeight')
             page.set_viewport_size({'width': 1440, 'height': 900})
             page.wait_for_function("document.querySelector('.cui-explorer-refine').open && document.activeElement.id === 'family'")
+            wait_for_handoff_layout()
             assert page.locator('.cui-explorer-refine').evaluate('(details) => details.open') is True
             assert page.evaluate('document.activeElement.id') == 'family'
             assert page.locator('.cui-explorer-refine > summary').is_visible() is False
+            desktop_evidence = assert_active_target_visible()
+            desktop_scrolls.append(float(desktop_evidence['scrollY']))
+        assert max(mobile_scrolls) - min(mobile_scrolls) <= 1
+        assert max(desktop_scrolls) - min(desktop_scrolls) <= 1
 
         page.locator('#search').focus()
+        page.evaluate('window.scrollTo(0,0)')
+        external_scroll = page.evaluate('scrollY')
         page.set_viewport_size({'width': 390, 'height': 844})
         page.wait_for_function("matchMedia('(max-width: 680px)').matches")
         assert page.evaluate('document.activeElement.id') == 'search'
+        assert page.evaluate('scrollY') == external_scroll
         page.set_viewport_size({'width': 1440, 'height': 900})
         page.wait_for_function("!matchMedia('(max-width: 680px)').matches")
         assert page.evaluate('document.activeElement.id') == 'search'
+        assert page.evaluate('scrollY') == external_scroll
 
         page.set_viewport_size({'width': 390, 'height': 844})
         page.wait_for_function("matchMedia('(max-width: 680px)').matches && !document.querySelector('.cui-explorer-refine').open")
@@ -267,4 +348,28 @@ def test_responsive_focus_sync_transfers_restores_and_preserves_external_focus()
         page.wait_for_function("!matchMedia('(max-width: 680px)').matches && document.activeElement.id === 'favorites'")
         assert page.evaluate('document.activeElement.id') == 'favorites'
         assert page.evaluate('document.activeElement.tagName') != 'BODY'
+        assert_active_target_visible()
+
+        page.locator('#family').evaluate('(element) => element.disabled = false')
+        page.set_viewport_size({'width': 390, 'height': 844})
+        page.wait_for_function("matchMedia('(max-width: 680px)').matches && !document.querySelector('.cui-explorer-refine').open")
+        page.locator('.cui-explorer-refine > summary').click()
+        page.locator('#family').focus()
+        page.evaluate('''() => {
+  const field=document.querySelector('#family').closest('.q-field');
+  const rect=field.getBoundingClientRect();
+  const headerBottom=document.querySelector('#shell-header').getBoundingClientRect().bottom;
+  window.scrollTo(0,window.scrollY+rect.top-(headerBottom-1-rect.height/2));
+}''')
+        covered_center = page.evaluate('''() => {
+  const field=document.querySelector('#family').closest('.q-field');
+  const rect=field.getBoundingClientRect();
+  const hit=document.elementFromPoint(rect.left+rect.width/2,rect.top+rect.height/2);
+  return {top:rect.top,bottom:rect.bottom,hitId:hit?.id,hitTag:hit?.tagName,scrollY};
+}''')
+        assert covered_center['hitId'] == 'shell-header', covered_center
+        page.set_viewport_size({'width': 1440, 'height': 900})
+        page.wait_for_function("!matchMedia('(max-width: 680px)').matches && document.querySelector('.cui-explorer-refine').open && document.activeElement.id === 'family'")
+        wait_for_handoff_layout()
+        assert_active_target_visible()
         browser.close()

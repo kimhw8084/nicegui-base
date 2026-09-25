@@ -25,6 +25,7 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
   const mounted = new WeakSet();
   const focusTargets = new WeakMap();
   const summaryHandoffs = new WeakSet();
+  let focusRevealInterrupted = 0;
   const isEligible = (element, details) => {
     if (!element || !element.isConnected || !details.contains(element)) return false;
     if (element.disabled || element.matches(':disabled, [disabled]') ||
@@ -37,6 +38,54 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
     if (isEligible(familyTarget, details)) return familyTarget;
     return [...details.querySelectorAll('.cui-explorer-refine__body .q-select__focus-target, .cui-explorer-refine__body .q-field__input[role="combobox"], .cui-explorer-refine__body .cui-button.q-btn')]
       .find((element) => isEligible(element, details)) || null;
+  };
+  const interruptFocusReveal = () => { focusRevealInterrupted += 1; };
+  window.addEventListener('wheel', interruptFocusReveal, {passive: true});
+  window.addEventListener('touchstart', interruptFocusReveal, {passive: true});
+  window.addEventListener('pointerdown', interruptFocusReveal, {passive: true});
+  document.addEventListener('keydown', interruptFocusReveal, true);
+  const focusAndReveal = (element, details) => {
+    if (!element) return;
+    element.focus();
+    const revealVersion = focusRevealInterrupted;
+    const visualTarget = element.closest('.q-field') || element;
+    const reveal = () => {
+      if (focusRevealInterrupted !== revealVersion || document.activeElement !== element || !isEligible(element, details)) return;
+      const viewport = document.documentElement;
+      const style = window.getComputedStyle(visualTarget);
+      const clearance = style.outlineStyle === 'none' ? 0 :
+        Math.max(0, parseFloat(style.outlineWidth) || 0) + Math.max(0, parseFloat(style.outlineOffset) || 0);
+      let rect = visualTarget.getBoundingClientRect();
+      if (rect.left < clearance || rect.top < clearance || rect.right > viewport.clientWidth - clearance || rect.bottom > viewport.clientHeight - clearance) {
+        visualTarget.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});
+        rect = visualTarget.getBoundingClientRect();
+      }
+      const deltaX = rect.left < clearance ? rect.left - clearance :
+        rect.right > viewport.clientWidth - clearance ? rect.right - viewport.clientWidth + clearance : 0;
+      const deltaY = rect.top < clearance ? rect.top - clearance :
+        rect.bottom > viewport.clientHeight - clearance ? rect.bottom - viewport.clientHeight + clearance : 0;
+      if (deltaX || deltaY) window.scrollBy({left: deltaX, top: deltaY, behavior: 'instant'});
+      rect = visualTarget.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const hit = document.elementFromPoint(centerX, centerY);
+      if (!hit || visualTarget === hit || visualTarget.contains(hit)) return;
+      let blocker = hit;
+      while (blocker && blocker !== document.documentElement) {
+        const blockerStyle = window.getComputedStyle(blocker);
+        if (blockerStyle.position === 'fixed' || blockerStyle.position === 'sticky') {
+          const blockerRect = blocker.getBoundingClientRect();
+          let deltaY = 0;
+          if (blockerRect.bottom > rect.top && blockerRect.top <= centerY) deltaY = rect.top - blockerRect.bottom - clearance;
+          else if (blockerRect.top < rect.bottom && blockerRect.bottom >= centerY) deltaY = rect.bottom - blockerRect.top + clearance;
+          if (deltaY) window.scrollBy({top: deltaY, behavior: 'instant'});
+          return;
+        }
+        blocker = blocker.parentElement;
+      }
+    };
+    reveal();
+    requestAnimationFrame(() => requestAnimationFrame(reveal));
   };
   const state = {
     media,
@@ -66,7 +115,7 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
         if (media.matches) {
           if (focusInside && !focusOnSummary && isEligible(active, details)) focusTargets.set(details, active);
           details.open = false;
-          if (focusInside && isEligible(summary, details)) summary.focus({preventScroll: true});
+          if (focusInside && isEligible(summary, details)) focusAndReveal(summary, details);
           return;
         }
         details.open = true;
@@ -79,7 +128,7 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
           : !focusOnSummary && isEligible(active, details)
             ? active
             : focusFallback(details);
-        target?.focus({preventScroll: true});
+        focusAndReveal(target, details);
       });
     },
   };

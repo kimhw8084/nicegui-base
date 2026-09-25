@@ -62,14 +62,23 @@ def test_workbench_responsive_sync_is_singleton_idempotent_and_focus_safe() -> N
     assert 'new MutationObserver(() => state.scan())' in script
     assert "details.addEventListener('focusin', (event) => {" in script
     assert 'const focusInside = details.contains(active);' in script
-    assert "if (focusInside && isEligible(summary, details)) summary.focus({preventScroll: true});" in script
+    assert "const focusAndReveal = (element, details) => {" in script
+    assert "visualTarget.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});" in script
+    assert 'if (deltaX || deltaY) window.scrollBy({left: deltaX, top: deltaY, behavior: \'instant\'});' in script
+    assert "const visualTarget = element.closest('.q-field') || element;" in script
+    assert "blockerStyle.position === 'fixed' || blockerStyle.position === 'sticky'" in script
+    assert "const interruptFocusReveal = () => { focusRevealInterrupted += 1; };" in script
+    assert "focusRevealInterrupted !== revealVersion" in script
+    assert 'requestAnimationFrame(() => requestAnimationFrame(reveal));' in script
+    assert "if (focusInside && isEligible(summary, details)) focusAndReveal(summary, details);" in script
     assert 'if (!focusInside && !handoffLostToDocument) return;' in script
     assert 'summaryHandoffs.has(details)' in script
     assert "window.addEventListener('blur'" in script
     assert 'const remembered = focusTargets.get(details);' in script
     assert '.q-select__focus-target[aria-label="Family"]' in script
     assert 'focusFallback(details)' in script
-    assert 'target?.focus({preventScroll: true});' in script
+    assert 'focusAndReveal(target, details);' in script
+    assert 'preventScroll' not in script
     assert "element.closest('[hidden], [inert], [aria-hidden=\"true\"], [aria-disabled=\"true\"], .q-field--disabled')" in script
 
 
