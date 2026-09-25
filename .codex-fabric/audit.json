@@ -1,0 +1,154 @@
+{
+  "accepted_at": "2026-09-25T03:44:02Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'cat source/nicegui_base/ai/construction_manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rg -n -i 'CHG-100|Iteration 23|VERIFY prompt' . --hidden -g '\"'!'\"\\\\.git/**'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /Users/haewonkim/.codex/skills/linear-review/SKILL.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files /Users/haewonkim/.codex/skills | rtk rg 'linear-(review|next|ids)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -i 'iteration[ _-]?23|CHG[ _-]?100|VERIFY' docs source agent_tasks .github --hidden\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /Users/haewonkim/.codex/skills/linear-next/SKILL.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.156.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 23,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 88.56,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 231424,
+      "fresh_input_tokens": 29883,
+      "input_tokens": 261307,
+      "non_reasoning_output_tokens": 1023,
+      "output_tokens": 4008,
+      "reasoning_output_tokens": 2985,
+      "total_processed_tokens": 265315
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-25T03:55:15Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-1",
+    "detached_verify": false,
+    "head_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "remote_exact_head": true,
+    "remote_head_sha": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "7b126d431215e8aac038bd5935d39d118a1ea68b",
+    "work_branch": "codex/nicegui-base-stable3-browser-ui-current-main-refresh-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-aa7d5222324adcce2ae2464b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-browser-ui-current-main-refresh-1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-browser-ui-current-main-refresh-1",
+  "schema_version": 1,
+  "started_at": "2026-09-25T03:53:44Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 91,
+    "queue_seconds": 582,
+    "total_seconds": 673
+  },
+  "transport": {
+    "bytes": 414,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 60,
+    "prompt_sha256": "bbda5a88338efebc2d3647f353e8753459aaae05f7c4af7bccac557e5cb32c07",
+    "sha256": "aa7d5222324adcce2ae2464bf1d3c277dd78dc8beff46d441c11c69bac8585f6"
+  }
+}
