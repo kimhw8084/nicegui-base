@@ -69,7 +69,8 @@ def test_workbench_responsive_sync_is_singleton_idempotent_and_focus_safe() -> N
     assert "blockerStyle.position === 'fixed' || blockerStyle.position === 'sticky'" in script
     assert "const interruptFocusReveal = () => { focusRevealInterrupted += 1; };" in script
     assert "focusRevealInterrupted !== revealVersion" in script
-    assert 'requestAnimationFrame(() => requestAnimationFrame(reveal));' in script
+    assert 'const revealAfterLayout = (frames) => requestAnimationFrame(() => {' in script
+    assert 'revealAfterLayout(4);' in script
     assert "if (focusInside && isEligible(summary, details)) focusAndReveal(summary, details);" in script
     assert 'if (!focusInside && !handoffLostToDocument) return;' in script
     assert 'summaryHandoffs.has(details)' in script

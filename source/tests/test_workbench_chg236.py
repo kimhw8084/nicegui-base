@@ -295,7 +295,10 @@ html,body{margin:0;min-height:100%;font:16px sans-serif}
         visible.left>=clearance && visible.top>=clearance && visible.right<=innerWidth-clearance && visible.bottom<=innerHeight-clearance &&
         ownsCenter && indicator;
     }''', timeout=2000)
-            page.evaluate('() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
+            page.evaluate('''() => new Promise(resolve => {
+  const wait = frames => requestAnimationFrame(() => frames === 1 ? resolve() : wait(frames - 1));
+  wait(5);
+})''')
 
         mobile_scrolls: list[float] = []
         desktop_scrolls: list[float] = []

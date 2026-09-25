@@ -85,7 +85,11 @@ _EXPLORER_REFINE_RESPONSIVE_SCRIPT = r'''<script>
       }
     };
     reveal();
-    requestAnimationFrame(() => requestAnimationFrame(reveal));
+    const revealAfterLayout = (frames) => requestAnimationFrame(() => {
+      if (frames === 1) reveal();
+      else revealAfterLayout(frames - 1);
+    });
+    revealAfterLayout(4);
   };
   const state = {
     media,
