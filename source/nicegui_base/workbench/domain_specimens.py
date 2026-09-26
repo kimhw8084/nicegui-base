@@ -4,7 +4,7 @@ from datetime import datetime
 import math
 
 ENGINEERING_KEYS = frozenset({
-    'EngineeringEntityCard','EngineeringStatusBadge','SpecLimitIndicator','OutOfSpecIndicator',
+    'EngineeringEntityCard','InvestigationContextBar','EngineeringStatusBadge','SpecLimitIndicator','OutOfSpecIndicator',
     'BaselineComparison','ProcessTrendSpec','DistributionComparisonSpec','PopulationComparisonPanel',
     'CommonalityTable','EvidenceCard','ConfidenceIndicator','RcaEvidencePanel','RcaWorkspaceSpec','EngineeringTimeline',
 })
@@ -18,6 +18,11 @@ def render_engineering(key, *, title, on_event=None):
     from nicegui_base.integrations import nicegui_engineering as v
     if key not in ENGINEERING_KEYS: raise KeyError(key)
     ui.label('Synthetic engineering example — evidence and confidence below are illustrative, not production conclusions.').classes('cui-workbench-note')
+    if key=='InvestigationContextBar':
+        return v.InvestigationContextBar(m.InvestigationContextSpec(
+            'SYN-INV-259-001', 'Illustrative chamber CD shift', 'Example Process Engineer',
+            'Evidence review · synthetic', 'Synthetic fixture · 2026-09-26 09:00 UTC',
+        ))
     entity=m.EngineeringEntityRef(m.EngineeringEntityKind.CHAMBER,'ETCH-021/CH-3','ETCH-021 · Chamber 3',m.EngineeringStatus.WATCH,'Etch critical dimension')
     limits=m.LimitBand(lower_spec=37.5,upper_spec=42.5,target=40.0,lower_warning=38.2,upper_warning=41.8,unit='nm')
     evidence=(m.EvidenceItem('e1','Illustrative SPC shift',m.EvidenceChannel.SPC,m.EvidenceDirection.SUPPORTS,m.EvidenceStrength.MODERATE,'Synthetic data, not causal proof','Example'),
