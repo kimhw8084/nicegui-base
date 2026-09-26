@@ -1,0 +1,78 @@
+{
+  "accepted_at": "2026-09-26T15:59:19Z",
+  "changed_files": [],
+  "checks": [],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": null,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": null,
+    "usage": {},
+    "warnings": []
+  },
+  "commits": [],
+  "diff": null,
+  "error_code": "CODEX_TIMEOUT",
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": null,
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": "CODEX_EXECUTION",
+  "finished_at": "2026-09-26T21:59:21Z",
+  "git": {},
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-04143ce4f98d7b9eb5826ca1",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": true,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-golden-ui-v3-exhaustive-current-atlas-3",
+  "schema_version": 1,
+  "started_at": "2026-09-26T15:59:19Z",
+  "status": "FAILED_MODEL",
+  "timing": {
+    "execution_seconds": 21602,
+    "queue_seconds": 0,
+    "total_seconds": 21602
+  },
+  "transport": {
+    "bytes": 28209,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 27840,
+    "prompt_sha256": "36732d4bda88362620d7f81eab8bf05e99147f340c2b5ddc55b1e4837adcc38f",
+    "sha256": "04143ce4f98d7b9eb5826ca18234fef377027d8c2e5cd95bae955d627277b5cd"
+  }
+}
