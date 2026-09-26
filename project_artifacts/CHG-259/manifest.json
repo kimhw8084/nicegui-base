@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "package_type": "candidate_bound_targeted_evidence",
+  "created_at_utc": "2026-09-26T15:15:13+00:00",
+  "project": "nicegui-base",
+  "change": "CHG-259",
+  "operation": "FIX",
+  "request": "stable3-engineering-workbench-renderer-parity-fix-1",
+  "fabric_job": "CF-780c1a66a32b386604aa9361",
+  "repository": "kimhw8084/nicegui-base",
+  "target_branch": "main",
+  "target_base_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "target_base_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+  "work_branch": "codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1",
+  "candidate_head": "98cf1e2133ae482ca6a8a24a945d004bbc3c50f6",
+  "candidate_tree": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "candidate_parent": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1",
+  "fabric_evidence_ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1",
+  "fabric_native_audit": "Fabric-owned .codex-fabric/audit.json; not synthesized in this package",
+  "origin_main_before_publish": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "source_change_files": [
+    "source/nicegui_base/workbench/domain_specimens.py",
+    "source/tests/test_workbench_chg259_engineering_renderer_parity.py"
+  ],
+  "runtime_identity": {
+    "python": "3.11.7",
+    "nicegui": "3.15.0",
+    "framework": "3.0.0a8"
+  },
+  "browser_identity": {
+    "chrome_version": "153.0.8010.54",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+    "playwright_version": "1.62.0",
+    "base_url": "http://127.0.0.1:18992"
+  },
+  "claim_boundary": [
+    "Workbench engineering catalog-to-specimen parity only",
+    "Repairs the registered InvestigationContextBar route 500 only",
+    "Ready for independent Project OS audit only; no self-declared GO",
+    "No claim of CHG-257 exhaustive atlas completion, Golden UI v3 visual perfection, CHG-100 human acceptance, browser-chrome 200% zoom, CHG-59 work-computer qualification, or stable 3.0.0 readiness/publication/deployment"
+  ],
+  "evidence_screenshots": {
+    "base-negative-control-500.png": {
+      "path": "screenshots/base-negative-control-500.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "8ad6b4f7dc96cd46a0f8ddaeb5867af61f04746737e78629ccdbf27adb068d8e",
+      "bytes": 19615
+    },
+    "engineering-existing-control-desktop-1440x900.png": {
+      "path": "screenshots/engineering-existing-control-desktop-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "06c6ee5456d1a883f39eba1e2ca1f59d666e2b3af9dfe9413dceb94ec5557fc6",
+      "bytes": 125456
+    },
+    "investigation-context-bar-desktop-1440x900.png": {
+      "path": "screenshots/investigation-context-bar-desktop-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "4bef10e00f06666573854b508c99aaf6af0b47161f6ee89df0909a17c603d54f",
+      "bytes": 131034
+    },
+    "investigation-context-bar-mobile-390x844.png": {
+      "path": "screenshots/investigation-context-bar-mobile-390x844.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "e35707ad886ed7c93aa0f10f08d0f84b3016ddcc6a7092c0430e0d5caacb9f90",
+      "bytes": 50693
+    }
+  }
+}

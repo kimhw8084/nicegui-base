@@ -1,0 +1,33 @@
+{
+  "result": "READY_FOR_INDEPENDENT_PROJECT_OS_AUDIT_ONLY",
+  "candidate": {
+    "head": "98cf1e2133ae482ca6a8a24a945d004bbc3c50f6",
+    "tree": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+    "parent": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "branch": "codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1"
+  },
+  "changed_files": [
+    "source/nicegui_base/workbench/domain_specimens.py",
+    "source/tests/test_workbench_chg259_engineering_renderer_parity.py"
+  ],
+  "product_acceptance": {
+    "exact_base_negative_control": "PASS",
+    "catalog_parity": "PASS · 15/15 exact",
+    "focused_workbench_engineering_tests": "PASS",
+    "browser_route_parity_sweep": "PASS · 15/15",
+    "candidate_mobile_desktop_scenarios": "PASS",
+    "representative_existing_control": "PASS",
+    "runtime_contract": "PASS",
+    "runtime_smoke": "PASS"
+  },
+  "broad_checks": {
+    "framework_validate": "FAIL · pre-existing AI000 syntax error + 56 warnings; no changed-area findings",
+    "agent_check": "FAIL · scaffold absent + same AI000 / 56 warnings",
+    "gate": "FAIL · incomplete root app scaffold and existing Wave35 theme expectation mismatch",
+    "full_source_pytest": "FAIL · 15 unrelated legacy failures; no CHG-259/Workbench/engineering selected test failures"
+  },
+  "target_main": "unchanged at 8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "worktree_clean": true,
+  "server_cleanup": "PASS · PIDs 39787/60831 terminated; ports 18991/18992 closed",
+  "readiness": "Independent Project OS audit only; no GO declaration."
+}

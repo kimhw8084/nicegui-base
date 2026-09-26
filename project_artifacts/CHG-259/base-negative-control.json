@@ -1,0 +1,21 @@
+{
+  "control": "exact base before source edits",
+  "base_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+  "base_tree": "fcc6294ba8f7c36b68b88a217e65b7efb3050393",
+  "canonical_launcher": "python run_nicegui_base.py --port 18991",
+  "installed_browser": "Google Chrome 153.0.8010.54 via Playwright 1.62.0",
+  "route": "/studio/framework%3Aengineering%3AInvestigationContextBar",
+  "http_status": 500,
+  "visible_page_error": "500 · Server error · KeyError: 'InvestigationContextBar'",
+  "server_traceback": "app.studio_page → _studio_entry_page → capability_studio.render_capability_studio/render_preview/default_preview → catalog_runtime.render_catalog_example → domain_specimens.render_engineering ENGINEERING_KEYS membership rejection",
+  "exception": "KeyError: 'InvestigationContextBar'",
+  "base_catalog_engineering_count": 15,
+  "base_workbench_engineering_count": 14,
+  "missing_from_workbench": [
+    "InvestigationContextBar"
+  ],
+  "result": "PASS — exact-base negative control reproduced the established failure class before source edits",
+  "screenshot": "screenshots/base-negative-control-500.png",
+  "server_pid": 39787,
+  "port_closed_after_run": true
+}

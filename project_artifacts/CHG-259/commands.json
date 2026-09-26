@@ -1,0 +1,107 @@
+{
+  "execution_environment": {
+    "rtk": "0.42.4",
+    "python_executable": "/opt/anaconda3/bin/python",
+    "working_directory": "source for pytest commands",
+    "virtualenv": "repository .venv absent; installed supported Python 3.11.7/NiceGUI 3.15.0 used"
+  },
+  "commands": [
+    {
+      "command": "nicegui-base agent-context \"Restore Workbench engineering capability renderer parity for InvestigationContextBar using existing governed specimen\" --format json",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": "nicegui-base catalog-search \"engineering InvestigationContextBar investigation context renderer\" --format json",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": "python run_nicegui_base.py --port 18991",
+      "status": "PASS_NEGATIVE_CONTROL",
+      "detail": "Exact base route returned HTTP 500 with KeyError; base server stopped and port closed.",
+      "server_lifecycle": "Started successfully; intentionally stopped with SIGINT after capture, then TCP port 18991 verified closed."
+    },
+    {
+      "command": "python -m pytest -q tests/test_workbench_chg259_engineering_renderer_parity.py tests/test_workbench_d6d_catalog_contracts.py tests/test_workbench_d6h_visual_reference.py tests/test_workbench_d6h1_visual_closure.py tests/test_workbench_d6h2_visual_closure.py tests/test_workbench_d6h3_golden_semantics.py tests/test_phase26_v17_phase6_content_workflow_rca.py tests/test_phase9_adapter_contract.py tests/test_phase9_registry_css.py tests/test_phase19_rendered_product_hardening.py",
+      "working_directory": "source",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": "python run_nicegui_base.py --check",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": "nicegui-base runtime-contract",
+      "exit_code": 0,
+      "status": "PASS",
+      "detail": "48 factories / 1176 direct calls checked"
+    },
+    {
+      "command": "nicegui-base runtime-smoke --port 0",
+      "exit_code": 0,
+      "status": "PASS",
+      "detail": "23/23 health/foundation/product routes returned 200; generated tracked smoke report/log restored to repository HEAD afterward."
+    },
+    {
+      "command": "Google Chrome 153.0.8010.54 via Playwright 1.62.0; 15 canonical engineering Studio routes + InvestigationContextBar desktop/mobile + EngineeringEntityCard control",
+      "exit_code": 0,
+      "status": "PASS",
+      "detail": "See browser-route-matrix.json and screenshots."
+    },
+    {
+      "command": "python -m nicegui_base.validate .",
+      "exit_code": 1,
+      "status": "FAIL_PRE_EXISTING",
+      "detail": "1 pre-existing AI000 syntax error in tools/verify_development_D6H2_browser.py:154; 56 existing warnings; no changed-area finding."
+    },
+    {
+      "command": "nicegui-base agent-check .",
+      "exit_code": 1,
+      "status": "FAIL_PRE_EXISTING",
+      "detail": "Generated .nicegui_base scaffold absent; same pre-existing AI000 syntax error and 56 existing warnings."
+    },
+    {
+      "command": "nicegui-base gate .",
+      "exit_code": 1,
+      "status": "FAIL_PRE_EXISTING_GATE",
+      "detail": "Root application manifest/dependency pin/entrypoint scaffold missing; pre-existing D6H2 syntax error; unchanged test_wave35_theme_persistence.py expects requested===system in app.py; application build-page cannot resolve entrypoint."
+    },
+    {
+      "command": "python -m pytest -q",
+      "working_directory": "source",
+      "exit_code": 1,
+      "status": "FAIL_UNRELATED_LEGACY",
+      "detail": "15 failures in phase39/44 StateKey generic construction, phase45 snapshot restore, phase48/50/58 generated application templates, and phase71 release-package determinism. CHG-259/Workbench/engineering selected tests pass."
+    }
+  ],
+  "server_cleanup": {
+    "negative_control": {
+      "pid": 39787,
+      "port": 18991,
+      "terminated": true,
+      "port_closed": true
+    },
+    "candidate": {
+      "pid": 60831,
+      "port": 18992,
+      "terminated": true,
+      "port_closed": true
+    }
+  },
+  "source_postflight": {
+    "candidate_head": "98cf1e2133ae482ca6a8a24a945d004bbc3c50f6",
+    "candidate_tree": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+    "candidate_parent": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "origin_main_unchanged": true,
+    "worktree_clean": true,
+    "generated_evidence_on_product_branch": false
+  }
+}
