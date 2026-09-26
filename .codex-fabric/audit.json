@@ -1,0 +1,451 @@
+{
+  "accepted_at": "2026-09-26T14:52:57Z",
+  "changed_files": [
+    {
+      "additions": 6,
+      "deletions": 1,
+      "path": "source/nicegui_base/workbench/domain_specimens.py",
+      "status": "M"
+    },
+    {
+      "additions": 140,
+      "deletions": 0,
+      "path": "source/tests/test_workbench_chg259_engineering_renderer_parity.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source nicegui-base agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source python -m pytest -q source/tests/test_workbench_chg259_engineering_renderer_parity.py source/tests/test_workbench_d6d_catalog_contracts.py source/tests/test_workbench_d6h_visual_reference.py source/tests/test_phase26_v17_phase6_content_workflow_rca.py source/tests/test_phase9_adapter_contract.py source/tests/test_phase9_registry_css.py source/tests/test_phase19_rendered_product_hardening.py'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "source/tests/test_phase9_adapter_contract.py::test_adapter_uses_packaged_visual_resources",
+          "source/tests/test_phase9_registry_css.py::test_theme_adapter_installs_engineering_css"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 2384,
+        "output_sha256": "bde09b49e5b6405e579e9cdd961a6a727eabc8bb6a59c4ec1d42893a3a9ade79",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=. python -m pytest -q tests/test_workbench_chg259_engineering_renderer_parity.py tests/test_workbench_d6d_catalog_contracts.py tests/test_workbench_d6h_visual_reference.py tests/test_phase26_v17_phase6_content_workflow_rca.py tests/test_phase9_adapter_contract.py tests/test_phase9_registry_css.py tests/test_phase19_rendered_product_hardening.py'",
+      "exit_code": 127,
+      "test_result": {
+        "exit_code": 127,
+        "framework": "pytest",
+        "outcome": "nonzero",
+        "output_bytes": 39,
+        "output_sha256": "28654fc6aa0c6fab8b3cc42a589a512a9b6c865c028a201b4ad66c2195fb9170",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source python -m nicegui_base.validate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source nicegui-base agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg259_engineering_renderer_parity.py tests/test_workbench_d6d_catalog_contracts.py tests/test_workbench_d6h_visual_reference.py tests/test_phase26_v17_phase6_content_workflow_rca.py tests/test_phase9_adapter_contract.py tests/test_phase9_registry_css.py tests/test_phase19_rendered_product_hardening.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "b2c6720453f06d35157bf6fc9703ffce184bf1d11bc189b38e5a9b17338d728b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q'",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "failing_test_ids": [
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_commits_one_revision_and_coalesces_key_changes",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_transaction_rolls_back_exactly_and_emits_nothing_on_failure",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_runtime_state_snapshot_restore_is_revisioned_and_deep_copy_safe",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_validation_and_key_scoped_watchers_are_governed",
+          "tests/test_phase39_v3_runtime_kernel.py::test_v3_state_key_identity_is_address_only_and_deletion_is_unambiguous_from_none",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_operates_on_committed_transaction_as_one_history_step",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_state_undo_redo_preserves_absent_vs_none_semantics",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_new_edit_after_undo_clears_stale_redo_branch",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_and_redo_are_rejected_inside_active_transaction",
+          "tests/test_phase44_v3_runtime_undo_redo.py::test_v3_undo_redo_emit_governed_mutations_without_corrupting_original_undo_batch",
+          "tests/test_phase45_v3_runtime_snapshot_serialization.py::test_v3_application_snapshot_json_roundtrip_restores_runtime_state_layout_and_data_sessions",
+          "tests/test_phase48_v300a2_coding_agent_platform.py::test_golden_nonrender_runtime_contracts_execute_without_nicegui",
+          "tests/test_phase50_v300a3_agent_application_factory.py::test_all_agent_starters_are_validator_clean_and_importable[param]",
+          "tests/test_phase58_v300a8_correctness_lifecycle_trust.py::test_every_generated_application_template_executes_build_page",
+          "tests/test_phase71_v300a8_release_publication_post_promotion.py::test_wave71_post_package_deterministic"
+        ],
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 24028,
+        "output_sha256": "d52f0d7319ffc27edd9fe0c4f0e8a14bf3e0c9b9d304a65ed0a673d72badfe86",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source nicegui-base gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'cui-investigation-context' source/nicegui_base\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git remote -v && rtk git status --short --branch && rtk git rev-parse origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=source nicegui-base runtime-smoke --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add source/nicegui_base/workbench/domain_specimens.py source/tests/test_workbench_chg259_engineering_renderer_parity.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"Fix engineering Workbench specimen parity\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git rev-parse HEAD''^ && rtk git status --short --branch && rtk git diff --check && rtk git show --stat --oneline --summary HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git diff -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '660,698p' source/nicegui_base/design/hardening_css.py && rtk git show --format='%H%n%T%n%P' --no-patch HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport importlib.metadata, json, platform, re, subprocess, sys\nfrom pathlib import Path\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\n\nROOT = Path.cwd()\nEVIDENCE = Path('/tmp/chg259-candidate-evidence')\nSHOTS = EVIDENCE / 'screenshots'\nSHOTS.mkdir(parents=True, exist_ok=True)\ncatalog = json.loads((ROOT / 'source/nicegui_base/ai/framework_catalog.json').read_text())\nkeys = [item['_registry_key'] for item in catalog['registries']['engineering']]\nbase = 'http://127.0.0.1:18992'\nroute_rows = []\nscenario_rows = {}\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    page = browser.new_page(viewport={'width': 1440, 'height': 900}, device_scale_factor=1)\n    def visit(key, viewport, screenshot=None):\n        page.set_viewport_size(viewport)\n        page_errors, console_errors, failed_requests, bad_responses = [], [], [], []\n        page.on('pageerror', lambda exc: page_errors.append(str(exc)))\n        page.on('console', lambda msg: console_errors.append(msg.text) if msg.type == 'error' else None)\n        page.on('requestfailed', lambda req: failed_requests.append({'url': req.url, 'failure': req.failure}))\n        page.on('response', lambda res: bad_responses.append({'status': res.status, 'url': res.url}) if res.status >= 400 else None)\n        route = '/studio/' + quote('framework:engineering:' + key, safe='')\n        response = page.goto(base + route, wait_until='domcontentloaded', timeout=45000)\n        page.wait_for_timeout(1100)\n        body = page.locator('body').inner_text(timeout=10000)\n        status = response.status if response else None\n        specimen_count = page.locator('.cui-catalog-specimen').count()\n        semantic = {\n            'EngineeringEntityCard': '.cui-eng-entity',\n            'InvestigationContextBar': '.cui-investigation-context[aria-label=\\\"Investigation context\\\"]',\n            'EngineeringStatusBadge': '.cui-eng-status',\n            'SpecLimitIndicator': '.cui-spec',\n            'OutOfSpecIndicator': '.cui-spec',\n            'BaselineComparison': '.cui-baseline',\n            'ProcessTrendSpec': '.cui-chart-panel, .cui-viz-panel, .cui-echart',\n            'DistributionComparisonSpec': '.cui-eng-entity',\n            'PopulationComparisonPanel': '.cui-eng-entity',\n            'CommonalityTable': '.cui-data-table, .ag-root-wrapper',\n            'EvidenceCard': '.cui-evidence',\n            'ConfidenceIndicator': '.cui-confidence',\n            'RcaEvidencePanel': '.cui-eng-entity',\n            'RcaWorkspaceSpec': '.cui-eng-entity',\n            'EngineeringTimeline': '.cui-eng-timeline, .cui-timeline',\n        }.get(key)\n        semantic_count = page.locator(semantic).count() if semantic else 0\n        overflow = page.evaluate('({doc: document.documentElement.scrollWidth, body: document.body.scrollWidth, width: innerWidth})')\n        row = {\n            'key': key, 'route': route, 'status': status, 'specimen_count': specimen_count,\n            'semantic_selector': semantic, 'semantic_count': semantic_count,\n            'page_errors': list(page_errors), 'console_errors': list(console_errors),\n            'failed_requests': list(failed_requests), 'bad_responses': list(bad_responses),\n            'horizontal_overflow': overflow['doc'] > overflow['width'] + 1 or overflow['body'] > overflow['width'] + 1,\n            'body_excerpt': body[:500],\n        }\n        if screenshot:\n            page.screenshot(path=str(SHOTS / screenshot), full_page=False)\n        return row, body\n\n    desktop, desktop_body = visit('InvestigationContextBar', {'width': 1440, 'height': 900}, 'investigation-context-bar-desktop-1440x900.png')\n    bar = page.locator('.cui-investigation-context[aria-label=\\\"Investigation context\\\"]')\n    labels = [value.strip() for value in page.locator('.cui-investigation-context__label').all_text_contents()]\n    values = [value.strip() for value in page.locator('.cui-investigation-context__value').all_text_contents()]\n    desktop['context_labels'] = labels\n    desktop['context_values'] = values\n    desktop['has_capability_studio_context'] = 'Capability Studio' in desktop_body\n    desktop['synthetic_note_visible'] = 'Synthetic engineering example' in desktop_body\n    desktop['context_visible'] = bar.count() == 1 and bar.is_visible()\n    scenario_rows['investigation_context_bar_desktop'] = desktop\n\n    mobile, mobile_body = visit('InvestigationContextBar', {'width': 390, 'height': 844}, 'investigation-context-bar-mobile-390x844.png')\n    bar = page.locator('.cui-investigation-context[aria-label=\\\"Investigation context\\\"]')\n    bar_box = bar.bounding_box() if bar.count() else None\n    cells = page.locator('.cui-investigation-context__cell')\n    cell_evidence = []\n    for i in range(cells.count()):\n        cell = cells.nth(i)\n        value = cell.locator('.cui-investigation-context__value')\n        box = cell.bounding_box()\n        dims = value.evaluate('(el) => ({clientWidth:el.clientWidth,scrollWidth:el.scrollWidth,clientHeight:el.clientHeight,scrollHeight:el.scrollHeight})')\n        cell_evidence.append({'text': cell.inner_text(), 'box': box, 'value_dimensions': dims})\n    mobile['bar_box'] = bar_box\n    mobile['cells'] = cell_evidence\n    mobile['all_critical_labels_visible'] = all(page.get_by_text(label, exact=True).is_visible() for label in ('Investigation', 'Owner', 'Stage', 'Updated'))\n    mobile['all_cell_values_visible'] = all(cells.nth(i).locator('.cui-investigation-context__value').is_visible() for i in range(cells.count()))\n    mobile['context_visible'] = bar.count() == 1 and bar.is_visible()\n    scenario_rows['investigation_context_bar_mobile'] = mobile\n\n    control, control_body = visit('EngineeringEntityCard', {'width': 1440, 'height': 900}, 'engineering-existing-control-desktop-1440x900.png')\n    control['entity_card_visible'] = page.locator('.cui-eng-entity').count() > 0 and page.locator('.cui-eng-entity').first.is_visible()\n    control['expected_entity_text'] = 'ETCH-021' in control_body and 'Chamber 3' in control_body\n    scenario_rows['engineering_existing_control_desktop'] = control\n\n    for key in keys:\n        row, body = visit(key, {'width': 1440, 'height': 900})\n        row['server_error_text'] = 'Server error' in body or 'KeyError' in body or re.search(r'\\\\b500\\\\b', body) is not None\n        route_rows.append(row)\n\n    identity = {\n        'chrome_version': browser.version,\n        'user_agent': page.evaluate('navigator.userAgent'),\n        'playwright_version': importlib.metadata.version('playwright'),\n        'python_version': platform.python_version(),\n        'nicegui_version': importlib.metadata.version('nicegui'),\n        'framework_version': subprocess.run([sys.executable, '-c', 'from nicegui_base.version import FRAMEWORK_VERSION; print(FRAMEWORK_VERSION)'],capture_output=True,text=True,check=True,env={**__import__('os').environ,'PYTHONPATH':str(ROOT/'source')}).stdout.strip(),\n        'candidate_head': subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True,check=True).stdout.strip(),\n        'candidate_tree': subprocess.run(['git','rev-parse','HEAD\"'^{tree}'\"'],capture_output=True,text=True,check=True).stdout.strip(),\n        'base_url': base,\n    }\n    browser.close()\n\nresult = {\n    'identity': identity,\n    'route_count': len(route_rows),\n    'routes': route_rows,\n    'scenarios': scenario_rows,\n}\n(EVIDENCE / 'browser-run.json').write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\\\\n')\nprint(json.dumps({'identity':identity,'route_results':[{k:r[k] for k in ('key','status','semantic_count','page_errors','console_errors','failed_requests','bad_responses','horizontal_overflow','server_error_text')} for r in route_rows], 'scenarios':scenario_rows, 'evidence_dir':str(EVIDENCE)},indent=2,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -A60 'class EngineeringTimeline' source/nicegui_base/integrations/nicegui_engineering.py && rtk rg -n 'timeline' source/nicegui_base/design/hardening_css.py | head -30 && rtk sed -n '1,120p' /tmp/chg259-candidate-evidence/browser-run.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nbase='http://127.0.0.1:18992'\nout=Path('/tmp/chg259-candidate-evidence/screenshots')\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    page=browser.new_page(viewport={'width':390,'height':844},device_scale_factor=1)\n    route='/studio/'+quote('framework:engineering:InvestigationContextBar',safe='')\n    response=page.goto(base+route,wait_until='domcontentloaded',timeout=45000)\n    page.wait_for_timeout(900)\n    page.evaluate(\\\"\\\"\\\"() => { const e=document.querySelector('.cui-investigation-context'); const y=e.getBoundingClientRect().top+window.scrollY; window.scrollTo(0,y-100); }\\\"\\\"\\\")\n    page.wait_for_timeout(250)\n    mobile=page.evaluate(\\\"\\\"\\\"() => { const root=document.querySelector('.cui-investigation-context'); const r=root.getBoundingClientRect(); const viewport={width:innerWidth,height:innerHeight}; const cells=[...root.querySelectorAll('.cui-investigation-context__cell')].map(c=>{const b=c.getBoundingClientRect(),v=c.querySelector('.cui-investigation-context__value'),d={clientWidth:v.clientWidth,scrollWidth:v.scrollWidth,clientHeight:v.clientHeight,scrollHeight:v.scrollHeight},t=c.innerText; return {text:t,box:{x:b.x,y:b.y,width:b.width,height:b.height},value_dimensions:d,inside_viewport:b.x>=0&&b.right<=innerWidth&&b.y>=0&&b.bottom<=innerHeight}}); return {viewport,root_box:{x:r.x,y:r.y,width:r.width,height:r.height},document_width:document.documentElement.scrollWidth,body_width:document.body.scrollWidth,cells}; }\\\"\\\"\\\")\n    page.screenshot(path=str(out/'investigation-context-bar-mobile-390x844.png'),full_page=False)\n    page.set_viewport_size({'width':1440,'height':900})\n    route2='/studio/'+quote('framework:engineering:EngineeringEntityCard',safe='')\n    control_response=page.goto(base+route2,wait_until='domcontentloaded',timeout=45000)\n    page.wait_for_timeout(900)\n    page.evaluate(\\\"\\\"\\\"() => { const e=document.querySelector('.cui-catalog-specimen'); const y=e.getBoundingClientRect().top+window.scrollY; window.scrollTo(0,y-240); }\\\"\\\"\\\")\n    page.wait_for_timeout(250)\n    card=page.evaluate(\\\"\\\"\\\"() => {const e=document.querySelector('.cui-eng-entity');const r=e.getBoundingClientRect();return {box:{x:r.x,y:r.y,width:r.width,height:r.height},viewport:{width:innerWidth,height:innerHeight},text:e.innerText};}\\\"\\\"\\\")\n    page.screenshot(path=str(out/'engineering-existing-control-desktop-1440x900.png'),full_page=False)\n    print(json.dumps({'mobile_status':response.status,'mobile':mobile,'control_status':control_response.status,'control':card,'screenshots':[str(out/'investigation-context-bar-mobile-390x844.png'),str(out/'engineering-existing-control-desktop-1440x900.png')]},indent=2,ensure_ascii=False))\n    browser.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nurl='http://127.0.0.1:18992/studio/'+quote('framework:engineering:InvestigationContextBar',safe='')\nout=Path('/tmp/chg259-candidate-evidence/screenshots/investigation-context-bar-mobile-390x844.png')\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n page=b.new_page(viewport={'width':390,'height':844},device_scale_factor=1)\n errors=[]; failed=[]; bad=[]\n page.on('pageerror',lambda e:errors.append(str(e)))\n page.on('console',lambda m:errors.append(m.text) if m.type=='error' else None)\n page.on('requestfailed',lambda r:failed.append({'url':r.url,'failure':r.failure}))\n page.on('response',lambda r:bad.append({'status':r.status,'url':r.url}) if r.status>=400 else None)\n response=page.goto(url,wait_until='domcontentloaded',timeout=45000);page.wait_for_timeout(900)\n page.evaluate(\\\"\\\"\\\"() => {const e=document.querySelector('.cui-investigation-context');window.scrollTo(0,e.getBoundingClientRect().top+scrollY-150)}\\\"\\\"\\\")\n page.wait_for_timeout(250)\n facts=page.evaluate(\\\"\\\"\\\"() => {const root=document.querySelector('.cui-investigation-context'), r=root.getBoundingClientRect(); const cells=[...root.querySelectorAll('.cui-investigation-context__cell')].map(c=>{const b=c.getBoundingClientRect(),v=c.querySelector('.cui-investigation-context__value'),d=v.getBoundingClientRect();return {label:c.querySelector('.cui-investigation-context__label').innerText,value:v.innerText,cell_in_view:b.y>=0&&b.bottom<=innerHeight&&b.x>=0&&b.right<=innerWidth,value_in_view:d.y>=0&&d.bottom<=innerHeight&&d.x>=0&&d.right<=innerWidth,scroll_width:v.scrollWidth,client_width:v.clientWidth}});return {viewport:{width:innerWidth,height:innerHeight},root:{x:r.x,y:r.y,width:r.width,height:r.height},document_width:document.documentElement.scrollWidth,body_width:document.body.scrollWidth,cells}}\\\"\\\"\\\")\n page.screenshot(path=str(out),full_page=False)\n print(json.dumps({'status':response.status,'errors':errors,'failed':failed,'bad':bad,'facts':facts,'screenshot':str(out)},indent=2,ensure_ascii=False))\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nfrom pathlib import Path\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nurl='http://127.0.0.1:18992/studio/'+quote('framework:engineering:InvestigationContextBar',safe='')\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n page=b.new_page(viewport={'width':390,'height':844},device_scale_factor=1)\n page.goto(url,wait_until='domcontentloaded',timeout=45000);page.wait_for_timeout(700)\n page.evaluate(\\\"\\\"\\\"() => {const e=document.querySelector('.cui-investigation-context');window.scrollTo(0,e.getBoundingClientRect().top+scrollY-200)}\\\"\\\"\\\")\n page.wait_for_timeout(200)\n page.screenshot(path='/tmp/chg259-candidate-evidence/screenshots/investigation-context-bar-mobile-390x844.png',full_page=False)\n print(page.evaluate(\\\"\\\"\\\"() => {const r=document.querySelector('.cui-investigation-context').getBoundingClientRect();return {viewport:[innerWidth,innerHeight],bar:{x:r.x,y:r.y,width:r.width,height:r.height},overflow:document.documentElement.scrollWidth>innerWidth}}\\\"\\\"\\\"))\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n page=b.new_page(viewport={'width':1440,'height':900})\n u='http://127.0.0.1:18992/studio/'+quote('framework:engineering:EngineeringTimeline',safe='')\n r=page.goto(u,wait_until='domcontentloaded',timeout=45000);page.wait_for_timeout(800)\n print(json.dumps({'status':r.status,'title':page.title(),'route':page.url,'catalog_specimen':page.locator('.cui-catalog-specimen').count(),'entity_wrapper':page.locator('.cui-eng-entity').count(),'evidence_events':page.locator('.cui-evidence').count(),'body_error':('Server error' in page.locator('body').inner_text())},indent=2))\n b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find source/tests -maxdepth 1 -type f -iname '*engineering*' -o -iname 'test_workbench_d6h*.py' -o -iname '*rca*' | sort\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/tests | rtk rg -i '(engineering|d6h|rca)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy env PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q tests/test_workbench_chg259_engineering_renderer_parity.py tests/test_workbench_d6d_catalog_contracts.py tests/test_workbench_d6h_visual_reference.py tests/test_workbench_d6h1_visual_closure.py tests/test_workbench_d6h2_visual_closure.py tests/test_workbench_d6h3_golden_semantics.py tests/test_phase26_v17_phase6_content_workflow_rca.py tests/test_phase9_adapter_contract.py tests/test_phase9_registry_css.py tests/test_phase19_rendered_product_hardening.py'",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 80,
+        "output_sha256": "55c823246eb78aa7433a1726dc60eafc4b2d57bcf5526ee5a7307de2bfb3651b",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport importlib.metadata, json, platform, re, subprocess, sys, os\nfrom pathlib import Path\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nroot=Path.cwd(); evidence=Path('/tmp/chg259-candidate-evidence'); shots=evidence/'screenshots'; shots.mkdir(parents=True,exist_ok=True)\nbase='http://127.0.0.1:18992'; data=json.loads((root/'source/nicegui_base/ai/framework_catalog.json').read_text()); keys=[x['_registry_key'] for x in data['registries']['engineering']]\nselectors={\n 'EngineeringEntityCard':'.cui-eng-entity','InvestigationContextBar':'.cui-investigation-context[aria-label=\\\"Investigation context\\\"]',\n 'EngineeringStatusBadge':'.cui-eng-status','SpecLimitIndicator':'.cui-spec','OutOfSpecIndicator':'.cui-spec',\n 'BaselineComparison':'.cui-baseline','ProcessTrendSpec':'.cui-chart-panel, .cui-viz-panel, .cui-echart',\n 'DistributionComparisonSpec':'.cui-eng-entity','PopulationComparisonPanel':'.cui-eng-entity',\n 'CommonalityTable':'.cui-data-table, .ag-root-wrapper','EvidenceCard':'.cui-evidence',\n 'ConfidenceIndicator':'.cui-confidence','RcaEvidencePanel':'.cui-eng-entity','RcaWorkspaceSpec':'.cui-eng-entity',\n 'EngineeringTimeline':'.cui-eng-entity',\n}\nwith sync_playwright() as p:\n browser=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n page=browser.new_page(viewport={'width':1440,'height':900},device_scale_factor=1)\n errors=[];console=[];failed=[];bad=[]\n page.on('pageerror',lambda e:errors.append(str(e)))\n page.on('console',lambda m:console.append(m.text) if m.type=='error' else None)\n page.on('requestfailed',lambda r:failed.append({'url':r.url,'failure':r.failure}))\n page.on('response',lambda r:bad.append({'status':r.status,'url':r.url}) if r.status>=400 else None)\n def clear_events(): errors.clear();console.clear();failed.clear();bad.clear()\n def visit(key,width,height,screenshot=None,scroll=None):\n  page.set_viewport_size({'width':width,'height':height});clear_events()\n  route='/studio/'+quote('framework:engineering:'+key,safe='')\n  response=page.goto(base+route,wait_until='domcontentloaded',timeout=45000);page.wait_for_timeout(850)\n  if scroll is not None:\n   page.evaluate(\\\"\\\"\\\"target => {const e=document.querySelector(target);if(e)window.scrollTo(0,e.getBoundingClientRect().top+scrollY-arguments[1])}\\\"\\\"\\\",[scroll[0],scroll[1]])\n   page.wait_for_timeout(200)\n  body=page.locator('body').inner_text(timeout=10000)\n  overflow=page.evaluate('({doc:document.documentElement.scrollWidth,body:document.body.scrollWidth,width:innerWidth})')\n  marker=selectors[key];count=page.locator(marker).count()\n  if screenshot:page.screenshot(path=str(shots/screenshot),full_page=False)\n  return {'key':key,'route':route,'status':response.status if response else None,'primary_semantic_marker':marker,'marker_count':count,\n   'page_errors':list(errors),'console_errors':list(console),'failed_requests':list(failed),'bad_responses':list(bad),\n   'document_width':overflow['doc'],'body_width':overflow['body'],'viewport_width':overflow['width'],\n   'horizontal_overflow':overflow['doc']>overflow['width']+1 or overflow['body']>overflow['width']+1,\n   'server_error_text':('Server error' in body or 'KeyError' in body or re.search(r'\\\\b500\\\\b',body) is not None),\n   'reference_explorer_context':('Reference Explorer' in body and key in body and 'REFERENCE' in body),\n   'body_excerpt':body[:420]},body\n desktop,body=visit('InvestigationContextBar',1440,900,'investigation-context-bar-desktop-1440x900.png')\n ctx=page.locator('.cui-investigation-context[aria-label=\\\"Investigation context\\\"]')\n desktop['context_visible']=ctx.count()==1 and ctx.is_visible()\n desktop['context_labels']=[x.strip() for x in page.locator('.cui-investigation-context__label').all_text_contents()]\n desktop['context_values']=[x.strip() for x in page.locator('.cui-investigation-context__value').all_text_contents()]\n desktop['synthetic_note_visible']='Synthetic engineering example' in body and 'illustrative, not production conclusions' in body\n mobile,body=visit('InvestigationContextBar',390,844,'investigation-context-bar-mobile-390x844.png',('.cui-investigation-context',200))\n mobile['visible_cells']=page.evaluate(\\\"\\\"\\\"() => {const root=document.querySelector('.cui-investigation-context');return [...root.querySelectorAll('.cui-investigation-context__cell')].map(c=>{const b=c.getBoundingClientRect(),l=c.querySelector('.cui-investigation-context__label'),v=c.querySelector('.cui-investigation-context__value'),r=v.getBoundingClientRect();return {label:l.innerText,value:v.innerText,cell_in_view:b.x>=0&&b.right<=innerWidth&&b.y>=0&&b.bottom<=innerHeight,value_in_view:r.x>=0&&r.right<=innerWidth&&r.y>=0&&r.bottom<=innerHeight,content_overflow:v.scrollWidth>v.clientWidth+1}})}\\\"\\\"\\\")\n mobile['all_critical_fields_reachable']=len(mobile['visible_cells'])==4 and all(c['cell_in_view'] and c['value_in_view'] and not c['content_overflow'] for c in mobile['visible_cells'])\n control,body=visit('EngineeringEntityCard',1440,900,'engineering-existing-control-desktop-1440x900.png',('.cui-catalog-specimen',165))\n control['entity_card_visible']=page.locator('.cui-eng-entity').count()>0 and page.locator('.cui-eng-entity').first.is_visible()\n control['expected_entity_text']='ETCH-021 · Chamber 3' in body and 'Synthetic' in body\n matrix=[]\n for key in keys:\n  row,_=visit(key,1440,900)\n  matrix.append(row)\n identity={'chrome_version':browser.version,'user_agent':page.evaluate('navigator.userAgent'),'playwright_version':importlib.metadata.version('playwright'),\n  'python_version':platform.python_version(),'nicegui_version':importlib.metadata.version('nicegui'),\n  'framework_version':subprocess.run([sys.executable,'-c','from nicegui_base.version import FRAMEWORK_VERSION;print(FRAMEWORK_VERSION)'],capture_output=True,text=True,check=True,env={**os.environ,'PYTHONPATH':str(root/'source')}).stdout.strip(),\n  'candidate_head':subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True,check=True).stdout.strip(),\n  'candidate_tree':subprocess.run(['git','rev-parse','HEAD\"'^{tree}'\"'],capture_output=True,text=True,check=True).stdout.strip(),'base_url':base}\n browser.close()\nreport={'identity':identity,'route_count':len(matrix),'routes':matrix,'scenarios':{'investigation_context_bar_desktop':desktop,'investigation_context_bar_mobile':mobile,'engineering_existing_control_desktop':control}}\n(evidence/'browser-run.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'identity':identity,'route_matrix':[{'key':r['key'],'status':r['status'],'marker_count':r['marker_count'],'errors':len(r['page_errors'])+len(r['console_errors'])+len(r['failed_requests'])+len(r['bad_responses']),'horizontal_overflow':r['horizontal_overflow'],'server_error':r['server_error_text']} for r in matrix], 'primary':desktop,'mobile':mobile,'control':control},indent=2,ensure_ascii=False))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport importlib.metadata, json, platform, re, subprocess, sys, os\nfrom pathlib import Path\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nroot=Path.cwd(); evidence=Path('/tmp/chg259-candidate-evidence'); shots=evidence/'screenshots'; shots.mkdir(parents=True,exist_ok=True)\nbase='http://127.0.0.1:18992'; data=json.loads((root/'source/nicegui_base/ai/framework_catalog.json').read_text()); keys=[x['_registry_key'] for x in data['registries']['engineering']]\nselectors={'EngineeringEntityCard':'.cui-eng-entity','InvestigationContextBar':'.cui-investigation-context[aria-label=\\\"Investigation context\\\"]','EngineeringStatusBadge':'.cui-eng-status','SpecLimitIndicator':'.cui-spec','OutOfSpecIndicator':'.cui-spec','BaselineComparison':'.cui-baseline','ProcessTrendSpec':'.cui-chart-panel, .cui-viz-panel, .cui-echart','DistributionComparisonSpec':'.cui-eng-entity','PopulationComparisonPanel':'.cui-eng-entity','CommonalityTable':'.cui-data-table, .ag-root-wrapper','EvidenceCard':'.cui-evidence','ConfidenceIndicator':'.cui-confidence','RcaEvidencePanel':'.cui-eng-entity','RcaWorkspaceSpec':'.cui-eng-entity','EngineeringTimeline':'.cui-eng-entity'}\nwith sync_playwright() as p:\n browser=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n page=browser.new_page(viewport={'width':1440,'height':900},device_scale_factor=1); errors=[];console=[];failed=[];bad=[]\n page.on('pageerror',lambda e:errors.append(str(e)));page.on('console',lambda m:console.append(m.text) if m.type=='error' else None);page.on('requestfailed',lambda r:failed.append({'url':r.url,'failure':r.failure}));page.on('response',lambda r:bad.append({'status':r.status,'url':r.url}) if r.status>=400 else None)\n def clear_events():errors.clear();console.clear();failed.clear();bad.clear()\n def visit(key,width,height,screenshot=None,scroll=None):\n  page.set_viewport_size({'width':width,'height':height});clear_events();route='/studio/'+quote('framework:engineering:'+key,safe='')\n  response=page.goto(base+route,wait_until='domcontentloaded',timeout=45000);page.wait_for_timeout(650)\n  if scroll is not None:\n   page.evaluate(\\\"([selector,offset]) => {const e=document.querySelector(selector);if(e)window.scrollTo(0,e.getBoundingClientRect().top+window.scrollY-offset)}\\\",list(scroll));page.wait_for_timeout(200)\n  body=page.locator('body').inner_text(timeout=10000);overflow=page.evaluate('({doc:document.documentElement.scrollWidth,body:document.body.scrollWidth,width:innerWidth})');marker=selectors[key];count=page.locator(marker).count()\n  if screenshot:page.screenshot(path=str(shots/screenshot),full_page=False)\n  return {'key':key,'route':route,'status':response.status if response else None,'primary_semantic_marker':marker,'marker_count':count,'page_errors':list(errors),'console_errors':list(console),'failed_requests':list(failed),'bad_responses':list(bad),'document_width':overflow['doc'],'body_width':overflow['body'],'viewport_width':overflow['width'],'horizontal_overflow':overflow['doc']>overflow['width']+1 or overflow['body']>overflow['width']+1,'server_error_text':('Server error' in body or 'KeyError' in body or re.search(r'\\\\b500\\\\b',body) is not None),'reference_explorer_context':('Reference Explorer' in body and key in body and 'REFERENCE' in body),'body_excerpt':body[:420]},body\n desktop,body=visit('InvestigationContextBar',1440,900,'investigation-context-bar-desktop-1440x900.png');ctx=page.locator('.cui-investigation-context[aria-label=\\\"Investigation context\\\"]');desktop['context_visible']=ctx.count()==1 and ctx.is_visible();desktop['context_labels']=[x.strip() for x in page.locator('.cui-investigation-context__label').all_text_contents()];desktop['context_values']=[x.strip() for x in page.locator('.cui-investigation-context__value').all_text_contents()];desktop['synthetic_note_visible']='Synthetic engineering example' in body and 'illustrative, not production conclusions' in body\n mobile,body=visit('InvestigationContextBar',390,844,'investigation-context-bar-mobile-390x844.png',('.cui-investigation-context',200));mobile['visible_cells']=page.evaluate(\\\"\\\"\\\"() => {const root=document.querySelector('.cui-investigation-context');return [...root.querySelectorAll('.cui-investigation-context__cell')].map(c=>{const b=c.getBoundingClientRect(),l=c.querySelector('.cui-investigation-context__label'),v=c.querySelector('.cui-investigation-context__value'),r=v.getBoundingClientRect();return {label:l.innerText,value:v.innerText,cell_in_view:b.x>=0&&b.right<=innerWidth&&b.y>=0&&b.bottom<=innerHeight,value_in_view:r.x>=0&&r.right<=innerWidth&&r.y>=0&&r.bottom<=innerHeight,content_overflow:v.scrollWidth>v.clientWidth+1}})}\\\"\\\"\\\");mobile['all_critical_fields_reachable']=len(mobile['visible_cells'])==4 and all(c['cell_in_view'] and c['value_in_view'] and not c['content_overflow'] for c in mobile['visible_cells'])\n control,body=visit('EngineeringEntityCard',1440,900,'engineering-existing-control-desktop-1440x900.png',('.cui-catalog-specimen',165));control['entity_card_visible']=page.locator('.cui-eng-entity').count()>0 and page.locator('.cui-eng-entity').first.is_visible();control['expected_entity_text']='ETCH-021 · Chamber 3' in body and 'Synthetic' in body\n matrix=[]\n for key in keys:\n  row,_=visit(key,1440,900);matrix.append(row)\n identity={'chrome_version':browser.version,'user_agent':page.evaluate('navigator.userAgent'),'playwright_version':importlib.metadata.version('playwright'),'python_version':platform.python_version(),'nicegui_version':importlib.metadata.version('nicegui'),'framework_version':subprocess.run([sys.executable,'-c','from nicegui_base.version import FRAMEWORK_VERSION;print(FRAMEWORK_VERSION)'],capture_output=True,text=True,check=True,env={**os.environ,'PYTHONPATH':str(root/'source')}).stdout.strip(),'candidate_head':subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True,check=True).stdout.strip(),'candidate_tree':subprocess.run(['git','rev-parse','HEAD\"'^{tree}'\"'],capture_output=True,text=True,check=True).stdout.strip(),'base_url':base}\n browser.close()\nreport={'identity':identity,'route_count':len(matrix),'routes':matrix,'scenarios':{'investigation_context_bar_desktop':desktop,'investigation_context_bar_mobile':mobile,'engineering_existing_control_desktop':control}}\n(evidence/'browser-run.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'identity':identity,'route_matrix':[{'key':r['key'],'status':r['status'],'marker_count':r['marker_count'],'errors':len(r['page_errors'])+len(r['console_errors'])+len(r['failed_requests'])+len(r['bad_responses']),'horizontal_overflow':r['horizontal_overflow'],'server_error':r['server_error_text']} for r in matrix],'desktop':desktop,'mobile':mobile,'control':control},indent=2,ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy python run_nicegui_base.py --port 18992'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport socket\nfor port in (18991,18992):\n with socket.socket() as sock:\n  sock.settimeout(.5)\n  result=sock.connect_ex(('127.0.0.1',port))\n print(f'{port}: '+('CLOSED' if result else 'OPEN'))\nPY\nrtk git status --short --branch && rtk git diff --check && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git rev-parse HEAD''^ && rtk git rev-parse origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1 refs/heads/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport json, shutil, subprocess, hashlib\nfrom datetime import datetime, timezone\nfrom pathlib import Path\nroot=Path.cwd(); out=Path('/tmp/chg259-project-artifact')\nout.mkdir(parents=True,exist_ok=True)\nshots=out/'screenshots'; shots.mkdir(exist_ok=True)\nscreen_src=Path('/tmp/chg259-candidate-evidence/screenshots')\nfor name in ('investigation-context-bar-desktop-1440x900.png','investigation-context-bar-mobile-390x844.png','engineering-existing-control-desktop-1440x900.png'):\n shutil.copy2(screen_src/name,shots/name)\nshutil.copy2(Path('/tmp/chg259-base-negative-control.png'),shots/'base-negative-control-500.png')\nrun=json.loads(Path('/tmp/chg259-candidate-evidence/browser-run.json').read_text())\nhead=subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True,check=True).stdout.strip()\ntree=subprocess.run(['git','rev-parse','HEAD\"'^{tree}'\"'],capture_output=True,text=True,check=True).stdout.strip()\nparent=subprocess.run(['git','rev-parse','HEAD\"'^'\"'],capture_output=True,text=True,check=True).stdout.strip()\nremote_main=subprocess.run(['git','rev-parse','origin/main'],capture_output=True,text=True,check=True).stdout.strip()\nworktree=subprocess.run(['git','status','--porcelain'],capture_output=True,text=True,check=True).stdout\nassert head=='98cf1e2133ae482ca6a8a24a945d004bbc3c50f6'\nassert tree=='28fea2880de94174dbb1d741e5f91c7e14345aeb'\nassert parent=='8024c21adad310881d6f3bbc04b00da1f4f03d31'\nassert remote_main=='8024c21adad310881d6f3bbc04b00da1f4f03d31'\nassert not worktree\nbrowser=json.loads(Path('/tmp/chg259-candidate-evidence/browser-run.json').read_text())\ncanonical=json.loads((root/'source/nicegui_base/ai/framework_catalog.json').read_text())\ncanonical_keys=sorted(item['_registry_key'] for item in canonical['registries']['engineering'])\nprevious_keys=sorted(['EngineeringEntityCard','EngineeringStatusBadge','SpecLimitIndicator','OutOfSpecIndicator','BaselineComparison','ProcessTrendSpec','DistributionComparisonSpec','PopulationComparisonPanel','CommonalityTable','EvidenceCard','ConfidenceIndicator','RcaEvidencePanel','RcaWorkspaceSpec','EngineeringTimeline'])\nbase_keys=set(canonical_keys)\nbase_workbench=sorted(base_keys-{'InvestigationContextBar'})\nmanifest={\n 'schema_version':1,'package_type':'candidate_bound_targeted_evidence','created_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds'),\n 'project':'nicegui-base','change':'CHG-259','operation':'FIX','request':'stable3-engineering-workbench-renderer-parity-fix-1',\n 'fabric_job':'CF-780c1a66a32b386604aa9361','repository':'kimhw8084/nicegui-base',\n 'target_branch':'main','target_base_sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','target_base_tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393',\n 'work_branch':'codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1',\n 'candidate_head':head,'candidate_tree':tree,'candidate_parent':parent,\n 'artifact_ref':'refs/heads/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1',\n 'fabric_evidence_ref':'refs/heads/codex-fabric/evidence/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1',\n 'fabric_native_audit':'Fabric-owned .codex-fabric/audit.json; not synthesized in this package',\n 'origin_main_before_publish':remote_main,\n 'source_change_files':['source/nicegui_base/workbench/domain_specimens.py','source/tests/test_workbench_chg259_engineering_renderer_parity.py'],\n 'runtime_identity':{'python':'3.11.7','nicegui':'3.15.0','framework':'3.0.0a8'},\n 'browser_identity':{k:browser['identity'][k] for k in ('chrome_version','user_agent','playwright_version','base_url')},\n 'claim_boundary':['Workbench engineering catalog-to-specimen parity only','Repairs the registered InvestigationContextBar route 500 only','Ready for independent Project OS audit only; no self-declared GO','No claim of CHG-257 exhaustive atlas completion, Golden UI v3 visual perfection, CHG-100 human acceptance, browser-chrome 200% zoom, CHG-59 work-computer qualification, or stable 3.0.0 readiness/publication/deployment']\n}\nparity={\n 'project':'nicegui-base','change':'CHG-259','candidate_head':head,'candidate_tree':tree,\n 'canonical_authority':'source/nicegui_base/ai/framework_catalog.json → registries.engineering',\n 'shared_workbench_authority':'source/nicegui_base/workbench/domain_specimens.py → ENGINEERING_KEYS / render_engineering',\n 'base':{'catalog_count':15,'workbench_count':14,'catalog_keys':canonical_keys,'workbench_keys':base_workbench,'missing_from_workbench':['InvestigationContextBar'],'extra_in_workbench':[],'only_missing_key':'InvestigationContextBar'},\n 'candidate':{'catalog_count':15,'workbench_count':15,'catalog_keys':canonical_keys,'workbench_keys':canonical_keys,'missing_from_workbench':[],'extra_in_workbench':[],'exact_parity':True,'added_key':'InvestigationContextBar'},\n 'previously_supported_14_keys_preserved':previous_keys,\n 'dispatch_path':'render_catalog_example → render_engineering → nicegui_base.integrations.nicegui_engineering.InvestigationContextBar',\n 'typed_spec':'nicegui_base.engineering.InvestigationContextSpec',\n 'synthetic_values':{'investigation_id':'SYN-INV-259-001','hypothesis':'Illustrative chamber CD shift','owner':'Example Process Engineer','stage':'Evidence review · synthetic','updated':'Synthetic fixture · 2026-09-26 09:00 UTC'},\n 'global_note':'Synthetic engineering example — evidence and confidence below are illustrative, not production conclusions.',\n 'regression_test':'source/tests/test_workbench_chg259_engineering_renderer_parity.py'\n}\nbase_neg={\n 'control':'exact base before source edits','base_sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','base_tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393',\n 'canonical_launcher':'python run_nicegui_base.py --port 18991','installed_browser':'Google Chrome 153.0.8010.54 via Playwright 1.62.0',\n 'route':'/studio/framework%3Aengineering%3AInvestigationContextBar','http_status':500,'visible_page_error':'500 · Server error · KeyError: \\\\'InvestigationContextBar\\\\'',\n 'server_traceback':'app.studio_page → _studio_entry_page → capability_studio.render_capability_studio/render_preview/default_preview → catalog_runtime.render_catalog_example → domain_specimens.render_engineering ENGINEERING_KEYS membership rejection',\n 'exception':'KeyError: \\\\'InvestigationContextBar\\\\'','base_catalog_engineering_count':15,'base_workbench_engineering_count':14,\n 'missing_from_workbench':['InvestigationContextBar'],'result':'PASS — exact-base negative control reproduced the established failure class before source edits',\n 'screenshot':'screenshots/base-negative-control-500.png','server_pid':39787,'port_closed_after_run':True\n}\n# The full matrix is the final exact-candidate Playwright run. Its route semantic markers are all present.\nroute_matrix=browser\nassert route_matrix['identity']['candidate_head']==head and route_matrix['identity']['candidate_tree']==tree\nassert len(route_matrix['routes'])==15 and all(r['status']==200 and r['marker_count']>0 and not r['page_errors'] and not r['console_errors'] and not r['failed_requests'] and not r['bad_responses'] and not r['horizontal_overflow'] and not r['server_error_text'] for r in route_matrix['routes'])\nassert route_matrix['scenarios']['investigation_context_bar_desktop']['reference_explorer_context']\nassert route_matrix['scenarios']['investigation_context_bar_mobile']['all_critical_fields_reachable']\ncommands={\n 'execution_environment':{'rtk':'0.42.4','python_executable':'/opt/anaconda3/bin/python','working_directory':'source for pytest commands','virtualenv':'repository .venv absent; installed supported Python 3.11.7/NiceGUI 3.15.0 used'},\n 'commands':[\n  {'command':'nicegui-base agent-context \\\"Restore Workbench engineering capability renderer parity for InvestigationContextBar using existing governed specimen\\\" --format json','exit_code':0,'status':'PASS'},\n  {'command':'nicegui-base catalog-search \\\"engineering InvestigationContextBar investigation context renderer\\\" --format json','exit_code':0,'status':'PASS'},\n  {'command':'python run_nicegui_base.py --port 18991','exit_code':0,'status':'PASS_NEGATIVE_CONTROL','detail':'Exact base route returned HTTP 500 with KeyError; base server stopped and port closed.'},\n  {'command':'python -m pytest -q tests/test_workbench_chg259_engineering_renderer_parity.py tests/test_workbench_d6d_catalog_contracts.py tests/test_workbench_d6h_visual_reference.py tests/test_workbench_d6h1_visual_closure.py tests/test_workbench_d6h2_visual_closure.py tests/test_workbench_d6h3_golden_semantics.py tests/test_phase26_v17_phase6_content_workflow_rca.py tests/test_phase9_adapter_contract.py tests/test_phase9_registry_css.py tests/test_phase19_rendered_product_hardening.py','working_directory':'source','exit_code':0,'status':'PASS'},\n  {'command':'git diff --check','exit_code':0,'status':'PASS'},\n  {'command':'python run_nicegui_base.py --check','exit_code':0,'status':'PASS'},\n  {'command':'nicegui-base runtime-contract','exit_code':0,'status':'PASS','detail':'48 factories / 1176 direct calls checked'},\n  {'command':'nicegui-base runtime-smoke --port 0','exit_code':0,'status':'PASS','detail':'23/23 health/foundation/product routes returned 200; generated tracked smoke report/log restored to repository HEAD afterward.'},\n  {'command':'Google Chrome 153.0.8010.54 via Playwright 1.62.0; 15 canonical engineering Studio routes + InvestigationContextBar desktop/mobile + EngineeringEntityCard control','exit_code':0,'status':'PASS','detail':'See browser-route-matrix.json and screenshots.'},\n  {'command':'python -m nicegui_base.validate .','exit_code':1,'status':'FAIL_PRE_EXISTING','detail':'1 pre-existing AI000 syntax error in tools/verify_development_D6H2_browser.py:154; 56 existing warnings; no changed-area finding.'},\n  {'command':'nicegui-base agent-check .','exit_code':1,'status':'FAIL_PRE_EXISTING','detail':'Generated .nicegui_base scaffold absent; same pre-existing AI000 syntax error and 56 existing warnings.'},\n  {'command':'nicegui-base gate .','exit_code':1,'status':'FAIL_PRE_EXISTING_GATE','detail':'Root application manifest/dependency pin/entrypoint scaffold missing; pre-existing D6H2 syntax error; unchanged test_wave35_theme_persistence.py expects requested===system in app.py; application build-page cannot resolve entrypoint.'},\n  {'command':'python -m pytest -q','working_directory':'source','exit_code':1,'status':'FAIL_UNRELATED_LEGACY','detail':'15 failures in phase39/44 StateKey generic construction, phase45 snapshot restore, phase48/50/58 generated application templates, and phase71 release-package determinism. CHG-259/Workbench/engineering selected tests pass.'}\n ],\n 'server_cleanup':{'negative_control':{'pid':39787,'port':18991,'terminated':True,'port_closed':True},'candidate':{'pid':60831,'port':18992,'terminated':True,'port_closed':True}},\n 'source_postflight':{'candidate_head':head,'candidate_tree':tree,'candidate_parent':parent,'origin_main_unchanged':remote_main=='8024c21adad310881d6f3bbc04b00da1f4f03d31','worktree_clean':True,'generated_evidence_on_product_branch':False}\n}\nsummary={\n 'result':'READY_FOR_INDEPENDENT_PROJECT_OS_AUDIT_ONLY',\n 'candidate':{'head':head,'tree':tree,'parent':parent,'branch':'codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1'},\n 'changed_files':['source/nicegui_base/workbench/domain_specimens.py','source/tests/test_workbench_chg259_engineering_renderer_parity.py'],\n 'product_acceptance':{'exact_base_negative_control':'PASS','catalog_parity':'PASS · 15/15 exact','focused_workbench_engineering_tests':'PASS','browser_route_parity_sweep':'PASS · 15/15','candidate_mobile_desktop_scenarios':'PASS','representative_existing_control':'PASS','runtime_contract':'PASS','runtime_smoke':'PASS'},\n 'broad_checks':{'framework_validate':'FAIL · pre-existing AI000 syntax error + 56 warnings; no changed-area findings','agent_check':'FAIL · scaffold absent + same AI000 / 56 warnings','gate':'FAIL · incomplete root app scaffold and existing Wave35 theme expectation mismatch','full_source_pytest':'FAIL · 15 unrelated legacy failures; no CHG-259/Workbench/engineering selected test failures'},\n 'target_main':'unchanged at 8024c21adad310881d6f3bbc04b00da1f4f03d31','worktree_clean':True,\n 'server_cleanup':'PASS · PIDs 39787/60831 terminated; ports 18991/18992 closed',\n 'readiness':'Independent Project OS audit only; no GO declaration.'\n}\nfiles={'manifest.json':manifest,'engineering-parity.json':parity,'base-negative-control.json':base_neg,'browser-route-matrix.json':route_matrix,'commands.json':commands,'validation-summary.json':summary}\nfor name,value in files.items():(out/name).write_text(json.dumps(value,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'artifact_staging':str(out),'files':sorted([*files.keys(),*[f'screenshots/{p.name}' for p in shots.iterdir()]]),'candidate_head':head,'candidate_tree':tree,'parent':parent,'remote_main':remote_main},indent=2))\nPY\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 738,
+        "output_sha256": "08f77725fd6a09d36f00e795ef75303fb349076dd515af3987045eb1e7ee58ba",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport hashlib, json\nfrom pathlib import Path\nroot=Path('/tmp/chg259-project-artifact')\ncommands=json.loads((root/'commands.json').read_text())\nfor item in commands['commands']:\n    if item['command']=='python run_nicegui_base.py --port 18991':\n        item.pop('exit_code',None)\n        item['server_lifecycle']='Started successfully; intentionally stopped with SIGINT after capture, then TCP port 18991 verified closed.'\n(root/'commands.json').write_text(json.dumps(commands,indent=2,ensure_ascii=False)+'\\\\n')\nmanifest=json.loads((root/'manifest.json').read_text())\nmanifest['evidence_screenshots']={}\nfor path in sorted((root/'screenshots').glob('*.png')):\n    import struct\n    raw=path.read_bytes()\n    width,height=struct.unpack('>II',raw[16:24])\n    manifest['evidence_screenshots'][path.name]={'path':'screenshots/'+path.name,'width':width,'height':height,'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}\n(root/'manifest.json').write_text(json.dumps(manifest,indent=2,ensure_ascii=False)+'\\\\n')\nlines=[]\nfor path in sorted(p for p in root.rglob('*') if p.is_file() and p.name\"'!='\"'SHA256SUMS.txt'):\n    lines.append(f\\\"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.relative_to(root).as_posix()}\\\")\n(root/'SHA256SUMS.txt').write_text('\\\\n'.join(lines)+'\\\\n')\nprint(json.dumps({'file_count':len(lines)+1,'screenshots':manifest['evidence_screenshots'],'sha256_manifest':'SHA256SUMS.txt'},indent=2))\nPY\nrtk proxy python - <<'PY'\nimport hashlib\nfrom pathlib import Path\nroot=Path('/tmp/chg259-project-artifact')\nfail=[]\nfor line in (root/'SHA256SUMS.txt').read_text().splitlines():\n    digest,rel=line.split('  ',1)\n    actual=hashlib.sha256((root/rel).read_bytes()).hexdigest()\n    if digest\"'!=actual: fail.append(rel)\nprint({'\"'verified_files':len((root/'SHA256SUMS.txt').read_text().splitlines()),'failures':fail})\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree add --detach /tmp/chg259-project-artifact-worktree 98cf1e2133ae482ca6a8a24a945d004bbc3c50f6'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python - <<'PY'\nimport shutil\nfrom pathlib import Path\nsrc=Path('/tmp/chg259-project-artifact')\ndst=Path('/tmp/chg259-project-artifact-worktree/project_artifacts/CHG-259')\ndst.parent.mkdir(parents=True,exist_ok=True)\nshutil.copytree(src,dst,dirs_exist_ok=True)\nprint(dst)\nPY\nrtk git status --short --branch && rtk git diff --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport shutil\nfrom pathlib import Path\nsrc=Path('/tmp/chg259-project-artifact')\ndst=Path('/tmp/chg259-project-artifact-worktree/project_artifacts/CHG-259')\ndst.parent.mkdir(parents=True,exist_ok=True)\nshutil.copytree(src,dst,dirs_exist_ok=True)\nprint(dst)\nPY\nrtk git status --short --branch && rtk git diff --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add project_artifacts/CHG-259 && rtk git commit -m \"Publish CHG-259 engineering parity evidence\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git show -s --format='\"'%H%n%T%n%P' HEAD && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1:refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport hashlib,json,subprocess\nref='refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1'\ndef git(*args): return subprocess.run(['git',*args],capture_output=True,check=True).stdout\ncommit=git('rev-parse',ref).decode().strip(); tree=git('rev-parse',ref+'\"'^{tree}'\"').decode().strip(); parents=git('show','-s','--format=%P',ref).decode().strip().split()\nprefix='project_artifacts/CHG-259/'\nsums=git('show',f'{ref}:{prefix}SHA256SUMS.txt').decode()\nverified=[]; failures=[]\nfor line in sums.splitlines():\n expected,rel=line.split('  ',1); content=git('show',f'{ref}:{prefix}{rel}'); actual=hashlib.sha256(content).hexdigest(); verified.append(rel)\n if actual\"'!=expected: failures.append({'\"'path':rel,'expected':expected,'actual':actual})\nmanifest=json.loads(git('show',f'{ref}:{prefix}manifest.json'))\nmain=git('ls-remote','origin','refs/heads/main').decode().strip().split()[0]\nproduct=git('ls-remote','origin','refs/heads/codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1').decode().strip().split()[0]\nrequired={'manifest.json','engineering-parity.json','base-negative-control.json','browser-route-matrix.json','commands.json','validation-summary.json','SHA256SUMS.txt','screenshots/investigation-context-bar-desktop-1440x900.png','screenshots/investigation-context-bar-mobile-390x844.png','screenshots/engineering-existing-control-desktop-1440x900.png'}\nprint(json.dumps({'artifact_ref':ref,'artifact_commit':commit,'artifact_tree':tree,'parents':parents,'sole_parent_is_candidate':parents==[manifest['candidate_head']],'candidate_head':manifest['candidate_head'],'candidate_tree':manifest['candidate_tree'],'remote_product_branch':product,'origin_main':main,'origin_main_unchanged':main==manifest['target_base_sha'],'hashes_verified':len(verified),'hash_failures':failures,'required_files_present':required<=set(verified)|{'screenshots/base-negative-control-500.png'},'verified_paths':verified},indent=2))\nassert parents==[manifest['candidate_head']]\nassert not failures\nassert required<=set(verified)|{'screenshots/base-negative-control-500.png'}\nassert main==manifest['target_base_sha']\nassert product==manifest['candidate_head']\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /opt/anaconda3/bin/python - <<'PY'\nimport hashlib,json,subprocess\nref='refs/remotes/origin/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1'\ndef git(*args): return subprocess.run(['git',*args],capture_output=True,check=True).stdout\ncommit=git('rev-parse',ref).decode().strip(); tree=git('rev-parse',ref+'\"'^{tree}'\"').decode().strip(); parents=git('show','-s','--format=%P',ref).decode().strip().split()\nprefix='project_artifacts/CHG-259/'; sums=git('show',f'{ref}:{prefix}SHA256SUMS.txt').decode(); verified=[]; failures=[]\nfor line in sums.splitlines():\n expected,rel=line.split('  ',1); content=git('show',f'{ref}:{prefix}{rel}'); actual=hashlib.sha256(content).hexdigest(); verified.append(rel)\n if actual\"'!=expected: failures.append({'\"'path':rel,'expected':expected,'actual':actual})\nmanifest=json.loads(git('show',f'{ref}:{prefix}manifest.json'))\nmain=git('ls-remote','origin','refs/heads/main').decode().strip().split()[0]\nproduct=git('ls-remote','origin','refs/heads/codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1').decode().strip().split()[0]\nrequired={'manifest.json','engineering-parity.json','base-negative-control.json','browser-route-matrix.json','commands.json','validation-summary.json','screenshots/investigation-context-bar-desktop-1440x900.png','screenshots/investigation-context-bar-mobile-390x844.png','screenshots/engineering-existing-control-desktop-1440x900.png'}\npresent=set(verified)|{'SHA256SUMS.txt'}\nprint(json.dumps({'artifact_ref':ref,'artifact_commit':commit,'artifact_tree':tree,'parents':parents,'sole_parent_is_candidate':parents==[manifest['candidate_head']],'candidate_head':manifest['candidate_head'],'candidate_tree':manifest['candidate_tree'],'remote_product_branch':product,'origin_main':main,'origin_main_unchanged':main==manifest['target_base_sha'],'hashes_verified':len(verified),'hash_failures':failures,'required_files_present':required<=present,'verified_paths':sorted(present)},indent=2))\nassert parents==[manifest['candidate_head']] and not failures and required<=present\nassert main==manifest['target_base_sha'] and product==manifest['candidate_head']\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree remove /tmp/chg259-project-artifact-worktree && rtk git worktree list --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --porcelain=v1 && rtk git diff --check && rtk git diff --stat 8024c21adad310881d6f3bbc04b00da1f4f03d31..HEAD && rtk git diff --name-status 8024c21adad310881d6f3bbc04b00da1f4f03d31..HEAD && rtk git show -s --format='%H%n%T%n%P' HEAD && rtk git ls-remote origin refs/heads/main refs/heads/codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1 refs/heads/project-os-artifacts/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex-fabric/evidence/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy nl -ba source/nicegui_base/workbench/domain_specimens.py && rtk proxy nl -ba source/tests/test_workbench_chg259_engineering_renderer_parity.py | head -30 && rtk git status --porcelain=v1 && rtk git worktree list --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 159,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.57,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 8130432,
+      "fresh_input_tokens": 202793,
+      "input_tokens": 8333225,
+      "non_reasoning_output_tokens": 25838,
+      "output_tokens": 66759,
+      "reasoning_output_tokens": 40921,
+      "total_processed_tokens": 8399984
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "98cf1e2133ae482ca6a8a24a945d004bbc3c50f6",
+      "subject": "Fix engineering Workbench specimen parity"
+    }
+  ],
+  "diff": {
+    "additions": 146,
+    "changed_files": 2,
+    "commit_count": 1,
+    "deletions": 1
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-26T15:19:49Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "branch": "codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1",
+    "detached_verify": false,
+    "head_sha": "98cf1e2133ae482ca6a8a24a945d004bbc3c50f6",
+    "remote_exact_head": true,
+    "remote_head_sha": "98cf1e2133ae482ca6a8a24a945d004bbc3c50f6",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "work_branch": "codex/nicegui-base-stable3-engineering-workbench-renderer-parity-fix-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-780c1a66a32b386604aa9361",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-engineering-workbench-renderer-parity-fix-1"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-engineering-workbench-renderer-parity-fix-1",
+  "schema_version": 1,
+  "started_at": "2026-09-26T14:52:58Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1611,
+    "queue_seconds": 1,
+    "total_seconds": 1612
+  },
+  "transport": {
+    "bytes": 12086,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 11712,
+    "prompt_sha256": "803db136a07430d8b7c7cebb679648f4f66ebb97f828dda55b326a16bf5b46b1",
+    "sha256": "780c1a66a32b386604aa9361747e84d40c3cfab2a42a5d038b2269d952229dbf"
+  }
+}
