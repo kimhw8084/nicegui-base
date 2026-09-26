@@ -1,0 +1,372 @@
+{
+  "accepted_at": "2026-09-26T14:17:29Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"import importlib.util, shutil, sys; print(sys.version); print('playwright=',bool(importlib.util.find_spec('playwright'))); print('google_chrome=',shutil.which('google-chrome')); print('chromium=',shutil.which('chromium')); print('chrome=',shutil.which('chrome')); print('playwright_driver=',shutil.which('playwright'))\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' run_nicegui_base.py && rtk sed -n '1,280p' source/nicegui_base/workbench/launcher.py && rtk sed -n '1,340p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse origin/main && rtk git status --short --branch && rtk git show-ref --verify refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-2'",
+      "exit_code": 128,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1 && rtk git show FETCH_HEAD:visual-atlas/surface-manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"@ui\\\\.page|ui\\\\.page\\\\(|add_page|run_workbench|register.*route|ROUTE|NavigationModel|NavSection\\\\(\\\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/*.py | head -n 240\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' source/nicegui_base/workbench/catalog.py && rtk sed -n '1,280p' source/nicegui_base/workbench/registry_adapters.py && rtk sed -n '1,220p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"import subprocess,json; s=subprocess.check_output(['git','show','FETCH_HEAD:visual-atlas/surface-manifest.json'],text=True); d=json.loads(s); print('schema',d.get('schema_version'),'count',len(d.get('surfaces',[])),'source',d.get('source_sha')); print('\\\\\\\\n'.join(x['surface_key']+'\\\\\\\\t'+x['canonical_route']+'\\\\\\\\t'+x.get('state','') for x in d['surfaces']))\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"from pathlib import Path; import os; from playwright.sync_api import sync_playwright; p=sync_playwright().start(); x=Path(p.chromium.executable_path); print('playwright_chromium=',x, x.exists()); print('platform_candidates=',[(str(y),y.exists()) for y in [Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'),Path('/Applications/Chromium.app/Contents/MacOS/Chromium'),Path('/usr/bin/chromium'),Path('/usr/bin/google-chrome'),Path('/opt/google/chrome/chrome')]]); p.stop()\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base catalog-audit --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -eo pid,ppid,stat,command | rg 'run_nicegui_base|uvicorn|nicegui'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1930,2168p' source/nicegui_base/workbench/app.py && rtk sed -n '1,260p' source/nicegui_base/certification/mac_lab.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '280,430p' source/nicegui_base/workbench/registry_adapters.py && rtk sed -n '1,260p' source/nicegui_base/workbench/models.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --version\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS -o /dev/null -w '%{http_code} %{url_effective}\\\\n' http://127.0.0.1:51847/\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"import subprocess,json,collections; d=json.loads(subprocess.check_output(['git','show','FETCH_HEAD:visual-atlas/surface-manifest.json'],text=True)); print(json.dumps(collections.Counter(x['surface_key'].split('-')[0] for x in d['surfaces']))); print('\\\\\\\\n'.join(x['surface_key'] for x in d['surfaces']))\\\"\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"from nicegui_base.workbench.catalog import all_entries; from nicegui_base.workbench.models import WorkbenchKind; from nicegui_base.workbench.app import REFERENCE_PATTERN_ROUTES; from nicegui_base.certification import mac_lab; from nicegui_base.workbench.full_applications import FULL_APPLICATION_REGISTRY; import json,collections; es=all_entries(); print('entry_count',len(es),'kind_counts',dict(collections.Counter(e.kind.value for e in es))); print('component keys',sum(e.kind is WorkbenchKind.COMPONENT for e in es)); print('route_paths',len(mac_lab.ROUTES)); print('lab_routes',json.dumps([r.path for r in mac_lab.ROUTES])); print('applications',json.dumps(list(FULL_APPLICATION_REGISTRY))); print('workbench routes',json.dumps(['/','/build','/design','/settings','/catalog','/components','/patterns','/layouts','/studio/{entry_key}','/catalog/component/{component_key}','/catalog/{registry_name}/{entry_key}','/analytics','/analytics/{surface_key}','/recipes','/applications','/applications/{application_key}','/recipes/{recipe_key}','/workbench/data','/quality','/ai-guide'])); print('sample reference entries',json.dumps([{'key':e.key,'kind':e.kind.value,'title':e.title,'route':e.route,'authority':e.source_authority,'metadata':{k:v for k,v in e.metadata.items() if k not in ('catalog_item',)}} for e in es if e.kind is WorkbenchKind.REFERENCE][:20],default=str))\\\"\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"def studio_page|def catalog_detail_page|def component_detail_page|def _studio|def catalog_page|def components_page|def analytics_gallery_page\" source/nicegui_base/workbench/app.py'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD HEAD''^{tree} origin/main origin/main''^{tree} && rtk git status --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"def studio_page|def catalog_detail_page|def component_detail_page|def _studio|def catalog_page|def components_page|def analytics_gallery_page\" source/nicegui_base/workbench/app.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"import subprocess,json,collections; d=json.loads(subprocess.check_output(['git','show','FETCH_HEAD:visual-atlas/surface-manifest.json'],text=True)); print(json.dumps(collections.Counter(x['surface_key'].split('-')[0] for x in d['surfaces']))); print('\\\\\\\\n'.join(x['surface_key'] for x in d['surfaces']))\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"from nicegui_base.workbench.catalog import all_entries; from nicegui_base.workbench.models import WorkbenchKind; from nicegui_base.certification import mac_lab; from nicegui_base.workbench.full_applications import FULL_APPLICATION_REGISTRY; import json,collections; es=all_entries(); print('entry_count',len(es),'kind_counts',dict(collections.Counter(e.kind.value for e in es))); print('route_paths',len(mac_lab.ROUTES)); print('lab_routes',json.dumps([r.path for r in mac_lab.ROUTES])); print('applications',json.dumps(list(FULL_APPLICATION_REGISTRY))); print('sample reference entries',json.dumps([{'key':e.key,'kind':e.kind.value,'title':e.title,'route':e.route,'authority':e.source_authority,'metadata':{k:v for k,v in e.metadata.items() if k not in ('catalog_item',)}} for e in es if e.kind is WorkbenchKind.REFERENCE][:25],default=str))\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '740,960p' source/nicegui_base/workbench/app.py && rtk sed -n '200,330p' source/nicegui_base/workbench/registry_adapters.py && rtk sed -n '1,180p' source/nicegui_base/workbench/full_applications.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n    b = p.chromium.launch(headless=True, executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    c = b.new_context(viewport={'width':1440,'height':900}, device_scale_factor=1, locale='en-US', timezone_id='America/Chicago', color_scheme='light', reduced_motion='reduce')\n    pg = c.new_page()\n    for path in ['/', '/patterns', '/patterns/dashboard', '/workbench/data', '/studio/framework%3Aanalysis%3Aanalysis_context', '/analytics/spc_i_mr', '/catalog']:\n        r = pg.goto('http://127.0.0.1:51847'+path, wait_until='domcontentloaded', timeout=30000)\n        pg.wait_for_timeout(350)\n        print(path, r.status if r else None, pg.title(), pg.locator('body').inner_text(timeout=5000)[:160].replace('\\\\n',' | '), pg.locator('.cui-page').count(), pg.locator('.cui-lab-page').count(), pg.locator('main').count())\n    c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r -l FETCH_HEAD visual-atlas/screenshots | rtk sed -n '1,15p' && rtk git ls-tree -r -l FETCH_HEAD visual-atlas/screenshots | rtk python -c \\\"import sys,re,statistics; a=[]; [a.append(int(x.split()[3])) for x in sys.stdin if ' blob ' in x and re.search(r'--(?:desktop|mobile)-',x)]; print('files',len(a),'min',min(a),'median',statistics.median(a),'mean',round(statistics.mean(a)),'max',max(a),'sumMB',round(sum(a)/1e6,2))\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c \\\"from pathlib import Path; p=Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence'); print(p, 'exists=',p.exists())\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n  b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n  c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce')\n  pg=c.new_page(); pg.goto('http://127.0.0.1:51847/patterns',wait_until='domcontentloaded'); pg.wait_for_timeout(400)\n  print('label count',pg.get_by_label('Selected application pattern',exact=True).count())\n  print('inputs',pg.locator('input').evaluate_all('(xs)=>xs.map(x=>({aria:x.getAttribute(\\\"aria-label\\\"),role:x.getAttribute(\\\"role\\\"),type:x.type,placeholder:x.placeholder})).filter(x=>x.aria||x.role).slice(0,20)'))\n  print('context',pg.locator('.cui-unified-pattern-context').inner_text())\n  pg.get_by_label('Selected application pattern',exact=True).click(); pg.wait_for_timeout(200)\n  print('options',pg.get_by_role('option').all_text_contents()[:15])\n  pg.get_by_role('option',name='Data Explorer',exact=True).click(); pg.wait_for_timeout(500)\n  print('newctx',pg.locator('.cui-unified-pattern-context').inner_text())\n  c.close(); b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n  b=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce'); pg=c.new_page(); pg.goto('http://127.0.0.1:51847/patterns',wait_until='domcontentloaded'); pg.wait_for_timeout(300); pg.get_by_role('combobox',name='Selected application pattern').click(); pg.wait_for_timeout(150); print('options',pg.get_by_role('option').all_text_contents()); pg.get_by_role('option',name='Data Explorer',exact=True).click(); pg.wait_for_timeout(500); print(pg.locator('.cui-unified-pattern-context').inner_text()); c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom __future__ import annotations\nimport json, re, subprocess, sys, hashlib\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nfrom nicegui_base.workbench.app import workbench_navigation, REFERENCE_PATTERN_ROUTES\nfrom nicegui_base.workbench.catalog import all_entries\nfrom nicegui_base.workbench.models import WorkbenchKind\nfrom nicegui_base.certification import mac_lab\nfrom nicegui_base.workbench.full_applications import FULL_APPLICATION_REGISTRY\nfrom nicegui_base.patterns.registry import PATTERN_REGISTRY\n\nROOT = Path('/Users/haewonkim/.codex-fabric/worktrees/CF-57e5ab24d927c3f4321d419c')\nOUT = Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence')\nBASE = '8024c21adad310881d6f3bbc04b00da1f4f03d31'\nTREE = 'fcc6294ba8f7c36b68b88a217e65b7efb3050393'\nBASELINE_REF = 'refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1'\nBASELINE_COMMIT = '1fd12d6477010c58cb477dd836d984c6b99e7bbf'\nURL = 'http://127.0.0.1:51847'\nCHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\n\nif OUT.exists():\n    raise SystemExit(f'Fresh evidence directory already exists; refusing to reuse: {OUT}')\nOUT.mkdir(parents=True)\n(OUT / 'visual-atlas' / 'screenshots').mkdir(parents=True)\n\ndef slug(value: str) -> str:\n    value = value.casefold().replace('_', '-')\n    return re.sub(r'[\"'^a-z0-9-]+'\"', '-', value).strip('-')\n\ndef iso_now() -> str:\n    return datetime.now(timezone.utc).isoformat()\n\ndef candidate(key, route, *, title, kind, owner, nav, state='representative populated normal state', subview='primary', aliases=(), metadata=None, interaction=None, task=None, theme='system'):\n    return {\n        'surface_key': key,\n        'canonical_route': route,\n        'canonical_navigation_intent': nav,\n        'aliases': sorted(set(aliases)),\n        'persistent_state': state,\n        'subview': subview,\n        'role_identity_fixture': {'role':'local developer / reference explorer / governed Product fixtures','identity':'neutral Member fallback from the local reference runtime','fixture':'current registered Workbench and canonical NiceGUI Base fixtures'},\n        'theme': theme,\n        'runtime_ready_assertion': 'document.readyState=complete; document.fonts.status=loaded; application shell and primary current object present; no accidental auth wall, crash boundary, or unresolved loading state',\n        'expected_primary_task_current_object': {'task': task or 'Inspect this registered NiceGUI Base workspace or capability and decide its legitimate next action.','object':title},\n        'canonical_screenshots': {\n            'desktop': f'visual-atlas/screenshots/{key}--desktop-1440x900.png',\n            'mobile': f'visual-atlas/screenshots/{key}--mobile-390x844.png'\n        },\n        'source_sha': BASE,\n        'tree_sha': TREE,\n        'discovered_owner_registry_renderer_authority': owner,\n        'historical_r16': None,\n        'discovery': {'route': route, 'expected_title':title, 'kind':kind, 'metadata':metadata or {}, 'interaction':interaction},\n        'runtime_discovery': {'status':'PENDING','route_status':None,'application_shell_present':False,'primary_object_present':False,'body_chars':0,'actual_url':None,'failure':None},\n    }\n\ncs=[]\nbase_map = [\n ('workbench-start','/','Start Here','Workbench route registration → home_page'),\n ('workbench-build','/build','Build','Workbench route registration → build_page'),\n ('workbench-design-system','/design','Design System','Workbench route registration → design_system_page'),\n ('workbench-settings','/settings','Settings','Workbench route registration → settings_page'),\n ('workbench-catalog','/catalog','Reference Explorer catalog','Workbench route registration → catalog_page → all_entries'),\n ('workbench-components-gallery','/components','Components','Workbench route registration → components_page → component registry'),\n ('workbench-patterns','/patterns','Application Patterns','Workbench route registration → patterns_page → PATTERN_REGISTRY'),\n ('workbench-layouts','/layouts','Layout Studio','Workbench route registration → layout_studio_page'),\n ('workbench-analytics-gallery','/analytics','Visualizations','Workbench route registration → analytics_gallery_page → semiconductor surface registry'),\n ('workbench-recipes-gallery','/recipes','Recipes','Workbench route registration → recipes_gallery_page → semiconductor recipe registry'),\n ('workbench-data','/workbench/data','Data & Tables','Workbench route registration → data_page'),\n ('workbench-quality','/quality','Quality','Workbench route registration → quality_page'),\n ('workbench-ai-guide','/ai-guide','AI Development Guide','Workbench route registration → ai_guide_page'),\n]\nnav_for={'/':'Discover → Start Here','/build':'Develop → Build','/design':'Foundations → Design System','/settings':'System → Settings','/catalog':'Foundations → Reference Explorer','/components':'Foundations → Components','/patterns':'Compose → Application Patterns','/layouts':'Compose → Layout Studio','/analytics':'Foundations → Visualizations','/recipes':'Semiconductor → Recipes','/workbench/data':'Foundations → Data & Tables','/quality':'System → Quality','/ai-guide':'Develop → AI Guide'}\nfor key,path,title,owner in base_map:\n    aliases=[]\n    if path=='/settings': aliases.append('/patterns/settings')\n    if path=='/patterns': aliases.append('/applications')\n    cs.append(candidate(key,path,title=title,kind='workbench',owner=owner,nav=nav_for[path],aliases=aliases,task=f'Discover and use {title.lower()} in the Reference Explorer.'))\n\nfor route in mac_lab.ROUTES:\n    path=route.path\n    if path in {'/','/patterns/settings'}: continue\n    if path not in REFERENCE_PATTERN_ROUTES:\n        key='lab-'+slug(path.strip('/'))\n        label=path.strip('/').replace('-',' ').replace('_',' ').title()\n        cs.append(candidate(key,path,title=label,kind='registered reference lab',owner=f'current mac_lab.ROUTES[{path}] → registered reference renderer',nav=f'Reference Lab → {label}',task=f'Inspect the registered {label.lower()} design-system specimens.'))\n    else:\n        pkey=REFERENCE_PATTERN_ROUTES[path]\n        key='reference-pattern-'+slug(pkey)\n        label=pkey.replace('_',' ').title()\n        cs.append(candidate(key,path,title=label,kind='registered application pattern example',owner=f'PATTERN_REGISTRY[{pkey}] → mac_lab.ROUTES[{path}] → production registered pattern renderer',nav=f'Application Patterns → Live reference example → {label}',task=f'Operate the canonical {label} application-pattern example.'))\n\nentries=all_entries()\nfor e in entries:\n    md={k:v for k,v in e.metadata.items() if k\"'!='\"'catalog_item'}\n    if e.kind is WorkbenchKind.COMPONENT:\n        ck=str(e.metadata['component_key']); key='component-'+slug(ck); route=e.route\n        aliases=[f'/catalog/component/{quote(ck,safe=\\\"\\\")}']\n        owner=f'{e.source_authority} → registered component renderer → Capability Studio'\n        nav=f'Components → {e.title} → Live capability detail'\n        task=f'Configure and inspect the governed {e.title} component.'\n    elif e.kind is WorkbenchKind.PATTERN:\n        pk=str(e.metadata['pattern_key']); key='pattern-studio-'+slug(pk); route=e.route\n        aliases=[]; owner=f'PATTERN_REGISTRY[{pk}] → Capability Studio → registered pattern renderer'\n        nav=f'Application Patterns → Capability Studio → {e.title}'\n        task=f'Inspect the {e.title} application-pattern contract and interactive specimen.'\n    elif e.kind is WorkbenchKind.ANALYTIC:\n        sk=str(e.metadata.get('surface_key') or e.key); key='analytics-'+slug(sk); route=e.route\n        aliases=[]; owner=f'{e.source_authority} → SEMICONDUCTOR_SURFACE_REGISTRY[{sk}] → production analytical renderer'\n        nav=f'Visualizations → {e.title} → interactive detail'\n        task=f'Open and read the governed {e.title} analytical surface, including its data view and theme behavior.'\n    elif e.kind is WorkbenchKind.RECIPE:\n        rk=str(e.metadata.get('recipe_key') or e.key); key='recipe-'+slug(rk); route=e.route\n        aliases=[]; owner=f'{e.source_authority} → SEMICONDUCTOR_RECIPE_REGISTRY[{rk}] → recipe renderer'\n        nav=f'Semiconductor → Recipes → {e.title}'\n        task=f'Discover and inspect the {e.title} semiconductor recipe composition.'\n    else:\n        key='capability-'+slug(e.key); route=e.route\n        reg=str(e.metadata.get('registry_name') or '')\n        raw=str(e.metadata.get('registry_key') or '')\n        aliases=[f'/catalog/{quote(reg,safe=\\\"\\\")}/{quote(raw,safe=\\\"\\\")}'] if reg and raw and reg\"'!='\"'construction' else []\n        owner=f'{e.source_authority} → Workbench Capability Studio'\n        nav=f'Reference Explorer → {e.category or e.kind.value} → {e.title}'\n        task=f'Inspect the canonical {e.title} capability contract and decide when to use it.'\n    cs.append(candidate(key,route,title=e.title,kind=e.kind.value,owner=owner,nav=nav,aliases=aliases,metadata=md,task=task))\n\nfor key, definition in FULL_APPLICATION_REGISTRY.items():\n    cs.append(candidate('application-'+slug(key),definition.route,title=definition.title,kind='full application example',owner=f'FULL_APPLICATION_REGISTRY[{key}] → render_full_application → {definition.pattern_key}/{definition.recipe_key}',nav=f'Application Patterns → Full application references → {definition.title}',task=f'Operate the {definition.title} example against its governed synthetic fixture.'))\n\n# The default gallery state is represented by workbench-patterns; each other selected\n# canonical pattern is a materially distinct persistent main workspace state.\nfor pattern in PATTERN_REGISTRY:\n    pk=getattr(pattern,'value',str(pattern))\n    if pk=='dashboard': continue\n    title=pk.replace('_',' ').title()\n    cs.append(candidate('workbench-pattern-preview-'+slug(pk),'/patterns',title=title,kind='persistent pattern-gallery selection',owner=f'patterns_page.show_pattern({pk}) → PATTERN_REGISTRY[{pk}] → registered production pattern renderer',nav=f'Application Patterns → live gallery → selected {title}',state=f'live pattern gallery selected_pattern={pk}',subview='selected live pattern preview',interaction={'kind':'pattern_gallery_selection','key':pk,'label':title},task=f'Compare and inspect the selected {title} application-pattern composition.'))\n\nkeys=[c['surface_key'] for c in cs]\nif len(keys)\"'!=len(set(keys)):\n    dup=sorted({k for k in keys if keys.count(k)>1}); raise SystemExit(f'\"'Duplicate current surface keys from source discovery: {dup}')\n\n# Reconcile by key only after the current set has been assembled from exact source registries/routes.\nbaseline_raw=subprocess.check_output(['git','show',f'{BASELINE_COMMIT}:visual-atlas/surface-manifest.json'],cwd=ROOT,text=True)\nbaseline=json.loads(baseline_raw)\nold={s['surface_key']:s for s in baseline['surfaces']}\nfor c in cs:\n    prior=old.get(c['surface_key'])\n    c['historical_r16'] = ({'exists':True,'surface_key':prior['surface_key'],'classification':'same-key / stale-current baseline only','historical_route':prior.get('canonical_route'),'desktop_png_sha256':prior.get('desktop',{}).get('png_sha256'),'mobile_png_sha256':prior.get('mobile',{}).get('png_sha256'),'historical_source_sha':prior.get('source_sha'),'historical_tree_sha':prior.get('tree_sha')} if prior else {'exists':False,'classification':'NEW','reason':'Surface is in current source/registry/runtime inventory and has no exact historical R16 key.'})\n\n# Runtime source and route inventory, captured before any canonical screenshot.\nsource_inventory={\n 'repository':'kimhw8084/nicegui-base','project':'nicegui-base','request':'stable3-golden-ui-v3-exhaustive-current-atlas-2','operation':'VERIFY',\n 'source_sha':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),\n 'tree_sha':subprocess.check_output(['git','rev-parse','HEAD\"'^{tree}'\"'],cwd=ROOT,text=True).strip(),\n 'origin_main_sha':subprocess.check_output(['git','rev-parse','origin/main'],cwd=ROOT,text=True).strip(),\n 'origin_main_tree_sha':subprocess.check_output(['git','rev-parse','origin/main\"'^{tree}'\"'],cwd=ROOT,text=True).strip(),\n 'worktree_porcelain':subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).splitlines(),\n 'launcher':{'entrypoint':'run_nicegui_base.py','command':'python run_nicegui_base.py','preflight':'python run_nicegui_base.py --check','canonical_owner':'nicegui_base.workbench.launcher.main → nicegui_base.workbench.app.run_workbench'},\n 'runtime':{'framework_version':'3.0.0a8','nicegui_version':'3.15.0','python':sys.version,'interpreter':sys.executable,'host':'127.0.0.1','port':51847,'pid':19453,'cwd':str(ROOT),'command':'python run_nicegui_base.py','storage_state':'runtime-generated ephemeral; browser context starts with empty cookies/local storage/session storage','locale':'en-US','timezone':'America/Chicago','reduced_motion':'reduce','canonical_theme':'system (resolved light)'} ,\n 'browser':{'product':'Google Chrome','executable':CHROME,'version':subprocess.check_output([CHROME,'--version'],text=True).strip(),'playwright_version':subprocess.check_output([sys.executable,'-c','import importlib.metadata; print(importlib.metadata.version(\\\"playwright\\\"))'],text=True).strip(),'channel':'installed Google Chrome via Playwright executable_path','dpr':1},\n 'registration':{\n  'static_workbench_routes':base_map,\n  'workbench_route_source':'source/nicegui_base/workbench/app.py::register_workbench_pages / _register_reference_routes',\n  'reference_lab_routes':[r.path for r in mac_lab.ROUTES],\n  'reference_lab_route_owner':'source/nicegui_base/certification/mac_lab.py::ROUTES; app._register_reference_routes first-match skips / and /patterns/settings',\n  'workbench_navigation': [{'section':s.key,'label':s.label,'items':[{'key':i.key,'label':i.label,'route':i.route} for i in s.items]} for s in workbench_navigation().sections],\n  'catalog_entries':len(entries),'catalog_kind_counts':{k.value:sum(e.kind is k for e in entries) for k in WorkbenchKind},\n  'framework_catalog':{'canonical_total':450,'catalog_audit_total':465,'conforming':465},\n  'patterns':[getattr(x,'value',str(x)) for x in PATTERN_REGISTRY],\n  'full_applications':list(FULL_APPLICATION_REGISTRY),\n  'entrypoint_route_owners':{'component_studio':'studio_page → all_entries','component_alias':'component_detail_page → all_entries','registry_detail':'catalog_detail_page → all_entries','analytics':'analytics_detail_page → semiconductor entries','recipe':'recipe_detail_page → recipe entries','application':'full_application_detail_page → FULL_APPLICATION_REGISTRY'}\n },\n 'discovery_method':'Imported current source registries and route registrations from exact checkout; generated candidate keys without reading historical route list; live-rendered every candidate via browser navigation; historical manifest opened only after current set construction for exact-key comparison.',\n 'historical_control':{'ref':BASELINE_REF,'commit':BASELINE_COMMIT,'source_sha':baseline.get('source_sha'),'tree_sha':baseline.get('tree_sha'),'surface_count':len(old),'never_used_as_current_surface_authority':True},\n 'candidate_surface_count':len(cs)\n}\n\n# Browser-rendered discovery: verify all candidates, including stateful pattern-gallery selections.\nchecks=[]; console_events=[]; page_errors=[]; failed=[]; bad=[]\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True,executable_path=CHROME)\n    context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce')\n    page=context.new_page(); page.set_default_timeout(12000)\n    page.on('console',lambda msg: console_events.append({'type':msg.type,'text':msg.text,'url':msg.location.get('url') if msg.location else None}) if msg.type=='error' else None)\n    page.on('pageerror',lambda exc: page_errors.append(str(exc)))\n    page.on('requestfailed',lambda req: failed.append({'url':req.url,'failure':req.failure}))\n    page.on('response',lambda resp: bad.append({'url':resp.url,'status':resp.status}) if resp.status>=400 else None)\n    for ix,c in enumerate(cs,1):\n        interaction=c['discovery'].get('interaction')\n        route=c['canonical_route']\n        try:\n            response=page.goto(URL+route,wait_until='domcontentloaded',timeout=30000)\n            if interaction and interaction['kind']=='pattern_gallery_selection':\n                page.get_by_role('combobox',name='Selected application pattern').click()\n                page.get_by_role('option',name=interaction['label'],exact=True).click()\n            page.locator('body').wait_for(state='visible',timeout=12000)\n            page.evaluate('() => document.fonts.ready')\n            page.wait_for_timeout(90)\n            actual=page.url\n            text=page.locator('body').inner_text(timeout=5000)\n            shell=page.locator('.cui-page, .cui-lab-page, main').count()>0\n            title=c['discovery']['expected_title']\n            if interaction:\n                title_present=interaction['label'].casefold() in page.locator('.cui-unified-pattern-context').inner_text(timeout=3000).casefold()\n                primary=title_present\n            else:\n                title_present=title.casefold() in text.casefold()\n                primary=title_present or len(text.strip())>=200\n            crash=any(x in text.casefold() for x in ('internal server error','application error','traceback (most recent call last)','nicegui client is not connected'))\n            status=response.status if response else None\n            ready=bool(status==200 and shell and primary and not crash and len(text.strip())>=200)\n            c['runtime_discovery']={'status':'PASS' if ready else 'FAIL','route_status':status,'application_shell_present':shell,'primary_object_present':primary,'expected_title_present':title_present,'crash_boundary_present':crash,'body_chars':len(text),'actual_url':actual,'failure':None if ready else 'Rendered-state assertion failed.'}\n            checks.append({'surface_key':c['surface_key'],'path':route,'status':status,'ready':ready,'shell':shell,'title_present':title_present,'body_chars':len(text),'actual_url':actual})\n        except Exception as e:\n            c['runtime_discovery']={'status':'FAIL','route_status':None,'application_shell_present':False,'primary_object_present':False,'body_chars':0,'actual_url':page.url,'failure':f'{type(e).__name__}: {e}'}\n            checks.append({'surface_key':c['surface_key'],'path':route,'status':None,'ready':False,'failure':f'{type(e).__name__}: {e}'})\n        if ix%50==0: print(f'discovery {ix}/{len(cs)}')\n    browser_version=browser.version\n    context.close(); browser.close()\n\n# Freeze only the exact source-derived set. No screenshot bytes exist at this point.\nretired=[{'historical_surface_key':k,'historical_route':v.get('canonical_route'),'classification':'RETIRED/ALIAS','reason':'Historical R16 key is absent from exact current route/registry inventory; verify compatibility alias and source/runtime owner during audit.'} for k,v in old.items() if k not in set(keys)]\nmanifest={\n 'schema_version':3,'project':'nicegui-base','request':'stable3-golden-ui-v3-exhaustive-current-atlas-2','operation':'VERIFY',\n 'source_sha':BASE,'tree_sha':TREE,'source_changed':False,'target_branch':'main','surface_count':len(cs),\n 'surface_set_frozen_before_canonical_capture':True,'frozen_at_utc':iso_now(),\n 'discovery_authority':'exact current Product source registrations, current imported registries, current navigation, and fresh live browser runtime; compiled Golden UI v3 / Human-Centered prompt is the law authority.',\n 'source_runtime_inventory_path':'source-runtime-inventory.json','duplicate_surface_keys':0,\n 'historical_reconciliation':{'ref':BASELINE_REF,'commit':BASELINE_COMMIT,'source_sha':baseline.get('source_sha'),'tree_sha':baseline.get('tree_sha'),'surface_count':len(old),'same_key_count':sum(bool(c['historical_r16']['exists']) for c in cs),'new_key_count':sum(not c['historical_r16']['exists'] for c in cs),'retired_or_aliased':retired,'historical_bytes_reused':False},\n 'runtime_discovery_summary':{'candidate_count':len(checks),'pass_count':sum(bool(x['ready']) for x in checks),'fail_count':sum(not x['ready'] for x in checks),'checks':checks},\n 'surfaces':cs\n}\n(OUT/'source-runtime-inventory.json').write_text(json.dumps(source_inventory,indent=2,sort_keys=True)+'\\\\n')\n(OUT/'visual-atlas'/'surface-manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\\\\n')\n(OUT/'discovery-browser-errors.json').write_text(json.dumps({'console_errors':console_events,'page_errors':page_errors,'failed_requests':failed,'http_errors':bad},indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps({'output':str(OUT),'surface_count':len(cs),'historical_same':manifest['historical_reconciliation']['same_key_count'],'new':manifest['historical_reconciliation']['new_key_count'],'retired':len(retired),'runtime_pass':manifest['runtime_discovery_summary']['pass_count'],'runtime_fail':manifest['runtime_discovery_summary']['fail_count'],'browser_version':browser_version,'console_errors':len(console_events),'page_errors':len(page_errors),'failed_requests':len(failed),'http_errors':len(bad)},indent=2))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom dataclasses import asdict\nfrom nicegui_base.workbench.app import workbench_navigation\nfor s in workbench_navigation().sections:\n print(asdict(s))\n break\nPY\nrtk python -c \\\"from pathlib import Path; import shutil; p=Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence'); shutil.rmtree(p) if p.exists() and list(p.iterdir())==[p/'visual-atlas'] and list((p/'visual-atlas').iterdir())==[p/'visual-atlas'/'screenshots'] else None; print('cleared_empty',not p.exists())\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom __future__ import annotations\nimport json, re, subprocess, sys\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nfrom urllib.parse import quote\nfrom playwright.sync_api import sync_playwright\nfrom nicegui_base.workbench.app import workbench_navigation, REFERENCE_PATTERN_ROUTES\nfrom nicegui_base.workbench.catalog import all_entries\nfrom nicegui_base.workbench.models import WorkbenchKind\nfrom nicegui_base.certification import mac_lab\nfrom nicegui_base.workbench.full_applications import FULL_APPLICATION_REGISTRY\nfrom nicegui_base.patterns.registry import PATTERN_REGISTRY\n\nROOT=Path('/Users/haewonkim/.codex-fabric/worktrees/CF-57e5ab24d927c3f4321d419c'); OUT=Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence')\nBASE='8024c21adad310881d6f3bbc04b00da1f4f03d31'; TREE='fcc6294ba8f7c36b68b88a217e65b7efb3050393'\nBASELINE_REF='refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1'; BASELINE_COMMIT='1fd12d6477010c58cb477dd836d984c6b99e7bbf'\nURL='http://127.0.0.1:51847'; CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\nif OUT.exists(): raise SystemExit(f'Fresh evidence directory already exists; refusing to reuse: {OUT}')\nOUT.mkdir(parents=True); (OUT/'visual-atlas'/'screenshots').mkdir(parents=True)\ndef slug(v): return re.sub(r'[\"'^a-z0-9-]+'\"','-',v.casefold().replace('_','-')).strip('-')\ndef now(): return datetime.now(timezone.utc).isoformat()\ndef make(key,route,title,kind,owner,nav,state='representative populated normal state',subview='primary',aliases=(),metadata=None,interaction=None,task=None):\n return {'surface_key':key,'canonical_route':route,'canonical_navigation_intent':nav,'aliases':sorted(set(aliases)),'persistent_state':state,'subview':subview,'role_identity_fixture':{'role':'local developer / reference explorer / governed Product fixtures','identity':'neutral Member fallback from the local reference runtime','fixture':'current registered Workbench and canonical NiceGUI Base fixtures'},'theme':'system (resolved light)','runtime_ready_assertion':'document.readyState=complete; document.fonts.status=loaded; application shell and primary current object present; no accidental auth wall, crash boundary, or unresolved loading state','expected_primary_task_current_object':{'task':task or f'Inspect and use the {title} workspace.','object':title},'canonical_screenshots':{'desktop':f'visual-atlas/screenshots/{key}--desktop-1440x900.png','mobile':f'visual-atlas/screenshots/{key}--mobile-390x844.png'},'source_sha':BASE,'tree_sha':TREE,'discovered_owner_registry_renderer_authority':owner,'historical_r16':None,'discovery':{'route':route,'expected_title':title,'kind':kind,'metadata':metadata or {},'interaction':interaction},'runtime_discovery':{'status':'PENDING','route_status':None,'application_shell_present':False,'primary_object_present':False,'body_chars':0,'actual_url':None,'failure':None}}\ncs=[]\nbase_map=[('workbench-start','/','Start Here','Workbench route registration → home_page'),('workbench-build','/build','Build','Workbench route registration → build_page'),('workbench-design-system','/design','Design System','Workbench route registration → design_system_page'),('workbench-settings','/settings','Settings','Workbench route registration → settings_page'),('workbench-catalog','/catalog','Reference Explorer catalog','Workbench route registration → catalog_page → all_entries'),('workbench-components-gallery','/components','Components','Workbench route registration → components_page → component registry'),('workbench-patterns','/patterns','Application Patterns','Workbench route registration → patterns_page → PATTERN_REGISTRY'),('workbench-layouts','/layouts','Layout Studio','Workbench route registration → layout_studio_page'),('workbench-analytics-gallery','/analytics','Visualizations','Workbench route registration → analytics_gallery_page → semiconductor surface registry'),('workbench-recipes-gallery','/recipes','Recipes','Workbench route registration → recipes_gallery_page → semiconductor recipe registry'),('workbench-data','/workbench/data','Data & Tables','Workbench route registration → data_page'),('workbench-quality','/quality','Quality','Workbench route registration → quality_page'),('workbench-ai-guide','/ai-guide','AI Development Guide','Workbench route registration → ai_guide_page')]\nnav={'/':'Discover → Start Here','/build':'Develop → Build','/design':'Foundations → Design System','/settings':'System → Settings','/catalog':'Foundations → Reference Explorer','/components':'Foundations → Components','/patterns':'Compose → Application Patterns','/layouts':'Compose → Layout Studio','/analytics':'Foundations → Visualizations','/recipes':'Semiconductor → Recipes','/workbench/data':'Foundations → Data & Tables','/quality':'System → Quality','/ai-guide':'Develop → AI Guide'}\nfor key,path,title,owner in base_map:\n aliases=[]\n if path=='/settings': aliases=['/patterns/settings']\n if path=='/patterns': aliases=['/applications']\n cs.append(make(key,path,title,'workbench',owner,nav[path],aliases=aliases,task=f'Discover and use {title.lower()} in the Reference Explorer.'))\nfor route in mac_lab.ROUTES:\n path=route.path\n if path in {'/','/patterns/settings'}: continue\n if path not in REFERENCE_PATTERN_ROUTES:\n  title=path.strip('/').replace('-',' ').replace('_',' ').title(); key='lab-'+slug(path.strip('/'))\n  cs.append(make(key,path,title,'registered reference lab',f'current mac_lab.ROUTES[{path}] → registered reference renderer',f'Reference Lab → {title}',task=f'Inspect the registered {title.lower()} design-system specimens.'))\n else:\n  pk=REFERENCE_PATTERN_ROUTES[path]; title=pk.replace('_',' ').title()\n  cs.append(make('reference-pattern-'+slug(pk),path,title,'registered application pattern example',f'PATTERN_REGISTRY[{pk}] → mac_lab.ROUTES[{path}] → production registered pattern renderer',f'Application Patterns → Live reference example → {title}',task=f'Operate the canonical {title} application-pattern example.'))\nentries=all_entries()\nfor e in entries:\n md={k:v for k,v in e.metadata.items() if k\"'!='\"'catalog_item'}\n if e.kind is WorkbenchKind.COMPONENT:\n  ck=str(e.metadata['component_key']); key='component-'+slug(ck); route=e.route; aliases=[f'/catalog/component/{quote(ck,safe=\\\"\\\")}']; owner=f'{e.source_authority} → registered component renderer → Capability Studio'; n=f'Components → {e.title} → Live capability detail'; task=f'Configure and inspect the governed {e.title} component.'\n elif e.kind is WorkbenchKind.PATTERN:\n  pk=str(e.metadata['pattern_key']); key='pattern-studio-'+slug(pk); route=e.route; aliases=[]; owner=f'PATTERN_REGISTRY[{pk}] → Capability Studio → registered pattern renderer'; n=f'Application Patterns → Capability Studio → {e.title}'; task=f'Inspect the {e.title} application-pattern contract and interactive specimen.'\n elif e.kind is WorkbenchKind.ANALYTIC:\n  sk=str(e.metadata.get('surface_key') or e.key); key='analytics-'+slug(sk); route=e.route; aliases=[]; owner=f'{e.source_authority} → SEMICONDUCTOR_SURFACE_REGISTRY[{sk}] → production analytical renderer'; n=f'Visualizations → {e.title} → interactive detail'; task=f'Open and read the governed {e.title} analytical surface, including its data view and theme behavior.'\n elif e.kind is WorkbenchKind.RECIPE:\n  rk=str(e.metadata.get('recipe_key') or e.key); key='recipe-'+slug(rk); route=e.route; aliases=[]; owner=f'{e.source_authority} → SEMICONDUCTOR_RECIPE_REGISTRY[{rk}] → recipe renderer'; n=f'Semiconductor → Recipes → {e.title}'; task=f'Discover and inspect the {e.title} semiconductor recipe composition.'\n else:\n  key='capability-'+slug(e.key); route=e.route; reg=str(e.metadata.get('registry_name') or ''); raw=str(e.metadata.get('registry_key') or ''); aliases=[f'/catalog/{quote(reg,safe=\\\"\\\")}/{quote(raw,safe=\\\"\\\")}'] if reg and raw and reg\"'!='\"'construction' else []; owner=f'{e.source_authority} → Workbench Capability Studio'; n=f'Reference Explorer → {e.category or e.kind.value} → {e.title}'; task=f'Inspect the canonical {e.title} capability contract and decide when to use it.'\n cs.append(make(key,route,e.title,e.kind.value,owner,n,aliases=aliases,metadata=md,task=task))\nfor key,d in FULL_APPLICATION_REGISTRY.items(): cs.append(make('application-'+slug(key),d.route,d.title,'full application example',f'FULL_APPLICATION_REGISTRY[{key}] → render_full_application → {d.pattern_key}/{d.recipe_key}',f'Application Patterns → Full application references → {d.title}',task=f'Operate the {d.title} example against its governed synthetic fixture.'))\nfor pattern in PATTERN_REGISTRY:\n pk=getattr(pattern,'value',str(pattern))\n if pk=='dashboard': continue\n title=pk.replace('_',' ').title()\n cs.append(make('workbench-pattern-preview-'+slug(pk),'/patterns',title,'persistent pattern-gallery selection',f'patterns_page.show_pattern({pk}) → PATTERN_REGISTRY[{pk}] → registered production pattern renderer',f'Application Patterns → live gallery → selected {title}',state=f'live pattern gallery selected_pattern={pk}',subview='selected live pattern preview',interaction={'kind':'pattern_gallery_selection','key':pk,'label':title},task=f'Compare and inspect the selected {title} application-pattern composition.'))\nkeys=[c['surface_key'] for c in cs]\nif len(keys)\"'!=len(set(keys)): raise SystemExit(f'\"'Duplicate current surface keys: {sorted({x for x in keys if keys.count(x)>1})}')\nbaseline=json.loads(subprocess.check_output(['git','show',f'{BASELINE_COMMIT}:visual-atlas/surface-manifest.json'],cwd=ROOT,text=True)); old={s['surface_key']:s for s in baseline['surfaces']}\nfor c in cs:\n p=old.get(c['surface_key']); c['historical_r16']=({'exists':True,'surface_key':p['surface_key'],'classification':'same-key / stale-current baseline only','historical_route':p.get('canonical_route'),'desktop_png_sha256':p.get('desktop',{}).get('png_sha256'),'mobile_png_sha256':p.get('mobile',{}).get('png_sha256'),'historical_source_sha':p.get('source_sha'),'historical_tree_sha':p.get('tree_sha')} if p else {'exists':False,'classification':'NEW','reason':'Exact current source/registry/runtime surface has no exact historical R16 key.'})\nsections=[]\nfor s in workbench_navigation().sections:\n sections.append({'id':s.id,'label':s.label,'items':[{'id':i.id,'label':i.label,'route':i.route} for i in s.items]})\nsource_inventory={'repository':'kimhw8084/nicegui-base','project':'nicegui-base','request':'stable3-golden-ui-v3-exhaustive-current-atlas-2','operation':'VERIFY','source_sha':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'tree_sha':subprocess.check_output(['git','rev-parse','HEAD\"'^{tree}'\"'],cwd=ROOT,text=True).strip(),'origin_main_sha':subprocess.check_output(['git','rev-parse','origin/main'],cwd=ROOT,text=True).strip(),'origin_main_tree_sha':subprocess.check_output(['git','rev-parse','origin/main\"'^{tree}'\"'],cwd=ROOT,text=True).strip(),'worktree_porcelain':subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).splitlines(),'launcher':{'entrypoint':'run_nicegui_base.py','command':'python run_nicegui_base.py','preflight':'python run_nicegui_base.py --check','canonical_owner':'nicegui_base.workbench.launcher.main → nicegui_base.workbench.app.run_workbench'},'runtime':{'framework_version':'3.0.0a8','nicegui_version':'3.15.0','python':sys.version,'interpreter':sys.executable,'host':'127.0.0.1','port':51847,'pid':19453,'cwd':str(ROOT),'command':'python run_nicegui_base.py','storage_state':'runtime-generated ephemeral; browser context begins with empty cookies, local storage, and session storage','locale':'en-US','timezone':'America/Chicago','reduced_motion':'reduce','canonical_theme':'system (resolved light)'},'browser':{'product':'Google Chrome','executable':CHROME,'version':subprocess.check_output([CHROME,'--version'],text=True).strip(),'playwright_version':subprocess.check_output([sys.executable,'-c','import importlib.metadata; print(importlib.metadata.version(\\\"playwright\\\"))'],text=True).strip(),'channel':'installed Google Chrome via Playwright executable_path','dpr':1},'registration':{'static_workbench_routes':base_map,'workbench_route_source':'source/nicegui_base/workbench/app.py::register_workbench_pages / _register_reference_routes','reference_lab_routes':[r.path for r in mac_lab.ROUTES],'reference_lab_route_owner':'source/nicegui_base/certification/mac_lab.py::ROUTES; app._register_reference_routes skips / and /patterns/settings','workbench_navigation':sections,'catalog_entries':len(entries),'catalog_kind_counts':{k.value:sum(e.kind is k for e in entries) for k in WorkbenchKind},'framework_catalog':{'canonical_total':450,'catalog_audit_total':465,'conforming':465},'patterns':[getattr(x,'value',str(x)) for x in PATTERN_REGISTRY],'full_applications':list(FULL_APPLICATION_REGISTRY),'entrypoint_route_owners':{'component_studio':'studio_page → all_entries','component_alias':'component_detail_page → all_entries','registry_detail':'catalog_detail_page → all_entries','analytics':'analytics_detail_page → semiconductor entries','recipe':'recipe_detail_page → recipe entries','application':'full_application_detail_page → FULL_APPLICATION_REGISTRY'}},'discovery_method':'Current source route registration, navigation and imported registries assembled first; candidate keys generated without historical route data; live browser rendered every candidate; historical manifest read only after current set construction for key reconciliation.','historical_control':{'ref':BASELINE_REF,'commit':BASELINE_COMMIT,'source_sha':baseline.get('source_sha'),'tree_sha':baseline.get('tree_sha'),'surface_count':len(old),'never_used_as_current_surface_authority':True},'candidate_surface_count':len(cs)}\nchecks=[]; console=[]; pageerrors=[]; failed=[]; bad=[]\nwith sync_playwright() as p:\n browser=p.chromium.launch(headless=True,executable_path=CHROME)\n context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce')\n page=context.new_page(); page.set_default_timeout(12000)\n page.on('console',lambda m:console.append({'type':m.type,'text':m.text,'url':m.location.get('url') if m.location else None}) if m.type=='error' else None)\n page.on('pageerror',lambda e:pageerrors.append(str(e)))\n page.on('requestfailed',lambda r:failed.append({'url':r.url,'failure':r.failure}))\n page.on('response',lambda r:bad.append({'url':r.url,'status':r.status}) if r.status>=400 else None)\n for ix,c in enumerate(cs,1):\n  route=c['canonical_route']; inter=c['discovery'].get('interaction')\n  try:\n   response=page.goto(URL+route,wait_until='domcontentloaded',timeout=30000)\n   if inter:\n    page.get_by_role('combobox',name='Selected application pattern').click(); page.get_by_role('option',name=inter['label'],exact=True).click()\n   page.locator('body').wait_for(state='visible',timeout=12000); page.evaluate('() => document.fonts.ready'); page.wait_for_timeout(75)\n   actual=page.url; body=page.locator('body').inner_text(timeout=5000); shell=page.locator('.cui-page, .cui-lab-page, main').count()>0; expected=c['discovery']['expected_title']\n   if inter: title_ok=inter['label'].casefold() in page.locator('.cui-unified-pattern-context').inner_text(timeout=3000).casefold()\n   else: title_ok=expected.casefold() in body.casefold()\n   crash=any(x in body.casefold() for x in ('internal server error','application error','traceback (most recent call last)','nicegui client is not connected'))\n   status=response.status if response else None; ready=bool(status==200 and shell and title_ok and not crash and len(body.strip())>=200)\n   c['runtime_discovery']={'status':'PASS' if ready else 'FAIL','route_status':status,'application_shell_present':shell,'primary_object_present':title_ok,'expected_title_present':title_ok,'crash_boundary_present':crash,'body_chars':len(body),'actual_url':actual,'failure':None if ready else 'Rendered-state assertion failed.'}\n   checks.append({'surface_key':c['surface_key'],'path':route,'status':status,'ready':ready,'shell':shell,'title_present':title_ok,'body_chars':len(body),'actual_url':actual})\n  except Exception as e:\n   msg=f'{type(e).__name__}: {e}'; c['runtime_discovery']={'status':'FAIL','route_status':None,'application_shell_present':False,'primary_object_present':False,'body_chars':0,'actual_url':page.url,'failure':msg}; checks.append({'surface_key':c['surface_key'],'path':route,'status':None,'ready':False,'failure':msg})\n  if ix%50==0: print(f'discovery {ix}/{len(cs)}')\n  if ix%25==0: sys.stdout.flush()\n browser_version=browser.version; context.close(); browser.close()\nretired=[{'historical_surface_key':k,'historical_route':v.get('canonical_route'),'classification':'RETIRED/ALIAS','reason':'Historical key is absent from exact current source/registry/runtime surface set; see current route owner and alias inventory.'} for k,v in old.items() if k not in set(keys)]\nmanifest={'schema_version':3,'project':'nicegui-base','request':'stable3-golden-ui-v3-exhaustive-current-atlas-2','operation':'VERIFY','source_sha':BASE,'tree_sha':TREE,'source_changed':False,'target_branch':'main','surface_count':len(cs),'surface_set_frozen_before_canonical_capture':True,'frozen_at_utc':now(),'discovery_authority':'exact current Product source registrations, imported current registries, navigation, and fresh live browser runtime; compiled Golden UI v3 / Human-Centered prompt is the law authority.','source_runtime_inventory_path':'source-runtime-inventory.json','duplicate_surface_keys':0,'historical_reconciliation':{'ref':BASELINE_REF,'commit':BASELINE_COMMIT,'source_sha':baseline.get('source_sha'),'tree_sha':baseline.get('tree_sha'),'surface_count':len(old),'same_key_count':sum(bool(c['historical_r16']['exists']) for c in cs),'new_key_count':sum(not c['historical_r16']['exists'] for c in cs),'retired_or_aliased':retired,'historical_bytes_reused':False},'runtime_discovery_summary':{'candidate_count':len(checks),'pass_count':sum(bool(x['ready']) for x in checks),'fail_count':sum(not x['ready'] for x in checks),'checks':checks},'surfaces':cs}\n(OUT/'source-runtime-inventory.json').write_text(json.dumps(source_inventory,indent=2,sort_keys=True)+'\\\\n'); (OUT/'visual-atlas'/'surface-manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\\\\n')\n(OUT/'discovery-browser-errors.json').write_text(json.dumps({'console_errors':console,'page_errors':pageerrors,'failed_requests':failed,'http_errors':bad},indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps({'output':str(OUT),'surface_count':len(cs),'historical_same':manifest['historical_reconciliation']['same_key_count'],'new':manifest['historical_reconciliation']['new_key_count'],'retired':len(retired),'runtime_pass':manifest['runtime_discovery_summary']['pass_count'],'runtime_fail':manifest['runtime_discovery_summary']['fail_count'],'browser_version':browser_version,'console_errors':len(console),'page_errors':len(pageerrors),'failed_requests':len(failed),'http_errors':len(bad)},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence')\nm=json.loads((p/'visual-atlas/surface-manifest.json').read_text())\nfor x in m['runtime_discovery_summary']['checks']:\n if not x['ready']: print(json.dumps(x,ensure_ascii=False))\nprint('browser_events')\nprint((p/'discovery-browser-errors.json').read_text())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk curl -i --max-time 20 http://127.0.0.1:51847/studio/framework%3Aengineering%3AInvestigationContextBar'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom nicegui_base.workbench.catalog import all_entries\nfor e in all_entries():\n if 'InvestigationContextBar' in e.key or 'investigation_context_bar' in e.key.casefold() or 'InvestigationContextBar' in e.title:\n  print(e.key,e.title,e.route,e.metadata,e.source_authority)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nU='http://127.0.0.1:51847'; C='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path=C); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce'); pg=c.new_page()\n for path in ['/build','/catalog','/layouts']:\n  r=pg.goto(U+path,wait_until='domcontentloaded'); print(path,r.status,'h1=',pg.locator('h1').all_text_contents()[:4],'title=',pg.title(),'body=',pg.locator('body').inner_text()[:350].replace('\\\\n',' | '))\n pg.goto(U+'/patterns',wait_until='domcontentloaded'); pg.get_by_role('combobox',name='Selected application pattern').click(); pg.get_by_role('option',name='Master Detail',exact=True).click(); pg.wait_for_timeout(250); print('pattern-master-detail=',pg.locator('.cui-unified-pattern-context').inner_text())\n c.close(); b.close()\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -p 19453 -o pid,stat,%cpu,%mem,etime,command && rtk curl -sS -o /dev/null -w '%{http_code}\\\\n' --max-time 10 http://127.0.0.1:51847/ && rtk curl -sS -o /dev/null -w '%{http_code}\\\\n' --max-time 10 http://127.0.0.1:51847/layouts\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom playwright.sync_api import sync_playwright\nU='http://127.0.0.1:51847'; C='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\nwith sync_playwright() as p:\n b=p.chromium.launch(headless=True,executable_path=C); c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce'); pg=c.new_page()\n for path in ['/build','/catalog','/layouts','/patterns']:\n  try:\n   r=pg.goto(U+path,wait_until='domcontentloaded',timeout=30000); pg.wait_for_timeout(500)\n   print(path,r.status if r else None,'url',pg.url,'textlen',len(pg.locator('body').inner_text()),'tail=',pg.locator('body').inner_text()[-280:].replace('\\\\n',' | '))\n  except Exception as e: print(path,'ERROR',str(e)[:180])\n c.close(); b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy kill -TERM 19453'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"def layout_studio_page|ENGINEERING_KEYS|def render_engineering\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/domain_specimens.py source/nicegui_base/workbench/catalog_runtime.py source/nicegui_base/workbench/capability_studio.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env NICEGUI_BASE_HOST=127.0.0.1 NICEGUI_BASE_PORT=51847 NICEGUI_BASE_SHOW=0 TZ=America/Chicago LANG=en_US.UTF-8 python run_nicegui_base.py'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '580,610p' source/nicegui_base/workbench/app.py && rtk sed -n '1,28p' source/nicegui_base/workbench/domain_specimens.py && rtk sed -n '110,130p' source/nicegui_base/workbench/catalog_runtime.py && rtk sed -n '750,792p' source/nicegui_base/workbench/capability_studio.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD HEAD''^{tree} origin/main origin/main''^{tree} && rtk git status --short --branch && rtk python - <<'\"'PY'\nimport socket,subprocess\np=19453\nr=subprocess.run(['ps','-p',str(p),'-o','pid='],text=True,capture_output=True)\nprint('server_pid_present=',bool(r.stdout.strip()))\ns=socket.socket(); s.settimeout(1); print('port_51847_closed=',s.connect_ex(('127.0.0.1',51847))\"'!=0); s.close()\nPY'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport hashlib,json\nfrom pathlib import Path\np=Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence')\nmanifest_path=p/'visual-atlas/surface-manifest.json'; raw=manifest_path.read_bytes(); m=json.loads(raw); discovery=json.loads((p/'discovery-browser-errors.json').read_text())\nkeys='\\\\n'.join(sorted(x['surface_key'] for x in m['surfaces'])).encode()\nreport={\n 'project':'nicegui-base','request':'stable3-golden-ui-v3-exhaustive-current-atlas-2','operation':'VERIFY',\n 'status':'BLOCKED_PRECANONICAL_CAPTURE','ok':False,\n 'source_sha':m['source_sha'],'tree_sha':m['tree_sha'],'source_changed':False,\n 'frozen_manifest_path':str(manifest_path),'frozen_manifest_sha256':hashlib.sha256(raw).hexdigest(),\n 'frozen_surface_count':m['surface_count'],'frozen_surface_keyset_sha256':hashlib.sha256(keys).hexdigest(),\n 'manifest_frozen_before_canonical_capture':m['surface_set_frozen_before_canonical_capture'],\n 'canonical_capture_started':False,'canonical_screenshot_count':0,\n 'discovery_runtime':{'candidate_count':m['runtime_discovery_summary']['candidate_count'],'assertion_pass_count':m['runtime_discovery_summary']['pass_count'],'assertion_fail_count':m['runtime_discovery_summary']['fail_count'],'http_error_count':len(discovery['http_errors']),'console_error_count':len(discovery['console_errors']),'page_error_count':len(discovery['page_errors']),'failed_request_count':len(discovery['failed_requests'])},\n 'blocking_findings':[\n  {'id':'CHG257-MANIFEST-001','code':'SURFACE_MANIFEST_DEFECT','severity':'P1','surface_key':'workbench-layouts','evidence':{'source':'source/nicegui_base/workbench/app.py:590-591','source_behavior':'layout_studio_page calls _unified_patterns_compatibility_page, which navigates to /patterns','runtime_behavior':'Playwright navigation to http://127.0.0.1:51847/layouts resolved to http://127.0.0.1:51847/patterns and rendered the Application Patterns workspace','consequence':'The frozen manifest incorrectly treats a compatibility alias as a distinct persistent workspace. Per the supplied freeze rule, the key set cannot be silently edited after this discovery.'}},\n  {'id':'CHG257-RUNTIME-001','code':'PRODUCT_RUNTIME_ROUTE_500','severity':'P1','surface_key':'capability-framework-engineering-investigationcontextbar','canonical_route':'/studio/framework%3Aengineering%3AInvestigationContextBar','http_status':500,'observed_exception':\\\"KeyError: 'InvestigationContextBar'\\\",'source_trace':['source/nicegui_base/workbench/app.py:913 studio_page','source/nicegui_base/workbench/app.py:898 _studio_entry_page','source/nicegui_base/workbench/capability_studio.py:889 render_capability_studio','source/nicegui_base/workbench/capability_studio.py:785 render_preview','source/nicegui_base/workbench/capability_studio.py:762 default_preview','source/nicegui_base/workbench/catalog_runtime.py:122 render_engineering','source/nicegui_base/workbench/domain_specimens.py:19 ENGINEERING_KEYS membership check'],'registry_evidence':{'catalog_key':'InvestigationContextBar','registry':'engineering','source_authority':'framework_catalog:engineering','detail':'The current capability catalog exposes this item and its Studio route, but render_engineering rejects the exact key with KeyError.'},'browser_evidence_path':str(p/'discovery-browser-errors.json'),'consequence':'A normal user opening this registered engineering capability receives the NiceGUI 500 Server error page rather than the capability specimen or usage contract.'}\n ],\n 'nonblocking_discovery_assertion_corrections':[\n  {'surface_key':'workbench-build','route':'/build','issue':'The expected label Build was not an exact visible page title; the route rendered substantive Build content.'},\n  {'surface_key':'workbench-catalog','route':'/catalog','issue':'The expected label Reference Explorer catalog did not match the page heading; the route rendered the canonical catalog content.'},\n  {'surface_key':'workbench-pattern-preview-master-detail','route':'/patterns','issue':'The state assertion checked the rendered context heading too soon/against the wrong label; the browser path selected the registered Master Detail option.'}\n ],\n 'historical_r16':{'ref':m['historical_reconciliation']['ref'],'commit':m['historical_reconciliation']['commit'],'surface_count':m['historical_reconciliation']['surface_count'],'matching_keys':m['historical_reconciliation']['same_key_count'],'new_keys_in_frozen_candidate_set':m['historical_reconciliation']['new_key_count'],'historical_png_bytes_reused':False},\n 'publication':{'artifact_ref':'refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-2','published':False,'reason':'No valid complete package can be produced from the defective frozen surface set; canonical screenshots were not captured.','fabric_evidence_ref_touched':False},\n 'postflight':{'worktree_clean':True,'work_branch_sha':m['source_sha'],'work_branch_tree_sha':m['tree_sha'],'origin_main_sha':m['source_sha'],'origin_main_tree_sha':m['tree_sha'],'job_owned_server_pid':19453,'job_owned_server_stopped':True,'port_51847_closed':True}\n}\n(p/'blocker-report.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps({'report_path':str(p/'blocker-report.json'),'manifest_sha256':report['frozen_manifest_sha256'],'surface_keyset_sha256':report['frozen_surface_keyset_sha256'],'screenshot_count':0},indent=2))\nPY\nrtk shasum -a 256 /tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/visual-atlas/surface-manifest.json /tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/blocker-report.json /tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/discovery-browser-errors.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-check .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base gate .'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-smoke --port 0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git ls-files --error-unmatch certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log >/dev/null 2>&1; rtk git check-ignore -v certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log || true; rtk stat -f '%N %Sm %z bytes' certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short --branch && rtk git diff --exit-code && rtk git rev-parse HEAD HEAD''^{tree} origin/main origin/main''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/blocker-report.json')\nd=json.loads(p.read_text())\nd['repository_checks']={\n 'python run_nicegui_base.py --check':{'status':'PASS','evidence':'ENVIRONMENT CHECK: PASS; framework 3.0.0a8; nicegui 3.15.0; Python 3.11.7'},\n 'nicegui-base agent-context \\\"Exhaustively capture and audit all current NiceGUI Base Workbench UI surfaces and persistent states for a Golden UI v3 visual atlas\\\" --format json':{'status':'PASS','evidence':'Returned comparison pattern, current golden example and task constraints.'},\n 'nicegui-base catalog-audit --format json':{'status':'PASS','evidence':'465/465 conforming; framework catalog 450/450 visible; no issues.'},\n 'nicegui-base agent-check .':{'status':'FAIL','evidence':'Missing nicegui_base.toml/scaffold; installed framework/scaffold mismatch; one pre-existing Python syntax error at tools/verify_development_D6H2_browser.py:154; 56 warnings.'},\n 'nicegui-base gate .':{'status':'FAIL','evidence':'Missing nicegui_base.toml, required nicegui-base==3.0.0a8 dependency pin, invalid empty entrypoint; same syntax error; pytest could not import because installed pathlib imports removed collections.Sequence.'},\n 'nicegui-base runtime-contract':{'status':'PASS','evidence':'48 factories / 1172 direct calls checked; required NiceGUI 3.15.0.'},\n 'nicegui-base runtime-smoke --port 0':{'status':'PASS','evidence':'21/21 registered certification reference routes plus /healthz and /readyz returned HTTP 200.'}\n}\nd['postflight']['worktree_clean_after_check_artifact_restore']=True\nd['postflight']['runtime_smoke_generated_report_and_log_restored_to_initial_clean_base']=True\nd['publication']['artifact_ref_currently_absent_on_origin']=True\nd['publication']['fabric_evidence_ref_currently_absent_on_origin']=True\np.write_text(json.dumps(d,indent=2,sort_keys=True)+'\\\\n')\nPY\nrtk shasum -a 256 /tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/visual-atlas/surface-manifest.json /tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/blocker-report.json /tmp/chg257-golden-ui-v3-exhaustive-current-atlas-2-evidence/discovery-browser-errors.json && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 563,
+        "output_sha256": "5f4fc681375f43a013048f242ebfa1b09f830c2fd450c5f1e3f554b422bf50d3",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote --heads origin refs/heads/main refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-2 refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-2 && rtk git rev-parse HEAD HEAD''^{tree} origin/main origin/main''^{tree} && rtk git status --porcelain && rtk python - <<'\"'PY'\nimport socket,subprocess\np=subprocess.run(['ps','-p','19453','-o','pid='],capture_output=True,text=True)\ns=socket.socket(); s.settimeout(1); closed=s.connect_ex(('127.0.0.1',51847))\"'!=0; s.close()\nprint('\"'job_server_pid_absent=',not bool(p.stdout.strip()),'port_51847_closed=',closed)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 135,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.28,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4034048,
+      "fresh_input_tokens": 155755,
+      "input_tokens": 4189803,
+      "non_reasoning_output_tokens": 22826,
+      "output_tokens": 59398,
+      "reasoning_output_tokens": 36572,
+      "total_processed_tokens": 4249201
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-26T14:40:32Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-2",
+    "detached_verify": false,
+    "head_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "remote_exact_head": true,
+    "remote_head_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "work_branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-57e5ab24d927c3f4321d419c",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-2"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-golden-ui-v3-exhaustive-current-atlas-2",
+  "schema_version": 1,
+  "started_at": "2026-09-26T14:17:29Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 1383,
+    "queue_seconds": 0,
+    "total_seconds": 1383
+  },
+  "transport": {
+    "bytes": 25928,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 25559,
+    "prompt_sha256": "4e90f4e22f6dafaff038d139d13c2c047efb2570b59acebd2e940595ffd79731",
+    "sha256": "57e5ab24d927c3f4321d419cbaaa251710ccf4734ee0a510ca54b2e1b2fac188"
+  }
+}
