@@ -1,0 +1,294 @@
+{
+  "accepted_at": "2026-09-26T04:29:11Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'pwd && git status --short --branch && git rev-parse HEAD && git rev-parse HEAD''^{tree} && git remote -v && rg --files -g '\"'AGENTS.md' -g 'construction_manifest.json' -g '*Golden*' -g '*golden*' -g '*Lawbook*' -g '*Pillar*' -g '*Atlas*' -g '*atlas*' -g '*Production*' -g '*project*truth*' -g 'RTK.md' -g 'law.md'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md && cat AGENTS.md && cat source/nicegui_base/ai/construction_manifest.json && rg --files -g '*.md' -g '*.json' | rg -i 'golden|visual|human.center|project.os|production.contract|atlas|pillar|lawbook|artifact.bridge|currency'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git fetch origin main && rtk git show-ref | rg 'stable3-golden-ui-v3-exhaustive-current-atlas-1|stable3-golden-visual-atlas-post-chg177-impact-recapture-1|browser-ui-current-main-refresh-3|refs/remotes/origin/main' && rtk find /Users/haewonkim/.codex-fabric -type f -iname '*golden*ui*' -o -iname '*lawbook*' -o -iname '*human*center*' -o -iname '*atlas*contract*' 2>/dev/null | head -200 && rtk find /Users/haewonkim/.codex -type f -iname '*golden*ui*' -o -iname '*lawbook*' -o -iname '*human*center*' -o -iname '*atlas*contract*' 2>/dev/null | head -200 && rtk python run_nicegui_base.py --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files --hidden /Users/haewonkim/.codex-fabric /Users/haewonkim/.codex -g '\"'!**/.git/**'\"' -g '\"'!**/node_modules/**'\"' -g '\"'!**/.venv/**'\"' | rtk rg -i 'golden.*ui|ui.*lawbook|human.center|visual.*atlas|artifact.*bridge|screenshot.*currency|visual.*director|project.*truth|production.*contract'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git cat-file -t 1fd12d6477010c58cb477dd836d984c6b99e7bbf && rtk git ls-tree -r --name-only 1fd12d6477010c58cb477dd836d984c6b99e7bbf | head -100 && rtk git cat-file -t aac158f34ce3e2ad3c651d7265d8551e768f4740 && rtk git ls-tree -r --name-only aac158f34ce3e2ad3c651d7265d8551e768f4740 | head -100 && rtk git branch -r --list '*stable3-golden-ui-v3-exhaustive-current-atlas-1'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import importlib.util, sys; print(\\\"python\\\", sys.version); print(\\\"playwright\\\", importlib.util.find_spec(\\\"playwright\\\")); print(\\\"nicegui\\\", importlib.util.find_spec(\\\"nicegui\\\")); print(\\\"nicegui_base\\\", importlib.util.find_spec(\\\"nicegui_base\\\"))' && rtk command -v codex-fabric && rtk command -v nicegui-base && rtk command -v google-chrome && rtk command -v chromium && rtk command -v chromium-browser\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -F 'Golden UI Engineering Lawbook' /Users/haewonkim/.codex-fabric/artifacts /Users/haewonkim/.codex-fabric/jobs /Users/haewonkim/.codex -g '*.md' -g '*.json' -g '\"'!**/node_modules/**'\"' -g '\"'!**/.git/**'\"' -g '\"'!**/profiles/**'\"' -g '\"'!**/*.log'\"' -g '\"'!**/large/**'\"' && rtk rg -l -F 'Human-Centered UI Excellence Pillar' /Users/haewonkim/.codex-fabric/artifacts /Users/haewonkim/.codex-fabric/jobs /Users/haewonkim/.codex -g '*.md' -g '*.json' -g '\"'!**/node_modules/**'\"' -g '\"'!**/.git/**'\"' -g '\"'!**/profiles/**'\"' -g '\"'!**/*.log'\"' -g '\"'!**/large/**'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la /Users/haewonkim/.codex-fabric/artifacts/nicegui-base && rtk git show 1fd12d6477010c58cb477dd836d984c6b99e7bbf:visual-atlas/surface-manifest.json | head -c 5000 && rtk git show aac158f34ce3e2ad3c651d7265d8551e768f4740:visual-atlas/reader-index.json | head -c 3000 && rtk git show aac158f34ce3e2ad3c651d7265d8551e768f4740:visual-atlas/capture-report.json | head -c 3000'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(\\\"browser\\\",p.chromium.executable_path); print(\\\"chrome\\\",p.chromium._impl_obj._channel); p.stop()' && rtk ls -la /opt/google/chrome /Applications/Google\\\\ Chrome.app/Contents/MacOS/Google\\\\ Chrome /Applications/Chromium.app/Contents/MacOS/Chromium && rtk git status --porcelain=v1\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'Golden UI Engineering|Human-Centered UI|Visual Surface Atlas|Universal Artifact Bridge|Visual Director & Product-Task' . --glob '\"'!*.lock'\"' && rtk ls -la /Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running && rtk ls -la /Users/haewonkim/.codex-fabric/artifacts | rtk rg -i 'nicegui|stable3|golden' && rtk rg -l 'CHG-236|CHG-237|Golden UI Engineering Lawbook' /Users/haewonkim/.codex-fabric/jobs -g 'prompt.md'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nicegui-base --help && rtk nicegui-base agent-context 'Exhaustive exact-current UI surface discovery, route registration, component and visualization galleries, data and workbench views, application patterns, settings and support surfaces, persistent interaction states.' --format json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files source/nicegui_base/workbench source/nicegui_base | rtk rg 'workbench|registry|catalog|navigation|route' | head -300 && rtk rg -n 'ui\\\\.page|@ui\\\\.page|run_workbench|register.*page|add_tab|/analytics|/components|/patterns|/data' source/nicegui_base/workbench\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la .nicegui_base docs/nicegui_base source/nicegui_base/ai 2>&1 && rtk rg -n 'class .*Entry|def all_entries|def analytics_entries|def full_application_entries|def recipe_entries|PATTERN_REGISTRY|COMPONENT_REGISTRY|surface_key' source/nicegui_base/workbench/catalog.py source/nicegui_base/workbench/registry_adapters.py source/nicegui_base/workbench/app.py source/nicegui_base/registries -g '*.py' | head -240 && rtk cat examples/nicegui_base/golden_data_explorer.py && rtk sed -n '1,260p' source/nicegui_base/workbench/launcher.py && rtk sed -n '320,430p' source/nicegui_base/workbench/app.py && rtk sed -n '2040,2170p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1fd12d6477010c58cb477dd836d984c6b99e7bbf:visual-atlas/surface-manifest.json > /Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/r16-surface-manifest.json && rtk git show 1fd12d6477010c58cb477dd836d984c6b99e7bbf:visual-atlas/capture-report.json > /Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/r16-capture-report.json && rtk python -c 'import json; p=\\\"/Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/r16-surface-manifest.json\\\"; d=json.load(open(p)); print(type(d).__name__, list(d) if isinstance(d,dict) else len(d)); print(\\\"counts\\\", {k:len(v) for k,v in d.items() if isinstance(v,list)} if isinstance(d,dict) else \\\"\\\"); print(\\\"sample\\\", str(d)[:1800])' && rtk git ls-remote --heads origin refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nicegui-base catalog-audit --format json && rtk nicegui-base catalog-search 'Workbench navigation, registered components, detail and studio views, charts and analytics, patterns, recipes, applications and data workbench' --format json && rtk /Applications/Google\\\\ Chrome.app/Contents/MacOS/Google\\\\ Chrome --version && rtk python -c 'import playwright; print(\\\"Playwright\\\",playwright.__version__)'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,380p' source/nicegui_base/workbench/registry_adapters.py && rtk sed -n '1,220p' source/nicegui_base/workbench/app.py && rtk sed -n '760,960p' source/nicegui_base/workbench/app.py && rtk sed -n '1680,1735p' source/nicegui_base/workbench/app.py && rtk sed -n '1970,2095p' source/nicegui_base/workbench/app.py && rtk cat run_nicegui_base.py && rtk sed -n '150,245p' source/nicegui_base/workbench/launcher.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import sys; sys.path.insert(0,\\\"source\\\"); import nicegui_base.workbench.catalog as c; import nicegui_base.workbench.registry_adapters as a; import inspect; print(\\\"catalog\\\", [x for x in dir(c) if not x.startswith(\\\"_\\\")]); print(\\\"adapters\\\", [x for x in dir(a) if not x.startswith(\\\"_\\\")]); print(\\\"functions\\\", [(n,str(inspect.signature(getattr(a,n)))) for n in dir(a) if n.endswith(\\\"entries\\\")]); print(\\\"catalog functions\\\", [(n,str(inspect.signature(getattr(c,n)))) for n in dir(c) if n.endswith(\\\"entries\\\") or n in (\\\"all_entries\\\",)])' && rtk rg -n 'Golden UI Engineering Lawbook|Human-Centered UI Excellence Pillar' /Users/haewonkim/.codex-fabric/artifacts/nicegui-base /Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running 2>&1\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.codex-fabric /Users/haewonkim/.codex -type f \\\\( -iname '*golden*ui*law*' -o -iname '*golden*ui*v3*' -o -iname '*human*center*' -o -iname '*ui*excellence*' -o -iname '*visual*surface*atlas*' -o -iname '*artifact*bridge*contract*' \\\\) -print 2>/dev/null | head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la /Users/haewonkim/.codex-fabric/project-os-artifacts && rtk find /Users/haewonkim/.codex-fabric/project-os-artifacts -type f \\\\( -iname '*golden*ui*' -o -iname '*lawbook*' -o -iname '*pillar*' -o -iname '*currency*' -o -iname '*artifact*bridge*' -o -iname '*surface*atlas*' \\\\) -print 2>/dev/null | head -180 && rtk cat source/AGENTS.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import sys,json; sys.path.insert(0,\\\"source\\\"); from collections import Counter; from nicegui_base.workbench.catalog import all_entries,analytics_entries,recipe_entries; from nicegui_base.workbench.registry_adapters import component_entries,pattern_entries,semiconductor_surface_entries,semiconductor_recipe_entries,construction_entries,build_registry_entries; from nicegui_base.certification import mac_lab; from nicegui_base.workbench.models import WorkbenchKind; es=all_entries(); print(\\\"all\\\",len(es),\\\"analytics\\\",len(analytics_entries()),\\\"recipes\\\",len(recipe_entries()),\\\"components\\\",len(component_entries()),\\\"patterns\\\",len(pattern_entries()),\\\"semiconductor_surfaces\\\",len(semiconductor_surface_entries()),\\\"construction\\\",len(construction_entries()),\\\"registry\\\",len(build_registry_entries()),\\\"mac_routes\\\",len(mac_lab.ROUTES)); print(\\\"kinds\\\",Counter(str(getattr(x.kind,\\\"value\\\",x.kind)) for x in es)); print(\\\"owners\\\",Counter(x.source_authority for x in es)); print(\\\"mac\\\",json.dumps([{\\\"path\\\":x.path,\\\"title\\\":x.title} for x in mac_lab.ROUTES],ensure_ascii=False)); print(\\\"sample\\\",json.dumps([{\\\"key\\\":x.key,\\\"kind\\\":str(getattr(x.kind,\\\"value\\\",x.kind)),\\\"title\\\":x.title,\\\"route\\\":x.route,\\\"owner\\\":x.source_authority,\\\"metadata\\\":dict(x.metadata)} for x in es[:15]],ensure_ascii=False,default=str))'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1fd12d6477010c58cb477dd836d984c6b99e7bbf:visual-atlas/surface-manifest.json > /Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/r16-surface-manifest.json && rtk python -c 'import json,collections; d=json.load(open(\\\"/Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/r16-surface-manifest.json\\\")); print(\\\"fields\\\",list(d[\\\"surfaces\\\"][0])); print(\\\"categories\\\",collections.Counter((x.get(\\\"kind\\\"),x.get(\\\"owner\\\"),x.get(\\\"section\\\")) for x in d[\\\"surfaces\\\"])); print(\\\"sample\\\",json.dumps(d[\\\"surfaces\\\"][:2],indent=2)[:6000]); print(\\\"keys\\\",[x[\\\"surface_key\\\"] for x in d[\\\"surfaces\\\"]])'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la /Users/haewonkim/.codex-fabric/project-os-artifacts/nicegui-base && rtk rg -l 'Golden UI Engineering Lawbook|Human-Centered UI Excellence Pillar|Visual Surface Atlas & Screenshot Currency Standard|Universal Artifact Bridge' /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex-fabric/repos/nicegui-base -g '*.md' -g '*.json' -g '\"'!**/.git/**'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n '\"'^def (applications_page|full_application_detail_page|layout_studio_page|catalog_page|studio_page|component_detail_page|analytics_gallery_page|analytics_detail_page|recipes_gallery_page|recipe_detail_page|data_page|settings_page|ai_guide_page|quality_page)|''^class LabRoute|ROUTES ='\"' source/nicegui_base/workbench/app.py source/nicegui_base/certification/mac_lab.py source/nicegui_base/certification -g '*.py' && rtk sed -n '760,1040p' source/nicegui_base/workbench/app.py && rtk sed -n '1670,1775p' source/nicegui_base/workbench/app.py && rtk sed -n '1900,1980p' source/nicegui_base/workbench/app.py && rtk sed -n '1,150p' source/nicegui_base/workbench/full_applications.py && rtk sed -n '1,200p' source/nicegui_base/workbench/models.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import sys,json; sys.path.insert(0,\\\"source\\\"); from nicegui_base.certification import mac_lab; print(\\\"route_fields\\\",[x for x in dir(mac_lab.ROUTES[0]) if not x.startswith(\\\"_\\\")]); print(\\\"routes\\\",json.dumps([{\\\"path\\\":x.path,\\\"name\\\":getattr(x.builder,\\\"__name__\\\",repr(x.builder))} for x in mac_lab.ROUTES])); from nicegui_base.workbench.full_applications import FULL_APPLICATION_REGISTRY; print(\\\"applications\\\",json.dumps([{\\\"key\\\":k,\\\"name\\\":v.application_name if hasattr(v,\\\"application_name\\\") else str(v)} for k,v in FULL_APPLICATION_REGISTRY.items()]))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,160p' source/nicegui_base/workbench/launcher.py && rtk sed -n '560,735p' source/nicegui_base/workbench/app.py && rtk sed -n '1960,2005p' source/nicegui_base/workbench/app.py && rtk nicegui-base runtime-contract && rtk python -c 'import importlib.metadata as m, playwright,sys; print(\\\"python\\\",sys.executable,sys.version.split()[0]); print(\\\"playwright\\\",m.version(\\\"playwright\\\")); print(\\\"nicegui\\\",m.version(\\\"nicegui\\\")); print(\\\"nicegui_base\\\",m.version(\\\"nicegui-base\\\"))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import socket; s=socket.socket(); s.bind((\\\"127.0.0.1\\\",0)); print(s.getsockname()[1]); s.close()' && rtk git status --porcelain=v1 && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json, os, time\nfrom playwright.sync_api import sync_playwright\nchrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\nroutes=['/','/build','/design','/settings','/catalog','/components','/patterns','/layouts','/studio/component%3Aselect','/catalog/component/select','/analytics','/analytics/spc_i_mr','/recipes','/recipes/spc-monitor','/applications','/applications/spc-control-center','/workbench/data','/quality','/ai-guide','/foundation','/shell','/controls','/forms','/data','/charts','/content','/engineering','/states','/performance','/patterns/dashboard','/patterns/settings']\nerrors={'console':[],'page':[],'failed':[],'bad_responses':[]}\nwith sync_playwright() as p:\n    b=p.chromium.launch(headless=True, executable_path=chrome)\n    c=b.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce')\n    page=c.new_page()\n    page.on('console',lambda m: errors['console'].append({'type':m.type,'text':m.text,'url':page.url}) if m.type=='error' else None)\n    page.on('pageerror',lambda e: errors['page'].append({'text':str(e),'url':page.url}))\n    page.on('requestfailed',lambda r: errors['failed'].append({'url':r.url,'error':r.failure,'page':page.url}))\n    page.on('response',lambda r: errors['bad_responses'].append({'status':r.status,'url':r.url,'page':page.url}) if r.status>=400 else None)\n    results=[]\n    for route in routes:\n        try:\n            response=page.goto('http://127.0.0.1:62719'+route,wait_until='domcontentloaded',timeout=15000)\n            page.wait_for_timeout(450)\n            page.evaluate('document.fonts.ready')\n            record=page.evaluate('''() => ({url:location.href,title:document.title,ready:document.readyState,bodyChars:document.body.innerText.length,bodyStart:document.body.innerText.slice(0,420),mainCount:document.querySelectorAll('main').length,pageCount:document.querySelectorAll('.cui-page').length,h1:[...document.querySelectorAll('h1,[role=heading][aria-level=\\\"1\\\"]')].map(x=>x.innerText),links:[...document.querySelectorAll('a[href]')].filter(x=>{const r=x.getBoundingClientRect();return r.width&&r.height}).slice(0,20).map(x=>({name:x.innerText.trim(),href:x.getAttribute('href')})),buttons:[...document.querySelectorAll('button,[role=button]')].filter(x=>{const r=x.getBoundingClientRect();return r.width&&r.height}).slice(0,35).map(x=>({name:(x.getAttribute('aria-label')||x.innerText||'').trim().slice(0,80),role:x.getAttribute('role')})),selects:[...document.querySelectorAll('select,[role=combobox],.q-field')].filter(x=>{const r=x.getBoundingClientRect();return r.width&&r.height}).slice(0,20).map(x=>({tag:x.tagName,role:x.getAttribute('role'),label:x.getAttribute('aria-label'),text:x.innerText.slice(0,100)})),tablists:document.querySelectorAll('[role=tablist]').length,details:[...document.querySelectorAll('details')].map(x=>x.querySelector('summary')?.innerText).slice(0,15),dims:{innerWidth,innerHeight,bodyScrollWidth:document.body.scrollWidth,bodyScrollHeight:document.body.scrollHeight,docScrollWidth:document.documentElement.scrollWidth}})''')\n            record['route']=route;record['status']=response.status if response else None;results.append(record)\n        except Exception as e: results.append({'route':route,'error':str(e)})\n    print(json.dumps({'browser_version':b.version,'routes':results,'errors':errors},ensure_ascii=False))\n    c.close();b.close()\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -F 'Golden UI Engineering Lawbook' . /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex/skills -g '*.md' -g '*.json' -g '\"'!**/.git/**'\"' -g '\"'!**/transport.bin'\"' -g '\"'!**/prompt.md'\"' && rtk rg -l -F 'Human-Centered UI Excellence Pillar' . /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex/skills -g '*.md' -g '*.json' -g '\"'!**/.git/**'\"' -g '\"'!**/transport.bin'\"' -g '\"'!**/prompt.md'\"' && rtk git log --all --name-only --pretty=format: | rtk rg -i '(golden.*ui.*law|human.*center|visual.*atlas.*contract|artifact.*bridge|screenshot.*currency|lawbook|excellence.*pillar)' | sort -u\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport importlib.metadata as md, json, os, sys\nfrom pathlib import Path\nfrom collections import Counter\nfrom playwright.sync_api import sync_playwright\nsys.path.insert(0, 'source')\nfrom nicegui_base.workbench.catalog import all_entries, analytics_entries, recipe_entries\nfrom nicegui_base.workbench.registry_adapters import component_entries, pattern_entries, semiconductor_surface_entries, construction_entries\nfrom nicegui_base.certification import mac_lab\nfrom nicegui_base.workbench.app import REFERENCE_PATTERN_ROUTES\nout=Path('/Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/source-runtime-blocker-evidence.json')\nroutes=['/','/build','/design','/settings','/catalog','/components','/patterns','/layouts','/studio/component%3Aselect','/catalog/component/select','/analytics','/analytics/spc_i_mr','/recipes','/recipes/spc-monitor','/applications','/applications/spc-control-center','/workbench/data','/quality','/ai-guide','/foundation','/shell','/controls','/forms','/data','/charts','/content','/engineering','/states','/performance','/patterns/dashboard','/patterns/settings']\nerrors={'console':[],'page':[],'failed_requests':[],'bad_responses':[]}\nwith sync_playwright() as p:\n    browser=p.chromium.launch(headless=True,executable_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')\n    context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1,locale='en-US',timezone_id='America/Chicago',color_scheme='light',reduced_motion='reduce')\n    page=context.new_page()\n    page.on('console',lambda m: errors['console'].append({'type':m.type,'text':m.text,'url':page.url}) if m.type=='error' else None)\n    page.on('pageerror',lambda e: errors['page'].append({'text':str(e),'url':page.url}))\n    page.on('requestfailed',lambda r: errors['failed_requests'].append({'url':r.url,'error':r.failure,'page':page.url}))\n    page.on('response',lambda r: errors['bad_responses'].append({'status':r.status,'url':r.url,'page':page.url}) if r.status>=400 else None)\n    observations=[]\n    for route in routes:\n        row={'route':route}\n        try:\n            response=page.goto('http://127.0.0.1:62719'+route,wait_until='domcontentloaded',timeout=15000)\n            page.wait_for_timeout(250)\n            page.evaluate('document.fonts.ready')\n            row.update(page.evaluate('''() => ({url:location.href,title:document.title,ready:document.readyState,body_chars:document.body.innerText.length,has_main:\"'!!document.querySelector('\"'main'),page_roots:document.querySelectorAll('.cui-page').length,scroll:{viewport:[innerWidth,innerHeight],body:[document.body.scrollWidth,document.body.scrollHeight],document_width:document.documentElement.scrollWidth},landmarks:[...document.querySelectorAll('main,nav,header,footer,[role=heading],[role=dialog],[role=alert]')].slice(0,50).map(x=>({tag:x.tagName,role:x.getAttribute('role'),name:x.getAttribute('aria-label')||x.getAttribute('aria-labelledby'),text:(x.innerText||'').trim().slice(0,100)})),visible_buttons:[...document.querySelectorAll('button,[role=button]')].filter(x=>{let r=x.getBoundingClientRect();return r.width&&r.height}).map(x=>(x.getAttribute('aria-label')||x.innerText||'').trim().slice(0,80)).slice(0,80),controls:[...document.querySelectorAll('input,[role=combobox],[role=radio],[role=checkbox],select')].filter(x=>{let r=x.getBoundingClientRect();return r.width&&r.height}).map(x=>({tag:x.tagName,role:x.getAttribute('role'),name:x.getAttribute('aria-label')||x.labels?.[0]?.innerText||null})).slice(0,50),details:[...document.querySelectorAll('details')].map(x=>x.querySelector('summary')?.innerText||'').slice(0,30)})'''))\n            row['http_status']=response.status if response else None\n        except Exception as e:\n            row['error']=str(e)\n        observations.append(row)\n    context.close(); browser_version=browser.version; browser.close()\nentries=all_entries()\nentry_owners=Counter(e.source_authority for e in entries)\nentry_kinds=Counter(str(getattr(e.kind,'value',e.kind)) for e in entries)\nreport={\n 'schema_version':1,'status':'BLOCKED_BEFORE_MANIFEST_FREEZE','request':'stable3-golden-ui-v3-exhaustive-current-atlas-1','operation':'VERIFY',\n 'source':{'sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393','origin_main_sha':'8024c21adad310881d6f3bbc04b00da1f4f03d31','source_changed':False,'worktree_clean_before_capture':True,'cwd':os.getcwd()},\n 'runtime':{'command':'python run_nicegui_base.py --port 62719','pid':58173,'url':'http://127.0.0.1:62719','python':sys.version.split()[0],'interpreter':sys.executable,'framework':'3.0.0a8','nicegui':md.version('nicegui'),'nicegui_base':md.version('nicegui-base'),'source_import_path':str(Path('source/nicegui_base').resolve()),'installed_nicegui_base_path':str(Path(__import__('nicegui_base').__file__).resolve()),'storage_secret':'runtime-generated ephemeral','browser':'Google Chrome','browser_version':browser_version,'playwright_version':md.version('playwright'),'viewport_css':[1440,900],'dpr':1,'locale':'en-US','timezone':'America/Chicago','reduced_motion':'reduce','browser_storage':'fresh empty context before first navigation'},\n 'catalog':{'entries':len(entries),'kinds':dict(entry_kinds),'owners':dict(entry_owners),'analytics':len(analytics_entries()),'components':len(component_entries()),'patterns':len(pattern_entries()),'semiconductor_surfaces':len(semiconductor_surface_entries()),'recipes':len(recipe_entries()),'construction_families':len(construction_entries()),'mac_lab_routes':[{'path':r.path,'label':r.label,'builder':getattr(r.builder,'__name__','')} for r in mac_lab.ROUTES],'reference_pattern_routes':REFERENCE_PATTERN_ROUTES,'static_registration_source':'source/nicegui_base/workbench/app.py::register_workbench_pages'},\n 'live_route_probe':{'method':'real installed Chrome through Playwright; direct navigation; no screenshots taken','route_count':len(observations),'observations':observations,'errors':errors},\n 'current_project_os_authorities':{'required':['Golden UI Engineering Lawbook v3.0.0','Golden UI v3 Visual Director & Product-Task Contract','Golden UI v3 component/relationship/platform applicability laws','Human-Centered UI Excellence Pillar','Golden Visual Atlas Capture & Retrieval Contract','Visual Surface Atlas & Screenshot Currency Standard','Universal Artifact Bridge & Evidence Promotion Standard','NiceGUI Base Production Contract / active Project truth'],'found_in_checkout':False,'found_in_local_project_os_artifact_store':False,'found_in_available_skill_files':False,'exact_search_excludes_current_job_prompt':True,'notion_called':False,'reason':'The task explicitly prohibits calling Notion from Fabric; current Project OS law texts were not present in repository, local Project OS artifact store, or available skill files.'},\n 'capture_boundary':{'manifest_frozen':False,'canonical_screenshots':0,'pdfs_created':False,'artifact_package_created':False,'artifact_git_published':False,'reason':'Manifest, applicability mapping, findings, and regression claims require exact current Project OS clause text; freezing without it would invent authority references and produce an invalid Golden UI v3 package.'},\n 'blocker_code':'CURRENT_PROJECT_OS_UI_AUTHORITIES_UNAVAILABLE'\n}\nout.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'written':str(out),'route_count':len(observations),'statuses':dict(Counter(str(x.get('http_status',x.get('error'))) for x in observations)),'errors':{k:len(v) for k,v in errors.items()},'catalog':{'entries':len(entries),'components':len(component_entries()),'analytics':len(analytics_entries()),'patterns':len(pattern_entries()),'recipes':len(recipe_entries())}},indent=2))\nPY\nrtk ps -p 58173 -o pid=,ppid=,command= && rtk lsof -nP -iTCP:62719 -sTCP:LISTEN\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python run_nicegui_base.py --port 62719'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -F 'Golden UI Engineering Lawbook v3.0.0' . /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex/skills -g '*.md' -g '*.json' -g '*.txt' -g '\"'!**/.git/**'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -F 'Universal Artifact Bridge & Evidence Promotion Standard' . /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex/skills -g '*.md' -g '*.json' -g '*.txt' -g '\"'!**/.git/**'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -F 'Human-Centered UI Excellence Pillar' . /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex/skills -g '*.md' -g '*.json' -g '*.txt' -g '\"'!**/.git/**'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -l -F 'Visual Surface Atlas & Screenshot Currency Standard' . /Users/haewonkim/.codex-fabric/project-os-artifacts /Users/haewonkim/.codex/skills -g '*.md' -g '*.json' -g '*.txt' -g '\"'!**/.git/**'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python -c 'import socket,subprocess,json; s=socket.socket(); result=s.connect_ex((\\\"127.0.0.1\\\",62719)); s.close(); p=subprocess.run([\\\"ps\\\",\\\"-p\\\",\\\"58173\\\",\\\"-o\\\",\\\"pid=\\\"],capture_output=True,text=True); print(json.dumps({\\\"tcp_connect_ex\\\":result,\\\"pid_still_running\\\":bool(p.stdout.strip()),\\\"pid_stdout\\\":p.stdout.strip(),\\\"pid_returncode\\\":p.returncode}))' && rtk git status --porcelain=v1 && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport hashlib, json\nfrom pathlib import Path\np=Path('/Users/haewonkim/.codex-fabric/jobs/CF-595b522adb09172bf3e941f3.running/source-runtime-blocker-evidence.json')\nd=json.loads(p.read_text())\nd['work_branch']='codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-1'\nd['runtime'].pop('installed_nicegui_base_path',None)\nd['runtime']['runtime_nicegui_base_import_path']='/Users/haewonkim/.codex-fabric/worktrees/CF-595b522adb09172bf3e941f3/source/nicegui_base'\nd['runtime']['shutdown']={'server_pid':58173,'stopped':True,'pid_check':'ps -p 58173 returned no process','port':'127.0.0.1:62719','port_closed':True,'tcp_connect_ex':61,'shutdown_signal':'SIGINT','evidence':'NiceGUI/Uvicorn logged requests; process exited 130 on intentional Ctrl-C shutdown.'}\nd['current_project_os_authorities']['evidence_searches']=[{'query':'Golden UI Engineering Lawbook v3.0.0','scopes':['checkout','~/.codex-fabric/project-os-artifacts','~/.codex/skills'],'matches':[]},{'query':'Human-Centered UI Excellence Pillar','scopes':['checkout','~/.codex-fabric/project-os-artifacts','~/.codex/skills'],'matches':[]},{'query':'Visual Surface Atlas & Screenshot Currency Standard','scopes':['checkout','~/.codex-fabric/project-os-artifacts','~/.codex/skills'],'matches':[]},{'query':'Universal Artifact Bridge & Evidence Promotion Standard','scopes':['checkout','~/.codex-fabric/project-os-artifacts','~/.codex/skills'],'matches':[]}]\nd['current_project_os_authorities']['notion_called']=False\nd['publication']={'artifact_ref':'refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1','artifact_ref_was_absent_at_fresh_remote_readback':True,'evidence_ref':'refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1','evidence_ref_was_absent_at_fresh_remote_readback':True,'push_attempted':False,'reason':'No complete valid package could be assembled under current authoritative laws.'}\nd['postflight']={'worktree_clean':True,'head':'8024c21adad310881d6f3bbc04b00da1f4f03d31','tree':'fcc6294ba8f7c36b68b88a217e65b7efb3050393','origin_main':'8024c21adad310881d6f3bbc04b00da1f4f03d31','source_changed':False,'job_server_stopped':True}\nd['evidence_saved_before_capture']=True\np.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size,'status':d['status'],'manifest_frozen':d['capture_boundary']['manifest_frozen'],'routes':d['live_route_probe']['route_count'],'server_stopped':d['runtime']['shutdown']['stopped']}))\nPY\nrtk git status --porcelain=v1 && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git ls-remote --heads origin refs/heads/main refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1 refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 81,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 91.47,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 1716480,
+      "fresh_input_tokens": 159997,
+      "input_tokens": 1876477,
+      "non_reasoning_output_tokens": 12151,
+      "output_tokens": 47669,
+      "reasoning_output_tokens": 35518,
+      "total_processed_tokens": 1924146
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-26T04:45:52Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-1",
+    "detached_verify": false,
+    "head_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "remote_exact_head": true,
+    "remote_head_sha": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "8024c21adad310881d6f3bbc04b00da1f4f03d31",
+    "work_branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-595b522adb09172bf3e941f3",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-golden-ui-v3-exhaustive-current-atlas-1",
+  "schema_version": 1,
+  "started_at": "2026-09-26T04:29:12Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 1000,
+    "queue_seconds": 1,
+    "total_seconds": 1001
+  },
+  "transport": {
+    "bytes": 23722,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 23353,
+    "prompt_sha256": "46b5cf161c20f71d24d5819580aaa4b31d9d81aa27e665f9ef1910ecb5134c0a",
+    "sha256": "595b522adb09172bf3e941f32a53c04b95666e5bb94001f4501a761750c49746"
+  }
+}
