@@ -1,0 +1,364 @@
+{
+  "accepted_at": "2026-09-28T13:17:23Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk cat source/nicegui_base/ai/construction_manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -i --glob '\"'!*.lock'\"' --glob '\"'!*.svg'\"' \\\"Golden UI v3|golden-ui-v3|InvestigationContextBar|/layouts|Project OS Artifact Bridge|artifact bridge\\\" AGENTS.md source/nicegui_base source/tests docs .codex 2>/dev/null\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1 && rtk command -v nicegui-base && rtk command -v python && rtk command -v rtk && rtk nicegui-base --help'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files -g '*golden*' -g '*Golden*' -g '*atlas*' -g '*visual*' -g '*manifest*' -g 'AGENTS.md' docs source/nicegui_base source/tests | rtk sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-files | rtk rg -i 'golden|atlas|visual|route|registry|manifest|authority' | rtk sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n --glob '\"'!*.zip'\"' --glob '\"'!*.png'\"' --glob '\"'!*.webp'\"' --glob '\"'!source/tests/**'\"' \\\"stable3-golden-ui-v3|Golden UI v3|golden UI v3|InvestigationContextBar|canonical.*route|route.*owner|current.*atlas\\\" docs source/nicegui_base\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v project-os || true; rtk command -v project_os || true; rtk command -v codex-fabric || true; rtk command -v fabric || true; rtk command -v git'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n '\\\"(patterns|layouts|pages|routes|canonical_routes|components|patterns_count|surfaces)' source/nicegui_base/ai/framework_catalog.json source/nicegui_base/certification/certification_manifest.json source/nicegui_base/patterns/registry.py source/nicegui_base/engineering/registry.py source/nicegui_base/components/registry.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def run_workbench|ui\\\\.page\\\\(|layout_studio_page|patterns_page|route\\\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/*.py | rtk sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git remote -v && rtk git config --get-regexp '\"'^remote'\"\\\\..*\\\\.url\"'$'\"' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base agent-context \"Phase 1 current-source Golden UI v3 inventory and route verification for NiceGUI Base\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport ast, json\nfrom pathlib import Path\nroot=Path('.')\nfor f in ['source/nicegui_base/ai/framework_catalog.json','source/nicegui_base/certification/certification_manifest.json','source/nicegui_base/ai/construction_manifest.json']:\n d=json.loads(Path(f).read_text())\n print('\\\\nFILE',f,'ROOT_KEYS',list(d)[:30])\n for key in ('canonical_routes','registries','counts','components','patterns','layouts','visualizations','catalog'):\n  val=d.get(key)\n  if key=='canonical_routes' and not isinstance(val,(int,str)): continue\n  if val is not None:\n   print(key, (val if isinstance(val,(int,str)) else (len(val) if hasattr(val,'__len__') else type(val).__name__)))\n if 'framework_catalog' in f:\n  for k,v in d.items():\n   if isinstance(v,list): print('LIST',k,len(v))\n   elif isinstance(v,dict): print('DICT',k,len(v))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '2010,2110p' source/nicegui_base/workbench/app.py && rtk sed -n '560,620p' source/nicegui_base/workbench/app.py && rtk sed -n '1,120p' source/nicegui_base/workbench/app.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base catalog-audit --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base catalog-search \"InvestigationContextBar\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk nicegui-base runtime-smoke --help && rtk nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' run_nicegui_base.py && rtk sed -n '1,180p' source/nicegui_base/workbench/launcher.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport sys, nicegui, nicegui_base, importlib.util\nprint('python',sys.version)\nprint('executable',sys.executable)\nprint('nicegui',nicegui.__version__,nicegui.__file__)\nprint('nicegui_base',nicegui_base.__file__)\nfor name in ('playwright','selenium','pyppeteer'):\n print(name, bool(importlib.util.find_spec(name)))\nPY\nrtk command -v chromium || true\nrtk command -v chromium-browser || true\nrtk command -v google-chrome || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PYTHONPATH=source nicegui-base runtime-smoke --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def runtime_smoke|runtime_smoke|runtime-smoke\\\" source/nicegui_base | rtk sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('source/nicegui_base/ai/framework_catalog.json')\nd=json.loads(p.read_text())\nprint('framework', d['framework_version'], 'nicegui', d['nicegui_version'])\nfor name,count in sorted(d.get('registry_counts',{}).items()): print(f'{name}\\\\t{count}')\nPY\nrtk rg -n \\\"PATTERN_REGISTRY|PATTERN_DEFINITIONS|PatternDefinition|WorkbenchKind\\\\.PATTERN|def patterns_page|def _unified_patterns_compatibility_page|def _settings_compatibility_page|def studio_page\\\" source/nicegui_base/workbench/app.py source/nicegui_base/workbench/catalog.py source/nicegui_base/patterns/registry.py source/nicegui_base/certification/mac_lab.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la .nicegui_base 2>/dev/null || true; rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" python - <<'\"'PY'\nimport sys, nicegui_base\nprint(sys.executable)\nprint(nicegui_base.__file__)\nPY\nrtk env PYTHONPATH=\\\"\"'$PWD/source\" nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('source/nicegui_base/ai/framework_catalog.json')\nd=json.loads(p.read_text())\nfor name in ('components','patterns','layouts','visualizations','engineering','tables','content','analysis','semiconductor','semiconductor_recipes'):\n x=d['registries'].get(name)\n print('\\\\nREGISTRY',name,'count',len(x) if hasattr(x,'__len__') else type(x).__name__)\n if name in ('patterns','engineering') and isinstance(x,list): print('\\\\n'.join(str(i)[:180] for i in x[:20]))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore -- certification_output/runtime_smoke/RUNTIME_SMOKE_REPORT.json certification_output/runtime_smoke/RUNTIME_SMOKE_SERVER.log && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1 && rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '100,205p' source/nicegui_base/certification/runtime_smoke.py && rtk sed -n '740,825p' source/nicegui_base/workbench/app.py && rtk sed -n '890,945p' source/nicegui_base/workbench/app.py && rtk sed -n '1,220p' source/nicegui_base/workbench/catalog.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,100p' source/nicegui_base/workbench/domain_specimens.py && rtk rg -n \\\"def render_capability_studio|render_specimen|domain_specimens|render_catalog_example|preview_renderer\\\" source/nicegui_base/workbench/capability_studio.py source/nicegui_base/workbench/catalog_runtime.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" nicegui-base runtime-smoke --output /tmp/nicegui_base_phase1_runtime_smoke --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom nicegui_base.certification import mac_lab\nfrom nicegui_base.workbench.catalog import all_entries, coverage\nfrom nicegui_base.workbench.models import WorkbenchKind\nprint('certification_routes',len(mac_lab.ROUTES))\nfor r in mac_lab.ROUTES:\n b=r.builder\n print(json.dumps({'route':r.path,'title':getattr(r,'title',None),'owner':f'{b.__module__}.{b.__name__}'}))\nprint('catalog_entries',len(all_entries()))\nprint('coverage',coverage())\nprint('kinds',{k.value:sum(e.kind is k for e in all_entries()) for k in WorkbenchKind})\nPY\nrtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport asyncio, json, os, socket, subprocess, sys, tempfile, time\nfrom pathlib import Path\nfrom urllib.request import urlopen\nfrom playwright.async_api import async_playwright\nroot=Path.cwd(); port=49173; base=f'http://127.0.0.1:{port}'\nlog_path=Path('/tmp/nicegui_base_phase1_server.log')\nwith log_path.open('w') as log:\n proc=subprocess.Popen([sys.executable,'run_nicegui_base.py','--host','127.0.0.1','--port',str(port)],cwd=root,stdout=log,stderr=subprocess.STDOUT,text=True)\ntry:\n deadline=time.monotonic()+45\n while time.monotonic()<deadline:\n  if proc.poll() is not None: raise RuntimeError(f'server exited {proc.returncode}')\n  try:\n   with urlopen(base+'/healthz',timeout=1) as response:\n    if response.status==200: break\n  except Exception: time.sleep(.25)\n else: raise TimeoutError('source app did not become ready')\n async def run():\n  async with async_playwright() as pw:\n   browser=await pw.chromium.launch(headless=True)\n   page=await browser.new_page()\n   errors=[]; page.on('pageerror', lambda error: errors.append(str(error)))\n   target='/studio/framework%3Aengineering%3AInvestigationContextBar'\n   started=time.monotonic(); response=await page.goto(base+target,wait_until='networkidle',timeout=45000)\n   await page.get_by_text('SYN-INV-259-001',exact=False).wait_for(state='visible',timeout=20000)\n   await page.get_by_text('Illustrative chamber CD shift',exact=False).wait_for(state='visible',timeout=10000)\n   detail={'requested_route':target,'response_status':response.status if response else None,'final_url':page.url,'component_visible':True,'synthetic_fixture_visible':True,'page_title':await page.title(),'elapsed_seconds':round(time.monotonic()-started,3)}\n   started=time.monotonic(); response=await page.goto(base+'/layouts',wait_until='networkidle',timeout=30000)\n   await page.wait_for_url('**/patterns',timeout=15000)\n   await page.locator('[data-unified-pattern-explorer]').wait_for(state='visible',timeout=10000)\n   alias={'requested_route':'/layouts','response_status':response.status if response else None,'final_url':page.url,'pattern_explorer_visible':True,'elapsed_seconds':round(time.monotonic()-started,3)}\n   await browser.close()\n   return {'investigation_context':detail,'layouts_alias':alias,'browser_page_errors':errors}\n evidence=asyncio.run(run())\n print(json.dumps({'ok':not evidence['browser_page_errors'],'command':'python run_nicegui_base.py --host 127.0.0.1 --port 49173; Playwright Chromium direct route checks','base_url':base,**evidence},indent=2))\nfinally:\n proc.terminate()\n try: proc.wait(timeout=8)\n except subprocess.TimeoutExpired: proc.kill(); proc.wait(timeout=5)\nprint('SERVER_LOG',log_path)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,280p' source/nicegui_base/workbench/registry_adapters.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('source/nicegui_base/certification/certification_manifest.json')\nd=json.loads(p.read_text())\nprint('canonical_routes',d.get('canonical_routes'))\nprint('runtime_smoke_routes',d.get('runtime_smoke_routes'))\nprint('live_lab',json.dumps(d.get('live_lab'),indent=2)[:5000])\nPY\nrtk nl -ba source/nicegui_base/workbench/app.py | rtk sed -n '590,620p'\nrtk nl -ba source/nicegui_base/workbench/app.py | rtk sed -n '750,790p'\nrtk nl -ba source/nicegui_base/workbench/app.py | rtk sed -n '2054,2098p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1 && rtk git diff --exit-code && rtk git diff --cached --exit-code && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nicegui-base --version 2>/dev/null || true; rtk python - <<'PY'\nfrom nicegui_base.workbench.catalog import all_entries, coverage\nfrom nicegui_base.patterns.registry import PATTERN_REGISTRY\nfrom nicegui_base.ai.catalog import load_framework_catalog\nc=load_framework_catalog()\nprint('catalog_registry_count',len(c['registries']))\nprint('framework_declared_count',sum(c['registry_counts'].values()))\nprint('catalog_entry_count',len(all_entries()))\nprint('pattern_registry_count',len(PATTERN_REGISTRY))\nprint('coverage_counts',coverage())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" nicegui-base agent-context \"Phase 1 current-source Golden UI v3 inventory and route verification for NiceGUI Base\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom nicegui_base.ai.catalog import load_framework_catalog\nc=load_framework_catalog()\nfor name,items in sorted(c['registries'].items()): print(f'{name}\\\\t{len(items)}')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" nicegui-base catalog-audit --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" nicegui-base catalog-search \"InvestigationContextBar\" --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" nicegui-base runtime-contract'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" nicegui-base runtime-smoke --output /tmp/nicegui_base_phase1_runtime_smoke_timed --port 0 --format json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la .nicegui_base 2>&1 || true\nrtk sed -n '1,180p' examples/nicegui_base/golden_data_explorer.py\nrtk sed -n '130,168p' source/nicegui_base/patterns/registry.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nl -ba source/nicegui_base/workbench/registry_adapters.py | rtk sed -n '80,240p'\nrtk nl -ba source/nicegui_base/workbench/catalog.py | rtk sed -n '85,105p'\nrtk nl -ba source/nicegui_base/certification/runtime_smoke.py | rtk sed -n '103,150p'\nrtk nl -ba source/nicegui_base/workbench/app.py | rtk sed -n '905,930p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport ast, json\nfrom pathlib import Path\np=Path('source/nicegui_base/workbench/app.py'); tree=ast.parse(p.read_text())\nfn=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name=='register_workbench_pages')\nfound=[]\nfor n in ast.walk(fn):\n if isinstance(n,ast.Call) and isinstance(n.func,ast.Call) and isinstance(n.func.func,ast.Attribute) and n.func.func.attr=='page' and isinstance(n.func.value,ast.Name) and n.func.value.id=='ui':\n  a=n.func.args[0] if n.func.args else None\n  if isinstance(a,ast.Constant): found.append(a.value)\n  elif isinstance(a,ast.JoinedStr): found.append('<dynamic>')\nprint(json.dumps({'declarative_workbench_route_count':len(found),'routes':found},indent=2))\nPY\nrtk git status --porcelain=v1\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env PYTHONPATH=\"$PWD/source\" python - <<'\"'PY'\nimport json\nfrom pathlib import Path\nfrom nicegui_base.ai.catalog import load_framework_catalog\nfrom nicegui_base.certification import mac_lab\nfrom nicegui_base.workbench.catalog import all_entries, coverage\nfrom nicegui_base.workbench.models import WorkbenchKind\nfrom nicegui_base.patterns.registry import PATTERN_REGISTRY\n\nroot=Path.cwd()\napp_source='source/nicegui_base/workbench/app.py'\ndirect=[\n('/', 'home_page'),('/build','build_page'),('/design','design_system_page'),('/settings','settings_page'),\n('/catalog','catalog_page'),('/components','components_page'),('/patterns','patterns_page'),('/layouts','layout_studio_page'),\n('/studio/{entry_key}','studio_page'),('/catalog/component/{component_key}','component_detail_page'),\n('/catalog/{registry_name}/{entry_key}','catalog_detail_page'),('/analytics','analytics_gallery_page'),\n('/analytics/{surface_key}','analytics_detail_page'),('/recipes','recipes_gallery_page'),('/applications','applications_page'),\n('/applications/{application_key}','full_application_detail_page'),('/recipes/{recipe_key}','recipe_detail_page'),\n('/workbench/data','data_page'),('/quality','quality_page'),('/ai-guide','ai_guide_page')]\nroutes=[{'path':p,'registration_owner':f'{app_source}::register_workbench_pages','render_owner':f'{app_source}::{fn}'} for p,fn in direct]\nfor route in mac_lab.ROUTES:\n    if route.path in {'/','/patterns/settings'}:\n        continue\n    routes.append({'path':route.path,'registration_owner':f'{app_source}::_register_reference_routes','render_owner':f'{route.builder.__module__}.{route.builder.__name__}'})\nroutes.append({'path':'/patterns/settings','registration_owner':f'{app_source}::_register_reference_routes','render_owner':f'{app_source}::_settings_compatibility_page','compatibility_target':'/settings'})\nassert len(routes)==40 and len({x['path'] for x in routes})==40\ncatalog=load_framework_catalog(); entries=all_entries(); cov=coverage()\nregistry_records={k:len(v) for k,v in sorted(catalog['registries'].items())}\nregistry_counts={k:int(v) for k,v in sorted(catalog['registry_counts'].items())}\nlab_routes=[{'path':r.path,'render_owner':f'{r.builder.__module__}.{r.builder.__name__}'} for r in mac_lab.ROUTES]\nkind_counts={k.value:sum(e.kind is k for e in entries) for k in WorkbenchKind}\nreport={\n 'schema':'nicegui-base.phase1-current-source-verify.v1',\n 'project':'nicegui-base','operation':'VERIFY','request':'stable3-golden-ui-v3-exhaustive-current-atlas-4',\n 'identity':{'base':'aa17a17524af0edc6231b2a4a44d783dbff9fa23','source_head':'aa17a17524af0edc6231b2a4a44d783dbff9fa23','source_tree':'28fea2880de94174dbb1d741e5f91c7e14345aeb','work_branch':'codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-4','source_changed':False,'working_tree_clean':True},\n 'ok':False,'inventory_preflight_complete':True,'phase_complete':False,'full_audit_complete':False,'human_acceptance':'NOT_GRANTED','go_claim':'NONE',\n 'blockers':[{'code':'project_os_artifact_bridge_unavailable','detail':'No qualified Project OS Artifact Bridge tool/server is exposed in this session; the requested artifact ref could not be written or package-verified through that bridge.'}],\n 'runtime':{'python':'3.11.7','nicegui':'3.15.0','framework':'3.0.0a8','runtime_contract':'PASS','runtime_contract_detail':'48 factories / 1176 direct calls checked'},\n 'inventory':{\n  'route_counts':{'workbench_declared_ui_routes':20,'current_application_ui_routes':len(routes),'certification_live_lab_routes':len(lab_routes),'runtime_smoke_checks':23,'runtime_operational_endpoints':2},\n  'current_application_ui_routes':routes,\n  'certification_live_lab_routes':lab_routes,\n  'registry_counts':{'workbench_discoverable_entries':len(entries),'by_kind':kind_counts,'framework_catalog_registries':len(registry_records),'framework_catalog_registry_records':sum(registry_counts.values()),'framework_catalog_registry_counted_keys':len(registry_counts),'framework_catalog_registry_record_counts':registry_counts,'registry_record_list_lengths':registry_records,'pattern_registry_entries':len(PATTERN_REGISTRY),'catalog_audit':'PASS 465/465; framework catalog 450/450; no issues'},\n  'authoritative_routes_by_registry':{\n   'workbench_page_shell':'/ (home_page), /catalog (catalog_page), /components (components_page), /patterns (patterns_page), /analytics (analytics_gallery_page), /recipes (recipes_gallery_page), /applications (applications_page), /quality (quality_page), /ai-guide (ai_guide_page)',\n   'all_registry_detail':'/studio/{entry_key} (studio_page); /catalog/{registry_name}/{entry_key} (catalog_detail_page)',\n   'components':'/studio/component%3A{component_key} and /catalog/component/{component_key}',\n   'patterns':'/patterns plus /studio/pattern%3A{pattern_key}; full reference paths are pattern-specific below /patterns/',\n   'analytics':'/analytics and /analytics/{surface_key}',\n   'recipes':'/recipes and /recipes/{recipe_key}',\n   'investigation_context_bar':'/studio/framework%3Aengineering%3AInvestigationContextBar'\n  },\n  'inventory_inputs':[\n   'AGENTS.md','source/AGENTS.md','source/nicegui_base/ai/construction_manifest.json','source/nicegui_base/ai/framework_catalog.json',\n   'source/nicegui_base/workbench/app.py','source/nicegui_base/workbench/catalog.py','source/nicegui_base/workbench/registry_adapters.py',\n   'source/nicegui_base/patterns/registry.py','source/nicegui_base/engineering/registry.py','source/nicegui_base/components/registry.py',\n   'source/nicegui_base/semiconductor/surfaces.py','source/nicegui_base/semiconductor/recipes.py','source/nicegui_base/certification/mac_lab.py',\n   'source/nicegui_base/certification/runtime_smoke.py','examples/nicegui_base/golden_data_explorer.py'\n  ]\n },\n 'route_health':{'status':'PASS','route':'/studio/framework%3Aengineering%3AInvestigationContextBar','authority':'framework_catalog:engineering','http_status':200,'page_title':'NiceGUI Base Reference Explorer','visible_fixture':'SYN-INV-259-001 — Illustrative chamber CD shift','browser_page_errors':[],'elapsed_seconds':0.877,'evidence_log':'/tmp/nicegui_base_phase1_server.log'},\n 'layouts_alias':{'status':'PASS','requested_route':'/layouts','authoritative_route':'/patterns','http_status':200,'direct_browser_final_url':'http://127.0.0.1:49173/patterns','pattern_explorer_visible':True,'elapsed_seconds':0.812,'source_registration':'source/nicegui_base/workbench/app.py:2075 -> layout_studio_page -> _unified_patterns_compatibility_page -> ui.navigate.to(/patterns)'},\n 'commands':[\n  {'command':'rtk env PYTHONPATH=\\\"\"'$PWD/source\" nicegui-base agent-context \"Phase 1 current-source Golden UI v3 inventory and route verification for NiceGUI Base\" --format json'\"','result':'PASS_CONTEXT_RETURNED','duration_seconds':0.334},\n  {'command':'rtk env PYTHONPATH=\\\"\"'$PWD/source\" nicegui-base catalog-search \"InvestigationContextBar\" --format json'\"','result':'PASS_ONE_CANONICAL_ENTRY','duration_seconds':0.374},\n  {'command':'rtk env PYTHONPATH=\\\"\"'$PWD/source\" nicegui-base catalog-audit --format json'\"','result':'PASS_465_OF_465; FRAMEWORK_CATALOG_450_OF_450','duration_seconds':0.350},\n  {'command':'rtk env PYTHONPATH=\\\"\"'$PWD/source\" nicegui-base runtime-contract'\"','result':'PASS_NICEGUI_3.15.0; 48_FACTORIES_1176_CALLS','duration_seconds':1.531},\n  {'command':'rtk env PYTHONPATH=\\\"\"'$PWD/source\" nicegui-base runtime-smoke --output /tmp/nicegui_base_phase1_runtime_smoke_timed --port 0 --format json'\"','result':'PASS_23_OF_23_HTTP_CHECKS; zero_log_error_patterns','duration_seconds':4.167,'evidence_report':'/tmp/nicegui_base_phase1_runtime_smoke_timed/RUNTIME_SMOKE_REPORT.json','evidence_log':'/tmp/nicegui_base_phase1_runtime_smoke_timed/RUNTIME_SMOKE_SERVER.log'},\n  {'command':'/opt/anaconda3/bin/python run_nicegui_base.py --host 127.0.0.1 --port 49173 (with Playwright Chromium direct-route assertions)','result':'PASS InvestigationContextBar and /layouts alias; zero browser page errors','route_elapsed_seconds':{'investigation_context_bar':0.877,'layouts_to_patterns':0.812}}\n ],\n 'artifact_publication':{'status':'BLOCKED','expected_ref':'refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-4','artifact_ref':None,'artifact_commit':None,'package_verification_result':'NOT_RUN','reason':'qualified Project OS Artifact Bridge not available in session'},\n 'scope_boundary':{'full_canonical_screenshot_atlas':'NOT_RUN','stress_and_holdout_capture':'NOT_RUN','findings':'NOT_RUN','complete_package_publication':'OPEN','human_acceptance':'OPEN'}\n}\nout=Path('/tmp/nicegui_base_phase1_report.json'); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'report_path':str(out),'current_application_ui_route_count':len(routes),'live_lab_route_count':len(lab_routes),'registry_count':len(registry_records),'registry_record_sum':sum(registry_counts.values()),'kind_counts':kind_counts,'bytes':out.stat().st_size},indent=2))\nPY\nrtk git status --porcelain=v1 && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom nicegui_base.ai.catalog import load_framework_catalog\nfrom nicegui_base.patterns.registry import PATTERN_REGISTRY, PagePattern\nc=load_framework_catalog()\nfor name, key in [('engineering','InvestigationContextBar'),('page_patterns','comparison'),('page_patterns','data_explorer'),('components','DataTable'),('visualizations','BarChart')]:\n values=c['registries'].get(name,[])\n item=next((x for x in values if str(x.get('_registry_key') or x.get('key') or x.get('name') or '').casefold()==key.casefold()),None)\n print(json.dumps({'registry':name,'key':key,'record':item},ensure_ascii=False))\nprint('PATTERN_COMPARISON',PATTERN_REGISTRY[PagePattern.COMPARISON])\nprint('PATTERN_COUNT',len(PATTERN_REGISTRY))\nmanifest=json.loads(Path('source/nicegui_base/ai/construction_manifest.json').read_text())\nprint('CONSTRUCTION',json.dumps({k:manifest.get(k) for k in ('framework_version','nicegui_version','design_constitution','wave60_analysis_platform','wave61_semiconductor_platform')},ensure_ascii=False))\nPY\nrtk sed -n '1,35p' source/nicegui_base/engineering/registry.py\nrtk git status --porcelain=v1 && rtk git diff --exit-code && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom nicegui_base.ai.catalog import load_framework_catalog\nc=load_framework_catalog()\nfor name in ('engineering','page_patterns','tables','visualizations'):\n records=c['registries'].get(name,[])\n wanted={'engineering':'InvestigationContextBar','page_patterns':'comparison','tables':'DataTable','visualizations':'BarChart'}[name]\n def key(x):\n  return next((str(x.get(k)) for k in ('_registry_key','key','public_name','name') if x.get(k) is not None),'') if isinstance(x,dict) else str(x)\n item=next((x for x in records if key(x).casefold()==wanted.casefold()),None)\n print(json.dumps({'registry':name,'key':wanted,'record':item},ensure_ascii=False))\nmanifest=json.loads(Path('source/nicegui_base/ai/construction_manifest.json').read_text())\nprint(json.dumps({'construction_manifest':{k:manifest.get(k) for k in ('framework_version','nicegui_version','wave60_analysis_platform','wave61_semiconductor_platform')}},ensure_ascii=False))\nprint('generated_context_catalog_present',Path('.nicegui_base/framework_catalog.json').exists())\nprint('source_framework_catalog_present',Path('source/nicegui_base/ai/framework_catalog.json').exists())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nfrom pathlib import Path\np=Path('/tmp/nicegui_base_phase1_browser_verify.py')\np.write_text('''import asyncio, json, socket, subprocess, sys, time\\\\nfrom pathlib import Path\\\\nfrom urllib.request import urlopen\\\\nfrom playwright.async_api import async_playwright\\\\nroot=Path.cwd()\\\\nwith socket.socket() as s:\\\\n    s.bind((\\\"127.0.0.1\\\",0)); port=s.getsockname()[1]\\\\nbase=f\\\"http://127.0.0.1:{port}\\\"\\\\nlog_path=Path(\\\"/tmp/nicegui_base_phase1_browser_server.log\\\")\\\\nserver_cmd=[sys.executable,\\\"run_nicegui_base.py\\\",\\\"--host\\\",\\\"127.0.0.1\\\",\\\"--port\\\",str(port)]\\\\nstart=time.monotonic()\\\\nwith log_path.open(\\\"w\\\") as log:\\\\n    proc=subprocess.Popen(server_cmd,cwd=root,stdout=log,stderr=subprocess.STDOUT,text=True)\\\\ntry:\\\\n    deadline=time.monotonic()+45\\\\n    while time.monotonic()<deadline:\\\\n        if proc.poll() is not None: raise RuntimeError(f\\\"server exited {proc.returncode}\\\")\\\\n        try:\\\\n            with urlopen(base+\\\"/healthz\\\",timeout=1) as response:\\\\n                if response.status==200: break\\\\n        except Exception: time.sleep(.2)\\\\n    else: raise TimeoutError(\\\"source app did not become ready\\\")\\\\n    async def check():\\\\n        async with async_playwright() as pw:\\\\n            browser=await pw.chromium.launch(headless=True)\\\\n            page=await browser.new_page(); errors=[]\\\\n            page.on(\\\"pageerror\\\",lambda error: errors.append(str(error)))\\\\n            target=\\\"/studio/framework%3Aengineering%3AInvestigationContextBar\\\"\\\\n            t=time.monotonic(); response=await page.goto(base+target,wait_until=\\\"networkidle\\\",timeout=45000)\\\\n            await page.get_by_text(\\\"SYN-INV-259-001\\\",exact=False).wait_for(state=\\\"visible\\\",timeout=20000)\\\\n            await page.get_by_text(\\\"Illustrative chamber CD shift\\\",exact=False).wait_for(state=\\\"visible\\\",timeout=10000)\\\\n            detail={\\\"route\\\":target,\\\"http_status\\\":response.status if response else None,\\\"final_url\\\":page.url,\\\"visible_fixture\\\":\\\"SYN-INV-259-001; Illustrative chamber CD shift\\\",\\\"elapsed_seconds\\\":round(time.monotonic()-t,3)}\\\\n            t=time.monotonic(); response=await page.goto(base+\\\"/layouts\\\",wait_until=\\\"networkidle\\\",timeout=30000)\\\\n            await page.wait_for_url(\\\"**/patterns\\\",timeout=15000)\\\\n            await page.locator(\\\"[data-unified-pattern-explorer]\\\").wait_for(state=\\\"visible\\\",timeout=10000)\\\\n            alias={\\\"requested_route\\\":\\\"/layouts\\\",\\\"authoritative_route\\\":\\\"/patterns\\\",\\\"http_status\\\":response.status if response else None,\\\"final_url\\\":page.url,\\\"pattern_explorer_visible\\\":True,\\\"elapsed_seconds\\\":round(time.monotonic()-t,3)}\\\\n            await browser.close()\\\\n            return {\\\"investigation_context\\\":detail,\\\"layouts_alias\\\":alias,\\\"page_errors\\\":errors}\\\\n    result=asyncio.run(check())\\\\n    result.update({\\\"ok\\\":not result[\\\"page_errors\\\"],\\\"server_command\\\":\\\" \\\".join(server_cmd),\\\"base_url\\\":base,\\\"total_elapsed_seconds\\\":round(time.monotonic()-start,3),\\\"server_log\\\":str(log_path)})\\\\n    print(json.dumps(result,indent=2))\\\\n    if not result[\\\"ok\\\"]: raise SystemExit(1)\\\\nfinally:\\\\n    proc.terminate()\\\\n    try: proc.wait(timeout=8)\\\\n    except subprocess.TimeoutExpired: proc.kill(); proc.wait(timeout=5)\\\\n''')\nprint(p)\nPY\nrtk python /tmp/nicegui_base_phase1_browser_verify.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/nicegui_base_phase1_report.json')\nd=json.loads(p.read_text())\nd['route_health'].update({'final_url':'http://127.0.0.1:58067/studio/framework%3Aengineering%3AInvestigationContextBar','elapsed_seconds':0.87,'evidence_log':'/tmp/nicegui_base_phase1_browser_server.log'})\nd['layouts_alias'].update({'direct_browser_final_url':'http://127.0.0.1:58067/patterns','elapsed_seconds':0.83})\nd['commands'][-1]={'command':'rtk python /tmp/nicegui_base_phase1_browser_verify.py','result':'PASS InvestigationContextBar and /layouts alias; zero browser page errors','duration_seconds':3.356,'server_command':'/opt/anaconda3/bin/python run_nicegui_base.py --host 127.0.0.1 --port 58067','evidence_script':'/tmp/nicegui_base_phase1_browser_verify.py','evidence_log':'/tmp/nicegui_base_phase1_browser_server.log','route_elapsed_seconds':{'investigation_context_bar':0.87,'layouts_to_patterns':0.83}}\nd['current_authorities']={\n 'construction_manifest':{'path':'source/nicegui_base/ai/construction_manifest.json','framework_version':'3.0.0a8','nicegui_version':'3.15.0','semiconductor_surface_count':58},\n 'agent_context_catalog':{'expected_path':'.nicegui_base/framework_catalog.json','present':False,'checked_in_authority':'source/nicegui_base/ai/framework_catalog.json','registry_names':27,'canonical_declared_records':450},\n 'target_entry':{'registry':'engineering','key':'InvestigationContextBar','category':'rca','purpose':'Persistent investigation orientation strip','source_authority':'framework_catalog:engineering','route':'/studio/framework%3Aengineering%3AInvestigationContextBar'},\n 'current_registry_definition':'source/nicegui_base/engineering/registry.py::ENGINEERING_REGISTRY[InvestigationContextBar]',\n 'pattern_layout_metadata':{'source':'source/nicegui_base/patterns/registry.py::PATTERN_REGISTRY','comparison_pattern':'wide; required slots header/primary; optional filters/metrics/secondary/data/details; halves grid','layout_registry':'LayoutSlot semantics are carried by registered pattern metadata; no standalone layouts registry in framework_catalog'},\n 'golden_example':{'path':'examples/nicegui_base/golden_data_explorer.py','inspected':True,'uses':'DataExplorerPage, DataTable, BarChart, and canonical LayoutSlot composition'}\n}\nd['evidence_files']={\n 'runtime_smoke_report':'/tmp/nicegui_base_phase1_runtime_smoke_timed/RUNTIME_SMOKE_REPORT.json',\n 'runtime_smoke_log':'/tmp/nicegui_base_phase1_runtime_smoke_timed/RUNTIME_SMOKE_SERVER.log',\n 'browser_harness':'/tmp/nicegui_base_phase1_browser_verify.py',\n 'browser_server_log':'/tmp/nicegui_base_phase1_browser_server.log',\n 'phase1_report':str(p)\n}\np.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\\\\n')\nprint(json.dumps({'report_path':str(p),'phase_complete':d['phase_complete'],'ok':d['ok'],'blocker_count':len(d['blockers']),'bytes':p.stat().st_size},indent=2))\njson.loads(p.read_text())\nPY\nrtk git status --short --branch && rtk git diff --exit-code && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 119,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 93.13,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 2070784,
+      "fresh_input_tokens": 152840,
+      "input_tokens": 2223624,
+      "non_reasoning_output_tokens": 14130,
+      "output_tokens": 54756,
+      "reasoning_output_tokens": 40626,
+      "total_processed_tokens": 2278380
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-28T13:39:34Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+    "branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-4",
+    "detached_verify": false,
+    "head_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+    "remote_exact_head": true,
+    "remote_head_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+    "work_branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [
+      {
+        "bytes": 5951,
+        "path": "AGENTS.md",
+        "sha256": "b3b5462373fa217fa887895914ffb6581de62313d5eea72e6800d2b675b04da7"
+      }
+    ],
+    "total_bytes": 5951,
+    "warning": null
+  },
+  "job_id": "CF-ed923cb917d83e49319a007b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-4"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "nicegui-base",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "stable3-golden-ui-v3-exhaustive-current-atlas-4",
+  "schema_version": 1,
+  "started_at": "2026-09-28T13:17:24Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 1330,
+    "queue_seconds": 1,
+    "total_seconds": 1331
+  },
+  "transport": {
+    "bytes": 3222,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 2854,
+    "prompt_sha256": "6de8fc614853e81b6530cff194b74cfb40ae5de08628378fc99b8d6a98f0034c",
+    "sha256": "ed923cb917d83e49319a007bd5d12612139ebe760aefb52612d0b91180141e62"
+  }
+}
