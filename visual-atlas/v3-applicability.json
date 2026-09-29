@@ -1,0 +1,113 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "standard": "Golden UI v3 / human-centered product laws from project request, current Design Constitution v1.6, App Patterns, Layout Rules, Component Catalog, Zero Stock NiceGUI Visual Laws",
+  "items": [
+    {
+      "clause": "task_hierarchy",
+      "applicability": "Applicable",
+      "assessment": "Explorer and pattern tasks are intent-first; query, compare, open and return observed."
+    },
+    {
+      "clause": "navigation",
+      "applicability": "Applicable",
+      "assessment": "Desktop shell and mobile nav; mobile open, route and close passed, Escape returned focus."
+    },
+    {
+      "clause": "typography",
+      "applicability": "Applicable",
+      "assessment": "Page hierarchy uses shared tokens; page title is visually clear but semantic heading issue is UI0-A11Y-001."
+    },
+    {
+      "clause": "density",
+      "applicability": "Applicable",
+      "assessment": "Dense DataTable mode selectable; canonical data density and specimen density reviewed."
+    },
+    {
+      "clause": "spacing_alignment",
+      "applicability": "Applicable",
+      "assessment": "144 current anchors reviewed at canonical whole-viewport; stress widths checked."
+    },
+    {
+      "clause": "surface_material_shape",
+      "applicability": "Applicable",
+      "assessment": "Shared surfaces, borders, radius/elevation characterized from design constitution and current pixels."
+    },
+    {
+      "clause": "color_semantics",
+      "applicability": "Applicable",
+      "assessment": "System/light/dark changes applied; dark chart surface inspected."
+    },
+    {
+      "clause": "icon_language",
+      "applicability": "Applicable",
+      "assessment": "Canonical controls use current governed icon language; no alternate icon set detected in representative review."
+    },
+    {
+      "clause": "specimen_preview_fidelity",
+      "applicability": "Applicable",
+      "assessment": "Studio, pattern, chart and recipe examples are production renderer authorities; live markers/tasks exercised."
+    },
+    {
+      "clause": "motion",
+      "applicability": "Applicable",
+      "assessment": "Reduced-motion media emulation reached route; animation behavior remains a representative profile."
+    },
+    {
+      "clause": "responsive_recomposition",
+      "applicability": "Applicable",
+      "assessment": "1366x768, 1920x1080, 360x800, 844x390, 1280x600 and two post-freeze holdouts recorded."
+    },
+    {
+      "clause": "overlays_focus",
+      "applicability": "Applicable",
+      "assessment": "Select pointer+keyboard selection, Escape, focus return; chart data dialog Esc/focus and mobile drawer tested."
+    },
+    {
+      "clause": "forms_controls",
+      "applicability": "Applicable",
+      "assessment": "Preferred tool and studio Select controls exercised; no material failure found."
+    },
+    {
+      "clause": "search_filter_sort",
+      "applicability": "Applicable",
+      "assessment": "Explorer search/favorites/compare and DataTable query/filter/sort tested."
+    },
+    {
+      "clause": "tables_data_identity",
+      "applicability": "Applicable",
+      "assessment": "DataTable pagination, column controls, density, row inspect and CSV path tested; exact selected row fields retained."
+    },
+    {
+      "clause": "charts_analytics",
+      "applicability": "Applicable",
+      "assessment": "Canvas chart, 24-point inspect-data modal, theme change and export/reset controls observed."
+    },
+    {
+      "clause": "feedback_state",
+      "applicability": "Applicable",
+      "assessment": "Filter results, selection detail, empty query and state specimens reviewed; no task-breaking feedback failure found."
+    },
+    {
+      "clause": "accessibility",
+      "applicability": "Applicable",
+      "assessment": "Main landmark, focus return, visible controls checked; heading outline failure UI0-A11Y-001."
+    },
+    {
+      "clause": "visible_performance_craft",
+      "applicability": "Applicable",
+      "assessment": "Browser errors absent; 6 retained graphics/canvas performance warnings on chart pages."
+    },
+    {
+      "clause": "copy_trust",
+      "applicability": "Applicable",
+      "assessment": "Current copy identifies synthetic/reference data, ownership, context and local specimen scope."
+    },
+    {
+      "clause": "cross_surface_consistency",
+      "applicability": "Applicable",
+      "assessment": "Current 144-key set mapped to CHG-135 R16; no material regression classified."
+    }
+  ]
+}

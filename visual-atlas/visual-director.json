@@ -1,0 +1,26 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "identity": "NiceGUI Base current Reference Explorer: governed UI authority gallery for enterprise engineering work; discover intent-first, inspect real registered specimens, then use the canonical implementation.",
+  "characterization": {
+    "typography": "Compact, tokenized hierarchy using high-contrast page titles, medium-weight section labels, secondary explanatory copy and tabular numerals for measurements.",
+    "density": "Information-dense but segmented by meaningful sections, cards, filters and tables; density is a controllable table preference (Comfort/Compact/Dense).",
+    "hierarchy": "Persistent navigation anchors the standard; page header names the workspace; scan-first cards and live examples separate overview from deep inspection.",
+    "spacing_rhythm": "Design tokens govern page gutters, control gaps and section spacing; wide canvases use full available width beside the governed shell.",
+    "surfaces": "Quiet neutral surfaces with restrained borders, rounded containers and selective elevation for transient overlays.",
+    "color": "Semantic status color is localized to warnings/alerts/success and chart series; light/dark themes inherit from shared tokens.",
+    "icons": "Small line icons on actions and controls, paired with labels or accessible names.",
+    "specimens": "Use canonical production renderers with synthetic engineering fixtures; specimen context and live detail authority stay visible.",
+    "motion": "Short state transitions; reduced-motion preference is supported by current shell/design authority.",
+    "data_density": "Tables and chart data are first-class task surfaces with selectable, filterable, inspectable records; charts pair visible summary with a data inspection path.",
+    "content_tone": "Plain engineering language that names entities, measurements, ownership, status, uncertainty and synthetic/reference scope.",
+    "responsive_composition": "Same task identity recomposes into single-column content and a toggleable mobile navigation drawer; no narrow outer canvas wrapper.",
+    "shell_navigation": "Navigation groups capabilities by intent/work family and remains a stable context across detail routes."
+  },
+  "preservation_laws": [
+    "Do not redesign approved identity; preserve the current shell, semantic tokens, production renderer, fixture identity and interaction contracts.",
+    "Treat current screenshot differences as comparison evidence, not a visual equality target.",
+    "Retain the responsive hidden sidebar behavior; framework version identity is run-level, not per screenshot.",
+    "No beauty score; findings remain task- and clause-scoped."
+  ]
+}

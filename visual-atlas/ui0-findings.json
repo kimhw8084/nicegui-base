@@ -1,0 +1,141 @@
+{
+  "schema_version": 3,
+  "project": "nicegui-base",
+  "change": "CHG-257",
+  "operation": "VERIFY",
+  "request": "stable3-golden-ui-v3-exhaustive-current-atlas-6",
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "source_changed": false,
+  "frozen_at_utc": "2026-09-29T03:28:54.427424+00:00",
+  "frozen_before_formal_holdouts": true,
+  "findings": [
+    {
+      "finding_id": "UI0-A11Y-001",
+      "severity": "P2",
+      "title": "Current page titles are not exposed as semantic headings",
+      "surface_keys": [
+        "workbench-catalog",
+        "workbench-components-gallery",
+        "analytics-capability_histogram",
+        "reference-pattern-analysis",
+        "workbench-data",
+        "pattern-studio-data_explorer",
+        "workbench-recipes-gallery",
+        "workbench-settings",
+        "lab-forms"
+      ],
+      "evidence": [
+        {
+          "route": "/catalog",
+          "surface_key": "workbench-catalog",
+          "screenshot": "visual-atlas/screenshots/workbench-catalog--desktop-1440x900.png",
+          "png_sha256": "01a81ef79425afd0f5d8db19ec831b77f0291b0a9934561e600d147744090b96",
+          "trace": "runtime DOM sweep: one main landmark, visible PageHeader title, zero h1/h2/h3/role=heading descendants"
+        },
+        {
+          "route": "/components",
+          "surface_key": "workbench-components-gallery",
+          "screenshot": "visual-atlas/screenshots/workbench-components-gallery--desktop-1440x900.png",
+          "png_sha256": "fdd6efdc809689fa97edb8abaf2ce30428388eb62064c6adc6d0456185d87fee",
+          "trace": "runtime DOM sweep: visible Components title, headingCount=0"
+        },
+        {
+          "route": "/analytics/capability_histogram",
+          "surface_key": "analytics-capability_histogram",
+          "screenshot": "visual-atlas/screenshots/analytics-capability_histogram--desktop-1440x900.png",
+          "png_sha256": "9d4c0d22cb1b12f0d928e5deb4942bf762aa26864ca59d4a48e4b835556d8ab2",
+          "trace": "runtime DOM sweep: visible title, headingCount=0"
+        },
+        {
+          "route": "/patterns/analysis",
+          "surface_key": "reference-pattern-analysis",
+          "screenshot": "visual-atlas/screenshots/reference-pattern-analysis--desktop-1440x900.png",
+          "png_sha256": "e87330556ded958cc93c6f04952eecac522ad54665cf8b793ea2391d793aede1",
+          "trace": "runtime DOM sweep: visible Analysis Workspace title, headingCount=0"
+        },
+        {
+          "route": "/workbench/data",
+          "surface_key": "workbench-data",
+          "screenshot": "visual-atlas/screenshots/workbench-data--desktop-1440x900.png",
+          "png_sha256": "3d51b70d9be9d5e8c7d059e1e70926832563b465a9b56f4a659d1c0d2ffe63c8",
+          "trace": "runtime DOM sweep: visible Data & Tables title, headingCount=0"
+        },
+        {
+          "route": "/studio/pattern%3Adata_explorer",
+          "surface_key": "pattern-studio-data_explorer",
+          "screenshot": "visual-atlas/screenshots/pattern-studio-data_explorer--desktop-1440x900.png",
+          "png_sha256": "72398a0552b34460ed794a8c779e4aa95319d2607fb7f2f9f805f3606c35daee",
+          "trace": "runtime DOM sweep: visible pattern-detail title, headingCount=0"
+        },
+        {
+          "route": "/recipes",
+          "surface_key": "workbench-recipes-gallery",
+          "screenshot": "visual-atlas/screenshots/workbench-recipes-gallery--desktop-1440x900.png",
+          "png_sha256": "5ee8f9a761e64e20ab83df4c178b7e34ea0396b47db52a0a16db35c96c32bb7f",
+          "trace": "runtime DOM sweep: visible Semiconductor Recipes title, headingCount=0"
+        },
+        {
+          "route": "/settings",
+          "surface_key": "workbench-settings",
+          "screenshot": "visual-atlas/screenshots/workbench-settings--desktop-1440x900.png",
+          "png_sha256": "442d163737f392cfd1bfcb82a14f346590cee82ecf0831a6de9a457576dcf0f3",
+          "trace": "runtime DOM sweep: visible Settings title, headingCount=0"
+        },
+        {
+          "route": "/forms",
+          "surface_key": "lab-forms",
+          "screenshot": "visual-atlas/screenshots/lab-forms--desktop-1440x900.png",
+          "png_sha256": "fac1b83fb5f0e54363715f4819e6894ea3cbe675abce29f118a6ac91a5cc7ac3",
+          "trace": "runtime DOM sweep: visible Forms, Overlays & Feedback title, headingCount=0"
+        }
+      ],
+      "golden_ui_v3_clause": "Accessible hierarchy and wayfinding: the current object/view title must participate in the page heading outline so screen-reader users can identify and navigate page sections without linearizing the full shell.",
+      "human_centered_relationship": "Name the current workspace semantically and preserve hierarchy for assistive navigation.",
+      "user_consequence": "Screen-reader users cannot use heading navigation to locate the current page or move through its top-level content; every view title is discoverable only as ordinary text in the reading order.",
+      "reproducibility": "Consistent in headless Chromium 151.0.7922.34 on all nine listed routes. Each has exactly one main landmark and zero h1/h2/h3/role=heading nodes inside main, while the visual page title is present.",
+      "root_authority": {
+        "file": "source/nicegui_base/integrations/nicegui_layout.py",
+        "symbol": "PageHeader.__init__",
+        "line": 363,
+        "current_rendering": "ui.label(title).classes(\"cui-page-title\")",
+        "shared_callers": [
+          "source/nicegui_base/workbench/app.py:_shell",
+          "source/nicegui_base/patterns/pages.py:PatternPage"
+        ]
+      },
+      "affected_consumers": {
+        "directly_observed_routes": [
+          "/catalog",
+          "/components",
+          "/analytics/capability_histogram",
+          "/patterns/analysis",
+          "/workbench/data",
+          "/studio/pattern%3Adata_explorer",
+          "/recipes",
+          "/settings",
+          "/forms"
+        ],
+        "shared_authority": "PageHeader is used by the standard Workbench shell and PatternPage renderers; other page consumers should be swept when repairing the shared primitive."
+      },
+      "baseline_comparison": "Mapped surface identity and screenshots are unchanged from CHG-135 R16; the semantic heading defect was present in the comparison source where PageHeader uses the same label-only title pattern. No pixel regression asserted.",
+      "smallest_bounded_fix": "Render PageHeader title with a semantic level-one heading element/role while preserving the existing cui-page-title tokens and geometry; ensure a single page-level heading for shell and PatternPage compositions.",
+      "expected_closure_evidence": [
+        "One meaningful h1/role=heading level 1 on each PageHeader consumer",
+        "No duplicate level-one heading for PatternPage inside a shell",
+        "Existing desktop/mobile screenshots retain the typography and dimensions",
+        "Keyboard/screen-reader heading outline reaches the current page identity"
+      ],
+      "regression_risks": [
+        "Default h1 margins/font styles can alter pixels if existing class/token styles do not reset them",
+        "Nested shell/pattern compositions may create duplicate heading levels"
+      ],
+      "status": "FROZEN_PRELIMINARY_BEFORE_HOLDOUTS"
+    }
+  ],
+  "preliminary_repair_order": [
+    "UI0-A11Y-001"
+  ],
+  "finding_count": 1,
+  "unresolved_material_issues": []
+}

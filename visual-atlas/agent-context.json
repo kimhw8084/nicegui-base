@@ -1,0 +1,90 @@
+{
+  "completion_contract": [
+    "Keep application code outside nicegui_base/ unless framework development is explicitly requested.",
+    "Preserve existing UI/UX contracts; use semantic NiceGUI Base APIs before any escape hatch.",
+    "Run strict NiceGUI Base validation after meaningful changes.",
+    "Run application tests/startup smoke and inspect browser output for visual changes."
+  ],
+  "dominant_pattern": "data_explorer",
+  "framework_version": "3.0.0a8",
+  "golden_examples": [
+    "examples/nicegui_base/golden_data_explorer.py",
+    "examples/phase66_target_certification_orchestrator.py",
+    "examples/phase65_provider_sdk_release_candidate.py",
+    "examples/phase64_production_adapter_runtime.py",
+    "examples/phase63_recipe_runtime_onboarding.py",
+    "examples/phase62_application_recipe_factory.py",
+    "examples/phase61_spc_wafer_investigation.py"
+  ],
+  "hard_prohibitions": [
+    "Do not invent NiceGUI Base classes, functions, enum values or parameters.",
+    "Do not import NiceGUI directly in normal application modules.",
+    "Do not create raw AG Grid or ECharts instances in normal application modules.",
+    "Do not use arbitrary app-level CSS, pixel spacing, colors, radius, shadows or motion.",
+    "Do not download or hotlink UI icons, fonts, images or other visual resources.",
+    "Do not use emoji as interface iconography.",
+    "Do not manipulate app.storage directly for normal application state.",
+    "Do not place database SQL directly in page/view modules.",
+    "Do not silently modify NiceGUI Base framework internals or public APIs.",
+    "Do not infer causal certainty from commonality or evidence-ranking scores.",
+    "Do not create unbounded application caches.",
+    "Do not retry non-idempotent mutations automatically.",
+    "Do not run blocking CPU or synchronous I/O directly on the NiceGUI async event loop.",
+    "Stock NiceGUI/Quasar visual presentation in canonical application UI",
+    "ui.notify/ui.menu_item/raw ui.icon in NiceGUI Base integrations",
+    "AG Grid without the Company .cui-data-table visual theme",
+    "Do not add app-level margins/gaps/radii to repair composition; use Company layout primitives.",
+    "Do not use radius values outside control/surface/overlay/pill semantics.",
+    "Do not create generic scatter plots for wafer/die spatial engineering views.",
+    "Do not constrain the outer .cui-page with app-specific max-width or asymmetric margins; use inner ContentColumn for reading width.",
+    "Do not create visible lab/demo actions that have no functional behavior when the action is intended to be testable.",
+    "Do not use a generic chart where a Company semiconductor-native renderer exists for the engineering signature.",
+    "Do not use raw ui.range or ui.linear_progress in canonical NiceGUI Base application surfaces.",
+    "Do not convert inspection/detail/form drawers into centered dialogs; use Company side-sheet primitives.",
+    "Do not render textual footer actions in the compact navigation rail.",
+    "Do not add a second workflow connector or per-segment rounded seams inside stacked bars."
+  ],
+  "pattern_reason": "Filtering and inspecting records is the dominant task.",
+  "read_first": [
+    "AGENTS.md",
+    "docs/nicegui_base/AI_QUICKSTART.md",
+    "docs/nicegui_base/APP_PATTERNS.md",
+    "docs/nicegui_base/AI_RULES.md",
+    ".nicegui_base/framework_catalog.json",
+    "docs/nicegui_base/PUBLIC_API_INDEX.md"
+  ],
+  "recommendations": [
+    {
+      "category": "page_pattern",
+      "inspect_first": "PATTERN_REGISTRY / docs/APP_PATTERNS.md",
+      "preferred_api": "nicegui_base.patterns.*",
+      "reason": "Page patterns own information hierarchy and responsive transformations."
+    },
+    {
+      "category": "table",
+      "inspect_first": "TABLE_REGISTRY / docs/COMPONENT_CATALOG.md",
+      "preferred_api": "nicegui_base.data_table + integrations.DataTable",
+      "reason": "The DataTable subsystem owns enterprise interaction, persistence and server-side contracts."
+    },
+    {
+      "category": "semiconductor",
+      "inspect_first": "SEMICONDUCTOR_RECIPE_REGISTRY + SEMICONDUCTOR_SURFACE_REGISTRY / docs/SEMICONDUCTOR_APPLICATION_RECIPES.md",
+      "preferred_api": "nicegui_base.semiconductor.* + SemiconductorAnalyticalPanel",
+      "reason": "Wave 67 adds enterprise evidence assimilation, deterministic stable-channel candidates, actionable promotion gaps, candidate packaging and provider-neutral operational rehearsal recording above Wave 66 qualification/promotion while preserving the Wave 59\u201364 DataSource, AnalysisContext, SelectionBus, workspace, recipe, onboarding, runtime and conformance authorities."
+    },
+    {
+      "category": "security_runtime",
+      "inspect_first": "SECURITY_REGISTRY + RUNTIME_REGISTRY + docs/COMPANY_ENVIRONMENT.md",
+      "preferred_api": "nicegui_base.security/runtime/diagnostics",
+      "reason": "Security and deployment must remain fail-closed and centrally configurable."
+    }
+  ],
+  "starter_recipe": "rca-cockpit",
+  "starter_recipe_variant": "rca-evidence-first",
+  "starter_template": "analysis-workspace",
+  "task": "Exhaustively discover and audit current NiceGUI Base UI under Golden UI v3 with source-immutable runtime evidence",
+  "validation_commands": [
+    "nicegui-base agent-check .",
+    "nicegui-base gate ."
+  ]
+}

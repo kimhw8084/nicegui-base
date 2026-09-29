@@ -1,0 +1,30 @@
+{
+  "catalog": {
+    "conforming": 465,
+    "issues": [],
+    "total": 465
+  },
+  "families": {
+    "content/workflow": 25,
+    "controls": 35,
+    "engineering components": 16,
+    "forms/overlays": 25,
+    "generic application patterns": 11,
+    "generic visualizations": 25,
+    "performance/quality utilities": 1,
+    "semiconductor analytics": 59,
+    "semiconductor recipes": 8,
+    "shell/layout": 1,
+    "state/failure utilities": 30,
+    "tables": 7
+  },
+  "framework_catalog": {
+    "canonical_total": 450,
+    "declared": 450,
+    "duplicates": [],
+    "identified": 450,
+    "missing": [],
+    "visible": 450
+  },
+  "passed": true
+}

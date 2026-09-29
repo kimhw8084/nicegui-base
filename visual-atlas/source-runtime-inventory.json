@@ -1,0 +1,160 @@
+{
+  "schema_version": 3,
+  "repository": "kimhw8084/nicegui-base",
+  "project": "nicegui-base",
+  "branch": "codex/nicegui-base-stable3-golden-ui-v3-exhaustive-current-atlas-6",
+  "head_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "head_tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "origin_main_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "origin_main_tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "worktree_clean_after_preflight_outputs_restored": true,
+  "source_changed": false,
+  "framework_catalog_counts": {
+    "canonical_total": 465,
+    "canonical_records": 450,
+    "reference": 355,
+    "components": 34,
+    "patterns": 10,
+    "analytics": 58,
+    "recipes": 8,
+    "catalog_audit": "PASS, no duplicate/missing/invalid entries"
+  },
+  "surface_counts": {
+    "total": 144,
+    "workbench": 12,
+    "labs": 10,
+    "reference_patterns": 9,
+    "components": 34,
+    "pattern_studios": 10,
+    "analytics": 58,
+    "recipes": 8,
+    "full_applications": 3,
+    "supported": 144,
+    "unsupported": 0,
+    "blocked": 0
+  },
+  "route_counts": {
+    "source_registered_routes": 40,
+    "live_lab_routes": 21,
+    "canonical_lab_routes": 10
+  },
+  "runtime": {
+    "nicegui_base": "3.0.0a8",
+    "nicegui": "3.15.0",
+    "python_version": "3.11.7",
+    "python_executable": "/opt/anaconda3/bin/python",
+    "source_import_path": "/Users/haewonkim/.codex-fabric/worktrees/CF-c8361289a3e4433a3f450d13/source/nicegui_base/__init__.py",
+    "nicegui_base_cli_path": "/opt/anaconda3/bin/nicegui-base",
+    "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+    "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb"
+  },
+  "browser": {
+    "automation": "Playwright",
+    "playwright_version": "1.62.0",
+    "browser": "Chromium",
+    "browser_version": "151.0.7922.34",
+    "headless": true,
+    "locale": "en-US",
+    "timezone": "America/Chicago",
+    "device_scale_factor": 1,
+    "executable": "/Users/haewonkim/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+  },
+  "fresh_server": {
+    "owned_by_job": true,
+    "command": "python run_nicegui_base.py --port 64174",
+    "wrapped_command": "rtk proxy python run_nicegui_base.py --port 64174",
+    "pid": 35831,
+    "parent_pid": 35828,
+    "cwd": "/Users/haewonkim/.codex-fabric/worktrees/CF-c8361289a3e4433a3f450d13",
+    "port": 64174,
+    "health_payload": {
+      "product": "nicegui-base",
+      "version": "3.0.0a8",
+      "build": "NGB-20260907-G2.6",
+      "ready": true,
+      "state": "healthy"
+    },
+    "shutdown_command": "rtk proxy kill -TERM 35831",
+    "shutdown_proof": "Subsequent local TCP connect to 127.0.0.1:64174 returned ConnectionRefusedError; ps/lsof showed no listener."
+  },
+  "positive_controls": [
+    {
+      "route": "/patterns/analysis",
+      "http_status": 200,
+      "final_route": "/patterns/analysis",
+      "marker": "section.cui-investigation-context[aria-label=\"Investigation context\"] visible with EXC-1042 \u00b7 Chamber 3 process degradation, owner, stage and updated context",
+      "console_errors": 0,
+      "failed_requests": 0
+    },
+    {
+      "route": "/layouts",
+      "http_status": 200,
+      "final_route": "/patterns",
+      "marker": "Application Patterns visible",
+      "console_errors": 0,
+      "failed_requests": 0
+    }
+  ],
+  "current_authority_files": [
+    {
+      "path": "source/nicegui_base/ai/construction_manifest.json",
+      "sha256": "3ae85f2e554f7080fbf81f68b1df7cf69ed5e917ca82427ddaf06ab31625a724",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/ai/guides/DESIGN_CONSTITUTION_V1_6.md",
+      "sha256": "aa1649e67b8ee76b0f7a617f11196eec4f8c6db1a783286b6b6b0239ddc133ac",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/ai/guides/APP_PATTERNS.md",
+      "sha256": "323a14639231af8460c47df6eeae0129a26eeaf40b4695197dd7e63b22be62a7",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/ai/guides/LAYOUT_RULES.md",
+      "sha256": "dc0a4ce52a258148e92eaa66ee0d53121d111ef4a9ad0571f6ca08a18b59a9fb",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/ai/guides/COMPONENT_CATALOG.md",
+      "sha256": "09850c3058c53c2c5725168d7c69bc2e17e363058a41e539e8e55cc08feed39d",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/ai/guides/ZERO_STOCK_NICEGUI_VISUAL_LAWS.md",
+      "sha256": "d156a395107a330771daea7fe2b33bcb4cece64d19ba45f8d025db475d7b5ee0",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/workbench/app.py",
+      "sha256": "17f139e783d4dfd4d23c702e511698f254c4fae9bd0756cf222b1a9e926f2d11",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/workbench/pattern_specimens.py",
+      "sha256": "a3a8a7172fd708fc635fa390077cd5d1028fbf52d7691d2c6418c0c4eba7eb64",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/workbench/registry_adapters.py",
+      "sha256": "478236351aa4f1747a3bd1408595c0f48dc65eb2edecc878269668ee9fdf2ea8",
+      "exists": true
+    },
+    {
+      "path": "source/nicegui_base/integrations/nicegui_layout.py",
+      "sha256": "d286828ddcc287611b7e4e223c7b53338422ded48ace07a4026a35fb68b45bf6",
+      "exists": true
+    },
+    {
+      "path": "run_nicegui_base.py",
+      "sha256": "95b121ba3051fc9a3b8fc3c8398832db9709257f002d057a1eb10f1969413700",
+      "exists": true
+    }
+  ],
+  "historical_refs": {
+    "CHG-135_R16": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-visual-atlas-post-chg177-impact-recapture-1@1fd12d6477010c58cb477dd836d984c6b99e7bbf",
+    "CHG-100_Iteration25": "refs/heads/project-os-artifacts/nicegui-base/stable3-browser-ui-current-main-refresh-3@aac158f34ce3e2ad3c651d7265d8551e768f4740",
+    "CHG-203": "shared dark-theme repair; comparison-only source/test evidence"
+  }
+}

@@ -1,0 +1,426 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "initial_findings_sha256": "07873312c55f60ffe7288b93610dbfbe42f28f130167df4a2d3b717330ad3ff8",
+  "initial_findings_frozen_before_formal_holdouts": true,
+  "stress_profiles": [
+    {
+      "profile": "constrained-desktop",
+      "route": "/patterns/explorer",
+      "viewport": {
+        "width": 1366,
+        "height": 768,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/patterns/explorer",
+        "title": "Process Measurement Explorer",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 1851.546875,
+          "right": 1366,
+          "bottom": 1851.546875
+        },
+        "viewport": {
+          "w": 1366,
+          "h": 768,
+          "dpr": 1
+        },
+        "documentWidth": 1366,
+        "documentHeight": 1852,
+        "fonts": "loaded",
+        "loading": 0
+      },
+      "action": null,
+      "screenshot": "constrained-desktop.png",
+      "sha256": "e0e76e39e9feed4b3e4b8c1d8f3938d432b01129049dc38d10738eca6512de41",
+      "byte_count": 101775
+    },
+    {
+      "profile": "wide-desktop",
+      "route": "/analytics/capability_histogram",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/analytics/capability_histogram",
+        "title": "Reference Explorer",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1564.15625,
+          "right": 1920,
+          "bottom": 1564.15625
+        },
+        "viewport": {
+          "w": 1920,
+          "h": 1080,
+          "dpr": 1
+        },
+        "documentWidth": 1920,
+        "documentHeight": 1564,
+        "fonts": "loaded",
+        "loading": 0
+      },
+      "action": null,
+      "screenshot": "wide-desktop.png",
+      "sha256": "a088b688b92b645f7d5f1bea0e8cc99cf576b8b7d8e4dc03f07137d9ea317387",
+      "byte_count": 136041
+    },
+    {
+      "profile": "narrow-mobile",
+      "route": "/workbench/data",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/workbench/data",
+        "title": "Data & Tables",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 2255.703125,
+          "right": 360,
+          "bottom": 2255.703125
+        },
+        "viewport": {
+          "w": 360,
+          "h": 800,
+          "dpr": 1
+        },
+        "documentWidth": 360,
+        "documentHeight": 2256,
+        "fonts": "loaded",
+        "loading": 0
+      },
+      "action": null,
+      "screenshot": "narrow-mobile.png",
+      "sha256": "2348ffef258fd2a672bc0f4955ac8dbdc39bbfba543806bdef4836211317952e",
+      "byte_count": 54740
+    },
+    {
+      "profile": "mobile-landscape",
+      "route": "/forms",
+      "viewport": {
+        "width": 844,
+        "height": 390,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/forms",
+        "title": "Forms, Overlays & Feedback",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": -267,
+          "w": 844,
+          "h": 2517,
+          "right": 844,
+          "bottom": 2250
+        },
+        "viewport": {
+          "w": 844,
+          "h": 390,
+          "dpr": 1
+        },
+        "documentWidth": 844,
+        "documentHeight": 2517,
+        "fonts": "loaded",
+        "loading": 2
+      },
+      "action": {
+        "menu_open": true,
+        "menu_bbox": {
+          "x": 16,
+          "y": 214,
+          "width": 180,
+          "height": 93
+        },
+        "within_vertical_viewport": true
+      },
+      "screenshot": "mobile-landscape.png",
+      "sha256": "39171c505a529a7c99a5901227989f0214857969aa399cdb3181d3c853852023",
+      "byte_count": 42448
+    },
+    {
+      "profile": "short-desktop",
+      "route": "/forms",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/forms",
+        "title": "Forms, Overlays & Feedback",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 2465,
+          "right": 1280,
+          "bottom": 2465
+        },
+        "viewport": {
+          "w": 1280,
+          "h": 600,
+          "dpr": 1
+        },
+        "documentWidth": 1280,
+        "documentHeight": 2465,
+        "fonts": "loaded",
+        "loading": 2
+      },
+      "action": {
+        "menu_open": true,
+        "menu_bbox": {
+          "x": 276,
+          "y": 485,
+          "width": 180,
+          "height": 93
+        },
+        "within_vertical_viewport": true
+      },
+      "screenshot": "short-desktop.png",
+      "sha256": "b3f95ee366d9e867aa814d9b5abdc71682e3608d91cb83d601278976a2663bee",
+      "byte_count": 81979
+    },
+    {
+      "profile": "reduced-motion",
+      "route": "/patterns/explorer",
+      "viewport": {
+        "width": 1366,
+        "height": 768,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "readiness": {
+        "route": "/patterns/explorer",
+        "title": "Process Measurement Explorer",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 1851.546875,
+          "right": 1366,
+          "bottom": 1851.546875
+        },
+        "viewport": {
+          "w": 1366,
+          "h": 768,
+          "dpr": 1
+        },
+        "documentWidth": 1366,
+        "documentHeight": 1852,
+        "fonts": "loaded",
+        "loading": 0
+      },
+      "action": {
+        "reduced_motion_media": true,
+        "body_class": "desktop no-touch body--light"
+      },
+      "screenshot": "reduced-motion.png",
+      "sha256": "33d954794af0554e329929dac4d23570158824eaabaf2c883b3bba6f52f04c9d",
+      "byte_count": 102445
+    },
+    {
+      "profile": "long-query",
+      "route": "/workbench/data",
+      "viewport": {
+        "width": 1366,
+        "height": 768,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/workbench/data",
+        "title": "Data & Tables",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": -104,
+          "w": 1366,
+          "h": 1660.3125,
+          "right": 1366,
+          "bottom": 1556.3125
+        },
+        "viewport": {
+          "w": 1366,
+          "h": 768,
+          "dpr": 1
+        },
+        "documentWidth": 1366,
+        "documentHeight": 1660,
+        "fonts": "loaded",
+        "loading": 0
+      },
+      "action": {
+        "query_chars": 253,
+        "visible_rows": 0
+      },
+      "screenshot": "long-query.png",
+      "sha256": "fce6015cfb9073e5848e7ce4bfa521e59a8e33ec2fb9d668987c5c1d3fe4e695",
+      "byte_count": 113657
+    },
+    {
+      "profile": "dense-table",
+      "route": "/workbench/data",
+      "viewport": {
+        "width": 1366,
+        "height": 768,
+        "dpr": 1
+      },
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "readiness": {
+        "route": "/workbench/data",
+        "title": "Data & Tables",
+        "mainCount": 2,
+        "mainRect": {
+          "x": 0,
+          "y": -480,
+          "w": 1366,
+          "h": 1624.3125,
+          "right": 1366,
+          "bottom": 1144.3125
+        },
+        "viewport": {
+          "w": 1366,
+          "h": 768,
+          "dpr": 1
+        },
+        "documentWidth": 1366,
+        "documentHeight": 1624,
+        "fonts": "loaded",
+        "loading": 0
+      },
+      "action": {
+        "dense_option_selected": true,
+        "selected_label": true
+      },
+      "screenshot": "dense-table.png",
+      "sha256": "c7857cc581c0b60ba0c45fb8195fd2b4fadfb791d1b0843ff63b317f48ad67e8",
+      "byte_count": 161319
+    },
+    {
+      "profile": "dark-theme",
+      "route": "/analytics/capability_histogram",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "color_scheme": "dark",
+      "readiness": {
+        "route": "/analytics/capability_histogram",
+        "theme": "desktop no-touch body--dark q-dark",
+        "viewport": {
+          "w": 1440,
+          "h": 900
+        },
+        "fonts": "loaded"
+      },
+      "screenshot": "dark-theme.png",
+      "sha256": "3a03f93adde1d2d699cc90c823c0d5fa7e54eb91b46266534564e1e183c81a8e",
+      "byte_count": 125051
+    }
+  ],
+  "holdouts": [
+    {
+      "profile": "holdout-1536x864",
+      "route": "/patterns/explorer",
+      "viewport": {
+        "width": 1536,
+        "height": 864,
+        "dpr": 1
+      },
+      "result": {
+        "route": "/patterns/explorer",
+        "viewport": {
+          "width": 1536,
+          "height": 864,
+          "dpr": 1
+        },
+        "documentWidth": 1536,
+        "documentHeight": 1881,
+        "mainLandmarkCount": 1,
+        "roleMainCount": 1,
+        "fonts": "loaded",
+        "loading": 0,
+        "primary_marker_visible": true
+      },
+      "screenshot": "holdout-1536x864.png",
+      "sha256": "be174be29f77a9caec627ad29587809f1516f7455cb6cf3eee5b5c470d312932",
+      "bytes": 114073
+    },
+    {
+      "profile": "holdout-414x896",
+      "route": "/workbench/data",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "dpr": 1
+      },
+      "result": {
+        "route": "/workbench/data",
+        "viewport": {
+          "width": 414,
+          "height": 896,
+          "dpr": 1
+        },
+        "documentWidth": 414,
+        "documentHeight": 2131,
+        "mainLandmarkCount": 1,
+        "roleMainCount": 1,
+        "fonts": "loaded",
+        "loading": 0,
+        "primary_marker_visible": true,
+        "primary_marker_probe": "visible .cui-page-title text equals the manifest marker Data & Tables"
+      },
+      "screenshot": "holdout-414x896.png",
+      "sha256": "e6220c6b0a48f2bea3c46d7acfdde7dfde8dee41e3931e1810d0e8f5ec4d8eb0",
+      "bytes": 63192
+    }
+  ],
+  "errors": [],
+  "new_material_failure_classes": [],
+  "regression_obligations_added": [],
+  "authentic_browser_zoom": "NOT_EXECUTED_AUTHENTIC_ZOOM",
+  "notes": [
+    "Stress coverage uses bounded representative routes backed by shared AppShell, DataTable, Select and chart authorities.",
+    "Long pathological input was entered using the actual Search table control; Dense selected through actual Table density menu.",
+    "Overlay viewport checks recorded rendered menu rectangles in mobile landscape and short-height desktop.",
+    "Holdout evidence was created only after the initial finding set freeze."
+  ],
+  "visual_review_contact_sheet": {
+    "path": "visual-atlas/diagnostics/stress-contact-sheet.png",
+    "sha256": "81b8d39ce875d2586073a90519218554f4cedfce7be572e91c36dd968366c9a6"
+  },
+  "findings_freeze_sha256": "07873312c55f60ffe7288b93610dbfbe42f28f130167df4a2d3b717330ad3ff8"
+}

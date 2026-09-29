@@ -1,0 +1,78 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "state_families": [
+    {
+      "family": "Explorer discovery and comparison",
+      "owner": "Workbench ExplorerStateStore/browser-scoped state",
+      "states": [
+        "query",
+        "category",
+        "favorite",
+        "comparison",
+        "recent",
+        "current object"
+      ],
+      "status": "PASS",
+      "evidence": "/components search Combobox (~187 ms); favorite saved/Favorites-only; ButtonGroup+SplitButton compared; Select example opened; Back restored favorite and comparison; zero console/request failures."
+    },
+    {
+      "family": "Pattern/Data Explorer",
+      "owner": "DataExplorerPage local state + governed DataTable",
+      "states": [
+        "filters",
+        "selected_id",
+        "selected_detail",
+        "clear/reset",
+        "empty/stale selection"
+      ],
+      "status": "PASS",
+      "evidence": "Pattern chooser selected Data Explorer. Tool=ETCH-11 gave LOT-240906 and LOT-240907; query-only LOT-240904 gave one row; selecting LOT-240906 showed matching tool/chamber/recipe/thickness/status; clearing query restored eight rows. Selection retention while the object remains visible matches state owner behavior."
+    },
+    {
+      "family": "DataTable",
+      "owner": "DataTable/TableViewSnapshot and user-scoped state",
+      "states": [
+        "search",
+        "filter",
+        "sort",
+        "page",
+        "columns",
+        "density",
+        "selection",
+        "export"
+      ],
+      "status": "PASS",
+      "evidence": "Search R-000001 narrowed to one; Watch/OOS summary 32 of 64; clear restored 64; Record header none\u2192ascending; Next Page enabled\u2192disabled; 19 column options; Trend hidden in prior VERIFY-6 interaction check; current Dense label changed from Compact; checkbox selection + Inspect opened record details (R-000001 identity and Audit trail); Export produced table.csv."
+    },
+    {
+      "family": "Theme and responsive shell",
+      "owner": "AppShell, display preference controller and design tokens",
+      "states": [
+        "light",
+        "dark",
+        "system",
+        "mobile nav open/closed",
+        "focus return"
+      ],
+      "status": "PASS",
+      "evidence": "390x844: Data & Tables drawer item navigated to /workbench/data and closed; Escape toggled false and trigger retained focus."
+    },
+    {
+      "family": "Chart data inspection",
+      "owner": "ChartPanel + canonical chart data dialog",
+      "states": [
+        "visual",
+        "data tab",
+        "Escape close",
+        "focus return",
+        "theme"
+      ],
+      "status": "PASS",
+      "evidence": "/analytics/capability_histogram canvas; chart data dialog shows 24 points/series-index-x-y-value; Escape closed after transition and returned focus to View chart data; light/dark applied."
+    }
+  ],
+  "async_stale_response_state": "NOT_EXERCISED_RUNTIME",
+  "scroll_restoration_state": "NOT_EXERCISED_IN_TASK_TRACE"
+}

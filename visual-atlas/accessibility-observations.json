@@ -1,0 +1,115 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "browser": "Chromium 151.0.7922.34 / Playwright 1.62.0",
+  "heading_sweep": [
+    {
+      "route": "/catalog",
+      "surface_key": "workbench-catalog",
+      "visible_title": "Components / discoverable inventory",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/workbench-catalog--desktop-1440x900.png",
+      "screenshot_sha256": "01a81ef79425afd0f5d8db19ec831b77f0291b0a9934561e600d147744090b96",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/components",
+      "surface_key": "workbench-components-gallery",
+      "visible_title": "Components",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/workbench-components-gallery--desktop-1440x900.png",
+      "screenshot_sha256": "fdd6efdc809689fa97edb8abaf2ce30428388eb62064c6adc6d0456185d87fee",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/analytics/capability_histogram",
+      "surface_key": "analytics-capability_histogram",
+      "visible_title": "Capability Histogram",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/analytics-capability_histogram--desktop-1440x900.png",
+      "screenshot_sha256": "9d4c0d22cb1b12f0d928e5deb4942bf762aa26864ca59d4a48e4b835556d8ab2",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/patterns/analysis",
+      "surface_key": "reference-pattern-analysis",
+      "visible_title": "Analysis Workspace",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/reference-pattern-analysis--desktop-1440x900.png",
+      "screenshot_sha256": "e87330556ded958cc93c6f04952eecac522ad54665cf8b793ea2391d793aede1",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/workbench/data",
+      "surface_key": "workbench-data",
+      "visible_title": "Data & Tables",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/workbench-data--desktop-1440x900.png",
+      "screenshot_sha256": "3d51b70d9be9d5e8c7d059e1e70926832563b465a9b56f4a659d1c0d2ffe63c8",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/studio/pattern%3Adata_explorer",
+      "surface_key": "pattern-studio-data_explorer",
+      "visible_title": "Data Explorer detail",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/pattern-studio-data_explorer--desktop-1440x900.png",
+      "screenshot_sha256": "72398a0552b34460ed794a8c779e4aa95319d2607fb7f2f9f805f3606c35daee",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/recipes",
+      "surface_key": "workbench-recipes-gallery",
+      "visible_title": "Semiconductor Recipes",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/workbench-recipes-gallery--desktop-1440x900.png",
+      "screenshot_sha256": "5ee8f9a761e64e20ab83df4c178b7e34ea0396b47db52a0a16db35c96c32bb7f",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/settings",
+      "surface_key": "workbench-settings",
+      "visible_title": "Settings",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/workbench-settings--desktop-1440x900.png",
+      "screenshot_sha256": "442d163737f392cfd1bfcb82a14f346590cee82ecf0831a6de9a457576dcf0f3",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    },
+    {
+      "route": "/forms",
+      "surface_key": "lab-forms",
+      "visible_title": "Forms, Overlays & Feedback",
+      "main_landmarks": 1,
+      "semantic_heading_count_inside_main": 0,
+      "screenshot_path": "visual-atlas/screenshots/lab-forms--desktop-1440x900.png",
+      "screenshot_sha256": "fac1b83fb5f0e54363715f4819e6894ea3cbe675abce29f118a6ac91a5cc7ac3",
+      "observation": "Visible title is an ordinary label rather than an h1/h2/h3/role=heading."
+    }
+  ],
+  "positive_observations": [
+    {
+      "task": "Mobile drawer Escape",
+      "result": "aria-expanded=false and focus returned to drawer trigger."
+    },
+    {
+      "task": "Select Escape",
+      "result": "visible menu count 0 and focus returned to Preferred tool input."
+    },
+    {
+      "task": "Chart data dialog Escape",
+      "result": "dialog closed after hide transition and focus returned to View chart data."
+    }
+  ],
+  "finding_ids": [
+    "UI0-A11Y-001"
+  ]
+}

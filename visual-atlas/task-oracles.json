@@ -1,0 +1,67 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "oracles": [
+    {
+      "task": "Explorer discover/search/filter/favorite/compare/open/return",
+      "oracle": "At least one query reduces results; category/favorite filter reflects saved state; two selections appear in comparison; opening live example resolves; browser Back restores route and saved/compared context.",
+      "status": "PASS",
+      "evidence": "/components search Combobox (~187 ms); favorite saved/Favorites-only; ButtonGroup+SplitButton compared; Select example opened; Back restored favorite and comparison; zero console/request failures."
+    },
+    {
+      "task": "Component detail/studio configure/interact/state inspect",
+      "oracle": "Preview, Configure, States, Interactions, Inspect and Code sections activate; configured sample value changes and is visible; current example identity remains bound.",
+      "status": "PASS",
+      "evidence": "/catalog/component/select tabs all activated; Select chose Etch from Process area options; route HTTP 200; no console/request errors."
+    },
+    {
+      "task": "Analytics discover/open/read chart/inspect data/theme",
+      "oracle": "Canonical chart opens; rendered visual exists; data view exposes typed point records; theme transition changes semantic root theme; close returns focus.",
+      "status": "PASS",
+      "evidence": "/analytics/capability_histogram canvas; chart data dialog shows 24 points/series-index-x-y-value; Escape closed after transition and returned focus to View chart data; light/dark applied."
+    },
+    {
+      "task": "Data Explorer filter/select/detail/clear",
+      "oracle": "Tool and text filters constrain canonical rows; selecting a visible record shows matching properties; clearing query restores all rows and preserves a still-visible selected object; a query with no matching object clears stale detail.",
+      "status": "PASS",
+      "evidence": "Pattern chooser selected Data Explorer. Tool=ETCH-11 gave LOT-240906 and LOT-240907; query-only LOT-240904 gave one row; selecting LOT-240906 showed matching tool/chamber/recipe/thickness/status; clearing query restored eight rows. Selection retention while the object remains visible matches state owner behavior."
+    },
+    {
+      "task": "DataTable search/filter/sort/page/column/density/select/export",
+      "oracle": "Search narrows and clears; Watch/OOS changes 64 total records to 32 then Clear filters restores 64; sort aria-sort changes; Next Page advances/disables; column manager changes visibility; Dense changes density label; selection opens inspection bound to same row; export downloads CSV.",
+      "status": "PASS",
+      "evidence": "Search R-000001 narrowed to one; Watch/OOS summary 32 of 64; clear restored 64; Record header none\u2192ascending; Next Page enabled\u2192disabled; 19 column options; Trend hidden in prior VERIFY-6 interaction check; current Dense label changed from Compact; checkbox selection + Inspect opened record details (R-000001 identity and Audit trail); Export produced table.csv."
+    },
+    {
+      "task": "Application pattern select/navigate/operate",
+      "oracle": "Select a registered pattern from the chooser and inspect its semantic anatomy; operate its primary task and preserve title/current object.",
+      "status": "PASS",
+      "evidence": "/patterns chooser selected Data Explorer; data-pattern-semantic=data_explorer and regions filters/primary_table/selected_detail; the sample table filtered and selected a lot."
+    },
+    {
+      "task": "Mobile shell open/navigate/close/return focus",
+      "oracle": "Open navigation toggles aria-expanded; an actual drawer item navigates to its route and closes; Escape closes an open drawer and returns focus to trigger.",
+      "status": "PASS",
+      "evidence": "390x844: Data & Tables drawer item navigated to /workbench/data and closed; Escape toggled false and trigger retained focus."
+    },
+    {
+      "task": "Select/overlay pointer/keyboard/open/select/Escape/focus return",
+      "oracle": "Pointer-open and option selection update current value; keyboard arrow+Enter selects; Escape closes visible overlay and restores trigger focus.",
+      "status": "PASS",
+      "evidence": "/forms Preferred tool ETCH-021\u2192pointer select ETCH-014\u2192keyboard select ETCH-021; Escape visible menu count 0 and focus returned."
+    },
+    {
+      "task": "Recipe/application discover/open/use",
+      "oracle": "Gallery exposes recipe/application; open route matches selected object; example exposes a usable task/control; full application exposes its governed table/composition.",
+      "status": "PASS",
+      "evidence": "/recipes Open example\u2192/recipes/spc-monitor with SPCMonitor title, chart view-data control; /patterns Open live application\u2192/applications/spc-control-center with SPC Control Center title and grid."
+    },
+    {
+      "task": "Appearance/theme controls",
+      "oracle": "Select Dark/Light/System via preference UI; application root theme changes and remains shared after route navigation.",
+      "status": "PASS",
+      "evidence": "/settings direct Dark and Light options changed body to body--dark and body--light; System remains selectable; dark analytics screenshot captured."
+    }
+  ]
+}

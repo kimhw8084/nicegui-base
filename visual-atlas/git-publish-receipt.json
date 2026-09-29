@@ -1,0 +1,20 @@
+{
+  "schema_version": 2,
+  "request": "stable3-golden-ui-v3-exhaustive-current-atlas-6",
+  "operation": "VERIFY",
+  "project": "nicegui-base",
+  "artifact_ref": "refs/heads/project-os-artifacts/nicegui-base/stable3-golden-ui-v3-exhaustive-current-atlas-6",
+  "expected_parent_source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "source_tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "manifest_sha256": "ba0e3a664afd4f431b2ab20285376f87d477526ed6d1d7b9881ddd1b67acf511",
+  "desktop_review_pdf_sha256": "bcb963e82e162905ff3d96965dadc95d28f4b983bf590b46353382863733535e",
+  "mobile_review_pdf_sha256": "d2e16d1d7b1feb53810d6dfcaa3b294d8a97c191765f8845ea4229513bfe934e",
+  "canonical_screenshot_count": 288,
+  "recovered_screenshot_count": 288,
+  "fresh_screenshot_count": 0,
+  "source_changed": false,
+  "bundle_sha256": "reported by outer carrier checksum and final machine receipt after archive creation",
+  "carrier_commit_sha": "reported by final machine receipt after commit creation (self-reference is intentionally omitted here)",
+  "remote_readback": "must verify exact ref parent, files, bundle/manifest/PDF hashes and one PNG signature/dimensions/hash before final status",
+  "state": "PREPARED_FOR_GIT_FIRST_PUBLISH"
+}

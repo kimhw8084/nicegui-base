@@ -1,0 +1,63 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "relationships": [
+    {
+      "relationship": "shared state ownership",
+      "result": "PROVEN_FOR_TASKED_FLOWS",
+      "evidence": "Explorer favorites/compare survive open + browser Back; Data Explorer local filter and selected id update visible table/detail; DataTable selected R-000001 detail fields match that row."
+    },
+    {
+      "relationship": "focus handoff/return",
+      "result": "PROVEN",
+      "evidence": "Mobile drawer Escape, Preferred tool Select Escape, chart-data dialog Escape return focus to invoking controls."
+    },
+    {
+      "relationship": "Back/Escape",
+      "result": "PROVEN_FOR_TASKED_FLOWS",
+      "evidence": "Browser Back returns studio example to Explorer with favorite/comparison context; Escape closes select/chart dialog/mobile drawer."
+    },
+    {
+      "relationship": "scroll ownership",
+      "result": "UNKNOWN",
+      "evidence": "No trace correlated document scroll restoration with nested table/chart scroll owners."
+    },
+    {
+      "relationship": "overlay portal/context",
+      "result": "PARTIAL",
+      "evidence": "Select menu, chart-data dialog and mobile drawer open/close in invoking app; portal ancestry and nested-overlay stacking are not exhaustively traced."
+    },
+    {
+      "relationship": "selection/current object",
+      "result": "PROVEN_FOR_TASKED_FLOWS",
+      "evidence": "Selected LOT-240906 renders matching Tool/Chamber/Recipe/Thickness/Status; selected DataTable row R-000001 opens matching record history/audit context."
+    },
+    {
+      "relationship": "async validity/staleness",
+      "result": "UNKNOWN",
+      "evidence": "No deliberately raced slow/fast async requests in this audit; source runtime owners remain authoritative."
+    },
+    {
+      "relationship": "responsive ownership",
+      "result": "PROVEN_FOR_TESTED_PROFILES",
+      "evidence": "AppShell mobile drawer opens, navigates and closes at 390\u00d7844; viewport stress profiles retain full viewport and surface markers."
+    },
+    {
+      "relationship": "theme inheritance",
+      "result": "PROVEN_FOR_TESTED_THEMES",
+      "evidence": "Settings Dark/Light controls change body--dark/body--light; dark analytics screenshot captures inherited dark theme."
+    },
+    {
+      "relationship": "table/chart data identity",
+      "result": "PROVEN_FOR_TASKED_FLOWS",
+      "evidence": "Chart data dialog contains typed 24-point series data; table row detail keys match selected row id/value lineage."
+    },
+    {
+      "relationship": "shell/navigation context",
+      "result": "PROVEN_FOR_TASKED_FLOWS",
+      "evidence": "/layouts resolves to /patterns; mobile Data & Tables navigation reaches /workbench/data; pattern/recipe/app example routes preserve their shell."
+    }
+  ],
+  "unknowns_remain_explicit": true
+}

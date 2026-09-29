@@ -1,0 +1,66 @@
+{
+  "schema_version": 3,
+  "source_sha": "aa17a17524af0edc6231b2a4a44d783dbff9fa23",
+  "tree_sha": "28fea2880de94174dbb1d741e5f91c7e14345aeb",
+  "executed": [
+    {
+      "command": "rtk proxy python run_nicegui_base.py --check",
+      "status": "PASS",
+      "result": "NiceGUI Base 3.0.0a8, NiceGUI 3.15.0, Python 3.11.7."
+    },
+    {
+      "command": "rtk proxy nicegui-base agent-context \"Exhaustively discover and audit current NiceGUI Base UI under Golden UI v3 with source-immutable runtime evidence\" --format json",
+      "status": "PASS",
+      "evidence_file": "visual-atlas/agent-context.json"
+    },
+    {
+      "command": "rtk proxy nicegui-base catalog-audit --format json",
+      "status": "PASS",
+      "evidence_file": "visual-atlas/catalog-audit.json",
+      "result": "465 canonical records audited; no catalog issues."
+    },
+    {
+      "command": "rtk proxy python run_nicegui_base.py --port 64174",
+      "status": "PASS_THEN_STOPPED",
+      "result": "Job PID 35831, fresh localhost runtime, positive controls and task flows exercised; SIGTERM and TCP refusal verified."
+    },
+    {
+      "command": "rtk proxy nicegui-base agent-check .",
+      "status": "FAIL_PREEXISTING_EXACT_SOURCE",
+      "result": "Missing agent scaffold; AI000 syntax error in tools/verify_development_D6H2_browser.py:154 (f-string expression contains backslash); 56 existing warnings. Worktree was clean before execution."
+    },
+    {
+      "command": "rtk proxy nicegui-base gate .",
+      "status": "FAIL_PREEXISTING_EXACT_SOURCE_ENVIRONMENT",
+      "result": "Missing nicegui_base.toml/dependency pin/entrypoint/agent scaffold; same AI000 syntax error; pytest import error cannot import Sequence from collections. No source edits made to remediate."
+    },
+    {
+      "command": "rtk proxy nicegui-base runtime-contract",
+      "status": "PASS",
+      "result": "NiceGUI 3.15.0; 48 factories / 1172 direct calls checked."
+    },
+    {
+      "command": "rtk proxy nicegui-base runtime-smoke --port 0",
+      "status": "PASS",
+      "result": "23 HTTP routes passed, including /healthz, /readyz, ten lab routes and ten pattern routes. Saved generated report/log, then restored the two tracked smoke outputs to HEAD."
+    },
+    {
+      "command": "rtk proxy node /Users/haewonkim/.codex/plugins/cache/openai-primary-runtime/pdf/26.927.11222/skills/pdf/container_tools/mark_artifact_operation_started.mjs --operation-kind create --expected-output-count 2 --output-format pdf",
+      "status": "PASS",
+      "result": "Executed once immediately before authoring the two review PDFs."
+    },
+    {
+      "command": "rtk proxy python /tmp/nicegui-base-atlas6/make_review_pdfs.py",
+      "status": "PASS",
+      "result": "Two 144-page PDFs and a 288-entry PDF-to-screenshot reader index produced; sample first/middle/last pages rendered and inspected."
+    }
+  ],
+  "not_executed": [
+    {
+      "command": "authentic browser chrome 200% zoom",
+      "status": "NOT_EXECUTED_AUTHENTIC_ZOOM",
+      "reason": "No genuine user-facing zoom controller is available in the headless browser environment."
+    }
+  ],
+  "source_tree_clean_after_run": true
+}
